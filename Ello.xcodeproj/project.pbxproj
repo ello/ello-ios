@@ -2329,13 +2329,13 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
-		12F0E3AC1A4333370012CEA2 /* Sources */ = {
+		12F0E3AC1A4333370012CEA2 /* Ello */ = {
 			isa = PBXGroup;
 			children = (
+				12F0E3AD1A4333540012CEA2 /* Ello-Bridging-Header.h */,
 				12F0E3AE1A4333550012CEA2 /* AppDelegate.swift */,
 				12F6AE791A433B1C00493660 /* AuthenticationNotifications.swift */,
 				12F6ADF51A4337CE00493660 /* Controllers */,
-				12F0E3AD1A4333540012CEA2 /* Ello-Bridging-Header.h */,
 				12F0E3B51A4333DB0012CEA2 /* Environment */,
 				12F6AE251A4338F600493660 /* Extensions */,
 				12F6AE341A43391400493660 /* Model */,
@@ -2346,6 +2346,7 @@
 				12F6AE5E1A4339B600493660 /* Utilities */,
 				12F6AE641A4339D100493660 /* Views */,
 			);
+			name = Ello;
 			path = Sources;
 			sourceTree = "<group>";
 		};
@@ -2727,11 +2728,11 @@
 			isa = PBXGroup;
 			children = (
 				1205B5D01BBB152700B656ED /* Ello.entitlements */,
+				12F0E3AC1A4333370012CEA2 /* Ello */,
 				124CFB981C5976E500727D11 /* ShareExtension */,
 				F2E6171EAB0582B635BF53D4 /* Frameworks */,
 				12FEBD021A4225F600933A02 /* Products */,
 				12F0E3A51A4333020012CEA2 /* Resources */,
-				12F0E3AC1A4333370012CEA2 /* Sources */,
 				12D14C4A1A4374A000C6F8E8 /* Specs */,
 				12F0E3A21A4332E80012CEA2 /* Support */,
 				1FBD0903D652DC0B3BACD97E /* Pods */,
