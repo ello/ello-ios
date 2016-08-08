@@ -45,6 +45,10 @@ public protocol UserDelegate: class {
     func userTappedParam(param: String)
 }
 
+public protocol ConversationDelegate: class {
+    func userSelected(user: User)
+}
+
 public protocol WebLinkDelegate: class {
     func webLinkTapped(type: ElloURI, data: String)
 }
@@ -155,6 +159,7 @@ public final class StreamViewController: BaseElloViewController {
     weak var postTappedDelegate: PostTappedDelegate?
     weak var userTappedDelegate: UserTappedDelegate?
     weak var streamViewDelegate: StreamViewDelegate?
+    weak var conversationDelegate: ConversationDelegate?
     var notificationDelegate: NotificationDelegate? {
         get { return dataSource.notificationDelegate }
         set { dataSource.notificationDelegate = newValue }
@@ -615,6 +620,7 @@ public final class StreamViewController: BaseElloViewController {
         dataSource.simpleStreamDelegate = self
         dataSource.categoryDelegate = self
         dataSource.userDelegate = self
+        dataSource.conversationDelegate = self
         dataSource.webLinkDelegate = self
         dataSource.columnToggleDelegate = self
         dataSource.discoverCategoryPickerDelegate = self
@@ -626,6 +632,14 @@ public final class StreamViewController: BaseElloViewController {
 }
 
 // MARK: DELEGATE EXTENSIONS
+// MARK: StreamViewController: ConversationDelegate
+extension StreamViewController: ConversationDelegate {
+
+    public func userSelected(user: User) {
+        conversationDelegate?.userSelected(user)
+    }
+}
+
 // MARK: StreamViewController: InviteDelegate
 extension StreamViewController: InviteDelegate {
 
@@ -883,7 +897,7 @@ extension StreamViewController: UserDelegate {
     public func userTappedText(cell: UICollectionViewCell) {
         guard !streamKind.tappingTextOpensDetail,
             let indexPath = collectionView.indexPathForCell(cell)
-        else { return }
+            else { return }
 
         collectionView(collectionView, didSelectItemAtIndexPath: indexPath)
     }
@@ -896,7 +910,7 @@ extension StreamViewController: UserDelegate {
         guard let
             indexPath = collectionView.indexPathForCell(cell),
             user = dataSource.userForIndexPath(indexPath)
-        else { return }
+            else { return }
 
         userTapped(user)
     }
@@ -905,7 +919,7 @@ extension StreamViewController: UserDelegate {
         guard let
             indexPath = collectionView.indexPathForCell(cell),
             reposter = dataSource.reposterForIndexPath(indexPath)
-        else { return }
+            else { return }
 
         userTapped(reposter)
     }
@@ -913,7 +927,7 @@ extension StreamViewController: UserDelegate {
     public func userTappedParam(param: String) {
         userTappedDelegate?.userParamTapped(param)
     }
-
+    
 }
 
 // MARK: StreamViewController: WebLinkDelegate

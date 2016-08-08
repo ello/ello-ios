@@ -21,7 +21,10 @@ public struct StreamCellItemParser {
             return notificationCellItems(notifications)
         }
         if let users = filteredItems as? [User] {
-            return userCellItems(users)
+            return userCellItems(users, streamkind: streamKind)
+        }
+        if let conversations = filteredItems as? [Conversation] {
+            return conversationCellItems(conversations)
         }
         return []
     }
@@ -103,9 +106,22 @@ public struct StreamCellItemParser {
         return cellArray
     }
 
-    private func userCellItems(users: [User]) -> [StreamCellItem] {
+    private func userCellItems(users: [User], streamkind: StreamKind) -> [StreamCellItem] {
+        let type: StreamCellType
+        if case .CreateConversation = streamkind {
+            type = .ConversationMemberSelection
+        }
+        else {
+            type = .UserListItem
+        }
         return users.map { user in
-            return StreamCellItem(jsonable: user, type: .UserListItem)
+            return StreamCellItem(jsonable: user, type: type)
+        }
+    }
+
+    private func conversationCellItems(conversations: [Conversation]) -> [StreamCellItem] {
+        return conversations.map { convo in
+            return StreamCellItem(jsonable: convo, type: .Conversation)
         }
     }
 
@@ -133,7 +149,7 @@ public extension StreamCellItemParser {
         return regionItems(jsonable, content: content)
     }
     public func testingUserCellItems(users: [User]) -> [StreamCellItem] {
-        return userCellItems(users)
+        return userCellItems(users, streamkind: .Unknown)
     }
     public func testingFooterStreamCellItems(post: Post) -> [StreamCellItem] {
         return footerStreamCellItems(post)

@@ -14,10 +14,13 @@ public enum MappingType: String {
     case AvailabilityType = "availability"
     case CategoriesType = "categories"
     case CommentsType = "comments"
+    case ConversationsType = "conversations"
+    case ConversationMembersType = "members"
     case DynamicSettingsType = "settings"
     case ErrorType = "error"
     case ErrorsType = "errors"
     case LovesType = "loves"
+    case MessagesType = "messages"
     case NoContentType = "204"
     case PostsType = "posts"
     case RelationshipsType = "relationships"
@@ -40,6 +43,10 @@ public enum MappingType: String {
             return Category.fromJSON
         case CommentsType:
             return ElloComment.fromJSON
+        case .ConversationsType:
+            return Conversation.fromJSON
+        case .ConversationMembersType:
+            return ConversationMember.fromJSON
         case DynamicSettingsType:
             return DynamicSettingCategory.fromJSON
         case ErrorType:
@@ -48,6 +55,8 @@ public enum MappingType: String {
             return ElloNetworkError.fromJSON
         case LovesType:
             return Love.fromJSON
+        case MessagesType:
+            return Message.fromJSON
         case PostsType:
             return Post.fromJSON
         case RelationshipsType:

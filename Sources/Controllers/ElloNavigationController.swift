@@ -26,6 +26,7 @@ public class ElloNavigationController: UINavigationController {
         case Profile = "ProfileViewController"
         case Omnibar = "OmnibarViewController"
         case Discover = "DiscoverViewController"
+        case Conversations = "ConversationsViewController"
 
         func controllerInstance(user: User) -> BaseElloViewController {
             switch self {
@@ -36,6 +37,7 @@ public class ElloNavigationController: UINavigationController {
                 vc.canGoBack = false
                 return vc
             case Discover: return DiscoverViewController()
+            case Conversations: return ConversationsViewController()
             }
         }
     }

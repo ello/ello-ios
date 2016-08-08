@@ -115,6 +115,12 @@ extension ElloAPI: CustomStringConvertible, CustomDebugStringConvertible {
             return "Discover"
         case .CategoryPosts:
             return "CategoryPosts"
+        case .Conversations:
+            return "Conversations"
+        case .CreateConversation:
+            return "CreateConversation"
+        case .ConversationMemberPicker:
+            return "ConversationMemberPicker"
         case .EmojiAutoComplete:
             return "EmojiAutoComplete"
         case .FindFriends:

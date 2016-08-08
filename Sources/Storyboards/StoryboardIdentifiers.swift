@@ -21,4 +21,5 @@ public enum StoryboardIdentifier: String {
     case Join = "JoinViewController"
     case Settings = "SettingsViewController"
     case DynamicSettings = "DynamicSettingsViewController"
+    case Conversations = "ConversationsViewController"
 }

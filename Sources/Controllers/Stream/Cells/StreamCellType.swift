@@ -24,6 +24,8 @@ public enum StreamCellType: Equatable {
     case CategoryList
     case ColumnToggle
     case CommentHeader
+    case Conversation
+    case ConversationMemberSelection
     case CreateComment
     case Embed(data: Regionable?)
     case FollowAll(data: FollowAllCounts?)
@@ -66,6 +68,8 @@ public enum StreamCellType: Equatable {
         CategoryList,
         ColumnToggle,
         CommentHeader,
+        Conversation,
+        ConversationMemberSelection,
         CreateComment,
         Embed(data: nil),
         FollowAll(data: nil),
@@ -111,6 +115,8 @@ public enum StreamCellType: Equatable {
         case CategoryList: return CategoryListCell.reuseIdentifier
         case ColumnToggle: return ColumnToggleCell.reuseIdentifier
         case CommentHeader, Header: return StreamHeaderCell.reuseIdentifier
+        case Conversation: return ConversationCell.reuseIdentifier
+        case ConversationMemberSelection: return ConversationMemberSelectionCell.reuseIdentifier
         case CreateComment: return StreamCreateCommentCell.reuseIdentifier
         case Embed: return StreamEmbedCell.reuseEmbedIdentifier
         case FollowAll: return FollowAllCell.reuseIdentifier
@@ -137,6 +143,7 @@ public enum StreamCellType: Equatable {
         switch self {
         case Category,
              CategoryCard,
+             Conversation,
              SeeAllCategories,
              CreateComment,
              Header,
@@ -154,6 +161,8 @@ public enum StreamCellType: Equatable {
         switch self {
         case Category: return CategoryCellPresenter.configure
         case CategoryCard: return CategoryCardCellPresenter.configure
+        case Conversation: return ConversationCellPresenter.configure
+        case ConversationMemberSelection: return ConversationMemberSelectionCellPresenter.configure
         case SeeAllCategories: return SeeAllCategoriesCellPresenter.configure
         case CategoryList: return CategoryListCellPresenter.configure
         case ColumnToggle: return ColumnToggleCellPresenter.configure
@@ -186,6 +195,8 @@ public enum StreamCellType: Equatable {
         case CategoryList: return CategoryListCell.self
         case ColumnToggle: return ColumnToggleCell.self
         case CommentHeader, Header: return StreamHeaderCell.self
+        case Conversation: return ConversationCell.self
+        case ConversationMemberSelection: return ConversationMemberSelectionCell.self
         case CreateComment: return StreamCreateCommentCell.self
         case Embed: return StreamEmbedCell.self
         case FollowAll: return FollowAllCell.self
@@ -220,6 +231,8 @@ public enum StreamCellType: Equatable {
              InviteFriends,
              SeeMoreComments:
             return 60
+        case Conversation:
+            return 50
         case CreateComment,
              FollowAll:
             return 75
@@ -240,7 +253,7 @@ public enum StreamCellType: Equatable {
             return 50
         case Toggle:
             return 40
-        case UserListItem:
+        case UserListItem, ConversationMemberSelection:
             return 85
         default: return 0
         }
@@ -262,6 +275,8 @@ public enum StreamCellType: Equatable {
              SeeAllCategories,
              CategoryList,
              ColumnToggle,
+             Conversation,
+             ConversationMemberSelection,
              CreateComment,
              FollowAll,
              FullWidthSpacer,
@@ -303,6 +318,8 @@ public enum StreamCellType: Equatable {
             CategoryCard,
             CategoryList,
             CreateComment,
+            Conversation,
+            ConversationMemberSelection,
             FollowAll(data: nil),
             Notification,
             Placeholder,

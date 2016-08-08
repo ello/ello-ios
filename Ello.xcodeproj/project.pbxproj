@@ -82,6 +82,8 @@
 		120FF6CB1C6D903D00D5BABD /* ShareRegionProcessorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 120FF6CA1C6D903D00D5BABD /* ShareRegionProcessorSpec.swift */; };
 		1212FDEA1A66377100AD4AF7 /* comments.json in Resources */ = {isa = PBXBuildFile; fileRef = 1212FDE91A66377100AD4AF7 /* comments.json */; };
 		1212FDED1A66E5CB00AD4AF7 /* comments-for-a-post.json in Resources */ = {isa = PBXBuildFile; fileRef = 1212FDEC1A66E5CB00AD4AF7 /* comments-for-a-post.json */; };
+		121534091D518CF100FC55BA /* ConversationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 121534081D518CF100FC55BA /* ConversationsViewController.swift */; };
+		1215340B1D51955500FC55BA /* ConversationsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1215340A1D51955500FC55BA /* ConversationsScreen.swift */; };
 		1217009B1A7841C400EBACA5 /* StreamCellItemParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1217008C1A7841C400EBACA5 /* StreamCellItemParser.swift */; };
 		121700B31A7841C400EBACA5 /* StreamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 121700981A7841C400EBACA5 /* StreamViewController.swift */; };
 		121700B61A78428D00EBACA5 /* StreamCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 121700B51A78428D00EBACA5 /* StreamCollectionViewLayout.swift */; };
@@ -331,6 +333,7 @@
 		12A313D91C73ECAA009727DD /* unselected-pixel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 12A313D81C73ECAA009727DD /* unselected-pixel@2x.png */; };
 		12A3A46F1AB348FB00D2AFB0 /* ElloPullToRefreshView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12A3A46E1AB348FB00D2AFB0 /* ElloPullToRefreshView.swift */; };
 		12A3A4721AB3556F00D2AFB0 /* Math.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12A3A4711AB3556F00D2AFB0 /* Math.swift */; };
+		12A682D71D58F04B005328B9 /* ConversationMemberSelectionCellPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12A682D61D58F04B005328B9 /* ConversationMemberSelectionCellPresenter.swift */; };
 		12AF0AFB1AA7DC6100BADC6D /* FakeStreamTextCellSizeCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12AF0AFA1AA7DC6100BADC6D /* FakeStreamTextCellSizeCalculator.swift */; };
 		12B093661A6D87C000BF104E /* StreamContainerViewControllerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12B093651A6D87C000BF104E /* StreamContainerViewControllerSpec.swift */; };
 		12B093681A6E146C00BF104E /* UIBarButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12B093671A6E146C00BF104E /* UIBarButtonItem.swift */; };
@@ -380,6 +383,17 @@
 		12F0E3AB1A4333260012CEA2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 12F0E3AA1A4333260012CEA2 /* Images.xcassets */; };
 		12F0E3AF1A4333550012CEA2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F0E3AE1A4333550012CEA2 /* AppDelegate.swift */; };
 		12F0E3B71A4333EC0012CEA2 /* AppSetup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F0E3B61A4333EC0012CEA2 /* AppSetup.swift */; };
+		12F3451A1D5508020052F4A3 /* Conversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F345191D5508020052F4A3 /* Conversation.swift */; };
+		12F3451C1D5508E60052F4A3 /* ConversationMember.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F3451B1D5508E60052F4A3 /* ConversationMember.swift */; };
+		12F3451E1D5509220052F4A3 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F3451D1D5509220052F4A3 /* Message.swift */; };
+		12F3451F1D5512390052F4A3 /* Conversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F345191D5508020052F4A3 /* Conversation.swift */; };
+		12F345201D5512440052F4A3 /* ConversationMember.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F3451B1D5508E60052F4A3 /* ConversationMember.swift */; };
+		12F345211D55124A0052F4A3 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F3451D1D5509220052F4A3 /* Message.swift */; };
+		12F345231D5522690052F4A3 /* MessengerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F345221D5522690052F4A3 /* MessengerService.swift */; };
+		12F345251D5546A80052F4A3 /* ConversationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F345241D5546A80052F4A3 /* ConversationCell.swift */; };
+		12F345281D5547970052F4A3 /* ConversationCellPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F345271D5547970052F4A3 /* ConversationCellPresenter.swift */; };
+		12F3452A1D5552E00052F4A3 /* CreateConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F345291D5552E00052F4A3 /* CreateConversationViewController.swift */; };
+		12F3452C1D58D6160052F4A3 /* ConversationMemberSelectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F3452B1D58D6160052F4A3 /* ConversationMemberSelectionCell.swift */; };
 		12F47DD11AD7139900A73B5F /* StreamFooterCellPresenterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F47DD01AD7139900A73B5F /* StreamFooterCellPresenterSpec.swift */; };
 		12F6ADFB1A43380C00493660 /* BaseElloViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F6ADF61A43380C00493660 /* BaseElloViewController.swift */; };
 		12F6ADFC1A43380C00493660 /* DiscoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F6ADF71A43380C00493660 /* DiscoverViewController.swift */; };
@@ -994,6 +1008,8 @@
 		120FF6CA1C6D903D00D5BABD /* ShareRegionProcessorSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShareRegionProcessorSpec.swift; sourceTree = "<group>"; };
 		1212FDE91A66377100AD4AF7 /* comments.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = comments.json; sourceTree = "<group>"; };
 		1212FDEC1A66E5CB00AD4AF7 /* comments-for-a-post.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "comments-for-a-post.json"; sourceTree = "<group>"; };
+		121534081D518CF100FC55BA /* ConversationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConversationsViewController.swift; sourceTree = "<group>"; };
+		1215340A1D51955500FC55BA /* ConversationsScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConversationsScreen.swift; sourceTree = "<group>"; };
 		1217008B1A7841C400EBACA5 /* StreamCellItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreamCellItem.swift; sourceTree = "<group>"; };
 		1217008C1A7841C400EBACA5 /* StreamCellItemParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreamCellItemParser.swift; sourceTree = "<group>"; };
 		1217008F1A7841C400EBACA5 /* StreamDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreamDataSource.swift; sourceTree = "<group>"; };
@@ -1144,6 +1160,7 @@
 		12A313D81C73ECAA009727DD /* unselected-pixel@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "unselected-pixel@2x.png"; sourceTree = "<group>"; };
 		12A3A46E1AB348FB00D2AFB0 /* ElloPullToRefreshView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ElloPullToRefreshView.swift; path = sources/Views/ElloPullToRefreshView.swift; sourceTree = SOURCE_ROOT; };
 		12A3A4711AB3556F00D2AFB0 /* Math.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Math.swift; path = sources/Utilities/Math.swift; sourceTree = SOURCE_ROOT; };
+		12A682D61D58F04B005328B9 /* ConversationMemberSelectionCellPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConversationMemberSelectionCellPresenter.swift; sourceTree = "<group>"; };
 		12AF0AFA1AA7DC6100BADC6D /* FakeStreamTextCellSizeCalculator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeStreamTextCellSizeCalculator.swift; sourceTree = "<group>"; };
 		12B093651A6D87C000BF104E /* StreamContainerViewControllerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = StreamContainerViewControllerSpec.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		12B093671A6E146C00BF104E /* UIBarButtonItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIBarButtonItem.swift; sourceTree = "<group>"; };
@@ -1202,6 +1219,14 @@
 		12F0E3AD1A4333540012CEA2 /* Ello-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Ello-Bridging-Header.h"; sourceTree = "<group>"; };
 		12F0E3AE1A4333550012CEA2 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		12F0E3B61A4333EC0012CEA2 /* AppSetup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppSetup.swift; sourceTree = "<group>"; };
+		12F345191D5508020052F4A3 /* Conversation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Conversation.swift; sourceTree = "<group>"; };
+		12F3451B1D5508E60052F4A3 /* ConversationMember.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConversationMember.swift; sourceTree = "<group>"; };
+		12F3451D1D5509220052F4A3 /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
+		12F345221D5522690052F4A3 /* MessengerService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessengerService.swift; sourceTree = "<group>"; };
+		12F345241D5546A80052F4A3 /* ConversationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConversationCell.swift; sourceTree = "<group>"; };
+		12F345271D5547970052F4A3 /* ConversationCellPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConversationCellPresenter.swift; sourceTree = "<group>"; };
+		12F345291D5552E00052F4A3 /* CreateConversationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateConversationViewController.swift; sourceTree = "<group>"; };
+		12F3452B1D58D6160052F4A3 /* ConversationMemberSelectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConversationMemberSelectionCell.swift; sourceTree = "<group>"; };
 		12F47DD01AD7139900A73B5F /* StreamFooterCellPresenterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreamFooterCellPresenterSpec.swift; sourceTree = "<group>"; };
 		12F6ADF61A43380C00493660 /* BaseElloViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseElloViewController.swift; sourceTree = "<group>"; };
 		12F6ADF71A43380C00493660 /* DiscoverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoverViewController.swift; sourceTree = "<group>"; };
@@ -1809,9 +1834,11 @@
 				1207C95B1C73FEE000939ADB /* ElloURI.swift */,
 				1207C95C1C73FEE000939ADB /* ErrorStatusCode.swift */,
 				1207C95D1C73FEE000939ADB /* InviteService.swift */,
+				123DEBEE1D3D4B71007B5F86 /* LoadingToken.swift */,
 				1207C95E1C73FEE000939ADB /* LovesService.swift */,
 				1207C95F1C73FEE000939ADB /* Mapper.swift */,
 				1207C9601C73FEE000939ADB /* MappingType.swift */,
+				12F345221D5522690052F4A3 /* MessengerService.swift */,
 				1207C9611C73FEE000939ADB /* MultipartRequestBuilder.swift */,
 				1207C9621C73FEE000939ADB /* NetworkError.swift */,
 				1207C9631C73FEE000939ADB /* NewContentService.swift */,
@@ -1825,9 +1852,18 @@
 				1207C96B1C73FEE000939ADB /* S3UploadingService.swift */,
 				1207C96C1C73FEE000939ADB /* StreamService.swift */,
 				1207C96D1C73FEE000939ADB /* UserService.swift */,
-				123DEBEE1D3D4B71007B5F86 /* LoadingToken.swift */,
 			);
 			path = Networking;
+			sourceTree = "<group>";
+		};
+		121534071D518CC500FC55BA /* Messenger */ = {
+			isa = PBXGroup;
+			children = (
+				121534081D518CF100FC55BA /* ConversationsViewController.swift */,
+				1215340A1D51955500FC55BA /* ConversationsScreen.swift */,
+				12F345291D5552E00052F4A3 /* CreateConversationViewController.swift */,
+			);
+			path = Messenger;
 			sourceTree = "<group>";
 		};
 		121D92501A5AEE55004F0455 /* Post */ = {
@@ -1876,6 +1912,8 @@
 				1D59336E1D10ADB800EAF03D /* CategoryListCell.swift */,
 				127B8C701BC319A700E17D0A /* ColumnToggleCell.swift */,
 				127B8C721BC319D100E17D0A /* ColumnToggleCell.xib */,
+				12F345241D5546A80052F4A3 /* ConversationCell.swift */,
+				12F3452B1D58D6160052F4A3 /* ConversationMemberSelectionCell.swift */,
 				128D36BB1A952E3E00622833 /* ElloPostToolBarOption.swift */,
 				122B190C1A86894400247A05 /* StreamCellType.swift */,
 				1D22C8211AAF87F60048D415 /* StreamCreateCommentCell.swift */,
@@ -2100,6 +2138,8 @@
 				1D5933871D147E8500EAF03D /* CategoryCellPresenter.swift */,
 				1D5933701D10ADC300EAF03D /* CategoryListCellPresenter.swift */,
 				127B8C741BC320AD00E17D0A /* ColumnToggleCellPresenter.swift */,
+				12F345271D5547970052F4A3 /* ConversationCellPresenter.swift */,
+				12A682D61D58F04B005328B9 /* ConversationMemberSelectionCellPresenter.swift */,
 				128D36B51A951F4600622833 /* NotificationCellPresenter.swift */,
 				128D36B81A951F7400622833 /* ProfileHeaderCellPresenter.swift */,
 				1D2F65A61D184CA30099D036 /* SeeAllCategoriesCellPresenter.swift */,
@@ -2456,6 +2496,7 @@
 		12F6ADF51A4337CE00493660 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				121534071D518CC500FC55BA /* Messenger */,
 				F87928661ACC6CBD00579BE1 /* Alerts */,
 				F8006EE41AB9FE670008BB42 /* Animators.swift */,
 				12F6AE1C1A43385600493660 /* App */,
@@ -2568,6 +2609,8 @@
 				1D59336B1D10ADA600EAF03D /* CategoryList.swift */,
 				12CFF69A1B167841007CE68F /* Coder.swift */,
 				12C043651A609A2000E3051A /* Comment.swift */,
+				12F345191D5508020052F4A3 /* Conversation.swift */,
+				12F3451B1D5508E60052F4A3 /* ConversationMember.swift */,
 				EA34DABF1AD83CA3002F566D /* DynamicSetting.swift */,
 				EA34DABD1AD83C8F002F566D /* DynamicSettingCategory.swift */,
 				F82B8B6D1AEFFA6E00A9FC97 /* ElloKeychain.swift */,
@@ -2577,6 +2620,7 @@
 				12F6AE371A43392D00493660 /* JSONAble.swift */,
 				EA68A0EC1AAE166F003F0425 /* LocalPerson.swift */,
 				12CFF69B1B167841007CE68F /* Love.swift */,
+				12F3451D1D5509220052F4A3 /* Message.swift */,
 				1DF2335B1A94005C0096DA65 /* Notification.swift */,
 				1D7A28D01A979BC40050E8A2 /* NotificationAttributedTitle.swift */,
 				12F6AE381A43392D00493660 /* Post.swift */,
@@ -3913,16 +3957,19 @@
 				1D2F65AA1D185B120099D036 /* DiscoverType.swift in Sources */,
 				1DC29BB51D3824720041B1DC /* Onboarding.swift in Sources */,
 				122B30FA1C6A429E00C1B9D8 /* AttributedStringExtensions.swift in Sources */,
+				12F345201D5512440052F4A3 /* ConversationMember.swift in Sources */,
 				122D1BA61C6134D5001386CE /* UIViewNibLoading.swift in Sources */,
 				1D5A901E1D3D749B00C2AEFF /* ElloAPISharingHeaders.swift in Sources */,
 				122B30B31C6A3FBB00C1B9D8 /* Availability.swift in Sources */,
 				122D1B7C1C610892001386CE /* NSString.swift in Sources */,
+				12F3451F1D5512390052F4A3 /* Conversation.swift in Sources */,
 				122B30E51C6A3FC400C1B9D8 /* Attachment.swift in Sources */,
 				1207C99D1C750F8A00939ADB /* ElloManager.swift in Sources */,
 				122B30C31C6A3FBB00C1B9D8 /* PushPayload.swift in Sources */,
 				122B30E71C6A3FC400C1B9D8 /* ImageRegion.swift in Sources */,
 				122B30BB1C6A3FBB00C1B9D8 /* ExperienceUpdate.swift in Sources */,
 				122D1B981C613085001386CE /* AlertViewController.swift in Sources */,
+				12F345211D55124A0052F4A3 /* Message.swift in Sources */,
 				1207C9971C74CD7600939ADB /* ElloProvider.swift in Sources */,
 				1207C9A71C752F8F00939ADB /* ContentFlagger.swift in Sources */,
 				122B30E81C6A3FC400C1B9D8 /* Regionable.swift in Sources */,
@@ -4227,6 +4274,7 @@
 				12F6AE311A43390900493660 /* ScreenExtensions.swift in Sources */,
 				F8158C4B1ACDD4EF008C15A1 /* AlertCellPresenter.swift in Sources */,
 				1267C7371BA232530000D809 /* Box.swift in Sources */,
+				12F3451A1D5508020052F4A3 /* Conversation.swift in Sources */,
 				1D22C8261AAFAD760048D415 /* CreateCommentBackgroundView.swift in Sources */,
 				128D36B01A951ED300622833 /* StreamImageCellPresenter.swift in Sources */,
 				1289F3961AF17901008A938C /* ImageLabelAnimatable.swift in Sources */,
@@ -4251,8 +4299,11 @@
 				1D807D9C1B0517F1009B0F71 /* FollowAllCell.swift in Sources */,
 				12F6AE2F1A43390900493660 /* NumberExtensions.swift in Sources */,
 				1D3128C01B557BD500E3D5B6 /* Onboarding.swift in Sources */,
+				12F3451E1D5509220052F4A3 /* Message.swift in Sources */,
+				12F345281D5547970052F4A3 /* ConversationCellPresenter.swift in Sources */,
 				1DF806531CDD1A42002D60AD /* Username.swift in Sources */,
 				122B19051A867C7D00247A05 /* StreamTextCellHTML.swift in Sources */,
+				12F3452A1D5552E00052F4A3 /* CreateConversationViewController.swift in Sources */,
 				765319F51B62AA61009B0D7E /* CrashlyticsKey.swift in Sources */,
 				1207C97C1C73FEE000939ADB /* ElloProvider.swift in Sources */,
 				1DF50C981C614E0400C62D89 /* OmnibarImagePickerExtension.swift in Sources */,
@@ -4348,6 +4399,7 @@
 				1D783A2B1B838FDD00BD6BF4 /* OmnibarTextCell.swift in Sources */,
 				1207C9711C73FEE000939ADB /* AuthState.swift in Sources */,
 				1267C7381BA232530000D809 /* BoxType.swift in Sources */,
+				1215340B1D51955500FC55BA /* ConversationsScreen.swift in Sources */,
 				1D59338B1D147E9F00EAF03D /* CategoryCell.swift in Sources */,
 				1266E50D1A9E2B9E00270E1C /* ContentFlagger.swift in Sources */,
 				767399811AA679CB00C4222C /* ElloTextView.swift in Sources */,
@@ -4392,12 +4444,14 @@
 				7666C95E1B10055C009AC019 /* AddFriendsViewController.swift in Sources */,
 				12F6AE241A43389B00493660 /* SignInViewController.swift in Sources */,
 				1D2B50BB1D272A6400F6CE90 /* BlackBar.swift in Sources */,
+				12F3452C1D58D6160052F4A3 /* ConversationMemberSelectionCell.swift in Sources */,
 				1D98563B1C6D7D3300C1BF78 /* DrawerAnimators.swift in Sources */,
 				EAF43D8E1AB0B5AC0016E110 /* InviteCache.swift in Sources */,
 				121E46BD1A6B2798004AEAB7 /* StreamContainerViewController.swift in Sources */,
 				12B0936F1A6E1B1A00BF104E /* ElloNavigationController.swift in Sources */,
 				7659FB831B29F15200DEB6F4 /* StreamInviteFriendsCellPresenter.swift in Sources */,
 				1DD771201AFD194700FBC049 /* FreeMethods.swift in Sources */,
+				12F3451C1D5508E60052F4A3 /* ConversationMember.swift in Sources */,
 				EA92992E1AEA95B000E22976 /* DeleteAccountConfirmationViewController.swift in Sources */,
 				122B30CE1C6A3FBC00C1B9D8 /* ElloKeychain.swift in Sources */,
 				12A3A4721AB3556F00D2AFB0 /* Math.swift in Sources */,
@@ -4434,6 +4488,7 @@
 				1D2F65A91D185AB90099D036 /* DiscoverType.swift in Sources */,
 				1D7A28D81A97BE490050E8A2 /* ElloWebViewHelper.swift in Sources */,
 				122B30C61C6A3FBC00C1B9D8 /* AddressBookError.swift in Sources */,
+				121534091D518CF100FC55BA /* ConversationsViewController.swift in Sources */,
 				12F6AE6B1A4339EF00493660 /* ElloHUD.swift in Sources */,
 				1DF50C9B1C614E0F00C62D89 /* OmnibarScreenAutocomplete.swift in Sources */,
 				124E344C1B54229300E5A475 /* AutoComplete.swift in Sources */,
@@ -4443,10 +4498,12 @@
 				1DE87FC61BB2FFB8007A7325 /* Mentionables.swift in Sources */,
 				122B19031A867C7D00247A05 /* StreamTextCell.swift in Sources */,
 				1D2F65B11D1870020099D036 /* DiscoverAllCategoriesScreen.swift in Sources */,
+				12A682D71D58F04B005328B9 /* ConversationMemberSelectionCellPresenter.swift in Sources */,
 				1DADC57A1AF449B3000DAC88 /* ElloWebBrowserViewController.swift in Sources */,
 				122DEA201AB0A024005DF1F1 /* NSFileManagerExtensions.swift in Sources */,
 				1267C7391BA232530000D809 /* MutableBox.swift in Sources */,
 				76C0A51E1AB38C69009B96E6 /* UIButtonExtensions.swift in Sources */,
+				12F345231D5522690052F4A3 /* MessengerService.swift in Sources */,
 				1D24AA511B7E8CD5004BAAFA /* DebugTodoController.swift in Sources */,
 				1DDF3C501A9D2592000D0945 /* ElloScrollLogic.swift in Sources */,
 				127B8C751BC320AD00E17D0A /* ColumnToggleCellPresenter.swift in Sources */,
@@ -4505,6 +4562,7 @@
 				1207C98C1C73FEE000939ADB /* RelationshipService.swift in Sources */,
 				1D1AF6281A84437B00E06C93 /* StreamableViewController.swift in Sources */,
 				12F6AE1E1A43386300493660 /* AppViewController.swift in Sources */,
+				12F345251D5546A80052F4A3 /* ConversationCell.swift in Sources */,
 				12F6ADFD1A43380C00493660 /* ElloTabBarController.swift in Sources */,
 				1289F3921AF1468B008A938C /* ImageLabelControl.swift in Sources */,
 				1DF2335A1A93FF860096DA65 /* StreamNotificationCellSizeCalculator.swift in Sources */,

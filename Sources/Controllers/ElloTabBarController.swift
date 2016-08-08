@@ -10,6 +10,7 @@ public enum ElloTab: Int {
     case Stream
     case Profile
     case Omnibar
+    case Conversations
 
     static let DefaultTab = ElloTab.Stream
 
@@ -22,6 +23,7 @@ public enum ElloTab: Int {
             case Stream:        return InterfaceString.Tab.PopupTitle.Stream
             case Profile:       return InterfaceString.Tab.PopupTitle.Profile
             case Omnibar:       return InterfaceString.Tab.PopupTitle.Omnibar
+            case Conversations: return "Conversations"
         }
     }
 
@@ -32,6 +34,7 @@ public enum ElloTab: Int {
             case Stream:        return InterfaceString.Tab.PopupText.Stream
             case Profile:       return InterfaceString.Tab.PopupText.Profile
             case Omnibar:       return InterfaceString.Tab.PopupText.Omnibar
+            case Conversations: return "Conversations"
         }
     }
 

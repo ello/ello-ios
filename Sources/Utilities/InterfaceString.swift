@@ -69,6 +69,14 @@ public struct InterfaceString {
         static let Recent = NSLocalizedString("Recent", comment: "Discover tab titled Recent")
     }
 
+    public struct Conversations {
+        static let Title = NSLocalizedString("Conversations", comment: "Conversations title")
+    }
+
+    public struct CreateConversation {
+        static let Title = NSLocalizedString("New Message", comment: "Create Conversation title")
+    }
+
     public struct Search {
         static let Title = NSLocalizedString("Search", comment: "Search title")
         static let Prompt = NSLocalizedString("Search Ello", comment: "search ello prompt")

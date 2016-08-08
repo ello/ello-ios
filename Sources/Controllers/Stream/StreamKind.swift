@@ -10,6 +10,8 @@ public enum StreamKind {
     case MoreCategories
     case AllCategories
     case Discover(type: DiscoverType)
+    case Conversations
+    case CreateConversation
     case CategoryPosts(slug: String)
     case Following
     case Starred
@@ -21,6 +23,8 @@ public enum StreamKind {
 
     public var name: String {
         switch self {
+        case .Conversations: return InterfaceString.Conversations.Title
+        case .CreateConversation: return InterfaceString.CreateConversation.Title
         case .CurrentUserStream: return InterfaceString.Profile.Title
         case .MoreCategories: return InterfaceString.Discover.MoreCategories
         case .AllCategories: return InterfaceString.Discover.AllCategories
@@ -38,6 +42,8 @@ public enum StreamKind {
 
     public var cacheKey: String {
         switch self {
+        case .Conversations: return "Conversations"
+        case .CreateConversation: return "CreateConversation"
         case .CurrentUserStream: return "Profile"
         case .MoreCategories: return "MoreCategories"
         case .AllCategories: return "AllCategories"
@@ -112,6 +118,8 @@ public enum StreamKind {
 
     public var endpoint: ElloAPI {
         switch self {
+        case .Conversations: return .Conversations
+        case .CreateConversation: return .ConversationMemberPicker
         case .CurrentUserStream: return .CurrentUserStream
         case .MoreCategories: return .Categories
         case .AllCategories: return .Categories
@@ -154,7 +162,7 @@ public enum StreamKind {
             default:
                 return jsonables
             }
-        case .CategoryPosts:
+        case .CategoryPosts, .Conversations, .CreateConversation:
             return jsonables
         case .Discover:
             if let users = jsonables as? [User] {

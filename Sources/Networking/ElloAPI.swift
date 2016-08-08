@@ -16,6 +16,9 @@ public enum ElloAPI {
     case Categories
     case CommentDetail(postId: String, commentId: String)
     case CommunitiesStream
+    case Conversations
+    case ConversationMemberPicker
+    case CreateConversation(users: [User])
     case CreateComment(parentPostId: String, body: [String: AnyObject])
     case CreateLove(postId: String)
     case CreatePost(body: [String: AnyObject])
@@ -83,6 +86,8 @@ public enum ElloAPI {
 
     public var mappingType: MappingType {
         switch self {
+        case .Conversations, .CreateConversation:
+            return .ConversationsType
         case .Categories:
             return .CategoriesType
         case .AmazonCredentials:
@@ -92,6 +97,7 @@ public enum ElloAPI {
         case .PostReplyAll:
             return .UsernamesType
         case .AwesomePeopleStream,
+             .ConversationMemberPicker,
              .CurrentUserBlockedList,
              .CurrentUserMutedList,
              .CurrentUserProfile,
@@ -192,13 +198,22 @@ public protocol ElloTarget: Moya.TargetType {
 }
 
 extension ElloAPI: Moya.TargetType {
-    public var baseURL: NSURL { return NSURL(string: ElloURI.baseURL)! }
+    public var baseURL: NSURL {
+        switch self {
+        case .Conversations,
+             .CreateConversation,
+             .ConversationMemberPicker:
+            return NSURL(string: "http://localhost.charlesproxy.com:4000")!
+        default: return NSURL(string: ElloURI.baseURL)!
+        }
+    }
     public var method: Moya.Method {
         switch self {
             case .AnonymousCredentials,
                  .Auth,
                  .Availability,
                  .CreateComment,
+                 .CreateConversation,
                  .CreateLove,
                  .CreatePost,
                  .FindFriends,
@@ -252,6 +267,10 @@ extension ElloAPI: Moya.TargetType {
             return "/api/\(ElloAPI.apiVersion)/categories"
         case .CommunitiesStream:
             return "/api/\(ElloAPI.apiVersion)/interest_categories/members"
+        case .Conversations, .CreateConversation:
+            return "/v1/conversations"
+        case .ConversationMemberPicker:
+            return "/friends.json"
         case let .CreateComment(parentPostId, _):
             return "/api/\(ElloAPI.apiVersion)/posts/\(parentPostId)/comments"
         case let .CreateLove(postId):
@@ -368,6 +387,8 @@ extension ElloAPI: Moya.TargetType {
         case .Availability:
             return stubbedData("availability")
         case .AwesomePeopleStream:
+            return stubbedData("friends")
+        case .Conversations, .CreateConversation, .ConversationMemberPicker:
             return stubbedData("friends")
         case .CreateComment, .CommentDetail:
             return stubbedData("create-comment")
@@ -546,6 +567,11 @@ extension ElloAPI: Moya.TargetType {
                 "name": "onboarding",
                 "per_page": 25
             ]
+        case let .CreateConversation(users):
+            let members = users.map { user in
+                return ["user_id": user.id, "username": user.username]
+            }
+            return ["conversation" : ["members" : members]]
         case let .CreateComment(_, body):
             return body
         case let .CreatePost(body):
