@@ -1,17 +1,20 @@
 osx_image: xcode7.3
 language: objective-c
-xcode_sdk: iphonesimulator9.2
+xcode_sdk: iphonesimulator9.3
 git:
   depth: 1
 cache:
-- bundler
-- cocoapods
-before_install:
-- xcrun instruments -w "iPhone 6 (9.2) [CEBBD79A-B6C1-4A02-BD33-56BBCBDED03E]" ||
-  echo "(Pre)Launched the simulator."
+  bundler: true
+  cocoapods: true
+  directories:
+      - Pods
+      - $HOME/.cocoapods
+      - $HOME/Library/Caches/CocoaPods
+      - derivedData
+      - build
+      - build_cache
 install:
-- gem install bundler
-- bundle install
+- gem install bundler --no-ri --no-rdoc && bundle install
 - bundle exec pod keys set ClientKey $ELLO_CLIENT_KEY Ello
 - bundle exec pod keys set ClientSecret $ELLO_CLIENT_SECRET Ello
 - bundle exec pod keys set Domain $ELLO_DOMAIN Ello
@@ -25,8 +28,12 @@ install:
 - bundle exec pod install
 before_script:
 - export LANG=en_US.UTF-8
-script: set -o pipefail && xcodebuild -workspace Ello.xcworkspace -scheme Ello -configuration
-  Debug -destination "OS=9.2,name=iPhone 6s" clean test | xcpretty -f `xcpretty-travis-formatter`
+- export SYMROOT=./build
+- export OBJROOT=./build
+- export CACHE_ROOT=./build_cache
+script:
+  - set -o pipefail && xcodebuild -workspace Ello.xcworkspace -scheme Ello -configuration Debug -destination "OS=9.3,name=iPhone 6s" -parallelizeTargets -derivedDataPath ./derivedData -sdk iphonesimulator9.3 build | xcpretty -f `xcpretty-travis-formatter`
+  - set -o pipefail && xcodebuild -workspace Ello.xcworkspace -scheme Ello -configuration Debug -destination "OS=9.3,name=iPhone 6s" -parallelizeTargets -derivedDataPath ./derivedData -sdk iphonesimulator9.3 test | xcpretty -f `xcpretty-travis-formatter`
 notifications:
   email: false
   slack:
