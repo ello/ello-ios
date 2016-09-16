@@ -29,7 +29,7 @@ public extension UIImage {
         }
     }
 
-    class func imageWithColor(color: UIColor, size: CGSize = CGSize(width: 1, height: 1)) -> UIImage {
+    class func imageWithColor(color: UIColor, size: CGSize = CGSize(width: 1, height: 1)) -> UIImage? {
         let rect = CGRect(origin: .zero, size: size)
         UIGraphicsBeginImageContextWithOptions(rect.size, false, 0)
         color.setFill()
@@ -39,7 +39,7 @@ public extension UIImage {
         return image
     }
 
-    class func imageWithHex(hex: Int) -> UIImage {
+    class func imageWithHex(hex: Int) -> UIImage? {
         return imageWithColor(UIColor(hex: hex))
     }
 
@@ -59,14 +59,16 @@ public extension UIImage {
 
         let cropSquare = CGRect(x: posX, y: posY, width: edge, height: edge)
 
-        let imageRef = CGImageCreateWithImageInRect(self.CGImage, cropSquare)
-        if let imageRef = imageRef {
+        if let cgImage = self.CGImage,
+            imageRef = CGImageCreateWithImageInRect(cgImage, cropSquare)
+        {
             return UIImage(CGImage: imageRef, scale: UIScreen.mainScreen().scale, orientation: self.imageOrientation)
         }
+
         return nil
     }
 
-    func resizeToSize(targetSize: CGSize) -> UIImage {
+    func resizeToSize(targetSize: CGSize) -> UIImage? {
         let newSize = self.size.scaledSize(targetSize)
 
         // This is the rect that we've calculated out and this is what is actually used below
@@ -91,9 +93,9 @@ public extension UIImage {
         return newImage
     }
 
-    func copyWithCorrectOrientationAndSize(completion:(image: UIImage) -> Void) {
+    func copyWithCorrectOrientationAndSize(completion:(image: UIImage?) -> Void) {
         inBackground {
-            let sourceImage: UIImage
+            var sourceImage: UIImage?
             if self.imageOrientation == .Up && self.scale == 1.0 {
                 sourceImage = self
             }
@@ -106,7 +108,7 @@ public extension UIImage {
             }
 
             let maxSize = CGSize(width: 1200.0, height: 3600.0)
-            let resizedImage = sourceImage.resizeToSize(maxSize)
+            let resizedImage = sourceImage?.resizeToSize(maxSize)
             inForeground {
                 completion(image: resizedImage)
             }

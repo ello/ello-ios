@@ -17,8 +17,9 @@ public struct Tmp {
     }
 
     public static func directoryURL() -> NSURL? {
-        if let pathURL = NSURL(string: NSTemporaryDirectory()) {
-            let directoryName = pathURL.URLByAppendingPathComponent(Tmp.uniqDir).absoluteString
+        if let pathURL = NSURL(string: NSTemporaryDirectory()),
+            directoryName = pathURL.URLByAppendingPathComponent(Tmp.uniqDir)?.absoluteString
+        {
             return NSURL.fileURLWithPath(directoryName, isDirectory: true)
         }
         return nil

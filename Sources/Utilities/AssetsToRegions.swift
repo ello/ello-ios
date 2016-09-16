@@ -35,8 +35,10 @@ public struct AssetsToRegions {
                 done()
             }
             else {
-                image.copyWithCorrectOrientationAndSize() { image in
-                    newStack.append(ImageRegionData(image: image, buyButtonURL: nil))
+                image.copyWithCorrectOrientationAndSize() { orientedImage in
+                    if let image = orientedImage {
+                        newStack.append(ImageRegionData(image: image, buyButtonURL: nil))
+                    }
                     done()
                 }
             }

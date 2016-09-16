@@ -89,7 +89,7 @@ private extension ElloLinkedStore {
 
         let path: String
         if let baseURL = NSURL(string: baseDir) {
-            path = baseURL.URLByAppendingPathComponent(ElloLinkedStore.databaseName).path ?? ""
+            path = baseURL.URLByAppendingPathComponent(ElloLinkedStore.databaseName)?.path ?? ""
         }
         else {
             path = ""
@@ -105,7 +105,7 @@ private extension ElloLinkedStore {
     static func databasePath() -> String {
         var path = ""
         if let baseURL = NSFileManager.defaultManager().containerURLForSecurityApplicationGroupIdentifier(ElloGroupName) {
-            path = baseURL.URLByAppendingPathComponent(ElloLinkedStore.databaseName).path ?? ""
+            path = baseURL.URLByAppendingPathComponent(ElloLinkedStore.databaseName)?.path ?? ""
         }
         return path
     }

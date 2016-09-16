@@ -298,7 +298,10 @@ extension CreateProfileScreen: UINavigationControllerDelegate, UIImagePickerCont
         }
         else {
             image.copyWithCorrectOrientationAndSize() { image in
-                self.setImage(ImageRegionData(image: image), target: uploading, updateDelegate: true)
+                if let image = image {
+                    self.setImage(ImageRegionData(image: image), target: uploading, updateDelegate: true)
+                }
+
                 self.delegate?.dismissController()
             }
         }
