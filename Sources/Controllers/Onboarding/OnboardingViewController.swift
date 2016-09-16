@@ -70,8 +70,9 @@ public class OnboardingViewController: BaseElloViewController, HasAppController 
                 }
             }
 
-            if let url = currentUser.avatarURL()
-            where url.absoluteString !~ "ello-default"
+            if let url = currentUser.avatarURL(),
+            urlString = url.absoluteString
+            where urlString !~ "ello-default"
             {
                 PINRemoteImageManager.sharedImageManager().downloadImageWithURL(url) { result in
                     if let animatedImage = result.animatedImage {
@@ -83,8 +84,9 @@ public class OnboardingViewController: BaseElloViewController, HasAppController 
                 }
             }
 
-            if let url = currentUser.coverImageURL()
-            where url.absoluteString !~ "ello-default"
+            if let url = currentUser.coverImageURL(),
+            urlString = url.absoluteString
+            where urlString !~ "ello-default"
             {
                 PINRemoteImageManager.sharedImageManager().downloadImageWithURL(url) { result in
                     if let animatedImage = result.animatedImage {

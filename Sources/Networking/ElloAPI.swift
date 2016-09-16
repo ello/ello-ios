@@ -464,6 +464,10 @@ extension ElloAPI: Moya.TargetType {
         }
     }
 
+    public var multipartBody: [MultipartFormData]? {
+        return nil
+    }
+
     public var encoding: Moya.ParameterEncoding {
         if self.method == .GET || self.method == .HEAD {
             return Moya.ParameterEncoding.URL
@@ -697,7 +701,7 @@ public func stubbedData(filename: String) -> NSData! {
 }
 
 public func url(route: Moya.TargetType) -> String {
-    return route.baseURL.URLByAppendingPathComponent(route.path).absoluteString
+    return route.baseURL.URLByAppendingPathComponent(route.path)?.absoluteString ?? ""
 }
 
 private func tokenStringFromData(data: NSData) -> String {

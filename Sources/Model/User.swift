@@ -361,14 +361,14 @@ extension User {
 
 extension User {
     public func coverImageURL(viewsAdultContent viewsAdultContent: Bool? = false, animated: Bool = false) -> NSURL? {
-        if animated && (!postsAdultContent || viewsAdultContent == true) && coverImage?.original?.url.absoluteString.endsWith(".gif") == true {
+        if animated && (!postsAdultContent || viewsAdultContent == true) && coverImage?.original?.url.absoluteString?.endsWith(".gif") == true {
             return coverImage?.original?.url
         }
         return coverImage?.xhdpi?.url
     }
 
     public func avatarURL(viewsAdultContent viewsAdultContent: Bool? = false, animated: Bool = false) -> NSURL? {
-        if animated && (!postsAdultContent || viewsAdultContent == true) && avatar?.original?.url.absoluteString.endsWith(".gif") == true {
+        if animated && (!postsAdultContent || viewsAdultContent == true) && avatar?.original?.url.absoluteString?.endsWith(".gif") == true {
             return avatar?.original?.url
         }
         return avatar?.largeOrBest?.url

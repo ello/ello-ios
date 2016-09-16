@@ -136,9 +136,11 @@ public struct ProfileService {
 
     private func updateUserImage(image: ImageRegionData, key: String, properties: [String: AnyObject], success: ProfileUploadSuccessCompletion, failure: ElloFailureCompletion) {
         S3UploadingService().upload(imageRegionData: image, success: { url in
-            if let url = url {
+            if let url = url,
+                urlString = url.absoluteString
+            {
                 let mergedProperties: [String: AnyObject] = properties + [
-                    key: url.absoluteString,
+                    key: urlString,
                 ]
                 self.updateUserProfile(mergedProperties, success: { user in
                     success(url: url, user: user)

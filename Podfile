@@ -2,7 +2,7 @@ source 'https://github.com/ello/cocoapod-specs.git'
 source 'https://github.com/CocoaPods/Specs.git'
 
 # Uncomment this line to define a global platform for your project
-platform :ios, '8.0'
+platform :ios, '9.0'
 
 # Yep.
 inhibit_all_warnings!
@@ -22,7 +22,7 @@ def ello_app_pods
   pod 'KINWebBrowser', git: 'https://github.com/ello/KINWebBrowser'
   pod 'PINRemoteImage', git: 'https://github.com/pinterest/PINRemoteImage.git', commit: 'af312667f0ce830264198366f481f1b222675a31'
   pod 'SSPullToRefresh', '~> 1.2'
-  pod 'ImagePickerSheetController'
+  pod 'ImagePickerSheetController', git: 'https://github.com/lbrndnr/ImagePickerSheetController', branch: 'swift2.3-improvements'
   pod 'iRate', '~> 1.11'
   # swift pods
   pod 'TimeAgoInWords', git: 'https://github.com/ello/TimeAgoInWords'
@@ -48,8 +48,8 @@ def common_pods
   pod 'FLAnimatedImage', '~> 1.0'
   pod 'YapDatabase', '2.8.1'
   pod 'Alamofire', '~> 3.0'
-  pod 'Moya', '~> 6.5'
-  pod 'KeychainAccess', '~> 2.3'
+  pod 'Moya', '~> 7.0'
+  pod 'KeychainAccess', '~> 2.4.0'
   pod 'SwiftyUserDefaults', '~> 1.3.0'
   pod 'SwiftyJSON', git: 'https://github.com/ello/SwiftyJSON', branch: 'Swift-2.0'
   pod 'Crashlytics', '~> 3.4'
@@ -98,3 +98,15 @@ plugin 'cocoapods-keys', {
     'SegmentKey',
   ]
 }
+
+
+post_install do |installer|
+  installer.pods_project.targets.each do |target|
+    target.build_configurations.each do |config|
+      # cocoapods 1.1.0-rc2 *should* handle this but isn't for some reason
+      config.build_settings['SWIFT_VERSION'] = '2.3'
+      # cocoapods does not propogate the platform from above
+      config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '9.0'
+    end
+  end
+end

@@ -113,7 +113,9 @@ private extension ShareAttachmentProcessor {
             if let imageURL = imageItem as? NSURL {
                 var data: NSData? = NSData(contentsOfURL: imageURL)
                 if data == nil {
-                    data = NSData(contentsOfFile: imageURL.absoluteString)
+                    if let imageString = imageURL.absoluteString {
+                        data = NSData(contentsOfFile: imageString)
+                    }
                 }
                 if let imageData = data {
                     processData(imageData, callback)

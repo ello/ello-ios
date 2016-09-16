@@ -123,8 +123,14 @@ extension AppDelegate {
 // MARK: URLs
 extension AppDelegate {
     public func application(application: UIApplication, handleOpenURL url: NSURL) -> Bool {
-        let appVC = window?.rootViewController as? AppViewController
-        appVC?.navigateToDeepLink(url.absoluteString)
+        guard let
+            appVC = window?.rootViewController as? AppViewController,
+            urlString = url.absoluteString
+        else {
+            return true
+        }
+
+        appVC.navigateToDeepLink(urlString)
         return true
     }
 }
@@ -146,14 +152,15 @@ extension AppDelegate {
 // universal links
 extension AppDelegate {
     public func application(application: UIApplication, continueUserActivity userActivity: NSUserActivity, restorationHandler: ([AnyObject]?) -> Void) -> Bool {
-        if let webpageURL = userActivity.webpageURL,
-            appVC = window?.rootViewController as? AppViewController
-            where userActivity.activityType == NSUserActivityTypeBrowsingWeb
-        {
-                appVC.navigateToDeepLink(webpageURL.absoluteString)
-                return true
-        }
+        guard let
+            webpageURL = userActivity.webpageURL,
+            appVC = window?.rootViewController as? AppViewController,
+            webpage = webpageURL.absoluteString
+        where userActivity.activityType == NSUserActivityTypeBrowsingWeb
+        else { return false }
 
-        return false
+
+        appVC.navigateToDeepLink(webpage)
+        return true
     }
 }

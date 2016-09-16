@@ -408,7 +408,9 @@ extension SettingsViewController: UIImagePickerControllerDelegate, UINavigationC
     public func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
             image.copyWithCorrectOrientationAndSize() { image in
-                self.photoSaveCallback?(image)
+                if let image = image {
+                    self.photoSaveCallback?(image)
+                }
                 self.dismissViewControllerAnimated(true, completion: .None)
             }
         }

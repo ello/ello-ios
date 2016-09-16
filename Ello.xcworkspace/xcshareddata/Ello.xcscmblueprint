@@ -16,11 +16,11 @@
   "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
     "DAAB2C887EFA8AB12BAB622BBAFD20531F9A3784" : "Libraries\/YapDatabase\/",
     "6EF27432E59DB6DC9338F620CB9DF52A2652C009" : "Libraries\/TimeAgoInWords\/",
-    "15ADDC96148D8EC7ABACA3AFDED5D958C5D22840" : "Libraries\/Moya",
+    "15ADDC96148D8EC7ABACA3AFDED5D958C5D22840" : "Libraries\/Moya\/",
     "80DA628EAE81E418FCA5040B6FD2F14B521C07CB" : "Libraries\/JTSImageViewController",
-    "10B737584DC8C5F8A30673812AE287FCF9D34F48" : "ello-ios",
+    "10B737584DC8C5F8A30673812AE287FCF9D34F48" : "ello-ios\/",
     "F98BD4B66D11256A15D34D0E0BEDBF97D228ADDB" : "Libraries\/WebLinking.swift\/",
-    "6143FAAC46BCEFA93BD8374017141E70368D830E" : "Libraries\/KINWebBrowser"
+    "6143FAAC46BCEFA93BD8374017141E70368D830E" : "Libraries\/KINWebBrowser\/"
   },
   "DVTSourceControlWorkspaceBlueprintNameKey" : "Ello",
   "DVTSourceControlWorkspaceBlueprintVersion" : 204,

@@ -105,8 +105,10 @@ public struct ElloAttributedString {
                 }
             }
 
-            if let link = attrs[NSLinkAttributeName] as? NSURL {
-                tags.append(HtmlTagTuple("a", attributes: "href=\"\(link.absoluteString.entitiesEncoded())\""))
+            if let link = attrs[NSLinkAttributeName] as? NSURL,
+                linkString = link.absoluteString
+            {
+                tags.append(HtmlTagTuple("a", attributes: "href=\"\(linkString.entitiesEncoded())\""))
             }
 
             for htmlTag in tags {
