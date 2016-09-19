@@ -151,7 +151,7 @@ class OmnibarViewControllerSpec: QuickSpec {
 
             context("submitting a post") {
                 it("should generate PostEditingService.PostContentRegion") {
-                    let image = UIImage.imageWithColor(UIColor.blackColor())
+                    let image = UIImage.imageWithColor(UIColor.blackColor())!
                     let data = NSData()
                     let contentType = "image/gif"
                     let text = NSAttributedString(string: "test")
@@ -229,7 +229,7 @@ class OmnibarViewControllerSpec: QuickSpec {
                     ])
 
                     let attributedString = ElloAttributedString.style("text")
-                    let image = UIImage.imageWithColor(.blackColor())
+                    let image = UIImage.imageWithColor(.blackColor())!
                     let omnibarData = OmnibarCacheData()
                     omnibarData.regions = [attributedString, image]
                     let data = NSKeyedArchiver.archivedDataWithRootObject(omnibarData)
@@ -272,7 +272,7 @@ class OmnibarViewControllerSpec: QuickSpec {
                     subject.beginAppearanceTransition(true, animated: false)
                     subject.endAppearanceTransition()
 
-                    let image = UIImage.imageWithColor(.blackColor())
+                    let image = UIImage.imageWithColor(.blackColor())!
                     screen.regions = [
                         .Text("text"), .Image(image)
                     ]

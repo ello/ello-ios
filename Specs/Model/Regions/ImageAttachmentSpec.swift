@@ -14,7 +14,7 @@ class AttachmentSpec: QuickSpec {
 
             var filePath = ""
             if let url = NSURL(string: NSFileManager.ElloDocumentsDir()) {
-                filePath = url.URLByAppendingPathComponent("ImageAttachmentSpec").absoluteString
+                filePath = url.URLByAppendingPathComponent("ImageAttachmentSpec")!.absoluteString!
             }
             ElloURI.httpProtocol = "https"
 

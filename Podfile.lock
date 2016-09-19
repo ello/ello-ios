@@ -142,11 +142,11 @@ DEPENDENCIES:
   - KINWebBrowser (from `https://github.com/ello/KINWebBrowser`)
   - MBProgressHUD (~> 0.9.0)
   - Moya (~> 7.0)
-  - Nimble (~> 4.0)
+  - Nimble (= 4.1.0)
   - Nimble-Snapshots (from `https://github.com/ashfurrow/Nimble-Snapshots`)
   - OHHTTPStubs (~> 4.3)
   - PINRemoteImage (from `https://github.com/pinterest/PINRemoteImage.git`, commit `af312667f0ce830264198366f481f1b222675a31`)
-  - Quick (~> 0.9)
+  - Quick (~> 0.9.3)
   - SnapKit (from `https://github.com/SnapKit/SnapKit`, commit `307d03ec433d61fbb25c9c4a6bb32689537db4d6`)
   - SSPullToRefresh (~> 1.2)
   - SVGKit (from `https://github.com/SVGKit/SVGKit`)
@@ -265,6 +265,6 @@ SPEC CHECKSUMS:
   WebLinking: 3f71787c14a225148e8be29fe6e7c98597cbc459
   YapDatabase: 861c720d5850a59f9e5c0bad0fd95334012b9dc9
 
-PODFILE CHECKSUM: 01e66828bb7bb5c06dfb9c760e6b198df1b324e5
+PODFILE CHECKSUM: 86265b2958bad61fb96fbfc258ce4e53ca71b50c
 
 COCOAPODS: 1.0.1

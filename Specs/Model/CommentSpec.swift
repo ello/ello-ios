@@ -67,7 +67,7 @@ class CommentSpec: QuickSpec {
 
             var filePath = ""
             if let url = NSURL(string: NSFileManager.ElloDocumentsDir()) {
-                filePath = url.URLByAppendingPathComponent("CommentSpec").absoluteString
+                filePath = url.URLByAppendingPathComponent("CommentSpec")!.absoluteString!
             }
 
             afterEach {

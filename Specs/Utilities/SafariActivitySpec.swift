@@ -32,7 +32,7 @@ class SafariActivitySpec: QuickSpec {
                 let url = NSURL(string: "https://ello.co")!
                 let url2 = NSURL(string: "https://google.com")!
                 let string = "ignore"
-                let image = UIImage.imageWithColor(.blueColor())
+                let image = UIImage.imageWithColor(.blueColor())!
                 let expectations: [(String, [AnyObject], Bool)] = [
                     ("a url", [url], true),
                     ("a url and a string", [url, string], true),
@@ -52,7 +52,7 @@ class SafariActivitySpec: QuickSpec {
                 let url = NSURL(string: "https://ello.co")!
                 let url2 = NSURL(string: "https://google.com")!
                 let string = "ignore"
-                let image = UIImage.imageWithColor(.blueColor())
+                let image = UIImage.imageWithColor(.blueColor())!
                 let expectations: [(String, [AnyObject], NSURL?)] = [
                     ("a url", [url], url),
                     ("a url and a string", [url, string], url),

@@ -18,14 +18,14 @@ class TmpSpec: QuickSpec {
 
                 var directoryName = ""
                 if let url = NSURL(string: NSTemporaryDirectory()) {
-                    directoryName = url.URLByAppendingPathComponent(Tmp.uniqDir).absoluteString
+                    directoryName = url.URLByAppendingPathComponent(Tmp.uniqDir)!.absoluteString!
                 }
 
                 let directoryURL = NSURL.fileURLWithPath(directoryName, isDirectory: true)
                 try! NSFileManager.defaultManager().createDirectoryAtURL(directoryURL, withIntermediateDirectories: true, attributes: nil)
 
                 let fileName = "exists"
-                let fileURL = directoryURL.URLByAppendingPathComponent(fileName)
+                let fileURL = directoryURL.URLByAppendingPathComponent(fileName)!
                 if let filePath = fileURL.path {
                     let data = NSData()
                     data.writeToURL(fileURL, atomically: true)

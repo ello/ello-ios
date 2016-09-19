@@ -9,7 +9,7 @@ import Nimble
 
 class OmnibarScreenSnapshotSpecs: QuickSpec {
     override func spec() {
-        let image = UIImage.imageWithColor(.blueColor(), size: CGSize(width: 4000, height: 3000))
+        let image = UIImage.imageWithColor(.blueColor(), size: CGSize(width: 4000, height: 3000))!
         let smallImage = UIImage(named: "specs-avatar", inBundle: NSBundle(forClass: self.dynamicType), compatibleWithTraitCollection: nil)!
 
         var subject: OmnibarScreen!

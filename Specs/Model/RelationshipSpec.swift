@@ -65,7 +65,7 @@ class RelationshipSpec: QuickSpec {
 
             var filePath = ""
             if let url = NSURL(string: NSFileManager.ElloDocumentsDir()) {
-                filePath = url.URLByAppendingPathComponent("UserSpec").absoluteString
+                filePath = url.URLByAppendingPathComponent("UserSpec")!.absoluteString!
             }
 
             afterEach {

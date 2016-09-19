@@ -99,7 +99,7 @@ class AssetSpec: QuickSpec {
 
             var filePath = ""
             if let url = NSURL(string: NSFileManager.ElloDocumentsDir()) {
-                filePath = url.URLByAppendingPathComponent("AssetSpec").absoluteString
+                filePath = url.URLByAppendingPathComponent("AssetSpec")!.absoluteString!
             }
 
             afterEach {

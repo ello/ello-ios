@@ -100,7 +100,7 @@ class PostSpec: QuickSpec {
 
             var filePath = ""
             if let url = NSURL(string: NSFileManager.ElloDocumentsDir()) {
-                filePath = url.URLByAppendingPathComponent("PostSpec").absoluteString
+                filePath = url.URLByAppendingPathComponent("PostSpec")!.absoluteString!
             }
 
             afterEach {

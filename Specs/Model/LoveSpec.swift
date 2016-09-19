@@ -38,7 +38,7 @@ class LoveSpec: QuickSpec {
 
             var filePath = ""
             if let url = NSURL(string: NSFileManager.ElloDocumentsDir()) {
-                filePath = url.URLByAppendingPathComponent("LoveSpec").absoluteString
+                filePath = url.URLByAppendingPathComponent("LoveSpec")!.absoluteString!
             }
 
             afterEach {

@@ -63,7 +63,7 @@ class ActivitySpec: QuickSpec {
 
             var filePath = ""
             if let url = NSURL(string: NSFileManager.ElloDocumentsDir()) {
-                filePath = url.URLByAppendingPathComponent("ActivitySpec").absoluteString
+                filePath = url.URLByAppendingPathComponent("ActivitySpec")!.absoluteString!
             }
 
             afterEach {

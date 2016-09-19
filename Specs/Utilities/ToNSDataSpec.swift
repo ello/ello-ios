@@ -12,7 +12,7 @@ class ToNSDataSpec: QuickSpec {
         let emptyData = NSData()
         let someData = NSData(base64EncodedString: "dGVzdA==", options: NSDataBase64DecodingOptions())!
         let string = "test"
-        let image = UIImage.imageWithColor(.blackColor())
+        let image = UIImage.imageWithColor(.blackColor())!
 
         describe("NSData") {
             it("should return self (empty data)") {

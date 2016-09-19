@@ -10,7 +10,7 @@ import Nimble
 class StreamImageCellSpec: QuickSpec {
     override func spec() {
         describe("StreamImageCell") {
-            let image = UIImage.imageWithColor(.blueColor(), size: CGSize(width: 500, height: 300))
+            let image = UIImage.imageWithColor(.blueColor(), size: CGSize(width: 500, height: 300))!
 
             let expectations: [(listView: Bool, isComment: Bool, isRepost: Bool, buyButton: Bool)] = [
                 (listView: true, isComment: false, isRepost: false, buyButton: false),
