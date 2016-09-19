@@ -14,7 +14,7 @@ class UnknownRegionSpec: QuickSpec {
 
             var filePath = ""
             if let url = NSURL(string: NSFileManager.ElloDocumentsDir()) {
-                filePath = url.URLByAppendingPathComponent("UnknownRegionSpec").absoluteString
+                filePath = url.URLByAppendingPathComponent("UnknownRegionSpec")!.absoluteString!
             }
 
             afterEach {

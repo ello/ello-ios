@@ -57,8 +57,8 @@ end
 
 def spec_pods
   pod 'FBSnapshotTestCase', git: 'https://github.com/ello/ios-snapshot-test-case'
-  pod 'Quick', '~> 0.9'
-  pod 'Nimble', '~> 4.0'
+  pod 'Quick', '~> 0.9.3'
+  pod 'Nimble', '4.1.0'
   pod 'Nimble-Snapshots', git: 'https://github.com/ashfurrow/Nimble-Snapshots'
   pod 'OHHTTPStubs', '~> 4.3'
 end

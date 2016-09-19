@@ -38,7 +38,7 @@ class NotificationCellSpec: QuickSpec {
                 let title = NotificationAttributedTitle.attributedTitle(.PostMentionNotification, author: author, subject: post)
                 let createdAt = NSDate(timeIntervalSinceNow: -86_400)
                 let aspectRatio: CGFloat = 1
-                let image = UIImage.imageWithColor(.blueColor(), size: CGSize(width: 300, height: 300))
+                let image = UIImage.imageWithColor(.blueColor(), size: CGSize(width: 300, height: 300))!
                 let message = "<p>This is a notification!</p>"
 
                 let expectations: [(hasMessage: Bool, hasImage: Bool, canReply: Bool, buyButton: Bool)] = [

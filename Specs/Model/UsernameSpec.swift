@@ -44,7 +44,7 @@ class UsernameSpec: QuickSpec {
 
                 var filePath = ""
                 if let url = NSURL(string: NSFileManager.ElloDocumentsDir()) {
-                    filePath = url.URLByAppendingPathComponent("UsernameSpec").absoluteString
+                    filePath = url.URLByAppendingPathComponent("UsernameSpec")!.absoluteString!
                 }
 
                 afterEach {

@@ -8,7 +8,7 @@ class CoderSpec: QuickSpec {
 
         var filePath = ""
         if let url = NSURL(string: NSFileManager.ElloDocumentsDir()) {
-            filePath = url.URLByAppendingPathComponent("DecoderSpec").absoluteString
+            filePath = url.URLByAppendingPathComponent("DecoderSpec")!.absoluteString!
         }
 
         afterEach {

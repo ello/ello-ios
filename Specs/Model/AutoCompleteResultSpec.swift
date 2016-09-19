@@ -25,7 +25,7 @@ class AutoCompleteResultSpec: QuickSpec {
 
             var filePath = ""
             if let url = NSURL(string: NSFileManager.ElloDocumentsDir()) {
-                filePath = url.URLByAppendingPathComponent("AutoCompleteResultSpec").absoluteString
+                filePath = url.URLByAppendingPathComponent("AutoCompleteResultSpec")!.absoluteString!
             }
 
             afterEach {

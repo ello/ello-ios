@@ -133,7 +133,7 @@ class NotificationSpec: QuickSpec {
 
                 var filePath = ""
                 if let url = NSURL(string: NSFileManager.ElloDocumentsDir()) {
-                    filePath = url.URLByAppendingPathComponent("NotificationSpec").absoluteString
+                    filePath = url.URLByAppendingPathComponent("NotificationSpec")!.absoluteString!
                 }
 
                 afterEach {

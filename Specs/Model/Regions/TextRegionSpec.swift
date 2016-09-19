@@ -25,7 +25,7 @@ class TextRegionSpec: QuickSpec {
 
             var filePath = ""
             if let url = NSURL(string: NSFileManager.ElloDocumentsDir()) {
-                filePath = url.URLByAppendingPathComponent("TextRegionSpec").absoluteString
+                filePath = url.URLByAppendingPathComponent("TextRegionSpec")!.absoluteString!
             }
 
             afterEach {

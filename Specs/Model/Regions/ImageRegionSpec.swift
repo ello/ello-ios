@@ -87,7 +87,7 @@ class ImageRegionSpec: QuickSpec {
 
             var filePath = ""
             if let url = NSURL(string: NSFileManager.ElloDocumentsDir()) {
-                filePath = url.URLByAppendingPathComponent("ImageRegionSpec").absoluteString
+                filePath = url.URLByAppendingPathComponent("ImageRegionSpec")!.absoluteString!
             }
 
             afterEach {
