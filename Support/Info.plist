@@ -54,8 +54,12 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSCameraUsageDescription</key>
+	<string>Allow camera access to post images from your camera on Ello. Change this anytime in your device settings.</string>
 	<key>NSContactsUsageDescription</key>
 	<string>Import your contacts to find people you know on Ello. We will extract the e-mail addresses, irreversibly hash them, and send them to our servers for matching. Ello will never receive nor store a copy of your address book.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Allow photo library access to post images from your library on Ello. Change this anytime in your device settings.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AtlasTypewriterRegular.otf</string>
