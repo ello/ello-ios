@@ -36,7 +36,7 @@ class NotificationCellSpec: QuickSpec {
                 let author: User = .stub(["username": "ello"])
                 let post: Post = .stub(["author": author])
                 let title = NotificationAttributedTitle.attributedTitle(.PostMentionNotification, author: author, subject: post)
-                let createdAt = NSDate(timeIntervalSinceNow: -86_400)
+                let createdAt = NSDate(timeIntervalSinceNow: -86_460)
                 let aspectRatio: CGFloat = 1
                 let image = UIImage.imageWithColor(.blueColor(), size: CGSize(width: 300, height: 300))!
                 let message = "<p>This is a notification!</p>"
