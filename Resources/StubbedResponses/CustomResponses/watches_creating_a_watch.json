@@ -1,0 +1,125 @@
+{
+    "linked": {
+        "posts": [
+            {
+                "author_id": "420",
+                "comments_count": 0,
+                "content": [
+                    {
+                        "data": "<p>Hello, I am a post with awesome content!</p>",
+                        "kind": "text"
+                    }
+                ],
+                "content_warning": null,
+                "created_at": "2015-10-22T17:04:06.682Z",
+                "href": "/api/v2/posts/222",
+                "id": "222",
+                "is_adult_content": true,
+                "links": {
+                    "assets": [],
+                    "author": {
+                        "href": "/api/v2/users/420",
+                        "id": "420",
+                        "type": "users"
+                    }
+                },
+                "loved": true,
+                "loves_count": 1,
+                "reposted": false,
+                "reposts_count": 0,
+                "summary": [
+                    {
+                        "data": "<p>Hello, I am a post with awesome content!</p>",
+                        "kind": "text"
+                    }
+                ],
+                "token": "sMYP_MfXW1A9IDarUTxWpA",
+                "views_count": 0
+            }
+        ],
+        "users": [
+            {
+                "avatar": {
+                    "large": {
+                        "metadata": null,
+                        "url": "https://abc123.cloudfront.net/uploads/user/avatar/420/ello-large-91c0f710.png"
+                    },
+                    "original": {
+                        "url": "https://abc123.cloudfront.net/uploads/user/avatar/420/pam.jpg"
+                    },
+                    "regular": {
+                        "metadata": null,
+                        "url": "https://abc123.cloudfront.net/uploads/user/avatar/420/ello-regular-91c0f710.png"
+                    },
+                    "small": {
+                        "metadata": null,
+                        "url": "https://abc123.cloudfront.net/uploads/user/avatar/420/ello-small-91c0f710.png"
+                    }
+                },
+                "experimental_features": true,
+                "has_commenting_enabled": true,
+                "has_loves_enabled": true,
+                "has_reposting_enabled": true,
+                "has_sharing_enabled": true,
+                "href": "/api/v2/users/420",
+                "id": "420",
+                "name": "Pamilanderson",
+                "posts_adult_content": true,
+                "relationship_priority": null,
+                "username": "pam",
+                "views_adult_content": false
+            },
+            {
+                "avatar": {
+                    "large": {
+                        "metadata": null,
+                        "url": "https://abc123.cloudfront.net/uploads/user/avatar/42/ello-large-97fbdf62.png"
+                    },
+                    "original": {
+                        "url": "https://abc123.cloudfront.net/uploads/user/avatar/42/archer.jpg"
+                    },
+                    "regular": {
+                        "metadata": null,
+                        "url": "https://abc123.cloudfront.net/uploads/user/avatar/42/ello-regular-97fbdf62.png"
+                    },
+                    "small": {
+                        "metadata": null,
+                        "url": "https://abc123.cloudfront.net/uploads/user/avatar/42/ello-small-97fbdf62.png"
+                    }
+                },
+                "experimental_features": false,
+                "has_commenting_enabled": true,
+                "has_loves_enabled": true,
+                "has_reposting_enabled": true,
+                "has_sharing_enabled": true,
+                "href": "/api/v2/users/42",
+                "id": "42",
+                "name": "Sterling",
+                "posts_adult_content": true,
+                "relationship_priority": "self",
+                "username": "archer",
+                "views_adult_content": true
+            }
+        ]
+    },
+    "watches": {
+        "created_at": "2015-10-22T17:04:06.789Z",
+        "deleted": false,
+        "id": "23",
+        "links": {
+            "post": {
+                "href": "/api/v2/posts/222",
+                "id": "222",
+                "type": "posts"
+            },
+            "user": {
+                "href": "/api/v2/users/42",
+                "id": "42",
+                "type": "users"
+            }
+        },
+        "post_id": "222",
+        "updated_at": "2015-10-22T17:04:06.789Z",
+        "user_id": "42"
+    }
+}

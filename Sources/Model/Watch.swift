@@ -1,22 +1,21 @@
 ////
-///  Love.swift
+///  Watch.swift
 //
 
 import Crashlytics
 import SwiftyJSON
 import Foundation
 
-let LoveVersion: Int = 1
+let WatchVersion: Int = 1
 
-@objc(Love)
-public final class Love: JSONAble, PostActionable {
+@objc(Watch)
+public final class Watch: JSONAble, PostActionable {
 
     // active record
     public let id: String
     public let createdAt: NSDate
     public let updatedAt: NSDate
     // required
-    public var deleted: Bool
     public let postId: String
     public let userId: String
 
@@ -33,7 +32,6 @@ public final class Love: JSONAble, PostActionable {
     public init(id: String,
         createdAt: NSDate,
         updatedAt: NSDate,
-        deleted: Bool,
         postId: String,
         userId: String )
     {
@@ -42,10 +40,9 @@ public final class Love: JSONAble, PostActionable {
         self.createdAt = createdAt
         self.updatedAt = updatedAt
         // required
-        self.deleted = deleted
         self.postId = postId
         self.userId = userId
-        super.init(version: LoveVersion)
+        super.init(version: WatchVersion)
     }
 
 
@@ -57,7 +54,6 @@ public final class Love: JSONAble, PostActionable {
         self.createdAt = decoder.decodeKey("createdAt")
         self.updatedAt = decoder.decodeKey("updatedAt")
         // required
-        self.deleted = decoder.decodeKey("deleted")
         self.postId = decoder.decodeKey("postId")
         self.userId = decoder.decodeKey("userId")
         super.init(coder: decoder.coder)
@@ -70,7 +66,6 @@ public final class Love: JSONAble, PostActionable {
         coder.encodeObject(createdAt, forKey: "createdAt")
         coder.encodeObject(updatedAt, forKey: "updatedAt")
         // required
-        coder.encodeObject(deleted, forKey: "deleted")
         coder.encodeObject(postId, forKey: "postId")
         coder.encodeObject(userId, forKey: "userId")
         super.encodeWithCoder(coder.coder)
@@ -80,7 +75,7 @@ public final class Love: JSONAble, PostActionable {
 
     override public class func fromJSON(data: [String: AnyObject], fromLinked: Bool = false) -> JSONAble {
         let json = JSON(data)
-        Crashlytics.sharedInstance().setObjectValue(json.rawString(), forKey: CrashlyticsKey.LoveFromJSON.rawValue)
+        Crashlytics.sharedInstance().setObjectValue(json.rawString(), forKey: CrashlyticsKey.WatchFromJSON.rawValue)
         var createdAt: NSDate
         var updatedAt: NSDate
         if let date = json["created_at"].stringValue.toNSDate() {
@@ -90,7 +85,7 @@ public final class Love: JSONAble, PostActionable {
         else {
             createdAt = NSDate()
             // send data to segment to try to get more data about this
-            Tracker.sharedTracker.createdAtCrash("Love", json: json.rawString())
+            Tracker.sharedTracker.createdAtCrash("Watch", json: json.rawString())
         }
         if let date = json["updated_at"].stringValue.toNSDate() {
             // good to go
@@ -99,24 +94,23 @@ public final class Love: JSONAble, PostActionable {
         else {
             updatedAt = NSDate()
             // send data to segment to try to get more data about this
-            Tracker.sharedTracker.createdAtCrash("Love Updated", json: json.rawString())
+            Tracker.sharedTracker.createdAtCrash("Watch Updated", json: json.rawString())
         }
 
-        // create Love
-        let love = Love(
+        // create Watch
+        let watch = Watch(
             id: json["id"].stringValue,
             createdAt: createdAt,
             updatedAt: updatedAt,
-            deleted: json["deleted"].boolValue,
             postId: json["post_id"].stringValue,
             userId: json["user_id"].stringValue
         )
 
         // store self in collection
         if !fromLinked {
-            ElloLinkedStore.sharedInstance.setObject(love, forKey: love.id, inCollection: MappingType.LovesType.rawValue)
+            ElloLinkedStore.sharedInstance.setObject(watch, forKey: watch.id, inCollection: MappingType.WatchesType.rawValue)
         }
 
-        return love
+        return watch
     }
 }
