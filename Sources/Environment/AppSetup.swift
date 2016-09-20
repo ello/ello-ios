@@ -12,7 +12,8 @@ public class AppSetup {
     public var isTesting = false
     private var _isSimulator: Bool?
     public var isSimulator: Bool {
-        get { return _isSimulator ?? (UIDevice.currentDevice().name == "iPhone Simulator" || UIDevice.currentDevice().name == "iPad Simulator") }
+        get {
+            return _isSimulator ?? AppSetup.isRunningOnSimulator }
         set {
             if newValue == true {
                 _isSimulator = nil
@@ -22,6 +23,17 @@ public class AppSetup {
             }
         }
     }
+
+    /// Return true is application is running on simulator
+    private static var isRunningOnSimulator: Bool {
+        // http://stackoverflow.com/questions/24869481/detect-if-app-is-being-built-for-device-or-simulator-in-swift
+        #if (arch(i386) || arch(x86_64)) && (os(iOS) || os(watchOS) || os(tvOS))
+            return true
+        #else
+            return false
+        #endif
+    }
+
 
     public class var sharedState: AppSetup {
         struct Static {
