@@ -76,6 +76,8 @@ class JoinViewControllerSpec: QuickSpec {
             self.usernameValid = usernameValid
             self.passwordValid = passwordValid
         }
+
+        func loadingHUD(visible visible: Bool) {}
     }
 
     override func spec() {
