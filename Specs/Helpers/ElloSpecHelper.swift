@@ -12,7 +12,7 @@ import Nimble_Snapshots
 class ElloConfiguration: QuickConfiguration {
     override class func configure(config: Configuration) {
         config.beforeSuite {
-            setNimbleTolerance(0.0001)
+            setNimbleTolerance(0.001)
             ElloLinkedStore.databaseName = "ello_test.sqlite"
         }
         config.beforeEach {
