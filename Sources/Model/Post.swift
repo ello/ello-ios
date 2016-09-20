@@ -6,16 +6,6 @@ import Crashlytics
 import SwiftyJSON
 import YapDatabase
 
-@objc
-public protocol Authorable {
-    var createdAt: NSDate { get }
-    var author: User? { get }
-}
-
-@objc
-public protocol Groupable {
-    var groupId: String { get }
-}
 
 let PostVersion = 1
 

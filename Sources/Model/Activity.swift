@@ -31,22 +31,27 @@ public final class Activity: JSONAble {
         case FriendComment = "friend_comment"
 
         // Notifications
-        case NewFollowerPost = "new_follower_post" // '#{name} started following you'
-        case NewFollowedUserPost = "new_followed_user_post" // 'you started following #{name}'
-        case InvitationAcceptedPost = "invitation_accepted_post" // '#{name} accepted your invitation'
+        case NewFollowerPost = "new_follower_post" // someone started following you
+        case NewFollowedUserPost = "new_followed_user_post" // you started following someone
+        case InvitationAcceptedPost = "invitation_accepted_post" // someone accepted your invitation
 
-        case PostMentionNotification = "post_mention_notification" // 'you were mentioned in a post'
-        case CommentMentionNotification = "comment_mention_notification" // 'you were mentioned in a comment'
-        case CommentNotification = "comment_notification" // 'someone commented on your post'
-        case CommentOnOriginalPostNotification = "comment_on_original_post_notification"
-        case CommentOnRepostNotification = "comment_on_repost_notification"
+        case PostMentionNotification = "post_mention_notification" // you were mentioned in a post
+        case CommentMentionNotification = "comment_mention_notification" // you were mentioned in a comment
+        case CommentNotification = "comment_notification" // someone commented on your post
+        case CommentOnOriginalPostNotification = "comment_on_original_post_notification" // someone commented on your repost
+        case CommentOnRepostNotification = "comment_on_repost_notification" // someone commented on other's repost of your post
 
-        case WelcomeNotification = "welcome_notification" // 'welcome to Ello'
-        case RepostNotification = "repost_notification" // 'someone reposted your post'
+        case WelcomeNotification = "welcome_notification" // welcome to Ello
+        case RepostNotification = "repost_notification" // someone reposted your post
 
-        case LoveNotification = "love_notification" // 'someone loved your post'
-        case LoveOnRepostNotification = "love_on_repost_notification" //
-        case LoveOnOriginalPostNotification = "love_on_original_post_notification" //
+        case WatchNotification = "watch_notification" // someone watched your post on ello
+        case WatchOnRepostNotification = "watch_on_repost_notification" // someone watched your repost
+        case WatchOnOriginalPostNotification = "watch_on_original_post_notification" // someone watched other's repost of your post
+        case WatchCommentNotification = "watch_comment_notification"
+
+        case LoveNotification = "love_notification" // someone loved your post
+        case LoveOnRepostNotification = "love_on_repost_notification" // someone loved your repost
+        case LoveOnOriginalPostNotification = "love_on_original_post_notification" // someone loved other's repost of your post
 
         // Deprecated posts
         case CommentMention = "comment_mention"
