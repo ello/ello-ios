@@ -32,6 +32,11 @@ public class ClearTextField: UITextField {
     public var validationState: ValidationState = .None {
         didSet {
             rightView = UIImageView(image: validationState.imageRepresentation)
+            // This nonsense below is to prevent the rightView
+            // from animating into position from 0,0 and passing specs
+            rightView?.frame = rightViewRectForBounds(self.bounds)
+            setNeedsLayout()
+            layoutIfNeeded()
         }
     }
 
