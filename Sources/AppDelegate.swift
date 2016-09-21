@@ -54,6 +54,7 @@ public class AppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         if let payload = launchOptions?[UIApplicationLaunchOptionsRemoteNotificationKey] as? [String: AnyObject] {
+            log("notification received \(NSDate())", message: payload)
             PushNotificationController.sharedController.receivedNotification(application, userInfo: payload)
         }
 
@@ -115,7 +116,7 @@ extension AppDelegate {
     }
 
     public func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject: AnyObject], fetchCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
-        log(userInfo)
+        log("notification received \(NSDate())", message: userInfo)
         PushNotificationController.sharedController.receivedNotification(application, userInfo: userInfo)
         completionHandler(.NoData)
     }

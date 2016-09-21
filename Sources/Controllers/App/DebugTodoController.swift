@@ -134,8 +134,13 @@ class DebugTodoController: UIViewController, UITableViewDataSource, UITableViewD
             }
         }
 
-        for message in getlog() {
-            actions.append((message, {}))
+        for (comment, message) in getlog() {
+            actions.append((comment, {
+                let alertController = AlertViewController(message: message)
+                let okCancelAction = AlertAction(title: "", style: .OKCancel) { _ in }
+                alertController.addAction(okCancelAction)
+                appController.presentViewController(alertController, animated: true, completion: nil)
+            }))
         }
 
         tableView.frame = view.bounds
