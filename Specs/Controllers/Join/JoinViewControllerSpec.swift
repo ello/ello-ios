@@ -27,7 +27,7 @@ class JoinViewControllerSpec: QuickSpec {
         var passwordValid: Bool?
         var resignedFirstResponder = false
 
-        func loadinHUD(visible visible: Bool) {
+        func loadingHUD(visible visible: Bool) {
             loadingHUDVisible = visible
         }
 
@@ -76,8 +76,6 @@ class JoinViewControllerSpec: QuickSpec {
             self.usernameValid = usernameValid
             self.passwordValid = passwordValid
         }
-
-        func loadingHUD(visible visible: Bool) {}
     }
 
     override func spec() {
@@ -232,7 +230,7 @@ class JoinViewControllerSpec: QuickSpec {
                         subject.submit(email: email, username: username, password: password)
                     }
                     it("should hide loadingHUD") {
-                        expect(mockScreen.loadingHUDVisible) == true
+                        expect(mockScreen.loadingHUDVisible) == false
                     }
                     it("should show errors") {
                         expect(mockScreen.emailError).notTo(beNil())

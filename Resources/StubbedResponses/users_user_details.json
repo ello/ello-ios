@@ -189,7 +189,7 @@
         "formatted_short_bio": "<p>Have been spying for a while now.</p>",
         "has_commenting_enabled": true,
         "has_loves_enabled": true,
-        "has_reposting_enabled": true,
+        "has_reposting_enabled": false,
         "has_sharing_enabled": true,
         "is_hireable": true,
         "notify_of_watches_via_push": true,
