@@ -134,6 +134,10 @@ class DebugTodoController: UIViewController, UITableViewDataSource, UITableViewD
             }
         }
 
+        for message in getlog() {
+            actions.append((message, {}))
+        }
+
         tableView.frame = view.bounds
         tableView.delegate = self
         tableView.dataSource = self
