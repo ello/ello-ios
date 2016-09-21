@@ -12,7 +12,6 @@ public class ReAuthService {
         let prevToken = token.token
         let refreshToken = token.refreshToken
         if let refreshToken = refreshToken where token.isPasswordBased {
-            log("prev token: \(prevToken), requesting new token with: \(refreshToken)")
             endpoint = .ReAuth(token: refreshToken)
         }
         else {
@@ -28,10 +27,8 @@ public class ReAuthService {
                 switch statusCode {
                 case 200...299:
                     AuthToken.storeToken(data, isPasswordBased: true)
-                    log("created re-auth token: \(AuthToken().token)")
                     success()
                 default:
-                    log("refreshToken: \(refreshToken), failed to receive new token")
                     let elloError = ElloProvider.generateElloError(data, statusCode: statusCode)
                     failure(error: elloError, statusCode: statusCode)
                 }
@@ -54,7 +51,6 @@ public class ReAuthService {
                     switch statusCode {
                     case 200...299:
                         AuthToken.storeToken(data, isPasswordBased: true)
-                        log("created re-login token: \(AuthToken().token)")
                         success()
                     default:
                         let elloError = ElloProvider.generateElloError(data, statusCode: statusCode)

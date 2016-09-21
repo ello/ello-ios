@@ -6,18 +6,23 @@ import UIKit
 
 
 #if DEBUG
-var messages: [String] = []
-func log(message: Any?) {
-    messages.append("\(message)")
+var messages: [(String, String)] = []
+func log(comment: String, message: Any?) {
+    if let message = message {
+        messages.append((comment, "\(message)"))
+    }
+    else {
+        messages.append((comment, "nil"))
+    }
 }
-func getlog() -> [String] {
+func getlog() -> [(String, String)] {
     let m = messages
     messages = []
     return m
 }
 #else
-func log(message: Any?) {}
-func getlog() -> [String] { return [] }
+func log(comment: String, message: Any?) {}
+func getlog() -> [(String, String)] { return [] }
 #endif
 
 
