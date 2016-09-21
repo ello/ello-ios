@@ -76,6 +76,7 @@ extension CreateProfileViewController: OnboardingStepController {
         didSetLinks = (onboardingData.links?.isEmpty == false)
         didUploadAvatarImage = (onboardingData.avatarImage != nil)
         didUploadCoverImage = (onboardingData.coverImage != nil)
+        onboardingViewController?.hasAbortButton = true
         onboardingViewController?.canGoNext = didSetAnything
 
         screen.name = onboardingData.name

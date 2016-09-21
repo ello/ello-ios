@@ -37,9 +37,9 @@ public class OnboardingViewController: BaseElloViewController, HasAppController 
     private var visibleViewControllerIndex: Int = 0
     private var onboardingViewControllers = [UIViewController]()
 
-    public var isLastOnboardingStep: Bool {
-        get { return screen.isLastOnboardingStep }
-        set { screen.isLastOnboardingStep = newValue }
+    public var hasAbortButton: Bool {
+        get { return screen.hasAbortButton }
+        set { screen.hasAbortButton = newValue }
     }
     public var canGoNext: Bool {
         get { return screen.canGoNext }

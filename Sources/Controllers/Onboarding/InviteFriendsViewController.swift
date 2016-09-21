@@ -77,7 +77,8 @@ extension InviteFriendsViewController {
 
 extension InviteFriendsViewController: OnboardingStepController {
     public func onboardingStepBegin() {
-        onboardingViewController?.isLastOnboardingStep = true
+        onboardingViewController?.hasAbortButton = false
+        onboardingViewController?.canGoNext = true
     }
 
     public func onboardingWillProceed(abort: Bool, proceedClosure: (success: OnboardingViewController.OnboardingProceed) -> Void) {

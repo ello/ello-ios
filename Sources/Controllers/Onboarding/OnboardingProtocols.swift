@@ -9,7 +9,7 @@ public enum OnboardingStep: Int {
 }
 
 public protocol OnboardingDelegate: class {
-    var isLastOnboardingStep: Bool { get set }
+    var hasAbortButton: Bool { get set }
     var canGoNext: Bool { get set }
     var prompt: String? { get set }
 
@@ -20,7 +20,7 @@ public protocol OnboardingDelegate: class {
 public protocol OnboardingScreenProtocol: class {
     var delegate: OnboardingDelegate? { get set }
     var controllerContainer: UIView { get set }
-    var isLastOnboardingStep: Bool { get set }
+    var hasAbortButton: Bool { get set }
     var canGoNext: Bool { get set }
     var prompt: String? { get set }
     func styleFor(step step: OnboardingStep)

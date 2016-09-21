@@ -56,6 +56,7 @@ public class CategoriesSelectionViewController: StreamableViewController, HasApp
 extension CategoriesSelectionViewController: OnboardingStepController {
     public func onboardingStepBegin() {
         let prompt = NSString(format: InterfaceString.Onboard.PickTemplate, 3) as String
+        onboardingViewController?.hasAbortButton = false
         onboardingViewController?.canGoNext = false
         onboardingViewController?.prompt = prompt
     }

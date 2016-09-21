@@ -16,21 +16,14 @@ public class OnboardingScreen: EmptyScreen {
 
     public weak var delegate: OnboardingDelegate?
 
-    public var isLastOnboardingStep: Bool = false {
+    public var hasAbortButton: Bool = false {
         didSet {
-            promptButton.enabled = isLastOnboardingStep
-            promptButton.hidden = !isLastOnboardingStep
-            nextButton.hidden = isLastOnboardingStep
-            abortButton.hidden = isLastOnboardingStep
-
-            promptButton.style = isLastOnboardingStep ? .Green : .RoundedGray
+            updateButtonVisibility()
         }
     }
     public var canGoNext: Bool = false {
         didSet {
-            promptButton.hidden = canGoNext
-            nextButton.hidden = !canGoNext
-            abortButton.hidden = !canGoNext
+            updateButtonVisibility()
         }
     }
     public var prompt: String? {
@@ -90,6 +83,21 @@ public class OnboardingScreen: EmptyScreen {
             make.leading.trailing.equalTo(self)
             make.top.equalTo(blackBar.snp_bottom)
             make.bottom.equalTo(buttonContainer.snp_top)
+        }
+    }
+
+    private func updateButtonVisibility() {
+        if hasAbortButton && canGoNext {
+            promptButton.hidden = true
+            nextButton.hidden = false
+            abortButton.hidden = false
+        }
+        else {
+            promptButton.enabled = canGoNext
+            promptButton.style = canGoNext ? .Green : .RoundedGray
+            promptButton.hidden = false
+            nextButton.hidden = true
+            abortButton.hidden = true
         }
     }
 
