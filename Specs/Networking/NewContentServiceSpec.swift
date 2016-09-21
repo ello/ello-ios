@@ -70,8 +70,7 @@ class NewContentServiceSpec: QuickSpec {
 
                 context("jsonables with no created at") {
 
-                    fit("sets an old date ignoring the jsonables") {
-                        print("-------------------------- 1. \(GroupDefaults.objectForKey(streamKind.lastViewedCreatedAtKey))")
+                    it("sets an old date ignoring the jsonables") {
                         let user: User = stub(["id" : "1"])
                         let user2: User = stub(["id" : "2"])
                         let user3: User = stub(["id" : "3"])
@@ -80,11 +79,7 @@ class NewContentServiceSpec: QuickSpec {
 
                         GroupDefaults[streamKind.lastViewedCreatedAtKey] = nil
 
-                        print("-------------------------- 2. \(GroupDefaults.objectForKey(streamKind.lastViewedCreatedAtKey))")
-
                         subject.updateCreatedAt(jsonables, streamKind: streamKind)
-
-                        print("-------------------------- 3. \(GroupDefaults.objectForKey(streamKind.lastViewedCreatedAtKey))")
 
                         expect(GroupDefaults[streamKind.lastViewedCreatedAtKey].date) == old
                     }

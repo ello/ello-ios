@@ -152,7 +152,7 @@ DEPENDENCIES:
   - SVGKit (from `https://github.com/SVGKit/SVGKit`)
   - SwiftyJSON (from `https://github.com/ello/SwiftyJSON`, branch `Swift-2.0`)
   - SwiftyUserDefaults (~> 1.3.0)
-  - TimeAgoInWords (from `/Users/s/work/Libraries/TimeAgoInWords`)
+  - TimeAgoInWords (from `https://github.com/ello/TimeAgoInWords`)
   - WebLinking (~> 1.0)
   - YapDatabase (= 2.8.1)
 
@@ -186,7 +186,7 @@ EXTERNAL SOURCES:
     :branch: Swift-2.0
     :git: https://github.com/ello/SwiftyJSON
   TimeAgoInWords:
-    :path: "/Users/s/work/Libraries/TimeAgoInWords"
+    :git: https://github.com/ello/TimeAgoInWords
 
 CHECKOUT OPTIONS:
   1PasswordExtension:
@@ -222,6 +222,9 @@ CHECKOUT OPTIONS:
   SwiftyJSON:
     :commit: c96832365b9ba4e8fa17fad2fa67399e3ed055de
     :git: https://github.com/ello/SwiftyJSON
+  TimeAgoInWords:
+    :commit: 3cf3e8b3b8d76168a2324294db70790fade54925
+    :git: https://github.com/ello/TimeAgoInWords
 
 SPEC CHECKSUMS:
   1PasswordExtension: faed6b7ab3f1e26551b08fef580c88bff0d0f247
@@ -262,6 +265,6 @@ SPEC CHECKSUMS:
   WebLinking: 3f71787c14a225148e8be29fe6e7c98597cbc459
   YapDatabase: 861c720d5850a59f9e5c0bad0fd95334012b9dc9
 
-PODFILE CHECKSUM: e7ee8aaaa90ebdcfc28eb3c7077413737ea4eb48
+PODFILE CHECKSUM: a64669b55ade9c5a86aaf17ee9370743ff808dd2
 
 COCOAPODS: 1.0.1

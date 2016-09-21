@@ -58,7 +58,6 @@ class StreamContainerViewControllerSpec: QuickSpec {
             describe("recalling previously viewed stream") {
                 it("should have a default currentStreamIndex") {
                     GroupDefaults[CurrentStreamKey] = nil
-                    GroupDefaults.synchronize()
                     controller = StreamContainerViewController.instantiateFromStoryboard()
                     expect(controller.currentStreamIndex) == 0
                 }

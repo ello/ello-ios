@@ -25,7 +25,7 @@ def ello_app_pods
   pod 'ImagePickerSheetController', git: 'https://github.com/lbrndnr/ImagePickerSheetController', branch: 'swift2.3-improvements'
   pod 'iRate', '~> 1.11'
   # swift pods
-  pod 'TimeAgoInWords', path: '/Users/s/work/Libraries/TimeAgoInWords'
+  pod 'TimeAgoInWords', git: 'https://github.com/ello/TimeAgoInWords'
   pod 'WebLinking', '~> 1.0'
   pod 'SnapKit', git: 'https://github.com/SnapKit/SnapKit', commit: '307d03ec433d61fbb25c9c4a6bb32689537db4d6'
   pod 'FutureKit', '~> 2.0'
