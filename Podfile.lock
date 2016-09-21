@@ -19,7 +19,7 @@ PODS:
   - DeltaCalculator (1.0.4)
   - ElloCerts (1.2.0):
     - Alamofire (~> 3.0)
-  - ElloUIFonts (1.1.0)
+  - ElloUIFonts (1.2.0)
   - Fabric (1.6.8)
   - FBSnapshotTestCase (2.1.2):
     - FBSnapshotTestCase/SwiftSupport (= 2.1.2)
@@ -129,7 +129,7 @@ DEPENDENCIES:
   - CRToast (from `https://github.com/ello/CRToast`)
   - DeltaCalculator (~> 1.0)
   - ElloCerts (~> 1.2)
-  - ElloUIFonts (~> 1.1.0)
+  - ElloUIFonts (~> 1.2.0)
   - Fabric (~> 1.6)
   - FBSnapshotTestCase (from `https://github.com/ello/ios-snapshot-test-case`)
   - FLAnimatedImage (~> 1.0)
