@@ -3,6 +3,8 @@
 //
 
 import SwiftyUserDefaults
+import UserNotifications
+
 
 private let NeedsPermissionKey = "PushNotificationNeedsPermission"
 private let DeniedPermissionKey = "PushNotificationDeniedPermission"
@@ -12,7 +14,7 @@ public struct PushNotificationNotifications {
     static let receivedPushNotification = TypedNotification<PushPayload>(name: "com.Ello.PushNotification.Received")
 }
 
-public class PushNotificationController {
+public class PushNotificationController: NSObject {
     public static let sharedController = PushNotificationController(defaults: GroupDefaults, keychain: ElloKeychain())
 
     private let defaults: NSUserDefaults
@@ -34,6 +36,25 @@ public class PushNotificationController {
     }
 }
 
+extension PushNotificationController: UNUserNotificationCenterDelegate {
+
+    // foreground - notification incoming while using the app
+    @objc @available(iOS 10.0, *)
+    public func userNotificationCenter(center: UNUserNotificationCenter, willPresentNotification notification: UNNotification, withCompletionHandler completionHandler: (UNNotificationPresentationOptions) -> Void) {
+        receivedNotification(UIApplication.sharedApplication(), userInfo: notification.request.content.userInfo)
+        completionHandler(UNNotificationPresentationOptions.Sound)
+    }
+
+    // background - user interacted with notification outside of the app
+    @objc @available(iOS 10.0, *)
+    public func userNotificationCenter(center: UNUserNotificationCenter, didReceiveNotificationResponse response: UNNotificationResponse, withCompletionHandler completionHandler: () -> Void) {
+
+        receivedNotification(UIApplication.sharedApplication(), userInfo: response.notification.request.content.userInfo)
+
+        completionHandler()
+    }
+}
+
 public extension PushNotificationController {
     func requestPushAccessIfNeeded() -> AlertViewController? {
         guard AuthToken().isPasswordBased else { return .None }
@@ -48,10 +69,24 @@ public extension PushNotificationController {
     func registerForRemoteNotifications() {
         self.needsPermission = false
         registerStoredToken()
+        let app = UIApplication.sharedApplication()
 
-        let settings = UIUserNotificationSettings(forTypes: [.Alert, .Badge, .Sound], categories: .None)
-        UIApplication.sharedApplication().registerUserNotificationSettings(settings)
-        UIApplication.sharedApplication().registerForRemoteNotifications()
+        if #available(iOS 10.0, *){
+            let userNC = UNUserNotificationCenter.currentNotificationCenter()
+            userNC.delegate = self
+            userNC.requestAuthorizationWithOptions([.Badge, .Sound, .Alert]) {
+                (granted, _) in
+                if granted {
+                    app.registerForRemoteNotifications()
+                }
+            }
+        }
+
+        else { //If user is not on iOS 10 use the old methods we've been using
+            let settings = UIUserNotificationSettings(forTypes: [.Alert, .Badge, .Sound], categories: .None)
+            app.registerUserNotificationSettings(settings)
+            app.registerForRemoteNotifications()
+        }
     }
 
     func updateToken(token: NSData) {
@@ -88,11 +123,11 @@ public extension PushNotificationController {
         if let aps = userInfo["aps"] as? [NSObject: AnyObject],
             badges = aps["badge"] as? Int
         {
-            updateBadgeCount(badges)
+            updateBadgeNumber(badges)
         }
     }
 
-    func updateBadgeCount(badges: Int) {
+    func updateBadgeNumber(badges: Int) {
         UIApplication.sharedApplication().applicationIconBadgeNumber = badges
     }
 
