@@ -14,7 +14,12 @@ public class StreamContainerViewController: StreamableViewController {
     private var appForegroundObserver: NotificationObserver?
 
     public let streamValues: [StreamKind] = [.Following, .Starred]
-    private lazy var streamLoaded: [Bool] = [false, false] // needs to hold same number of 'false's as streamValues
+    private lazy var streamLoaded: [Bool] = self.defaultSreamLoadedValues() // needs to hold same number of 'false's as streamValues
+
+    // moved into a separate function to save compile time
+    private func defaultSreamLoadedValues() -> [Bool] {
+        return [false, false]
+    }
 
     public var currentStreamIndex: Int {
         get {
