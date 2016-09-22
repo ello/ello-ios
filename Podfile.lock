@@ -19,7 +19,7 @@ PODS:
   - DeltaCalculator (1.0.4)
   - ElloCerts (1.2.0):
     - Alamofire (~> 3.0)
-  - ElloUIFonts (1.1.0)
+  - ElloUIFonts (1.2.0)
   - Fabric (1.6.8)
   - FBSnapshotTestCase (2.1.2):
     - FBSnapshotTestCase/SwiftSupport (= 2.1.2)
@@ -129,7 +129,7 @@ DEPENDENCIES:
   - CRToast (from `https://github.com/ello/CRToast`)
   - DeltaCalculator (~> 1.0)
   - ElloCerts (~> 1.2)
-  - ElloUIFonts (~> 1.1.0)
+  - ElloUIFonts (~> 1.2.0)
   - Fabric (~> 1.6)
   - FBSnapshotTestCase (from `https://github.com/ello/ios-snapshot-test-case`)
   - FLAnimatedImage (~> 1.0)
@@ -235,7 +235,7 @@ SPEC CHECKSUMS:
   CRToast: eb22641501990233c53cb8f83f7d2ea87e0ddf73
   DeltaCalculator: 97ea120ac2ebcf55e472d7ba872c8bc79c138454
   ElloCerts: 75bad99e881ee0c8160fbd32bf57fd10fd217d8b
-  ElloUIFonts: 16c31ba0b19e82d613df50fb6498f43560a603a2
+  ElloUIFonts: 9c1dddfae6479ade038a0b18009e45b4f7a93eed
   Fabric: 5755268d0171435ab167e3d0878a28a777deaf10
   FBSnapshotTestCase: 918c55861356ee83aee7843d759f55a18ff6982b
   FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31
@@ -265,6 +265,6 @@ SPEC CHECKSUMS:
   WebLinking: 3f71787c14a225148e8be29fe6e7c98597cbc459
   YapDatabase: 861c720d5850a59f9e5c0bad0fd95334012b9dc9
 
-PODFILE CHECKSUM: 86265b2958bad61fb96fbfc258ce4e53ca71b50c
+PODFILE CHECKSUM: a64669b55ade9c5a86aaf17ee9370743ff808dd2
 
 COCOAPODS: 1.0.1
