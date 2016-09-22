@@ -20,7 +20,10 @@ public enum DrawerItemType {
 }
 
 public class DrawerViewDataSource: NSObject {
-    lazy var items: [DrawerItem] = {
+    lazy var items: [DrawerItem] = self.drawerItems()
+
+    // moved into a separate function to save compile time
+    private func drawerItems() -> [DrawerItem] {
         return [
             DrawerItem(name: InterfaceString.Drawer.Store, type: .External("http://ello.threadless.com/")),
             DrawerItem(name: InterfaceString.Drawer.Invite, type: .Invite),
@@ -30,7 +33,7 @@ public class DrawerViewDataSource: NSObject {
             DrawerItem(name: InterfaceString.Drawer.Logout, type: .Logout),
             DrawerItem(name: InterfaceString.Drawer.Version, type: .Version),
         ]
-    }()
+    }
 
     public func itemForIndexPath(indexPath: NSIndexPath) -> DrawerItem? {
         return items.safeValue(indexPath.row)
