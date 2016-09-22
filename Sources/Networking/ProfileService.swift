@@ -125,7 +125,7 @@ public struct ProfileService {
     }
 
     public func updateUserDeviceToken(token: NSData) {
-        log("push token", message: String(token.description.characters.filter { !"<> ".characters.contains($0) }))
+        log("push token", object: String(token.description.characters.filter { !"<> ".characters.contains($0) }))
         ElloProvider.shared.elloRequest(ElloAPI.PushSubscriptions(token: token),
             success: { _, _ in })
     }

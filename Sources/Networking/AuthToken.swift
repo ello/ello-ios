@@ -82,7 +82,7 @@ public struct AuthToken {
             authToken.refreshToken = json["refresh_token"].stringValue
         }
         catch {
-            log("token JSON failure", message: "failed to create JSON and store authToken")
+            log("token JSON failure", object: "failed to create JSON and store authToken")
         }
     }
 
