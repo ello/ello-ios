@@ -178,6 +178,48 @@ public struct NotificationAttributedTitle {
                 else {
                     return styleUser(author).append(styleText(" loved a repost of your post."))
                 }
+            case .WatchNotification:
+                if let love = subject as? Watch,
+                    post = love.post
+                {
+                    return styleUser(author)
+                        .append(styleText(" watched your "))
+                        .append(stylePost("post", post))
+                        .append(styleText("."))
+                }
+                else {
+                    return styleUser(author).append(styleText(" watched your post."))
+                }
+            case .WatchOnRepostNotification:
+                if let love = subject as? Watch,
+                    post = love.post
+                {
+                    return styleUser(author)
+                        .append(styleText(" watched your "))
+                        .append(stylePost("repost", post))
+                        .append(styleText("."))
+                }
+                else {
+                    return styleUser(author).append(styleText(" watched your repost."))
+                }
+            case .WatchOnOriginalPostNotification:
+                if let love = subject as? Watch,
+                    repost = love.post,
+                    repostAuthor = repost.author,
+                    source = repost.repostSource
+                {
+                    return styleUser(author)
+                        .append(styleText(" watched "))
+                        .append(styleUser(repostAuthor))
+                        .append(styleText("’s "))
+                        .append(stylePost("repost", repost))
+                        .append(styleText(" of your "))
+                        .append(stylePost("post", source))
+                        .append(styleText("."))
+                }
+                else {
+                    return styleUser(author).append(styleText(" watched a repost of your post."))
+                }
             case .WelcomeNotification:
                 return styleText("Welcome to Ello!")
             default:

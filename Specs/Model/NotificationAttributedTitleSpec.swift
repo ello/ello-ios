@@ -28,6 +28,9 @@ class NotificationAttributedTitleSpec: QuickSpec {
                     (.LoveNotification, post, "@ello loved your post."),
                     (.LoveOnRepostNotification, post, "@ello loved your repost."),
                     (.LoveOnOriginalPostNotification, post, "@ello loved a repost of your post."),
+                    (.WatchNotification, post, "@ello watched your post."),
+                    (.WatchOnRepostNotification, post, "@ello watched your repost."),
+                    (.WatchOnOriginalPostNotification, post, "@ello watched a repost of your post."),
                     (.WelcomeNotification, nil, "Welcome to Ello!"),
                 ]
                 for (activityKind, subject, string) in expectations {

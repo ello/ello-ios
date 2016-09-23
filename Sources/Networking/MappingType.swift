@@ -23,6 +23,7 @@ public enum MappingType: String {
     case RelationshipsType = "relationships"
     case UsersType = "users"
     case UsernamesType = "usernames"
+    case WatchesType = "watches"
 
     var fromJSON: FromJSONClosure {
         switch self {
@@ -58,6 +59,8 @@ public enum MappingType: String {
             return Username.fromJSON
         case NoContentType:
             return UnknownJSONAble.fromJSON
+        case WatchesType:
+            return Watch.fromJSON
         }
     }
 

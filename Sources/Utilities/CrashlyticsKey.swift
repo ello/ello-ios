@@ -30,4 +30,5 @@ public enum CrashlyticsKey: String {
     case RelationshipFromJSON = "relationship from json"
     case TextRegionFromJSON = "text region from json"
     case UserFromJSON = "user from json"
+    case WatchFromJSON = "watch from json"
 }

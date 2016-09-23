@@ -109,10 +109,10 @@ public final class Notification: JSONAble, Authorable, Groupable {
         else if let user = activity.subject as? User {
             self.author = user
         }
-        else if let love = activity.subject as? Love,
-            user = love.user
+        else if let actionable = activity.subject as? PostActionable,
+            user = actionable.user
         {
-            self.postId = love.postId
+            self.postId = actionable.postId
             self.author = user
         }
 
