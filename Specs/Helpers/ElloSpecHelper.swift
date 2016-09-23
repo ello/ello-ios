@@ -50,6 +50,10 @@ class ElloConfiguration: QuickConfiguration {
     }
 }
 
+func specImage(named name: String) -> UIImage? {
+    return UIImage(named: name, inBundle: NSBundle(forClass: ElloConfiguration.self), compatibleWithTraitCollection: nil)!
+}
+
 func stubbedJSONData(file: String, _ propertyName: String) -> ([String:AnyObject]) {
     let loadedData:NSData = stubbedData(file)
     let json: AnyObject = try! NSJSONSerialization.JSONObjectWithData(loadedData, options: [])

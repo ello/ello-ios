@@ -9,10 +9,6 @@ public enum OnboardingStep: Int {
 }
 
 public protocol OnboardingDelegate: class {
-    var hasAbortButton: Bool { get set }
-    var canGoNext: Bool { get set }
-    var prompt: String? { get set }
-
     func nextAction()
     func abortAction()
 }

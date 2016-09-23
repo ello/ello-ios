@@ -2,7 +2,7 @@
 ///  OnboardingData.swift
 //
 
-public class OnboardingData {
+public class OnboardingData: NSObject {
     var name: String?
     var bio: String?
     var links: String?

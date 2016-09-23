@@ -32,7 +32,7 @@ public class OnboardingViewController: BaseElloViewController, HasAppController 
     }
     var isTransitioning: Bool { return transitioningViewController != nil }
     let onboardingData = OnboardingData()
-    private var visibleViewController: UIViewController?
+    var visibleViewController: UIViewController?
     private var transitioningViewController: UIViewController?
     private var visibleViewControllerIndex: Int = 0
     private var onboardingViewControllers = [UIViewController]()
@@ -207,6 +207,14 @@ extension OnboardingViewController {
 // MARK: Screen transitions
 extension OnboardingViewController {
 
+    private func addOnboardingViewController(viewController: UIViewController) {
+        if visibleViewController == nil {
+            showFirstViewController(viewController)
+        }
+
+        onboardingViewControllers.append(viewController)
+    }
+
     private func showFirstViewController(viewController: UIViewController) {
         Tracker.sharedTracker.screenAppeared(viewController)
 
@@ -220,14 +228,6 @@ extension OnboardingViewController {
 
         visibleViewController = viewController
         visibleViewControllerIndex = 0
-    }
-
-    private func addOnboardingViewController(viewController: UIViewController) {
-        if visibleViewController == nil {
-            showFirstViewController(viewController)
-        }
-
-        onboardingViewControllers.append(viewController)
     }
 
 }

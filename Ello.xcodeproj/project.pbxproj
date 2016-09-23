@@ -676,6 +676,12 @@
 		1DE87FC61BB2FFB8007A7325 /* Mentionables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DE87FC51BB2FFB8007A7325 /* Mentionables.swift */; };
 		1DE87FC81BB32060007A7325 /* MentionablesSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DE87FC71BB32060007A7325 /* MentionablesSpec.swift */; };
 		1DEE2BEF1AF96F5300EB9DFA /* SearchViewControllerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DEE2BEE1AF96F5300EB9DFA /* SearchViewControllerSpec.swift */; };
+		1DF039CC1D95B44900CCCB4F /* CategoriesSelectionViewControllerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF039C71D95B44900CCCB4F /* CategoriesSelectionViewControllerSpec.swift */; };
+		1DF039CD1D95B44900CCCB4F /* CreateProfileScreenSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF039C81D95B44900CCCB4F /* CreateProfileScreenSpec.swift */; };
+		1DF039CE1D95B44900CCCB4F /* CreateProfileViewControllerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF039C91D95B44900CCCB4F /* CreateProfileViewControllerSpec.swift */; };
+		1DF039CF1D95B44900CCCB4F /* InviteFriendsViewControllerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF039CA1D95B44900CCCB4F /* InviteFriendsViewControllerSpec.swift */; };
+		1DF039D01D95B44900CCCB4F /* OnboardingViewControllerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF039CB1D95B44900CCCB4F /* OnboardingViewControllerSpec.swift */; };
+		1DF039D21D95C95B00CCCB4F /* OnboardingScreenSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF039D11D95C95B00CCCB4F /* OnboardingScreenSpec.swift */; };
 		1DF2335A1A93FF860096DA65 /* StreamNotificationCellSizeCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF233591A93FF860096DA65 /* StreamNotificationCellSizeCalculator.swift */; };
 		1DF233611A94FB060096DA65 /* CGRectExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF233601A94FB060096DA65 /* CGRectExtensions.swift */; };
 		1DF233641A9537590096DA65 /* CGRectSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF233631A9537590096DA65 /* CGRectSpec.swift */; };
@@ -1555,6 +1561,12 @@
 		1DE87FC51BB2FFB8007A7325 /* Mentionables.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mentionables.swift; sourceTree = "<group>"; };
 		1DE87FC71BB32060007A7325 /* MentionablesSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MentionablesSpec.swift; sourceTree = "<group>"; };
 		1DEE2BEE1AF96F5300EB9DFA /* SearchViewControllerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewControllerSpec.swift; sourceTree = "<group>"; };
+		1DF039C71D95B44900CCCB4F /* CategoriesSelectionViewControllerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoriesSelectionViewControllerSpec.swift; sourceTree = "<group>"; };
+		1DF039C81D95B44900CCCB4F /* CreateProfileScreenSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateProfileScreenSpec.swift; sourceTree = "<group>"; };
+		1DF039C91D95B44900CCCB4F /* CreateProfileViewControllerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateProfileViewControllerSpec.swift; sourceTree = "<group>"; };
+		1DF039CA1D95B44900CCCB4F /* InviteFriendsViewControllerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InviteFriendsViewControllerSpec.swift; sourceTree = "<group>"; };
+		1DF039CB1D95B44900CCCB4F /* OnboardingViewControllerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingViewControllerSpec.swift; sourceTree = "<group>"; };
+		1DF039D11D95C95B00CCCB4F /* OnboardingScreenSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingScreenSpec.swift; sourceTree = "<group>"; };
 		1DF233591A93FF860096DA65 /* StreamNotificationCellSizeCalculator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreamNotificationCellSizeCalculator.swift; sourceTree = "<group>"; };
 		1DF2335B1A94005C0096DA65 /* Notification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 		1DF233601A94FB060096DA65 /* CGRectExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CGRectExtensions.swift; sourceTree = "<group>"; };
@@ -3163,6 +3175,19 @@
 			path = Search;
 			sourceTree = "<group>";
 		};
+		1DF039C61D95B43800CCCB4F /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				1DF039C71D95B44900CCCB4F /* CategoriesSelectionViewControllerSpec.swift */,
+				1DF039C81D95B44900CCCB4F /* CreateProfileScreenSpec.swift */,
+				1DF039C91D95B44900CCCB4F /* CreateProfileViewControllerSpec.swift */,
+				1DF039CA1D95B44900CCCB4F /* InviteFriendsViewControllerSpec.swift */,
+				1DF039D11D95C95B00CCCB4F /* OnboardingScreenSpec.swift */,
+				1DF039CB1D95B44900CCCB4F /* OnboardingViewControllerSpec.swift */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
 		1DF404061B150CE50073460B /* CustomSVGs */ = {
 			isa = PBXGroup;
 			children = (
@@ -4337,6 +4362,7 @@
 				1D81E1D11C4E8DE6001C63DC /* ReauthenticationSpec.swift in Sources */,
 				127BAD601A8512AA00628696 /* ElloLinkedStoreSpec.swift in Sources */,
 				EAC6054A1ADDA64B009B9426 /* DynamicSettingCellPresenterSpec.swift in Sources */,
+				1DF039D21D95C95B00CCCB4F /* OnboardingScreenSpec.swift in Sources */,
 				1D8AFACD1A9664480034DDAD /* NotificationSpec.swift in Sources */,
 				1D22F0D01AF8420000DCED1D /* AppViewControllerSpec.swift in Sources */,
 				1DB17B981AAA70B200DCF59E /* MultipartRequestBuilderSpec.swift in Sources */,
