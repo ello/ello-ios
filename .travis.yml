@@ -28,7 +28,7 @@ before_script:
 script:
 - gem install danger --no-ri --no-rdoc && danger
 - set -o pipefail && xcodebuild -workspace Ello.xcworkspace -scheme Ello -configuration
-  Debug -destination "OS=9.2,name=iPhone 6s" clean test | xcpretty -f `xcpretty-travis-formatter`
+  Debug -destination "OS=10.0,name=iPhone 7" clean test | xcpretty -f `xcpretty-travis-formatter`
 notifications:
   email: false
   slack:
