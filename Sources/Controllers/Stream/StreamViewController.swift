@@ -120,13 +120,16 @@ public final class StreamViewController: BaseElloViewController {
     private var scrollToPaginateGuard = false
 
     public let streamService = StreamService()
-    lazy public var loadingToken: LoadingToken = {
+    lazy public var loadingToken: LoadingToken = self.createLoadingToken()
+
+    // moved into a separate function to save compile time
+    private func createLoadingToken() -> LoadingToken {
         var token = LoadingToken()
         token.cancelLoadingClosure = { [unowned self] in
             self.doneLoading()
         }
         return token
-    }()
+    }
 
     public var pullToRefreshView: SSPullToRefreshView?
     var allOlderPagesLoaded = false

@@ -18,13 +18,16 @@ public class ShareViewController: SLComposeServiceViewController {
 
     public var itemPreviews: [ExtensionItemPreview] = []
     private var postService = PostEditingService()
-    private lazy var background: UIView = {
+    private lazy var background: UIView = self.createBackground()
+
+    // moved into a separate function to save compile time
+    private func createBackground() -> UIView {
         let view = UIView()
         view.alpha = 0
         view.backgroundColor = .blackColor()
         view.frame = self.view.frame
         return view
-    }()
+    }
 
     public override func presentationAnimationDidFinish() {
         guard checkIfLoggedIn() else {
