@@ -54,6 +54,7 @@ public class AppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         if let payload = launchOptions?[UIApplicationLaunchOptionsRemoteNotificationKey] as? [String: AnyObject] {
+            log("notification received \(NSDate())", object: payload)
             PushNotificationController.sharedController.receivedNotification(application, userInfo: payload)
         }
 
@@ -62,7 +63,7 @@ public class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func setupGlobalStyles() {
         let font = UIFont.defaultFont()
-        UINavigationBar.appearance().titleTextAttributes = [NSFontAttributeName : font, NSForegroundColorAttributeName : UIColor.greyA()]
+        UINavigationBar.appearance().titleTextAttributes = [NSFontAttributeName: font, NSForegroundColorAttributeName: UIColor.greyA()]
         UINavigationBar.appearance().barTintColor = UIColor.whiteColor()
 
         let attributes = [
@@ -85,7 +86,7 @@ public class AppDelegate: UIResponder, UIApplicationDelegate {
         UISegmentedControl.appearance().setBackgroundImage(UIImage.imageWithColor(UIColor.blackColor()), forState: .Selected, barMetrics: .Default)
 
         // Kill all the tildes
-        TimeAgoInWordsStrings.updateStrings(["about" : ""])
+        TimeAgoInWordsStrings.updateStrings(["about": ""])
     }
 
     func setupCaches() {
@@ -114,7 +115,8 @@ extension AppDelegate {
         PushNotificationController.sharedController.updateToken(deviceToken)
     }
 
-    public func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject], fetchCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
+    public func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject: AnyObject], fetchCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
+        log("notification received \(NSDate())", object: userInfo)
         PushNotificationController.sharedController.receivedNotification(application, userInfo: userInfo)
         completionHandler(.NoData)
     }

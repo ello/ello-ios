@@ -6,11 +6,23 @@ import UIKit
 
 
 #if DEBUG
-func log(message: String) {
-    print(message)
+var messages: [(String, String)] = []
+func log(comment: String, object: Any?) {
+    if let object = object {
+        messages.append((comment, "\(object)"))
+    }
+    else {
+        messages.append((comment, "nil"))
+    }
+}
+func getlog() -> [(String, String)] {
+    let m = messages
+    messages.removeAll()
+    return m
 }
 #else
-func log(message: String) {}
+func log(comment: String, object: Any?) {}
+func getlog() -> [(String, String)] { return [] }
 #endif
 
 

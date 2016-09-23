@@ -15,7 +15,6 @@ public class AnonymousAuthService {
                 case 200...299:
                     ElloProvider.shared.authenticated(isPasswordBased: false)
                     AuthToken.storeToken(moyaResponse.data, isPasswordBased: false)
-                    log("created anonymous token: \(AuthToken().token)")
                     success()
                 default:
                     let elloError = ElloProvider.generateElloError(moyaResponse.data, statusCode: moyaResponse.statusCode)
