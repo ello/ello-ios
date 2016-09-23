@@ -20,9 +20,7 @@ func showController(viewController: UIViewController) {
         frame = UIScreen.mainScreen().bounds
     }
 
-    if #available(iOS 9.0, *) {
-        viewController.loadViewIfNeeded()
-    }
+    viewController.loadViewIfNeeded()
 
     prevController?.viewControllers = []
     let window = UIWindow()

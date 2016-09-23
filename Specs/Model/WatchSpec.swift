@@ -27,7 +27,6 @@ class WatchSpec: QuickSpec {
                 expect(watch.createdAt) == createdAt
                 expect(watch.updatedAt) == updatedAt
                 // required
-                expect(watch.deleted) == false
                 expect(watch.postId) == "222"
                 expect(watch.userId) == "42"
                 expect(watch.post).to(beAKindOf(Post.self))
@@ -79,7 +78,6 @@ class WatchSpec: QuickSpec {
                         "user" : user,
                         "post" : post,
                         "id" : "999",
-                        "deleted" : true,
                         "createdAt" : expectedCreatedAt,
                         "updatedAt" : expectedUpdatedAt,
                         "postId" : "888",
@@ -97,7 +95,6 @@ class WatchSpec: QuickSpec {
                     expect(unArchivedWatch.createdAt) == expectedCreatedAt
                     expect(unArchivedWatch.updatedAt) == expectedUpdatedAt
                     // required
-                    expect(unArchivedWatch.deleted) == true
                     expect(unArchivedWatch.postId) == "888"
                     expect(unArchivedWatch.userId) == "444"
                 }
