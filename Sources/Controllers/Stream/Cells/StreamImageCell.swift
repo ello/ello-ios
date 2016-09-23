@@ -130,7 +130,10 @@ public class StreamImageCell: StreamRegionableCell {
             buyButton.setTitle(nil, forState: .Normal)
             buyButton.setImage(.BuyButton, imageStyle: .Normal, forState: .Normal)
             buyButtonGreen.backgroundColor = .greenD1()
+            buyButtonGreen.setNeedsLayout()
+            buyButtonGreen.layoutIfNeeded()
             buyButtonGreen.layer.cornerRadius = buyButtonGreen.frame.size.width / 2
+
         }
 
         let doubleTapGesture = UITapGestureRecognizer()
@@ -180,6 +183,8 @@ public class StreamImageCell: StreamRegionableCell {
         }
 
         if let buyButtonGreen = buyButtonGreen {
+            buyButtonGreen.setNeedsLayout()
+            buyButtonGreen.layoutIfNeeded()
             buyButtonGreen.layer.cornerRadius = buyButtonGreen.frame.size.width / 2
         }
     }

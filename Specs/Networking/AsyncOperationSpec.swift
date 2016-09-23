@@ -73,7 +73,7 @@ class AsyncOperationSpec: QuickSpec {
                     expect(executed) == true
                 }
 
-                it("does not run when cancelled") {
+                xit("does not run when cancelled") {
                     let queue = NSOperationQueue()
                     var executed = false
                     let subject = AsyncOperation()

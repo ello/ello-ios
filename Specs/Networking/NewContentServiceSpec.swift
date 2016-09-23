@@ -78,6 +78,7 @@ class NewContentServiceSpec: QuickSpec {
                         let old = NSDate(timeIntervalSince1970: 0)
 
                         GroupDefaults[streamKind.lastViewedCreatedAtKey] = nil
+
                         subject.updateCreatedAt(jsonables, streamKind: streamKind)
 
                         expect(GroupDefaults[streamKind.lastViewedCreatedAtKey].date) == old
