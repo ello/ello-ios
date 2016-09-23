@@ -45,16 +45,44 @@ class CreateProfileScreenSpec: QuickSpec {
                 showView(subject)
             }
             context("snapshots") {
-                validateAllSnapshots(named: "CreateProfileScreen", record: true) { return subject }
+                validateAllSnapshots(named: "CreateProfileScreen") { return subject }
             }
             context("snapshots setting existing data") {
-                validateAllSnapshots(named: "CreateProfileScreen", record: true) {
+                validateAllSnapshots(named: "CreateProfileScreen with data") {
                     subject.name = "name"
                     subject.bio = "bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio"
                     subject.links = "links links links links links links links links links links links links"
                     subject.linksValid = true
-                    subject.coverImage = ImageRegionData(image: UIImage.imageWithColor(.blueColor(), size: CGSize(width: 1000, height: 1000)))
-                    subject.avatarImage = ImageRegionData(image: specsImage("specs-avatar"))
+                    subject.coverImage = ImageRegionData(image: UIImage.imageWithColor(.blueColor(), size: CGSize(width: 1000, height: 1000))!)
+                    subject.avatarImage = ImageRegionData(image: specImage(named: "specs-avatar")!)
+                    return subject
+                }
+            }
+            context("setting text") {
+                it("should notify delegate of name change") {
+                    let textView: ClearTextView! = subviewThatMatches(subject) { ($0 as? ClearTextView)?.placeholder?.contains("Name") ?? false }
+                    subject.textView(textView, shouldChangeTextInRange: NSRange(location: 0, length: 0), replacementText: "!")
+                    expect(delegate.didAssignName) == true
+                }
+                it("should notify delegate of bio change") {
+                    let textView: ClearTextView! = subviewThatMatches(subject) { ($0 as? ClearTextView)?.placeholder?.contains("Bio") ?? false }
+                    subject.textView(textView, shouldChangeTextInRange: NSRange(location: 0, length: 0), replacementText: "!")
+                    expect(delegate.didAssignBio) == true
+                }
+                it("should notify delegate of link change") {
+                    let textView: ClearTextView! = subviewThatMatches(subject) { ($0 as? ClearTextView)?.placeholder?.contains("Links") ?? false }
+                    subject.textView(textView, shouldChangeTextInRange: NSRange(location: 0, length: 0), replacementText: "!")
+                    expect(delegate.didAssignLinks) == true
+                }
+                it("should notify delegate of avatar change") {
+                    let image = ImageRegionData(image: UIImage.imageWithColor(.blueColor()))
+                    subject.setImage(image, target: .Avatar, updateDelegate: true)
+                    expect(subject.didAssignAvatar) == true
+                }
+                it("should notify delegate of coverImage change") {
+                    let image = ImageRegionData(image: UIImage.imageWithColor(.blueColor()))
+                    subject.setImage(image, target: .CoverImage, updateDelegate: true)
+                    expect(subject.didAssignCoverImage) == true
                 }
             }
         }
