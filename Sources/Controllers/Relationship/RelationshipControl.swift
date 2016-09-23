@@ -312,6 +312,7 @@ public class RelationshipControl: UIView {
                 setImage(config.image, forState: .Normal)
                 setImage(config.highlightedImage, forState: .Highlighted)
                 borderColor = config.borderColor
+                backgroundColor = config.normalBackgroundColor
             }
         }
 
