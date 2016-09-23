@@ -75,6 +75,10 @@ public class StreamCreateCommentCell: UICollectionViewCell {
         createCommentLabel.font = UIFont.defaultFont()
         createCommentLabel.textColor = UIColor.whiteColor()
         createCommentLabel.textAlignment = .Left
+
+        // if this doesn't fix the "stretched create comment" bug, please remove
+        setNeedsLayout()
+        layoutIfNeeded()
     }
 
     override public func prepareForReuse() {
@@ -90,11 +94,13 @@ public class StreamCreateCommentCell: UICollectionViewCell {
         let createBackgroundLeft = avatarView.frame.maxX + Size.AvatarButtonMargin
         let createBackgroundWidth = self.frame.width - createBackgroundLeft - Size.Margins.right
         createCommentBackground.frame = CGRect(x: createBackgroundLeft, y: Size.Margins.top, width: createBackgroundWidth, height: self.frame.height - Size.Margins.top - Size.Margins.bottom)
+        // if this doesn't fix the "stretched create comment" bug, please remove
+        createCommentBackground.setNeedsDisplay()
 
         if replyAllVisibility == .Enabled {
-            let btnSize = createCommentBackground.frame.height
-            createCommentBackground.frame = createCommentBackground.frame.shrinkLeft(btnSize - Size.Margins.right)
-            replyAllButton.frame = createCommentBackground.frame.fromRight().growRight(btnSize)
+            let btnWidth = createCommentBackground.frame.width
+            createCommentBackground.frame.size.width -= btnWidth
+            replyAllButton.frame = createCommentBackground.frame.fromRight().growRight(btnWidth)
         }
     }
 
