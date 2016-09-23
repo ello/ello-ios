@@ -61,7 +61,7 @@ public class NotificationsViewController: StreamableViewController, Notification
         }
         fromTabBar = false
 
-        PushNotificationController.sharedController.updateBadgeCount(0)
+        PushNotificationController.sharedController.updateBadgeNumber(0)
     }
 
     func reload() {
