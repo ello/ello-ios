@@ -679,7 +679,6 @@
 		1DF039CC1D95B44900CCCB4F /* CategoriesSelectionViewControllerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF039C71D95B44900CCCB4F /* CategoriesSelectionViewControllerSpec.swift */; };
 		1DF039CD1D95B44900CCCB4F /* CreateProfileScreenSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF039C81D95B44900CCCB4F /* CreateProfileScreenSpec.swift */; };
 		1DF039CE1D95B44900CCCB4F /* CreateProfileViewControllerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF039C91D95B44900CCCB4F /* CreateProfileViewControllerSpec.swift */; };
-		1DF039CF1D95B44900CCCB4F /* InviteFriendsViewControllerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF039CA1D95B44900CCCB4F /* InviteFriendsViewControllerSpec.swift */; };
 		1DF039D01D95B44900CCCB4F /* OnboardingViewControllerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF039CB1D95B44900CCCB4F /* OnboardingViewControllerSpec.swift */; };
 		1DF039D21D95C95B00CCCB4F /* OnboardingScreenSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF039D11D95C95B00CCCB4F /* OnboardingScreenSpec.swift */; };
 		1DF2335A1A93FF860096DA65 /* StreamNotificationCellSizeCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF233591A93FF860096DA65 /* StreamNotificationCellSizeCalculator.swift */; };
@@ -1564,7 +1563,6 @@
 		1DF039C71D95B44900CCCB4F /* CategoriesSelectionViewControllerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoriesSelectionViewControllerSpec.swift; sourceTree = "<group>"; };
 		1DF039C81D95B44900CCCB4F /* CreateProfileScreenSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateProfileScreenSpec.swift; sourceTree = "<group>"; };
 		1DF039C91D95B44900CCCB4F /* CreateProfileViewControllerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateProfileViewControllerSpec.swift; sourceTree = "<group>"; };
-		1DF039CA1D95B44900CCCB4F /* InviteFriendsViewControllerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InviteFriendsViewControllerSpec.swift; sourceTree = "<group>"; };
 		1DF039CB1D95B44900CCCB4F /* OnboardingViewControllerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingViewControllerSpec.swift; sourceTree = "<group>"; };
 		1DF039D11D95C95B00CCCB4F /* OnboardingScreenSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingScreenSpec.swift; sourceTree = "<group>"; };
 		1DF233591A93FF860096DA65 /* StreamNotificationCellSizeCalculator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreamNotificationCellSizeCalculator.swift; sourceTree = "<group>"; };
@@ -3181,7 +3179,6 @@
 				1DF039C71D95B44900CCCB4F /* CategoriesSelectionViewControllerSpec.swift */,
 				1DF039C81D95B44900CCCB4F /* CreateProfileScreenSpec.swift */,
 				1DF039C91D95B44900CCCB4F /* CreateProfileViewControllerSpec.swift */,
-				1DF039CA1D95B44900CCCB4F /* InviteFriendsViewControllerSpec.swift */,
 				1DF039D11D95C95B00CCCB4F /* OnboardingScreenSpec.swift */,
 				1DF039CB1D95B44900CCCB4F /* OnboardingViewControllerSpec.swift */,
 			);
