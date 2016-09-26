@@ -284,6 +284,7 @@
 		126F2C031C5C1D8D00D22BAB /* DictionaryExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8AFACE1A9691930034DDAD /* DictionaryExtensions.swift */; };
 		12706B9B1D3EC1D80028C9BE /* AsyncOperationSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12706B9A1D3EC1D80028C9BE /* AsyncOperationSpec.swift */; };
 		127128261A77373300695F15 /* TypedNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 127128251A77373300695F15 /* TypedNotifications.swift */; };
+		127326641D99CAB700D0C320 /* watches_creating_a_watch.json in Resources */ = {isa = PBXBuildFile; fileRef = 1DDC85181D91D4E400C29552 /* watches_creating_a_watch.json */; };
 		1274E0171CDBB2BF0064BA82 /* ElloAPIDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1207C9551C73FEE000939ADB /* ElloAPIDescription.swift */; };
 		127502D41AE99D6500FED224 /* push_subscriptions__when_attempting_to_subscribe_with_an_invalid_provider_or_token.json in Resources */ = {isa = PBXBuildFile; fileRef = 127502D01AE99D6500FED224 /* push_subscriptions__when_attempting_to_subscribe_with_an_invalid_provider_or_token.json */; };
 		127502D71AE99D6500FED224 /* full_examples_full_post_details.json in Resources */ = {isa = PBXBuildFile; fileRef = 127502D31AE99D6500FED224 /* full_examples_full_post_details.json */; };
@@ -655,7 +656,6 @@
 		1DD829A31BD93D3600105CDE /* relationship_inactive.json in Resources */ = {isa = PBXBuildFile; fileRef = 1DD829A01BD93D3600105CDE /* relationship_inactive.json */; };
 		1DD829A41BD93D3600105CDE /* relationship_starred.json in Resources */ = {isa = PBXBuildFile; fileRef = 1DD829A11BD93D3600105CDE /* relationship_starred.json */; };
 		1DDC85151D91D4BE00C29552 /* WatchSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DDC85141D91D4BE00C29552 /* WatchSpec.swift */; };
-		1DDC85191D91D4E400C29552 /* watches_creating_a_watch.json in Resources */ = {isa = PBXBuildFile; fileRef = 1DDC85181D91D4E400C29552 /* watches_creating_a_watch.json */; };
 		1DDC851A1D91D4F300C29552 /* Watch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DDC85161D91D4D200C29552 /* Watch.swift */; };
 		1DDC851B1D91D52D00C29552 /* Watch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DDC85161D91D4D200C29552 /* Watch.swift */; };
 		1DDC85231D91F5ED00C29552 /* Authorable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DDC851D1D91F5E500C29552 /* Authorable.swift */; };
@@ -3611,7 +3611,6 @@
 			files = (
 				761A662C1B0E8AD20088FF56 /* specs-4000x1000.png in Resources */,
 				761A662A1B0E8AD20088FF56 /* specs-1000x4000.png in Resources */,
-				1DDC85191D91D4E400C29552 /* watches_creating_a_watch.json in Resources */,
 				761A66221B0E75AD0088FF56 /* specs-avatar.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3680,6 +3679,7 @@
 				7689B4EE1AD4ED3B00E4A4A3 /* posts_creating_a_post.json in Resources */,
 				12F0E3A91A4333150012CEA2 /* Main.storyboard in Resources */,
 				12FCEFDF1BD7F68500B8A7B5 /* Ello.entitlements in Resources */,
+				127326641D99CAB700D0C320 /* watches_creating_a_watch.json in Resources */,
 				76F8DEF41B6C0BC4009BCF61 /* repost_white.svg in Resources */,
 				127502D71AE99D6500FED224 /* full_examples_full_post_details.json in Resources */,
 				7689B4EC1AD4ED3B00E4A4A3 /* invitations_inviting_users_by_email.json in Resources */,
