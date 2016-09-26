@@ -6,11 +6,16 @@ import Moya
 
 public struct RecordedResponse {
     let endpoint: ElloAPI
-    let response: EndpointSampleResponse
+    let responseClosure: (target: ElloAPI) -> EndpointSampleResponse
+
+    public init(endpoint: ElloAPI, responseClosure: (target: ElloAPI) -> EndpointSampleResponse) {
+        self.endpoint = endpoint
+        self.responseClosure = responseClosure
+    }
 
     public init(endpoint: ElloAPI, response: EndpointSampleResponse) {
         self.endpoint = endpoint
-        self.response = response
+        self.responseClosure = { _ in return response }
     }
 
 }
@@ -33,18 +38,20 @@ public struct ElloProvider_Specs {
     static func recordedEndpointsClosure(recordings: [RecordedResponse]) -> (target: ElloAPI) -> Endpoint<ElloAPI> {
         var playback = recordings
         return { (target: ElloAPI) -> Endpoint<ElloAPI> in
-            var response: EndpointSampleResponse? = nil
+            var responseClosure: ((target: ElloAPI) -> EndpointSampleResponse)? = nil
             for (index, recording) in playback.enumerate() {
                 if recording.endpoint.description == target.description {
-                    response = recording.response
+                    responseClosure = recording.responseClosure
                     playback.removeAtIndex(index)
                     break
                 }
             }
 
             let sampleResponseClosure: () -> EndpointSampleResponse
-            if let response = response {
-                sampleResponseClosure = { return response }
+            if let responseClosure = responseClosure {
+                sampleResponseClosure = {
+                    return responseClosure(target: target)
+                }
             }
             else {
                 sampleResponseClosure = {
