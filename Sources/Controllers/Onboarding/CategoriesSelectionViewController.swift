@@ -6,6 +6,7 @@ public class CategoriesSelectionViewController: StreamableViewController, HasApp
     var mockScreen: Screen?
     var screen: Screen { return mockScreen ?? (self.view as! Screen) }
     var parentAppController: AppViewController?
+    var selectedCategories: [Category] = []
     public var onboardingViewController: OnboardingViewController?
     public var onboardingData: OnboardingData!
 
@@ -62,13 +63,8 @@ extension CategoriesSelectionViewController: OnboardingStepController {
     }
 
     public func onboardingWillProceed(abort: Bool, proceedClosure: (success: OnboardingViewController.OnboardingProceed) -> Void) {
-        if let
-            selection = streamViewController.collectionView.indexPathsForSelectedItems()
-        where selection.count > 0 {
-            let categories = selection.flatMap { (path: NSIndexPath) -> Category? in
-                return streamViewController.dataSource.jsonableForIndexPath(path) as? Category
-            }
-
+        if selectedCategories.count > 0 {
+            let categories = self.selectedCategories
             for category in categories {
                 Tracker.sharedTracker.categorySelected(category)
             }
@@ -104,6 +100,7 @@ extension CategoriesSelectionViewController: SelectedCategoryDelegate {
             canGoNext = true
         }
 
+        selectedCategories = selection
         onboardingViewController?.prompt = prompt
         onboardingViewController?.canGoNext = canGoNext
     }
