@@ -54,6 +54,8 @@ extension User: Stubbable {
             hasLovesEnabled: (values["hasLovesEnabled"] as? Bool) ?? true,
             notifyOfWatchesViaPush: (values["notifyOfWatchesViaPush"] as? Bool) ?? false,
             notifyOfWatchesViaEmail: (values["notifyOfWatchesViaEmail"] as? Bool) ?? false,
+            notifyOfCommentsOnPostWatchViaPush: (values["notifyOfCommentsOnPostWatchViaPush"] as? Bool) ?? false,
+            notifyOfCommentsOnPostWatchViaEmail: (values["notifyOfCommentsOnPostWatchViaEmail"] as? Bool) ?? false,
             isHireable: (values["isHireable"] as? Bool) ?? false
         )
         user.avatar = values["avatar"] as? Asset

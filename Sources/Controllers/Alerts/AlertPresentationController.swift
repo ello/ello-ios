@@ -12,7 +12,7 @@ public class AlertPresentationController: UIPresentationController {
         return background
     }()
 
-    public init(presentedViewController: UIViewController, presentingViewController: UIViewController, backgroundColor: UIColor) {
+    public init(presentedViewController: UIViewController, presentingViewController: UIViewController?, backgroundColor: UIColor) {
         super.init(presentedViewController: presentedViewController, presentingViewController: presentingViewController)
         self.background.backgroundColor = backgroundColor
     }
