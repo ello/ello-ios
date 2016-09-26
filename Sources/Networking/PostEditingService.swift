@@ -49,7 +49,17 @@ public struct ImageRegionData {
         self.contentType = contentType
         self.buyButtonURL = buyButtonURL
     }
+}
 
+extension ImageRegionData: Equatable{}
+
+public func == (lhs: ImageRegionData, rhs: ImageRegionData) -> Bool {
+    guard lhs.image == rhs.image else { return false }
+
+    if let lhData = lhs.data, rhData = rhs.data, lhContentType = lhs.contentType, rhContentType = rhs.contentType {
+        return lhData == rhData && lhContentType == rhContentType
+    }
+    return true
 }
 
 

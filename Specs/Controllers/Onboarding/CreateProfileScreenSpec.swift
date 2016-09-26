@@ -75,14 +75,14 @@ class CreateProfileScreenSpec: QuickSpec {
                     expect(delegate.didAssignLinks) == true
                 }
                 it("should notify delegate of avatar change") {
-                    let image = ImageRegionData(image: UIImage.imageWithColor(.blueColor()))
+                    let image = ImageRegionData(image: UIImage.imageWithColor(.blueColor())!)
                     subject.setImage(image, target: .Avatar, updateDelegate: true)
-                    expect(subject.didAssignAvatar) == true
+                    expect(delegate.didAssignAvatar) == true
                 }
                 it("should notify delegate of coverImage change") {
-                    let image = ImageRegionData(image: UIImage.imageWithColor(.blueColor()))
+                    let image = ImageRegionData(image: UIImage.imageWithColor(.blueColor())!)
                     subject.setImage(image, target: .CoverImage, updateDelegate: true)
-                    expect(subject.didAssignCoverImage) == true
+                    expect(delegate.didAssignCoverImage) == true
                 }
             }
         }
