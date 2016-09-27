@@ -23,6 +23,7 @@ public struct CategoryCardCellPresenter {
 
             cell.title = category.name
             cell.imageURL = category.tileURL
+            cell.selectable = streamCellItem.type == .SelectableCategoryCard
         }
     }
 

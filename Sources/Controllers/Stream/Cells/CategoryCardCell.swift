@@ -13,11 +13,21 @@ public class CategoryCardCell: UICollectionViewCell {
         static let selectedImageOffset: CGFloat = 5
     }
 
+    override public var selectable: Bool {
+        didSet { self.selected = selected }
+    }
     override public var selected: Bool {
         didSet {
-            colorFillView.alpha = selected ? 0.8 : 0.4
-            label.font = selected ? UIFont.defaultBoldFont() : UIFont.defaultFont()
-            selectedImageView.hidden = !selected
+            if selectable {
+                colorFillView.alpha = selected ? 0.8 : 0.4
+                label.font = selected ? UIFont.defaultBoldFont() : UIFont.defaultFont()
+                selectedImageView.hidden = !selected
+            }
+            else {
+                colorFillView.alpha = 0
+                label.font = UIFont.defaultFont()
+                selectedImageView.hidden = true
+            }
         }
     }
     var title: String {
