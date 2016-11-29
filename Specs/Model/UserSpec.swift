@@ -11,7 +11,7 @@ import Nimble
 class UserSpec: QuickSpec {
     override func spec() {
 
-        describe("User") {
+        fdescribe("User") {
 
             describe("coverImageURL") {
 
@@ -192,6 +192,7 @@ class UserSpec: QuickSpec {
                     expect(user.followersCount!) == "0"
                     expect(user.followingCount!) == 0
                     expect(user.totalViewsCount!) == 9762
+                    expect(user.location) == "Denver"
                     expect(user.formattedShortBio) == "<p>Have been spying for a while now.</p>"
     //                expect(user.externalLinks) == "http://isis.com http://ello.co"
                     expect(user.coverImage).to(beAKindOf(Asset.self))
@@ -261,6 +262,7 @@ class UserSpec: QuickSpec {
                         ])
 
                         user.totalViewsCount = 5003
+                        user.location = "Boulder"
 
                         NSKeyedArchiver.archiveRootObject(user, toFile: filePath)
                         let unArchivedUser = NSKeyedUnarchiver.unarchiveObjectWithFile(filePath) as! User
@@ -280,6 +282,7 @@ class UserSpec: QuickSpec {
                         expect(unArchivedUser.hasSharingEnabled) == true
                         expect(unArchivedUser.hasRepostingEnabled) == true
                         expect(unArchivedUser.totalViewsCount) == 5003
+                        expect(unArchivedUser.location) == "Boulder"
 
                         let firstPost = unArchivedUser.posts!.first!
                         expect(firstPost.id) == "sample-post-id"

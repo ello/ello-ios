@@ -11,7 +11,8 @@ import SwiftyJSON
 // version 4: added notifyOfCommentsOnPostWatchViaPush, notifyOfCommentsOnPostWatchViaEmail
 // version 5: added isCollaborateable, moved notifyOf* into Profile
 // version 6: added categories, totalViewCount
-let UserVersion: Int = 6
+// version 7: added location
+let UserVersion: Int = 7
 
 @objc(User)
 public final class User: JSONAble {
@@ -51,6 +52,7 @@ public final class User: JSONAble {
     public var backgroundPosition: String?
     public var onboardingVersion: Int?
     public var totalViewsCount: Int?
+    public var location: String?
 
     // links
     public var posts: [Post]? { return getLinkArray("posts") as? [Post] }
@@ -153,6 +155,7 @@ public final class User: JSONAble {
         self.backgroundPosition = decoder.decodeOptionalKey("backgroundPosition")
         self.onboardingVersion = decoder.decodeOptionalKey("onboardingVersion")
         self.totalViewsCount = decoder.decodeOptionalKey("totalViewsCount")
+        self.location = decoder.decodeOptionalKey("location")
 
         // profile
         self.profile = decoder.decodeOptionalKey("profile")
@@ -211,6 +214,7 @@ public final class User: JSONAble {
         coder.encodeObject(backgroundPosition, forKey: "backgroundPosition")
         coder.encodeObject(onboardingVersion, forKey: "onboardingVersion")
         coder.encodeObject(totalViewsCount, forKey: "totalViewsCount")
+        coder.encodeObject(location, forKey: "location")
 
         // profile
         coder.encodeObject(profile, forKey: "profile")
@@ -277,6 +281,7 @@ public final class User: JSONAble {
         }
 
         user.totalViewsCount = json["total_views_count"].int
+        user.location = json["location"].string
 
         return user
     }
