@@ -15,6 +15,7 @@ public struct CalculatedCellHeights {
         case ProfileTotalCount
         case ProfileStats
         case ProfileBio
+        case ProfileLocation
         case ProfileLinks
     }
 
@@ -30,6 +31,8 @@ public struct CalculatedCellHeights {
             profileStats = height
         case .ProfileBio:
             profileBio = height
+        case .ProfileLocation:
+            profileLocation = height
         case .ProfileLinks:
             profileLinks = height
         default: break
@@ -44,5 +47,6 @@ public struct CalculatedCellHeights {
     public var profileTotalCount: CGFloat?
     public var profileStats: CGFloat?
     public var profileBio: CGFloat?
+    public var profileLocation: CGFloat?
     public var profileLinks: CGFloat?
 }

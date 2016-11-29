@@ -466,6 +466,7 @@
 		12F7EB7F1C69686A0090209A /* ShareAttachmentProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F7EB7E1C69686A0090209A /* ShareAttachmentProcessor.swift */; };
 		12F8007E1C59D70A002436D1 /* KeychainAccess.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 12F8007D1C59D70A002436D1 /* KeychainAccess.framework */; };
 		12F800801C59D714002436D1 /* KeychainAccess.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 12F8007F1C59D714002436D1 /* KeychainAccess.framework */; };
+		12F9EB3D1DEDF40600E127AE /* ProfileLocationPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F9EB3C1DEDF40600E127AE /* ProfileLocationPresenter.swift */; };
 		12FCEFDF1BD7F68500B8A7B5 /* Ello.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = 1205B5D01BBB152700B656ED /* Ello.entitlements */; };
 		12FEEB551A60396A00E32248 /* posts.json in Resources */ = {isa = PBXBuildFile; fileRef = 12FEEB541A60396A00E32248 /* posts.json */; };
 		1D061B4D1AAA191500493435 /* KeyboardSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D061B4C1AAA191500493435 /* KeyboardSpec.swift */; };
@@ -1437,6 +1438,7 @@
 		12F8007C1C59D5DE002436D1 /* ShareExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = ShareExtension.entitlements; sourceTree = "<group>"; };
 		12F8007D1C59D70A002436D1 /* KeychainAccess.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KeychainAccess.framework; path = "Pods/../build/Debug-iphoneos/KeychainAccess.framework"; sourceTree = "<group>"; };
 		12F8007F1C59D714002436D1 /* KeychainAccess.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KeychainAccess.framework; path = "Pods/../build/Debug-iphoneos/KeychainAccess.framework"; sourceTree = "<group>"; };
+		12F9EB3C1DEDF40600E127AE /* ProfileLocationPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileLocationPresenter.swift; sourceTree = "<group>"; };
 		12FB94D91AD5AD5900547D3B /* UserServiceSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserServiceSpec.swift; sourceTree = "<group>"; };
 		12FEBD011A4225F600933A02 /* Ello.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ello.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		12FEEB541A60396A00E32248 /* posts.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = posts.json; sourceTree = "<group>"; };
@@ -2453,6 +2455,7 @@
 				1DA18E031DAD911E000231CC /* ProfileBioPresenter.swift */,
 				128D36B81A951F7400622833 /* ProfileHeaderCellPresenter.swift */,
 				1DA18E131DB54A88000231CC /* ProfileLinksPresenter.swift */,
+				12F9EB3C1DEDF40600E127AE /* ProfileLocationPresenter.swift */,
 				1DA18DF31DA8470D000231CC /* ProfileNamesPresenter.swift */,
 				1DA18DFB1DAC3B4E000231CC /* ProfileStatsPresenter.swift */,
 				12A1D8361DAD783900A327D6 /* ProfileTotalCountPresenter.swift */,
@@ -4948,6 +4951,7 @@
 				1207C97A1C73FEE000939ADB /* ElloManager.swift in Sources */,
 				1D9BF3D01A8E815E00A5F5C2 /* ColorExtensions.swift in Sources */,
 				122B30D81C6A3FBC00C1B9D8 /* Profile.swift in Sources */,
+				12F9EB3D1DEDF40600E127AE /* ProfileLocationPresenter.swift in Sources */,
 				1DDF3C491A9D0D05000D0945 /* ElloNavigationBar.swift in Sources */,
 				EA68A0DA1AADF3D4003F0425 /* NSObjectClassName.swift in Sources */,
 				1D59EF8C1D63C74F0029C106 /* HireViewController.swift in Sources */,
