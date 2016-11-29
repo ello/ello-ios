@@ -177,7 +177,7 @@ extension ProfileLinksView {
 
         let attrs: [String: AnyObject] = [
             NSFontAttributeName: UIFont.defaultFont(),
-            NSForegroundColorAttributeName: UIColor.grey6(),
+            NSForegroundColorAttributeName: UIColor.greyA(),
             NSUnderlineStyleAttributeName: NSUnderlineStyle.StyleSingle.rawValue,
         ]
         let highlightedAttrs: [String: AnyObject] = [
