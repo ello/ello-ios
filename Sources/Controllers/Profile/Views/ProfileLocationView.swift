@@ -28,6 +28,7 @@ public class ProfileLocationView: ProfileBaseView {
 extension ProfileLocationView {
 
     override func style() {
+        clipsToBounds = true
         backgroundColor = .whiteColor()
         locationLabel.font = .defaultFont()
         locationLabel.textColor = .greyA()
@@ -58,7 +59,7 @@ extension ProfileLocationView {
     }
 
     public func prepareForReuse() {
-        // nothing here yet
+        location = ""
     }
 }
 

@@ -36,6 +36,7 @@ public class ProfileHeaderCell: UICollectionViewCell {
     var totalCountView: ProfileTotalCountView { get { return headerView.totalCountView } }
     var statsView: ProfileStatsView { get { return headerView.statsView } }
     var bioView: ProfileBioView { get { return headerView.bioView } }
+    var locationView: ProfileLocationView { get { return headerView.locationView } }
     var linksView: ProfileLinksView { get { return headerView.linksView } }
 
     weak var webLinkDelegate: WebLinkDelegate? {
@@ -115,6 +116,7 @@ public class ProfileHeaderCell: UICollectionViewCell {
         totalCountView.prepareForReuse()
         namesView.prepareForReuse()
         bioView.prepareForReuse()
+        locationView.prepareForReuse()
         linksView.prepareForReuse()
     }
 }

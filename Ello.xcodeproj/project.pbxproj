@@ -468,6 +468,7 @@
 		12F800801C59D714002436D1 /* KeychainAccess.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 12F8007F1C59D714002436D1 /* KeychainAccess.framework */; };
 		12F9EB3D1DEDF40600E127AE /* ProfileLocationPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F9EB3C1DEDF40600E127AE /* ProfileLocationPresenter.swift */; };
 		12F9EB3F1DEDFD4B00E127AE /* ProfileLocationViewSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F9EB3E1DEDFD4B00E127AE /* ProfileLocationViewSpec.swift */; };
+		12F9EB411DEE0F8200E127AE /* ProfileLocationSizeCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F9EB401DEE0F8200E127AE /* ProfileLocationSizeCalculator.swift */; };
 		12FCEFDF1BD7F68500B8A7B5 /* Ello.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = 1205B5D01BBB152700B656ED /* Ello.entitlements */; };
 		12FEEB551A60396A00E32248 /* posts.json in Resources */ = {isa = PBXBuildFile; fileRef = 12FEEB541A60396A00E32248 /* posts.json */; };
 		1D061B4D1AAA191500493435 /* KeyboardSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D061B4C1AAA191500493435 /* KeyboardSpec.swift */; };
@@ -1441,6 +1442,7 @@
 		12F8007F1C59D714002436D1 /* KeychainAccess.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KeychainAccess.framework; path = "Pods/../build/Debug-iphoneos/KeychainAccess.framework"; sourceTree = "<group>"; };
 		12F9EB3C1DEDF40600E127AE /* ProfileLocationPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileLocationPresenter.swift; sourceTree = "<group>"; };
 		12F9EB3E1DEDFD4B00E127AE /* ProfileLocationViewSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileLocationViewSpec.swift; sourceTree = "<group>"; };
+		12F9EB401DEE0F8200E127AE /* ProfileLocationSizeCalculator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileLocationSizeCalculator.swift; sourceTree = "<group>"; };
 		12FB94D91AD5AD5900547D3B /* UserServiceSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserServiceSpec.swift; sourceTree = "<group>"; };
 		12FEBD011A4225F600933A02 /* Ello.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ello.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		12FEEB541A60396A00E32248 /* posts.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = posts.json; sourceTree = "<group>"; };
@@ -2254,6 +2256,7 @@
 				1233758E1DA6F0F20019CFAD /* ProfileBioSizeCalculator.swift */,
 				1233757A1DA6ECE40019CFAD /* ProfileHeaderCellSizeCalculator.swift */,
 				123375901DA6F1180019CFAD /* ProfileLinksSizeCalculator.swift */,
+				12F9EB401DEE0F8200E127AE /* ProfileLocationSizeCalculator.swift */,
 				123375921DA6F13C0019CFAD /* ProfileNamesSizeCalculator.swift */,
 				1233758A1DA6ED150019CFAD /* ProfileStatsSizeCalculator.swift */,
 				123375941DA6F1610019CFAD /* ProfileTotalCountSizeCalculator.swift */,
@@ -4860,6 +4863,7 @@
 				127128261A77373300695F15 /* TypedNotifications.swift in Sources */,
 				F8006EE51AB9FE670008BB42 /* Animators.swift in Sources */,
 				12F6AE411A43395600493660 /* StoryboardIdentifiers.swift in Sources */,
+				12F9EB411DEE0F8200E127AE /* ProfileLocationSizeCalculator.swift in Sources */,
 				1DE261371B0D396600475325 /* ElloOnboardingButtons.swift in Sources */,
 				122D1BA81C61390F001386CE /* AlertViewControllerKeyboardExtension.swift in Sources */,
 				1D7152D31D74A189005998FE /* TextHeaderCell.swift in Sources */,

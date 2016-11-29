@@ -61,7 +61,7 @@ public class ProfileHeaderCompactView: ProfileHeaderLayoutView {
         }
 
         linksView.snp_makeConstraints { make in
-            make.top.equalTo(self.bioView.snp_bottom)
+            make.top.equalTo(self.locationView.snp_bottom)
             make.width.centerX.equalTo(self)
             linksHeightConstraint = make.height.equalTo(0).constraint
         }

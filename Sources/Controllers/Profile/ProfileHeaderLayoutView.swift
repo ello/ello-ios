@@ -16,15 +16,14 @@ public class ProfileHeaderLayoutView: ProfileBaseView {
             if let locationHeight = calculatedCellHeights.profileLocation { locationHeightConstraint.updateOffset(locationHeight) }
             if let linksHeight = calculatedCellHeights.profileLinks { linksHeightConstraint.updateOffset(linksHeight) }
 
-            let bioOrLinksHaveContent = calculatedCellHeights.profileBio > 0 || calculatedCellHeights.profileLinks > 0
-            statsView.grayLineVisible = bioOrLinksHaveContent
+            let bioLinksOrLocationHaveContent = calculatedCellHeights.profileBio > 0 || calculatedCellHeights.profileLinks > 0 || calculatedCellHeights.profileLocation > 0
+            statsView.grayLineVisible = bioLinksOrLocationHaveContent
+
+            let locationOrLinksHasContent = calculatedCellHeights.profileLocation > 0 || calculatedCellHeights.profileLinks > 0
+            bioView.grayLineVisible = locationOrLinksHasContent
 
             let linksHasContent = calculatedCellHeights.profileLinks > 0
-            bioView.grayLineVisible = linksHasContent
-
-//            let locationHasContent = calculatedCellHeights.profileLocation > 0
-
-            bioView.grayLineVisible = linksHasContent
+            locationView.grayLineVisible = linksHasContent
 
             setNeedsLayout()
         }

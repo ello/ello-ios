@@ -17,6 +17,7 @@ public class ProfileHeaderCellSizeCalculator: NSObject {
     let statsSizeCalculator = ProfileStatsSizeCalculator()
     let avatarSizeCalculator = ProfileAvatarSizeCalculator()
     let bioSizeCalculator = ProfileBioSizeCalculator()
+    let locationSizeCalculator = ProfileLocationSizeCalculator()
     let linksSizeCalculator = ProfileLinksSizeCalculator()
     let namesSizeCalculator = ProfileNamesSizeCalculator()
     let totalCountSizeCalculator = ProfileTotalCountSizeCalculator()
@@ -38,10 +39,11 @@ public class ProfileHeaderCellSizeCalculator: NSObject {
             profileTotalCount = calculatedCellHeights.profileTotalCount,
             profileStats = calculatedCellHeights.profileStats,
             profileBio = calculatedCellHeights.profileBio,
+            profileLocation = calculatedCellHeights.profileLocation,
             profileLinks = calculatedCellHeights.profileLinks
         else { return nil }
 
-        return profileAvatar + profileNames + profileTotalCount + profileStats + profileBio + profileLinks
+        return profileAvatar + profileNames + profileTotalCount + profileStats + profileBio + profileLocation + profileLinks
     }
 
 }
@@ -97,6 +99,7 @@ private extension ProfileHeaderCellSizeCalculator {
             (.ProfileTotalCount, totalCountSizeCalculator.calculate(item)),
             (.ProfileStats, statsSizeCalculator.calculate(item)),
             (.ProfileBio, bioSizeCalculator.calculate(item, maxWidth: maxWidth)),
+            (.ProfileLocation, locationSizeCalculator.calculate(item, maxWidth: maxWidth)),
             (.ProfileLinks, linksSizeCalculator.calculate(item, maxWidth: maxWidth)),
         ]
 

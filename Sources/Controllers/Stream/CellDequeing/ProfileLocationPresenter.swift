@@ -12,8 +12,7 @@ public struct ProfileLocationPresenter {
         user: User,
         currentUser: User?)
     {
-//        guard let location = user.location else { return }
-//
-//        view.location = location
+        guard let location = user.location else { return }
+        view.location = location
     }
 }
