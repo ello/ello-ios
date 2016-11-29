@@ -11,7 +11,7 @@ import Nimble
 class UserSpec: QuickSpec {
     override func spec() {
 
-        fdescribe("User") {
+        describe("User") {
 
             describe("coverImageURL") {
 
