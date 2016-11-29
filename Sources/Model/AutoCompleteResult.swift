@@ -45,7 +45,8 @@ public final class AutoCompleteResult: JSONAble {
     override public class func fromJSON(data: [String: AnyObject]) -> JSONAble {
         let json = JSON(data)
         Crashlytics.sharedInstance().setObjectValue(json.rawString(), forKey: CrashlyticsKey.AutoCompleteResultFromJSON.rawValue)
-        let result = AutoCompleteResult(name: json["name"].string)
+        let name = json["name"].string ?? json["location"].string
+        let result = AutoCompleteResult(name: name)
         if let imageUrl = json["image_url"].string,
             url = NSURL(string: imageUrl)
         {

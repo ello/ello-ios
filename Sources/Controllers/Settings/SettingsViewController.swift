@@ -12,6 +12,7 @@ public enum SettingsRow: Int {
     case Name
     case Bio
     case Links
+    case Location
     case PreferenceSettings
     case Unknown
 }
@@ -97,14 +98,26 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
     var appViewController: AppViewController? {
         return (parentViewController as? SettingsContainerViewController)?.appViewController
     }
+    var autoCompleteVC = AutoCompleteViewController()
+    var locationTextViewSelected = false {
+        didSet {
+            updateAutoComplete()
+        }
+    }
+    var locationAutoCompleteResultCount = 0 {
+        didSet {
+            updateAutoComplete()
+        }
+    }
 
     weak public var nameTextFieldView: ElloTextFieldView!
-    weak public var linksTextFieldView: ElloTextFieldView!
     @IBOutlet weak public var bioTextView: ElloEditableTextView!
     weak public var bioTextCountLabel: ElloErrorLabel!
     @IBOutlet weak public var bioTextStatusImage: UIImageView!
-
     private var bioTextViewDidChange: (() -> Void)?
+
+    @IBOutlet weak public var linksTextFieldView: ElloTextFieldView!
+    @IBOutlet weak public var locationTextFieldView: ElloTextFieldView!
 
     public var currentUser: User? {
         didSet {
@@ -124,6 +137,10 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
             onShow: { [unowned self] scroll in self.showNavBars(scroll) },
             onHide: { [unowned self] in self.hideNavBars() }
         )
+
+        locationTextViewSelected = false
+        tableView.addSubview(autoCompleteVC.view)
+        autoCompleteVC.delegate = self
     }
 
     var elloTabBarController: ElloTabBarController? {
@@ -170,6 +187,16 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
             hideHud()
         })
         setupViews()
+    }
+
+    public override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        if let cell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: SettingsRow.Location.rawValue, inSection: 0)) {
+            autoCompleteVC.view.frame.origin.y = cell.frame.maxY
+        }
+        else {
+            autoCompleteVC.view.frame.size.height = 0
+        }
     }
 
     private func updateCurrentUser(user: User) {
@@ -225,6 +252,13 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
             avatarImage.pin_setImageFromURL(imageURL)
         }
 
+        setupNameTextField()
+        setupBioTextField()
+        setupLinksTextField()
+        setupLocationTextField()
+    }
+
+    private func setupNameTextField() {
         nameTextFieldView.label.setLabelText(InterfaceString.Settings.Name)
         nameTextFieldView.textField.text = currentUser?.name
 
@@ -242,7 +276,25 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
             self.nameTextFieldView.setState(.Loading)
             updateNameFunction()
         }
+    }
 
+    private func setupBioTextField() {
+        bioTextView.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 30)
+        bioTextView.attributedText = ElloAttributedString.style(currentUser?.profile?.shortBio ?? "")
+        bioTextView.delegate = self
+
+        bioTextViewDidChange = debounce(0.5) { [unowned self] in
+            let bio = self.bioTextView.text
+            ProfileService().updateUserProfile(["unsanitized_short_bio": bio], success: { user in
+                self.updateCurrentUser(user)
+                self.bioTextStatusImage.image = ValidationState.OK.imageRepresentation
+            }, failure: { _, _ in
+                self.bioTextStatusImage.image = ValidationState.Error.imageRepresentation
+            })
+        }
+    }
+
+    private func setupLinksTextField() {
         linksTextFieldView.label.setLabelText(InterfaceString.Settings.Links)
         linksTextFieldView.textField.spellCheckingType = .No
         linksTextFieldView.textField.autocapitalizationType = .None
@@ -273,19 +325,39 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
             self.linksTextFieldView.setState(.Loading)
             updateLinksFunction()
         }
+    }
 
-        bioTextView.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 30)
-        bioTextView.attributedText = ElloAttributedString.style(currentUser?.profile?.shortBio ?? "")
-        bioTextView.delegate = self
+    private func setupLocationTextField() {
+        locationTextFieldView.label.setLabelText(InterfaceString.Settings.Location)
+        locationTextFieldView.textField.keyboardAppearance = .Dark
+        if let user = currentUser, location = user.location {
+            locationTextFieldView.textField.text = location
+        }
 
-        bioTextViewDidChange = debounce(0.5) { [unowned self] in
-            let bio = self.bioTextView.text
-            ProfileService().updateUserProfile(["unsanitized_short_bio": bio], success: { user in
+        let updateLocationFunction = debounce(0.5) { [unowned self] in
+            let location = self.locationTextFieldView.textField.text ?? ""
+            ProfileService().updateUserProfile(["location": location], success: { user in
                 self.updateCurrentUser(user)
-                self.bioTextStatusImage.image = ValidationState.OK.imageRepresentation
+                self.locationTextFieldView.setState(.OK)
             }, failure: { _, _ in
-                self.bioTextStatusImage.image = ValidationState.Error.imageRepresentation
+                self.locationTextFieldView.setState(.Error)
             })
+
+            self.autoCompleteVC.load(AutoCompleteMatch(type: .Location, range: Range(location.startIndex ..< location.endIndex), text: location)) { [weak self] count in
+                guard let sself = self else { return }
+                guard location == sself.locationTextFieldView.textField.text else { return }
+
+                sself.locationAutoCompleteResultCount = count
+            }
+        }
+
+        locationTextFieldView.textFieldDidChange = { text in
+            self.locationTextFieldView.setState(.Loading)
+            updateLocationFunction()
+        }
+
+        locationTextFieldView.firstResponderDidChange = { isFirstResponder in
+            self.locationTextViewSelected = isFirstResponder
         }
     }
 
@@ -302,6 +374,7 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
         case .Name: return nameTextFieldView.height
         case .Bio: return 200
         case .Links: return linksTextFieldView.height
+        case .Location: return locationTextFieldView.height
         case .PreferenceSettings: return dynamicSettingsViewController?.height ?? 0
         case .Unknown: return 0
         }
@@ -457,4 +530,22 @@ extension SettingsViewController {
         scrollLogic.scrollViewDidEndDragging(scrollView, willDecelerate: willDecelerate)
     }
 
+}
+
+extension SettingsViewController: AutoCompleteDelegate {
+    public func updateAutoComplete() {
+        self.autoCompleteVC.view.alpha = (locationTextViewSelected && locationAutoCompleteResultCount > 0) ? 1 : 0
+        let rowHeight: CGFloat = AutoCompleteCell.cellHeight()
+        let maxHeight: CGFloat = 3.5 * rowHeight
+        let height: CGFloat = min(maxHeight, CGFloat(locationAutoCompleteResultCount) * rowHeight)
+        autoCompleteVC.view.frame = autoCompleteVC.view.frame.withHeight(height)
+        autoCompleteVC.tableView.frame = autoCompleteVC.view.bounds
+    }
+
+    public func autoComplete(controller: AutoCompleteViewController, itemSelected item: AutoCompleteItem) {
+        guard let name = item.result.name else { return }
+
+        locationTextFieldView.textField.text = name
+        locationTextFieldView.resignFirstResponder()
+    }
 }

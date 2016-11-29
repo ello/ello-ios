@@ -16,10 +16,10 @@ public class ElloTextFieldView: UIView {
     @IBOutlet private var messageLabelHeight: NSLayoutConstraint!
     @IBOutlet private weak var errorLabelSeparationSpacing: NSLayoutConstraint!
 
-    public var textFieldDidChange: (String -> Void)? {
-        didSet {
-            textField.addTarget(self, action: #selector(ElloTextFieldView.valueChanged), forControlEvents: .EditingChanged)
-        }
+    public var textFieldDidChange: (String -> Void)?
+    public var firstResponderDidChange: (Bool -> Void)? {
+        get { return textField.firstResponderDidChange }
+        set { textField.firstResponderDidChange = newValue }
     }
 
     var height: CGFloat {
@@ -64,6 +64,7 @@ public class ElloTextFieldView: UIView {
         view.frame = bounds
         view.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
         addSubview(view)
+        textField.addTarget(self, action: #selector(valueChanged), forControlEvents: .EditingChanged)
     }
 
     required public init?(coder aDecoder: NSCoder) {
@@ -72,6 +73,7 @@ public class ElloTextFieldView: UIView {
         view.frame = bounds
         view.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
         addSubview(view)
+        textField.addTarget(self, action: #selector(valueChanged), forControlEvents: .EditingChanged)
     }
 
     override public func updateConstraints() {
@@ -85,8 +87,8 @@ public class ElloTextFieldView: UIView {
 
     func valueChanged() {
         setNeedsUpdateConstraints()
-        if let text = textField.text {
-            textFieldDidChange?(text)
+        if let textFieldDidChange = textFieldDidChange, text = textField.text {
+            textFieldDidChange(text)
         }
     }
 
@@ -126,6 +128,15 @@ public class ElloTextFieldView: UIView {
         setErrorMessage("")
         setMessage("")
     }
+
+    override public func becomeFirstResponder() -> Bool {
+        return textField.becomeFirstResponder()
+    }
+
+    override public func resignFirstResponder() -> Bool {
+        return textField.resignFirstResponder()
+    }
+
 }
 
 

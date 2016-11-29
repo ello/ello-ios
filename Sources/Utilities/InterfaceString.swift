@@ -111,6 +111,7 @@ public struct InterfaceString {
         static let EditProfile: String = NSLocalizedString("Edit Profile", comment: "Edit Profile Title")
         static let Name: String = NSLocalizedString("Name", comment: "name setting")
         static let Links: String = NSLocalizedString("Links", comment: "links setting")
+        static let Location: String = NSLocalizedString("Location", comment: "location setting")
         static let AvatarUploaded: String = NSLocalizedString("You’ve updated your Avatar.\n\nIt may take a few minutes for your new avatar/header to appear on Ello, so please be patient. It’ll be live soon!", comment: "Avatar updated copy")
         static let CoverImageUploaded: String = NSLocalizedString("You’ve updated your Header.\n\nIt may take a few minutes for your new avatar/header to appear on Ello, so please be patient. It’ll be live soon!", comment: "Cover Image updated copy")
         static let BlockedTitle: String = NSLocalizedString("Blocked", comment: "blocked settings item")

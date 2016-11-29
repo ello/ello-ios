@@ -10,7 +10,14 @@ public struct AutoCompleteCellPresenter {
         cell.line.hidden = false
         cell.line.backgroundColor = UIColor.grey3()
         if let resultName = item.result.name {
-            cell.name.text = item.type == .Emoji ? ":\(resultName):" : "@\(resultName)"
+            switch item.type {
+            case .Emoji:
+                cell.name.text = ":\(resultName):"
+            case .Username:
+                cell.name.text = "@\(resultName)"
+            case .Location:
+                cell.name.text = resultName
+            }
         }
         else {
             cell.name.text = ""

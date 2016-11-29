@@ -91,4 +91,23 @@ public struct AutoCompleteService {
             }
     }
 
+    public func loadLocationResults(
+        search: String,
+        success: AutoCompleteServiceSuccessCompletion,
+        failure: ElloFailureCompletion)
+    {
+        ElloProvider.shared.elloRequest(
+            .LocationAutoComplete(search: search),
+            success: { (data, responseConfig) in
+                if let results = data as? [AutoCompleteResult] {
+                    success(results: results, responseConfig: responseConfig)
+                }
+                else {
+                    ElloProvider.unCastableJSONAble(failure)
+                }
+            },
+            failure: failure
+        )
+    }
+
 }

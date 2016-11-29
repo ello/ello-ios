@@ -43,6 +43,8 @@ extension ElloAPI: CustomStringConvertible, CustomDebugStringConvertible {
             return "InfiniteScroll(elloApi: \(elloApi()))"
         case let .Loves(userId):
             return "Loves(userId: \(userId))"
+        case let .LocationAutoComplete(search):
+            return "LocationAutoComplete(search: \(search))"
         case let .PostComments(postId):
             return "PostComments(postId: \(postId))"
         case let .PostDetail(postParam, commentCount):
@@ -153,6 +155,8 @@ extension ElloAPI: CustomStringConvertible, CustomDebugStringConvertible {
             return "Join"
         case .Loves:
             return "Loves"
+        case .LocationAutoComplete:
+            return "LocationAutoComplete"
         case .NoiseNewContent:
             return "NoiseNewContent"
         case .NoiseStream:
