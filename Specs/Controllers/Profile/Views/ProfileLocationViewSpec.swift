@@ -10,7 +10,7 @@ import Nimble
 class ProfileLocationViewSpec: QuickSpec {
 
     override func spec() {
-        fdescribe("ProfileLocationView") {
+        describe("ProfileLocationView") {
             it("snapshots") {
                 let subject = ProfileLocationView(frame: CGRect(
                     origin: .zero,
