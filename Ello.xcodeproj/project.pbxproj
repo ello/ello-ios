@@ -91,6 +91,7 @@
 		121D75A21AD84C800008F084 /* PostServiceSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 121D75A11AD84C800008F084 /* PostServiceSpec.swift */; };
 		121D92591A5CACEA004F0455 /* JoinViewControllerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 121D92581A5CACEA004F0455 /* JoinViewControllerSpec.swift */; };
 		121E46BD1A6B2798004AEAB7 /* StreamContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 121E46BC1A6B2798004AEAB7 /* StreamContainerViewController.swift */; };
+		1220347D1DECCDD80059E633 /* marker.svg in Resources */ = {isa = PBXBuildFile; fileRef = 1220347C1DECCDD80059E633 /* marker.svg */; };
 		12224E581A72CEC300D087EC /* PostbarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12224E571A72CEC300D087EC /* PostbarController.swift */; };
 		122454AE1D9F1BC700D930E0 /* ElloCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 122454AD1D9F1BC700D930E0 /* ElloCollectionView.swift */; };
 		122943271C6BF465003FCD20 /* ShareViewControllerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1291CE2D1C6A91C600EB5A55 /* ShareViewControllerSpec.swift */; };
@@ -1149,6 +1150,7 @@
 		121D75A11AD84C800008F084 /* PostServiceSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostServiceSpec.swift; sourceTree = "<group>"; };
 		121D92581A5CACEA004F0455 /* JoinViewControllerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JoinViewControllerSpec.swift; sourceTree = "<group>"; };
 		121E46BC1A6B2798004AEAB7 /* StreamContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreamContainerViewController.swift; sourceTree = "<group>"; };
+		1220347C1DECCDD80059E633 /* marker.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = marker.svg; sourceTree = "<group>"; };
 		12224E571A72CEC300D087EC /* PostbarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostbarController.swift; sourceTree = "<group>"; };
 		122454AD1D9F1BC700D930E0 /* ElloCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ElloCollectionView.swift; sourceTree = "<group>"; };
 		1229432D1C6C101E003FCD20 /* ExtensionItemPreviewSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtensionItemPreviewSpec.swift; sourceTree = "<group>"; };
@@ -3479,6 +3481,7 @@
 				1D59EF931D6640C50029C106 /* mail_normal.svg */,
 				1D59EF941D6640C50029C106 /* mail_selected.svg */,
 				1D59EF951D6640C50029C106 /* mail_white.svg */,
+				1220347C1DECCDD80059E633 /* marker.svg */,
 				1DF404071B150CF20073460B /* narration_pointer.svg */,
 				1DF741661BF6869B000F5349 /* pencil_white.svg */,
 				1DA8FD6E1B98A63600472B1E /* reorder_normal.svg */,
@@ -4097,6 +4100,7 @@
 				128C5AF51C59802600EFC226 /* (null) in Resources */,
 				1D9B74D31BB1E62500ACD028 /* bubble_body_white.svg in Resources */,
 				1D5A901C1D3991CC00C2AEFF /* buy-button-image-region.json in Resources */,
+				1220347D1DECCDD80059E633 /* marker.svg in Resources */,
 				1D612BF81D3EA41700B4079C /* $_add_normal.svg in Resources */,
 				76F8DEB61B6C0BC4009BCF61 /* bubble_normal.svg in Resources */,
 				12A313D91C73ECAA009727DD /* unselected-pixel@2x.png in Resources */,
