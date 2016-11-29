@@ -467,6 +467,7 @@
 		12F8007E1C59D70A002436D1 /* KeychainAccess.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 12F8007D1C59D70A002436D1 /* KeychainAccess.framework */; };
 		12F800801C59D714002436D1 /* KeychainAccess.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 12F8007F1C59D714002436D1 /* KeychainAccess.framework */; };
 		12F9EB3D1DEDF40600E127AE /* ProfileLocationPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F9EB3C1DEDF40600E127AE /* ProfileLocationPresenter.swift */; };
+		12F9EB3F1DEDFD4B00E127AE /* ProfileLocationViewSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F9EB3E1DEDFD4B00E127AE /* ProfileLocationViewSpec.swift */; };
 		12FCEFDF1BD7F68500B8A7B5 /* Ello.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = 1205B5D01BBB152700B656ED /* Ello.entitlements */; };
 		12FEEB551A60396A00E32248 /* posts.json in Resources */ = {isa = PBXBuildFile; fileRef = 12FEEB541A60396A00E32248 /* posts.json */; };
 		1D061B4D1AAA191500493435 /* KeyboardSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D061B4C1AAA191500493435 /* KeyboardSpec.swift */; };
@@ -1439,6 +1440,7 @@
 		12F8007D1C59D70A002436D1 /* KeychainAccess.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KeychainAccess.framework; path = "Pods/../build/Debug-iphoneos/KeychainAccess.framework"; sourceTree = "<group>"; };
 		12F8007F1C59D714002436D1 /* KeychainAccess.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KeychainAccess.framework; path = "Pods/../build/Debug-iphoneos/KeychainAccess.framework"; sourceTree = "<group>"; };
 		12F9EB3C1DEDF40600E127AE /* ProfileLocationPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileLocationPresenter.swift; sourceTree = "<group>"; };
+		12F9EB3E1DEDFD4B00E127AE /* ProfileLocationViewSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileLocationViewSpec.swift; sourceTree = "<group>"; };
 		12FB94D91AD5AD5900547D3B /* UserServiceSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserServiceSpec.swift; sourceTree = "<group>"; };
 		12FEBD011A4225F600933A02 /* Ello.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ello.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		12FEEB541A60396A00E32248 /* posts.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = posts.json; sourceTree = "<group>"; };
@@ -3382,6 +3384,7 @@
 				1DA18DF91DA84978000231CC /* ProfileNamesViewSpec.swift */,
 				1DA18DFD1DAC3B64000231CC /* ProfileStatsViewSpec.swift */,
 				12A1D8321DAD747500A327D6 /* ProfileTotalCountViewSpec.swift */,
+				12F9EB3E1DEDFD4B00E127AE /* ProfileLocationViewSpec.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -4658,6 +4661,7 @@
 				127BAD601A8512AA00628696 /* ElloLinkedStoreSpec.swift in Sources */,
 				EAC6054A1ADDA64B009B9426 /* DynamicSettingCellPresenterSpec.swift in Sources */,
 				1DF984031D9B0C1E0055EFC7 /* CreateProfileScreenSpec.swift in Sources */,
+				12F9EB3F1DEDFD4B00E127AE /* ProfileLocationViewSpec.swift in Sources */,
 				1D8AFACD1A9664480034DDAD /* NotificationSpec.swift in Sources */,
 				1D22F0D01AF8420000DCED1D /* AppViewControllerSpec.swift in Sources */,
 				1DB17B981AAA70B200DCF59E /* MultipartRequestBuilderSpec.swift in Sources */,

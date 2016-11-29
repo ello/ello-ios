@@ -4,10 +4,10 @@
 
 public class ProfileLocationView: ProfileBaseView {
     public struct Size {
-        static let height: CGFloat = 60
-        static let markerHeight: CGFloat = 20
-        static let leadingMargin: CGFloat = 15
-        static let markerLocationMargin: CGFloat = 15
+        static let height: CGFloat = 48
+        static let markerHeight: CGFloat = 14
+        static let leadingMargin: CGFloat = 10
+        static let markerLocationMargin: CGFloat = 5
     }
 
     public var location: String {
@@ -47,7 +47,7 @@ extension ProfileLocationView {
 
         markerImageView.snp_makeConstraints { make in
             make.width.height.equalTo(Size.markerHeight)
-            make.centerY.equalTo(self)
+            make.centerY.equalTo(self).offset(-1)
             make.leading.equalTo(self).inset(Size.leadingMargin)
         }
 

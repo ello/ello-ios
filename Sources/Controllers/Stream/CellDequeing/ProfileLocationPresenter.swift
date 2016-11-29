@@ -12,17 +12,8 @@ public struct ProfileLocationPresenter {
         user: User,
         currentUser: User?)
     {
-
-        let isCurrentUser = (user.id == currentUser?.id)
-        if let cachedImage = TemporaryCache.load(.Avatar)
-            where isCurrentUser
-        {
-            view.avatarImage = cachedImage
-        }
-        else if let url = user.avatarURL(viewsAdultContent: currentUser?.viewsAdultContent, animated: true) {
-            view.avatarURL = url
-        }
-
-        view.badgeVisible = user.categories?.count > 0
+//        guard let location = user.location else { return }
+//
+//        view.location = location
     }
 }
