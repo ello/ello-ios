@@ -104,6 +104,8 @@ extension User: Stubbable {
             user.addLinkArray("categories", array: categories.map { $0.id }, type: .CategoriesType)
         }
 
+        user.location = values["location"] as? String
+
         user.profile = values["profile"] as? Profile
         ElloLinkedStore.sharedInstance.setObject(user, forKey: user.id, type: .UsersType)
         return user
