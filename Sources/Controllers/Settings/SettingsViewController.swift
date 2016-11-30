@@ -101,12 +101,12 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
     var autoCompleteVC = AutoCompleteViewController()
     var locationTextViewSelected = false {
         didSet {
-            updateAutoComplete()
+            updateAutoCompleteFrame()
         }
     }
     var locationAutoCompleteResultCount = 0 {
         didSet {
-            updateAutoComplete()
+            updateAutoCompleteFrame()
         }
     }
 
@@ -200,7 +200,7 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
         else {
             autoCompleteVC.view.frame.size.height = 0
         }
-        updateAutoComplete()
+        updateAutoCompleteFrame()
     }
 
     private func updateCurrentUser(user: User) {
@@ -548,7 +548,7 @@ extension SettingsViewController {
 }
 
 extension SettingsViewController: AutoCompleteDelegate {
-    public func updateAutoComplete() {
+    public func updateAutoCompleteFrame() {
         autoCompleteVC.view.alpha = (locationTextViewSelected && locationAutoCompleteResultCount > 0) ? 1 : 0
         let rowHeight: CGFloat = AutoCompleteCell.cellHeight()
         let maxHeight: CGFloat = 3.5 * rowHeight
