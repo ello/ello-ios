@@ -123,6 +123,9 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
         didSet {
             credentialSettingsViewController?.currentUser = currentUser
             dynamicSettingsViewController?.currentUser = currentUser
+            if isViewLoaded() {
+                setupUserValues()
+            }
         }
     }
 
@@ -139,7 +142,6 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
         )
 
         locationTextViewSelected = false
-        tableView.addSubview(autoCompleteVC.view)
         autoCompleteVC.delegate = self
     }
 
@@ -186,6 +188,7 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
         }, failure: { error in
             hideHud()
         })
+
         setupViews()
     }
 
@@ -204,11 +207,46 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
         postNotification(SettingChangedNotification, value: user)
     }
 
+    private func setupUserValues() {
+        if let cachedImage = TemporaryCache.load(.CoverImage) {
+            coverImage.image = cachedImage
+        }
+        else if let imageURL = currentUser?.coverImageURL(viewsAdultContent: true, animated: true) {
+            coverImage.pin_setImageFromURL(imageURL)
+        }
+
+        if let cachedImage = TemporaryCache.load(.Avatar) {
+            avatarImage.image = cachedImage
+        }
+        else if let imageURL = currentUser?.avatar?.large?.url {
+            avatarImage.pin_setImageFromURL(imageURL)
+        }
+
+        bioTextView.attributedText = ElloAttributedString.style(currentUser?.profile?.shortBio ?? "")
+        nameTextFieldView.textField.text = currentUser?.name
+
+        if let links = currentUser?.externalLinksList {
+            var urls = [String]()
+            for link in links {
+                if let url = link.url.absoluteString {
+                    urls.append(url)
+                }
+            }
+            linksTextFieldView.textField.text = urls.joinWithSeparator(", ")
+        }
+
+        if let location = currentUser?.location {
+            locationTextFieldView.textField.text = location
+        }
+    }
+
     private func setupViews() {
+        tableView.addSubview(autoCompleteVC.view)
         avatarImageView.layer.cornerRadius = avatarImageView.frame.width / 2
         containerController?.showNavBars()
         setupProfileDescription()
         setupDefaultValues()
+        setupUserValues()
     }
 
     private func setupProfileDescription() {
@@ -238,20 +276,6 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
     }
 
     private func setupDefaultValues() {
-        if let cachedImage = TemporaryCache.load(.CoverImage) {
-            coverImage.image = cachedImage
-        }
-        else if let imageURL = currentUser?.coverImageURL(viewsAdultContent: true, animated: true) {
-            coverImage.pin_setImageFromURL(imageURL)
-        }
-
-        if let cachedImage = TemporaryCache.load(.Avatar) {
-            avatarImage.image = cachedImage
-        }
-        else if let imageURL = currentUser?.avatar?.large?.url {
-            avatarImage.pin_setImageFromURL(imageURL)
-        }
-
         setupNameTextField()
         setupBioTextField()
         setupLinksTextField()
@@ -260,7 +284,6 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
 
     private func setupNameTextField() {
         nameTextFieldView.label.setLabelText(InterfaceString.Settings.Name)
-        nameTextFieldView.textField.text = currentUser?.name
 
         let updateNameFunction = debounce(0.5) { [weak self] in
             guard let sself = self else { return }
@@ -281,7 +304,6 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
 
     private func setupBioTextField() {
         bioTextView.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 30)
-        bioTextView.attributedText = ElloAttributedString.style(currentUser?.profile?.shortBio ?? "")
         bioTextView.delegate = self
 
         bioTextViewDidChange = debounce(0.5) { [weak self] in
@@ -303,15 +325,6 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
         linksTextFieldView.textField.autocorrectionType = .No
         linksTextFieldView.textField.keyboardAppearance = .Dark
         linksTextFieldView.textField.keyboardType = .ASCIICapable
-        if let user = currentUser, links = user.externalLinksList {
-            var urls = [String]()
-            for link in links {
-                if let url = link.url.absoluteString {
-                    urls.append(url)
-                }
-            }
-            linksTextFieldView.textField.text = urls.joinWithSeparator(", ")
-        }
 
         let updateLinksFunction = debounce(0.5) { [weak self] in
             guard let sself = self else { return }
@@ -333,9 +346,6 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
     private func setupLocationTextField() {
         locationTextFieldView.label.setLabelText(InterfaceString.Settings.Location)
         locationTextFieldView.textField.keyboardAppearance = .Dark
-        if let user = currentUser, location = user.location {
-            locationTextFieldView.textField.text = location
-        }
 
         let updateLocationFunction = debounce(0.5) { [weak self] in
             guard let sself = self else { return }
@@ -361,6 +371,7 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
 
         locationTextFieldView.firstResponderDidChange = { isFirstResponder in
             self.locationTextViewSelected = isFirstResponder
+            updateLocationFunction()
         }
     }
 
