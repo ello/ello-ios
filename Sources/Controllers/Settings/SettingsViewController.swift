@@ -537,7 +537,7 @@ extension SettingsViewController {
 
 extension SettingsViewController: AutoCompleteDelegate {
     public func updateAutoComplete() {
-        self.autoCompleteVC.view.alpha = (locationTextViewSelected && locationAutoCompleteResultCount > 0) ? 1 : 0
+        autoCompleteVC.view.alpha = (locationTextViewSelected && locationAutoCompleteResultCount > 0) ? 1 : 0
         let rowHeight: CGFloat = AutoCompleteCell.cellHeight()
         let maxHeight: CGFloat = 3.5 * rowHeight
         let height: CGFloat = min(maxHeight, CGFloat(locationAutoCompleteResultCount) * rowHeight)
