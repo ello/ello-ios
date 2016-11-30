@@ -200,6 +200,7 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
         else {
             autoCompleteVC.view.frame.size.height = 0
         }
+        updateAutoComplete()
     }
 
     private func updateCurrentUser(user: User) {
