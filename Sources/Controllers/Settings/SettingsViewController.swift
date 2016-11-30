@@ -262,13 +262,14 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
         nameTextFieldView.label.setLabelText(InterfaceString.Settings.Name)
         nameTextFieldView.textField.text = currentUser?.name
 
-        let updateNameFunction = debounce(0.5) { [unowned self] in
-            let name = self.nameTextFieldView.textField.text ?? ""
+        let updateNameFunction = debounce(0.5) { [weak self] in
+            guard let sself = self else { return }
+            let name = sself.nameTextFieldView.textField.text ?? ""
             ProfileService().updateUserProfile(["name": name], success: { user in
-                self.updateCurrentUser(user)
-                self.nameTextFieldView.setState(.OK)
+                sself.updateCurrentUser(user)
+                sself.nameTextFieldView.setState(.OK)
             }, failure: { _, _ in
-                self.nameTextFieldView.setState(.Error)
+                sself.nameTextFieldView.setState(.Error)
             })
         }
 
@@ -283,13 +284,14 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
         bioTextView.attributedText = ElloAttributedString.style(currentUser?.profile?.shortBio ?? "")
         bioTextView.delegate = self
 
-        bioTextViewDidChange = debounce(0.5) { [unowned self] in
-            let bio = self.bioTextView.text
+        bioTextViewDidChange = debounce(0.5) { [weak self] in
+            guard let sself = self else { return }
+            let bio = sself.bioTextView.text
             ProfileService().updateUserProfile(["unsanitized_short_bio": bio], success: { user in
-                self.updateCurrentUser(user)
-                self.bioTextStatusImage.image = ValidationState.OK.imageRepresentation
+                sself.updateCurrentUser(user)
+                sself.bioTextStatusImage.image = ValidationState.OK.imageRepresentation
             }, failure: { _, _ in
-                self.bioTextStatusImage.image = ValidationState.Error.imageRepresentation
+                sself.bioTextStatusImage.image = ValidationState.Error.imageRepresentation
             })
         }
     }
@@ -311,13 +313,14 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
             linksTextFieldView.textField.text = urls.joinWithSeparator(", ")
         }
 
-        let updateLinksFunction = debounce(0.5) { [unowned self] in
-            let links = self.linksTextFieldView.textField.text ?? ""
+        let updateLinksFunction = debounce(0.5) { [weak self] in
+            guard let sself = self else { return }
+            let links = sself.linksTextFieldView.textField.text ?? ""
             ProfileService().updateUserProfile(["external_links": links], success: { user in
-                self.updateCurrentUser(user)
-                self.linksTextFieldView.setState(.OK)
+                sself.updateCurrentUser(user)
+                sself.linksTextFieldView.setState(.OK)
             }, failure: { _, _ in
-                self.linksTextFieldView.setState(.Error)
+                sself.linksTextFieldView.setState(.Error)
             })
         }
 
@@ -334,17 +337,17 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
             locationTextFieldView.textField.text = location
         }
 
-        let updateLocationFunction = debounce(0.5) { [unowned self] in
-            let location = self.locationTextFieldView.textField.text ?? ""
+        let updateLocationFunction = debounce(0.5) { [weak self] in
+            guard let sself = self else { return }
+            let location = sself.locationTextFieldView.textField.text ?? ""
             ProfileService().updateUserProfile(["location": location], success: { user in
-                self.updateCurrentUser(user)
-                self.locationTextFieldView.setState(.OK)
+                sself.updateCurrentUser(user)
+                sself.locationTextFieldView.setState(.OK)
             }, failure: { _, _ in
-                self.locationTextFieldView.setState(.Error)
+                sself.locationTextFieldView.setState(.Error)
             })
 
-            self.autoCompleteVC.load(AutoCompleteMatch(type: .Location, range: Range(location.startIndex ..< location.endIndex), text: location)) { [weak self] count in
-                guard let sself = self else { return }
+            sself.autoCompleteVC.load(AutoCompleteMatch(type: .Location, range: Range(location.startIndex ..< location.endIndex), text: location)) { count in
                 guard location == sself.locationTextFieldView.textField.text else { return }
 
                 sself.locationAutoCompleteResultCount = count
