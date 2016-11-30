@@ -26,6 +26,7 @@ public func == (lhs: AutoCompleteMatch, rhs: AutoCompleteMatch) -> Bool {
 public enum AutoCompleteType: String, CustomStringConvertible {
     case Emoji = "Emoji"
     case Username = "Username"
+    case Location = "Location"
 
     public var description: String {
         return self.rawValue

@@ -151,7 +151,7 @@ extension OmnibarScreen: UITextViewDelegate {
 
 
 extension OmnibarScreen: AutoCompleteDelegate {
-    public func itemSelected(item: AutoCompleteItem) {
+    public func autoComplete(controller: AutoCompleteViewController, itemSelected item: AutoCompleteItem) {
         if let name = item.result.name {
             let prefix: String
             let suffix: String

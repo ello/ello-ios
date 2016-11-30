@@ -3,6 +3,7 @@
 //
 
 public class ElloTextField: UITextField {
+    public var firstResponderDidChange: (Bool -> Void)?
     var hasOnePassword = false
     var validationState = ValidationState.None {
         didSet {
@@ -54,6 +55,18 @@ public class ElloTextField: UITextField {
 
     private func rectForBounds(bounds: CGRect) -> CGRect {
         return bounds.shrinkLeft(15).inset(topBottom: 10, sides: 15)
+    }
+
+    override public func becomeFirstResponder() -> Bool {
+        let val = super.becomeFirstResponder()
+        firstResponderDidChange?(true)
+        return val
+    }
+
+    override public func resignFirstResponder() -> Bool {
+        let val = super.resignFirstResponder()
+        firstResponderDidChange?(false)
+        return val
     }
 
 }

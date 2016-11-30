@@ -39,6 +39,7 @@ public enum ElloAPI {
     case InviteFriends(contact: String)
     case Join(email: String, username: String, password: String, invitationCode: String?)
     case Loves(userId: String)
+    case LocationAutoComplete(search: String)
     case NoiseStream
     case NoiseNewContent(createdAt: NSDate)
     case NotificationsNewContent(createdAt: NSDate)
@@ -155,7 +156,8 @@ public enum ElloAPI {
              .DeleteWatchPost:
             return .WatchesType
         case .EmojiAutoComplete,
-             .UserNameAutoComplete:
+             .UserNameAutoComplete,
+             .LocationAutoComplete:
             return .AutoCompleteResultType
         case .DeleteLove,
              .DeleteSubscriptions,
@@ -341,6 +343,8 @@ extension ElloAPI: Moya.TargetType {
             return "/api/\(ElloAPI.apiVersion)/join"
         case let .Loves(userId):
             return "/api/\(ElloAPI.apiVersion)/users/\(userId)/loves"
+        case .LocationAutoComplete(_):
+            return "/api/\(ElloAPI.apiVersion)/profile/location_autocomplete"
         case .NoiseNewContent,
              .NoiseStream:
             return "/api/\(ElloAPI.apiVersion)/streams/noise"
@@ -455,6 +459,8 @@ extension ElloAPI: Moya.TargetType {
             return stubbedData("users_registering_an_account")
         case .Loves:
             return stubbedData("loves_listing_loves_for_a_user")
+        case .LocationAutoComplete:
+            return stubbedData("users_getting_a_list_for_autocompleted_locations")
         case .NoiseStream:
             return stubbedData("activity_streams_noise_stream")
         case .NotificationsStream:
@@ -651,6 +657,10 @@ extension ElloAPI: Moya.TargetType {
                 params["invitation_code"] = invitationCode
             }
             return params
+        case let .LocationAutoComplete(search):
+            return [
+                "location": search
+            ]
         case .NoiseStream:
             return [
                 "per_page": 10

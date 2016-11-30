@@ -4,7 +4,7 @@
 
 
 public protocol AutoCompleteDelegate: NSObjectProtocol {
-    func itemSelected(item: AutoCompleteItem)
+    func autoComplete(controller: AutoCompleteViewController, itemSelected item: AutoCompleteItem)
 }
 
 public class AutoCompleteViewController: UIViewController {
@@ -25,19 +25,11 @@ public class AutoCompleteViewController: UIViewController {
 // MARK: View Lifecycle
 extension AutoCompleteViewController {
     override public func viewDidLoad() {
-        registerCells()
-        style()
         super.viewDidLoad()
-    }
-
-    override public func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
         tableView.delegate = self
         tableView.dataSource = dataSource
-    }
-
-    override public func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
+        registerCells()
+        style()
     }
 }
 
@@ -54,11 +46,18 @@ public extension AutoCompleteViewController {
             loaded(count: self.dataSource.items.count)
         case .Username:
             service.loadUsernameResults(match.text,
-                success: { (results, responseConfig) in
+                success: { (results, _) in
                     self.dataSource.items = results.map { AutoCompleteItem(result: $0, type: match.type, match: match) }
                     self.tableView.reloadData()
                     loaded(count: self.dataSource.items.count)
-            }, failure: showAutoCompleteLoadFailure)
+                }, failure: showAutoCompleteLoadFailure)
+        case .Location:
+            service.loadLocationResults(match.text,
+                success: { (results, _) in
+                    self.dataSource.items = results.map { AutoCompleteItem(result: $0, type: match.type, match: match) }
+                    self.tableView.reloadData()
+                    loaded(count: self.dataSource.items.count)
+                }, failure: showAutoCompleteLoadFailure)
         }
     }
 
@@ -78,7 +77,7 @@ public extension AutoCompleteViewController {
 extension AutoCompleteViewController: UITableViewDelegate {
     public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if let item = dataSource.itemForIndexPath(indexPath) {
-            delegate?.itemSelected(item)
+            delegate?.autoComplete(self, itemSelected: item)
         }
     }
 }

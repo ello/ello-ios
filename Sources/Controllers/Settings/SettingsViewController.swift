@@ -12,6 +12,7 @@ public enum SettingsRow: Int {
     case Name
     case Bio
     case Links
+    case Location
     case PreferenceSettings
     case Unknown
 }
@@ -97,19 +98,34 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
     var appViewController: AppViewController? {
         return (parentViewController as? SettingsContainerViewController)?.appViewController
     }
+    var autoCompleteVC = AutoCompleteViewController()
+    var locationTextViewSelected = false {
+        didSet {
+            updateAutoCompleteFrame()
+        }
+    }
+    var locationAutoCompleteResultCount = 0 {
+        didSet {
+            updateAutoCompleteFrame()
+        }
+    }
 
     weak public var nameTextFieldView: ElloTextFieldView!
-    weak public var linksTextFieldView: ElloTextFieldView!
     @IBOutlet weak public var bioTextView: ElloEditableTextView!
     weak public var bioTextCountLabel: ElloErrorLabel!
     @IBOutlet weak public var bioTextStatusImage: UIImageView!
-
     private var bioTextViewDidChange: (() -> Void)?
+
+    @IBOutlet weak public var linksTextFieldView: ElloTextFieldView!
+    @IBOutlet weak public var locationTextFieldView: ElloTextFieldView!
 
     public var currentUser: User? {
         didSet {
             credentialSettingsViewController?.currentUser = currentUser
             dynamicSettingsViewController?.currentUser = currentUser
+            if isViewLoaded() {
+                setupUserValues()
+            }
         }
     }
 
@@ -124,6 +140,9 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
             onShow: { [unowned self] scroll in self.showNavBars(scroll) },
             onHide: { [unowned self] in self.hideNavBars() }
         )
+
+        locationTextViewSelected = false
+        autoCompleteVC.delegate = self
     }
 
     var elloTabBarController: ElloTabBarController? {
@@ -169,7 +188,19 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
         }, failure: { error in
             hideHud()
         })
+
         setupViews()
+    }
+
+    public override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        if let cell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: SettingsRow.Location.rawValue, inSection: 0)) {
+            autoCompleteVC.view.frame.origin.y = cell.frame.maxY
+        }
+        else {
+            autoCompleteVC.view.frame.size.height = 0
+        }
+        updateAutoCompleteFrame()
     }
 
     private func updateCurrentUser(user: User) {
@@ -177,11 +208,46 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
         postNotification(SettingChangedNotification, value: user)
     }
 
+    private func setupUserValues() {
+        if let cachedImage = TemporaryCache.load(.CoverImage) {
+            coverImage.image = cachedImage
+        }
+        else if let imageURL = currentUser?.coverImageURL(viewsAdultContent: true, animated: true) {
+            coverImage.pin_setImageFromURL(imageURL)
+        }
+
+        if let cachedImage = TemporaryCache.load(.Avatar) {
+            avatarImage.image = cachedImage
+        }
+        else if let imageURL = currentUser?.avatar?.large?.url {
+            avatarImage.pin_setImageFromURL(imageURL)
+        }
+
+        bioTextView.attributedText = ElloAttributedString.style(currentUser?.profile?.shortBio ?? "")
+        nameTextFieldView.textField.text = currentUser?.name
+
+        if let links = currentUser?.externalLinksList {
+            var urls = [String]()
+            for link in links {
+                if let url = link.url.absoluteString {
+                    urls.append(url)
+                }
+            }
+            linksTextFieldView.textField.text = urls.joinWithSeparator(", ")
+        }
+
+        if let location = currentUser?.location {
+            locationTextFieldView.textField.text = location
+        }
+    }
+
     private func setupViews() {
+        tableView.addSubview(autoCompleteVC.view)
         avatarImageView.layer.cornerRadius = avatarImageView.frame.width / 2
         containerController?.showNavBars()
         setupProfileDescription()
         setupDefaultValues()
+        setupUserValues()
     }
 
     private func setupProfileDescription() {
@@ -211,30 +277,23 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
     }
 
     private func setupDefaultValues() {
-        if let cachedImage = TemporaryCache.load(.CoverImage) {
-            coverImage.image = cachedImage
-        }
-        else if let imageURL = currentUser?.coverImageURL(viewsAdultContent: true, animated: true) {
-            coverImage.pin_setImageFromURL(imageURL)
-        }
+        setupNameTextField()
+        setupBioTextField()
+        setupLinksTextField()
+        setupLocationTextField()
+    }
 
-        if let cachedImage = TemporaryCache.load(.Avatar) {
-            avatarImage.image = cachedImage
-        }
-        else if let imageURL = currentUser?.avatar?.large?.url {
-            avatarImage.pin_setImageFromURL(imageURL)
-        }
-
+    private func setupNameTextField() {
         nameTextFieldView.label.setLabelText(InterfaceString.Settings.Name)
-        nameTextFieldView.textField.text = currentUser?.name
 
-        let updateNameFunction = debounce(0.5) { [unowned self] in
-            let name = self.nameTextFieldView.textField.text ?? ""
+        let updateNameFunction = debounce(0.5) { [weak self] in
+            guard let sself = self else { return }
+            let name = sself.nameTextFieldView.textField.text ?? ""
             ProfileService().updateUserProfile(["name": name], success: { user in
-                self.updateCurrentUser(user)
-                self.nameTextFieldView.setState(.OK)
+                sself.updateCurrentUser(user)
+                sself.nameTextFieldView.setState(.OK)
             }, failure: { _, _ in
-                self.nameTextFieldView.setState(.Error)
+                sself.nameTextFieldView.setState(.Error)
             })
         }
 
@@ -242,30 +301,40 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
             self.nameTextFieldView.setState(.Loading)
             updateNameFunction()
         }
+    }
 
+    private func setupBioTextField() {
+        bioTextView.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 30)
+        bioTextView.delegate = self
+
+        bioTextViewDidChange = debounce(0.5) { [weak self] in
+            guard let sself = self else { return }
+            let bio = sself.bioTextView.text
+            ProfileService().updateUserProfile(["unsanitized_short_bio": bio], success: { user in
+                sself.updateCurrentUser(user)
+                sself.bioTextStatusImage.image = ValidationState.OK.imageRepresentation
+            }, failure: { _, _ in
+                sself.bioTextStatusImage.image = ValidationState.Error.imageRepresentation
+            })
+        }
+    }
+
+    private func setupLinksTextField() {
         linksTextFieldView.label.setLabelText(InterfaceString.Settings.Links)
         linksTextFieldView.textField.spellCheckingType = .No
         linksTextFieldView.textField.autocapitalizationType = .None
         linksTextFieldView.textField.autocorrectionType = .No
         linksTextFieldView.textField.keyboardAppearance = .Dark
         linksTextFieldView.textField.keyboardType = .ASCIICapable
-        if let user = currentUser, links = user.externalLinksList {
-            var urls = [String]()
-            for link in links {
-                if let url = link.url.absoluteString {
-                    urls.append(url)
-                }
-            }
-            linksTextFieldView.textField.text = urls.joinWithSeparator(", ")
-        }
 
-        let updateLinksFunction = debounce(0.5) { [unowned self] in
-            let links = self.linksTextFieldView.textField.text ?? ""
+        let updateLinksFunction = debounce(0.5) { [weak self] in
+            guard let sself = self else { return }
+            let links = sself.linksTextFieldView.textField.text ?? ""
             ProfileService().updateUserProfile(["external_links": links], success: { user in
-                self.updateCurrentUser(user)
-                self.linksTextFieldView.setState(.OK)
+                sself.updateCurrentUser(user)
+                sself.linksTextFieldView.setState(.OK)
             }, failure: { _, _ in
-                self.linksTextFieldView.setState(.Error)
+                sself.linksTextFieldView.setState(.Error)
             })
         }
 
@@ -273,19 +342,37 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
             self.linksTextFieldView.setState(.Loading)
             updateLinksFunction()
         }
+    }
 
-        bioTextView.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 30)
-        bioTextView.attributedText = ElloAttributedString.style(currentUser?.profile?.shortBio ?? "")
-        bioTextView.delegate = self
+    private func setupLocationTextField() {
+        locationTextFieldView.label.setLabelText(InterfaceString.Settings.Location)
+        locationTextFieldView.textField.keyboardAppearance = .Dark
 
-        bioTextViewDidChange = debounce(0.5) { [unowned self] in
-            let bio = self.bioTextView.text
-            ProfileService().updateUserProfile(["unsanitized_short_bio": bio], success: { user in
-                self.updateCurrentUser(user)
-                self.bioTextStatusImage.image = ValidationState.OK.imageRepresentation
+        let updateLocationFunction = debounce(0.5) { [weak self] in
+            guard let sself = self else { return }
+            let location = sself.locationTextFieldView.textField.text ?? ""
+            ProfileService().updateUserProfile(["location": location], success: { user in
+                sself.updateCurrentUser(user)
+                sself.locationTextFieldView.setState(.OK)
             }, failure: { _, _ in
-                self.bioTextStatusImage.image = ValidationState.Error.imageRepresentation
+                sself.locationTextFieldView.setState(.Error)
             })
+
+            sself.autoCompleteVC.load(AutoCompleteMatch(type: .Location, range: Range(location.startIndex ..< location.endIndex), text: location)) { count in
+                guard location == sself.locationTextFieldView.textField.text else { return }
+
+                sself.locationAutoCompleteResultCount = count
+            }
+        }
+
+        locationTextFieldView.textFieldDidChange = { text in
+            self.locationTextFieldView.setState(.Loading)
+            updateLocationFunction()
+        }
+
+        locationTextFieldView.firstResponderDidChange = { isFirstResponder in
+            self.locationTextViewSelected = isFirstResponder
+            updateLocationFunction()
         }
     }
 
@@ -302,6 +389,7 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
         case .Name: return nameTextFieldView.height
         case .Bio: return 200
         case .Links: return linksTextFieldView.height
+        case .Location: return locationTextFieldView.height
         case .PreferenceSettings: return dynamicSettingsViewController?.height ?? 0
         case .Unknown: return 0
         }
@@ -457,4 +545,22 @@ extension SettingsViewController {
         scrollLogic.scrollViewDidEndDragging(scrollView, willDecelerate: willDecelerate)
     }
 
+}
+
+extension SettingsViewController: AutoCompleteDelegate {
+    public func updateAutoCompleteFrame() {
+        autoCompleteVC.view.alpha = (locationTextViewSelected && locationAutoCompleteResultCount > 0) ? 1 : 0
+        let rowHeight: CGFloat = AutoCompleteCell.cellHeight()
+        let maxHeight: CGFloat = 3.5 * rowHeight
+        let height: CGFloat = min(maxHeight, CGFloat(locationAutoCompleteResultCount) * rowHeight)
+        autoCompleteVC.view.frame = autoCompleteVC.view.frame.withHeight(height)
+        autoCompleteVC.tableView.frame = autoCompleteVC.view.bounds
+    }
+
+    public func autoComplete(controller: AutoCompleteViewController, itemSelected item: AutoCompleteItem) {
+        guard let name = item.result.name else { return }
+
+        locationTextFieldView.textField.text = name
+        locationTextFieldView.resignFirstResponder()
+    }
 }
