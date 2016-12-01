@@ -93,7 +93,7 @@ private extension ProfileTotalCountView {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.alignment = .Center
 
-        if let count = count where count != "" {
+        if let count = count where !count.isEmpty {
             let attributedCount = NSAttributedString(count + " ", color: .blackColor())
             let totalViewsText = NSAttributedString(InterfaceString.Profile.TotalViews, color: UIColor.greyA())
 

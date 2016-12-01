@@ -182,7 +182,7 @@ public class CredentialSettingsViewController: UITableViewController {
 
     private var submitViewHeight: CGFloat {
         let height = CredentialSettingsSubmitViewHeight
-        return height + (errorLabel.text != "" ? errorLabel.frame.height + 8 : 0)
+        return height + (errorLabel.text?.isEmpty == false ? errorLabel.frame.height + 8 : 0)
     }
 
     public func currentPasswordChanged() {

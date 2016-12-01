@@ -9,7 +9,7 @@ public extension NSURL {
 
     class func shorthand(shorthand: String) -> NSURL? {
         let url: NSURL
-        if let urlTest = NSURL(string: shorthand) where urlTest.scheme != nil && urlTest.scheme != "" {
+        if let urlTest = NSURL(string: shorthand) where urlTest.scheme?.isEmpty == false {
             url = urlTest
         }
         else if let urlTest = NSURL(string: "http://\(shorthand)") {

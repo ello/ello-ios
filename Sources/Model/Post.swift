@@ -84,7 +84,7 @@ public final class Post: JSONAble, Authorable, Groupable {
             }
         }
     }
-    public var collapsed: Bool { return self.contentWarning != "" }
+    public var collapsed: Bool { return !contentWarning.isEmpty }
     public var isRepost: Bool {
         return (repostContent?.count ?? 0) > 0
     }

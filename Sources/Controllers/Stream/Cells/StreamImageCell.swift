@@ -189,7 +189,7 @@ public class StreamImageCell: StreamRegionableCell {
     }
 
     private func loadImage(url: NSURL) {
-        guard url.scheme != "" else {
+        guard url.scheme?.isEmpty == false else {
             if let urlWithScheme = NSURL(string: "https:\(url.absoluteString)") {
                 loadImage(urlWithScheme)
             }
