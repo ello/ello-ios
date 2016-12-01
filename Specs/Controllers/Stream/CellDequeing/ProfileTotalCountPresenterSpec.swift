@@ -19,12 +19,12 @@ class ProfileTotalCountPresenterSpec: QuickSpec {
                 expect(view.count) == "2.4M"
             }
 
-            it("renders <1000 when no totalViewCount is present") {
+            it("renders nothing when no totalViewCount is present") {
                 let user = User.stub([:])
                 let view = ProfileTotalCountView()
                 ProfileTotalCountPresenter.configure(view, user: user, currentUser: nil)
 
-                expect(view.count) == "<1000"
+                expect(view.count).to(beNil())
             }
 
             it("shows cateogry badge if user is featured in one or more catgegories") {

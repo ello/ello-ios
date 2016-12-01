@@ -136,12 +136,12 @@ class UserSpec: QuickSpec {
 
                 it("returns <1000 when totalViewsCount is less totalViewsCount 1000") {
                     let subject: User = stub(["totalViewsCount": 950])
-                    expect(subject.formattedTotalCount!) == "<1000"
+                    expect(subject.formattedTotalCount!) == "<1K"
                 }
 
-                it("returns <1000 if totalViewsCount is not present") {
+                it("returns nil if totalViewsCount is missing") {
                     let subject: User = stub([:])
-                    expect(subject.formattedTotalCount!) == "<1000"
+                    expect(subject.formattedTotalCount).to(beNil())
                 }
 
                 it("returns proper value if totalViewsCount is greater than 999") {
