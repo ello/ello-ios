@@ -59,7 +59,7 @@ extension User: Stubbable {
         user.identifiableBy = (values["identifiableBy"] as? String) ?? "stub-user-identifiable-by"
         user.postsCount = (values["postsCount"] as? Int) ?? 0
         user.lovesCount = (values["lovesCount"] as? Int) ?? 0
-        user.totalViewsCount = (values["totalViewsCount"] as? Int) ?? 0
+        user.totalViewsCount = (values["totalViewsCount"] as? Int)
         if let count = values["followersCount"] as? Int {
             user.followersCount = String(count)
         }
