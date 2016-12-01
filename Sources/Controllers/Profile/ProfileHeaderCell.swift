@@ -76,25 +76,25 @@ public class ProfileHeaderCell: UICollectionViewCell {
         avatarView.onHeightMismatch = { avatarHeight in
             guard var calculatedCellHeights = self.calculatedCellHeights else { return }
             calculatedCellHeights.profileAvatar = avatarHeight
-            calculatedCellHeights.oneColumn = ProfileHeaderCellSizeCalculator.calculateHeightFromCellHeights(calculatedCellHeights)
-            self.calculatedCellHeights = calculatedCellHeights
-            self.onHeightMismatch?(calculatedCellHeights)
+            self.recalculateHeight(calculatedCellHeights)
+        }
+
+        totalCountView.onHeightMismatch = { totalCountHeight in
+            guard var calculatedCellHeights = self.calculatedCellHeights else { return }
+            calculatedCellHeights.profileTotalCount = totalCountHeight
+            self.recalculateHeight(calculatedCellHeights)
         }
 
         bioView.onHeightMismatch = { bioHeight in
             guard var calculatedCellHeights = self.calculatedCellHeights else { return }
             calculatedCellHeights.profileBio = bioHeight
-            calculatedCellHeights.oneColumn = ProfileHeaderCellSizeCalculator.calculateHeightFromCellHeights(calculatedCellHeights)
-            self.calculatedCellHeights = calculatedCellHeights
-            self.onHeightMismatch?(calculatedCellHeights)
+            self.recalculateHeight(calculatedCellHeights)
         }
 
         linksView.onHeightMismatch = { linkHeight in
             guard var calculatedCellHeights = self.calculatedCellHeights else { return }
             calculatedCellHeights.profileLinks = linkHeight
-            calculatedCellHeights.oneColumn = ProfileHeaderCellSizeCalculator.calculateHeightFromCellHeights(calculatedCellHeights)
-            self.calculatedCellHeights = calculatedCellHeights
-            self.onHeightMismatch?(calculatedCellHeights)
+            self.recalculateHeight(calculatedCellHeights)
         }
     }
 
@@ -118,5 +118,12 @@ public class ProfileHeaderCell: UICollectionViewCell {
         bioView.prepareForReuse()
         locationView.prepareForReuse()
         linksView.prepareForReuse()
+    }
+
+    private func recalculateHeight(_ _calculatedCellHeights: CalculatedCellHeights) {
+        var calculatedCellHeights = _calculatedCellHeights
+        calculatedCellHeights.oneColumn = ProfileHeaderCellSizeCalculator.calculateHeightFromCellHeights(calculatedCellHeights)
+        self.calculatedCellHeights = calculatedCellHeights
+        onHeightMismatch?(calculatedCellHeights)
     }
 }

@@ -12,7 +12,7 @@ public struct ProfileTotalCountPresenter {
         user: User,
         currentUser: User?)
     {
-        view.count = user.formattedTotalCount()
+        view.count = user.formattedTotalCount
         view.badgeVisible = user.categories?.count > 0
     }
 }

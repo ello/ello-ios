@@ -9,22 +9,17 @@ public class ProfileTotalCountView: ProfileBaseView {
     private let greyLine = UIView()
 
     public struct Size {
-        static let height: CGFloat = 0
-        static let shareMargin: CGFloat = 2
-        static let shareWidth: CGFloat = 44
-        static let shareHeight: CGFloat = 44
+        static let height: CGFloat = 60
+        static let labelVerticalOffset: CGFloat = 3.5
         static let badgeMargin: CGFloat = 12
-        static let badgeWidth: CGFloat = 44
-        static let badgeHeight: CGFloat = 44
+        static let badgeSize: CGFloat = 44
     }
 
     static let totalFont = UIFont.defaultFont(14)
 
-    public var count: String {
-        get { return _count }
-        set {
-            _count = newValue
-            updateCountText()
+    public var count: String? {
+        didSet {
+            updateAttributedCountText()
         }
     }
 
@@ -33,8 +28,7 @@ public class ProfileTotalCountView: ProfileBaseView {
         get { return !badgeButton.hidden }
     }
 
-    private var _count = ""
-    private let totalViewsText = ElloAttributedString.style(InterfaceString.Profile.TotalViews, [NSForegroundColorAttributeName: UIColor.greyA()])
+    var onHeightMismatch: OnHeightMismatch?
 }
 
 extension ProfileTotalCountView {
@@ -52,7 +46,7 @@ extension ProfileTotalCountView {
     }
 
     override func setText() {
-        updateCountText()
+        updateAttributedCountText()
     }
 
     override func arrange() {
@@ -62,15 +56,13 @@ extension ProfileTotalCountView {
 
         totalLabel.snp_makeConstraints { make in
             make.centerX.equalTo(self)
-            make.centerY.equalTo(self)
-            make.width.equalTo(self)
+            make.centerY.equalTo(self).offset(Size.labelVerticalOffset)
         }
 
         badgeButton.snp_makeConstraints { make in
             make.centerY.equalTo(self)
             make.trailing.equalTo(self).inset(Size.badgeMargin)
-            make.width.equalTo(Size.badgeWidth)
-            make.width.equalTo(Size.badgeWidth)
+            make.width.height.equalTo(Size.badgeSize)
         }
 
         greyLine.snp_makeConstraints { make in
@@ -81,7 +73,6 @@ extension ProfileTotalCountView {
     }
 
     public func prepareForReuse() {
-        // nothing here yet
     }
 }
 
@@ -98,22 +89,29 @@ extension ProfileTotalCountView {
 
 private extension ProfileTotalCountView {
 
-    func totalViewText(countText: String) -> NSAttributedString {
-        let attributed = NSMutableAttributedString()
+    func updateAttributedCountText() {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.alignment = .Center
 
-        let count = ElloAttributedString.style(countText + " ", [
-            NSForegroundColorAttributeName: UIColor.blackColor(),
-            NSParagraphStyleAttributeName : paragraphStyle
-        ])
-        attributed.appendAttributedString(count)
-        attributed.appendAttributedString(totalViewsText)
-        return attributed
-    }
+        if let count = count where count != "" {
+            let attributedCount = NSAttributedString(count + " ", color: .blackColor())
+            let totalViewsText = NSAttributedString(InterfaceString.Profile.TotalViews, color: UIColor.greyA())
 
-    func updateCountText() {
-        totalLabel.attributedText = totalViewText(count)
+            let attributed = NSMutableAttributedString()
+            attributed.appendAttributedString(attributedCount)
+            attributed.appendAttributedString(totalViewsText)
+            totalLabel.attributedText = attributed
+            if frame.height == 0 {
+                onHeightMismatch?(Size.height)
+            }
+        }
+        else {
+            totalLabel.text = ""
+            if frame.height != 0 {
+                onHeightMismatch?(0)
+            }
+        }
+
         setNeedsLayout()
     }
 }

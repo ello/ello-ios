@@ -12,6 +12,7 @@ public class ProfileHeaderLayoutView: ProfileBaseView {
 
             if let avatarHeight = calculatedCellHeights.profileAvatar { avatarHeightConstraint.updateOffset(avatarHeight) }
             if let namesHeight = calculatedCellHeights.profileNames { namesHeightConstraint.updateOffset(namesHeight) }
+            if let totalCountHeight = calculatedCellHeights.profileTotalCount { totalCountHeightConstraint.updateOffset(totalCountHeight) }
             if let bioHeight = calculatedCellHeights.profileBio { bioHeightConstraint.updateOffset(bioHeight) }
             if let locationHeight = calculatedCellHeights.profileLocation { locationHeightConstraint.updateOffset(locationHeight) }
             if let linksHeight = calculatedCellHeights.profileLinks { linksHeightConstraint.updateOffset(linksHeight) }
@@ -39,6 +40,7 @@ public class ProfileHeaderLayoutView: ProfileBaseView {
 
     var avatarHeightConstraint: Constraint!
     var namesHeightConstraint: Constraint!
+    var totalCountHeightConstraint: Constraint!
     var bioHeightConstraint: Constraint!
     var locationHeightConstraint: Constraint!
     var linksHeightConstraint: Constraint!

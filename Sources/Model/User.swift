@@ -52,6 +52,14 @@ public final class User: JSONAble {
     public var backgroundPosition: String?
     public var onboardingVersion: Int?
     public var totalViewsCount: Int?
+    public var formattedTotalCount: String? {
+        guard let count = totalViewsCount else { return nil }
+
+        if count < 1000 {
+            return "<1K"
+        }
+        return count.numberToHuman(rounding: 2, showZero: true)
+    }
     public var location: String?
 
     // links
@@ -335,12 +343,6 @@ extension User {
 
     func isOwnParentPost(comment: ElloComment) -> Bool {
         return id == comment.loadedFromPost?.authorId || id == comment.loadedFromPost?.repostAuthor?.id
-    }
-
-    func formattedTotalCount() -> String {
-        guard let count = totalViewsCount else { return "" }
-        if count < 1000 { return "<1000" }
-        return count.numberToHuman(rounding: 2, showZero: true)
     }
 }
 

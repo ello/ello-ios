@@ -39,7 +39,7 @@ public class ProfileHeaderCompactView: ProfileHeaderLayoutView {
         totalCountView.snp_makeConstraints { make in
             make.top.equalTo(self.namesView.snp_bottom)
             make.width.centerX.equalTo(self)
-            make.height.equalTo(ProfileTotalCountView.Size.height)
+            totalCountHeightConstraint = make.height.equalTo(0).constraint
         }
 
         statsView.snp_makeConstraints { make in
