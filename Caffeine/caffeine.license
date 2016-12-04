@@ -1,0 +1,21 @@
+locksmithVersion = 0
+licensedTo = "Ello PBC"
+
+[[products]]
+identifier = "net.caffei.nitrogen"
+licenseCode = [167, 1, 134, 232, 2, 130, 10, 167, 196, 244, 83, 214, 223, 9, 156, 50, 96, 200, 144, 197, 116, 137, 230, 71, 172, 147, 205, 190, 173, 167, 76, 64, 17, 91, 119, 58, 110, 60, 203, 49, 184, 213, 180, 84, 24, 204, 113, 43, 29, 86, 51, 87, 159, 201, 254, 152, 133, 121, 43, 69, 177, 89, 25, 5]
+
+
+[[products.entitlements]]
+identifier = "N₂client"
+
+[[products.entitlements.restrictions]]
+type = "BundleIDRestriction"
+data = "co.ello.Ello"
+
+[[products.entitlements]]
+identifier = "N₂client"
+
+[[products.entitlements.restrictions]]
+type = "BundleIDRestriction"
+data = "co.ello.ElloDev"
