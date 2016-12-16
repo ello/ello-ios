@@ -802,6 +802,14 @@
 		1DFC5DC71AACBFE4008DA855 /* create-post.json in Resources */ = {isa = PBXBuildFile; fileRef = 1DFC5DC61AACBFE4008DA855 /* create-post.json */; };
 		1DFF43461A8C171400D43CFF /* NotificationFilterButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DFF43451A8C171400D43CFF /* NotificationFilterButton.swift */; };
 		1DFF43521A8D520E00D43CFF /* NotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DFF43511A8D520E00D43CFF /* NotificationCell.swift */; };
+		3A2A7FFB1DC94FB600732F00 /* CocoaAsyncSocket.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A2A7FF91DC94E0500732F00 /* CocoaAsyncSocket.framework */; };
+		3A2A7FFC1DC94FB600732F00 /* CocoaAsyncSocket.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3A2A7FF91DC94E0500732F00 /* CocoaAsyncSocket.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		3AB12BCD1DC805B100CDFA31 /* NaOH.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3AB12BCA1DC805A500CDFA31 /* NaOH.framework */; };
+		3AB12BCE1DC805B100CDFA31 /* NaOH.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3AB12BCA1DC805A500CDFA31 /* NaOH.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		3AB12BCF1DC805B100CDFA31 /* Nitrogen.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3AB12BCB1DC805A500CDFA31 /* Nitrogen.framework */; };
+		3AB12BD01DC805B100CDFA31 /* Nitrogen.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3AB12BCB1DC805A500CDFA31 /* Nitrogen.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		3AC3FE8E1DC807B500E416E2 /* caffeine.license in Resources */ = {isa = PBXBuildFile; fileRef = 3AC3FE8D1DC807B500E416E2 /* caffeine.license */; };
+		3AD898F81DD78D2800D17DAA /* proxy.key in Resources */ = {isa = PBXBuildFile; fileRef = 3AD898F71DD78D2800D17DAA /* proxy.key */; };
 		55C6FB5CD7E207A6B84E527B /* Pods_Specs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 91944BE577C550B17C0B263D /* Pods_Specs.framework */; };
 		761A66221B0E75AD0088FF56 /* specs-avatar.png in Resources */ = {isa = PBXBuildFile; fileRef = 761A661F1B0E75AD0088FF56 /* specs-avatar.png */; };
 		761A662A1B0E8AD20088FF56 /* specs-1000x4000.png in Resources */ = {isa = PBXBuildFile; fileRef = 761A66281B0E8AD20088FF56 /* specs-1000x4000.png */; };
@@ -996,6 +1004,8 @@
 		86E4F2ED1B14FE6F008EBC5B /* FriendsPageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E4F2EC1B14FE6F008EBC5B /* FriendsPageController.swift */; };
 		86E4F2EF1B14FE9B008EBC5B /* LovesPageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E4F2EE1B14FE9B008EBC5B /* LovesPageController.swift */; };
 		86E4F2F11B150598008EBC5B /* IntroPageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E4F2F01B150598008EBC5B /* IntroPageController.swift */; };
+		9B34316B1DF4BE2C00005011 /* Proxeine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B34316A1DF4BE2C00005011 /* Proxeine.framework */; };
+		9B34316C1DF4BE2C00005011 /* Proxeine.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9B34316A1DF4BE2C00005011 /* Proxeine.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C2787E7F5FD7375A624964BF /* IntroViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2787373AD61145193E6BE99 /* IntroViewController.swift */; };
 		EA004C921AC356CB0021B44B /* ElloTextFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA004C911AC356CB0021B44B /* ElloTextFieldView.swift */; };
 		EA004C941AC357320021B44B /* ElloTextFieldView.xib in Resources */ = {isa = PBXBuildFile; fileRef = EA004C931AC357320021B44B /* ElloTextFieldView.xib */; };
@@ -1096,6 +1106,10 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				9B34316C1DF4BE2C00005011 /* Proxeine.framework in Embed Frameworks */,
+				3AB12BD01DC805B100CDFA31 /* Nitrogen.framework in Embed Frameworks */,
+				3A2A7FFC1DC94FB600732F00 /* CocoaAsyncSocket.framework in Embed Frameworks */,
+				3AB12BCE1DC805B100CDFA31 /* NaOH.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1774,6 +1788,11 @@
 		1DFF43451A8C171400D43CFF /* NotificationFilterButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationFilterButton.swift; sourceTree = "<group>"; };
 		1DFF43511A8D520E00D43CFF /* NotificationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationCell.swift; sourceTree = "<group>"; };
 		31A38EE9D399B7D9C67F9E78 /* Pods_Ello.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Ello.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3A2A7FF91DC94E0500732F00 /* CocoaAsyncSocket.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaAsyncSocket.framework; path = Caffeine/CocoaAsyncSocket.framework; sourceTree = "<group>"; };
+		3AB12BCA1DC805A500CDFA31 /* NaOH.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NaOH.framework; path = Caffeine/NaOH.framework; sourceTree = "<group>"; };
+		3AB12BCB1DC805A500CDFA31 /* Nitrogen.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nitrogen.framework; path = Caffeine/Nitrogen.framework; sourceTree = "<group>"; };
+		3AC3FE8D1DC807B500E416E2 /* caffeine.license */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = caffeine.license; path = Caffeine/caffeine.license; sourceTree = "<group>"; };
+		3AD898F71DD78D2800D17DAA /* proxy.key */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = proxy.key; path = Caffeine/proxy.key; sourceTree = "<group>"; };
 		6E8EF6ED0A7F6EFFAFA8F5C2 /* Pods-Specs.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Specs.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Specs/Pods-Specs.debug.xcconfig"; sourceTree = "<group>"; };
 		760303551AE17290005F7A08 /* Availability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Availability.swift; sourceTree = "<group>"; };
 		760F66181AD843990071F633 /* Profile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
@@ -1976,6 +1995,7 @@
 		86E4F2F01B150598008EBC5B /* IntroPageController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntroPageController.swift; sourceTree = "<group>"; };
 		91944BE577C550B17C0B263D /* Pods_Specs.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Specs.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		92B8836FCC4C00C326A32B2F /* Pods-ShareExtension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShareExtension.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ShareExtension/Pods-ShareExtension.debug.xcconfig"; sourceTree = "<group>"; };
+		9B34316A1DF4BE2C00005011 /* Proxeine.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Proxeine.framework; path = Caffeine/Proxeine.framework; sourceTree = "<group>"; };
 		A824F716382ED3E3CB5E30F4 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B68A8996E520AEC7CA223685 /* Pods-ShareExtension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShareExtension.release.xcconfig"; path = "Pods/Target Support Files/Pods-ShareExtension/Pods-ShareExtension.release.xcconfig"; sourceTree = "<group>"; };
 		C2787373AD61145193E6BE99 /* IntroViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntroViewController.swift; sourceTree = "<group>"; };
@@ -2072,7 +2092,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3A2A7FFB1DC94FB600732F00 /* CocoaAsyncSocket.framework in Frameworks */,
+				3AB12BCF1DC805B100CDFA31 /* Nitrogen.framework in Frameworks */,
+				3AB12BCD1DC805B100CDFA31 /* NaOH.framework in Frameworks */,
 				12F800801C59D714002436D1 /* KeychainAccess.framework in Frameworks */,
+				9B34316B1DF4BE2C00005011 /* Proxeine.framework in Frameworks */,
 				01BA14787BB2CA507020C9C4 /* Pods_Ello.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3679,6 +3703,19 @@
 			path = Relationship;
 			sourceTree = "<group>";
 		};
+		9B3431681DF4BD4700005011 /* Caffeine */ = {
+			isa = PBXGroup;
+			children = (
+				9B34316A1DF4BE2C00005011 /* Proxeine.framework */,
+				3AD898F71DD78D2800D17DAA /* proxy.key */,
+				3AC3FE8D1DC807B500E416E2 /* caffeine.license */,
+				3A2A7FF91DC94E0500732F00 /* CocoaAsyncSocket.framework */,
+				3AB12BCA1DC805A500CDFA31 /* NaOH.framework */,
+				3AB12BCB1DC805A500CDFA31 /* Nitrogen.framework */,
+			);
+			name = Caffeine;
+			sourceTree = "<group>";
+		};
 		C27874546873C1EC3EAF2D85 /* Intro */ = {
 			isa = PBXGroup;
 			children = (
@@ -3725,6 +3762,7 @@
 		F2E6171EAB0582B635BF53D4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9B3431681DF4BD4700005011 /* Caffeine */,
 				12DEB24D1C5BFA9200D4CDCE /* libcommonCrypto.tbd */,
 				12F8007F1C59D714002436D1 /* KeychainAccess.framework */,
 				12F8007D1C59D70A002436D1 /* KeychainAccess.framework */,
@@ -3832,6 +3870,7 @@
 				124CFBA71C5976E500727D11 /* Embed App Extensions */,
 				3E1A272FC989C6AE7364045C /* [CP] Embed Pods Frameworks */,
 				7819AAEAAFEF89C6080D0BE7 /* [CP] Copy Pods Resources */,
+				9B3431691DF4BDE100005011 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -4071,6 +4110,7 @@
 				1D7152A01D6D212D005998FE /* ello-crazy-logo.gif in Resources */,
 				7689B4F41AD4ED3B00E4A4A3 /* posts_listing_users_who_have_reposted_a_post.json in Resources */,
 				76F8DEF31B6C0BC4009BCF61 /* repost_selected.svg in Resources */,
+				3AD898F81DD78D2800D17DAA /* proxy.key in Resources */,
 				76F8DF071B6C0BC4009BCF61 /* xpmcirc_selected.svg in Resources */,
 				EAC605481ADD978D009B9426 /* DynamicSettingCell.xib in Resources */,
 				128C5AF31C59801900EFC226 /* (null) in Resources */,
@@ -4103,6 +4143,7 @@
 				76F8DEBE1B6C0BC4009BCF61 /* check_normal.svg in Resources */,
 				1DD829A31BD93D3600105CDE /* relationship_inactive.json in Resources */,
 				128C5AF91C59813D00EFC226 /* (null) in Resources */,
+				3AC3FE8E1DC807B500E416E2 /* caffeine.license in Resources */,
 				12F6AE9C1A433F2700493660 /* 422.json in Resources */,
 				76F8DEC41B6C0BC4009BCF61 /* circ_selected.svg in Resources */,
 				12F6AE9B1A433F2700493660 /* 420.json in Resources */,
@@ -4352,6 +4393,23 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ShareExtension/Pods-ShareExtension-resources.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		9B3431691DF4BDE100005011 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Caffeine/NaOH.framework",
+				"$(SRCROOT)/Caffeine/Nitrogen.framework",
+				"$(SRCROOT)/Caffeine/Proxeine.framework",
+				"$(SRCROOT)/Caffeine/CocoaAsyncSocket.framework",
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks";
 		};
 		A156A84962927AEA0C15D925 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -5441,6 +5499,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Caffeine",
 				);
 				GCC_OPTIMIZATION_LEVEL = 3;
 				GCC_VERSION = "";
@@ -5455,7 +5514,7 @@
 					"\"${PODS_ROOT}/Headers/Public/Firebase\"",
 				);
 				INFOPLIST_FILE = Support/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited)";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"DEBUG\" -Xfrontend -debug-time-function-bodies";
 				PRODUCT_BUNDLE_IDENTIFIER = co.ello.ElloDev;
 				PRODUCT_NAME = Ello;
@@ -5481,6 +5540,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Caffeine",
 				);
 				GCC_OPTIMIZATION_LEVEL = 3;
 				GCC_VERSION = "";
@@ -5495,7 +5555,7 @@
 					"\"${PODS_ROOT}/Headers/Public/Firebase\"",
 				);
 				INFOPLIST_FILE = Support/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited)";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"RELEASE\"";
 				PRODUCT_BUNDLE_IDENTIFIER = co.ello.Ello;

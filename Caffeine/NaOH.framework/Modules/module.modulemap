@@ -1,0 +1,10 @@
+framework module NaOH {
+  umbrella header "NaOH.h"
+
+  export *
+  module * { export * }
+}
+
+module NaOH.Swift {
+    header "NaOH-Swift.h"
+}
