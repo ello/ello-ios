@@ -12,3 +12,4 @@
 #import <SSPullToRefresh/SSPullToRefresh.h>
 #import <SVGKit/SVGKit.h>
 #import <YapDatabase/YapDatabase.h>
+#import <GoogleConversionTracking/ACTReporter.h>

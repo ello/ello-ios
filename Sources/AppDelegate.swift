@@ -58,6 +58,16 @@ public class AppDelegate: UIResponder, UIApplicationDelegate {
             PushNotificationController.sharedController.receivedNotification(application, userInfo: payload)
         }
 
+#if DEBUG
+        print("Skipping Conversion Tracking in DEBUG")
+#else
+        ACTConversionReporter.reportWithConversionID(
+            ElloKeys().conversionId(),
+            label: ElloKeys().conversionLabel(),
+            value: "0.00",
+            isRepeatable: false
+        )
+#endif
         return true
     }
 

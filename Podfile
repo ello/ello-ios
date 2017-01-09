@@ -66,6 +66,7 @@ end
 target 'Ello' do
   common_pods
   ello_app_pods
+  pod 'GoogleConversionTracking'
 end
 
 target 'ShareExtension' do
@@ -88,6 +89,8 @@ plugin 'cocoapods-keys', {
     'HttpProtocol',
     'SodiumChloride',
     'SegmentKey',
+    'ConversionId',
+    'ConversionLabel',
   ]
 }
 
