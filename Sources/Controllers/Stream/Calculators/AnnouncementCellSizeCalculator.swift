@@ -21,14 +21,25 @@ class AnnouncementCellSizeCalculator {
 
         let textWidth = cellWidth - AnnouncementCell.Size.margins - AnnouncementCell.Size.imageSize - AnnouncementCell.Size.textLeadingMargin - AnnouncementCell.Size.closeButtonSize
         var calcHeight: CGFloat = 0
-        calcHeight += AnnouncementCell.Size.margins
-        calcHeight += attributedTitle.heightForWidth(textWidth)
-        calcHeight += AnnouncementCell.Size.textVerticalMargin
-        calcHeight += attributedBody.heightForWidth(textWidth)
-        calcHeight += AnnouncementCell.Size.textVerticalMargin
-        calcHeight += attributedCTA.heightForWidth(textWidth)
-        calcHeight += AnnouncementCell.Size.margins
-        return calcHeight
+        calcHeight += 2 * AnnouncementCell.Size.margins
+        var textHeight: CGFloat = 0
+        textHeight += attributedTitle.heightForWidth(textWidth)
+        textHeight += AnnouncementCell.Size.textVerticalMargin
+        textHeight += attributedBody.heightForWidth(textWidth)
+        textHeight += AnnouncementCell.Size.textVerticalMargin
+        textHeight += attributedCTA.heightForWidth(textWidth)
+
+        let imageHeight: CGFloat
+        if let attachment = announcement.preferredAttachment,
+            let width = attachment.width.flatMap({ CGFloat($0) }),
+            let height = attachment.height.flatMap({ CGFloat($0) })
+        {
+            imageHeight = height * AnnouncementCell.Size.imageSize / width
+        }
+        else {
+            imageHeight = 0
+        }
+        return calcHeight + max(textHeight, imageHeight)
     }
 
     func processCells(_ cellItems: [StreamCellItem], withWidth width: CGFloat, completion: @escaping ElloEmptyCompletion) {
