@@ -84,6 +84,13 @@ class NotificationsViewController: StreamableViewController, NotificationDelegat
         PushNotificationController.sharedController.updateBadgeNumber(0)
     }
 
+    override public func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+
+        let jsonables = streamViewController.dataSource.streamCellItems.map { $0.jsonable }
+        track(jsonables: jsonables)
+    }
+
     func initialLoad() {
         ElloHUD.showLoadingHudInView(streamViewController.view)
         generator?.load(reload: false)
@@ -229,18 +236,17 @@ extension NotificationsViewController: StreamDestination {
     }
 
     func replacePlaceholder(type: StreamCellType.PlaceholderType, items: [StreamCellItem], completion: @escaping ElloEmptyCompletion) {
+        if type == .announcements {
+            let jsonables = items.map { $0.jsonable }
+            track(jsonables: jsonables)
+        }
+
         streamViewController.replacePlaceholder(type, with: items, completion: completion)
     }
 
     func setPlaceholders(items: [StreamCellItem]) {
         streamViewController.clearForInitialLoad()
         streamViewController.appendUnsizedCellItems(items, withWidth: view.frame.width) { _ in }
-
-        for item in items {
-            if let announcement = item.jsonable as? Announcement {
-                Tracker.shared.announcementViewed(announcement)
-            }
-        }
     }
 
     func setPrimary(jsonable: JSONAble) {
@@ -256,11 +262,18 @@ extension NotificationsViewController: StreamDestination {
     }
 }
 
-// MARK: NotificationsViewController:
+// MARK: NotificationsViewController: AnnouncementDelegate
 extension NotificationsViewController: AnnouncementDelegate {
     func markAnnouncementAsRead(announcement: Announcement) {
         Tracker.shared.announcementDismissed(announcement)
         generator?.markAnnouncementAsRead(announcement)
         postNotification(JSONAbleChangedNotification, value: (announcement, .delete))
+    }
+
+    public func track(jsonables: [JSONAble]) {
+        let announcements: [Announcement] = jsonables.flatMap { $0 as? Announcement }
+        for announcement in announcements {
+            Tracker.sharedTracker.announcementViewed(announcement)
+        }
     }
 }
