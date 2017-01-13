@@ -214,7 +214,7 @@ private extension CategoryGenerator {
                     inForeground {
                         if items.count == 0 {
                             self.hasPosts = false
-                            let noItems = [StreamCellItem(type: .noPosts)]
+                            let noItems = [StreamCellItem(type: .emptyStream(height: 182))]
                             self.destination?.replacePlaceholder(type: .categoryPosts, items: noItems) {
                                 self.destination?.pagingEnabled = false
                             }

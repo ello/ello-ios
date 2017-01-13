@@ -105,8 +105,9 @@ final class NotificationsGenerator: StreamGenerator {
 
                 let notificationItems = self.parse(jsonables: notifications)
                 if notificationItems.count == 0 {
+                    let noContentItem = StreamCellItem(type: .emptyStream(height: 282))
                     self.hasNotifications = false
-                    self.destination?.replacePlaceholder(type: .notifications, items: []) {
+                    self.destination?.replacePlaceholder(type: .notifications, items: [noContentItem]) {
                         self.destination?.pagingEnabled = false
                     }
                 }
@@ -121,7 +122,12 @@ final class NotificationsGenerator: StreamGenerator {
                 self?.destination?.primaryJSONAbleNotFound()
             },
             noContent: { [weak self] in
-                self?.destination?.primaryJSONAbleNotFound()
+                guard let `self` = self else { return }
+                let noContentItem = StreamCellItem(type: .emptyStream(height: 282))
+                self.destination?.setPrimary(jsonable: JSONAble(version: JSONAbleVersion))
+                self.destination?.replacePlaceholder(type: .notifications, items: [noContentItem]) {
+                    self.destination?.pagingEnabled = false
+                }
             }
         )
     }

@@ -379,10 +379,7 @@ final class StreamViewController: BaseElloViewController {
                     self.initialLoadFailure()
                 }, noContent: {
                     self.clearForInitialLoad()
-                    self.currentJSONables = []
-                    var items = self.generateStreamCellItems([])
-                    items.append(StreamCellItem(type: .emptyStream(height: 282)))
-                    self.appendUnsizedCellItems(items, withWidth: nil, completion: { _ in })
+                    self.showInitialJSONAbles([])
                 })
         }
     }
@@ -393,7 +390,10 @@ final class StreamViewController: BaseElloViewController {
         self.clearForInitialLoad()
         self.currentJSONables = jsonables
 
-        let items = self.generateStreamCellItems(jsonables)
+        var items = self.generateStreamCellItems(jsonables)
+        if jsonables.count == 0 {
+            items.append(StreamCellItem(type: .emptyStream(height: 282)))
+        }
         self.appendUnsizedCellItems(items, withWidth: nil, completion: { indexPaths in
             self.pagingEnabled = true
         })
@@ -412,10 +412,14 @@ final class StreamViewController: BaseElloViewController {
     }
 
     fileprivate func updateNoResultsLabel() {
-        delay(0.666) {
-            if self.noResultsLabel != nil {
-                self.dataSource.visibleCellItems.count > 0 ? self.hideNoResults() : self.showNoResults()
+        let shouldShowNoResults = noResultsLabel != nil && dataSource.visibleCellItems.count == 0
+        if shouldShowNoResults {
+            delay(0.666) {
+                self.showNoResults()
             }
+        }
+        else {
+            self.hideNoResults()
         }
     }
 
