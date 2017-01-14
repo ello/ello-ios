@@ -17,9 +17,9 @@ PODS:
     - Fabric (~> 1.6.3)
   - CRToast (0.0.7)
   - DeltaCalculator (1.0.4)
-  - ElloCerts (2.0.0):
+  - ElloOSSCerts (2.0.0):
     - Alamofire (~> 4.0)
-  - ElloUIFonts (2.0.0)
+  - ElloOSSUIFonts (2.0.0)
   - Fabric (1.6.11)
   - FBSnapshotTestCase (2.1.4):
     - FBSnapshotTestCase/SwiftSupport (= 2.1.4)
@@ -117,8 +117,8 @@ DEPENDENCIES:
   - Crashlytics (~> 3.4)
   - CRToast (from `https://github.com/ello/CRToast`)
   - DeltaCalculator (from `https://github.com/ello/DeltaCalculator`)
-  - ElloCerts (from `git@github.com:ello/Ello-iOS-Certs`)
-  - ElloUIFonts (from `git@github.com:ello/ElloUIFonts`)
+  - ElloOSSCerts (~> 2.0)
+  - ElloOSSUIFonts (~> 2.0)
   - Fabric (~> 1.6)
   - FBSnapshotTestCase
   - FLAnimatedImage (~> 1.0)
@@ -151,10 +151,6 @@ EXTERNAL SOURCES:
     :git: https://github.com/ello/CRToast
   DeltaCalculator:
     :git: https://github.com/ello/DeltaCalculator
-  ElloCerts:
-    :git: git@github.com:ello/Ello-iOS-Certs
-  ElloUIFonts:
-    :git: git@github.com:ello/ElloUIFonts
   FutureKit:
     :branch: v3
     :git: https://github.com/FutureKit/FutureKit
@@ -189,12 +185,6 @@ CHECKOUT OPTIONS:
   DeltaCalculator:
     :commit: d384bca310305e0d000768b558cc128dec0a4aa5
     :git: https://github.com/ello/DeltaCalculator
-  ElloCerts:
-    :commit: 0fb257526178beb86ef6ce1d4b11bfd08cb3bcf1
-    :git: git@github.com:ello/Ello-iOS-Certs
-  ElloUIFonts:
-    :commit: c0bcfe900cdcc97f7df534657d5ce3b1efeb6a67
-    :git: git@github.com:ello/ElloUIFonts
   FutureKit:
     :commit: 43d4f55387e82e3a0892d346fc1a7018a7a5f15c
     :git: https://github.com/FutureKit/FutureKit
@@ -231,8 +221,8 @@ SPEC CHECKSUMS:
   Crashlytics: 2b6dbe138a42395577cfa73dfa1aa7248cadf39e
   CRToast: eb22641501990233c53cb8f83f7d2ea87e0ddf73
   DeltaCalculator: 97ea120ac2ebcf55e472d7ba872c8bc79c138454
-  ElloCerts: f12a2de4456c84010fde1be70e98cff6b06389e1
-  ElloUIFonts: 50eada1c661020aa63104ced5055e22aac3d61a5
+  ElloOSSCerts: 02225b0e94cc76c8edca0671f3051f896d54798c
+  ElloOSSUIFonts: 513b47431bcc109746fb92ba3b909e598c9e70a8
   Fabric: 5911403591946b8228ab1c51d98f1d7137e863c6
   FBSnapshotTestCase: 094f9f314decbabe373b87cc339bea235a63e07a
   FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31

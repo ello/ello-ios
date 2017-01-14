@@ -1,0 +1,10 @@
+framework module Proxeine {
+  umbrella header "Proxeine.h"
+
+  export *
+  module * { export * }
+}
+
+module Proxeine.Swift {
+    header "Proxeine-Swift.h"
+}

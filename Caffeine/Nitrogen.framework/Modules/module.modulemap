@@ -1,0 +1,10 @@
+framework module Nitrogen {
+  umbrella header "Nitrogen.h"
+
+  export *
+  module * { export * }
+}
+
+module Nitrogen.Swift {
+    header "Nitrogen-Swift.h"
+}
