@@ -340,7 +340,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _No
   [CaffeineHTTPProxy deny:@"http:*"];
   [CaffeineHTTPProxy deny:@"http://google.com/humans.txt"];
 
-  \endcodeThis allow configurations (above) specify that the following will NOT be Caffeinated:
+  \endcodeThis deny configuration (above) specify that the following will NOT be Caffeinated:
   <ul>
     <li>
       all PNG files
