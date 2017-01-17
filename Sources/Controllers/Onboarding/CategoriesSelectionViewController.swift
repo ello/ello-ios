@@ -28,6 +28,7 @@ class CategoriesSelectionViewController: StreamableViewController, HasAppControl
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        streamViewController.pullToRefreshEnabled = false
         streamViewController.selectedCategoryDelegate = self
         ElloHUD.showLoadingHudInView(streamViewController.view)
         streamViewController.loadInitialPage()
