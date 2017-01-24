@@ -2,19 +2,19 @@
 ///  SearchStreamCellPresenter.swift
 //
 
-public struct SearchStreamCellPresenter {
+struct SearchStreamCellPresenter {
 
     static func configure(
-        cell: UICollectionViewCell,
+        _ cell: UICollectionViewCell,
         streamCellItem: StreamCellItem,
         streamKind: StreamKind,
-        indexPath: NSIndexPath,
+        indexPath: IndexPath,
         currentUser: User?)
     {
-        guard let
-            cell = cell as? SearchStreamCell,
-            search = streamCellItem.jsonable as? SearchString,
-            case let .Search(placeholder) = streamCellItem.type
+        guard
+            let cell = cell as? SearchStreamCell,
+            let search = streamCellItem.jsonable as? SearchString,
+            case let .search(placeholder) = streamCellItem.type
         else { return }
 
         cell.placeholder = placeholder

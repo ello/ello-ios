@@ -2,16 +2,16 @@
 ///  StreamFooterButton.swift
 //
 
-public class StreamFooterButton: UIButton {
+class StreamFooterButton: UIButton {
 
     var attributedText: NSMutableAttributedString = NSMutableAttributedString(string: "")
 
-    func setButtonTitleWithPadding(title: String?, titlePadding: CGFloat = 4.0, contentPadding: CGFloat = 5.0) {
+    func setButtonTitleWithPadding(_ title: String?, titlePadding: CGFloat = 4.0, contentPadding: CGFloat = 5.0) {
 
         if let title = title {
-            setButtonTitle(title, color: UIColor.greyA(), forState: .Normal)
-            setButtonTitle(title, color: UIColor.blackColor(), forState: .Highlighted)
-            setButtonTitle(title, color: UIColor.blackColor(), forState: .Selected)
+            setButtonTitle(title, color: UIColor.greyA(), for: .normal)
+            setButtonTitle(title, color: UIColor.black, for: .highlighted)
+            setButtonTitle(title, color: UIColor.black, for: .selected)
         }
 
         titleEdgeInsets = UIEdgeInsets(top: 0.0, left: titlePadding, bottom: 0.0, right: -(titlePadding))
@@ -19,9 +19,9 @@ public class StreamFooterButton: UIButton {
         sizeToFit()
     }
 
-    private func setButtonTitle(title: String, color: UIColor, forState state: UIControlState) {
+    fileprivate func setButtonTitle(_ title: String, color: UIColor, for state: UIControlState) {
         let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.alignment = .Center
+        paragraphStyle.alignment = .center
 
         let attributes = [
             NSFontAttributeName : UIFont.defaultFont(),
@@ -30,12 +30,12 @@ public class StreamFooterButton: UIButton {
         ]
         attributedText = NSMutableAttributedString(string: title, attributes: attributes)
 
-        contentHorizontalAlignment = .Center
-        self.titleLabel?.textAlignment = .Center
-        self.setAttributedTitle(attributedText, forState: state)
+        contentHorizontalAlignment = .center
+        self.titleLabel?.textAlignment = .center
+        self.setAttributedTitle(attributedText, for: state)
     }
 
-    override public func sizeThatFits(size: CGSize) -> CGSize {
+    override func sizeThatFits(_ size: CGSize) -> CGSize {
         let size = super.sizeThatFits(size)
         return CGSize(width: max(44.0, size.width), height: 44.0)
     }

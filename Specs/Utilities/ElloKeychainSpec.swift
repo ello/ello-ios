@@ -20,7 +20,7 @@ class ElloKeychainSpec: QuickSpec {
 
         describe("ElloKeychain") {
             it("should get and set pushToken") {
-                let data = "pushToken".dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)
+                let data = "pushToken".data(using: String.Encoding.utf8, allowLossyConversion: false)
                 elloKeychain.pushToken = data
                 expect(elloKeychain.pushToken) == data
             }

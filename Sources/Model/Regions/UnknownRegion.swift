@@ -7,30 +7,30 @@ import Foundation
 let UnknownRegionVersion = 1
 
 @objc(UnknownRegion)
-public final class UnknownRegion: NSObject, Regionable, NSCoding {
-    public let version = UnknownRegionVersion
-    public var isRepost: Bool = false
+final class UnknownRegion: NSObject, Regionable, NSCoding {
+    let version = UnknownRegionVersion
+    var isRepost: Bool = false
 
-    public var kind: String { return RegionKind.Unknown.rawValue }
+    var kind: String { return RegionKind.unknown.rawValue }
 
-    public func coding() -> NSCoding {
+    func coding() -> NSCoding {
         return self
     }
 
     // no-op initializer to allow stubbing
-    public init(name: String) {}
+    init(name: String) {}
 
 
 // MARK: NSCoding
 
-    public func encodeWithCoder(encoder: NSCoder) {
+    func encode(with encoder: NSCoder) {
     }
 
-    required public init?(coder decoder: NSCoder) {
+    required init?(coder decoder: NSCoder) {
 
     }
 
-    public func toJSON() -> [String: AnyObject] {
+    func toJSON() -> [String: AnyObject] {
         return [:]
     }
 }

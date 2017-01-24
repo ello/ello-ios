@@ -5,14 +5,14 @@
 import FutureKit
 
 
-public class NotificationService {
+class NotificationService {
 
-    public init() {}
+    init() {}
 
-    public func loadAnnouncements() -> Future<Announcement?> {
+    func loadAnnouncements() -> Future<Announcement?> {
         let promise = Promise<Announcement?>()
         ElloProvider.shared.elloRequest(
-            .Announcements,
+            .announcements,
             success: { (data, responseConfig) in
                 if let results = data as? Announcement {
                     promise.completeWithSuccess(results)
@@ -32,9 +32,9 @@ public class NotificationService {
         return promise.future
     }
 
-    public func markAnnouncementAsRead(_ announcement: Announcement) -> Future<Announcement> {
+    func markAnnouncementAsRead(_ announcement: Announcement) -> Future<Announcement> {
         let promise = Promise<Announcement>()
-        ElloProvider.shared.elloRequest(.MarkAnnouncementAsRead,
+        ElloProvider.shared.elloRequest(.markAnnouncementAsRead,
             success: { _ in
                 promise.completeWithSuccess(announcement)
             },

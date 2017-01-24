@@ -16,13 +16,13 @@
 import Foundation
 import UIKit
 
-public func == (lhs: PostEditingService.PostContentRegion, rhs: PostEditingService.PostContentRegion) -> Bool {
+func == (lhs: PostEditingService.PostContentRegion, rhs: PostEditingService.PostContentRegion) -> Bool {
     switch (lhs, rhs) {
-    case let (.Text(a), .Text(b)):
+    case let (.text(a), .text(b)):
         return a == b
-    case let (.ImageData(leftImage, leftData, _), .ImageData(rightImage, rightData, _)):
+    case let (.imageData(leftImage, leftData, _), .imageData(rightImage, rightData, _)):
         return leftImage == rightImage && leftData == rightData
-    case let (.Image(leftImage), .Image(rightImage)):
+    case let (.image(leftImage), .image(rightImage)):
         return leftImage == rightImage
     default:
         return false
@@ -30,20 +30,20 @@ public func == (lhs: PostEditingService.PostContentRegion, rhs: PostEditingServi
 }
 
 
-public struct ImageRegionData {
+struct ImageRegionData {
     let image: UIImage
-    let data: NSData?
+    let data: Data?
     let contentType: String?
-    let buyButtonURL: NSURL?
+    let buyButtonURL: URL?
 
-    public init(image: UIImage, buyButtonURL: NSURL? = nil) {
+    init(image: UIImage, buyButtonURL: URL? = nil) {
         self.image = image
         self.data = nil
         self.contentType = nil
         self.buyButtonURL = buyButtonURL
     }
 
-    public init(image: UIImage, data: NSData, contentType: String, buyButtonURL: NSURL? = nil) {
+    init(image: UIImage, data: Data, contentType: String, buyButtonURL: URL? = nil) {
         self.image = image
         self.data = data
         self.contentType = contentType
@@ -53,25 +53,25 @@ public struct ImageRegionData {
 
 extension ImageRegionData: Equatable{}
 
-public func == (lhs: ImageRegionData, rhs: ImageRegionData) -> Bool {
+func == (lhs: ImageRegionData, rhs: ImageRegionData) -> Bool {
     guard lhs.image == rhs.image else { return false }
 
-    if let lhData = lhs.data, rhData = rhs.data, lhContentType = lhs.contentType, rhContentType = rhs.contentType {
+    if let lhData = lhs.data, let rhData = rhs.data, let lhContentType = lhs.contentType, let rhContentType = rhs.contentType {
         return lhData == rhData && lhContentType == rhContentType
     }
     return true
 }
 
 
-public class PostEditingService {
+class PostEditingService {
     // this can return either a Post or Comment
-    typealias CreatePostSuccessCompletion = (post: AnyObject) -> Void
+    typealias CreatePostSuccessCompletion = (_ post: AnyObject) -> Void
     typealias UploadImagesSuccessCompletion = ([(Int, ImageRegion)]) -> Void
 
-    public enum PostContentRegion {
-        case Text(String)
-        case ImageData(UIImage, NSData, String)
-        case Image(UIImage)
+    enum PostContentRegion {
+        case text(String)
+        case imageData(UIImage, Data, String)
+        case image(UIImage)
     }
 
     var editPostId: String?
@@ -94,19 +94,19 @@ public class PostEditingService {
     }
 
     // rawSections is String or UIImage objects
-    func create(content rawContent: [PostContentRegion], buyButtonURL: NSURL?, success: CreatePostSuccessCompletion, failure: ElloFailureCompletion) {
+    func create(content rawContent: [PostContentRegion], buyButtonURL: URL?, success: @escaping CreatePostSuccessCompletion, failure: @escaping ElloFailureCompletion) {
         var textEntries = [(Int, String)]()
         var imageDataEntries = [(Int, ImageRegionData)]()
 
         // if necessary, the rawSource should be converted to API-ready content,
         // e.g. entitizing Strings and adding HTML markup to NSAttributedStrings
-        for (index, section) in rawContent.enumerate() {
+        for (index, section) in rawContent.enumerated() {
             switch section {
-            case let .Text(text):
+            case let .text(text):
                 textEntries.append((index, text))
-            case let .Image(image):
+            case let .image(image):
                 imageDataEntries.append((index, ImageRegionData(image: image, buyButtonURL: buyButtonURL)))
-            case let .ImageData(image, data, type):
+            case let .imageData(image, data, type):
                 imageDataEntries.append((index, ImageRegionData(image: image, data: data, contentType: type, buyButtonURL: buyButtonURL)))
             }
         }
@@ -122,33 +122,33 @@ public class PostEditingService {
                     return (index, region as Regionable)
                 }
 
-                self.create(regions: self.sortedRegions(indexedRegions), success: success, failure: failure)
+                self.create(self.sortedRegions(indexedRegions), success: success, failure: failure)
             }, failure: failure)
         }
         else {
-            create(regions: sortedRegions(indexedRegions), success: success, failure: failure)
+            create(sortedRegions(indexedRegions), success: success, failure: failure)
         }
     }
 
-    func create(regions regions: [Regionable], success: CreatePostSuccessCompletion, failure: ElloFailureCompletion) {
+    func create(_ regions: [Regionable], success: @escaping CreatePostSuccessCompletion, failure: @escaping ElloFailureCompletion) {
         let body = NSMutableArray(capacity: regions.count)
         for region in regions {
-            body.addObject(region.toJSON())
+            body.add(region.toJSON())
         }
         let params = ["body": body]
 
         let endpoint: ElloAPI
         if let parentPostId = parentPostId {
-            endpoint = ElloAPI.CreateComment(parentPostId: parentPostId, body: params)
+            endpoint = ElloAPI.createComment(parentPostId: parentPostId, body: params)
         }
         else if let editPostId = editPostId {
-            endpoint = ElloAPI.UpdatePost(postId: editPostId, body: params)
+            endpoint = ElloAPI.updatePost(postId: editPostId, body: params)
         }
         else if let editComment = editComment {
-            endpoint = ElloAPI.UpdateComment(postId: editComment.postId, commentId: editComment.id, body: params)
+            endpoint = ElloAPI.updateComment(postId: editComment.postId, commentId: editComment.id, body: params)
         }
         else {
-            endpoint = ElloAPI.CreatePost(body: params)
+            endpoint = ElloAPI.createPost(body: params)
         }
 
         ElloProvider.shared.elloRequest(endpoint,
@@ -156,27 +156,26 @@ public class PostEditingService {
                 let post: AnyObject = data
 
                 switch endpoint {
-                case .CreateComment:
+                case .createComment:
                     let comment = data as! ElloComment
                     comment.content = self.replaceLocalImageRegions(comment.content, regions: regions)
-                case .CreatePost, .UpdatePost:
+                case .createPost, .updatePost:
                     let post = data as! Post
                     post.content = self.replaceLocalImageRegions(post.content ?? [], regions: regions)
                 default:
                     break
                 }
 
-                success(post: post as AnyObject)
+                success(post as AnyObject)
             },
             failure: failure
         )
     }
 
-    func replaceLocalImageRegions(content: [Regionable], regions: [Regionable]) -> [Regionable] {
+    func replaceLocalImageRegions(_ content: [Regionable], regions: [Regionable]) -> [Regionable] {
         var replacedContent = content
-        for (index, regionable) in content.enumerate() {
-            if let replaceRegion = regions.safeValue(index) as? ImageRegion
-            where regionable is ImageRegion
+        for (index, regionable) in content.enumerated() {
+            if let replaceRegion = regions.safeValue(index) as? ImageRegion, regionable is ImageRegion
             {
                 replacedContent[index] = replaceRegion
             }
@@ -190,23 +189,23 @@ public class PostEditingService {
     // Another way to upload the images would be to generate one AmazonCredentials
     // object, and pass that to the uploader.  The uploader would need to
     // generate unique image names in that case.
-    func uploadImages(imageEntries: [(Int, ImageRegionData)], success: UploadImagesSuccessCompletion, failure: ElloFailureCompletion) {
+    func uploadImages(_ imageEntries: [(Int, ImageRegionData)], success: @escaping UploadImagesSuccessCompletion, failure: @escaping ElloFailureCompletion) {
         var uploaded = [(Int, ImageRegion)]()
 
         // if any upload fails, the entire post creationg fails
         var anyError: NSError?
         var anyStatusCode: Int?
 
-        let operationQueue = NSOperationQueue.mainQueue()
-        let doneOperation = NSBlockOperation(block: {
+        let operationQueue = OperationQueue.main
+        let doneOperation = BlockOperation(block: {
             if let error = anyError {
-                failure(error: error, statusCode: anyStatusCode)
+                failure(error, anyStatusCode)
             }
             else {
                 success(uploaded)
             }
         })
-        var prevUploadOperation: NSOperation?
+        var prevUploadOperation: Operation?
 
         for dataEntry in imageEntries {
             let uploadOperation = AsyncOperation(block: { done in
@@ -225,7 +224,7 @@ public class PostEditingService {
                 }
 
                 let uploadService = S3UploadingService()
-                if let data = data, contentType = contentType {
+                if let data = data, let contentType = contentType {
                     uploadService.upload(data, contentType: contentType,
                         success: { url in
                             let imageRegion = ImageRegion(alt: nil)
@@ -235,8 +234,8 @@ public class PostEditingService {
                             if let url = url {
                                 let asset = Asset(url: url, gifData: data, posterImage: image)
 
-                                ElloLinkedStore.sharedInstance.setObject(asset, forKey: asset.id, type: .AssetsType)
-                                imageRegion.addLinkObject("assets", key: asset.id, type: .AssetsType)
+                                ElloLinkedStore.sharedInstance.setObject(asset, forKey: asset.id, type: .assetsType)
+                                imageRegion.addLinkObject("assets", key: asset.id, type: .assetsType)
                             }
 
                             uploaded.append((imageIndex, imageRegion))
@@ -253,8 +252,8 @@ public class PostEditingService {
 
                             if let url = url {
                                 let asset = Asset(url: url, image: image)
-                                ElloLinkedStore.sharedInstance.setObject(asset, forKey: asset.id, type: .AssetsType)
-                                imageRegion.addLinkObject("assets", key: asset.id, type: .AssetsType)
+                                ElloLinkedStore.sharedInstance.setObject(asset, forKey: asset.id, type: .assetsType)
+                                imageRegion.addLinkObject("assets", key: asset.id, type: .assetsType)
                             }
 
                             uploaded.append((imageIndex, imageRegion))
@@ -268,8 +267,8 @@ public class PostEditingService {
             if let prevUploadOperation = prevUploadOperation {
                 uploadOperation.addDependency(prevUploadOperation)
             }
-            uploadOperation.queuePriority = .Low
-            uploadOperation.qualityOfService = .Background
+            uploadOperation.queuePriority = .low
+            uploadOperation.qualityOfService = .background
             operationQueue.addOperation(uploadOperation)
             prevUploadOperation = uploadOperation
         }
@@ -279,8 +278,8 @@ public class PostEditingService {
     // this happens just before create(regions:).  The original index of each
     // section has been stored in `entry.0`, and this is used to sort the
     // entries, and then the sorted regions are returned.
-    private func sortedRegions(indexedRegions: [(Int, Regionable)]) -> [Regionable] {
-        return indexedRegions.sort() { left, right in
+    fileprivate func sortedRegions(_ indexedRegions: [(Int, Regionable)]) -> [Regionable] {
+        return indexedRegions.sorted() { left, right in
             let (indexLeft, indexRight) = (left.0, right.0)
             return indexLeft < indexRight
         }.map() { (index: Int, region: Regionable) -> Regionable in

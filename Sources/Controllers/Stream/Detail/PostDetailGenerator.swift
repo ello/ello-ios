@@ -2,20 +2,20 @@
 ///  PostDetailGenerator.swift
 //
 
-public final class PostDetailGenerator: StreamGenerator {
+final class PostDetailGenerator: StreamGenerator {
 
-    public var currentUser: User?
-    public var streamKind: StreamKind
-    weak public var destination: StreamDestination?
+    var currentUser: User?
+    var streamKind: StreamKind
+    weak var destination: StreamDestination?
 
-    private var post: Post?
-    private let postParam: String
-    private var localToken: String!
-    private var loadingToken = LoadingToken()
-    private var hasPaddedSocial = false
-    private let queue = NSOperationQueue()
+    fileprivate var post: Post?
+    fileprivate let postParam: String
+    fileprivate var localToken: String = ""
+    fileprivate var loadingToken = LoadingToken()
+    fileprivate var hasPaddedSocial = false
+    fileprivate let queue = OperationQueue()
 
-    public init(currentUser: User?,
+    init(currentUser: User?,
          postParam: String,
          post: Post?,
          streamKind: StreamKind,
@@ -29,7 +29,7 @@ public final class PostDetailGenerator: StreamGenerator {
         self.destination = destination
     }
 
-    public func load(reload reload: Bool = false) {
+    func load(reload: Bool = false) {
         let doneOperation = AsyncOperation()
         queue.addOperation(doneOperation)
 
@@ -55,73 +55,73 @@ public final class PostDetailGenerator: StreamGenerator {
 private extension PostDetailGenerator {
 
     func setPlaceHolders() {
-        destination?.setPlaceholders([
-            StreamCellItem(type: .Placeholder, placeholderType: .PostHeader),
-            StreamCellItem(type: .Placeholder, placeholderType: .PostLovers),
-            StreamCellItem(type: .Placeholder, placeholderType: .PostReposters),
-            StreamCellItem(type: .Placeholder, placeholderType: .PostSocialPadding),
-            StreamCellItem(type: .Placeholder, placeholderType: .PostCommentBar),
-            StreamCellItem(type: .Placeholder, placeholderType: .PostComments)
+        destination?.setPlaceholders(items: [
+            StreamCellItem(type: .placeholder, placeholderType: .postHeader),
+            StreamCellItem(type: .placeholder, placeholderType: .postLovers),
+            StreamCellItem(type: .placeholder, placeholderType: .postReposters),
+            StreamCellItem(type: .placeholder, placeholderType: .postSocialPadding),
+            StreamCellItem(type: .placeholder, placeholderType: .postCommentBar),
+            StreamCellItem(type: .placeholder, placeholderType: .postComments)
         ])
     }
 
-    func setInitialPost(doneOperation: AsyncOperation) {
+    func setInitialPost(_ doneOperation: AsyncOperation) {
         guard let post = post else { return }
 
-        destination?.setPrimaryJSONAble(post)
-        if post.content?.count > 0 || post.repostContent?.count > 0 {
-            let postItems = parse([post])
-            destination?.replacePlaceholder(.PostHeader, items: postItems) {}
+        destination?.setPrimary(jsonable: post)
+        if (post.content?.count)! > 0 || (post.repostContent?.count)! > 0 {
+            let postItems = parse(jsonables: [post])
+            destination?.replacePlaceholder(type: .postHeader, items: postItems) {}
             doneOperation.run()
         }
     }
 
-    func loadPost(doneOperation: AsyncOperation, reload: Bool = false) {
-        guard !doneOperation.finished || reload else { return }
+    func loadPost(_ doneOperation: AsyncOperation, reload: Bool = false) {
+        guard !doneOperation.isFinished || reload else { return }
 
         // load the post with no comments
         PostService().loadPost(postParam, needsComments: false)
             .onSuccess { [weak self] post in
-                guard let sself = self else { return }
-                guard sself.loadingToken.isValidInitialPageLoadingToken(sself.localToken) else { return }
-                sself.post = post
-                sself.destination?.setPrimaryJSONAble(post)
-                let postItems = sself.parse([post])
-                sself.destination?.replacePlaceholder(.PostHeader, items: postItems) {}
+                guard let `self` = self else { return }
+                guard self.loadingToken.isValidInitialPageLoadingToken(self.localToken) else { return }
+                self.post = post
+                self.destination?.setPrimary(jsonable: post)
+                let postItems = self.parse(jsonables: [post])
+                self.destination?.replacePlaceholder(type: .postHeader, items: postItems) {}
                 doneOperation.run()
             }
             .onFail { [weak self] _ in
-                guard let sself = self else { return }
-                sself.destination?.primaryJSONAbleNotFound()
-                sself.queue.cancelAllOperations()
+                guard let `self` = self else { return }
+                self.destination?.primaryJSONAbleNotFound()
+                self.queue.cancelAllOperations()
             }
     }
 
-    func displayCommentBar(doneOperation: AsyncOperation) {
+    func displayCommentBar(_ doneOperation: AsyncOperation) {
 
         let displayCommentBarOperation = AsyncOperation()
         displayCommentBarOperation.addDependency(doneOperation)
         queue.addOperation(displayCommentBarOperation)
 
         displayCommentBarOperation.run { [weak self] in
-            guard let sself = self else { return }
-            guard let post = sself.post else { return }
+            guard let `self` = self else { return }
+            guard let post = self.post else { return }
             let commentingEnabled = post.author?.hasCommentingEnabled ?? true
-            guard let currentUser = sself.currentUser where commentingEnabled else { return }
+            guard let currentUser = self.currentUser, commentingEnabled else { return }
 
-            let barItems = [StreamCellItem(jsonable: ElloComment.newCommentForPost(post, currentUser: currentUser), type: .CreateComment)]
+            let barItems = [StreamCellItem(jsonable: ElloComment.newCommentForPost(post, currentUser: currentUser), type: .createComment)]
             inForeground {
-                sself.destination?.replacePlaceholder(.PostCommentBar, items: barItems) {}
+                self.destination?.replacePlaceholder(type: .postCommentBar, items: barItems) {}
             }
         }
     }
 
     func displaySocialPadding() {
-        let padding = [StreamCellItem(type: .Spacer(height: 8.0))]
-        destination?.replacePlaceholder(.PostSocialPadding, items: padding) {}
+        let padding = [StreamCellItem(type: .spacer(height: 8.0))]
+        destination?.replacePlaceholder(type: .postSocialPadding, items: padding) {}
     }
 
-    func loadPostComments(doneOperation: AsyncOperation) {
+    func loadPostComments(_ doneOperation: AsyncOperation) {
         guard loadingToken.isValidInitialPageLoadingToken(localToken) else { return }
 
         let displayCommentsOperation = AsyncOperation()
@@ -131,15 +131,15 @@ private extension PostDetailGenerator {
         PostService().loadPostComments(
             postParam,
             success: { [weak self] (comments, responseConfig) in
-                guard let sself = self else { return }
-                guard sself.loadingToken.isValidInitialPageLoadingToken(sself.localToken) else { return }
+                guard let `self` = self else { return }
+                guard self.loadingToken.isValidInitialPageLoadingToken(self.localToken) else { return }
 
-                let commentItems = sself.parse(comments)
+                let commentItems = self.parse(jsonables: comments)
                 displayCommentsOperation.run {
-                    sself.destination?.setPagingConfig(responseConfig)
+                    self.destination?.setPagingConfig(responseConfig: responseConfig)
                     inForeground {
-                        sself.destination?.replacePlaceholder(.PostComments, items: commentItems) {
-                            sself.destination?.pagingEnabled = true
+                        self.destination?.replacePlaceholder(type: .postComments, items: commentItems) {
+                            self.destination?.pagingEnabled = true
                         }
                     }
                 }
@@ -149,7 +149,7 @@ private extension PostDetailGenerator {
         })
     }
 
-    func loadPostLovers(doneOperation: AsyncOperation) {
+    func loadPostLovers(_ doneOperation: AsyncOperation) {
         guard loadingToken.isValidInitialPageLoadingToken(localToken) else { return }
 
         let displayLoversOperation = AsyncOperation()
@@ -159,19 +159,19 @@ private extension PostDetailGenerator {
         PostService().loadPostLovers(
             postParam,
             success: { [weak self] (users, _) in
-                guard let sself = self else { return }
-                guard sself.loadingToken.isValidInitialPageLoadingToken(sself.localToken) else { return }
+                guard let `self` = self else { return }
+                guard self.loadingToken.isValidInitialPageLoadingToken(self.localToken) else { return }
                 guard users.count > 0 else { return }
 
-                let loversItems = sself.userAvatarCellItems(
+                let loversItems = self.userAvatarCellItems(
                     users,
-                    icon: .Heart,
-                    endpoint: .PostLovers(postId: sself.postParam),
+                    icon: .heart,
+                    endpoint: .postLovers(postId: self.postParam),
                     seeMoreTitle: InterfaceString.Post.LovedByList
                 )
                 displayLoversOperation.run {
                     inForeground {
-                        sself.destination?.replacePlaceholder(.PostLovers, items: loversItems) {}
+                        self.destination?.replacePlaceholder(type: .postLovers, items: loversItems) {}
                     }
                 }
             },
@@ -180,7 +180,7 @@ private extension PostDetailGenerator {
         })
     }
 
-    func loadPostReposters(doneOperation: AsyncOperation) {
+    func loadPostReposters(_ doneOperation: AsyncOperation) {
         guard loadingToken.isValidInitialPageLoadingToken(localToken) else { return }
 
         let displayRepostersOperation = AsyncOperation()
@@ -190,19 +190,19 @@ private extension PostDetailGenerator {
         PostService().loadPostReposters(
             postParam,
             success: { [weak self] (users, _) in
-                guard let sself = self else { return }
-                guard sself.loadingToken.isValidInitialPageLoadingToken(sself.localToken) else { return }
+                guard let `self` = self else { return }
+                guard self.loadingToken.isValidInitialPageLoadingToken(self.localToken) else { return }
                 guard users.count > 0 else { return }
 
-                let repostersItems = sself.userAvatarCellItems(
+                let repostersItems = self.userAvatarCellItems(
                     users,
-                    icon: .Repost,
-                    endpoint: .PostReposters(postId: sself.postParam),
+                    icon: .repost,
+                    endpoint: .postReposters(postId: self.postParam),
                     seeMoreTitle: InterfaceString.Post.RepostedByList
                 )
                 displayRepostersOperation.run {
                     inForeground {
-                        sself.destination?.replacePlaceholder(.PostReposters, items: repostersItems) {}
+                        self.destination?.replacePlaceholder(type: .postReposters, items: repostersItems) {}
                     }
                 }
             },
@@ -212,7 +212,7 @@ private extension PostDetailGenerator {
     }
 
     func userAvatarCellItems(
-        users: [User],
+        _ users: [User],
         icon: InterfaceImage,
         endpoint: ElloAPI,
         seeMoreTitle: String) -> [StreamCellItem]
@@ -226,8 +226,8 @@ private extension PostDetailGenerator {
         }
 
         return [
-            StreamCellItem(type: .Spacer(height: 4.0)),
-            StreamCellItem(jsonable: model, type: .UserAvatars)
+            StreamCellItem(type: .spacer(height: 4.0)),
+            StreamCellItem(jsonable: model, type: .userAvatars)
         ]
     }
 }

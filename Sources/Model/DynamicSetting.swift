@@ -2,26 +2,26 @@
 ///  DynamicSetting.swift
 //
 
-import Crashlytics
 import SwiftyJSON
+
 
 let DynamicSettingVersion = 1
 let DynamicSetAnotherVersion = 1
 
 @objc(DynamicSetAnother)
-public final class DynamicSetAnother: JSONAble {
-    public let when: Bool?
-    public let key: String
-    public let value: Bool
+final class DynamicSetAnother: JSONAble {
+    let when: Bool?
+    let key: String
+    let value: Bool
 
-    public required init(when: Bool?, key: String, value: Bool) {
+    required init(when: Bool?, key: String, value: Bool) {
         self.when = when
         self.key = key
         self.value = value
         super.init(version: DynamicSetAnotherVersion)
     }
 
-    public required init(coder: NSCoder) {
+    required init(coder: NSCoder) {
         let decoder = Coder(coder)
         self.when = decoder.decodeOptionalKey("when")
         self.key = decoder.decodeKey("key")
@@ -29,17 +29,17 @@ public final class DynamicSetAnother: JSONAble {
         super.init(coder: coder)
     }
 
-    public override func encodeWithCoder(coder: NSCoder) {
+    override func encode(with coder: NSCoder) {
         let encoder = Coder(coder)
         if let when = when {
             encoder.encodeObject(when, forKey: "when")
         }
         encoder.encodeObject(key, forKey: "key")
         encoder.encodeObject(value, forKey: "value")
-        super.encodeWithCoder(coder)
+        super.encode(with: coder)
     }
 
-    public override class func fromJSON(data: [String: AnyObject]) -> JSONAble {
+    override class func fromJSON(_ data: [String: AnyObject]) -> JSONAble {
         let json = JSON(data)
         let when: Bool? = json["when"].bool
         let key: String = json["key"].stringValue
@@ -50,17 +50,17 @@ public final class DynamicSetAnother: JSONAble {
 }
 
 @objc(DynamicSetting)
-public final class DynamicSetting: JSONAble {
-    public let label: String
-    public let key: String
-    public let info: String?
-    public let linkLabel: String?
-    public let linkURL: NSURL?
-    public let dependentOn: [String]
-    public let conflictsWith: [String]
-    public let setsAnother: [DynamicSetAnother]
+final class DynamicSetting: JSONAble {
+    let label: String
+    let key: String
+    let info: String?
+    let linkLabel: String?
+    let linkURL: URL?
+    let dependentOn: [String]
+    let conflictsWith: [String]
+    let setsAnother: [DynamicSetAnother]
 
-    public init(label: String, key: String, info: String? = nil, linkLabel: String? = nil, linkURL: NSURL? = nil, dependentOn: [String] = [], conflictsWith: [String] = [], setsAnother: [DynamicSetAnother] = []) {
+    init(label: String, key: String, info: String? = nil, linkLabel: String? = nil, linkURL: URL? = nil, dependentOn: [String] = [], conflictsWith: [String] = [], setsAnother: [DynamicSetAnother] = []) {
         self.label = label
         self.key = key
         self.info = info
@@ -72,7 +72,7 @@ public final class DynamicSetting: JSONAble {
         super.init(version: DynamicSettingVersion)
     }
 
-    public required init(coder aDecoder: NSCoder) {
+    required init(coder aDecoder: NSCoder) {
         let decoder = Coder(aDecoder)
         self.label = decoder.decodeKey("label")
         self.key = decoder.decodeKey("key")
@@ -85,7 +85,7 @@ public final class DynamicSetting: JSONAble {
         super.init(coder: decoder.coder)
     }
 
-    public override func encodeWithCoder(encoder: NSCoder) {
+    override func encode(with encoder: NSCoder) {
         let coder = Coder(encoder)
         coder.encodeObject(label, forKey: "label")
         coder.encodeObject(key, forKey: "key")
@@ -95,10 +95,10 @@ public final class DynamicSetting: JSONAble {
         coder.encodeObject(dependentOn, forKey: "dependentOn")
         coder.encodeObject(conflictsWith, forKey: "conflictsWith")
         coder.encodeObject(setsAnother, forKey: "setsAnother")
-        super.encodeWithCoder(coder.coder)
+        super.encode(with: coder.coder)
     }
 
-    public func sets(anotherSetting: DynamicSetting, when: Bool) -> Bool? {
+    func sets(_ anotherSetting: DynamicSetting, when: Bool) -> Bool? {
         for dynamicSetAnother in setsAnother {
             if dynamicSetAnother.key == anotherSetting.key && (dynamicSetAnother.when == nil || dynamicSetAnother.when == when) {
                 return dynamicSetAnother.value
@@ -109,9 +109,8 @@ public final class DynamicSetting: JSONAble {
 }
 
 extension DynamicSetting {
-    public override class func fromJSON(data: [String: AnyObject]) -> DynamicSetting {
+    override class func fromJSON(_ data: [String: AnyObject]) -> DynamicSetting {
         let json = JSON(data)
-        Crashlytics.sharedInstance().setObjectValue(json.rawString(), forKey: CrashlyticsKey.DynamicSettingFromJSON.rawValue)
         let label = json["label"].stringValue
         let key = json["key"].stringValue
 
@@ -146,13 +145,13 @@ extension DynamicSetting {
 
         let info = json["info"].string
         let linkLabel = json["link"]["label"].string
-        let linkURL = json["link"]["url"].URL
+        let linkURL = json["link"]["url"].url
 
         return DynamicSetting(label: label, key: key, info: info, linkLabel: linkLabel, linkURL: linkURL, dependentOn: dependentOn, conflictsWith: conflictsWith, setsAnother: setsAnother)
     }
 }
 
-public extension DynamicSetting {
+extension DynamicSetting {
     static var blockedSetting: DynamicSetting {
         let label = InterfaceString.Settings.BlockedTitle
         let info = InterfaceString.Settings.BlockedTitle

@@ -2,7 +2,7 @@
 ///  ElloWebBrowserViewControllerSpec.swift
 //
 
-import Ello
+@testable import Ello
 import Quick
 import Nimble
 
@@ -12,7 +12,7 @@ class ElloWebBrowserViewControllerSpec: QuickSpec {
         describe("instantiating an ElloWebBrowserViewControllerSpec") {
             it("is easy to create a navigation controller w/ browser") {
                 let nav = ElloWebBrowserViewController.navigationControllerWithWebBrowser()
-                expect(nav.rootWebBrowser()).to(beAKindOf(ElloWebBrowserViewController))
+                expect(nav.rootWebBrowser()).to(beAKindOf(ElloWebBrowserViewController.self))
             }
             it("is easy to create a navigation controller w/ custom browser") {
                 let browser = ElloWebBrowserViewController()

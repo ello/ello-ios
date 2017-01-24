@@ -2,23 +2,22 @@
 ///  NotificationCellPresenter.swift
 //
 
-public struct NotificationCellPresenter {
+struct NotificationCellPresenter {
 
     static func configure(
-        cell: UICollectionViewCell,
+        _ cell: UICollectionViewCell,
         streamCellItem: StreamCellItem,
         streamKind: StreamKind,
-        indexPath: NSIndexPath,
+        indexPath: IndexPath,
         currentUser: User?)
     {
-        guard let
-            cell = cell as? NotificationCell,
-            notification = streamCellItem.jsonable as? Notification
+        guard
+            let cell = cell as? NotificationCell,
+            let notification = streamCellItem.jsonable as? Notification
         else { return }
 
         cell.onWebContentReady { webView in
-            if let actualHeight = webView.windowContentSize()?.height
-            where actualHeight != streamCellItem.calculatedCellHeights.webContent {
+            if let actualHeight = webView.windowContentSize()?.height, actualHeight != streamCellItem.calculatedCellHeights.webContent {
                 StreamNotificationCellSizeCalculator.assignTotalHeight(actualHeight, cellItem: streamCellItem, cellWidth: cell.frame.width)
                 postNotification(StreamNotification.UpdateCellHeightNotification, value: cell)
             }
@@ -40,15 +39,15 @@ public struct NotificationCellPresenter {
 
         if let imageRegion = notification.imageRegion {
             let aspectRatio = StreamImageCellSizeCalculator.aspectRatioForImageRegion(imageRegion)
-            var imageURL: NSURL?
-            if let asset = imageRegion.asset where !asset.isGif {
-                imageURL = asset.optimized?.url
+            var imageURL: URL?
+            if let asset = imageRegion.asset, !asset.isGif {
+                imageURL = asset.optimized?.url as URL?
             }
             else if let hdpiURL = imageRegion.asset?.hdpi?.url{
-                imageURL = hdpiURL
+                imageURL = hdpiURL as URL
             }
             else {
-                imageURL = imageRegion.url
+                imageURL = imageRegion.url as URL?
             }
             cell.aspectRatio = aspectRatio
             cell.imageURL = imageURL

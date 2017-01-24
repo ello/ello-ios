@@ -2,38 +2,37 @@
 ///  InviteControllerSpec.swift
 //
 
-import Ello
+@testable import Ello
 import Quick
 import Nimble
 
 
 class InviteCacheSpec: QuickSpec {
     override func spec() {
+        beforeEach {
+            GroupDefaults["ElloInviteCache"] = ["contact"]
+        }
         describe("saveInvite") {
             it("saves the contact id to the cache") {
-                let layer = FakePersistentLayer()
-                let inviteCache = InviteCache(persistentLayer: layer)
+                var inviteCache = InviteCache()
                 inviteCache.saveInvite("contact id")
-                expect(layer.object?.last) == "contact id"
+                let invites = GroupDefaults["ElloInviteCache"].array as? [String]
+                expect(invites?.last) == "contact id"
             }
         }
 
         describe("has") {
-            context("contact has been saved") {
+            context("'contact' has been saved") {
                 it("returns true") {
-                    let layer = FakePersistentLayer()
-                    layer.object = ["something", "else"]
-                    let inviteCache = InviteCache(persistentLayer: layer)
-                    expect(inviteCache.has("else")).to(beTrue())
+                    let inviteCache = InviteCache()
+                    expect(inviteCache.has("contact")).to(beTrue())
                 }
             }
 
-            context("contact has not been saved") {
+            context("'made up' has not been saved") {
                 it("returns false") {
-                    let layer = FakePersistentLayer()
-                    layer.object = ["something", "else"]
-                    let inviteCache = InviteCache(persistentLayer: layer)
-                    expect(inviteCache.has("something else")).to(beFalse())
+                    let inviteCache = InviteCache()
+                    expect(inviteCache.has("'made up'")).to(beFalse())
                 }
             }
         }

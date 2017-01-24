@@ -2,8 +2,7 @@
 ///  CategoryViewControllerSpec.swift
 //
 
-@testable
-import Ello
+@testable import Ello
 import Quick
 import Nimble
 
@@ -19,15 +18,15 @@ class CategoryViewControllerSpec: QuickSpec {
         var scrollTo: Int?
         var select: Int?
 
-        func setCategoriesInfo(categoriesInfo: [CategoryCardListView.CategoryInfo], animated: Bool, completion: ElloEmptyCompletion) {
+        func set(categoriesInfo: [CategoryCardListView.CategoryInfo], animated: Bool, completion: @escaping ElloEmptyCompletion) {
             categoryTitles = categoriesInfo.map { $0.title }
         }
-        func animateCategoriesList(navBarVisible navBarVisible: Bool) {}
-        func scrollToCategoryIndex(index: Int) {
+        func animateCategoriesList(navBarVisible: Bool) {}
+        func scrollToCategory(index: Int) {
             scrollTo = index
         }
 
-        func selectCategoryIndex(index: Int) {
+        func selectCategory(index: Int) {
             select = index
         }
     }
@@ -54,7 +53,7 @@ class CategoryViewControllerSpec: QuickSpec {
 
             context("setCategories(_:)") {
                 it("accepts meta categories") {
-                    subject.setCategories([
+                    subject.set(categories: [
                         Category.featured,
                         Category.stub(["name": "Art"])
                         ])

@@ -2,20 +2,20 @@
 ///  OmnibarErrorCell.swift
 //
 
-public class OmnibarErrorCell: UITableViewCell {
+class OmnibarErrorCell: UITableViewCell {
     static let reuseIdentifier = "OmnibarErrorCell"
     struct Size {
         static let margin = CGFloat(10)
         static let height = CGFloat(75)
     }
 
-    private let label = StyledLabel(style: .Error)
+    fileprivate let label = StyledLabel(style: .Error)
 
-    public var url: NSURL? {
+    var url: URL? {
         get { return nil }
         set {
             if let url = newValue {
-                label.text = NSString.localizedStringWithFormat(InterfaceString.Omnibar.LoadingImageErrorTemplate, url) as String
+                label.text = NSString.localizedStringWithFormat(InterfaceString.Omnibar.LoadingImageErrorTemplate as NSString, [url]) as String
             }
         }
     }
@@ -25,12 +25,12 @@ public class OmnibarErrorCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
         label.frame = contentView.bounds.inset(all: Size.margin)
-        label.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
+        label.autoresizingMask = [.flexibleHeight, .flexibleWidth]
 
         contentView.addSubview(label)
     }
 
-    required public init(coder: NSCoder) {
+    required init(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 

@@ -11,7 +11,7 @@ import PINCache
 class AppDelegateSpec: QuickSpec {
     override func spec() {
         describe("AppDelegate") {
-            let subject = UIApplication.sharedApplication().delegate as? AppDelegate
+            let subject = UIApplication.shared.delegate as? AppDelegate
             subject?.setupCaches()
 
             describe("caches") {
@@ -19,11 +19,11 @@ class AppDelegateSpec: QuickSpec {
                 describe("PINDiskCache") {
 
                     it("limits the size to 250 MB") {
-                        expect(PINRemoteImageManager.sharedImageManager().cache.diskCache.byteLimit) == 250000000
+                        expect(PINRemoteImageManager.shared().cache.diskCache.byteLimit) == 250000000
                     }
 
                     it("has an object age of 2 weeks") {
-                        expect(PINRemoteImageManager.sharedImageManager().cache.diskCache.ageLimit) == 1209600
+                        expect(PINRemoteImageManager.shared().cache.diskCache.ageLimit) == 1209600
                     }
                 }
             }

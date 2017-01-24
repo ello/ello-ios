@@ -13,30 +13,30 @@ class StreamCreateCommentCellSpec: QuickSpec {
             var subject: StreamCreateCommentCell!
             beforeEach {
                 subject = StreamCreateCommentCell()
-                subject.avatarView.image = UIImage.imageWithColor(.blueColor())!
+                subject.avatarView.image = UIImage.imageWithColor(.blue)!
             }
             describe("snapshots") {
                 it("has a valid default") {
-                    subject.watchVisibility = .Hidden
-                    subject.replyAllVisibility = .Hidden
-                    expectValidSnapshot(subject, device: .Custom(CGSize(width: 375, height: StreamCellType.CreateComment.oneColumnHeight)))
+                    subject.watchVisibility = .hidden
+                    subject.replyAllVisibility = .hidden
+                    expectValidSnapshot(subject, device: .custom(CGSize(width: 375, height: StreamCellType.createComment.oneColumnHeight)))
                 }
                 it("has a valid reply all button") {
-                    subject.watchVisibility = .Hidden
-                    subject.replyAllVisibility = .Enabled
-                    expectValidSnapshot(subject, device: .Custom(CGSize(width: 375, height: StreamCellType.CreateComment.oneColumnHeight)))
+                    subject.watchVisibility = .hidden
+                    subject.replyAllVisibility = .enabled
+                    expectValidSnapshot(subject, device: .custom(CGSize(width: 375, height: StreamCellType.createComment.oneColumnHeight)))
                 }
                 it("has a valid not-watching button") {
-                    subject.watchVisibility = .Enabled
-                    subject.replyAllVisibility = .Hidden
+                    subject.watchVisibility = .enabled
+                    subject.replyAllVisibility = .hidden
                     subject.watching = false
-                    expectValidSnapshot(subject, device: .Custom(CGSize(width: 375, height: StreamCellType.CreateComment.oneColumnHeight)))
+                    expectValidSnapshot(subject, device: .custom(CGSize(width: 375, height: StreamCellType.createComment.oneColumnHeight)))
                 }
                 it("has a valid watching button") {
-                    subject.watchVisibility = .Enabled
-                    subject.replyAllVisibility = .Hidden
+                    subject.watchVisibility = .enabled
+                    subject.replyAllVisibility = .hidden
                     subject.watching = true
-                    expectValidSnapshot(subject, device: .Custom(CGSize(width: 375, height: StreamCellType.CreateComment.oneColumnHeight)))
+                    expectValidSnapshot(subject, device: .custom(CGSize(width: 375, height: StreamCellType.createComment.oneColumnHeight)))
                 }
             }
         }

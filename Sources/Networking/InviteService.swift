@@ -5,35 +5,35 @@
 import Moya
 import SwiftyJSON
 
-public typealias InviteFriendsSuccessCompletion = () -> Void
-public typealias FindFriendsSuccessCompletion = ([(LocalPerson, User?)]) -> Void
+typealias InviteFriendsSuccessCompletion = () -> Void
+typealias FindFriendsSuccessCompletion = ([(LocalPerson, User?)]) -> Void
 
-public struct InviteService {
+struct InviteService {
 
-    public init(){}
+    init(){}
 
-    public func invite(contact: String, success: InviteFriendsSuccessCompletion, failure: ElloFailureCompletion) {
-        ElloProvider.shared.elloRequest(ElloAPI.InviteFriends(contact: contact),
+    func invite(_ contact: String, success: @escaping InviteFriendsSuccessCompletion, failure: @escaping ElloFailureCompletion) {
+        ElloProvider.shared.elloRequest(ElloAPI.inviteFriends(contact: contact),
             success: { _ in success() },
             failure: failure)
     }
 
-    public func find(addressBook: AddressBookProtocol, currentUser: User?, success: FindFriendsSuccessCompletion, failure: ElloFailureCompletion) {
+    func find(_ addressBook: AddressBookProtocol, currentUser: User?, success: @escaping FindFriendsSuccessCompletion, failure: @escaping ElloFailureCompletion) {
         var contacts = [String: [String]]()
         for person in addressBook.localPeople {
             contacts[person.identifier] = person.emails
         }
 
-        ElloProvider.shared.elloRequest(ElloAPI.FindFriends(contacts: contacts),
+        ElloProvider.shared.elloRequest(ElloAPI.findFriends(contacts: contacts),
             success: { (data, responseConfig) in
                 if let data = data as? [User] {
                     let users = InviteService.filterUsers(data, currentUser: currentUser)
                     let userIdentifiers = users.map { $0.identifiableBy ?? "" }
                     let mixed: [(LocalPerson, User?)] = addressBook.localPeople.map {
-                        if let index = userIdentifiers.indexOf($0.identifier) {
+                        if let index = userIdentifiers.index(of: $0.identifier) {
                             return ($0, users[index])
                         }
-                        return ($0, .None)
+                        return ($0, .none)
                     }
 
                     success(mixed)
@@ -44,8 +44,8 @@ public struct InviteService {
             }, failure: failure)
     }
 
-    static func filterUsers(users: [User], currentUser: User?) -> [User] {
-        return users.filter { $0.identifiableBy != .None && $0.id != currentUser?.id }
+    static func filterUsers(_ users: [User], currentUser: User?) -> [User] {
+        return users.filter { $0.identifiableBy != .none && $0.id != currentUser?.id }
     }
 
 }

@@ -2,7 +2,7 @@
 ///  ElloNavigationControllerSpec.swift
 //
 
-import Ello
+@testable import Ello
 import Quick
 import Nimble
 
@@ -13,7 +13,7 @@ class ElloNavigationControllerSpec: QuickSpec {
 
         describe("NotificationsViewController NavigationController") {
             beforeEach() {
-                controller = UIStoryboard.storyboardWithId(.Notifications) as! ElloNavigationController
+                controller = UIStoryboard.storyboardWithId(.notifications) as! ElloNavigationController
                 controller.currentUser = User.stub(["id": "fakeuser"])
             }
 
@@ -28,7 +28,7 @@ class ElloNavigationControllerSpec: QuickSpec {
 
         describe("ProfileViewController NavigationController") {
             beforeEach() {
-                controller = UIStoryboard.storyboardWithId(.Profile) as! ElloNavigationController
+                controller = UIStoryboard.storyboardWithId(.profile) as! ElloNavigationController
                 controller.currentUser = User.stub(["id": "fakeuser"])
             }
 
@@ -43,7 +43,7 @@ class ElloNavigationControllerSpec: QuickSpec {
 
         describe("OmnibarViewController NavigationController") {
             beforeEach() {
-                controller = UIStoryboard.storyboardWithId(.Omnibar) as! ElloNavigationController
+                controller = UIStoryboard.storyboardWithId(.omnibar) as! ElloNavigationController
                 controller.currentUser = User.stub(["id": "fakeuser"])
             }
 

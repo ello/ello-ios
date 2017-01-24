@@ -3,27 +3,27 @@
 //
 
 
-public enum RelationshipControlStyle {
-    case Default
-    case ProfileView
+enum RelationshipControlStyle {
+    case `default`
+    case profileView
 
     var starButtonMargin: CGFloat {
         switch self {
-            case .ProfileView: return 10
+            case .profileView: return 10
             default: return 7
         }
     }
 
     var starButtonWidth: CGFloat {
         switch self {
-            case .ProfileView: return 20
+            case .profileView: return 20
             default: return 30
         }
     }
 }
 
 
-public class RelationshipControl: UIView {
+class RelationshipControl: UIView {
     struct Size {
         static let viewHeight: CGFloat = 30
         static let minViewWidth: CGFloat = 105
@@ -31,7 +31,7 @@ public class RelationshipControl: UIView {
 
     let followingButton = FollowButton()
     let starButton = StarButton()
-    var style: RelationshipControlStyle = .Default {
+    var style: RelationshipControlStyle = .default {
         didSet {
             followingButton.relationshipStyle = style
             starButton.relationshipStyle = style
@@ -40,54 +40,54 @@ public class RelationshipControl: UIView {
         }
     }
 
-    public var enabled: Bool {
+    var enabled: Bool {
         set {
-            followingButton.enabled = newValue
-            starButton.enabled = newValue
+            followingButton.isEnabled = newValue
+            starButton.isEnabled = newValue
         }
-        get { return followingButton.enabled }
+        get { return followingButton.isEnabled }
     }
-    public var userId: String
-    public var userAtName: String
+    var userId: String
+    var userAtName: String
 
-    public weak var relationshipDelegate: RelationshipDelegate?
-    public var relationshipPriority: RelationshipPriority = .None {
+    weak var relationshipDelegate: RelationshipDelegate?
+    var relationshipPriority: RelationshipPriority = .none {
         didSet { updateRelationshipPriority() }
     }
 
-    public var showStarButton = true {
+    var showStarButton = true {
         didSet {
-            starButton.hidden = !showStarButton
+            starButton.isHidden = !showStarButton
             setNeedsLayout()
             invalidateIntrinsicContentSize()
         }
     }
 
-    required public override init(frame: CGRect) {
+    required override init(frame: CGRect) {
         self.userId = ""
         self.userAtName = ""
         super.init(frame: frame)
         setup()
     }
 
-    required public init?(coder: NSCoder) {
+    required init?(coder: NSCoder) {
         self.userId = ""
         self.userAtName = ""
         super.init(coder: coder)
         setup()
     }
 
-    private func setup() {
+    fileprivate func setup() {
         arrange()
         bindActions()
-        starButton.hidden = !showStarButton
+        starButton.isHidden = !showStarButton
         updateRelationshipPriority()
-        backgroundColor = .clearColor()
+        backgroundColor = .clear
     }
 
-    public override func intrinsicContentSize() -> CGSize {
+    override var intrinsicContentSize: CGSize {
         var totalSize = CGSize(width: 0, height: Size.viewHeight)
-        let followingSize = followingButton.intrinsicContentSize()
+        let followingSize = followingButton.intrinsicContentSize
         if followingSize.width > Size.minViewWidth {
             totalSize.width += followingSize.width
         }
@@ -104,31 +104,31 @@ public class RelationshipControl: UIView {
 
     // MARK: IBActions
 
-    @IBAction func starButtonTapped(sender: UIButton) {
+    @IBAction func starButtonTapped(_ sender: UIButton) {
         switch relationshipPriority {
-        case .Mute, .Block:
+        case .mute, .block:
             launchUnmuteModal()
-        case .Starred:
+        case .starred:
             handleUnstar()
         default:
             handleStar()
         }
     }
 
-    @IBAction func followingButtonTapped(sender: UIButton) {
+    @IBAction func followingButtonTapped(_ sender: UIButton) {
         switch relationshipPriority {
-        case .Mute, .Block:
+        case .mute, .block:
             launchUnmuteModal()
-        case .Following:
+        case .following:
             handleUnfollow()
-        case .Starred:
+        case .starred:
             handleUnstar()
         default:
             handleFollow()
         }
     }
 
-    private func launchUnmuteModal() {
+    fileprivate func launchUnmuteModal() {
         guard relationshipPriority.isMutedOrBlocked else {
             return
         }
@@ -143,16 +143,16 @@ public class RelationshipControl: UIView {
         }
     }
 
-    private func handleRelationship(newRelationshipPriority: RelationshipPriority) {
+    fileprivate func handleRelationship(_ newRelationshipPriority: RelationshipPriority) {
         guard let relationshipDelegate = relationshipDelegate else {
             return
         }
 
-        self.userInteractionEnabled = false
+        self.isUserInteractionEnabled = false
         let prevRelationshipPriority = self.relationshipPriority
         self.relationshipPriority = newRelationshipPriority
         relationshipDelegate.relationshipTapped(self.userId, prev: prevRelationshipPriority, relationshipPriority: newRelationshipPriority) { (status, relationship, isFinalValue) in
-            self.userInteractionEnabled = isFinalValue
+            self.isUserInteractionEnabled = isFinalValue
 
             if let newRelationshipPriority = relationship?.subject?.relationshipPriority {
                 self.relationshipPriority = newRelationshipPriority
@@ -163,53 +163,53 @@ public class RelationshipControl: UIView {
         }
     }
 
-    private func handleFollow() {
-        handleRelationship(.Following)
+    fileprivate func handleFollow() {
+        handleRelationship(.following)
     }
 
-    private func handleStar() {
-        handleRelationship(.Starred)
+    fileprivate func handleStar() {
+        handleRelationship(.starred)
     }
 
-    private func handleUnstar() {
-        handleRelationship(.Following)
+    fileprivate func handleUnstar() {
+        handleRelationship(.following)
     }
 
-    private func handleUnfollow() {
-        handleRelationship(.Inactive)
+    fileprivate func handleUnfollow() {
+        handleRelationship(.inactive)
     }
 
     // MARK: Private
 
-    private func arrange() {
+    fileprivate func arrange() {
         addSubview(starButton)
         addSubview(followingButton)
     }
 
-    private func bindActions() {
-        followingButton.addTarget(self, action: #selector(RelationshipControl.followingButtonTapped(_:)), forControlEvents: .TouchUpInside)
-        starButton.addTarget(self, action: #selector(RelationshipControl.starButtonTapped(_:)), forControlEvents: .TouchUpInside)
+    fileprivate func bindActions() {
+        followingButton.addTarget(self, action: #selector(RelationshipControl.followingButtonTapped(_:)), for: .touchUpInside)
+        starButton.addTarget(self, action: #selector(RelationshipControl.starButtonTapped(_:)), for: .touchUpInside)
     }
 
-    private func updateRelationshipPriority() {
+    fileprivate func updateRelationshipPriority() {
         let config: Config
         switch relationshipPriority {
-        case .Following: config = .Following
-        case .Starred: config = .Starred
-        case .Mute: config = .Muted
-        case .Block: config = .Blocked
-        default: config = .None
+        case .following: config = .following
+        case .starred: config = .starred
+        case .mute: config = .muted
+        case .block: config = .blocked
+        default: config = .none
         }
 
         followingButton.config = config
         starButton.config = config
-        starButton.hidden = relationshipPriority.isMutedOrBlocked || !showStarButton
+        starButton.isHidden = relationshipPriority.isMutedOrBlocked || !showStarButton
 
         setNeedsLayout()
         invalidateIntrinsicContentSize()
     }
 
-    public override func layoutSubviews() {
+    override func layoutSubviews() {
         super.layoutSubviews()
 
         let starButtonWidth: CGFloat
@@ -225,84 +225,84 @@ public class RelationshipControl: UIView {
         followingButton.frame = bounds.inset(top: 0, left: 0, bottom: 0, right: starButtonWidth)
     }
 
-    private enum Config {
-        case Starred
-        case Following
-        case Muted
-        case Blocked
-        case None
+    fileprivate enum Config {
+        case starred
+        case following
+        case muted
+        case blocked
+        case none
 
         var title: String {
             switch self {
-            case .None: return InterfaceString.Relationship.Follow
-            case .Following: return InterfaceString.Relationship.Following
-            case .Starred: return InterfaceString.Relationship.Starred
-            case .Muted: return InterfaceString.Relationship.Muted
-            case .Blocked: return InterfaceString.Relationship.Blocked
+            case .none: return InterfaceString.Relationship.Follow
+            case .following: return InterfaceString.Relationship.Following
+            case .starred: return InterfaceString.Relationship.Starred
+            case .muted: return InterfaceString.Relationship.Muted
+            case .blocked: return InterfaceString.Relationship.Blocked
             }
         }
 
         var starred: Bool {
-            return self == .Starred
+            return self == .starred
         }
 
         var image: UIImage? {
             switch self {
-            case .Muted, .Blocked: return nil
-            case .Starred, .Following: return InterfaceImage.CheckSmall.whiteImage
-            default: return InterfaceImage.PlusSmall.selectedImage
+            case .muted, .blocked: return nil
+            case .starred, .following: return InterfaceImage.checkSmall.whiteImage
+            default: return InterfaceImage.plusSmall.selectedImage
             }
         }
 
         var highlightedImage: UIImage? {
             switch self {
-            case .Muted, .Blocked, .Starred, .Following: return self.image
-            default: return InterfaceImage.PlusSmall.whiteImage
+            case .muted, .blocked, .starred, .following: return self.image
+            default: return InterfaceImage.plusSmall.whiteImage
             }
         }
     }
 
     class FollowButton: StyledButton {
-        var relationshipStyle: RelationshipControlStyle = .Default {
+        var relationshipStyle: RelationshipControlStyle = .default {
             didSet { recalculateStyle() }
         }
-        private var config: Config = .None {
+        fileprivate var config: Config = .none {
             didSet { recalculateStyle() }
         }
 
-        private func recalculateStyle() {
+        fileprivate func recalculateStyle() {
             let style: StyledButton.Style
             var image: UIImage? = nil
             var highlightedImage: UIImage? = nil
 
-            if config == .Following || config == .Starred {
-                if relationshipStyle == .ProfileView {
+            if config == .following || config == .starred {
+                if relationshipStyle == .profileView {
                     style = .GrayPill
                 }
                 else {
                     style = .BlackPill
                 }
-                image = InterfaceImage.CheckSmall.whiteImage
+                image = InterfaceImage.checkSmall.whiteImage
                 highlightedImage = image
             }
-            else if config == .Muted || config == .Blocked {
+            else if config == .muted || config == .blocked {
                 style = .RedPill
             }
-            else if relationshipStyle == .ProfileView && config == .None {
+            else if relationshipStyle == .profileView && config == .none {
                 style = .GreenPill
-                image = InterfaceImage.PlusSmall.whiteImage
+                image = InterfaceImage.plusSmall.whiteImage
                 highlightedImage = image
             }
             else {
                 style = .BlackPillOutline
-                image = InterfaceImage.PlusSmall.selectedImage
-                highlightedImage = InterfaceImage.PlusSmall.whiteImage
+                image = InterfaceImage.plusSmall.selectedImage
+                highlightedImage = InterfaceImage.plusSmall.whiteImage
             }
 
-            setTitle(config.title, forState: .Normal)
-            setImage(image, forState: .Normal)
-            setImage(highlightedImage, forState: .Highlighted)
-            setImage(UIImage(), forState: .Disabled)
+            setTitle(config.title, for: .normal)
+            setImage(image, for: .normal)
+            setImage(highlightedImage, for: .highlighted)
+            setImage(UIImage(), for: .disabled)
             self.style = style
         }
 
@@ -315,45 +315,45 @@ public class RelationshipControl: UIView {
     }
 
     class StarButton: StyledButton {
-        var relationshipStyle: RelationshipControlStyle = .Default {
+        var relationshipStyle: RelationshipControlStyle = .default {
             didSet { recalculateStyle() }
         }
-        private var config: Config = .None {
+        fileprivate var config: Config = .none {
             didSet { recalculateStyle() }
         }
 
-        private func recalculateStyle() {
+        fileprivate func recalculateStyle() {
             var image: UIImage? = nil
             var highlightedImage: UIImage? = nil
 
-            if config == .Starred {
-                if relationshipStyle == .ProfileView {
-                    image = InterfaceImage.WhiteStar.selectedImage
+            if config == .starred {
+                if relationshipStyle == .profileView {
+                    image = InterfaceImage.whiteStar.selectedImage
                 }
                 else {
-                    image = InterfaceImage.BlackStar.selectedImage
+                    image = InterfaceImage.blackStar.selectedImage
                 }
                 highlightedImage = image
             }
-            else if relationshipStyle == .ProfileView {
-                image = InterfaceImage.WhiteStar.normalImage
-                highlightedImage = InterfaceImage.WhiteStar.selectedImage
+            else if relationshipStyle == .profileView {
+                image = InterfaceImage.whiteStar.normalImage
+                highlightedImage = InterfaceImage.whiteStar.selectedImage
             }
             else {
-                image = InterfaceImage.BlackStar.normalImage
-                highlightedImage = InterfaceImage.BlackStar.selectedImage
+                image = InterfaceImage.blackStar.normalImage
+                highlightedImage = InterfaceImage.blackStar.selectedImage
             }
 
-            setImage(image, forState: .Normal)
-            setImage(highlightedImage, forState: .Highlighted)
-            setImage(UIImage(), forState: .Disabled)
+            setImage(image, for: .normal)
+            setImage(highlightedImage, for: .highlighted)
+            setImage(UIImage(), for: .disabled)
         }
 
         override func sharedSetup() {
             super.sharedSetup()
 
             adjustsImageWhenDisabled = false
-            config = .None
+            config = .none
             style = .ClearWhite
             recalculateStyle()
         }

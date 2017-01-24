@@ -2,7 +2,7 @@
 ///  AutoCompleteServiceSpec.swift
 //
 
-import Ello
+@testable import Ello
 import Quick
 import Moya
 import Nimble
@@ -80,7 +80,7 @@ class AutoCompleteServiceSpec: QuickSpec {
                             it("should find \(expected.count) matches for \(test)") {
                                 let results = subject.loadEmojiResults(test)
                                 expect(results.count) == expected.count
-                                for (index, expectation) in expected.enumerate() {
+                                for (index, expectation) in expected.enumerated() {
                                     if index >= results.count {
                                         break
                                     }

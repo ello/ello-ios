@@ -5,9 +5,9 @@
 import SnapKit
 
 
-public class ProfileHeaderCompactView: ProfileHeaderLayoutView {
+class ProfileHeaderCompactView: ProfileHeaderLayoutView {
     override func style() {
-        backgroundColor = .clearColor()
+        backgroundColor = .clear
     }
 
     override func bindActions() {}
@@ -25,43 +25,43 @@ public class ProfileHeaderCompactView: ProfileHeaderLayoutView {
         addSubview(locationView)
         addSubview(linksView)
 
-        avatarView.snp_makeConstraints { make in
+        avatarView.snp.makeConstraints { make in
             make.top.width.centerX.equalTo(self)
             avatarHeightConstraint = make.height.equalTo(0).constraint
         }
 
-        namesView.snp_makeConstraints { make in
-            make.top.equalTo(self.avatarView.snp_bottom)
+        namesView.snp.makeConstraints { make in
+            make.top.equalTo(self.avatarView.snp.bottom)
             make.width.centerX.equalTo(self)
             namesHeightConstraint = make.height.equalTo(0).constraint
         }
 
-        totalCountView.snp_makeConstraints { make in
-            make.top.equalTo(self.namesView.snp_bottom)
+        totalCountView.snp.makeConstraints { make in
+            make.top.equalTo(self.namesView.snp.bottom)
             make.width.centerX.equalTo(self)
             totalCountHeightConstraint = make.height.equalTo(0).constraint
         }
 
-        statsView.snp_makeConstraints { make in
-            make.top.equalTo(self.totalCountView.snp_bottom)
+        statsView.snp.makeConstraints { make in
+            make.top.equalTo(self.totalCountView.snp.bottom)
             make.width.centerX.equalTo(self)
             make.height.equalTo(ProfileStatsView.Size.height)
         }
 
-        bioView.snp_makeConstraints { make in
-            make.top.equalTo(self.statsView.snp_bottom)
+        bioView.snp.makeConstraints { make in
+            make.top.equalTo(self.statsView.snp.bottom)
             make.width.centerX.equalTo(self)
             bioHeightConstraint = make.height.equalTo(0).constraint
         }
 
-        locationView.snp_makeConstraints { make in
-            make.top.equalTo(self.bioView.snp_bottom)
+        locationView.snp.makeConstraints { make in
+            make.top.equalTo(self.bioView.snp.bottom)
             make.width.centerX.equalTo(self)
             locationHeightConstraint = make.height.equalTo(0).constraint
         }
 
-        linksView.snp_makeConstraints { make in
-            make.top.equalTo(self.locationView.snp_bottom)
+        linksView.snp.makeConstraints { make in
+            make.top.equalTo(self.locationView.snp.bottom)
             make.width.centerX.equalTo(self)
             linksHeightConstraint = make.height.equalTo(0).constraint
         }

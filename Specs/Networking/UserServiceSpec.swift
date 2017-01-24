@@ -4,7 +4,7 @@
 
 import Foundation
 
-import Ello
+@testable import Ello
 import Quick
 import Moya
 import Nimble
@@ -24,11 +24,11 @@ class UserServiceSpec: QuickSpec {
                     subject.join(email: "fake@example.com",
                         username: "fake-username",
                         password: "fake-password",
-                        invitationCode: .None,
+                        invitationCode: .none,
                         success: {
                             (user, responseConfig) in
                             loadedUser = user
-                        }, failure: .None)
+                        }, failure: .none)
 
                     expect(loadedUser).toNot(beNil())
 

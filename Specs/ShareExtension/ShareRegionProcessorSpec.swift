@@ -2,7 +2,7 @@
 ///  ShareRegionProcessorSpec.swift
 //
 
-import Ello
+@testable import Ello
 import Quick
 import Nimble
 
@@ -24,10 +24,10 @@ class ShareRegionProcessorSpec: QuickSpec {
                     let prepped = ShareRegionProcessor.prepContent(contextText, itemPreviews: items)
 
                     expect(prepped.count) == 4
-                    expect(prepped[0] == PostEditingService.PostContentRegion.Text("yo")) == true
-                    expect(prepped[1] == PostEditingService.PostContentRegion.Text("https://ello.co")) == true
-                    expect(prepped[2] == PostEditingService.PostContentRegion.Image(expectedImage)) == true
-                    expect(prepped[3] == PostEditingService.PostContentRegion.Text("hello")) == true
+                    expect(prepped[0] == PostEditingService.PostContentRegion.text("yo")) == true
+                    expect(prepped[1] == PostEditingService.PostContentRegion.text("https://ello.co")) == true
+                    expect(prepped[2] == PostEditingService.PostContentRegion.image(expectedImage)) == true
+                    expect(prepped[3] == PostEditingService.PostContentRegion.text("hello")) == true
                 }
             }
 
@@ -40,7 +40,7 @@ class ShareRegionProcessorSpec: QuickSpec {
                 let prepped = ShareRegionProcessor.prepContent(contextText, itemPreviews: items)
 
                 expect(prepped.count) == 1
-                expect(prepped[0] == PostEditingService.PostContentRegion.Text("yo")) == true
+                expect(prepped[0] == PostEditingService.PostContentRegion.text("yo")) == true
             }
         }
     }

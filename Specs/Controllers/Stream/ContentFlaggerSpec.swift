@@ -2,7 +2,7 @@
 ///  ContentFlaggerSpec.swift
 //
 
-import Ello
+@testable import Ello
 import Quick
 import Nimble
 import Moya
@@ -18,7 +18,7 @@ class ContentFlaggerSpec: QuickSpec {
             presentingController = UIViewController()
             subject = ContentFlagger(presentingController: presentingController,
                 flaggableId: "123",
-                contentType: .Post,
+                contentType: .post,
                 commentPostId: nil)
             showController(presentingController)
         }
@@ -45,13 +45,13 @@ class ContentFlaggerSpec: QuickSpec {
                 let adultAction = actions[5]
                 let dontLikeAction = actions[6]
 
-                expect(ContentFlagger.AlertOption(rawValue: spamAction.title)) == ContentFlagger.AlertOption.Spam
-                expect(ContentFlagger.AlertOption(rawValue: violenceAction.title)) == ContentFlagger.AlertOption.Violence
-                expect(ContentFlagger.AlertOption(rawValue: copyrightAction.title)) == ContentFlagger.AlertOption.Copyright
-                expect(ContentFlagger.AlertOption(rawValue: threateningAction.title)) == ContentFlagger.AlertOption.Threatening
-                expect(ContentFlagger.AlertOption(rawValue: hateAction.title)) == ContentFlagger.AlertOption.Hate
-                expect(ContentFlagger.AlertOption(rawValue: adultAction.title)) == ContentFlagger.AlertOption.Adult
-                expect(ContentFlagger.AlertOption(rawValue: dontLikeAction.title)) == ContentFlagger.AlertOption.DontLike
+                expect(ContentFlagger.AlertOption(rawValue: spamAction.title)) == ContentFlagger.AlertOption.spam
+                expect(ContentFlagger.AlertOption(rawValue: violenceAction.title)) == ContentFlagger.AlertOption.violence
+                expect(ContentFlagger.AlertOption(rawValue: copyrightAction.title)) == ContentFlagger.AlertOption.copyright
+                expect(ContentFlagger.AlertOption(rawValue: threateningAction.title)) == ContentFlagger.AlertOption.threatening
+                expect(ContentFlagger.AlertOption(rawValue: hateAction.title)) == ContentFlagger.AlertOption.hate
+                expect(ContentFlagger.AlertOption(rawValue: adultAction.title)) == ContentFlagger.AlertOption.adult
+                expect(ContentFlagger.AlertOption(rawValue: dontLikeAction.title)) == ContentFlagger.AlertOption.dontLike
             }
         }
     }

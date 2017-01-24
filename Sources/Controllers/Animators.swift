@@ -2,56 +2,56 @@
 ///  Animators.swift
 //
 
-public let TransitionAnimationDuration: NSTimeInterval = 0.25
+let TransitionAnimationDuration: TimeInterval = 0.25
 
-public class ForwardAnimator: NSObject, UIViewControllerAnimatedTransitioning {
-    public func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
+class ForwardAnimator: NSObject, UIViewControllerAnimatedTransitioning {
+    func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
         return TransitionAnimationDuration
     }
 
-    public func animateTransition(context: UIViewControllerContextTransitioning) {
-        let toView = (context.viewControllerForKey(UITransitionContextToViewControllerKey)?.view)!
-        let fromView = (context.viewControllerForKey(UITransitionContextFromViewControllerKey)?.view)!
+    func animateTransition(using context: UIViewControllerContextTransitioning) {
+        let toView = (context.viewController(forKey: UITransitionContextViewControllerKey.to)?.view)!
+        let fromView = (context.viewController(forKey: UITransitionContextViewControllerKey.from)?.view)!
 
         let from = fromView.frame
         toView.frame.origin.x = toView.frame.size.width
-        context.containerView().addSubview(toView)
+        context.containerView.addSubview(toView)
 
-        UIView.animateWithDuration(transitionDuration(context),
+        UIView.animate(withDuration: transitionDuration(using: context),
             delay: 0.0,
-            options: .CurveEaseIn,
+            options: .curveEaseIn,
             animations: {
                 toView.frame = from
                 fromView.frame.origin.x -= fromView.frame.size.width
             },
             completion: { _ in
-                context.completeTransition(!context.transitionWasCancelled())
+                context.completeTransition(!context.transitionWasCancelled)
         })
     }
 }
 
-public class BackAnimator: NSObject, UIViewControllerAnimatedTransitioning {
-    public func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
+class BackAnimator: NSObject, UIViewControllerAnimatedTransitioning {
+    func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
         return TransitionAnimationDuration
     }
 
-    public func animateTransition(context: UIViewControllerContextTransitioning) {
-        let toView = (context.viewControllerForKey(UITransitionContextToViewControllerKey)?.view)!
-        let fromView = (context.viewControllerForKey(UITransitionContextFromViewControllerKey)?.view)!
+    func animateTransition(using context: UIViewControllerContextTransitioning) {
+        let toView = (context.viewController(forKey: UITransitionContextViewControllerKey.to)?.view)!
+        let fromView = (context.viewController(forKey: UITransitionContextViewControllerKey.from)?.view)!
 
         let from = fromView.frame
         toView.frame.origin.x = -toView.frame.size.width
-        context.containerView().addSubview(toView)
+        context.containerView.addSubview(toView)
 
-        UIView.animateWithDuration(transitionDuration(context),
+        UIView.animate(withDuration: transitionDuration(using: context),
             delay: 0.0,
-            options: .CurveEaseIn,
+            options: .curveEaseIn,
             animations: {
                 toView.frame = from
                 fromView.frame.origin.x += fromView.frame.size.width
             },
             completion: { _ in
-                context.completeTransition(!context.transitionWasCancelled())
+                context.completeTransition(!context.transitionWasCancelled)
         })
     }
 }

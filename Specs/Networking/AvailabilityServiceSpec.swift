@@ -2,7 +2,7 @@
 ///  AvailabilityServiceSpec.swift
 //
 
-import Ello
+@testable import Ello
 import Quick
 import Nimble
 import Moya
@@ -12,7 +12,7 @@ class AvailabilityServiceSpec: QuickSpec {
     override func spec() {
         describe("availability") {
             it("succeeds") {
-                var expectedAvailability: Availability? = .None
+                var expectedAvailability: Availability? = .none
                 let content = ["username": "somename"]
                 AvailabilityService().availability(content, success: { availability in
                     expectedAvailability = availability

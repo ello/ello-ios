@@ -16,7 +16,7 @@ class ProfileTotalCountViewSpec: QuickSpec {
                     size: CGSize(width: 375, height: 60)
                 ))
                 subject.count = "2.3M"
-                expectValidSnapshot(subject, named: "ProfileTotalCountView", device: .Custom(subject.frame.size))
+                expectValidSnapshot(subject, named: "ProfileTotalCountView", device: .custom(subject.frame.size))
             }
         }
     }

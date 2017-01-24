@@ -2,19 +2,19 @@
 ///  SearchScreenSpec.swift
 //
 
+@testable import Ello
 import Quick
 import Nimble
-import Ello
 import Nimble_Snapshots
 
-public class MockSearchScreenDelegate: NSObject, SearchScreenDelegate {
+class MockSearchScreenDelegate: NSObject, SearchScreenDelegate {
     var searchFieldWasCleared = false
-    public func searchCanceled(){}
-    public func searchFieldCleared(){searchFieldWasCleared = true}
-    public func searchFieldChanged(text: String, isPostSearch: Bool){}
-    public func searchShouldReset(){}
-    public func toggleChanged(text: String, isPostSearch: Bool){}
-    public func findFriendsTapped(){}
+    func searchCanceled(){}
+    func searchFieldCleared(){searchFieldWasCleared = true}
+    func searchFieldChanged(_ text: String, isPostSearch: Bool){}
+    func searchShouldReset(){}
+    func toggleChanged(_ text: String, isPostSearch: Bool){}
+    func findFriendsTapped(){}
 }
 
 class SearchScreenSpec: QuickSpec {
@@ -94,9 +94,9 @@ class SearchScreenSpec: QuickSpec {
                     }
 
                     it("hides keyboard") {
-                        subject.textFieldShouldReturn(subject.searchField)
+                        _ = subject.textFieldShouldReturn(subject.searchField)
 
-                        expect(subject.searchField.isFirstResponder()) == false
+                        expect(subject.searchField.isFirstResponder) == false
                     }
                 }
 
@@ -112,7 +112,7 @@ class SearchScreenSpec: QuickSpec {
 
                         let delegate = MockSearchScreenDelegate()
                         subject.delegate = delegate
-                        subject.textFieldShouldClear(subject.searchField)
+                        _ = subject.textFieldShouldClear(subject.searchField)
 
                         expect(delegate.searchFieldWasCleared) == true
                     }
@@ -120,26 +120,26 @@ class SearchScreenSpec: QuickSpec {
                     context("is search view") {
 
                         beforeEach {
-                            subject = SearchScreen(frame: CGRectZero, isSearchView: true, navBarTitle: "Test", fieldPlaceholderText: "placeholder test")
+                            subject = SearchScreen(frame: .zero, isSearchView: true, navBarTitle: "Test", fieldPlaceholderText: "placeholder test")
                         }
 
                         it("hides find friends text") {
-                            subject.textFieldShouldClear(subject.searchField)
+                            _ = subject.textFieldShouldClear(subject.searchField)
 
-                            expect(subject.findFriendsContainer.hidden) == false
+                            expect(subject.findFriendsContainer.isHidden) == false
                         }
                     }
 
                     context("is NOT search view") {
 
                         beforeEach {
-                            subject = SearchScreen(frame: CGRectZero, isSearchView: false, navBarTitle: "Test", fieldPlaceholderText: "placeholder test")
+                            subject = SearchScreen(frame: .zero, isSearchView: false, navBarTitle: "Test", fieldPlaceholderText: "placeholder test")
                         }
 
                         it("shows find friends text") {
-                            subject.textFieldShouldClear(subject.searchField)
+                            _ = subject.textFieldShouldClear(subject.searchField)
 
-                            expect(subject.findFriendsContainer.hidden) == true
+                            expect(subject.findFriendsContainer.isHidden) == true
                         }
                     }
                 }

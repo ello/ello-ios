@@ -2,7 +2,7 @@
 ///  FreeMethodsTests.swift
 //
 
-import Ello
+@testable import Ello
 import Quick
 import Nimble
 
@@ -73,13 +73,13 @@ class FreeMethodsSpec: QuickSpec {
             describe("afterN gets called") {
                 it("should not get called afterN(1) (0)") {
                     var called = 0
-                    let (afterAll, done) = afterN() { called += 1 }
+                    let (afterAll, _) = afterN() { called += 1 }
                     _ = afterAll()
                     expect(called) == 0
                 }
                 it("should not get called afterN(1) (1)") {
                     var called = 0
-                    let (afterAll, done) = afterN() { called += 1 }
+                    let (afterAll, _) = afterN() { called += 1 }
                     let blk = afterAll()
                     blk()
                     expect(called) == 0
@@ -157,7 +157,7 @@ class FreeMethodsSpec: QuickSpec {
             describe("until never called") {
                 it("should not be called until(0) (0)") {
                     var called = 0
-                    let untilFn = until(0) { called += 1 }
+                    let _ = until(0) { called += 1 }
                     expect(called) == 0
                 }
                 it("should not be called until(0) (1)") {
@@ -171,7 +171,7 @@ class FreeMethodsSpec: QuickSpec {
             describe("once") {
                 it("should not be called yet") {
                     var called = 0
-                    let onceFn = once { called += 1 }
+                    let _ = once { called += 1 }
                     expect(called) == 0
                 }
                 it("should be called once") {

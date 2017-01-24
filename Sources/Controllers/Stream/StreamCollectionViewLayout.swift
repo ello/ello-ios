@@ -8,37 +8,37 @@
 //  Swiftified and modified https://github.com/chiahsien/CHTCollectionViewWaterfallLayout
 
 @objc
-public protocol StreamCollectionViewLayoutDelegate: UICollectionViewDelegate {
+protocol StreamCollectionViewLayoutDelegate: UICollectionViewDelegate {
 
-    func collectionView (collectionView: UICollectionView,
+    func collectionView (_ collectionView: UICollectionView,
         layout collectionViewLayout: UICollectionViewLayout,
-        sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize
+        sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize
 
-    func collectionView (collectionView: UICollectionView,
+    func collectionView (_ collectionView: UICollectionView,
         layout collectionViewLayout: UICollectionViewLayout,
-        heightForItemAtIndexPath indexPath: NSIndexPath,
+        heightForItemAtIndexPath indexPath: IndexPath,
         numberOfColumns: NSInteger) -> CGFloat
 
-    optional func collectionView (collectionView: UICollectionView,
+    @objc optional func collectionView (_ collectionView: UICollectionView,
         layout collectionViewLayout: UICollectionViewLayout,
-        groupForItemAtIndexPath indexPath: NSIndexPath) -> String?
+        groupForItemAtIndexPath indexPath: IndexPath) -> String?
 
-    optional func colletionView (collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
+    @objc optional func colletionView (_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
         insetForSectionAtIndex section: NSInteger) -> UIEdgeInsets
 
-    optional func colletionView (collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
+    @objc optional func colletionView (_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
         minimumInteritemSpacingForSectionAtIndex section: NSInteger) -> CGFloat
 
-    optional func collectionView (collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
-        isFullWidthAtIndexPath indexPath: NSIndexPath) -> Bool
+    @objc optional func collectionView (_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
+        isFullWidthAtIndexPath indexPath: IndexPath) -> Bool
 }
 
-public class StreamCollectionViewLayout: UICollectionViewLayout {
+class StreamCollectionViewLayout: UICollectionViewLayout {
 
     enum Direction {
-        case ShortestFirst
-        case LeftToRight
-        case RightToLeft
+        case shortestFirst
+        case leftToRight
+        case rightToLeft
     }
 
     var columnCount: Int {
@@ -84,24 +84,24 @@ public class StreamCollectionViewLayout: UICollectionViewLayout {
         columnCount = 2
         minimumInteritemSpacing = 0
         minimumColumnSpacing = 12
-        sectionInset = UIEdgeInsetsZero
-        itemRenderDirection = .ShortestFirst
+        sectionInset = UIEdgeInsets.zero
+        itemRenderDirection = .shortestFirst
         super.init()
     }
 
-    required public init?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         columnCount = 2
         minimumInteritemSpacing = 0
         minimumColumnSpacing = 12
-        sectionInset = UIEdgeInsetsZero
-        itemRenderDirection = .ShortestFirst
+        sectionInset = UIEdgeInsets.zero
+        itemRenderDirection = .shortestFirst
         super.init(coder: aDecoder)
     }
 
-    override public func prepareLayout(){
-        super.prepareLayout()
+    override func prepare(){
+        super.prepare()
 
-        guard let numberOfSections = self.collectionView?.numberOfSections() else {
+        guard let numberOfSections = self.collectionView?.numberOfSections else {
             return
         }
 
@@ -129,7 +129,7 @@ public class StreamCollectionViewLayout: UICollectionViewLayout {
         }
     }
 
-    private func addAttributesForSection(section: Int) {
+    fileprivate func addAttributesForSection(_ section: Int) {
 
         var attributes = UICollectionViewLayoutAttributes()
 
@@ -139,14 +139,14 @@ public class StreamCollectionViewLayout: UICollectionViewLayout {
 
         let itemWidth = floor((width - (spaceColumCount * minimumColumnSpacing)) / CGFloat(columnCount))
 
-        let itemCount = collectionView!.numberOfItemsInSection(section)
+        let itemCount = collectionView!.numberOfItems(inSection: section)
         var itemAttributes = [UICollectionViewLayoutAttributes]()
 
         // Item will be put into shortest column.
         var groupIndex = ""
         var currentColumIndex = 0
         for index in 0..<itemCount {
-            let indexPath = NSIndexPath(forItem: index, inSection: section)
+            let indexPath = IndexPath(item: index, section: section)
             let itemGroup: String? = self.delegate?.collectionView?(self.collectionView!, layout: self, groupForItemAtIndexPath: indexPath)
             let isFullWidth = self.delegate?.collectionView?(self.collectionView!, layout: self, isFullWidthAtIndexPath: indexPath) ?? false
             if let itemGroup = itemGroup {
@@ -170,7 +170,7 @@ public class StreamCollectionViewLayout: UICollectionViewLayout {
             let xOffset = sectionInset.left + (calculatedItemWidth + minimumColumnSpacing) * CGFloat(currentColumIndex)
             let yOffset: CGFloat
             if isFullWidth {
-                yOffset = columnHeights.maxElement() ?? 0
+                yOffset = columnHeights.max() ?? 0
              }
              else {
                 yOffset = columnHeights[currentColumIndex]
@@ -182,14 +182,14 @@ public class StreamCollectionViewLayout: UICollectionViewLayout {
                 itemHeight = height
             }
 
-            attributes = UICollectionViewLayoutAttributes(forCellWithIndexPath: indexPath)
+            attributes = UICollectionViewLayoutAttributes(forCellWith: indexPath)
             attributes.frame = CGRect(x: xOffset, y: yOffset, width: calculatedItemWidth, height: itemHeight)
             itemAttributes.append(attributes)
 
             allItemAttributes.append(attributes)
             let maxY = attributes.frame.maxY
             if isFullWidth {
-                for (index, _) in columnHeights.enumerate() {
+                for (index, _) in columnHeights.enumerated() {
                     columnHeights[index] = maxY
                 }
             }
@@ -201,21 +201,21 @@ public class StreamCollectionViewLayout: UICollectionViewLayout {
         sectionItemAttributes.append(itemAttributes)
     }
 
-    override public func collectionViewContentSize() -> CGSize {
-        let numberOfSections = collectionView!.numberOfSections()
+    override var collectionViewContentSize: CGSize {
+        let numberOfSections = collectionView!.numberOfSections
         if numberOfSections == 0 {
             return .zero
         }
 
         let contentWidth = self.collectionView!.bounds.size.width
-        return CGSize(width: contentWidth, height: CGFloat(columnHeights.maxElement() ?? 0))
+        return CGSize(width: contentWidth, height: CGFloat(columnHeights.max() ?? 0))
     }
 
-    override public func layoutAttributesForItemAtIndexPath(indexPath: NSIndexPath) -> UICollectionViewLayoutAttributes? {
+    override func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
         return sectionItemAttributes[indexPath.section][indexPath.item]
     }
 
-    override public func layoutAttributesForElementsInRect (rect: CGRect) -> [UICollectionViewLayoutAttributes] {
+    override func layoutAttributesForElements (in rect: CGRect) -> [UICollectionViewLayoutAttributes] {
         var begin = 0
         var end = unionRects.count
         var attrs = [UICollectionViewLayoutAttributes]()
@@ -226,7 +226,7 @@ public class StreamCollectionViewLayout: UICollectionViewLayout {
                 break
             }
         }
-        for i in (0 ..< self.unionRects.count).reverse() {
+        for i in (0 ..< self.unionRects.count).reversed() {
             if rect.intersects(unionRects[i]) {
                 end = min((i+1) * unionSize, allItemAttributes.count)
                 break
@@ -243,28 +243,28 @@ public class StreamCollectionViewLayout: UICollectionViewLayout {
         return attrs
     }
 
-    override public func layoutAttributesForSupplementaryViewOfKind(elementKind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionViewLayoutAttributes? {
-        return UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: "profileHeader", withIndexPath: indexPath)
+    override func layoutAttributesForSupplementaryView(ofKind elementKind: String, at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
+        return UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: "profileHeader", with: indexPath)
     }
 
-    override public func shouldInvalidateLayoutForBoundsChange (newBounds: CGRect) -> Bool {
+    override func shouldInvalidateLayout (forBoundsChange newBounds: CGRect) -> Bool {
         let oldBounds = collectionView!.bounds
         return newBounds.width != oldBounds.width
     }
 
-    private func shortestColumnIndex() -> Int {
-        return columnHeights.indexOf(columnHeights.minElement()!) ?? 0
+    fileprivate func shortestColumnIndex() -> Int {
+        return columnHeights.index(of: columnHeights.min()!) ?? 0
     }
 
-    private func longestColumnIndex () -> NSInteger {
-        return columnHeights.indexOf(columnHeights.maxElement()!) ?? 0
+    fileprivate func longestColumnIndex () -> NSInteger {
+        return columnHeights.index(of: columnHeights.max()!) ?? 0
     }
 
-    private func nextColumnIndexForItem (item: NSInteger) -> Int {
+    fileprivate func nextColumnIndexForItem (_ item: NSInteger) -> Int {
         switch itemRenderDirection {
-        case .ShortestFirst: return shortestColumnIndex()
-        case .LeftToRight: return (item % columnCount)
-        case .RightToLeft: return (columnCount - 1) - (item % columnCount)
+        case .shortestFirst: return shortestColumnIndex()
+        case .leftToRight: return (item % columnCount)
+        case .rightToLeft: return (columnCount - 1) - (item % columnCount)
         }
     }
 }

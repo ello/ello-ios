@@ -5,13 +5,13 @@
 import PINRemoteImage
 import FutureKit
 
-public typealias CategoriesCompletion = (categories: [Category]) -> Void
+typealias CategoriesCompletion = (_ categories: [Category]) -> Void
 
-public class CategoryService {
+class CategoryService {
 
-    public func loadCategories() -> Future<[Category]> {
+    func loadCategories() -> Future<[Category]> {
         let promise = Promise<[Category]>()
-        ElloProvider.shared.elloRequest(.Categories, success: { (data, responseConfig) in
+        ElloProvider.shared.elloRequest(.categories, success: { (data, responseConfig) in
             if let categories = data as? [Category] {
                 Preloader().preloadImages(categories)
                 promise.completeWithSuccess(categories)
@@ -25,10 +25,10 @@ public class CategoryService {
         return promise.future
     }
 
-    public func loadCategory(categorySlug: String) -> Future<Category> {
+    func loadCategory(_ categorySlug: String) -> Future<Category> {
         let promise = Promise<Category>()
         ElloProvider.shared.elloRequest(
-            ElloAPI.Category(slug: categorySlug),
+            ElloAPI.category(slug: categorySlug),
             success: { (data, responseConfig) in
                 if let category = data as? Category {
                     Preloader().preloadImages([category])

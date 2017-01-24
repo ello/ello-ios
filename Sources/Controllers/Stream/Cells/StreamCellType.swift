@@ -4,364 +4,364 @@
 
 import Foundation
 
-public typealias CellConfigClosure = (
-    cell: UICollectionViewCell,
-    streamCellItem: StreamCellItem,
-    streamKind: StreamKind,
-    indexPath: NSIndexPath,
-    currentUser: User?
+typealias CellConfigClosure = (
+    _ cell: UICollectionViewCell,
+    _ streamCellItem: StreamCellItem,
+    _ streamKind: StreamKind,
+    _ indexPath: IndexPath,
+    _ currentUser: User?
 ) -> Void
 
 // MARK: Equatable
-public func == (lhs: StreamCellType, rhs: StreamCellType) -> Bool {
+func == (lhs: StreamCellType, rhs: StreamCellType) -> Bool {
     return lhs.identifier == rhs.identifier
 }
 
-public enum StreamCellType: Equatable {
-    case CategoryCard
-    case SelectableCategoryCard
-    case CategoryList
-    case CategoryPromotionalHeader
-    case CommentHeader
-    case CreateComment
-    case Embed(data: Regionable?)
-    case Footer
-    case Header
-    case Image(data: Regionable?)
-    case InviteFriends
-    case OnboardingInviteFriends
-    case EmptyStream(height: CGFloat)
-    case NoPosts
-    case Notification
-    case PagePromotionalHeader
-    case Announcement
-    case Placeholder
-    case ProfileHeader
-    case ProfileHeaderGhost
-    case Search(placeholder: String)
-    case SeeMoreComments
-    case Spacer(height: CGFloat)
-    case FullWidthSpacer(height: CGFloat)
-    case StreamLoading
-    case Text(data: Regionable?)
-    case TextHeader(NSAttributedString?)
-    case Toggle
-    case Unknown
-    case UserAvatars
-    case UserListItem
+enum StreamCellType: Equatable {
+    case categoryCard
+    case selectableCategoryCard
+    case categoryList
+    case categoryPromotionalHeader
+    case commentHeader
+    case createComment
+    case embed(data: Regionable?)
+    case footer
+    case header
+    case image(data: Regionable?)
+    case inviteFriends
+    case onboardingInviteFriends
+    case emptyStream(height: CGFloat)
+    case noPosts
+    case notification
+    case pagePromotionalHeader
+    case announcement
+    case placeholder
+    case profileHeader
+    case profileHeaderGhost
+    case search(placeholder: String)
+    case seeMoreComments
+    case spacer(height: CGFloat)
+    case fullWidthSpacer(height: CGFloat)
+    case streamLoading
+    case text(data: Regionable?)
+    case textHeader(NSAttributedString?)
+    case toggle
+    case unknown
+    case userAvatars
+    case userListItem
 
-    public enum PlaceholderType {
-        case CategoryList
-        case CategoryHeader
-        case CategoryPosts
-        case PeopleToFollow
+    enum PlaceholderType {
+        case categoryList
+        case categoryHeader
+        case categoryPosts
+        case peopleToFollow
 
-        case Announcements
-        case Notifications
+        case announcements
+        case notifications
 
-        case ProfileHeader
-        case ProfilePosts
+        case profileHeader
+        case profilePosts
 
-        case PostCommentBar
-        case PostComments
-        case PostHeader
-        case PostLovers
-        case PostReposters
-        case PostSocialPadding
+        case postCommentBar
+        case postComments
+        case postHeader
+        case postLovers
+        case postReposters
+        case postSocialPadding
 
-        case CellNotFound
+        case cellNotFound
     }
 
     static let all = [
-        CategoryCard,
-        CategoryPromotionalHeader,
-        SelectableCategoryCard,
-        CategoryList,
-        CommentHeader,
-        CreateComment,
-        Embed(data: nil),
-        EmptyStream(height: 282),
-        Footer,
-        Header,
-        Image(data: nil),
-        InviteFriends,
-        OnboardingInviteFriends,
-        NoPosts,
-        Notification,
-        PagePromotionalHeader,
-        Announcement,
-        ProfileHeader,
-        ProfileHeaderGhost,
-        Search(placeholder: ""),
-        SeeMoreComments,
-        Spacer(height: 0.0),
-        FullWidthSpacer(height: 0.0),
-        Placeholder,
-        StreamLoading,
-        Text(data: nil),
-        TextHeader(nil),
-        Toggle,
-        Unknown,
-        UserAvatars,
-        UserListItem
+        categoryCard,
+        categoryPromotionalHeader,
+        selectableCategoryCard,
+        categoryList,
+        commentHeader,
+        createComment,
+        embed(data: nil),
+        emptyStream(height: 282),
+        footer,
+        header,
+        image(data: nil),
+        inviteFriends,
+        onboardingInviteFriends,
+        noPosts,
+        notification,
+        pagePromotionalHeader,
+        announcement,
+        profileHeader,
+        profileHeaderGhost,
+        search(placeholder: ""),
+        seeMoreComments,
+        spacer(height: 0.0),
+        fullWidthSpacer(height: 0.0),
+        placeholder,
+        streamLoading,
+        text(data: nil),
+        textHeader(nil),
+        toggle,
+        unknown,
+        userAvatars,
+        userListItem
     ]
 
-    public var data: Any? {
+    var data: Any? {
         switch self {
-        case let Embed(data): return data
-        case let Image(data): return data
-        case let Text(data): return data
-        case let TextHeader(data): return data
+        case let .embed(data): return data
+        case let .image(data): return data
+        case let .text(data): return data
+        case let .textHeader(data): return data
         default: return nil
         }
     }
 
     // this is just stupid...
-    public var identifier: String {
+    var identifier: String {
         return "\(self)"
     }
 
-    public var name: String {
+    var name: String {
         switch self {
-        case CategoryCard: return CategoryCardCell.reuseIdentifier
-        case CategoryPromotionalHeader, PagePromotionalHeader: return CategoryHeaderCell.reuseIdentifier
-        case SelectableCategoryCard: return CategoryCardCell.selectableReuseIdentifier
-        case CategoryList: return CategoryListCell.reuseIdentifier
-        case CommentHeader, Header: return StreamHeaderCell.reuseIdentifier
-        case CreateComment: return StreamCreateCommentCell.reuseIdentifier
-        case Embed: return StreamEmbedCell.reuseEmbedIdentifier
-        case EmptyStream: return EmptyStreamCell.reuseEmbedIdentifier
-        case Footer: return StreamFooterCell.reuseIdentifier
-        case Image: return StreamImageCell.reuseIdentifier
-        case InviteFriends, OnboardingInviteFriends: return StreamInviteFriendsCell.reuseIdentifier
-        case NoPosts: return NoPostsCell.reuseIdentifier
-        case Notification: return NotificationCell.reuseIdentifier
-        case Placeholder: return "Placeholder"
-        case Announcement: return AnnouncementCell.reuseIdentifier
-        case ProfileHeader: return ProfileHeaderCell.reuseIdentifier
-        case ProfileHeaderGhost: return ProfileHeaderGhostCell.reuseIdentifier
-        case Search: return SearchStreamCell.reuseIdentifier
-        case SeeMoreComments: return StreamSeeMoreCommentsCell.reuseIdentifier
-        case Spacer: return "StreamSpacerCell"
-        case FullWidthSpacer: return "StreamSpacerCell"
-        case StreamLoading: return StreamLoadingCell.reuseIdentifier
-        case Text: return StreamTextCell.reuseIdentifier
-        case TextHeader: return TextHeaderCell.reuseIdentifier
-        case Toggle: return StreamToggleCell.reuseIdentifier
-        case Unknown: return "StreamUnknownCell"
-        case UserAvatars: return UserAvatarsCell.reuseIdentifier
-        case UserListItem: return UserListItemCell.reuseIdentifier
+        case .categoryCard: return CategoryCardCell.reuseIdentifier
+        case .categoryPromotionalHeader, .pagePromotionalHeader: return CategoryHeaderCell.reuseIdentifier
+        case .selectableCategoryCard: return CategoryCardCell.selectableReuseIdentifier
+        case .categoryList: return CategoryListCell.reuseIdentifier
+        case .commentHeader, .header: return StreamHeaderCell.reuseIdentifier
+        case .createComment: return StreamCreateCommentCell.reuseIdentifier
+        case .embed: return StreamEmbedCell.reuseEmbedIdentifier
+        case .emptyStream: return EmptyStreamCell.reuseEmbedIdentifier
+        case .footer: return StreamFooterCell.reuseIdentifier
+        case .image: return StreamImageCell.reuseIdentifier
+        case .inviteFriends, .onboardingInviteFriends: return StreamInviteFriendsCell.reuseIdentifier
+        case .noPosts: return NoPostsCell.reuseIdentifier
+        case .notification: return NotificationCell.reuseIdentifier
+        case .placeholder: return "Placeholder"
+        case .announcement: return AnnouncementCell.reuseIdentifier
+        case .profileHeader: return ProfileHeaderCell.reuseIdentifier
+        case .profileHeaderGhost: return ProfileHeaderGhostCell.reuseIdentifier
+        case .search: return SearchStreamCell.reuseIdentifier
+        case .seeMoreComments: return StreamSeeMoreCommentsCell.reuseIdentifier
+        case .spacer: return "StreamSpacerCell"
+        case .fullWidthSpacer: return "StreamSpacerCell"
+        case .streamLoading: return StreamLoadingCell.reuseIdentifier
+        case .text: return StreamTextCell.reuseIdentifier
+        case .textHeader: return TextHeaderCell.reuseIdentifier
+        case .toggle: return StreamToggleCell.reuseIdentifier
+        case .unknown: return "StreamUnknownCell"
+        case .userAvatars: return UserAvatarsCell.reuseIdentifier
+        case .userListItem: return UserListItemCell.reuseIdentifier
         }
     }
 
-    public var selectable: Bool {
+    var selectable: Bool {
         switch self {
-        case CategoryCard,
-             SelectableCategoryCard,
-             CreateComment,
-             Header,
-             InviteFriends,
-             OnboardingInviteFriends,
-             Notification,
-             Announcement,
-             SeeMoreComments,
-             Toggle,
-             UserListItem:
+        case .categoryCard,
+             .selectableCategoryCard,
+             .createComment,
+             .header,
+             .inviteFriends,
+             .onboardingInviteFriends,
+             .notification,
+             .announcement,
+             .seeMoreComments,
+             .toggle,
+             .userListItem:
             return true
         default: return false
         }
     }
 
-    public var configure: CellConfigClosure {
+    var configure: CellConfigClosure {
         switch self {
-        case CategoryCard: return CategoryCardCellPresenter.configure
-        case CategoryPromotionalHeader: return CategoryHeaderCellPresenter.configure
-        case SelectableCategoryCard: return CategoryCardCellPresenter.configure
-        case CategoryList: return CategoryListCellPresenter.configure
-        case CommentHeader, Header: return StreamHeaderCellPresenter.configure
-        case CreateComment: return StreamCreateCommentCellPresenter.configure
-        case EmptyStream: return EmptyStreamCellPresenter.configure
-        case Embed: return StreamEmbedCellPresenter.configure
-        case Footer: return StreamFooterCellPresenter.configure
-        case Image: return StreamImageCellPresenter.configure
-        case InviteFriends, OnboardingInviteFriends: return StreamInviteFriendsCellPresenter.configure
-        case NoPosts: return NoPostsCellPresenter.configure
-        case Notification: return NotificationCellPresenter.configure
-        case PagePromotionalHeader: return PagePromotionalHeaderCellPresenter.configure
-        case Announcement: return AnnouncementCellPresenter.configure
-        case ProfileHeader: return ProfileHeaderCellPresenter.configure
-        case Search: return SearchStreamCellPresenter.configure
-        case Spacer: return { (cell, _, _, _, _) in cell.backgroundColor = .whiteColor() }
-        case FullWidthSpacer: return { (cell, _, _, _, _) in cell.backgroundColor = .whiteColor() }
-        case StreamLoading: return StreamLoadingCellPresenter.configure
-        case Text: return StreamTextCellPresenter.configure
-        case TextHeader: return TextHeaderCellPresenter.configure
-        case Toggle: return StreamToggleCellPresenter.configure
-        case UserAvatars: return UserAvatarsCellPresenter.configure
-        case UserListItem: return UserListItemCellPresenter.configure
+        case .categoryCard: return CategoryCardCellPresenter.configure
+        case .categoryPromotionalHeader: return CategoryHeaderCellPresenter.configure
+        case .selectableCategoryCard: return CategoryCardCellPresenter.configure
+        case .categoryList: return CategoryListCellPresenter.configure
+        case .commentHeader, .header: return StreamHeaderCellPresenter.configure
+        case .createComment: return StreamCreateCommentCellPresenter.configure
+        case .emptyStream: return EmptyStreamCellPresenter.configure
+        case .embed: return StreamEmbedCellPresenter.configure
+        case .footer: return StreamFooterCellPresenter.configure
+        case .image: return StreamImageCellPresenter.configure
+        case .inviteFriends, .onboardingInviteFriends: return StreamInviteFriendsCellPresenter.configure
+        case .noPosts: return NoPostsCellPresenter.configure
+        case .notification: return NotificationCellPresenter.configure
+        case .pagePromotionalHeader: return PagePromotionalHeaderCellPresenter.configure
+        case .announcement: return AnnouncementCellPresenter.configure
+        case .profileHeader: return ProfileHeaderCellPresenter.configure
+        case .search: return SearchStreamCellPresenter.configure
+        case .spacer: return { (cell, _, _, _, _) in cell.backgroundColor = .white }
+        case .fullWidthSpacer: return { (cell, _, _, _, _) in cell.backgroundColor = .white }
+        case .streamLoading: return StreamLoadingCellPresenter.configure
+        case .text: return StreamTextCellPresenter.configure
+        case .textHeader: return TextHeaderCellPresenter.configure
+        case .toggle: return StreamToggleCellPresenter.configure
+        case .userAvatars: return UserAvatarsCellPresenter.configure
+        case .userListItem: return UserListItemCellPresenter.configure
         default: return { _ in }
         }
     }
 
-    public var classType: UICollectionViewCell.Type {
+    var classType: UICollectionViewCell.Type {
         switch self {
-        case CategoryPromotionalHeader, PagePromotionalHeader: return CategoryHeaderCell.self
-        case CategoryCard: return CategoryCardCell.self
-        case SelectableCategoryCard: return CategoryCardCell.self
-        case CategoryList: return CategoryListCell.self
-        case CommentHeader, Header: return StreamHeaderCell.self
-        case CreateComment: return StreamCreateCommentCell.self
-        case Embed: return StreamEmbedCell.self
-        case EmptyStream: return EmptyStreamCell.self
-        case Footer: return StreamFooterCell.self
-        case Image: return StreamImageCell.self
-        case InviteFriends, OnboardingInviteFriends: return StreamInviteFriendsCell.self
-        case NoPosts: return NoPostsCell.self
-        case Notification: return NotificationCell.self
-        case Placeholder: return UICollectionViewCell.self
-        case Announcement: return AnnouncementCell.self
-        case ProfileHeader: return ProfileHeaderCell.self
-        case ProfileHeaderGhost: return ProfileHeaderGhostCell.self
-        case Search: return SearchStreamCell.self
-        case SeeMoreComments: return StreamSeeMoreCommentsCell.self
-        case StreamLoading: return StreamLoadingCell.self
-        case Text: return StreamTextCell.self
-        case TextHeader: return TextHeaderCell.self
-        case Toggle: return StreamToggleCell.self
-        case Unknown, Spacer, FullWidthSpacer: return UICollectionViewCell.self
-        case UserAvatars: return UserAvatarsCell.self
-        case UserListItem: return UserListItemCell.self
+        case .categoryPromotionalHeader, .pagePromotionalHeader: return CategoryHeaderCell.self
+        case .categoryCard: return CategoryCardCell.self
+        case .selectableCategoryCard: return CategoryCardCell.self
+        case .categoryList: return CategoryListCell.self
+        case .commentHeader, .header: return StreamHeaderCell.self
+        case .createComment: return StreamCreateCommentCell.self
+        case .embed: return StreamEmbedCell.self
+        case .emptyStream: return EmptyStreamCell.self
+        case .footer: return StreamFooterCell.self
+        case .image: return StreamImageCell.self
+        case .inviteFriends, .onboardingInviteFriends: return StreamInviteFriendsCell.self
+        case .noPosts: return NoPostsCell.self
+        case .notification: return NotificationCell.self
+        case .placeholder: return UICollectionViewCell.self
+        case .announcement: return AnnouncementCell.self
+        case .profileHeader: return ProfileHeaderCell.self
+        case .profileHeaderGhost: return ProfileHeaderGhostCell.self
+        case .search: return SearchStreamCell.self
+        case .seeMoreComments: return StreamSeeMoreCommentsCell.self
+        case .streamLoading: return StreamLoadingCell.self
+        case .text: return StreamTextCell.self
+        case .textHeader: return TextHeaderCell.self
+        case .toggle: return StreamToggleCell.self
+        case .unknown, .spacer, .fullWidthSpacer: return UICollectionViewCell.self
+        case .userAvatars: return UserAvatarsCell.self
+        case .userListItem: return UserListItemCell.self
         }
     }
 
-    public var oneColumnHeight: CGFloat {
+    var oneColumnHeight: CGFloat {
         switch self {
-        case CategoryPromotionalHeader, PagePromotionalHeader:
+        case .categoryPromotionalHeader, .pagePromotionalHeader:
             return 150
-        case CategoryCard, SelectableCategoryCard:
+        case .categoryCard, .selectableCategoryCard:
             return 110
-        case CategoryList:
+        case .categoryList:
             return CategoryListCell.Size.height
-        case CommentHeader,
-             InviteFriends,
-             OnboardingInviteFriends,
-             SeeMoreComments:
+        case .commentHeader,
+             .inviteFriends,
+             .onboardingInviteFriends,
+             .seeMoreComments:
             return 60
-        case CreateComment:
+        case .createComment:
             return 75
-        case let EmptyStream(height):
+        case let .emptyStream(height):
             return height
-        case Footer:
+        case .footer:
             return 44
-        case Header:
+        case .header:
             return 70
-        case NoPosts:
+        case .noPosts:
             return 215
-        case Notification:
+        case .notification:
             return 117
-        case Announcement:
+        case .announcement:
             return 200
-        case let Spacer(height):
+        case let .spacer(height):
             return height
-        case let FullWidthSpacer(height):
+        case let .fullWidthSpacer(height):
             return height
-        case Search:
+        case .search:
             return 68
-        case StreamLoading,
-             UserAvatars:
+        case .streamLoading,
+             .userAvatars:
             return 50
-        case TextHeader:
+        case .textHeader:
             return 75
-        case Toggle:
+        case .toggle:
             return 40
-        case UserListItem:
+        case .userListItem:
             return 85
         default: return 0
         }
     }
 
-    public var multiColumnHeight: CGFloat {
+    var multiColumnHeight: CGFloat {
         switch self {
-        case Header,
-            Notification:
+        case .header,
+            .notification:
             return 60
         default:
             return oneColumnHeight
         }
     }
 
-    public var isFullWidth: Bool {
+    var isFullWidth: Bool {
         switch self {
-        case CategoryPromotionalHeader,
-             CategoryList,
-             CreateComment,
-             FullWidthSpacer,
-             InviteFriends,
-             EmptyStream,
-             OnboardingInviteFriends,
-             NoPosts,
-             Notification,
-             PagePromotionalHeader,
-             Announcement,
-             ProfileHeader,
-             ProfileHeaderGhost,
-             Search,
-             SeeMoreComments,
-             StreamLoading,
-             TextHeader,
-             UserAvatars,
-             UserListItem:
+        case .categoryPromotionalHeader,
+             .categoryList,
+             .createComment,
+             .fullWidthSpacer,
+             .inviteFriends,
+             .onboardingInviteFriends,
+             .emptyStream,
+             .noPosts,
+             .notification,
+             .pagePromotionalHeader,
+             .announcement,
+             .profileHeader,
+             .profileHeaderGhost,
+             .search,
+             .seeMoreComments,
+             .streamLoading,
+             .textHeader,
+             .userAvatars,
+             .userListItem:
             return true
-        case CategoryCard,
-             SelectableCategoryCard,
-             CommentHeader,
-             Embed,
-             Footer,
-             Header,
-             Image,
-             Placeholder,
-             Spacer,
-             Text,
-             Toggle,
-             Unknown:
+        case .categoryCard,
+             .selectableCategoryCard,
+             .commentHeader,
+             .embed,
+             .footer,
+             .header,
+             .image,
+             .placeholder,
+             .spacer,
+             .text,
+             .toggle,
+             .unknown:
             return false
         }
     }
 
-    public var collapsable: Bool {
+    var collapsable: Bool {
         switch self {
-        case Image, Text, Embed: return true
+        case .image, .text, .embed: return true
         default: return false
         }
     }
 
-    static func registerAll(collectionView: UICollectionView) {
+    static func registerAll(_ collectionView: UICollectionView) {
         let noNibTypes = [
-            CategoryPromotionalHeader,
-            CategoryCard,
-            SelectableCategoryCard,
-            CategoryList,
-            CreateComment,
-            EmptyStream(height: 282),
-            FullWidthSpacer(height: 0.0),
-            Notification,
-            PagePromotionalHeader,
-            Announcement,
-            Placeholder,
-            ProfileHeader,
-            ProfileHeaderGhost,
-            Search(placeholder: ""),
-            Spacer(height: 0.0),
-            StreamLoading,
-            TextHeader(nil),
-            Unknown
+            categoryPromotionalHeader,
+            categoryCard,
+            selectableCategoryCard,
+            categoryList,
+            createComment,
+            emptyStream(height: 282),
+            fullWidthSpacer(height: 0.0),
+            notification,
+            pagePromotionalHeader,
+            announcement,
+            placeholder,
+            profileHeader,
+            profileHeaderGhost,
+            search(placeholder: ""),
+            spacer(height: 0.0),
+            streamLoading,
+            textHeader(nil),
+            unknown
         ]
         for type in all {
-            if noNibTypes.indexOf(type) != nil {
-                collectionView.registerClass(type.classType, forCellWithReuseIdentifier: type.name)
+            if noNibTypes.index(of: type) != nil {
+                collectionView.register(type.classType, forCellWithReuseIdentifier: type.name)
             } else {
-                let nib = UINib(nibName: type.name, bundle: NSBundle(forClass: type.classType))
-                collectionView.registerNib(nib, forCellWithReuseIdentifier: type.name)
+                let nib = UINib(nibName: type.name, bundle: Bundle(for: type.classType))
+                collectionView.register(nib, forCellWithReuseIdentifier: type.name)
             }
         }
     }

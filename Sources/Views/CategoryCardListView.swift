@@ -2,16 +2,16 @@
 ///  CategoryCardListView.swift
 //
 
-public protocol CategoryCardListDelegate: class {
-    func categoryCardSelected(index: Int)
+protocol CategoryCardListDelegate: class {
+    func categoryCardSelected(_ index: Int)
 }
 
-public class CategoryCardListView: UIView {
+class CategoryCardListView: UIView {
     weak var delegate: CategoryCardListDelegate?
 
-    public struct CategoryInfo {
+    struct CategoryInfo {
         let title: String
-        let imageURL: NSURL?
+        let imageURL: URL?
     }
 
     struct Size {
@@ -20,9 +20,9 @@ public class CategoryCardListView: UIView {
         static let spacing: CGFloat = 1
     }
 
-    public var categoriesInfo: [CategoryInfo] = [] {
+    var categoriesInfo: [CategoryInfo] = [] {
         didSet {
-            let changed: Bool = (categoriesInfo.count != oldValue.count) || oldValue.enumerate().any { (index, info) in
+            let changed: Bool = (categoriesInfo.count != oldValue.count) || oldValue.enumerated().any { (index, info) in
                 return info.title != categoriesInfo[index].title
             }
             if changed {
@@ -31,11 +31,11 @@ public class CategoryCardListView: UIView {
         }
     }
 
-    private var buttonIndexLookup: [UIButton: Int] = [:]
-    private var categoryViews: [CategoryCardView] = []
-    private var scrollView = UIScrollView()
+    fileprivate var buttonIndexLookup: [UIButton: Int] = [:]
+    fileprivate var categoryViews: [CategoryCardView] = []
+    fileprivate var scrollView = UIScrollView()
 
-    override public init(frame: CGRect) {
+    override init(frame: CGRect) {
         super.init(frame: frame)
 
         style()
@@ -43,41 +43,41 @@ public class CategoryCardListView: UIView {
         arrange()
     }
 
-    required public init?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    private func style() {
-        backgroundColor = .whiteColor()
+    fileprivate func style() {
+        backgroundColor = .white
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.showsVerticalScrollIndicator = false
     }
 
-    private func bindActions() {
+    fileprivate func bindActions() {
     }
 
-    private func arrange() {
+    fileprivate func arrange() {
         self.addSubview(scrollView)
 
-        scrollView.snp_makeConstraints { make in
+        scrollView.snp.makeConstraints { make in
             make.edges.equalTo(self)
         }
     }
 
     @objc
-    func categoryButtonTapped(button: UIButton) {
+    func categoryButtonTapped(_ button: UIButton) {
         guard let index = buttonIndexLookup[button] else { return }
         delegate?.categoryCardSelected(index)
     }
 
-    public func scrollToIndex(index: Int, animated: Bool) {
+    func scrollToIndex(_ index: Int, animated: Bool) {
         guard let view = categoryViews.safeValue(index) else { return }
 
         let x = max(min(view.frame.minX, scrollView.contentSize.width - frame.width), 0)
         scrollView.setContentOffset(CGPoint(x: x, y: 0), animated: animated)
     }
 
-    public func selectCategoryIndex(index: Int) {
+    func selectCategoryIndex(_ index: Int) {
         guard let view = categoryViews.safeValue(index) else { return }
         for card in categoryViews {
             card.selected = false
@@ -86,14 +86,14 @@ public class CategoryCardListView: UIView {
         view.selected = true
     }
 
-    private func updateCategoryViews() {
+    fileprivate func updateCategoryViews() {
         for view in categoryViews {
             view.removeFromSuperview()
         }
 
         buttonIndexLookup = [:]
 
-        categoryViews = categoriesInfo.enumerate().map { (index, info) in
+        categoryViews = categoriesInfo.enumerated().map { (index, info) in
             return categoryView(index: index, info: info)
         }
         arrangeCategoryViews()
@@ -101,27 +101,27 @@ public class CategoryCardListView: UIView {
         layoutIfNeeded()
     }
 
-    private func categoryView(index index: Int, info: CategoryInfo) -> CategoryCardView {
+    fileprivate func categoryView(index: Int, info: CategoryInfo) -> CategoryCardView {
         let card = CategoryCardView(frame: .zero, info: info)
-        card.button.addTarget(self, action: #selector(categoryButtonTapped(_:)), forControlEvents: .TouchUpInside)
+        card.button.addTarget(self, action: #selector(categoryButtonTapped(_:)), for: .touchUpInside)
         buttonIndexLookup[card.button] = index
         return card
     }
 
-    private func arrangeCategoryViews() {
+    fileprivate func arrangeCategoryViews() {
         var prevView: UIView? = nil
         for view in categoryViews {
             scrollView.addSubview(view)
 
-            view.snp_makeConstraints { make in
+            view.snp.makeConstraints { make in
                 make.size.equalTo(Size.cardSize)
                 make.centerY.equalTo(scrollView)
 
                 if let prevView = prevView {
-                    make.leading.equalTo(prevView.snp_trailing).offset(Size.spacing)
+                    make.leading.equalTo(prevView.snp.trailing).offset(Size.spacing)
                 }
                 else {
-                    make.leading.equalTo(scrollView.snp_leading)
+                    make.leading.equalTo(scrollView.snp.leading)
                 }
             }
 
@@ -129,8 +129,8 @@ public class CategoryCardListView: UIView {
         }
 
         if let prevView = prevView {
-            prevView.snp_makeConstraints { make in
-                make.trailing.equalTo(scrollView.snp_trailing)
+            prevView.snp.makeConstraints { make in
+                make.trailing.equalTo(scrollView.snp.trailing)
             }
         }
     }

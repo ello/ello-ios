@@ -2,37 +2,36 @@
 ///  Love.swift
 //
 
-import Crashlytics
 import SwiftyJSON
-import Foundation
+
 
 let LoveVersion: Int = 1
 
 @objc(Love)
-public final class Love: JSONAble, PostActionable {
+final class Love: JSONAble, PostActionable {
 
     // active record
-    public let id: String
-    public let createdAt: NSDate
-    public let updatedAt: NSDate
+    let id: String
+    let createdAt: Date
+    let updatedAt: Date
     // required
-    public var deleted: Bool
-    public let postId: String
-    public let userId: String
+    var deleted: Bool
+    let postId: String
+    let userId: String
 
-    public var post: Post? {
-        return ElloLinkedStore.sharedInstance.getObject(self.postId, type: .PostsType) as? Post
+    var post: Post? {
+        return ElloLinkedStore.sharedInstance.getObject(self.postId, type: .postsType) as? Post
     }
 
-    public var user: User? {
-        return ElloLinkedStore.sharedInstance.getObject(self.userId, type: .UsersType) as? User
+    var user: User? {
+        return ElloLinkedStore.sharedInstance.getObject(self.userId, type: .usersType) as? User
     }
 
 // MARK: Initialization
 
-    public init(id: String,
-        createdAt: NSDate,
-        updatedAt: NSDate,
+    init(id: String,
+        createdAt: Date,
+        updatedAt: Date,
         deleted: Bool,
         postId: String,
         userId: String )
@@ -50,7 +49,7 @@ public final class Love: JSONAble, PostActionable {
 
 
 // MARK: NSCoding
-    public required init(coder aDecoder: NSCoder) {
+    required init(coder aDecoder: NSCoder) {
         let decoder = Coder(aDecoder)
         // active record
         self.id = decoder.decodeKey("id")
@@ -63,7 +62,7 @@ public final class Love: JSONAble, PostActionable {
         super.init(coder: decoder.coder)
     }
 
-    public override func encodeWithCoder(encoder: NSCoder) {
+    override func encode(with encoder: NSCoder) {
         let coder = Coder(encoder)
         // active record
         coder.encodeObject(id, forKey: "id")
@@ -73,33 +72,29 @@ public final class Love: JSONAble, PostActionable {
         coder.encodeObject(deleted, forKey: "deleted")
         coder.encodeObject(postId, forKey: "postId")
         coder.encodeObject(userId, forKey: "userId")
-        super.encodeWithCoder(coder.coder)
+        super.encode(with: coder.coder)
     }
 
 // MARK: JSONAble
 
-    override public class func fromJSON(data: [String: AnyObject]) -> JSONAble {
+    override class func fromJSON(_ data: [String: AnyObject]) -> JSONAble {
         let json = JSON(data)
-        Crashlytics.sharedInstance().setObjectValue(json.rawString(), forKey: CrashlyticsKey.LoveFromJSON.rawValue)
-        var createdAt: NSDate
-        var updatedAt: NSDate
-        if let date = json["created_at"].stringValue.toNSDate() {
+        var createdAt: Date
+        var updatedAt: Date
+        if let date = json["created_at"].stringValue.toDate() {
             // good to go
             createdAt = date
         }
         else {
-            createdAt = NSDate()
-            // send data to segment to try to get more data about this
-            Tracker.sharedTracker.createdAtCrash("Love", json: json.rawString())
+            createdAt = Date()
         }
-        if let date = json["updated_at"].stringValue.toNSDate() {
+
+        if let date = json["updated_at"].stringValue.toDate() {
             // good to go
             updatedAt = date
         }
         else {
-            updatedAt = NSDate()
-            // send data to segment to try to get more data about this
-            Tracker.sharedTracker.createdAtCrash("Love Updated", json: json.rawString())
+            updatedAt = Date()
         }
 
         // create Love

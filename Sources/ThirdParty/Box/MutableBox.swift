@@ -5,23 +5,23 @@
 /// While this, like `Box<T>` could be used to work around limitations of value types, it is much more useful for sharing a single mutable value such that mutations are shared.
 ///
 /// As with all mutable state, this should be used carefully, for example as an optimization, rather than a default design choice. Most of the time, `Box<T>` will suffice where any `BoxType` is needed.
-public final class MutableBox<T>: MutableBoxType, CustomStringConvertible {
+final class MutableBox<T>: MutableBoxType, CustomStringConvertible {
 	/// Initializes a `MutableBox` with the given value.
-	public init(_ value: T) {
+	init(_ value: T) {
 		self.value = value
 	}
 
 	/// The (mutable) value wrapped by the receiver.
-	public var value: T
+	var value: T
 
 	/// Constructs a new MutableBox by transforming `value` by `f`.
-	public func map<U>(@noescape f: T -> U) -> MutableBox<U> {
+	func map<U>(_ f: (T) -> U) -> MutableBox<U> {
 		return MutableBox<U>(f(value))
 	}
 
 	// MARK: Printable
 
-	public var description: String {
-		return String(value)
+	var description: String {
+		return String(describing: value)
 	}
 }

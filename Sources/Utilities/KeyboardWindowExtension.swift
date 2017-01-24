@@ -5,12 +5,12 @@
 import Foundation
 import UIKit
 
-public extension Keyboard {
+extension Keyboard {
     @objc
-    func willShow(notification: NSNotification) {
+    func willShow(_ notification: Foundation.Notification) {
         active = true
         setFromNotification(notification)
-        endFrame = (notification.userInfo![UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
+        endFrame = (notification.userInfo![UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
         let window = UIWindow.mainWindow
         bottomInset = window.frame.size.height - endFrame.origin.y
         external = endFrame.size.height > bottomInset
@@ -19,9 +19,9 @@ public extension Keyboard {
     }
 
     @objc
-    func willHide(notification: NSNotification) {
+    func willHide(_ notification: Foundation.Notification) {
         setFromNotification(notification)
-        endFrame = (notification.userInfo![UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
+        endFrame = (notification.userInfo![UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
         bottomInset = 0
 
         let windowBottom = UIWindow.mainWindow.frame.size.height

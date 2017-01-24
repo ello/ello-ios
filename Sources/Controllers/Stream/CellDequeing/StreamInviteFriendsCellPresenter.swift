@@ -4,20 +4,20 @@
 
 import Foundation
 
-public struct StreamInviteFriendsCellPresenter {
+struct StreamInviteFriendsCellPresenter {
 
-    public static func configure(
-        cell: UICollectionViewCell,
+    static func configure(
+        _ cell: UICollectionViewCell,
         streamCellItem: StreamCellItem,
         streamKind: StreamKind,
-        indexPath: NSIndexPath,
+        indexPath: IndexPath,
         currentUser: User?)
     {
         if let cell = cell as? StreamInviteFriendsCell,
-            person = streamCellItem.jsonable as? LocalPerson
+            let person = streamCellItem.jsonable as? LocalPerson
         {
             cell.person = person
-            cell.isOnboarding = streamCellItem.type == .OnboardingInviteFriends
+            cell.isOnboarding = streamCellItem.type == .onboardingInviteFriends
         }
     }
 }

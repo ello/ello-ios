@@ -2,7 +2,7 @@
 ///  NewContentServiceSpec.swift
 //
 
-import Ello
+@testable import Ello
 import Quick
 import Nimble
 import Moya
@@ -20,12 +20,12 @@ class NewContentServiceSpec: QuickSpec {
 
             describe("updateCreatedAt(_:)") {
 
-                let sep_30_1978 = NSDate(timeIntervalSince1970: 275961600)
-                let jan_01_2015 = NSDate(timeIntervalSince1970: 1420070400)
-                let feb_01_2015 = NSDate(timeIntervalSince1970: 1422748800)
-                let mar_01_2015 = NSDate(timeIntervalSince1970: 1425168000)
-                let apr_01_2015 = NSDate(timeIntervalSince1970: 1427846400)
-                let streamKind = StreamKind.Following
+                let sep_30_1978 = Date(timeIntervalSince1970: 275961600)
+                let jan_01_2015 = Date(timeIntervalSince1970: 1420070400)
+                let feb_01_2015 = Date(timeIntervalSince1970: 1422748800)
+                let mar_01_2015 = Date(timeIntervalSince1970: 1425168000)
+                let apr_01_2015 = Date(timeIntervalSince1970: 1427846400)
+                let streamKind = StreamKind.following
 
                 let post: Post = stub(["id" : "1", "createdAt" : jan_01_2015])
                 let post2: Post = stub(["id" : "2", "createdAt" : feb_01_2015])
@@ -75,7 +75,7 @@ class NewContentServiceSpec: QuickSpec {
                         let user2: User = stub(["id" : "2"])
                         let user3: User = stub(["id" : "3"])
                         let jsonables = [user, user2, user3]
-                        let old = NSDate(timeIntervalSince1970: 0)
+                        let old = Date(timeIntervalSince1970: 0)
 
                         GroupDefaults[streamKind.lastViewedCreatedAtKey] = nil
 

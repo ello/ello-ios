@@ -3,65 +3,65 @@
 //
 
 private enum DeleteAccountState {
-    case AskNicely
-    case AreYouSure
-    case NoTurningBack
+    case askNicely
+    case areYouSure
+    case noTurningBack
 }
 
-public class DeleteAccountConfirmationViewController: BaseElloViewController {
-    @IBOutlet public weak var titleLabel: UILabel!
-    public weak var infoLabel: StyledLabel!
-    @IBOutlet public weak var buttonView: UIView!
-    @IBOutlet public weak var cancelView: UIView!
-    public weak var cancelLabel: StyledLabel!
+class DeleteAccountConfirmationViewController: BaseElloViewController {
+    @IBOutlet weak var titleLabel: UILabel!
+    weak var infoLabel: StyledLabel!
+    @IBOutlet weak var buttonView: UIView!
+    @IBOutlet weak var cancelView: UIView!
+    weak var cancelLabel: StyledLabel!
 
-    private var state: DeleteAccountState = .AskNicely
-    private var timer: NSTimer?
-    private var counter = 5
+    fileprivate var state: DeleteAccountState = .askNicely
+    fileprivate var timer: Timer?
+    fileprivate var counter = 5
 
-    public init() {
-        super.init(nibName: "DeleteAccountConfirmationView", bundle: NSBundle(forClass: DeleteAccountConfirmationViewController.self))
+    init() {
+        super.init(nibName: "DeleteAccountConfirmationView", bundle: Bundle(for: DeleteAccountConfirmationViewController.self))
     }
 
-    required public init?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    public override func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
 
         infoLabel.text = "* \(InterfaceString.Settings.DeleteAccountExplanation)"
-        cancelLabel.textAlignment = .Center
-        cancelLabel.textColor = .whiteColor()
+        cancelLabel.textAlignment = .center
+        cancelLabel.textColor = .white
 
         updateInterface()
     }
 
-    private func updateInterface() {
+    fileprivate func updateInterface() {
         switch state {
-        case .AskNicely:
+        case .askNicely:
             let title = InterfaceString.Settings.DeleteAccountConfirm
             titleLabel.text = title
 
-        case .AreYouSure:
+        case .areYouSure:
             let title = InterfaceString.AreYouSure
             titleLabel.text = title
-            infoLabel.hidden = false
+            infoLabel.isHidden = false
 
-        case .NoTurningBack:
+        case .noTurningBack:
             let title = InterfaceString.Settings.AccountIsBeingDeleted
             titleLabel.text = title
-            titleLabel.font = UIFont(descriptor: titleLabel.font.fontDescriptor(), size: 18)
-            timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: #selector(DeleteAccountConfirmationViewController.tick), userInfo: .None, repeats: true)
-            infoLabel.hidden = true
-            buttonView.hidden = true
-            cancelView.hidden = false
+            titleLabel.font = UIFont(descriptor: titleLabel.font.fontDescriptor, size: 18)
+            timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(DeleteAccountConfirmationViewController.tick), userInfo: .none, repeats: true)
+            infoLabel.isHidden = true
+            buttonView.isHidden = true
+            cancelView.isHidden = false
         }
     }
 
     @objc
-    private func tick() {
-        let text = NSString(format: InterfaceString.Settings.RedirectedCountdownTemplate, counter) as String
+    fileprivate func tick() {
+        let text = NSString(format: InterfaceString.Settings.RedirectedCountdownTemplate as NSString, counter) as String
         nextTick {
             self.cancelLabel.text = text
             self.counter -= 1
@@ -71,16 +71,16 @@ public class DeleteAccountConfirmationViewController: BaseElloViewController {
         }
     }
 
-    private func deleteAccount() {
+    fileprivate func deleteAccount() {
         timer?.invalidate()
-        ElloHUD.showLoadingHud()
+        _ = ElloHUD.showLoadingHud()
 
         ProfileService().deleteAccount(success: {
             ElloHUD.hideLoadingHud()
-            self.dismissViewControllerAnimated(true) {
+            self.dismiss(animated: true) {
                 postNotification(AuthenticationNotifications.userLoggedOut, value: ())
             }
-            Tracker.sharedTracker.userDeletedAccount()
+            Tracker.shared.userDeletedAccount()
         }, failure: { _, _ in
             ElloHUD.hideLoadingHud()
         })
@@ -88,15 +88,15 @@ public class DeleteAccountConfirmationViewController: BaseElloViewController {
 
     @IBAction func yesButtonTapped() {
         switch state {
-        case .AskNicely: state = .AreYouSure
-        case .AreYouSure: state = .NoTurningBack
+        case .askNicely: state = .areYouSure
+        case .areYouSure: state = .noTurningBack
         default: break
         }
         updateInterface()
     }
 
-    @IBAction private func dismiss() {
+    @IBAction fileprivate func dismiss() {
         timer?.invalidate()
-        dismissViewControllerAnimated(true, completion: .None)
+        self.dismiss(animated: true, completion: .none)
     }
 }

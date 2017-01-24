@@ -2,22 +2,34 @@
 ///  SearchViewController.swift
 //
 
-public class SearchViewController: StreamableViewController {
+class SearchViewController: StreamableViewController {
+    override func trackerName() -> String? {
+        let searchFor: String
+        if isPostSearch {
+            searchFor = "Posts"
+        }
+        else {
+            searchFor = "Users"
+        }
+        return "Search for \(searchFor)"
+    }
+
     var searchText: String?
+    var isPostSearch = true
 
     var _mockScreen: SearchScreenProtocol?
-    public var screen: SearchScreenProtocol {
+    var screen: SearchScreenProtocol {
         set(screen) { _mockScreen = screen }
         get { return _mockScreen ?? self.view as! SearchScreenProtocol }
     }
 
-    override public func loadView() {
-        let screen = SearchScreen(frame: UIScreen.mainScreen().bounds, isSearchView: true)
+    override func loadView() {
+        let screen = SearchScreen(frame: UIScreen.main.bounds, isSearchView: true)
         self.view = screen
         screen.delegate = self
     }
 
-    override public func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
         streamViewController.pullToRefreshEnabled = false
         screen.gridListItem = UIBarButtonItem.gridListItem(delegate: streamViewController, isGridView: streamViewController.streamKind.isGridView)
@@ -25,7 +37,7 @@ public class SearchViewController: StreamableViewController {
         updateInsets()
     }
 
-    public func searchForPosts(terms: String) {
+    func searchForPosts(_ terms: String) {
         screen.searchField.text = terms
         screen.searchForText()
     }
@@ -34,15 +46,11 @@ public class SearchViewController: StreamableViewController {
         return screen.viewForStream()
     }
 
-    override func showNavBars(scrollToBottom: Bool) {
-        super.showNavBars(scrollToBottom)
+    override func showNavBars() {
+        super.showNavBars()
         positionNavBar(screen.navigationBar, visible: true)
         screen.showNavBars()
         updateInsets()
-
-        if scrollToBottom {
-            self.scrollToBottom(streamViewController)
-        }
     }
 
     override func hideNavBars() {
@@ -52,7 +60,7 @@ public class SearchViewController: StreamableViewController {
         updateInsets()
     }
 
-    private func updateInsets() {
+    fileprivate func updateInsets() {
         updateInsets(navBar: screen.searchControlsContainer, streamController: streamViewController)
     }
 
@@ -60,12 +68,12 @@ public class SearchViewController: StreamableViewController {
 
 extension SearchViewController: SearchScreenDelegate {
 
-    public func searchCanceled() {
-        navigationController?.popViewControllerAnimated(true)
+    func searchCanceled() {
+       _ = navigationController?.popViewController(animated: true)
     }
 
-    public func searchFieldCleared() {
-        showNavBars(false)
+    func searchFieldCleared() {
+        showNavBars()
         searchText = ""
         streamViewController.removeAllCellItems()
         streamViewController.loadingToken.cancelInitialPage()
@@ -73,51 +81,60 @@ extension SearchViewController: SearchScreenDelegate {
         screen.hasGridViewToggle = false
     }
 
-    public func searchFieldChanged(text: String, isPostSearch: Bool) {
+    func searchFieldChanged(_ text: String, isPostSearch: Bool) {
         loadEndpoint(text, isPostSearch: isPostSearch)
     }
 
-    public func searchShouldReset() {
+    func searchShouldReset() {
         streamViewController.hideNoResults()
     }
 
-    public func toggleChanged(text: String, isPostSearch: Bool) {
+    func toggleChanged(_ text: String, isPostSearch: Bool) {
         searchShouldReset()
         loadEndpoint(text, isPostSearch: isPostSearch, checkSearchText: false)
     }
 
-    public func findFriendsTapped() {
-        let responder = targetForAction(#selector(InviteResponder.onInviteFriends), withSender: self) as? InviteResponder
+    func findFriendsTapped() {
+        let responder = target(forAction: #selector(InviteResponder.onInviteFriends), withSender: self) as? InviteResponder
         responder?.onInviteFriends()
     }
 
-    private func loadEndpoint(text: String, isPostSearch: Bool, checkSearchText: Bool = true) {
-        if text.characters.count < 2 { return }  // just.. no (and the server doesn't guard against empty/short searches)
-        if checkSearchText && searchText == text { return }  // a search is already in progress for this text
+    fileprivate func loadEndpoint(_ text: String, isPostSearch: Bool, checkSearchText: Bool = true) {
+        guard
+            text.characters.count > 2,  // just.. no (and the server doesn't guard against empty/short searches)
+            !checkSearchText || searchText != text  // a search is already in progress for this text
+        else { return }
+
+        self.isPostSearch = isPostSearch
         streamViewController.hideNoResults()
-        trackSearch(text, isPostSearch: isPostSearch)
         searchText = text
-        let endpoint = isPostSearch ? ElloAPI.SearchForPosts(terms: text) : ElloAPI.SearchForUsers(terms: text)
+        let endpoint = isPostSearch ? ElloAPI.searchForPosts(terms: text) : ElloAPI.searchForUsers(terms: text)
         streamViewController.noResultsMessages = (title: InterfaceString.Search.NoMatches, body: InterfaceString.Search.TryAgain)
-        let streamKind = StreamKind.SimpleStream(endpoint: endpoint, title: "")
+        let streamKind = StreamKind.simpleStream(endpoint: endpoint, title: "")
         screen.hasGridViewToggle = streamKind.hasGridViewToggle
         streamViewController.streamKind = streamKind
         streamViewController.removeAllCellItems()
         ElloHUD.showLoadingHudInView(streamViewController.view)
         streamViewController.loadInitialPage()
+
+        trackSearch()
     }
 
-    public func trackSearch(text: String, isPostSearch: Bool) {
+    func trackSearch() {
+        guard let text = searchText else { return }
+
+        Tracker.shared.screenAppeared(self)
+
         if isPostSearch {
             if text.hasPrefix("#") {
-                Tracker.sharedTracker.searchFor("hashtags")
+                Tracker.shared.searchFor("hashtags", text)
             }
             else {
-                Tracker.sharedTracker.searchFor("posts")
+                Tracker.shared.searchFor("posts", text)
             }
         }
         else {
-            Tracker.sharedTracker.searchFor("users")
+            Tracker.shared.searchFor("users", text)
         }
     }
 }

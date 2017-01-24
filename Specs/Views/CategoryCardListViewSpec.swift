@@ -10,7 +10,7 @@ import Nimble
 class CategoryCardListViewSpec: QuickSpec {
     class MockCategoryCardListDelegate: CategoryCardListDelegate {
         var selectedIndex: Int?
-        func categoryCardSelected(index: Int) {
+        func categoryCardSelected(_ index: Int) {
             selectedIndex = index
         }
     }
@@ -35,13 +35,13 @@ class CategoryCardListViewSpec: QuickSpec {
 
         describe("CategoryCardListView") {
             it("should have a valid snapshot") {
-                expectValidSnapshot(subject, named: "CategoryCardListView", device: .Custom(subject.frame.size))
+                expectValidSnapshot(subject, named: "CategoryCardListView", device: .custom(subject.frame.size))
             }
 
             describe("CategoryCardListDelegate") {
                 it("informs delegates of category selection") {
                     let button = subviewThatMatches(subject, test: { $0 is UIButton }) as! UIButton
-                    button.sendActionsForControlEvents(.TouchUpInside)
+                    button.sendActions(for: .touchUpInside)
                     expect(delegate.selectedIndex) == 0
                 }
             }

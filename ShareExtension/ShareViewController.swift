@@ -14,22 +14,22 @@ import Moya
 import Alamofire
 import MobileCoreServices
 
-public class ShareViewController: SLComposeServiceViewController {
+class ShareViewController: SLComposeServiceViewController {
 
-    public var itemPreviews: [ExtensionItemPreview] = []
-    private var postService = PostEditingService()
-    private lazy var background: UIView = self.createBackground()
+    var itemPreviews: [ExtensionItemPreview] = []
+    fileprivate var postService = PostEditingService()
+    fileprivate lazy var background: UIView = self.createBackground()
 
     // moved into a separate function to save compile time
-    private func createBackground() -> UIView {
+    fileprivate func createBackground() -> UIView {
         let view = UIView()
         view.alpha = 0
-        view.backgroundColor = .blackColor()
+        view.backgroundColor = .black
         view.frame = self.view.frame
         return view
     }
 
-    public override func presentationAnimationDidFinish() {
+    override func presentationAnimationDidFinish() {
         guard checkIfLoggedIn() else {
             return
         }
@@ -39,11 +39,11 @@ public class ShareViewController: SLComposeServiceViewController {
         super.presentationAnimationDidFinish()
     }
 
-    public override func isContentValid() -> Bool {
+    override func isContentValid() -> Bool {
         return ShareAttachmentProcessor.hasContent(contentText, extensionItem: extensionContext?.inputItems.safeValue(0) as? NSExtensionItem)
     }
 
-    public override func didSelectPost() {
+    override func didSelectPost() {
         showSpinner()
         let content = ShareRegionProcessor.prepContent(contentText, itemPreviews: itemPreviews)
         postContent(content)
@@ -62,7 +62,6 @@ private extension ShareViewController {
             ShareAttachmentProcessor.preview(extensionItem) { previews in
                 inForeground {
                     self.itemPreviews = previews
-                    self.isContentValid()
                 }
             }
         }
@@ -78,17 +77,17 @@ private extension ShareViewController {
         }
     }
 
-    func postContent(content: [PostEditingService.PostContentRegion]) {
+    func postContent(_ content: [PostEditingService.PostContentRegion]) {
         postService.create(
             content: content,
             buyButtonURL: nil,
             success: { post in
-//                Tracker.sharedTracker.shareSuccessful()
+//                Tracker.shared.shareSuccessful()
                 self.donePosting()
                 self.dismissPostingForm()
             },
             failure: { error, statusCode in
-//                Tracker.sharedTracker.shareFailed()
+//                Tracker.shared.shareFailed()
                 self.donePosting()
                 self.showFailedToPost()
             }
@@ -103,7 +102,7 @@ private extension ShareViewController {
     }
 
     func dismissPostingForm() {
-        self.extensionContext?.completeRequestReturningItems([], completionHandler: nil)
+        self.extensionContext?.completeRequest(returningItems: [], completionHandler: nil)
     }
 
     func checkIfLoggedIn() -> Bool {
@@ -119,36 +118,36 @@ private extension ShareViewController {
     func showFailedToPost() {
         let message = InterfaceString.Share.FailedToPost
         let failedVC = AlertViewController(message: message)
-        let cancelAction = AlertAction(title: InterfaceString.Cancel, style: .Light) {
+        let cancelAction = AlertAction(title: InterfaceString.Cancel, style: .light) {
             action in
             if let context = self.extensionContext {
                 let error = NSError(domain: "co.ello.Ello", code: 0, userInfo: nil)
-                context.cancelRequestWithError(error)
+                context.cancelRequest(withError: error)
             }
         }
 
-        let retryAction = AlertAction(title: InterfaceString.Retry, style: .Dark) {
+        let retryAction = AlertAction(title: InterfaceString.Retry, style: .dark) {
             action in
             self.didSelectPost()
         }
 
         failedVC.addAction(retryAction)
         failedVC.addAction(cancelAction)
-        self.presentViewController(failedVC, animated: true, completion: nil)
+        self.present(failedVC, animated: true, completion: nil)
     }
 
     func showNotSignedIn() {
         let message = InterfaceString.Share.PleaseLogin
         let notSignedInVC = AlertViewController(message: message)
-        let cancelAction = AlertAction(title: InterfaceString.OK, style: .Dark) {
+        let cancelAction = AlertAction(title: InterfaceString.OK, style: .dark) {
             action in
             if let context = self.extensionContext {
                 let error = NSError(domain: "co.ello.Ello", code: 0, userInfo: nil)
-                context.cancelRequestWithError(error)
+                context.cancelRequest(withError: error)
             }
         }
 
         notSignedInVC.addAction(cancelAction)
-        self.presentViewController(notSignedInVC, animated: true, completion: nil)
+        self.present(notSignedInVC, animated: true, completion: nil)
     }
 }

@@ -2,7 +2,7 @@
 ///  ExtensionItemPreviewSpec.swift
 //
 
-import Ello
+@testable import Ello
 import Quick
 import Nimble
 
@@ -14,12 +14,12 @@ class ExtensionItemPreviewSpec: QuickSpec {
             describe("==") {
                 let imageA = UIImage()
                 let imageB = UIImage()
-                let dataA = NSData()
-                let dataB = NSData(base64EncodedString: "dGVzdA==", options: NSDataBase64DecodingOptions())!
-                let dataC = NSData(base64EncodedString: "dGVzdA==", options: NSDataBase64DecodingOptions())!
-                let urlA = NSURL(string: "https://ello.co")
-                let urlB = NSURL(string: "https://ello.co")
-                let urlC = NSURL(string: "https://status.ello.co")
+                let dataA = Data()
+                let dataB = Data(base64Encoded: "dGVzdA==")!
+                let dataC = Data(base64Encoded: "dGVzdA==")!
+                let urlA = URL(string: "https://ello.co")
+                let urlB = URL(string: "https://ello.co")
+                let urlC = URL(string: "https://status.ello.co")
 
                 let tests: [(Bool, ExtensionItemPreview, ExtensionItemPreview)] = [
                     (true, ExtensionItemPreview(), ExtensionItemPreview()),

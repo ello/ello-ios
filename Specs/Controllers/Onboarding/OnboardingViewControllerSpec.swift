@@ -20,7 +20,7 @@ class OnboardingViewControllerSpec: QuickSpec {
                     "name": "any name",
                     ])
                 user.profile = Profile.stub(["shortBio": "<p>bio</p>"])
-                user.externalLinksList = [ExternalLink(url: NSURL(string: "http://ello.co")!, text: "ELLO")]
+                user.externalLinksList = [ExternalLink(url: URL(string: "http://ello.co")!, text: "ELLO")]
                 subject.currentUser = user
                 expect(subject.onboardingData.name) == user.name
                 expect(subject.onboardingData.bio) == "<p>bio</p>"

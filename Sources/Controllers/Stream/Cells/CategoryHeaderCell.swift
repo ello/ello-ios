@@ -7,33 +7,33 @@ import FLAnimatedImage
 import PINRemoteImage
 
 
-public class CategoryHeaderCell: UICollectionViewCell {
+class CategoryHeaderCell: UICollectionViewCell {
     static let reuseIdentifier = "CategoryHeaderCell"
 
-    public enum Style {
-        case Category
-        case Page
+    enum Style {
+        case category
+        case page
     }
 
-    public struct Config {
+    struct Config {
         var style: Style
         var title: String
         var tracking: String
         var body: String?
-        var imageURL: NSURL?
+        var imageURL: URL?
         var user: User?
         var isSponsored: Bool?
         var callToAction: String?
-        var callToActionURL: NSURL?
+        var callToActionURL: URL?
 
-        public init(style: Style) {
+        init(style: Style) {
             self.style = style
             self.title = ""
             self.tracking = ""
         }
     }
 
-    public struct Size {
+    struct Size {
         static let defaultMargin: CGFloat = 15
         static let topMargin: CGFloat = 25
         static let bodyMargin: CGFloat = 24
@@ -49,8 +49,8 @@ public class CategoryHeaderCell: UICollectionViewCell {
         static let failImageHeight: CGFloat = 160
     }
 
-    public weak var webLinkDelegate: WebLinkDelegate?
-    public weak var userDelegate: UserDelegate?
+    weak var webLinkDelegate: WebLinkDelegate?
+    weak var userDelegate: UserDelegate?
 
     let imageView = FLAnimatedImageView()
     let imageOverlay = UIView()
@@ -72,13 +72,13 @@ public class CategoryHeaderCell: UICollectionViewCell {
     var failWidthConstraint: Constraint!
     var failHeightConstraint: Constraint!
 
-    private var imageSize: CGSize?
-    private var aspectRatio: CGFloat? {
+    fileprivate var imageSize: CGSize?
+    fileprivate var aspectRatio: CGFloat? {
         guard let imageSize = imageSize else { return nil }
         return imageSize.width / imageSize.height
     }
 
-    private var callToActionURL: NSURL?
+    fileprivate var callToActionURL: URL?
 
     var calculatedHeight: CGFloat? {
         guard let aspectRatio = aspectRatio else {
@@ -87,30 +87,30 @@ public class CategoryHeaderCell: UICollectionViewCell {
         return frame.width / aspectRatio
     }
 
-    public var config: Config = Config(style: .Category) {
+    var config: Config = Config(style: .category) {
         didSet {
             titleLabel.attributedText = config.attributedTitle
             bodyLabel.attributedText = config.attributedBody
             setImageURL(config.imageURL)
             postedByAvatar.setUserAvatarURL(config.user?.avatarURL())
-            postedByButton.setAttributedTitle(config.attributedPostedBy, forState: .Normal)
+            postedByButton.setAttributedTitle(config.attributedPostedBy, for: .normal)
             callToActionURL = config.callToActionURL
-            callToActionButton.setAttributedTitle(config.attributedCallToAction, forState: .Normal)
+            callToActionButton.setAttributedTitle(config.attributedCallToAction, for: .normal)
 
-            if config.style == .Category {
-                titleUnderlineView.hidden = false
-                titleCenteredConstraint.updatePriorityHigh()
-                titleLeftConstraint.updatePriorityLow()
+            if config.style == .category {
+                titleUnderlineView.isHidden = false
+                titleCenteredConstraint.update(priority: Priority.high)
+                titleLeftConstraint.update(priority: Priority.low)
             }
             else {
-                titleUnderlineView.hidden = true
-                titleCenteredConstraint.updatePriorityLow()
-                titleLeftConstraint.updatePriorityHigh()
+                titleUnderlineView.isHidden = true
+                titleCenteredConstraint.update(priority: Priority.low)
+                titleLeftConstraint.update(priority: Priority.high)
             }
         }
     }
 
-    override public init(frame: CGRect) {
+    override init(frame: CGRect) {
         super.init(frame: frame)
 
         style()
@@ -118,28 +118,28 @@ public class CategoryHeaderCell: UICollectionViewCell {
         arrange()
     }
 
-    required public init?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    public override func layoutSubviews() {
+    override func layoutSubviews() {
         super.layoutSubviews()
 
         if callToActionButton.frame.intersects(postedByButton.frame) {
             // frames need to stack vertically
-            postedByButtonAlignedConstraint.updatePriorityLow()
-            postedByButtonStackedConstraint.updatePriorityHigh()
+            postedByButtonAlignedConstraint.update(priority: Priority.low)
+            postedByButtonStackedConstraint.update(priority: Priority.high)
             setNeedsLayout()
         }
         else if callToActionButton.frame.maxX < postedByButton.frame.minX && callToActionButton.frame.maxY < postedByButton.frame.minY {
             // frames should be restored to horizontal arrangement
-            postedByButtonAlignedConstraint.updatePriorityHigh()
-            postedByButtonStackedConstraint.updatePriorityLow()
+            postedByButtonAlignedConstraint.update(priority: Priority.high)
+            postedByButtonStackedConstraint.update(priority: Priority.low)
             setNeedsLayout()
         }
     }
 
-    public func setImageURL(url: NSURL?) {
+    func setImageURL(_ url: URL?) {
         guard let url = url else {
             imageView.pin_cancelImageDownload()
             imageView.image = nil
@@ -149,40 +149,40 @@ public class CategoryHeaderCell: UICollectionViewCell {
         imageView.image = nil
         imageView.alpha = 0
         circle.pulse()
-        failImage.hidden = true
+        failImage.isHidden = true
         failImage.alpha = 0
-        imageView.backgroundColor = .whiteColor()
+        imageView.backgroundColor = .white
         loadImage(url)
     }
 
-    public func setImage(image: UIImage) {
+    func setImage(_ image: UIImage) {
         imageView.pin_cancelImageDownload()
         imageView.image = image
         imageView.alpha = 1
-        failImage.hidden = true
+        failImage.isHidden = true
         failImage.alpha = 0
-        imageView.backgroundColor = .whiteColor()
+        imageView.backgroundColor = .white
     }
 
 
-    public override func prepareForReuse() {
+    override func prepareForReuse() {
         super.prepareForReuse()
-        let config = Config(style: .Category)
+        let config = Config(style: .category)
         self.config = config
         webLinkDelegate = nil
         userDelegate = nil
     }
 
-    public func postedByTapped() {
-        Tracker.sharedTracker.categoryHeaderPostedBy(config.tracking)
-        userDelegate?.userTappedAuthor(self)
+    func postedByTapped() {
+        Tracker.shared.categoryHeaderPostedBy(config.tracking)
+        userDelegate?.userTappedAuthor(cell: self)
     }
 
-    public func callToActionTapped() {
+    func callToActionTapped() {
         guard let url = callToActionURL else { return }
-        Tracker.sharedTracker.categoryHeaderCallToAction(config.tracking)
-        let request = NSURLRequest(URL: url)
-        ElloWebViewHelper.handleRequest(request, webLinkDelegate: webLinkDelegate)
+        Tracker.shared.categoryHeaderCallToAction(config.tracking)
+        let request = URLRequest(url: url)
+        ElloWebViewHelper.handle(request: request, webLinkDelegate: webLinkDelegate)
     }
 }
 
@@ -190,19 +190,19 @@ private extension CategoryHeaderCell {
 
     func style() {
         titleLabel.numberOfLines = 0
-        titleUnderlineView.backgroundColor = .whiteColor()
+        titleUnderlineView.backgroundColor = .white
         bodyLabel.numberOfLines = 0
         imageView.clipsToBounds = true
-        imageView.contentMode = .ScaleAspectFill
-        imageOverlay.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.6)
+        imageView.contentMode = .scaleAspectFill
+        imageOverlay.backgroundColor = UIColor.black.withAlphaComponent(0.6)
         callToActionButton.titleLabel?.numberOfLines = 0
-        failBackgroundView.backgroundColor = .whiteColor()
+        failBackgroundView.backgroundColor = .white
     }
 
     func bindActions() {
-        callToActionButton.addTarget(self, action: #selector(callToActionTapped), forControlEvents: .TouchUpInside)
-        postedByButton.addTarget(self, action: #selector(postedByTapped), forControlEvents: .TouchUpInside)
-        postedByAvatar.addTarget(self, action: #selector(postedByTapped), forControlEvents: .TouchUpInside)
+        callToActionButton.addTarget(self, action: #selector(callToActionTapped), for: .touchUpInside)
+        postedByButton.addTarget(self, action: #selector(postedByTapped), for: .touchUpInside)
+        postedByAvatar.addTarget(self, action: #selector(postedByTapped), for: .touchUpInside)
     }
 
     func arrange() {
@@ -219,60 +219,60 @@ private extension CategoryHeaderCell {
         contentView.addSubview(postedByButton)
         contentView.addSubview(postedByAvatar)
 
-        circle.snp_makeConstraints { make in
+        circle.snp.makeConstraints { make in
             make.edges.equalTo(contentView)
         }
 
-        failBackgroundView.snp_makeConstraints { make in
+        failBackgroundView.snp.makeConstraints { make in
             make.edges.equalTo(contentView)
         }
 
-        failImage.snp_makeConstraints { make in
+        failImage.snp.makeConstraints { make in
             make.center.equalTo(contentView)
             failWidthConstraint = make.leading.equalTo(Size.failImageWidth).constraint
             failHeightConstraint = make.leading.equalTo(Size.failImageHeight).constraint
         }
 
-        imageView.snp_makeConstraints { make in
+        imageView.snp.makeConstraints { make in
             make.edges.equalTo(contentView)
         }
 
-        imageOverlay.snp_makeConstraints { make in
+        imageOverlay.snp.makeConstraints { make in
             make.edges.equalTo(contentView)
         }
 
-        titleLabel.snp_makeConstraints { make in
-            titleCenteredConstraint = make.centerX.equalTo(contentView).priorityHigh().constraint
-            titleLeftConstraint = make.leading.equalTo(contentView).inset(Size.defaultMargin).priorityLow().constraint
+        titleLabel.snp.makeConstraints { make in
+            titleCenteredConstraint = make.centerX.equalTo(contentView).priority(Priority.high).constraint
+            titleLeftConstraint = make.leading.equalTo(contentView).inset(Size.defaultMargin).priority(Priority.low).constraint
             make.leading.greaterThanOrEqualTo(contentView).inset(Size.defaultMargin)
             make.trailing.lessThanOrEqualTo(contentView).inset(Size.defaultMargin)
             make.top.equalTo(contentView).offset(Size.topMargin)
         }
 
-        titleUnderlineView.snp_makeConstraints { make in
+        titleUnderlineView.snp.makeConstraints { make in
             make.leading.trailing.equalTo(titleLabel).inset(Size.lineInset)
-            make.top.equalTo(titleLabel.snp_bottom).offset(Size.lineTopMargin)
+            make.top.equalTo(titleLabel.snp.bottom).offset(Size.lineTopMargin)
             make.height.equalTo(Size.lineHeight)
         }
 
-        bodyLabel.snp_makeConstraints { make in
-            make.top.equalTo(titleLabel.snp_bottom).offset(Size.bodyMargin)
+        bodyLabel.snp.makeConstraints { make in
+            make.top.equalTo(titleLabel.snp.bottom).offset(Size.bodyMargin)
             make.leading.trailing.equalTo(contentView).inset(Size.defaultMargin)
         }
 
-        callToActionButton.snp_makeConstraints { make in
+        callToActionButton.snp.makeConstraints { make in
             make.leading.equalTo(contentView).inset(Size.defaultMargin)
             make.trailing.lessThanOrEqualTo(contentView).inset(Size.defaultMargin)
         }
 
-        postedByButton.snp_makeConstraints { make in
-            make.trailing.equalTo(postedByAvatar.snp_leading).offset(-Size.avatarMargin)
+        postedByButton.snp.makeConstraints { make in
+            make.trailing.equalTo(postedByAvatar.snp.leading).offset(-Size.avatarMargin)
             make.centerY.equalTo(postedByAvatar).offset(3)
-            postedByButtonAlignedConstraint = make.top.equalTo(callToActionButton).priorityHigh().constraint
-            postedByButtonStackedConstraint = make.top.equalTo(callToActionButton.snp_bottom).offset(Size.stackedMargin).priorityLow().constraint
+            postedByButtonAlignedConstraint = make.top.equalTo(callToActionButton).priority(Priority.high).constraint
+            postedByButtonStackedConstraint = make.top.equalTo(callToActionButton.snp.bottom).offset(Size.stackedMargin).priority(Priority.low).constraint
         }
 
-        postedByAvatar.snp_makeConstraints { make in
+        postedByAvatar.snp.makeConstraints { make in
             make.width.height.equalTo(Size.avatarSize)
             make.trailing.equalTo(contentView).inset(Size.avatarMargin)
             make.bottom.equalTo(contentView).inset(Size.avatarMargin)
@@ -280,25 +280,25 @@ private extension CategoryHeaderCell {
 
     }
 
-    func loadImage(url: NSURL) {
+    func loadImage(_ url: URL) {
         guard url.scheme?.isEmpty == false else {
-            if let urlWithScheme = NSURL(string: "https:\(url.absoluteString)") {
+            if let urlWithScheme = URL(string: "https:\(url.absoluteString)") {
                 loadImage(urlWithScheme)
             }
             return
         }
-        self.imageView.pin_setImageFromURL(url) { result in
-            let success = result.image != nil || result.animatedImage != nil
-            let isAnimated = result.animatedImage != nil
+        self.imageView.pin_setImage(from: url) { result in
+            let success = result?.image != nil || result?.animatedImage != nil
+            let isAnimated = result?.animatedImage != nil
             if success {
-                let imageSize = isAnimated ? result.animatedImage.size : result.image.size
+                let imageSize = isAnimated ? result?.animatedImage.size : result?.image.size
                 self.imageSize = imageSize
 
-                if result.resultType != .MemoryCache {
+                if result?.resultType != .memoryCache {
                     self.imageView.alpha = 0
-                    UIView.animateWithDuration(0.3,
+                    UIView.animate(withDuration: 0.3,
                                                delay:0.0,
-                                               options:UIViewAnimationOptions.CurveLinear,
+                                               options:UIViewAnimationOptions.curveLinear,
                                                animations: {
                                                 self.imageView.alpha = 1.0
                         }, completion: { _ in
@@ -319,17 +319,17 @@ private extension CategoryHeaderCell {
     }
 
     func imageLoadFailed() {
-        failImage.hidden = false
-        failBackgroundView.hidden = false
+        failImage.isHidden = false
+        failBackgroundView.isHidden = false
         circle.stopPulse()
         imageSize = nil
-        UIView.animateWithDuration(0.15) {
+        UIView.animate(withDuration: 0.15, animations: {
             self.failImage.alpha = 1.0
             self.imageView.backgroundColor = UIColor.greyF1()
             self.failBackgroundView.backgroundColor = UIColor.greyF1()
             self.imageView.alpha = 1.0
             self.failBackgroundView.alpha = 1.0
-        }
+        })
     }
 }
 
@@ -337,8 +337,8 @@ extension CategoryHeaderCell.Config {
 
     var attributedTitle: NSAttributedString {
         switch style {
-        case .Category: return NSAttributedString(title, color: .whiteColor(), font: .defaultFont(16), alignment: .Center)
-        case .Page: return NSAttributedString(title, color: .whiteColor(), font: .defaultFont(18))
+        case .category: return NSAttributedString(title, color: .white, font: .defaultFont(16), alignment: .center)
+        case .page: return NSAttributedString(title, color: .white, font: .defaultFont(18))
         }
     }
 
@@ -346,8 +346,8 @@ extension CategoryHeaderCell.Config {
         guard let body = body else { return nil }
 
         switch style {
-        case .Category: return NSAttributedString(body, color: .whiteColor())
-        case .Page: return NSAttributedString(body, color: .whiteColor(), font: .defaultFont(16))
+        case .category: return NSAttributedString(body, color: .white)
+        case .page: return NSAttributedString(body, color: .white, font: .defaultFont(16))
         }
     }
 
@@ -355,43 +355,43 @@ extension CategoryHeaderCell.Config {
         guard let user = user else { return nil }
 
         let prefix = isSponsored == true ? InterfaceString.Category.SponsoredBy : InterfaceString.Category.PostedBy
-        let title = NSAttributedString(prefix, color: .whiteColor()) + NSAttributedString(user.atName, color: .whiteColor(), underlineStyle: .StyleSingle)
+        let title = NSAttributedString(prefix, color: .white) + NSAttributedString(user.atName, color: .white, underlineStyle: .styleSingle)
         return title
     }
 
     var attributedCallToAction: NSAttributedString? {
         guard let callToAction = callToAction else { return nil }
 
-        return NSAttributedString(callToAction, color: .whiteColor(), underlineStyle: .StyleSingle)
+        return NSAttributedString(callToAction, color: .white, underlineStyle: .styleSingle)
    }
 }
 
 extension CategoryHeaderCell.Config {
 
     init(category: Category) {
-        self.init(style: .Category)
+        self.init(style: .category)
         title = category.name
         body = category.body
         tracking = category.slug
         isSponsored = category.isSponsored
         callToAction = category.ctaCaption
-        callToActionURL = category.ctaURL
+        callToActionURL = category.ctaURL as URL?
 
         if let promotional = category.randomPromotional {
-            imageURL = promotional.image?.xhdpi?.url
+            imageURL = promotional.image?.xhdpi?.url as URL?
             user = promotional.user
         }
     }
 
     init(pagePromotional: PagePromotional) {
-        self.init(style: .Page)
+        self.init(style: .page)
 
         title = pagePromotional.header
         body = pagePromotional.subheader
         tracking = "general"
-        imageURL = pagePromotional.tileURL
+        imageURL = pagePromotional.tileURL as URL?
         user = pagePromotional.user
         callToAction = pagePromotional.ctaCaption
-        callToActionURL = pagePromotional.ctaURL
+        callToActionURL = pagePromotional.ctaURL as URL?
     }
 }

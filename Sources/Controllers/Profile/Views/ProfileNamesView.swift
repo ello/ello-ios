@@ -2,8 +2,8 @@
 ///  ProfileNamesView.swift
 //
 
-public class ProfileNamesView: ProfileBaseView {
-    public struct Size {
+class ProfileNamesView: ProfileBaseView {
+    struct Size {
         static let horizNameMargin: CGFloat = 10
         static let vertNameMargin: CGFloat = 5
         static let outerMargins = UIEdgeInsets(top: 19, left: 15, bottom: 20, right: 15)
@@ -11,7 +11,7 @@ public class ProfileNamesView: ProfileBaseView {
     static let nameFont = UIFont.defaultFont(18)
     static let usernameFont = UIFont.defaultFont()
 
-    static public func preferredHeight(nameSize nameSize: CGSize, usernameSize: CGSize, maxWidth: CGFloat) -> (CGFloat, isVertical: Bool) {
+    static func preferredHeight(nameSize: CGSize, usernameSize: CGSize, maxWidth: CGFloat) -> (CGFloat, isVertical: Bool) {
         let bothNamesWidth = nameSize.width + usernameSize.width + Size.horizNameMargin
         let maxAllowedWidth = maxWidth - Size.outerMargins.left - Size.outerMargins.right
         if bothNamesWidth > maxAllowedWidth {
@@ -24,7 +24,7 @@ public class ProfileNamesView: ProfileBaseView {
         }
     }
 
-    public var name: String {
+    var name: String {
         get { return nameLabel.text ?? "" }
         set {
             nameLabel.text = newValue
@@ -33,7 +33,7 @@ public class ProfileNamesView: ProfileBaseView {
             setNeedsLayout()
         }
     }
-    public var username: String {
+    var username: String {
         get { return usernameLabel.text ?? "" }
         set {
             usernameLabel.text = newValue
@@ -43,17 +43,17 @@ public class ProfileNamesView: ProfileBaseView {
         }
     }
 
-    private let nameLabel = UILabel()
-    private let usernameLabel = UILabel()
-    private let grayLine = UIView()
+    fileprivate let nameLabel = UILabel()
+    fileprivate let usernameLabel = UILabel()
+    fileprivate let grayLine = UIView()
 }
 
 extension ProfileNamesView {
 
     override func style() {
-        backgroundColor = .whiteColor()
+        backgroundColor = .white
         nameLabel.font = ProfileNamesView.nameFont
-        nameLabel.textColor = .blackColor()
+        nameLabel.textColor = .black
         usernameLabel.font = ProfileNamesView.usernameFont
         usernameLabel.textColor = .greyA()
         grayLine.backgroundColor = .greyE5()
@@ -62,7 +62,7 @@ extension ProfileNamesView {
     override func arrange() {
         addSubview(grayLine)
 
-        grayLine.snp_makeConstraints { make in
+        grayLine.snp.makeConstraints { make in
             make.height.equalTo(1)
             make.bottom.equalTo(self)
             make.leading.trailing.equalTo(self).inset(ProfileBaseView.Size.grayInset)
@@ -72,7 +72,7 @@ extension ProfileNamesView {
         addSubview(usernameLabel)
     }
 
-    override public func layoutSubviews() {
+    override func layoutSubviews() {
         super.layoutSubviews()
 
         nameLabel.frame.origin.y = Size.outerMargins.top
@@ -94,7 +94,7 @@ extension ProfileNamesView {
         }
     }
 
-    public func prepareForReuse() {
+    func prepareForReuse() {
         // nothing here yet
     }
 }

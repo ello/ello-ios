@@ -5,30 +5,30 @@
 import Foundation
 
 
-public enum InteractionVisibility {
-    case Enabled
-    case SelectedAndEnabled
-    case SelectedAndDisabled
-    case Disabled
-    case Hidden
+enum InteractionVisibility {
+    case enabled
+    case selectedAndEnabled
+    case selectedAndDisabled
+    case disabled
+    case hidden
 
-    var isVisible: Bool { return self != .Hidden }
-    var isEnabled: Bool { return self == .Enabled || self == .SelectedAndEnabled }
-    var isSelected: Bool { return self == .SelectedAndDisabled || self == .SelectedAndEnabled }
+    var isVisible: Bool { return self != .hidden }
+    var isEnabled: Bool { return self == .enabled || self == .selectedAndEnabled }
+    var isSelected: Bool { return self == .selectedAndDisabled || self == .selectedAndEnabled }
 }
 
 
-public struct StreamFooterCellPresenter {
+struct StreamFooterCellPresenter {
 
-    public static func configure(
-        cell: UICollectionViewCell,
+    static func configure(
+        _ cell: UICollectionViewCell,
         streamCellItem: StreamCellItem,
         streamKind: StreamKind,
-        indexPath: NSIndexPath,
+        indexPath: IndexPath,
         currentUser: User?)
     {
         if let cell = cell as? StreamFooterCell,
-            post = streamCellItem.jsonable as? Post
+            let post = streamCellItem.jsonable as? Post
         {
             configureDisplayCounts(cell, post: post, streamKind: streamKind)
             configureToolBarItems(cell, post: post, currentUser: currentUser, streamKind: streamKind)
@@ -36,8 +36,8 @@ public struct StreamFooterCellPresenter {
         }
     }
 
-    private static func configureToolBarItems(
-        cell: StreamFooterCell,
+    fileprivate static func configureToolBarItems(
+        _ cell: StreamFooterCell,
         post: Post,
         currentUser: User?,
         streamKind: StreamKind)
@@ -45,21 +45,21 @@ public struct StreamFooterCellPresenter {
         let ownPost = (currentUser?.id == post.authorId || (post.repostAuthor?.id != nil && currentUser?.id == post.repostAuthor?.id))
 
         let repostingEnabled = post.author?.hasRepostingEnabled ?? true
-        var repostVisibility: InteractionVisibility = .Enabled
-        if post.reposted { repostVisibility = .Disabled }
-        else if !repostingEnabled { repostVisibility = .Hidden }
-        else if ownPost { repostVisibility = .Disabled }
+        var repostVisibility: InteractionVisibility = .enabled
+        if post.reposted { repostVisibility = .disabled }
+        else if !repostingEnabled { repostVisibility = .hidden }
+        else if ownPost { repostVisibility = .disabled }
 
         let commentingEnabled = post.author?.hasCommentingEnabled ?? true
-        let commentVisibility: InteractionVisibility = commentingEnabled ? .Enabled : .Hidden
+        let commentVisibility: InteractionVisibility = commentingEnabled ? .enabled : .hidden
 
         let sharingEnabled = post.author?.hasSharingEnabled ?? true
-        let shareVisibility: InteractionVisibility = sharingEnabled ? .Enabled : .Hidden
+        let shareVisibility: InteractionVisibility = sharingEnabled ? .enabled : .hidden
 
         let lovingEnabled = post.author?.hasLovesEnabled ?? true
-        var loveVisibility: InteractionVisibility = .Enabled
-        if post.loved { loveVisibility = .SelectedAndEnabled }
-        if !lovingEnabled { loveVisibility = .Hidden }
+        var loveVisibility: InteractionVisibility = .enabled
+        if post.loved { loveVisibility = .selectedAndEnabled }
+        if !lovingEnabled { loveVisibility = .hidden }
 
         cell.updateToolbarItems(
             streamKind: streamKind,
@@ -70,44 +70,44 @@ public struct StreamFooterCellPresenter {
         )
     }
 
-    private static func configureCommentControl(
-        cell: StreamFooterCell,
+    fileprivate static func configureCommentControl(
+        _ cell: StreamFooterCell,
         streamCellItem: StreamCellItem,
         streamKind: StreamKind )
     {
         if streamKind.isDetail {
             cell.commentsOpened = true
-            cell.commentsControl.selected = true
+            cell.commentsControl.isSelected = true
         }
         else {
-            let isLoading = streamCellItem.state == .Loading
-            let isExpanded = streamCellItem.state == .Expanded
+            let isLoading = streamCellItem.state == .loading
+            let isExpanded = streamCellItem.state == .expanded
 
             if isLoading {
                 // this should be set via a custom accessor or method,
                 // me thinks.
                 // `StreamFooterCell.state = streamCellItem.state` ??
                 cell.commentsControl.animate()
-                cell.commentsControl.selected = true
+                cell.commentsControl.isSelected = true
             }
             else {
                 cell.commentsControl.finishAnimation()
 
                 if isExpanded {
-                    cell.commentsControl.selected = true
+                    cell.commentsControl.isSelected = true
                     cell.commentsOpened = true
                 }
                 else {
-                    cell.commentsControl.selected = false
+                    cell.commentsControl.isSelected = false
                     cell.commentsOpened = false
-                    streamCellItem.state = .Collapsed
+                    streamCellItem.state = .collapsed
                 }
             }
         }
     }
 
-    private static func configureDisplayCounts(
-        cell: StreamFooterCell,
+    fileprivate static func configureDisplayCounts(
+        _ cell: StreamFooterCell,
         post: Post,
         streamKind: StreamKind)
     {

@@ -18,8 +18,8 @@ extension NSError {
         return nil
     }
 
-    public static func uncastableJSONAble() -> NSError {
-        return NSError.networkError(nil, code: ElloErrorCode.JSONMapping)
+    static func uncastableJSONAble() -> NSError {
+        return NSError.networkError(nil, code: ElloErrorCode.jsonMapping)
     }
 
 }

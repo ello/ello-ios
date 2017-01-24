@@ -4,21 +4,21 @@
 
 import Foundation
 
-public struct StreamTextCellHTML {
+struct StreamTextCellHTML {
 
     static var indexFile: String?
 
-    public static func indexFileAsString() -> String {
+    static func indexFileAsString() -> String {
         if let indexFile = StreamTextCellHTML.indexFile {
             return indexFile
         }
         else {
-            let indexHTML = NSBundle.mainBundle().pathForResource("index", ofType: "html", inDirectory: "www")!
+            let indexHTML = Bundle.main.path(forResource: "index", ofType: "html", inDirectory: "www")!
 
             var error: NSError?
             let indexAsText: NSString?
             do {
-                indexAsText = try NSString(contentsOfFile: indexHTML, encoding: NSUTF8StringEncoding)
+                indexAsText = try NSString(contentsOfFile: indexHTML, encoding: String.Encoding.utf8.rawValue)
             } catch let error1 as NSError {
                 error = error1
                 indexAsText = nil
@@ -35,8 +35,8 @@ public struct StreamTextCellHTML {
         }
     }
 
-    public static func postHTML(string: String) -> String {
-        let htmlString = StreamTextCellHTML.indexFileAsString().stringByReplacingOccurrencesOfString("{{base-url}}", withString: ElloURI.baseURL)
-        return htmlString.stringByReplacingOccurrencesOfString("{{post-content}}", withString: string)
+    static func postHTML(_ string: String) -> String {
+        let htmlString = StreamTextCellHTML.indexFileAsString().replacingOccurrences(of: "{{base-url}}", with: ElloURI.baseURL)
+        return htmlString.replacingOccurrences(of: "{{post-content}}", with: string)
     }
 }

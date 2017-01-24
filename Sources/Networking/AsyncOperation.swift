@@ -4,8 +4,8 @@
 
 import Foundation
 
-public class AsyncOperation: NSOperation {
-    public typealias AsyncBlock = (() -> Void) -> Void
+class AsyncOperation: Operation {
+    typealias AsyncBlock = (@escaping () -> Void) -> Void
     var _block: AsyncBlock?
     var block: AsyncBlock? {
         get { return _block }
@@ -15,56 +15,56 @@ public class AsyncOperation: NSOperation {
             if AppSetup.sharedState.isTesting {
                 usleep(1000)
             }
-            if cancelled && _executing {
-                executing = false
+            if isCancelled && _executing {
+                isExecuting = false
             }
-            else if let block = newValue where _executing {
+            else if let block = newValue, _executing {
                 block(done)
             }
         }
     }
 
-    private var _executing: Bool = false
-    override public var executing: Bool {
+    fileprivate var _executing: Bool = false
+    override var isExecuting: Bool {
         get { return _executing }
         set {
-            willChangeValueForKey("isExecuting")
+            willChangeValue(forKey: "isExecuting")
             _executing = newValue
-            didChangeValueForKey("isExecuting")
+            didChangeValue(forKey: "isExecuting")
         }
     }
 
-    private var _finished: Bool = false
-    override public var finished: Bool {
+    fileprivate var _finished: Bool = false
+    override var isFinished: Bool {
         get { return _finished }
         set {
-            willChangeValueForKey("isFinished")
+            willChangeValue(forKey: "isFinished")
             _finished = newValue
-            didChangeValueForKey("isFinished")
+            didChangeValue(forKey: "isFinished")
         }
     }
 
-    override public var asynchronous: Bool { return true }
+    override var isAsynchronous: Bool { return true }
 
-    public init(block: AsyncBlock? = nil) {
+    init(block: AsyncBlock? = nil) {
         _block = block
         super.init()
     }
 
-    override public func start() {
-        guard !finished else {
+    override func start() {
+        guard !isFinished else {
             return
         }
-        guard !cancelled else {
+        guard !isCancelled else {
             done()
             return
         }
 
-        executing = true
+        isExecuting = true
         block?(done)
     }
 
-    public func run(block: () -> Void = {}) {
+    func run(_ block: @escaping () -> Void = {}) {
         self.block = { done in
             block()
             done()
@@ -75,7 +75,7 @@ public class AsyncOperation: NSOperation {
 private extension AsyncOperation {
 
     func done() {
-        executing = false
-        finished = true
+        isExecuting = false
+        isFinished = true
     }
 }

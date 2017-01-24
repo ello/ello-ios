@@ -2,37 +2,37 @@
 ///  ElloPostToolBarOption.swift
 //
 
-public enum ElloPostToolBarOption {
-    case Views
-    case Comments
-    case Loves
-    case Repost
-    case Share
-    case Delete
-    case Edit
-    case Reply
-    case Flag
+enum ElloPostToolBarOption {
+    case views
+    case comments
+    case loves
+    case repost
+    case share
+    case delete
+    case edit
+    case reply
+    case flag
 
     func imageLabelControl() -> UIControl {
         switch self {
-        case .Views:
-            return imageLabelControl(.Eye)
-        case .Comments:
+        case .views:
+            return imageLabelControl(.eye)
+        case .comments:
             return ImageLabelControl(icon: CommentsIcon(), title: "")
-        case .Loves:
-            return imageLabelControl(.Heart)
-        case .Repost:
-            return imageLabelControl(.Repost)
-        case .Share:
-            return imageLabelControl(.Share)
-        case .Delete:
-            return imageLabelControl(.XBox)
-        case .Edit:
-            return imageLabelControl(.Pencil)
-        case .Reply:
-            return imageLabelControl(.Reply)
-        case .Flag:
-            return imageLabelControl(.Flag)
+        case .loves:
+            return imageLabelControl(.heart)
+        case .repost:
+            return imageLabelControl(.repost)
+        case .share:
+            return imageLabelControl(.share)
+        case .delete:
+            return imageLabelControl(.xBox)
+        case .edit:
+            return imageLabelControl(.pencil)
+        case .reply:
+            return imageLabelControl(.reply)
+        case .flag:
+            return imageLabelControl(.flag)
         }
     }
 
@@ -40,7 +40,7 @@ public enum ElloPostToolBarOption {
         return UIBarButtonItem(customView: self.imageLabelControl())
     }
 
-    private func imageLabelControl(interfaceImage: InterfaceImage, count: Int = 0) -> UIControl {
+    fileprivate func imageLabelControl(_ interfaceImage: InterfaceImage, count: Int = 0) -> UIControl {
         let icon = UIImageView(image: interfaceImage.normalImage)
         let iconSelected = UIImageView(image: interfaceImage.selectedImage)
         var iconDisabled: UIView? = nil

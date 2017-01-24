@@ -6,10 +6,10 @@ import CoreGraphics
 import UIKit
 import Foundation
 
-public extension CGRect {
+extension CGRect {
 
 // MARK: debug
-    func tap(name: String = "frame") -> CGRect {
+    func tap(_ name: String = "frame") -> CGRect {
         print("\(name): \(self)")
         return self
     }
@@ -25,6 +25,21 @@ public extension CGRect {
         self.size = .zero
     }
 
+    init(origin: CGPoint) {
+        self.origin = origin
+        self.size = .zero
+    }
+
+    init(width: CGFloat, height: CGFloat) {
+        self.origin = .zero
+        self.size = CGSize(width: width, height: height)
+    }
+
+    init(size: CGSize) {
+        self.origin = .zero
+        self.size = size
+    }
+
 // MARK: helpers
     var x: CGFloat { return self.origin.x }
     var y: CGFloat { return self.origin.y }
@@ -33,126 +48,126 @@ public extension CGRect {
     }
 
 // MARK: dimension setters
-    func atOrigin(amt: CGPoint) -> CGRect {
+    func at(origin amt: CGPoint) -> CGRect {
         var f = self
         f.origin = amt
         return f
     }
 
-    func withSize(amt: CGSize) -> CGRect {
+    func with(size amt: CGSize) -> CGRect {
         var f = self
         f.size = amt
         return f
     }
 
-    func atX(amt: CGFloat) -> CGRect {
+    func at(x amt: CGFloat) -> CGRect {
         var f = self
         f.origin.x = amt
         return f
     }
 
-    func atY(amt: CGFloat) -> CGRect {
+    func at(y amt: CGFloat) -> CGRect {
         var f = self
         f.origin.y = amt
         return f
     }
 
-    func withWidth(amt: CGFloat) -> CGRect {
+    func with(width amt: CGFloat) -> CGRect {
         var f = self
         f.size.width = amt
         return f
     }
 
-    func withHeight(amt: CGFloat) -> CGRect {
+    func with(height amt: CGFloat) -> CGRect {
         var f = self
         f.size.height = amt
         return f
     }
 
 // MARK: inset(xxx:)
-    func inset(all all: CGFloat) -> CGRect {
+    func inset(all: CGFloat) -> CGRect {
         return UIEdgeInsetsInsetRect(self, UIEdgeInsets(top: all, left: all, bottom: all, right: all))
     }
 
-    func inset(topBottom topBottom: CGFloat, sides: CGFloat) -> CGRect {
+    func inset(topBottom: CGFloat, sides: CGFloat) -> CGRect {
         return UIEdgeInsetsInsetRect(self, UIEdgeInsets(top: topBottom, left: sides, bottom: topBottom, right: sides))
     }
 
-    func inset(topBottom topBottom: CGFloat) -> CGRect {
+    func inset(topBottom: CGFloat) -> CGRect {
         return UIEdgeInsetsInsetRect(self, UIEdgeInsets(top: topBottom, left: 0, bottom: topBottom, right: 0))
     }
 
-    func inset(sides sides: CGFloat) -> CGRect {
+    func inset(sides: CGFloat) -> CGRect {
         return UIEdgeInsetsInsetRect(self, UIEdgeInsets(top: 0, left: sides, bottom: 0, right: sides))
     }
 
-    func inset(top top: CGFloat, sides: CGFloat, bottom: CGFloat) -> CGRect {
+    func inset(top: CGFloat, sides: CGFloat, bottom: CGFloat) -> CGRect {
         return UIEdgeInsetsInsetRect(self, UIEdgeInsets(top: top, left: sides, bottom: bottom, right: sides))
     }
 
-    func inset(top top: CGFloat, left: CGFloat, bottom: CGFloat, right: CGFloat) -> CGRect {
+    func inset(top: CGFloat, left: CGFloat, bottom: CGFloat, right: CGFloat) -> CGRect {
         return UIEdgeInsetsInsetRect(self, UIEdgeInsets(top: top, left: left, bottom: bottom, right: right))
     }
 
-    func inset(insets: UIEdgeInsets) -> CGRect {
+    func inset(_ insets: UIEdgeInsets) -> CGRect {
         return UIEdgeInsetsInsetRect(self, insets)
     }
 
-// MARK: shrinkXxx
-    func shrinkLeft(amt: CGFloat) -> CGRect {
+// MARK: shrink(xxx:)
+    func shrink(left amt: CGFloat) -> CGRect {
         return UIEdgeInsetsInsetRect(self, UIEdgeInsets(top: 0, left: 0, bottom: 0, right: amt))
     }
 
-    func shrinkRight(amt: CGFloat) -> CGRect {
+    func shrink(right amt: CGFloat) -> CGRect {
         return UIEdgeInsetsInsetRect(self, UIEdgeInsets(top: 0, left: amt, bottom: 0, right: 0))
     }
 
-    func shrinkDown(amt: CGFloat) -> CGRect {
+    func shrink(down amt: CGFloat) -> CGRect {
         return UIEdgeInsetsInsetRect(self, UIEdgeInsets(top: amt, left: 0, bottom: 0, right: 0))
     }
 
-    func shrinkUp(amt: CGFloat) -> CGRect {
+    func shrink(up amt: CGFloat) -> CGRect {
         return UIEdgeInsetsInsetRect(self, UIEdgeInsets(top: 0, left: 0, bottom: amt, right: 0))
     }
 
-// MARK: growXxx
-    func grow(margins: UIEdgeInsets) -> CGRect {
+// MARK: grow(xxx:)
+    func grow(_ margins: UIEdgeInsets) -> CGRect {
         return UIEdgeInsetsInsetRect(self, UIEdgeInsets(top: -margins.top, left: -margins.left, bottom: -margins.bottom, right: -margins.right))
     }
 
-    func grow(all all: CGFloat) -> CGRect {
+    func grow(all: CGFloat) -> CGRect {
         return UIEdgeInsetsInsetRect(self, UIEdgeInsets(top: -all, left: -all, bottom: -all, right: -all))
     }
 
-    func grow(topBottom topBottom: CGFloat, sides: CGFloat) -> CGRect {
+    func grow(topBottom: CGFloat, sides: CGFloat) -> CGRect {
         return UIEdgeInsetsInsetRect(self, UIEdgeInsets(top: -topBottom, left: -sides, bottom: -topBottom, right: -sides))
     }
 
-    func grow(top top: CGFloat, sides: CGFloat, bottom: CGFloat) -> CGRect {
+    func grow(top: CGFloat, sides: CGFloat, bottom: CGFloat) -> CGRect {
         return UIEdgeInsetsInsetRect(self, UIEdgeInsets(top: -top, left: -sides, bottom: -bottom, right: -sides))
     }
 
-    func grow(top top: CGFloat, left: CGFloat, bottom: CGFloat, right: CGFloat) -> CGRect {
+    func grow(top: CGFloat, left: CGFloat, bottom: CGFloat, right: CGFloat) -> CGRect {
         return UIEdgeInsetsInsetRect(self, UIEdgeInsets(top: -top, left: -left, bottom: -bottom, right: -right))
     }
 
-    func growLeft(amt: CGFloat) -> CGRect {
+    func grow(left amt: CGFloat) -> CGRect {
         return UIEdgeInsetsInsetRect(self, UIEdgeInsets(top: 0, left: -amt, bottom: 0, right: 0))
     }
 
-    func growRight(amt: CGFloat) -> CGRect {
+    func grow(right amt: CGFloat) -> CGRect {
         return UIEdgeInsetsInsetRect(self, UIEdgeInsets(top: 0, left: 0, bottom: 0, right: -amt))
     }
 
-    func growUp(amt: CGFloat) -> CGRect {
+    func grow(up amt: CGFloat) -> CGRect {
         return UIEdgeInsetsInsetRect(self, UIEdgeInsets(top: -amt, left: 0, bottom: 0, right: 0))
     }
 
-    func growDown(amt: CGFloat) -> CGRect {
+    func grow(down amt: CGFloat) -> CGRect {
         return UIEdgeInsetsInsetRect(self, UIEdgeInsets(top: 0, left: 0, bottom: -amt, right: 0))
     }
 
-// MARK: fromXxx
+// MARK: from(xxx:)
     func fromTop() -> CGRect {
         return CGRect(x: minX, y: minY, width: width, height: 0)
     }
@@ -169,21 +184,21 @@ public extension CGRect {
         return CGRect(x: maxX, y: minY, width: 0, height: height)
     }
 
-// MARK: shiftXxx
-    func shiftUp(amt: CGFloat) -> CGRect {
-        return self.atY(self.y - amt)
+// MARK: shift(xxx:)
+    func shift(up amt: CGFloat) -> CGRect {
+        return self.at(y: self.y - amt)
     }
 
-    func shiftDown(amt: CGFloat) -> CGRect {
-        return self.atY(self.y + amt)
+    func shift(down amt: CGFloat) -> CGRect {
+        return self.at(y: self.y + amt)
     }
 
-    func shiftLeft(amt: CGFloat) -> CGRect {
-        return self.atX(self.x - amt)
+    func shift(left amt: CGFloat) -> CGRect {
+        return self.at(x: self.x - amt)
     }
 
-    func shiftRight(amt: CGFloat) -> CGRect {
-        return self.atX(self.x + amt)
+    func shift(right amt: CGFloat) -> CGRect {
+        return self.at(x: self.x + amt)
     }
 
 }

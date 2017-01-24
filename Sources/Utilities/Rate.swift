@@ -5,11 +5,11 @@
 import Foundation
 import iRate
 
-public class Rate: NSObject {
+class Rate: NSObject {
 
-    public static let sharedRate = Rate()
+    static let sharedRate = Rate()
 
-    public func setup() {
+    func setup() {
         iRate.sharedInstance().delegate = self
         iRate.sharedInstance().onlyPromptIfLatestVersion = true
         iRate.sharedInstance().previewMode = false
@@ -25,37 +25,37 @@ public class Rate: NSObject {
         iRate.sharedInstance().remindPeriod = 7
     }
 
-    public func prompt() {
+    func prompt() {
         iRate.sharedInstance().promptForRating()
     }
 
-    public func logEvent() {
+    func logEvent() {
         iRate.sharedInstance().logEvent(false)
     }
 }
 
 extension Rate: iRateDelegate {
-    public func iRateCouldNotConnectToAppStore(error: NSError!){
-        Tracker.sharedTracker.ratePromptCouldNotConnectToAppStore()
+    func iRateCouldNotConnect(toAppStore error: Error!){
+        Tracker.shared.ratePromptCouldNotConnectToAppStore()
     }
 
-    public func iRateDidPromptForRating(){
-        Tracker.sharedTracker.ratePromptShown()
+    func iRateDidPromptForRating(){
+        Tracker.shared.ratePromptShown()
     }
 
-    public func iRateUserDidAttemptToRateApp(){
-        Tracker.sharedTracker.ratePromptUserAttemptedToRateApp()
+    func iRateUserDidAttemptToRateApp(){
+        Tracker.shared.ratePromptUserAttemptedToRateApp()
     }
 
-    public func iRateUserDidDeclineToRateApp(){
-        Tracker.sharedTracker.ratePromptUserDeclinedToRateApp()
+    func iRateUserDidDeclineToRateApp(){
+        Tracker.shared.ratePromptUserDeclinedToRateApp()
     }
 
-    public func iRateUserDidRequestReminderToRateApp(){
-        Tracker.sharedTracker.ratePromptRemindMeLater()
+    func iRateUserDidRequestReminderToRateApp(){
+        Tracker.shared.ratePromptRemindMeLater()
     }
 
-    public func iRateDidOpenAppStore(){
-        Tracker.sharedTracker.ratePromptOpenedAppStore()
+    func iRateDidOpenAppStore(){
+        Tracker.shared.ratePromptOpenedAppStore()
     }
 }

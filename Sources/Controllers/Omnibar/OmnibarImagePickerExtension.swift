@@ -6,18 +6,18 @@ import Photos
 
 extension OmnibarScreen: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
 
-    func openImageSheet(imageSheetResult: ImagePickerSheetResult) {
+    func openImageSheet(_ imageSheetResult: ImagePickerSheetResult) {
         resignKeyboard()
         switch imageSheetResult {
-        case let .Controller(imageController):
+        case let .controller(imageController):
             imageController.delegate = self
             delegate?.omnibarPresentController(imageController)
-        case let .Images(assets):
+        case let .images(assets):
             processPHAssets(assets)
         }
     }
 
-    private func processPHAssets(assets: [PHAsset], done: ElloEmptyCompletion = {}) {
+    fileprivate func processPHAssets(_ assets: [PHAsset], done: @escaping ElloEmptyCompletion = {}) {
         self.interactionEnabled = false
         AssetsToRegions.processPHAssets(assets) { (imageData: [ImageRegionData]) in
             self.interactionEnabled = true
@@ -29,14 +29,14 @@ extension OmnibarScreen: UINavigationControllerDelegate, UIImagePickerController
         }
     }
 
-    public func imagePickerController(controller: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: AnyObject]) {
+    func imagePickerController(_ controller: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: Any]) {
         func done() {
             self.delegate?.omnibarDismissController()
         }
 
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
-            if let url = info[UIImagePickerControllerReferenceURL] as? NSURL,
-               asset = PHAsset.fetchAssetsWithALAssetURLs([url], options: nil).firstObject as? PHAsset
+            if let url = info[UIImagePickerControllerReferenceURL] as? URL,
+               let asset = PHAsset.fetchAssets(withALAssetURLs: [url], options: nil).firstObject
             {
                 processPHAssets([asset], done: done)
             }
@@ -52,11 +52,11 @@ extension OmnibarScreen: UINavigationControllerDelegate, UIImagePickerController
         }
     }
 
-    public func imagePickerControllerDidCancel(controller: UIImagePickerController) {
+    func imagePickerControllerDidCancel(_ controller: UIImagePickerController) {
         delegate?.omnibarDismissController()
     }
 
-    private func isGif(buffer: UnsafeMutablePointer<UInt8>, length: Int) -> Bool {
+    fileprivate func isGif(_ buffer: UnsafeMutablePointer<UInt8>, length: Int) -> Bool {
         if length >= 4 {
             let isG = Int(buffer[0]) == 71
             let isI = Int(buffer[1]) == 73

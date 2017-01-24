@@ -17,38 +17,38 @@
 import Foundation
 
 
-public class ElloS3 {
+class ElloS3 {
     let filename: String
-    let data: NSData
+    let data: Data
     let contentType: String
     let credentials: AmazonCredentials
 
-    typealias SuccessHandler = (response: NSData) -> Void
-    typealias FailureHandler = (error: NSError) -> Void
-    typealias ProgressHandler = (progress: Float) -> Void
+    typealias SuccessHandler = (Data) -> Void
+    typealias FailureHandler = (Error) -> Void
+    typealias ProgressHandler = (Float) -> Void
 
-    private var successHandler: SuccessHandler?
-    private var failureHandler: FailureHandler?
-    private var progressHandler: ProgressHandler?
+    fileprivate var successHandler: SuccessHandler?
+    fileprivate var failureHandler: FailureHandler?
+    fileprivate var progressHandler: ProgressHandler?
 
-    public init(credentials: AmazonCredentials, filename: String, data: NSData, contentType: String) {
+    init(credentials: AmazonCredentials, filename: String, data: Data, contentType: String) {
         self.filename = filename
         self.data = data
         self.contentType = contentType
         self.credentials = credentials
     }
 
-    func onSuccess(handler: SuccessHandler) -> Self {
+    func onSuccess(_ handler: @escaping SuccessHandler) -> Self {
         self.successHandler = handler
         return self
     }
 
-    func onFailure(handler: FailureHandler) -> Self {
+    func onFailure(_ handler: @escaping FailureHandler) -> Self {
         self.failureHandler = handler
         return self
     }
 
-    func onProgress(handler: ProgressHandler) -> Self {
+    func onProgress(_ handler: @escaping ProgressHandler) -> Self {
         self.progressHandler = handler
         return self
     }
@@ -57,9 +57,9 @@ public class ElloS3 {
     // mostly the same
     func start() -> Self {
         let key = "\(credentials.prefix)/\(filename)"
-        let url = NSURL(string: credentials.endpoint)!
+        let url = URL(string: credentials.endpoint)!
 
-        let builder = MultipartRequestBuilder(url: url, capacity: data.length)
+        let builder = MultipartRequestBuilder(url: url, capacity: data.count)
         builder.addParam("key", value: key)
         builder.addParam("AWSAccessKeyId", value: credentials.accessKey)
         builder.addParam("acl", value: "public-read")
@@ -71,26 +71,28 @@ public class ElloS3 {
         builder.addFile("file", filename: filename, data: data, contentType: contentType)
         let request = builder.buildRequest()
 
-        let session = NSURLSession.sharedSession()
-        let task = session.dataTaskWithRequest(request) { (data: NSData?, response: NSURLResponse?, error: NSError?) in
+        let session = URLSession.shared
+        let task = session.dataTask(with: request, completionHandler: { (data: Data?, response: URLResponse?, error: Error?) in
             nextTick {
-                let httpResponse = response as? NSHTTPURLResponse
+                let httpResponse = response as? HTTPURLResponse
                 if let error = error {
-                    self.failureHandler?(error: error)
+                    self.failureHandler?(error)
                 }
-                else if httpResponse?.statusCode >= 200 && httpResponse?.statusCode < 300 {
+                else if let statusCode = httpResponse?.statusCode,
+                    statusCode >= 200 && statusCode < 300
+                {
                     if let data = data {
-                        self.successHandler?(response: data)
+                        self.successHandler?(data)
                     }
                     else {
-                        self.failureHandler?(error: NSError(domain: ElloErrorDomain, code: 0, userInfo: [NSLocalizedFailureReasonErrorKey: "failure"]))
+                        self.failureHandler?(NSError(domain: ElloErrorDomain, code: 0, userInfo: [NSLocalizedFailureReasonErrorKey: "failure"]))
                     }
                 }
                 else {
-                    self.failureHandler?(error: NSError(domain: ElloErrorDomain, code: 0, userInfo: [NSLocalizedFailureReasonErrorKey: "failure"]))
+                    self.failureHandler?(NSError(domain: ElloErrorDomain, code: 0, userInfo: [NSLocalizedFailureReasonErrorKey: "failure"]))
                 }
             }
-        }
+        })
         task.resume()
 
         return self

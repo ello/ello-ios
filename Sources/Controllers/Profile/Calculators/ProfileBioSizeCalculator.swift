@@ -5,7 +5,7 @@
 import FutureKit
 
 
-public class ProfileBioSizeCalculator: NSObject {
+class ProfileBioSizeCalculator: NSObject {
     let webView = UIWebView()
     let promise = Promise<CGFloat>()
 
@@ -13,11 +13,10 @@ public class ProfileBioSizeCalculator: NSObject {
         webView.delegate = nil
     }
 
-    public func calculate(item: StreamCellItem, maxWidth: CGFloat) -> Future<CGFloat> {
-        guard let
-            user = item.jsonable as? User,
-            formattedShortBio = user.formattedShortBio
-        where !formattedShortBio.isEmpty
+    func calculate(_ item: StreamCellItem, maxWidth: CGFloat) -> Future<CGFloat> {
+        guard
+            let user = item.jsonable as? User,
+            let formattedShortBio = user.formattedShortBio, !formattedShortBio.isEmpty
         else {
             promise.completeWithSuccess(0)
             return promise.future
@@ -25,11 +24,11 @@ public class ProfileBioSizeCalculator: NSObject {
 
         webView.frame.size.width = maxWidth
         webView.delegate = self
-        webView.loadHTMLString(StreamTextCellHTML.postHTML(formattedShortBio), baseURL: NSURL(string: "/"))
+        webView.loadHTMLString(StreamTextCellHTML.postHTML(formattedShortBio), baseURL: URL(string: "/"))
         return promise.future
     }
 
-    static func calculateHeight(webViewHeight webViewHeight: CGFloat) -> CGFloat {
+    static func calculateHeight(webViewHeight: CGFloat) -> CGFloat {
         guard webViewHeight > 0 else {
             return 0
         }
@@ -40,13 +39,13 @@ public class ProfileBioSizeCalculator: NSObject {
 
 extension ProfileBioSizeCalculator: UIWebViewDelegate {
 
-    public func webViewDidFinishLoad(webView: UIWebView) {
+    func webViewDidFinishLoad(_ webView: UIWebView) {
         let webViewHeight = webView.windowContentSize()?.height ?? 0
         let totalHeight = ProfileBioSizeCalculator.calculateHeight(webViewHeight: webViewHeight)
         promise.completeWithSuccess(totalHeight)
     }
 
-    public func webView(webView: UIWebView, didFailLoadWithError error: NSError) {
+    func webView(_ webView: UIWebView, didFailLoadWithError error: Error) {
         promise.completeWithSuccess(0)
     }
 

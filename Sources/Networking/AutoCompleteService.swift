@@ -5,22 +5,22 @@
 import Alamofire
 import SwiftyJSON
 
-public typealias AutoCompleteServiceSuccessCompletion = (results: [AutoCompleteResult], responseConfig: ResponseConfig) -> ()
+typealias AutoCompleteServiceSuccessCompletion = (_ results: [AutoCompleteResult], _ responseConfig: ResponseConfig) -> ()
 
-public struct AutoCompleteService {
+struct AutoCompleteService {
 
-    public init(){}
+    init(){}
 
-    public func loadUsernameResults(
-        terms: String,
-        success: AutoCompleteServiceSuccessCompletion,
-        failure: ElloFailureCompletion)
+    func loadUsernameResults(
+        _ terms: String,
+        success: @escaping AutoCompleteServiceSuccessCompletion,
+        failure: @escaping ElloFailureCompletion)
     {
         ElloProvider.shared.elloRequest(
-            .UserNameAutoComplete(terms: terms),
+            .userNameAutoComplete(terms: terms),
             success: { (data, responseConfig) in
                 if let results = data as? [AutoCompleteResult] {
-                    success(results: results, responseConfig: responseConfig)
+                    success(results, responseConfig)
                 }
                 else {
                     ElloProvider.unCastableJSONAble(failure)
@@ -30,10 +30,10 @@ public struct AutoCompleteService {
         )
     }
 
-    public func loadEmojiResults(text: String) -> [AutoCompleteResult] {
+    func loadEmojiResults(_ text: String) -> [AutoCompleteResult] {
         let emojiName: String
         if text[text.startIndex] == ":" {
-            emojiName = text.substringFromIndex(text.startIndex.advancedBy(1))
+            emojiName = text.substring(from: text.characters.index(text.startIndex, offsetBy: 1))
         }
         else {
             emojiName = text
@@ -46,15 +46,9 @@ public struct AutoCompleteService {
     }
 
     static var emojis: [(name: String, url: String)] = []
-    static func loadEmojiJSON(defaultJSON: String) {
+    static func loadEmojiJSON(_ defaultJSON: String) {
         let data = stubbedData(defaultJSON)
-        let json: JSON
-        do {
-            json = try JSON(data: data)
-        }
-        catch {
-            json = JSON("")
-        }
+        let json = JSON(data: data)
 
         if let emojis = json["emojis"].object as? [[String: String]]
         {
@@ -71,10 +65,10 @@ public struct AutoCompleteService {
             }
         }
 
-        Alamofire.request(.GET, "\(ElloURI.baseURL)/emojis.json")
+        Alamofire.request("\(ElloURI.baseURL)/emojis.json")
             .responseJSON { response in
-                if let JSON = response.result.value,
-                    emojis = JSON["emojis"] as? [[String: String]]
+                if let JSON = response.result.value as? [String: Any],
+                    let emojis = JSON["emojis"] as? [[String: String]]
                 {
                     self.emojis = emojis.map {
                         var name = ""
@@ -91,16 +85,16 @@ public struct AutoCompleteService {
             }
     }
 
-    public func loadLocationResults(
-        terms: String,
-        success: AutoCompleteServiceSuccessCompletion,
-        failure: ElloFailureCompletion)
+    func loadLocationResults(
+        _ terms: String,
+        success: @escaping AutoCompleteServiceSuccessCompletion,
+        failure: @escaping ElloFailureCompletion)
     {
         ElloProvider.shared.elloRequest(
-            .LocationAutoComplete(terms: terms),
+            .locationAutoComplete(terms: terms),
             success: { (data, responseConfig) in
                 if let results = data as? [AutoCompleteResult] {
-                    success(results: results, responseConfig: responseConfig)
+                    success(results, responseConfig)
                 }
                 else {
                     ElloProvider.unCastableJSONAble(failure)

@@ -1,36 +1,46 @@
 ////
 ///  PostDetailViewController.swift
 //
-public final class PostDetailViewController: StreamableViewController {
+
+
+final class PostDetailViewController: StreamableViewController {
+    override func trackerName() -> String? { return "Post Detail" }
+    override func trackerProps() -> [String: AnyObject]? {
+        if let post = post {
+            return ["id": post.id as AnyObject]
+        }
+        return ["id": postParam as AnyObject]
+    }
+
     var post: Post?
-    var postParam: String!
+    var postParam: String
     var scrollToComment: ElloComment?
 
     var navigationBar: ElloNavigationBar!
-    var localToken: String!
+    var localToken: String = ""
     var deeplinkPath: String?
     var generator: PostDetailGenerator?
 
-    required public init(postParam: String) {
+    required init(postParam: String) {
         self.postParam = postParam
         super.init(nibName: nil, bundle: nil)
         if self.post == nil {
-            if let post = ElloLinkedStore.sharedInstance.getObject(self.postParam, type: .PostsType) as? Post {
+            if let post = ElloLinkedStore.sharedInstance.getObject(self.postParam, type: .postsType) as? Post {
                 self.post = post
             }
         }
         self.localToken = streamViewController.loadingToken.resetInitialPageLoadingToken()
     }
 
-    required public init?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override public func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationBar()
-        streamViewController.streamKind = .PostDetail(postParam: postParam)
-        view.backgroundColor = .whiteColor()
+        streamViewController.streamKind = .postDetail(postParam: postParam)
+        view.backgroundColor = .white
         self.generator = PostDetailGenerator(
             currentUser: self.currentUser,
             postParam: postParam,
@@ -51,26 +61,22 @@ public final class PostDetailViewController: StreamableViewController {
         return view
     }
 
-    private func updateInsets() {
+    fileprivate func updateInsets() {
         updateInsets(navBar: navigationBar, streamController: streamViewController)
     }
 
-    override public func didSetCurrentUser() {
+    override func didSetCurrentUser() {
         generator?.currentUser = currentUser
         super.didSetCurrentUser()
     }
 
-    override public func showNavBars(scrollToBottom: Bool) {
-        super.showNavBars(scrollToBottom)
+    override func showNavBars() {
+        super.showNavBars()
         positionNavBar(navigationBar, visible: true)
         updateInsets()
-
-        if scrollToBottom {
-            self.scrollToBottom(streamViewController)
-        }
     }
 
-    override public func hideNavBars() {
+    override func hideNavBars() {
         super.hideNavBars()
         positionNavBar(navigationBar, visible: false)
         updateInsets()
@@ -78,31 +84,31 @@ public final class PostDetailViewController: StreamableViewController {
 
     // MARK : private
 
-    private func loadEntirePostDetail() {
+    fileprivate func loadEntirePostDetail() {
         generator?.load()
     }
 
-    private func reloadEntirePostDetail() {
+    fileprivate func reloadEntirePostDetail() {
         generator?.load(reload: true)
     }
 
-    private func showPostLoadFailure() {
+    fileprivate func showPostLoadFailure() {
         let message = InterfaceString.GenericError
         let alertController = AlertViewController(error: message) { _ in
-            self.navigationController?.popViewControllerAnimated(true)
+            _ = self.navigationController?.popViewController(animated: true)
         }
-        self.presentViewController(alertController, animated: true, completion: nil)
+        self.present(alertController, animated: true, completion: nil)
     }
 
-    private func setupNavigationBar() {
+    fileprivate func setupNavigationBar() {
         navigationBar = ElloNavigationBar(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: ElloNavigationBar.Size.height))
-        navigationBar.autoresizingMask = [.FlexibleBottomMargin, .FlexibleWidth]
+        navigationBar.autoresizingMask = [.flexibleBottomMargin, .flexibleWidth]
         view.addSubview(navigationBar)
 
         setupNavigationItems()
     }
 
-    private func setupNavigationItems() {
+    fileprivate func setupNavigationItems() {
         let backItem = UIBarButtonItem.backChevron(withController: self)
         elloNavigationItem.leftBarButtonItems = [backItem]
         elloNavigationItem.fixNavBarItemPadding()
@@ -117,14 +123,14 @@ public final class PostDetailViewController: StreamableViewController {
 
         if isOwnPost() {
             rightBarButtonItems = [
-                UIBarButtonItem(image: .XBox, target: self, action: #selector(PostDetailViewController.deletePost)),
-                UIBarButtonItem(image: .Pencil, target: self, action: #selector(PostDetailViewController.editPostAction)),
+                UIBarButtonItem(image: .xBox, target: self, action: #selector(PostDetailViewController.deletePost)),
+                UIBarButtonItem(image: .pencil, target: self, action: #selector(PostDetailViewController.editPostAction)),
             ]
         }
         else {
             rightBarButtonItems = [
-                UIBarButtonItem(image: .Search, target: self, action: #selector(BaseElloViewController.searchButtonTapped)),
-                UIBarButtonItem(image: .Dots, target: self, action: #selector(PostDetailViewController.flagPost)),
+                UIBarButtonItem(image: .search, target: self, action: #selector(BaseElloViewController.searchButtonTapped)),
+                UIBarButtonItem(image: .dots, target: self, action: #selector(PostDetailViewController.flagPost)),
             ]
         }
 
@@ -133,51 +139,51 @@ public final class PostDetailViewController: StreamableViewController {
         }
     }
 
-    private func checkScrollToComment() {
+    fileprivate func checkScrollToComment() {
         guard let comment = self.scrollToComment else { return }
 
         let commentItem = streamViewController.dataSource.visibleCellItems.find { item in
             return (item.jsonable as? ElloComment)?.id == comment.id
         }
 
-        if let commentItem = commentItem, indexPath = self.streamViewController.dataSource.indexPathForItem(commentItem) {
+        if let commentItem = commentItem, let indexPath = self.streamViewController.dataSource.indexPathForItem(commentItem) {
             self.scrollToComment = nil
             // nextTick didn't work, the collection view hadn't shown its
             // cells or updated contentView.  so this.
             delay(0.1) {
-                self.streamViewController.collectionView.scrollToItemAtIndexPath(
-                    indexPath,
-                    atScrollPosition: .Top,
+                self.streamViewController.collectionView.scrollToItem(
+                    at: indexPath,
+                    at: .top,
                     animated: true
                 )
             }
         }
     }
 
-    override public func postTapped(post: Post) {
-        if let selfPost = self.post where post.id != selfPost.id {
+    override func postTapped(_ post: Post) {
+        if let selfPost = self.post, post.id != selfPost.id {
             super.postTapped(post)
         }
     }
 
-    private func isOwnPost() -> Bool {
-        guard let post = post, currentUser = currentUser else {
+    fileprivate func isOwnPost() -> Bool {
+        guard let post = post, let currentUser = currentUser else {
             return false
         }
-        return currentUser.isOwnPost(post)
+        return currentUser.isOwn(post: post)
     }
 
-    public func flagPost() {
+    func flagPost() {
         guard let post = post else { return }
 
         let flagger = ContentFlagger(presentingController: self,
             flaggableId: post.id,
-            contentType: .Post)
+            contentType: .post)
         flagger.displayFlaggingSheet()
     }
 
-    public func editPostAction() {
-        guard let post = post where isOwnPost() else {
+    func editPostAction() {
+        guard let post = post, isOwnPost() else {
             return
         }
 
@@ -187,35 +193,37 @@ public final class PostDetailViewController: StreamableViewController {
         editPost(post, fromController: self)
     }
 
-    public func deletePost() {
-        guard let post = post, currentUser = currentUser where isOwnPost() else {
+    func deletePost() {
+        guard let post = post, let currentUser = currentUser, isOwnPost() else {
             return
         }
 
         let message = InterfaceString.Post.DeletePostConfirm
         let alertController = AlertViewController(message: message)
 
-        let yesAction = AlertAction(title: InterfaceString.Yes, style: .Dark) { _ in
+        let yesAction = AlertAction(title: InterfaceString.Yes, style: .dark) { _ in
             if let userPostCount = currentUser.postsCount {
                 currentUser.postsCount = userPostCount - 1
                 postNotification(CurrentUserChangedNotification, value: currentUser)
             }
 
-            postNotification(PostChangedNotification, value: (post, .Delete))
+            postNotification(PostChangedNotification, value: (post, .delete))
             PostService().deletePost(post.id,
-                success: nil,
+                success: {
+                    Tracker.shared.postDeleted(post)
+                },
                 failure: { (error, statusCode)  in
                     // TODO: add error handling
                     print("failed to delete post, error: \(error.elloErrorMessage ?? error.localizedDescription)")
                 })
         }
-        let noAction = AlertAction(title: InterfaceString.No, style: .Light, handler: .None)
+        let noAction = AlertAction(title: InterfaceString.No, style: .light, handler: .none)
 
         alertController.addAction(yesAction)
         alertController.addAction(noAction)
 
         logPresentingAlert("PostDetailViewController")
-        self.presentViewController(alertController, animated: true, completion: .None)
+        self.present(alertController, animated: true, completion: .none)
     }
 
 }
@@ -223,28 +231,28 @@ public final class PostDetailViewController: StreamableViewController {
 // MARK: PostDetailViewController: StreamDestination
 extension PostDetailViewController: StreamDestination {
 
-    public var pagingEnabled: Bool {
+    var pagingEnabled: Bool {
         get { return streamViewController.pagingEnabled }
         set { streamViewController.pagingEnabled = newValue }
     }
 
-    public func replacePlaceholder(type: StreamCellType.PlaceholderType, items: [StreamCellItem], completion: ElloEmptyCompletion) {
+    func replacePlaceholder(type: StreamCellType.PlaceholderType, items: [StreamCellItem], completion: @escaping ElloEmptyCompletion) {
         streamViewController.replacePlaceholder(type, with: items) {
             self.checkScrollToComment()
 
-            if self.streamViewController.hasCellItems(for: .ProfileHeader) && !self.streamViewController.hasCellItems(for: .ProfilePosts) {
-                self.streamViewController.replacePlaceholder(.ProfilePosts, with: [StreamCellItem(type: .StreamLoading)]) {}
+            if self.streamViewController.hasCellItems(for: .profileHeader) && !self.streamViewController.hasCellItems(for: .profilePosts) {
+                self.streamViewController.replacePlaceholder(.profilePosts, with: [StreamCellItem(type: .streamLoading)]) {}
             }
             completion()
         }
     }
 
-    public func setPlaceholders(items: [StreamCellItem]) {
+    func setPlaceholders(items: [StreamCellItem]) {
         streamViewController.clearForInitialLoad()
         streamViewController.appendStreamCellItems(items)
     }
 
-    public func setPrimaryJSONAble(jsonable: JSONAble) {
+    func setPrimary(jsonable: JSONAble) {
         guard let post = jsonable as? Post else { return }
 
         self.post = post
@@ -262,30 +270,28 @@ extension PostDetailViewController: StreamDestination {
          paging to work
          */
 
-        streamViewController.streamKind = .PostDetail(postParam: postParam)
+        streamViewController.streamKind = .postDetail(postParam: postParam)
 
         self.title = post.author?.atName ?? InterfaceString.Post.DefaultTitle
 
         setupNavigationItems()
 
         if isOwnPost() {
-            showNavBars(false)
+            showNavBars()
         }
-
-        Tracker.sharedTracker.postLoaded(post.id)
     }
 
-    public func setPagingConfig(responseConfig: ResponseConfig) {
+    func setPagingConfig(responseConfig: ResponseConfig) {
         streamViewController.responseConfig = responseConfig
     }
 
-    public func primaryJSONAbleNotFound() {
+    func primaryJSONAbleNotFound() {
         if let deeplinkPath = self.deeplinkPath,
-            deeplinkURL = NSURL(string: deeplinkPath)
+            let deeplinkURL = URL(string: deeplinkPath)
         {
-            UIApplication.sharedApplication().openURL(deeplinkURL)
+            UIApplication.shared.openURL(deeplinkURL)
             self.deeplinkPath = nil
-            self.navigationController?.popViewControllerAnimated(true)
+            _ = self.navigationController?.popViewController(animated: true)
         }
         else {
             self.showPostLoadFailure()

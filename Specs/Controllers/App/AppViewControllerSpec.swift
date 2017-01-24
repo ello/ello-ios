@@ -22,11 +22,11 @@ class AppViewControllerSpec: QuickSpec {
                 let agent = SpecsTrackingAgent()
 
                 beforeEach {
-                    Tracker.sharedTracker.overrideAgent = agent
+                    Tracker.shared.overrideAgent = agent
                 }
 
                 afterEach {
-                    Tracker.sharedTracker.overrideAgent = nil
+                    Tracker.shared.overrideAgent = nil
                 }
 
                 it("tracks deep link") {

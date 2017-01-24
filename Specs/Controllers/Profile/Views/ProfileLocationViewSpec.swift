@@ -17,7 +17,7 @@ class ProfileLocationViewSpec: QuickSpec {
                     size: CGSize(width: 375, height: ProfileLocationView.Size.height)
                 ))
                 subject.location = "Denver, CO"
-                expectValidSnapshot(subject, named: "ProfileLocationView", device: .Custom(subject.frame.size))
+                expectValidSnapshot(subject, named: "ProfileLocationView", device: .custom(subject.frame.size))
             }
         }
     }

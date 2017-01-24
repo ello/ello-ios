@@ -4,8 +4,8 @@
 
 import Foundation
 
-public extension NSString {
-    func toNSDate(formatter: NSDateFormatter = ServerDateFormatter) -> NSDate? {
-        return formatter.dateFromString(self as String)
+extension NSString {
+    func toDate(_ formatter: DateFormatter = ServerDateFormatter) -> Date? {
+        return formatter.date(from: self as String)
     }
 }

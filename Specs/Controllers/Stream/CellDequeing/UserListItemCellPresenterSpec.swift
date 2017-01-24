@@ -2,7 +2,7 @@
 ///  UserListItemCellPresenterSpec.swift
 //
 
-import Ello
+@testable import Ello
 import Quick
 import Nimble
 
@@ -18,11 +18,11 @@ class UserListItemCellPresenterSpec: QuickSpec {
                     "relationshipPriority": "friend",
                     "username": "sterling_archer"
                     ])
-                let item = StreamCellItem(jsonable: user, type: .UserListItem)
+                let item = StreamCellItem(jsonable: user, type: .userListItem)
 
-                UserListItemCellPresenter.configure(cell, streamCellItem: item, streamKind: StreamKind.UserStream(userParam: user.id), indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
+                UserListItemCellPresenter.configure(cell, streamCellItem: item, streamKind: StreamKind.userStream(userParam: user.id), indexPath: IndexPath(item: 0, section: 0), currentUser: nil)
 
-                expect(cell.relationshipControl.relationshipPriority) == RelationshipPriority.Following
+                expect(cell.relationshipControl.relationshipPriority) == RelationshipPriority.following
                 expect(cell.usernameLabel.text) == "@sterling_archer"
             }
 

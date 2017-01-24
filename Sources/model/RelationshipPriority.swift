@@ -3,33 +3,33 @@
 //
 
 
-public enum RelationshipPriority: String {
-    case Following = "friend"
-    case Starred = "noise"
-    case Block = "block"
-    case Mute = "mute"
-    case Inactive = "inactive"
-    case None = "none"
-    case Null = "null"
-    case Me = "self"
+enum RelationshipPriority: String {
+    case following = "friend"
+    case starred = "noise"
+    case block = "block"
+    case mute = "mute"
+    case inactive = "inactive"
+    case none = "none"
+    case null = "null"
+    case me = "self"
 
-    static let all = [Following, Starred, Block, Mute, Inactive, None, Null, Me]
+    static let all = [following, starred, block, mute, inactive, none, null, me]
 
-    public init(stringValue: String) {
-        self = RelationshipPriority(rawValue: stringValue) ?? .None
+    init(stringValue: String) {
+        self = RelationshipPriority(rawValue: stringValue) ?? .none
     }
 
     var buttonName: String {
         switch self {
-        case .Following: return "following"
-        case .Starred: return "starred"
+        case .following: return "following"
+        case .starred: return "starred"
         default: return self.rawValue
         }
     }
 
     var isMutedOrBlocked: Bool {
         switch self {
-        case .Mute, .Block: return true
+        case .mute, .block: return true
         default: return false
         }
     }

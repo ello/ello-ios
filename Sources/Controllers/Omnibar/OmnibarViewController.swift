@@ -7,15 +7,28 @@ import SwiftyUserDefaults
 import PINRemoteImage
 
 
-public class OmnibarViewController: BaseElloViewController {
-    var keyboardWillShowObserver: NotificationObserver?
-    var keyboardWillHideObserver: NotificationObserver?
+class OmnibarViewController: BaseElloViewController {
+    override func trackerName() -> String? { return "Omnibar" }
+    override func trackerProps() -> [String: AnyObject]? {
+        if parentPostId != nil {
+            return ["creating": "comment" as AnyObject]
+        }
+        if editPost != nil {
+            return ["editing": "post" as AnyObject]
+        }
+        if editComment != nil {
+            return ["editing": "post" as AnyObject]
+        }
+        return ["creating": "post" as AnyObject]
+    }
 
-    override public var tabBarItem: UITabBarItem? {
-        get { return UITabBarItem.item(.Omni) }
+    override var tabBarItem: UITabBarItem? {
+        get { return UITabBarItem.item(.omni) }
         set { self.tabBarItem = newValue }
     }
 
+    var keyboardWillShowObserver: NotificationObserver?
+    var keyboardWillHideObserver: NotificationObserver?
     var previousTab: ElloTab = .DefaultTab
     var parentPostId: String?
     var editPost: Post?
@@ -24,19 +37,19 @@ public class OmnibarViewController: BaseElloViewController {
     var defaultText: String?
     var canGoBack: Bool = true {
         didSet {
-            if isViewLoaded() {
+            if isViewLoaded {
                 screen.canGoBack = canGoBack
             }
         }
     }
 
-    typealias CommentSuccessListener = (comment: ElloComment) -> Void
-    typealias PostSuccessListener = (post: Post) -> Void
+    typealias CommentSuccessListener = (_ comment: ElloComment) -> Void
+    typealias PostSuccessListener = (_ post: Post) -> Void
     var commentSuccessListener: CommentSuccessListener?
     var postSuccessListener: PostSuccessListener?
 
     var _mockScreen: OmnibarScreenProtocol?
-    public var screen: OmnibarScreenProtocol {
+    var screen: OmnibarScreenProtocol {
         set(screen) { _mockScreen = screen }
         get {
             if let mock = _mockScreen { return mock }
@@ -44,48 +57,49 @@ public class OmnibarViewController: BaseElloViewController {
         }
     }
 
-    convenience public init(parentPostId postId: String) {
+    convenience init(parentPostId postId: String) {
         self.init(nibName: nil, bundle: nil)
         parentPostId = postId
     }
 
-    convenience public init(editComment comment: ElloComment) {
+    convenience init(editComment comment: ElloComment) {
         self.init(nibName: nil, bundle: nil)
         editComment = comment
         PostService().loadComment(comment.postId, commentId: comment.id, success: { (comment, _) in
             self.rawEditBody = comment.body
-            if let body = comment.body where self.isViewLoaded() {
+            if let body = comment.body, self.isViewLoaded {
                 self.prepareScreenForEditing(body, isComment: true)
             }
         })
     }
 
-    convenience public init(editPost post: Post) {
+    convenience init(editPost post: Post) {
         self.init(nibName: nil, bundle: nil)
         editPost = post
         PostService().loadPost(post.id, needsComments: false)
             .onSuccess { post in
                 self.rawEditBody = post.body
-                if let body = post.body where self.isViewLoaded() {
+                if let body = post.body, self.isViewLoaded {
                     self.prepareScreenForEditing(body, isComment: false)
                 }
             }
+            .ignoreFailures()
     }
 
-    convenience public init(parentPostId postId: String, defaultText: String?) {
+    convenience init(parentPostId postId: String, defaultText: String?) {
         self.init(parentPostId: postId)
         self.defaultText = defaultText
     }
 
-    convenience public init(defaultText: String?) {
+    convenience init(defaultText: String?) {
         self.init(nibName: nil, bundle: nil)
         self.defaultText = defaultText
     }
 
     override func didSetCurrentUser() {
         super.didSetCurrentUser()
-        if isViewLoaded() {
-            if let cachedImage = TemporaryCache.load(.Avatar) {
+        if isViewLoaded {
+            if let cachedImage = TemporaryCache.load(.avatar) {
                 screen.avatarImage = cachedImage
             }
             else {
@@ -94,16 +108,16 @@ public class OmnibarViewController: BaseElloViewController {
         }
     }
 
-    func onCommentSuccess(listener: CommentSuccessListener) {
+    func onCommentSuccess(_ listener: @escaping CommentSuccessListener) {
         commentSuccessListener = listener
     }
 
-    func onPostSuccess(listener: PostSuccessListener) {
+    func onPostSuccess(_ listener: @escaping PostSuccessListener) {
         postSuccessListener = listener
     }
 
-    override public func loadView() {
-        self.view = OmnibarScreen(frame: UIScreen.mainScreen().bounds)
+    override func loadView() {
+        self.view = OmnibarScreen(frame: UIScreen.main.bounds)
 
         screen.canGoBack = canGoBack
         screen.currentUser = currentUser
@@ -143,17 +157,16 @@ public class OmnibarViewController: BaseElloViewController {
             prepareScreenForEditing(defaultRegions, isComment: isComment)
 
             if let fileName = omnibarDataName(),
-                data: NSData = Tmp.read(fileName)
-                where (defaultText ?? "") == ""
+                let data: Data = Tmp.read(fileName), (defaultText ?? "") == ""
             {
-                if let omnibarData = NSKeyedUnarchiver.unarchiveObjectWithData(data) as? OmnibarCacheData {
+                if let omnibarData = NSKeyedUnarchiver.unarchiveObject(with: data) as? OmnibarCacheData {
                     let regions: [OmnibarRegion] = omnibarData.regions.flatMap { obj in
                         if let region = OmnibarRegion.fromRaw(obj) {
                             return region
                         }
                         return nil
                     }
-                    Tmp.remove(fileName)
+                    _ = Tmp.remove(fileName)
                     screen.regions = regions
                 }
             }
@@ -161,16 +174,16 @@ public class OmnibarViewController: BaseElloViewController {
         screen.delegate = self
     }
 
-    override public func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: .None)
-        UIApplication.sharedApplication().statusBarStyle = .LightContent
+        postNotification(StatusBarNotifications.statusBarShouldHide, value: false)
+        UIApplication.shared.statusBarStyle = .lightContent
 
         if let previousTab = elloTabBarController?.previousTab {
             self.previousTab = previousTab
         }
 
-        if let cachedImage = TemporaryCache.load(.Avatar) {
+        if let cachedImage = TemporaryCache.load(.avatar) {
             screen.avatarImage = cachedImage
         }
         else {
@@ -202,13 +215,13 @@ public class OmnibarViewController: BaseElloViewController {
         screen.updateButtons()
     }
 
-    override public func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         elloTabBarController?.setTabBarHidden(false, animated: animated)
-        Crashlytics.sharedInstance().setObjectValue("Omnibar", forKey: CrashlyticsKey.StreamName.rawValue)
+        Crashlytics.sharedInstance().setObjectValue("Omnibar", forKey: CrashlyticsKey.streamName.rawValue)
     }
 
-    override public func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         screen.stopEditing()
 
@@ -222,24 +235,24 @@ public class OmnibarViewController: BaseElloViewController {
         }
     }
 
-    func prepareScreenForEditing(content: [Regionable], isComment: Bool) {
+    func prepareScreenForEditing(_ content: [Regionable], isComment: Bool) {
         var regions: [OmnibarRegion] = []
-        var buyButtonURL: NSURL?
-        var downloads: [(Int, NSURL)] = []  // the 'index' is used to replace the ImageURL region after it is downloaded
-        for (index, region) in content.enumerate() {
+        var buyButtonURL: URL?
+        var downloads: [(Int, URL)] = []  // the 'index' is used to replace the ImageURL region after it is downloaded
+        for (index, region) in content.enumerated() {
             if let region = region as? TextRegion,
-                attrdText = ElloAttributedString.parse(region.content)
+                let attrdText = ElloAttributedString.parse(region.content)
             {
-                regions.append(.AttributedText(attrdText))
+                regions.append(.attributedText(attrdText))
             }
             else if let region = region as? ImageRegion,
-                url = region.url
+                let url = region.url
             {
                 if let imageRegionURL = region.buyButtonURL {
-                    buyButtonURL = imageRegionURL
+                    buyButtonURL = imageRegionURL as URL
                 }
-                downloads.append((index, url))
-                regions.append(.ImageURL(url))
+                downloads.append((index, url as URL))
+                regions.append(.imageURL(url))
             }
         }
         screen.regions = regions
@@ -251,15 +264,15 @@ public class OmnibarViewController: BaseElloViewController {
         }
 
         for (index, imageURL) in downloads {
-            PINRemoteImageManager.sharedImageManager().downloadImageWithURL(imageURL) { result in
-                if let animatedImage = result.animatedImage {
-                    regions[index] = .ImageData(animatedImage.posterImage, animatedImage.data, "image/gif")
+            PINRemoteImageManager.shared().downloadImage(with: imageURL, options: []) { result in
+                if let animatedImage = result?.animatedImage {
+                    regions[index] = .imageData(animatedImage.posterImage, animatedImage.data, "image/gif")
                 }
-                else if let image = result.image {
-                    regions[index] = .Image(image)
+                else if let image = result?.image {
+                    regions[index] = .image(image)
                 }
                 else {
-                    regions[index] = .Error(imageURL)
+                    regions[index] = .error(imageURL)
                 }
                 let tmp = regions
                 inForeground {
@@ -270,15 +283,15 @@ public class OmnibarViewController: BaseElloViewController {
         }
     }
 
-    func keyboardWillShow(keyboard: Keyboard) {
+    func keyboardWillShow(_ keyboard: Keyboard) {
         screen.keyboardWillShow()
     }
 
-    func keyboardWillHide(keyboard: Keyboard) {
+    func keyboardWillHide(_ keyboard: Keyboard) {
         screen.keyboardWillHide()
     }
 
-    private func goToPreviousTab() {
+    fileprivate func goToPreviousTab() {
         elloTabBarController?.selectedTab = previousTab
     }
 
@@ -286,7 +299,7 @@ public class OmnibarViewController: BaseElloViewController {
 
 extension OmnibarViewController {
 
-    public class func canEditRegions(regions: [Regionable]?) -> Bool {
+    class func canEditRegions(_ regions: [Regionable]?) -> Bool {
         return OmnibarScreen.canEditRegions(regions)
     }
 }
@@ -294,7 +307,7 @@ extension OmnibarViewController {
 
 extension OmnibarViewController: OmnibarScreenDelegate {
 
-    public func omnibarCancel() {
+    func omnibarCancel() {
         if canGoBack {
             if let fileName = omnibarDataName() {
                 var dataRegions = [NSObject]()
@@ -305,46 +318,46 @@ extension OmnibarViewController: OmnibarScreenDelegate {
                 }
                 let omnibarData = OmnibarCacheData()
                 omnibarData.regions = dataRegions
-                let data = NSKeyedArchiver.archivedDataWithRootObject(omnibarData)
-                Tmp.write(data, to: fileName)
+                let data = NSKeyedArchiver.archivedData(withRootObject: omnibarData)
+                _ = Tmp.write(data, to: fileName)
             }
 
             if parentPostId != nil {
-                Tracker.sharedTracker.contentCreationCanceled(.Comment)
+                Tracker.shared.contentCreationCanceled(.comment)
             }
             else if editPost != nil {
-                Tracker.sharedTracker.contentEditingCanceled(.Post)
+                Tracker.shared.contentEditingCanceled(.post)
             }
             else if editComment != nil {
-                Tracker.sharedTracker.contentEditingCanceled(.Comment)
+                Tracker.shared.contentEditingCanceled(.comment)
             }
             else {
-                Tracker.sharedTracker.contentCreationCanceled(.Post)
+                Tracker.shared.contentCreationCanceled(.post)
             }
-            navigationController?.popViewControllerAnimated(true)
+            _ = navigationController?.popViewController(animated: true)
         }
         else {
-            Tracker.sharedTracker.contentCreationCanceled(.Post)
+            Tracker.shared.contentCreationCanceled(.post)
             goToPreviousTab()
         }
     }
 
-    public func omnibarPresentController(controller: UIViewController) {
+    func omnibarPresentController(_ controller: UIViewController) {
         if !(controller is AlertViewController) {
-            UIApplication.sharedApplication().statusBarStyle = .LightContent
+            UIApplication.shared.statusBarStyle = .lightContent
         }
-        self.presentViewController(controller, animated: true, completion: nil)
+        self.present(controller, animated: true, completion: nil)
     }
 
-    public func omnibarPushController(controller: UIViewController) {
+    func omnibarPushController(_ controller: UIViewController) {
         self.navigationController?.pushViewController(controller, animated: true)
     }
 
-    public func omnibarDismissController() {
-        self.dismissViewControllerAnimated(true, completion: nil)
+    func omnibarDismissController() {
+        self.dismiss(animated: true, completion: nil)
     }
 
-    public func omnibarSubmitted(regions: [OmnibarRegion], buyButtonURL: NSURL?) {
+    func omnibarSubmitted(_ regions: [OmnibarRegion], buyButtonURL: URL?) {
         let content = generatePostContent(regions)
         guard content.count > 0 else {
             return
@@ -363,25 +376,25 @@ extension OmnibarViewController: OmnibarScreenDelegate {
 // MARK: Posting the content to API
 extension OmnibarViewController {
 
-    public func generatePostContent(regions: [OmnibarRegion]) -> [PostEditingService.PostContentRegion] {
+    func generatePostContent(_ regions: [OmnibarRegion]) -> [PostEditingService.PostContentRegion] {
         var content: [PostEditingService.PostContentRegion] = []
         for region in regions {
             switch region {
-            case let .AttributedText(attributedText):
+            case let .attributedText(attributedText):
                 let textString = attributedText.string
                 if textString.characters.count > 5000 {
                     contentCreationFailed(InterfaceString.Omnibar.TooLongError)
                     return []
                 }
 
-                let cleanedText = textString.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+                let cleanedText = textString.trimmingCharacters(in: CharacterSet.whitespaces)
                 if cleanedText.characters.count > 0 {
-                    content.append(.Text(ElloAttributedString.render(attributedText)))
+                    content.append(.text(ElloAttributedString.render(attributedText)))
                 }
-            case let .Image(image):
-                content.append(.Image(image))
-            case let .ImageData(image, data, contentType):
-                content.append(.ImageData(image, data, contentType))
+            case let .image(image):
+                content.append(.image(image))
+            case let .imageData(image, data, contentType):
+                content.append(.imageData(image, data, contentType))
             default:
                 break // there are "non submittable" types from OmnibarRegion, like Spacer and ImageURL
             }
@@ -389,7 +402,7 @@ extension OmnibarViewController {
         return content
     }
 
-    private func startPosting(authorId: String, _ content: [PostEditingService.PostContentRegion], buyButtonURL: NSURL?) {
+    fileprivate func startPosting(_ authorId: String, _ content: [PostEditingService.PostContentRegion], buyButtonURL: URL?) {
         let service: PostEditingService
         let didGoToPreviousTab: Bool
 
@@ -418,7 +431,7 @@ extension OmnibarViewController {
             buyButtonURL: buyButtonURL,
             success: { postOrComment in
                 if self.editPost != nil || self.editComment != nil {
-                    NSURLCache.sharedURLCache().removeAllCachedResponses()
+                    URLCache.shared.removeAllCachedResponses()
                 }
 
                 self.emitSuccess(postOrComment, didGoToPreviousTab: didGoToPreviousTab)
@@ -428,14 +441,13 @@ extension OmnibarViewController {
                 self.screen.interactionEnabled = true
                 self.contentCreationFailed(error.elloErrorMessage ?? error.localizedDescription)
 
-                if let vc = self.parentViewController as? ElloTabBarController
-                where didGoToPreviousTab {
-                    vc.selectedTab = .Omnibar
+                if let vc = self.parent as? ElloTabBarController, didGoToPreviousTab {
+                    vc.selectedTab = .omnibar
                 }
             })
     }
 
-    private func emitSuccess(postOrComment: AnyObject, didGoToPreviousTab: Bool) {
+    fileprivate func emitSuccess(_ postOrComment: AnyObject, didGoToPreviousTab: Bool) {
         if let comment = postOrComment as? ElloComment {
             self.emitCommentSuccess(comment)
         }
@@ -444,22 +456,22 @@ extension OmnibarViewController {
         }
     }
 
-    private func emitCommentSuccess(comment: ElloComment) {
+    fileprivate func emitCommentSuccess(_ comment: ElloComment) {
         if editComment != nil {
-            Tracker.sharedTracker.commentEdited(comment)
-            postNotification(CommentChangedNotification, value: (comment, .Replaced))
+            Tracker.shared.commentEdited(comment)
+            postNotification(CommentChangedNotification, value: (comment, .replaced))
             stopSpinner()
         }
         else {
             ContentChange.updateCommentCount(comment, delta: 1)
-            Tracker.sharedTracker.commentCreated(comment)
-            postNotification(CommentChangedNotification, value: (comment, .Create))
+            Tracker.shared.commentCreated(comment)
+            postNotification(CommentChangedNotification, value: (comment, .create))
 
             if let post = comment.parentPost {
                 PostService().loadPost(post.id, needsComments: false)
                     .onSuccess { post in
-                        ElloLinkedStore.sharedInstance.setObject(post, forKey: post.id, type: .PostsType)
-                        postNotification(PostChangedNotification, value: (post, .Watching))
+                        ElloLinkedStore.sharedInstance.setObject(post, forKey: post.id, type: .postsType)
+                        postNotification(PostChangedNotification, value: (post, .watching))
                         self.stopSpinner()
                     }
                     .onFail { _ in
@@ -472,35 +484,35 @@ extension OmnibarViewController {
         }
 
         if let listener = commentSuccessListener {
-            listener(comment: comment)
+            listener(comment)
         }
     }
 
-    private func emitPostSuccess(post: Post, didGoToPreviousTab: Bool) {
+    fileprivate func emitPostSuccess(_ post: Post, didGoToPreviousTab: Bool) {
         stopSpinner()
 
         if editPost != nil {
-            Tracker.sharedTracker.postEdited(post)
-            postNotification(PostChangedNotification, value: (post, .Replaced))
+            Tracker.shared.postEdited(post)
+            postNotification(PostChangedNotification, value: (post, .replaced))
         }
         else {
-            if let user = currentUser, postsCount = user.postsCount {
+            if let user = currentUser, let postsCount = user.postsCount {
                 user.postsCount = postsCount + 1
                 postNotification(CurrentUserChangedNotification, value: user)
             }
 
-            Tracker.sharedTracker.postCreated(post)
-            postNotification(PostChangedNotification, value: (post, .Create))
+            Tracker.shared.postCreated(post)
+            postNotification(PostChangedNotification, value: (post, .create))
         }
 
         if let listener = postSuccessListener {
-            listener(post: post)
+            listener(post)
         }
 
         self.screen.resetAfterSuccessfulPost()
 
         if didGoToPreviousTab {
-            NotificationBanner.displayAlert(InterfaceString.Omnibar.CreatedPost)
+            NotificationBanner.displayAlert(message: InterfaceString.Omnibar.CreatedPost)
         }
     }
 
@@ -514,22 +526,22 @@ extension OmnibarViewController {
         self.screen.interactionEnabled = true
     }
 
-    func contentCreationFailed(errorMessage: String) {
+    func contentCreationFailed(_ errorMessage: String) {
         let contentType: ContentType
         if parentPostId == nil && editComment == nil {
-            contentType = .Post
+            contentType = .post
         }
         else {
-            contentType = .Comment
+            contentType = .comment
         }
-        Tracker.sharedTracker.contentCreationFailed(contentType, message: errorMessage)
+        Tracker.shared.contentCreationFailed(contentType, message: errorMessage)
         screen.reportError("Could not create \(contentType.rawValue)", errorMessage: errorMessage)
     }
 
 }
 
 extension OmnibarViewController {
-    public func omnibarDataName() -> String? {
+    func omnibarDataName() -> String? {
         if let postId = parentPostId {
             return "omnibar_v2_comment_\(postId)"
         }

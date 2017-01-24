@@ -5,8 +5,7 @@
 import Quick
 import Nimble
 import SwiftyUserDefaults
-@testable
-import Ello
+@testable import Ello
 
 
 class OnboardingSpec: QuickSpec {
@@ -26,9 +25,9 @@ class OnboardingSpec: QuickSpec {
                 else { title1 = "localVersion less than currentVersion" }
                 let title2: String
                 switch webIsCurrent {
-                case .None:        title2 = "webVersion is nil"
-                case .Some(true):  title2 = "webVersion is currentVersion"
-                case .Some(false): title2 = "webVersion less than currentVersion"
+                case .none:        title2 = "webVersion is nil"
+                case .some(true):  title2 = "webVersion is currentVersion"
+                case .some(false): title2 = "webVersion less than currentVersion"
                 }
                 describe("\(title1) and \(title2)") {
                     it("showOnboarding should be \(showOnboarding)") {
@@ -41,8 +40,8 @@ class OnboardingSpec: QuickSpec {
                         let onboarding = Onboarding()
 
                         var props: [String: AnyObject] = [:]
-                        if case let .Some(webIsCurrent) = webIsCurrent {
-                            props["onboardingVersion"] = (webIsCurrent ? 1 : 0)
+                        if case let .some(webIsCurrent) = webIsCurrent {
+                            props["onboardingVersion"] = (webIsCurrent ? 1 : 0) as AnyObject
                         }
                         let user: User = stub(props)
 

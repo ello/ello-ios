@@ -6,22 +6,22 @@ import SwiftyUserDefaults
 
 let CurrentStreamKey = "Ello.StreamContainerViewController.CurrentStream"
 
-public class StreamContainerViewController: StreamableViewController {
-    private var loggedPromptEventForThisSession = false
-    private var reloadStreamContentObserver: NotificationObserver?
-    private var friendsViewController: StreamViewController?
-    private var appBackgroundObserver: NotificationObserver?
-    private var appForegroundObserver: NotificationObserver?
-
-    public let streamValues: [StreamKind] = [.Following, .Starred]
-    private lazy var streamLoaded: [Bool] = self.defaultSreamLoadedValues() // needs to hold same number of 'false's as streamValues
-
-    // moved into a separate function to save compile time
-    private func defaultSreamLoadedValues() -> [Bool] {
-        return [false, false]
+class StreamContainerViewController: StreamableViewController {
+    override func trackerName() -> String? { return "Stream" }
+    override func trackerProps() -> [String: AnyObject]? {
+        let stream = streamValues[currentStreamIndex]
+        return ["kind": stream.name as AnyObject]
     }
 
-    public var currentStreamIndex: Int {
+    fileprivate var loggedPromptEventForThisSession = false
+    fileprivate var reloadStreamContentObserver: NotificationObserver?
+    fileprivate var appBackgroundObserver: NotificationObserver?
+    fileprivate var appForegroundObserver: NotificationObserver?
+
+    let streamValues: [StreamKind] = [.following, .starred]
+    fileprivate var streamLoaded: [Bool] = [false, false] // needs to hold same number of 'false's as streamValues
+
+    var currentStreamIndex: Int {
         get {
             return GroupDefaults[CurrentStreamKey].int ?? 0
         }
@@ -31,22 +31,22 @@ public class StreamContainerViewController: StreamableViewController {
     }
 
     enum Notifications: String {
-        case StreamDetailTapped = "StreamDetailTappedNotification"
+        case streamDetailTapped = "StreamDetailTappedNotification"
     }
 
-    override public var tabBarItem: UITabBarItem? {
-        get { return UITabBarItem.item(.CircBig) }
+    override var tabBarItem: UITabBarItem? {
+        get { return UITabBarItem.item(.circBig) }
         set { self.tabBarItem = newValue }
     }
 
-    @IBOutlet weak public var scrollView: UIScrollView!
-    weak public var navigationBar: ElloNavigationBar!
-    @IBOutlet weak public var navigationBarTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var scrollView: UIScrollView!
+    weak var navigationBar: ElloNavigationBar!
+    @IBOutlet weak var navigationBarTopConstraint: NSLayoutConstraint!
 
-    public var streamsSegmentedControl: UISegmentedControl!
-    public var streamControllerViews: [UIView] = []
+    var streamsSegmentedControl: UISegmentedControl!
+    var streamControllerViews: [UIView] = []
 
-    private var childStreamControllers: [StreamViewController] {
+    fileprivate var childStreamControllers: [StreamViewController] {
         return self.childViewControllers.filter { $0 is StreamViewController } as! [StreamViewController]
     }
 
@@ -55,13 +55,13 @@ public class StreamContainerViewController: StreamableViewController {
         removeNotificationObservers()
     }
 
-    override public func backGestureAction() {
+    override func backGestureAction() {
         hamburgerButtonTapped()
     }
 
     override func setupStreamController() { /* intentially left blank */ }
 
-    override public func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
         addNotificationObservers()
         setupStreamsSegmentedControl()
@@ -69,20 +69,16 @@ public class StreamContainerViewController: StreamableViewController {
         updateInsets()
 
         let index = currentStreamIndex
-        let stream = streamValues[index]
         let initialController = childStreamControllers[index]
         setupNavigationBar(controller: initialController)
 
-        scrollLogic.prevOffset = initialController.collectionView.contentOffset
         initialController.collectionView.scrollsToTop = true
         streamsSegmentedControl.selectedSegmentIndex = index
         initialController.loadInitialPage()
         streamLoaded[index] = true
-
-        Tracker.sharedTracker.streamAppeared(stream.name)
     }
 
-    override public func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
         // Rotating the phone after opening a web page results in the
@@ -91,7 +87,7 @@ public class StreamContainerViewController: StreamableViewController {
         streamsSegmentedControl.frame.size.height = 19
     }
 
-    override public func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
         addTemporaryNotificationObservers()
@@ -101,48 +97,55 @@ public class StreamContainerViewController: StreamableViewController {
         }
     }
 
-    override public func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         removeNotificationObservers()
     }
 
-    private func updateInsets() {
+    func reload(streamKind: StreamKind) {
+        switch streamKind {
+        case .following:
+            showSegmentIndex(0, forceReload: true)
+            streamsSegmentedControl.selectedSegmentIndex = 0
+        case .starred:
+            showSegmentIndex(1, forceReload: true)
+            streamsSegmentedControl.selectedSegmentIndex = 1
+        default:
+            break
+        }
+    }
+
+    fileprivate func updateInsets() {
         for controller in childStreamControllers {
             updateInsets(navBar: navigationBar, streamController: controller)
         }
     }
 
-    override public func showNavBars(scrollToBottom: Bool) {
-        super.showNavBars(scrollToBottom)
+    override func showNavBars() {
+        super.showNavBars()
         positionNavBar(navigationBar, visible: true, withConstraint: navigationBarTopConstraint)
         updateInsets()
-
-        if scrollToBottom {
-            for controller in childStreamControllers {
-                self.scrollToBottom(controller)
-            }
-        }
     }
 
-    override public func hideNavBars() {
+    override func hideNavBars() {
         super.hideNavBars()
         positionNavBar(navigationBar, visible: false, withConstraint: navigationBarTopConstraint)
         updateInsets()
     }
 
-    public class func instantiateFromStoryboard() -> StreamContainerViewController {
-        let navController = UIStoryboard.storyboardWithId(.StreamContainer) as! UINavigationController
+    class func instantiateFromStoryboard() -> StreamContainerViewController {
+        let navController = UIStoryboard.storyboardWithId(.streamContainer) as! UINavigationController
         let streamsController = navController.topViewController
         return streamsController as! StreamContainerViewController
     }
 
-    override public func viewDidLayoutSubviews() {
+    override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
         let width: CGFloat = view.bounds.size.width
         let height: CGFloat = view.bounds.size.height
 
-        for (index, view) in streamControllerViews.enumerate() {
+        for (index, view) in streamControllerViews.enumerated() {
             view.frame = CGRect(x: width * CGFloat(index), y: 0, width: width, height: height)
         }
 
@@ -154,9 +157,9 @@ public class StreamContainerViewController: StreamableViewController {
         scrollView.scrollRectToVisible(rect, animated: false)
     }
 
-    private func setupNavigationBar(controller controller: StreamViewController) {
+    fileprivate func setupNavigationBar(controller: StreamViewController) {
         elloNavigationItem.titleView = streamsSegmentedControl
-        elloNavigationItem.leftBarButtonItem = UIBarButtonItem(image: InterfaceImage.Burger.normalImage, style: .Done, target: self, action: #selector(StreamContainerViewController.hamburgerButtonTapped))
+        elloNavigationItem.leftBarButtonItem = UIBarButtonItem(image: InterfaceImage.burger.normalImage, style: .done, target: self, action: #selector(StreamContainerViewController.hamburgerButtonTapped))
         let searchItem = UIBarButtonItem.searchItem(controller: self)
         let gridListItem = UIBarButtonItem.gridListItem(delegate: controller, isGridView: controller.streamKind.isGridView)
         elloNavigationItem.rightBarButtonItems = [
@@ -166,13 +169,13 @@ public class StreamContainerViewController: StreamableViewController {
         navigationBar.items = [elloNavigationItem]
     }
 
-    private func setupChildViewControllers() {
-        scrollView.scrollEnabled = false
+    fileprivate func setupChildViewControllers() {
+        scrollView.isScrollEnabled = false
         scrollView.scrollsToTop = false
         let width: CGFloat = scrollView.frame.size.width
         let height: CGFloat = scrollView.frame.size.height
 
-        for (index, kind) in streamValues.enumerate() {
+        for (index, kind) in streamValues.enumerated() {
             let vc = StreamViewController.instantiateFromStoryboard()
             vc.currentUser = currentUser
             vc.streamKind = kind
@@ -182,7 +185,7 @@ public class StreamContainerViewController: StreamableViewController {
             vc.streamViewDelegate = self
             vc.collectionView.scrollsToTop = false
 
-            vc.willMoveToParentViewController(self)
+            vc.willMove(toParentViewController: self)
 
             let x = CGFloat(index) * width
             let frame = CGRect(x: x, y: 0, width: width, height: height)
@@ -191,27 +194,23 @@ public class StreamContainerViewController: StreamableViewController {
             streamControllerViews.append(vc.view)
 
             self.addChildViewController(vc)
-            vc.didMoveToParentViewController(self)
+            vc.didMove(toParentViewController: self)
             ElloHUD.showLoadingHudInView(vc.view)
-
-            if case .Following = kind {
-                friendsViewController = vc
-            }
         }
     }
 
-    private func setupStreamsSegmentedControl() {
+    fileprivate func setupStreamsSegmentedControl() {
         let control = ElloSegmentedControl(items: streamValues.map{ $0.name })
-        control.style = .Compact
-        control.addTarget(self, action: #selector(StreamContainerViewController.streamSegmentTapped(_:)), forControlEvents: .ValueChanged)
+        control.style = .compact
+        control.addTarget(self, action: #selector(StreamContainerViewController.streamSegmentTapped(_:)), for: .valueChanged)
         control.frame.size.height = 19.0
         control.layer.borderWidth = 1.0
         control.selectedSegmentIndex = 0
-        control.tintColor = .blackColor()
+        control.tintColor = .black
         streamsSegmentedControl = control
     }
 
-    private func showSegmentIndex(index: Int) {
+    fileprivate func showSegmentIndex(_ index: Int, forceReload: Bool) {
         for controller in childStreamControllers {
             controller.collectionView.scrollsToTop = false
         }
@@ -226,12 +225,14 @@ public class StreamContainerViewController: StreamableViewController {
         scrollView.scrollRectToVisible(rect, animated: true)
 
         currentStreamIndex = index
-        let stream = streamValues[currentStreamIndex]
-        Tracker.sharedTracker.streamAppeared(stream.name)
+        Tracker.shared.screenAppeared(self)
 
         setupNavigationBar(controller: currentController)
 
-        if !streamLoaded[index] {
+        if forceReload || !streamLoaded[index] {
+            if forceReload && streamLoaded[index] {
+                ElloHUD.showLoadingHudInView(currentController.view)
+            }
             streamLoaded[index] = true
             currentController.loadInitialPage()
         }
@@ -245,25 +246,25 @@ public class StreamContainerViewController: StreamableViewController {
         drawer.currentUser = currentUser
 
         drawer.transitioningDelegate = drawerAnimator
-        drawer.modalPresentationStyle = .Custom
+        drawer.modalPresentationStyle = .custom
 
-        self.presentViewController(drawer, animated: true, completion: nil)
+        self.present(drawer, animated: true, completion: nil)
     }
 
-    @IBAction func streamSegmentTapped(sender: UISegmentedControl) {
-        showSegmentIndex(sender.selectedSegmentIndex)
+    @IBAction func streamSegmentTapped(_ sender: UISegmentedControl) {
+        showSegmentIndex(sender.selectedSegmentIndex, forceReload: false)
     }
 }
 
-public extension StreamContainerViewController {
+extension StreamContainerViewController {
 
     func showFriends() {
-        showSegmentIndex(0)
+        showSegmentIndex(0, forceReload: false)
         streamsSegmentedControl.selectedSegmentIndex = 0
     }
 
     func showNoise() {
-        showSegmentIndex(1)
+        showSegmentIndex(1, forceReload: false)
         streamsSegmentedControl.selectedSegmentIndex = 1
     }
 }
@@ -273,10 +274,7 @@ private extension StreamContainerViewController {
     func addTemporaryNotificationObservers() {
         reloadStreamContentObserver = NotificationObserver(notification: NewContentNotifications.reloadStreamContent) {
             [unowned self] _ in
-            if let vc = self.friendsViewController {
-                ElloHUD.showLoadingHudInView(vc.view)
-                vc.loadInitialPage()
-            }
+            self.reload(streamKind: .following)
         }
     }
 

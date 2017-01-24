@@ -4,6 +4,6 @@
 
 
 @objc
-public protocol Groupable {
+protocol Groupable {
     var groupId: String { get }
 }

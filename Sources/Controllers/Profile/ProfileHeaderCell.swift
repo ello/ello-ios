@@ -3,24 +3,24 @@
 //
 
 @objc
-public protocol EditProfileResponder {
+protocol EditProfileResponder {
     func onEditProfile()
 }
 
 @objc
-public protocol PostsTappedResponder {
+protocol PostsTappedResponder {
     func onPostsTapped()
 }
 
 @objc
-public protocol ProfileHeaderResponder {
-    func onCategoryBadgeTapped(cell: UICollectionViewCell)
-    func onLovesTapped(cell: UICollectionViewCell)
-    func onFollowersTapped(cell: UICollectionViewCell)
-    func onFollowingTapped(cell: UICollectionViewCell)
+protocol ProfileHeaderResponder {
+    func onCategoryBadgeTapped(_ cell: UICollectionViewCell)
+    func onLovesTapped(_ cell: UICollectionViewCell)
+    func onFollowersTapped(_ cell: UICollectionViewCell)
+    func onFollowingTapped(_ cell: UICollectionViewCell)
 }
 
-public class ProfileHeaderCell: UICollectionViewCell {
+class ProfileHeaderCell: UICollectionViewCell {
 
     static let reuseIdentifier = "ProfileHeaderCell"
 
@@ -56,7 +56,7 @@ public class ProfileHeaderCell: UICollectionViewCell {
     var onHeightMismatch: OnCalculatedCellHeightsMismatch?
 
     // this little hack prevents constraints from breaking on initial load
-    override public var bounds: CGRect {
+    override var bounds: CGRect {
         didSet {
           contentView.frame = bounds
         }
@@ -69,16 +69,16 @@ public class ProfileHeaderCell: UICollectionViewCell {
         arrange()
     }
 
-    required public init?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    private func style() {
-        backgroundColor = .clearColor()
-        contentView.backgroundColor = .clearColor()
+    fileprivate func style() {
+        backgroundColor = .clear
+        contentView.backgroundColor = .clear
     }
 
-    private func bindActions() {
+    fileprivate func bindActions() {
         avatarView.onHeightMismatch = { avatarHeight in
             guard var calculatedCellHeights = self.calculatedCellHeights else { return }
             calculatedCellHeights.profileAvatar = avatarHeight
@@ -110,15 +110,15 @@ public class ProfileHeaderCell: UICollectionViewCell {
         }
     }
 
-    private func arrange() {
+    fileprivate func arrange() {
         contentView.addSubview(headerView)
 
-        headerView.snp_makeConstraints { make in
+        headerView.snp.makeConstraints { make in
             make.edges.equalTo(self.contentView)
         }
     }
 
-    public override func prepareForReuse() {
+    override func prepareForReuse() {
         onHeightMismatch = nil
 
         avatarView.prepareForReuse()
@@ -130,7 +130,7 @@ public class ProfileHeaderCell: UICollectionViewCell {
         linksView.prepareForReuse()
     }
 
-    private func recalculateHeight(_ _calculatedCellHeights: CalculatedCellHeights) {
+    fileprivate func recalculateHeight(_ _calculatedCellHeights: CalculatedCellHeights) {
         var calculatedCellHeights = _calculatedCellHeights
         calculatedCellHeights.oneColumn = ProfileHeaderCellSizeCalculator.calculateHeightFromCellHeights(calculatedCellHeights)
         self.calculatedCellHeights = calculatedCellHeights

@@ -5,13 +5,13 @@
 import Photos
 
 
-public struct AssetsToRegions {
+struct AssetsToRegions {
 
-    public static func processPHAssets(assets: [PHAsset], completion: ([ImageRegionData]) -> Void) {
+    static func processPHAssets(_ assets: [PHAsset], completion: @escaping ([ImageRegionData]) -> Void) {
         nextPHAsset(assets, stack: [], completion: completion)
     }
 
-    private static func nextPHAsset(assets: [PHAsset], stack: [ImageRegionData], completion: ([ImageRegionData]) -> Void) {
+    fileprivate static func nextPHAsset(_ assets: [PHAsset], stack: [ImageRegionData], completion: @escaping ([ImageRegionData]) -> Void) {
         guard let asset = assets.first else {
             completion(stack)
             return
@@ -23,9 +23,9 @@ public struct AssetsToRegions {
         }
 
         var image: UIImage?
-        var imageData: NSData?
+        var imageData: Data?
         let imageAndData = after(2) {
-            guard let image = image, imageData = imageData else {
+            guard let image = image, let imageData = imageData else {
                 done()
                 return
             }
@@ -44,20 +44,20 @@ public struct AssetsToRegions {
             }
         }
         let options = PHImageRequestOptions()
-        options.deliveryMode = .HighQualityFormat
+        options.deliveryMode = .highQualityFormat
 
-        PHImageManager.defaultManager().requestImageForAsset(
-            asset,
+        PHImageManager.default().requestImage(
+            for: asset,
             targetSize: PHImageManagerMaximumSize,
-            contentMode: .Default,
+            contentMode: .aspectFit,
             options: options
         ) { phImage, info in
             image = phImage
             imageAndData()
         }
 
-        PHImageManager.defaultManager().requestImageDataForAsset(
-            asset,
+        PHImageManager.default().requestImageData(
+            for: asset,
             options: nil
         ) { phData, dataUTI, orientation, info in
             imageData = phData

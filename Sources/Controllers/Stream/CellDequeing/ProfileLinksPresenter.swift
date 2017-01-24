@@ -5,10 +5,10 @@
 import Foundation
 
 
-public struct ProfileLinksPresenter {
+struct ProfileLinksPresenter {
 
-    public static func configure(
-        view: ProfileLinksView,
+    static func configure(
+        _ view: ProfileLinksView,
         user: User,
         currentUser: User?)
     {

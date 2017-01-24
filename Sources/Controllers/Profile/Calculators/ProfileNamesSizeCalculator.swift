@@ -5,12 +5,12 @@
 import FutureKit
 
 
-public struct ProfileNamesSizeCalculator {
+struct ProfileNamesSizeCalculator {
     let promise = Promise<CGFloat>()
 
-    public func calculate(item: StreamCellItem, maxWidth: CGFloat) -> Future<CGFloat> {
-        guard let
-            user = item.jsonable as? User
+    func calculate(_ item: StreamCellItem, maxWidth: CGFloat) -> Future<CGFloat> {
+        guard
+            let user = item.jsonable as? User
         else {
             promise.completeWithSuccess(0)
             return promise.future
@@ -24,12 +24,12 @@ public struct ProfileNamesSizeCalculator {
             nameSize = .zero
         }
         else {
-            nameSize = user.name.sizeWithAttributes([
+            nameSize = user.name.size(attributes: [
                 NSFontAttributeName: nameFont
             ]).integral
         }
 
-        let usernameSize = user.atName.sizeWithAttributes([
+        let usernameSize = user.atName.size(attributes: [
             NSFontAttributeName: usernameFont
         ]).integral
 

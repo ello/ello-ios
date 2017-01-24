@@ -2,44 +2,44 @@
 ///  ClearTextView.swift
 //
 
-public class ClearTextView: UITextView {
+class ClearTextView: UITextView {
     struct Size {
         static let minTextViewHeight: CGFloat = 38
         static let placeholderOffset: CGFloat = 3
     }
-    public var lineColor: UIColor? = .grey6() {
+    var lineColor: UIColor? = .grey6() {
         didSet {
-            if !isFirstResponder() {
+            if !isFirstResponder {
                 line.backgroundColor = lineColor
             }
         }
     }
-    public var selectedLineColor: UIColor? = .whiteColor() {
+    var selectedLineColor: UIColor? = .white {
         didSet {
-            if isFirstResponder() {
+            if isFirstResponder {
                 line.backgroundColor = selectedLineColor
             }
         }
     }
-    public var placeholder: String? {
+    var placeholder: String? {
         get { return placeholderLabel.text }
         set { placeholderLabel.text = newValue }
     }
-    override public var text: String? {
+    override var text: String? {
         didSet {
             textDidChange()
         }
     }
-    override public var textColor: UIColor? {
+    override var textColor: UIColor? {
         didSet { updateTextStyle() }
     }
-    override public var font: UIFont? {
+    override var font: UIFont? {
         didSet { updateTextStyle() }
     }
-    private var line = UIView()
-    private let placeholderLabel = StyledLabel(style: .LargePlaceholder)
-    private let rightView = UIImageView()
-    var validationState = ValidationState.None {
+    fileprivate var line = UIView()
+    fileprivate let placeholderLabel = StyledLabel(style: .LargePlaceholder)
+    fileprivate let rightView = UIImageView()
+    var validationState = ValidationState.none {
         didSet {
             rightView.image = validationState.imageRepresentation
             rightView.sizeToFit()
@@ -47,25 +47,25 @@ public class ClearTextView: UITextView {
         }
     }
 
-    required override public init(frame: CGRect, textContainer: NSTextContainer?) {
+    required override init(frame: CGRect, textContainer: NSTextContainer?) {
         super.init(frame: frame, textContainer: textContainer)
         sharedSetup()
     }
 
-    required public init?(coder: NSCoder) {
+    required init?(coder: NSCoder) {
         super.init(coder: coder)
         sharedSetup()
     }
 
     func sharedSetup() {
-        backgroundColor = .clearColor()
+        backgroundColor = .clear
         font = .defaultFont(18)
-        textColor = .whiteColor()
+        textColor = .white
         textContainerInset = UIEdgeInsets(top: 2.5, left: -5, bottom: 0, right: 30)
         updateTextStyle()
 
         addSubview(placeholderLabel)
-        placeholderLabel.snp_makeConstraints { make in
+        placeholderLabel.snp.makeConstraints { make in
             make.top.equalTo(self).offset(Size.placeholderOffset)
             make.leading.trailing.equalTo(self)
         }
@@ -76,12 +76,12 @@ public class ClearTextView: UITextView {
         addSubview(rightView)
     }
 
-    public func textDidChange() {
-        placeholderLabel.hidden = text?.isEmpty == false
+    func textDidChange() {
+        placeholderLabel.isHidden = text?.isEmpty == false
         invalidateIntrinsicContentSize()
     }
 
-    private func updateTextStyle() {
+    fileprivate func updateTextStyle() {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 12
         var attributes: [String: AnyObject] = [
@@ -96,30 +96,30 @@ public class ClearTextView: UITextView {
         typingAttributes = attributes
     }
 
-    override public func layoutSubviews() {
+    override func layoutSubviews() {
         super.layoutSubviews()
         rightView.frame.origin = CGPoint(x: frame.size.width - rightView.frame.size.width - 10, y: 0)
         line.frame = CGRect(x: 0, y: frame.height - 1, width: frame.width, height: 1)
     }
 
-    override public func intrinsicContentSize() -> CGSize {
+    override var intrinsicContentSize: CGSize {
         let fixedWidth = max(self.frame.size.width, 20)
-        let newSize = self.sizeThatFits(CGSize(width: fixedWidth, height: CGFloat.max))
+        let newSize = self.sizeThatFits(CGSize(width: fixedWidth, height: CGFloat.greatestFiniteMagnitude))
         return CGSize(width: fixedWidth, height: max(newSize.height + 2.5, Size.minTextViewHeight))
     }
 
-    override public func becomeFirstResponder() -> Bool {
+    override func becomeFirstResponder() -> Bool {
         line.backgroundColor = selectedLineColor
         return super.becomeFirstResponder()
     }
 
-    override public func resignFirstResponder() -> Bool {
+    override func resignFirstResponder() -> Bool {
         line.backgroundColor = lineColor
         return super.resignFirstResponder()
     }
 
-    override public func caretRectForPosition(position: UITextPosition) -> CGRect {
-        var rect = super.caretRectForPosition(position)
+    override func caretRect(for position: UITextPosition) -> CGRect {
+        var rect = super.caretRect(for: position)
         if let font = font {
             rect.size.height = font.pointSize - font.descender
         }

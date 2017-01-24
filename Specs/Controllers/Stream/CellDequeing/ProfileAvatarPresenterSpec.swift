@@ -15,7 +15,7 @@ class ProfileAvatarPresenterSpec: QuickSpec {
                     let user = User.stub([:])
                     let view = ProfileAvatarView()
                     let avatarImage = specImage(named: "specs-avatar")!
-                    TemporaryCache.save(.Avatar, image: avatarImage)
+                    TemporaryCache.save(.avatar, image: avatarImage)
                     ProfileAvatarPresenter.configure(view, user: user, currentUser: user)
 
                     expect(view.avatarImage) == avatarImage

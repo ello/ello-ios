@@ -6,14 +6,14 @@ import FLAnimatedImage
 import TimeAgoInWords
 
 
-public protocol NotificationDelegate: class {
-    func userTapped(user: User)
-    func commentTapped(comment: ElloComment)
-    func postTapped(post: Post)
+protocol NotificationDelegate: class {
+    func userTapped(_ user: User)
+    func commentTapped(_ comment: ElloComment)
+    func postTapped(_ post: Post)
 }
 
 
-public class NotificationCell: UICollectionViewCell, UIWebViewDelegate {
+class NotificationCell: UICollectionViewCell, UIWebViewDelegate {
     static let reuseIdentifier = "NotificationCell"
 
     struct Size {
@@ -40,7 +40,7 @@ public class NotificationCell: UICollectionViewCell, UIWebViewDelegate {
             return cellWidth - messageLeftMargin - messageRightMargin
         }
 
-        static func imageHeight(imageRegion imageRegion: ImageRegion?) -> CGFloat {
+        static func imageHeight(imageRegion: ImageRegion?) -> CGFloat {
             if let imageRegion = imageRegion {
                 let aspectRatio = StreamImageCellSizeCalculator.aspectRatioForImageRegion(imageRegion)
                 return ceil(ImageWidth / aspectRatio)
@@ -51,7 +51,7 @@ public class NotificationCell: UICollectionViewCell, UIWebViewDelegate {
         }
     }
 
-    typealias WebContentReady = (webView: UIWebView) -> Void
+    typealias WebContentReady = (_ webView: UIWebView) -> Void
 
     weak var webLinkDelegate: WebLinkDelegate?
     weak var userDelegate: UserDelegate?
@@ -72,25 +72,25 @@ public class NotificationCell: UICollectionViewCell, UIWebViewDelegate {
 
     var canReplyToComment: Bool {
         set {
-            replyButton.hidden = !newValue
+            replyButton.isHidden = !newValue
             setNeedsLayout()
         }
-        get { return !replyButton.hidden }
+        get { return !replyButton.isHidden }
     }
     var canBackFollow: Bool {
         set {
-            relationshipControl.hidden = !newValue
+            relationshipControl.isHidden = !newValue
             setNeedsLayout()
         }
-        get { return !relationshipControl.hidden }
+        get { return !relationshipControl.isHidden }
     }
     var buyButtonVisible: Bool {
-        get { return !buyButtonImage.hidden }
-        set { buyButtonImage.hidden = !newValue }
+        get { return !buyButtonImage.isHidden }
+        set { buyButtonImage.isHidden = !newValue }
     }
 
-    private var messageVisible = false
-    private var _messageHtml = ""
+    fileprivate var messageVisible = false
+    fileprivate var _messageHtml = ""
     var messageHeight: CGFloat = 0
     var messageHtml: String? {
         get { return _messageHtml }
@@ -98,29 +98,29 @@ public class NotificationCell: UICollectionViewCell, UIWebViewDelegate {
             if let value = newValue {
                 messageVisible = true
                 if value != _messageHtml {
-                    messageWebView.hidden = true
+                    messageWebView.isHidden = true
                 }
                 else {
-                    messageWebView.hidden = false
+                    messageWebView.isHidden = false
                 }
-                messageWebView.loadHTMLString(StreamTextCellHTML.postHTML(value), baseURL: NSURL(string: "/"))
+                messageWebView.loadHTMLString(StreamTextCellHTML.postHTML(value), baseURL: URL(string: "/"))
                 _messageHtml = value
             }
             else {
-                messageWebView.hidden = true
+                messageWebView.isHidden = true
                 messageVisible = false
             }
         }
     }
 
-    var imageURL: NSURL? {
+    var imageURL: URL? {
         didSet {
-            self.notificationImageView.pin_setImageFromURL(imageURL) { result in
-                let success = result.image != nil || result.animatedImage != nil
-                let isAnimated = result.animatedImage != nil
+            self.notificationImageView.pin_setImage(from: imageURL) { result in
+                let success = result?.image != nil || result?.animatedImage != nil
+                let isAnimated = result?.animatedImage != nil
                 if success {
-                    let imageSize = isAnimated ? result.animatedImage.size : result.image.size
-                    self.aspectRatio = imageSize.width / imageSize.height
+                    let imageSize = isAnimated ? result?.animatedImage.size : result?.image.size
+                    self.aspectRatio = (imageSize?.width)! / (imageSize?.height)!
                     let currentRatio = self.notificationImageView.frame.width / self.notificationImageView.frame.height
                     if currentRatio != self.aspectRatio {
                         self.setNeedsLayout()
@@ -137,7 +137,7 @@ public class NotificationCell: UICollectionViewCell, UIWebViewDelegate {
         }
     }
 
-    var createdAt: NSDate? {
+    var createdAt: Date? {
         didSet {
             if let date = createdAt {
                 createdAtLabel.text = date.timeAgoInWords()
@@ -159,31 +159,31 @@ public class NotificationCell: UICollectionViewCell, UIWebViewDelegate {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        avatarButton.addTarget(self, action: #selector(avatarTapped), forControlEvents: .TouchUpInside)
+        avatarButton.addTarget(self, action: #selector(avatarTapped), for: .touchUpInside)
         titleTextView.textViewDelegate = self
 
-        buyButtonImage.hidden = true
-        buyButtonImage.image = InterfaceImage.BuyButton.normalImage
+        buyButtonImage.isHidden = true
+        buyButtonImage.image = InterfaceImage.buyButton.normalImage
         buyButtonImage.frame.size = CGSize(width: Size.BuyButtonSize, height: Size.BuyButtonSize)
         buyButtonImage.backgroundColor = .greenD1()
         buyButtonImage.layer.cornerRadius = Size.BuyButtonSize / 2
 
-        replyButton.hidden = true
-        replyButton.setTitle(InterfaceString.Notifications.Reply, forState: .Normal)
-        replyButton.setImage(InterfaceImage.Reply.selectedImage, forState: .Normal)
+        replyButton.isHidden = true
+        replyButton.setTitle(InterfaceString.Notifications.Reply, for: .normal)
+        replyButton.setImage(InterfaceImage.reply.selectedImage, for: .normal)
         replyButton.contentEdgeInsets.left = 10
         replyButton.contentEdgeInsets.right = 10
         replyButton.imageEdgeInsets.right = 5
 
-        replyButton.addTarget(self, action: #selector(replyTapped), forControlEvents: .TouchUpInside)
+        replyButton.addTarget(self, action: #selector(replyTapped), for: .touchUpInside)
 
-        relationshipControl.hidden = true
+        relationshipControl.isHidden = true
         relationshipControl.showStarButton = false
 
-        notificationImageView.contentMode = .ScaleAspectFit
-        messageWebView.opaque = false
-        messageWebView.backgroundColor = .clearColor()
-        messageWebView.scrollView.scrollEnabled = false
+        notificationImageView.contentMode = .scaleAspectFit
+        messageWebView.isOpaque = false
+        messageWebView.backgroundColor = .clear
+        messageWebView.scrollView.isScrollEnabled = false
         messageWebView.delegate = self
 
         createdAtLabel.textColor = UIColor.greyA()
@@ -199,15 +199,15 @@ public class NotificationCell: UICollectionViewCell, UIWebViewDelegate {
         }
     }
 
-    required public init?(coder: NSCoder) {
+    required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
 
-    func onWebContentReady(handler: WebContentReady?) {
+    func onWebContentReady(_ handler: WebContentReady?) {
         webContentReady = handler
     }
 
-    private func setUser(user: User?) {
+    fileprivate func setUser(_ user: User?) {
         avatarButton.setUserAvatarURL(user?.avatarURL())
 
         if let user = user {
@@ -218,26 +218,26 @@ public class NotificationCell: UICollectionViewCell, UIWebViewDelegate {
         else {
             relationshipControl.userId = ""
             relationshipControl.userAtName = ""
-            relationshipControl.relationshipPriority = RelationshipPriority.None
+            relationshipControl.relationshipPriority = .none
         }
     }
 
-    override public func layoutSubviews() {
+    override func layoutSubviews() {
         super.layoutSubviews()
 
         let outerFrame = contentView.bounds.inset(all: Size.SideMargins)
         let titleWidth = Size.messageHtmlWidth(forCellWidth: self.frame.width, hasImage: imageURL != nil)
-        separator.frame = contentView.bounds.fromBottom().growUp(1)
+        separator.frame = contentView.bounds.fromBottom().grow(up: 1)
 
-        avatarButton.frame = outerFrame.withSize(CGSize(width: Size.AvatarSize, height: Size.AvatarSize))
+        avatarButton.frame = outerFrame.with(size: CGSize(width: Size.AvatarSize, height: Size.AvatarSize))
 
         if imageURL == nil {
             notificationImageView.frame = .zero
         }
         else {
             notificationImageView.frame = outerFrame.fromRight()
-                .growLeft(Size.ImageWidth)
-                .withHeight(Size.ImageWidth / aspectRatio)
+                .grow(left: Size.ImageWidth)
+                .with(height: Size.ImageWidth / aspectRatio)
             buyButtonImage.frame.origin = CGPoint(
                 x: notificationImageView.frame.maxX - Size.BuyButtonSize - Size.BuyButtonMargin,
                 y: notificationImageView.frame.minY + Size.BuyButtonMargin
@@ -245,10 +245,10 @@ public class NotificationCell: UICollectionViewCell, UIWebViewDelegate {
         }
 
         titleTextView.frame = avatarButton.frame.fromRight()
-            .shiftRight(Size.InnerMargin)
-            .withWidth(titleWidth)
+            .shift(right: Size.InnerMargin)
+            .with(width: titleWidth)
 
-        let tvSize = titleTextView.sizeThatFits(CGSize(width: titleWidth, height: .max))
+        let tvSize = titleTextView.sizeThatFits(CGSize(width: titleWidth, height: .greatestFiniteMagnitude))
         titleTextView.frame.size.height = ceil(tvSize.height)
 
         var createdAtY = titleTextView.frame.maxY + Size.InnerMargin
@@ -256,9 +256,9 @@ public class NotificationCell: UICollectionViewCell, UIWebViewDelegate {
         if messageVisible {
             createdAtY += messageHeight + Size.MessageMargin
             messageWebView.frame = titleTextView.frame.fromBottom()
-                .withWidth(titleWidth)
-                .shiftDown(Size.InnerMargin)
-                .withHeight(messageHeight)
+                .with(width: titleWidth)
+                .shift(down: Size.InnerMargin)
+                .with(height: messageHeight)
         }
 
         createdAtLabel.frame = CGRect(
@@ -268,21 +268,21 @@ public class NotificationCell: UICollectionViewCell, UIWebViewDelegate {
             height: Size.CreatedAtHeight
             )
 
-        let replyButtonWidth = replyButton.intrinsicContentSize().width
+        let replyButtonWidth = replyButton.intrinsicContentSize.width
         replyButton.frame = CGRect(
             x: createdAtLabel.frame.x,
             y: createdAtY + Size.CreatedAtHeight + Size.InnerMargin,
             width: replyButtonWidth,
             height: Size.ButtonHeight
             )
-        let relationshipControlWidth = relationshipControl.intrinsicContentSize().width
-        relationshipControl.frame = replyButton.frame.withWidth(relationshipControlWidth)
+        let relationshipControlWidth = relationshipControl.intrinsicContentSize.width
+        relationshipControl.frame = replyButton.frame.with(width: relationshipControlWidth)
 
         let bottomControl: UIView
-        if !replyButton.hidden {
+        if !replyButton.isHidden {
             bottomControl = replyButton
         }
-        else if !relationshipControl.hidden {
+        else if !relationshipControl.isHidden {
             bottomControl = relationshipControl
         }
         else {
@@ -293,43 +293,42 @@ public class NotificationCell: UICollectionViewCell, UIWebViewDelegate {
         // don't update the height if
         // - imageURL is set, but hasn't finished loading, OR
         // - messageHTML is set, but hasn't finished loading
-        if actualHeight != frame.size.height && (imageURL == nil || notificationImageView.image != nil) && (!messageVisible || !messageWebView.hidden) {
+        if actualHeight != frame.size.height && (imageURL == nil || notificationImageView.image != nil) && (!messageVisible || !messageWebView.isHidden) {
             self.onHeightMismatch?(actualHeight)
         }
     }
 
-    override public func prepareForReuse() {
+    override func prepareForReuse() {
         super.prepareForReuse()
         messageWebView.stopLoading()
-        messageWebView.hidden = true
+        messageWebView.isHidden = true
         avatarButton.pin_cancelImageDownload()
-        avatarButton.setImage(nil, forState: .Normal)
+        avatarButton.setImage(nil, for: .normal)
         notificationImageView.pin_cancelImageDownload()
         notificationImageView.image = nil
         aspectRatio = 4/3
         canReplyToComment = false
         canBackFollow = false
         imageURL = nil
-        buyButtonImage.hidden = true
+        buyButtonImage.isHidden = true
     }
 
-    public func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
-        if let scheme = request.URL?.scheme
-            where scheme == "default"
+    func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebViewNavigationType) -> Bool {
+        if let scheme = request.url?.scheme, scheme == "default"
         {
-            userDelegate?.userTappedText(self)
+            userDelegate?.userTappedText(cell: self)
             return false
         }
         else {
-            return ElloWebViewHelper.handleRequest(request, webLinkDelegate: webLinkDelegate)
+            return ElloWebViewHelper.handle(request: request, webLinkDelegate: webLinkDelegate)
         }
     }
 
-    public func webViewDidFinishLoad(webView: UIWebView) {
+    func webViewDidFinishLoad(_ webView: UIWebView) {
         if messageVisible {
-            messageWebView.hidden = !messageVisible
+            messageWebView.isHidden = !messageVisible
         }
-        webContentReady?(webView: webView)
+        webContentReady?(webView)
         if let height = webView.windowContentSize()?.height {
             messageHeight = height
         }
@@ -341,26 +340,26 @@ public class NotificationCell: UICollectionViewCell, UIWebViewDelegate {
 }
 
 extension NotificationCell: ElloTextViewDelegate {
-    func textViewTapped(link: String, object: ElloAttributedObject) {
+    func textViewTapped(_ link: String, object: ElloAttributedObject) {
         switch object {
-        case let .AttributedPost(post):
+        case let .attributedPost(post):
             delegate?.postTapped(post)
-        case let .AttributedComment(comment):
+        case let .attributedComment(comment):
             delegate?.commentTapped(comment)
-        case let .AttributedUser(user):
+        case let .attributedUser(user):
             delegate?.userTapped(user)
         default: break
         }
     }
 
     func textViewTappedDefault() {
-        userDelegate?.userTappedText(self)
+        userDelegate?.userTappedText(cell: self)
     }
 }
 
 extension NotificationCell {
 
-    public func replyTapped() {
+    func replyTapped() {
         if let post = post {
             delegate?.postTapped(post)
         }
@@ -369,8 +368,8 @@ extension NotificationCell {
         }
     }
 
-    public func avatarTapped() {
-        userDelegate?.userTappedAuthor(self)
+    func avatarTapped() {
+        userDelegate?.userTappedAuthor(cell: self)
     }
 
 }

@@ -2,52 +2,52 @@
 ///  OnboardingScreen.swift
 //
 
-public class OnboardingScreen: EmptyScreen {
-    public struct Size {
+class OnboardingScreen: EmptyScreen {
+    struct Size {
         static let buttonHeight: CGFloat = 50
         static let buttonInset: CGFloat = 10
         static let abortButtonWidth: CGFloat = 70
     }
-    public var controllerContainer = UIView()
-    private var buttonContainer = UIView()
-    private var promptButton = StyledButton(style: .RoundedGray)
-    private var nextButton = StyledButton(style: .Green)
-    private var abortButton = StyledButton(style: .GrayText)
+    var controllerContainer = UIView()
+    fileprivate var buttonContainer = UIView()
+    fileprivate var promptButton = StyledButton(style: .RoundedGray)
+    fileprivate var nextButton = StyledButton(style: .Green)
+    fileprivate var abortButton = StyledButton(style: .GrayText)
 
-    public weak var delegate: OnboardingDelegate?
+    weak var delegate: OnboardingDelegate?
 
-    public var hasAbortButton: Bool = false {
+    var hasAbortButton: Bool = false {
         didSet {
             updateButtonVisibility()
         }
     }
-    public var canGoNext: Bool = false {
+    var canGoNext: Bool = false {
         didSet {
             updateButtonVisibility()
         }
     }
-    public var prompt: String? {
+    var prompt: String? {
         get { return promptButton.currentTitle }
-        set { promptButton.setTitle(newValue ?? InterfaceString.Onboard.CreateProfile, forState: .Normal) }
+        set { promptButton.setTitle(newValue ?? InterfaceString.Onboard.CreateProfile, for: .normal) }
     }
 
     override func style() {
         buttonContainer.backgroundColor = .greyE5()
-        abortButton.hidden = true
-        nextButton.hidden = true
+        abortButton.isHidden = true
+        nextButton.isHidden = true
     }
 
     override func bindActions() {
-        promptButton.enabled = false
-        promptButton.addTarget(self, action: #selector(nextAction), forControlEvents: .TouchUpInside)
-        nextButton.addTarget(self, action: #selector(nextAction), forControlEvents: .TouchUpInside)
-        abortButton.addTarget(self, action: #selector(abortAction), forControlEvents: .TouchUpInside)
+        promptButton.isEnabled = false
+        promptButton.addTarget(self, action: #selector(nextAction), for: .touchUpInside)
+        nextButton.addTarget(self, action: #selector(nextAction), for: .touchUpInside)
+        abortButton.addTarget(self, action: #selector(abortAction), for: .touchUpInside)
     }
 
     override func setText() {
-        promptButton.setTitle(InterfaceString.Onboard.CreateProfile, forState: .Normal)
-        nextButton.setTitle(InterfaceString.Onboard.CreateProfile, forState: .Normal)
-        abortButton.setTitle(InterfaceString.Onboard.ImDone, forState: .Normal)
+        promptButton.setTitle(InterfaceString.Onboard.CreateProfile, for: .normal)
+        nextButton.setTitle(InterfaceString.Onboard.CreateProfile, for: .normal)
+        abortButton.setTitle(InterfaceString.Onboard.ImDone, for: .normal)
     }
 
     override func arrange() {
@@ -59,61 +59,61 @@ public class OnboardingScreen: EmptyScreen {
         buttonContainer.addSubview(nextButton)
         buttonContainer.addSubview(abortButton)
 
-        buttonContainer.snp_makeConstraints { make in
+        buttonContainer.snp.makeConstraints { make in
             make.leading.trailing.bottom.equalTo(self)
-            make.top.equalTo(keyboardAnchor.snp_top).offset(-(2 * Size.buttonInset + Size.buttonHeight))
+            make.top.equalTo(keyboardAnchor.snp.top).offset(-(2 * Size.buttonInset + Size.buttonHeight))
         }
 
-        promptButton.snp_makeConstraints { make in
+        promptButton.snp.makeConstraints { make in
             make.top.leading.trailing.equalTo(buttonContainer).inset(Size.buttonInset)
             make.height.equalTo(Size.buttonHeight)
         }
 
-        nextButton.snp_makeConstraints { make in
+        nextButton.snp.makeConstraints { make in
             make.top.bottom.leading.equalTo(promptButton)
         }
 
-        abortButton.snp_makeConstraints { make in
+        abortButton.snp.makeConstraints { make in
             make.top.bottom.trailing.equalTo(promptButton)
-            make.leading.equalTo(nextButton.snp_trailing).offset(Size.buttonInset)
+            make.leading.equalTo(nextButton.snp.trailing).offset(Size.buttonInset)
             make.width.equalTo(Size.abortButtonWidth)
         }
 
-        controllerContainer.snp_makeConstraints { make in
+        controllerContainer.snp.makeConstraints { make in
             make.leading.trailing.equalTo(self)
-            make.top.equalTo(blackBar.snp_bottom)
-            make.bottom.equalTo(buttonContainer.snp_top)
+            make.top.equalTo(blackBar.snp.bottom)
+            make.bottom.equalTo(buttonContainer.snp.top)
         }
     }
 
-    private func updateButtonVisibility() {
+    fileprivate func updateButtonVisibility() {
         if hasAbortButton && canGoNext {
-            promptButton.hidden = true
-            nextButton.hidden = false
-            abortButton.hidden = false
+            promptButton.isHidden = true
+            nextButton.isHidden = false
+            abortButton.isHidden = false
         }
         else {
-            promptButton.enabled = canGoNext
+            promptButton.isEnabled = canGoNext
             promptButton.style = canGoNext ? .Green : .RoundedGray
-            promptButton.hidden = false
-            nextButton.hidden = true
-            abortButton.hidden = true
+            promptButton.isHidden = false
+            nextButton.isHidden = true
+            abortButton.isHidden = true
         }
     }
 
-    public func styleFor(step step: OnboardingStep) {
+    func styleFor(step: OnboardingStep) {
         let nextString: String
         switch step {
-        case .Categories: nextString = InterfaceString.Onboard.CreateProfile
-        case .CreateProfile: nextString = InterfaceString.Onboard.InvitePeople
-        case .InviteFriends: nextString = InterfaceString.Join.Discover
+        case .categories: nextString = InterfaceString.Onboard.CreateProfile
+        case .createProfile: nextString = InterfaceString.Onboard.InvitePeople
+        case .inviteFriends: nextString = InterfaceString.Join.Discover
         }
 
-        promptButton.hidden = false
-        nextButton.hidden = true
-        abortButton.hidden = true
-        promptButton.setTitle(nextString, forState: .Normal)
-        nextButton.setTitle(nextString, forState: .Normal)
+        promptButton.isHidden = false
+        nextButton.isHidden = true
+        abortButton.isHidden = true
+        promptButton.setTitle(nextString, for: .normal)
+        nextButton.setTitle(nextString, for: .normal)
     }
 }
 

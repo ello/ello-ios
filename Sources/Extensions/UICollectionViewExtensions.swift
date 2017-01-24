@@ -5,16 +5,16 @@
 import Foundation
 
 extension UICollectionView {
-    public func lastIndexPathForSection(section: Int) -> NSIndexPath? {
-        if self.numberOfItemsInSection(section) > 0 {
-            return NSIndexPath(forItem: self.numberOfItemsInSection(section) - 1, inSection: section)
+    func lastIndexPathForSection(_ section: Int) -> IndexPath? {
+        if self.numberOfItems(inSection: section) > 0 {
+            return IndexPath(item: self.numberOfItems(inSection: section) - 1, section: section)
         }
         return nil
     }
 }
 
 extension UICollectionViewCell {
-    public var indexPath: NSIndexPath? {
+    var indexPath: IndexPath? {
         var superview: UIView? = self.superview
         while superview != nil {
             if superview is UICollectionView { break }
@@ -23,10 +23,9 @@ extension UICollectionViewCell {
 
         guard let collectionView = superview as? UICollectionView else { return nil }
 
-        for path in collectionView.indexPathsForVisibleItems() {
-            guard let
-                cell = collectionView.cellForItemAtIndexPath(path)
-            where cell == self
+        for path in collectionView.indexPathsForVisibleItems {
+            guard
+                let cell = collectionView.cellForItem(at: path), cell == self
             else { continue }
 
             return path

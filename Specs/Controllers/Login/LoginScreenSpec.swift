@@ -24,7 +24,7 @@ class LoginScreenSpec: QuickSpec {
                     subject.onePasswordAvailable = true
                 }
                 it("should have a valid snapshot") {
-                    expectValidSnapshot(subject, device: .Phone6_Portrait)
+                    expectValidSnapshot(subject, device: .phone6_Portrait)
                 }
             }
 
@@ -33,7 +33,7 @@ class LoginScreenSpec: QuickSpec {
                     subject.showError("error")
                 }
                 it("should have a valid snapshot") {
-                    expectValidSnapshot(subject, device: .Phone6_Portrait)
+                    expectValidSnapshot(subject, device: .phone6_Portrait)
                 }
             }
 
@@ -48,7 +48,7 @@ class LoginScreenSpec: QuickSpec {
                     Keyboard.shared.bottomInset = 0
                 }
                 it("should have a valid snapshot") {
-                    expectValidSnapshot(subject, device: .Phone6_Portrait)
+                    expectValidSnapshot(subject, device: .phone6_Portrait)
                 }
             }
 
@@ -56,8 +56,8 @@ class LoginScreenSpec: QuickSpec {
                 context("usernameField") {
 
                     it("is properly configured") {
-                        expect(subject.usernameField.keyboardType) == UIKeyboardType.EmailAddress
-                        expect(subject.usernameField.returnKeyType) == UIReturnKeyType.Next
+                        expect(subject.usernameField.keyboardType) == UIKeyboardType.emailAddress
+                        expect(subject.usernameField.returnKeyType) == UIReturnKeyType.next
                     }
 
                     it("has screen as delegate") {
@@ -69,9 +69,9 @@ class LoginScreenSpec: QuickSpec {
                 context("passwordField") {
 
                     it("is properly configured") {
-                        expect(subject.passwordField.keyboardType) == UIKeyboardType.Default
-                        expect(subject.passwordField.returnKeyType) == UIReturnKeyType.Go
-                        expect(subject.passwordField.secureTextEntry) == true
+                        expect(subject.passwordField.keyboardType) == UIKeyboardType.default
+                        expect(subject.passwordField.returnKeyType) == UIReturnKeyType.go
+                        expect(subject.passwordField.isSecureTextEntry) == true
                     }
 
                     it("has controller as delegate") {

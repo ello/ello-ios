@@ -21,7 +21,7 @@ private struct ElloColors {
     static let modalBackground: UIColor = UIColor(white: 0x000000, alpha: 0.7)
 }
 
-public extension UIColor {
+extension UIColor {
     // These colors are taken from the web styleguide. Any other variations should be
     // double checked with B&F or normalized to one of these..
 

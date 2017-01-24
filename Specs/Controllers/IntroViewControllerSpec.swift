@@ -2,12 +2,12 @@
 ///  IntroViewControllerSpec.swift
 //
 
-import Ello
+@testable import Ello
 import Quick
 import Nimble
 
 class IntroViewControllerSpec: QuickSpec {
-    
+
     override func spec() {
         describe("IntroViewController") {
             var subject: IntroViewController!

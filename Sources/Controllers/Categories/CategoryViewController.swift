@@ -2,10 +2,14 @@
 ///  CategoryViewController.swift
 //
 
-public final class CategoryViewController: StreamableViewController {
+final class CategoryViewController: StreamableViewController {
+    override func trackerName() -> String? { return "Discover" }
+    override func trackerProps() -> [String: AnyObject]? {
+        return ["category": slug as AnyObject]
+    }
 
     var mockScreen: CategoryScreenProtocol?
-    public var screen: CategoryScreenProtocol {
+    var screen: CategoryScreenProtocol {
         return mockScreen ?? self.view as! CategoryScreenProtocol
     }
 
@@ -18,17 +22,17 @@ public final class CategoryViewController: StreamableViewController {
     var generator: CategoryGenerator?
     var userDidScroll: Bool = false
 
-    public init(slug: String, name: String? = nil) {
+    init(slug: String, name: String? = nil) {
         self.slug = slug
         super.init(nibName: nil, bundle: nil)
         self.title = name
     }
 
-    required public init?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override public func loadView() {
+    override func loadView() {
         self.title = category?.name ?? DiscoverType.fromURL(slug)?.name
 
         let screen = CategoryScreen()
@@ -39,15 +43,15 @@ public final class CategoryViewController: StreamableViewController {
         screen.delegate = self
     }
 
-    override public func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationItems()
         let streamKind: StreamKind
         if let type = DiscoverType.fromURL(slug) {
-            streamKind = .Discover(type: type)
+            streamKind = .discover(type: type)
         }
         else {
-            streamKind = .Category(slug: slug)
+            streamKind = .category(slug: slug)
         }
         streamViewController.streamKind = streamKind
         gridListItem?.setImage(isGridView: streamKind.isGridView)
@@ -59,7 +63,6 @@ public final class CategoryViewController: StreamableViewController {
             destination: self
         )
 
-        scrollLogic.prevOffset = streamViewController.collectionView.contentOffset
         ElloHUD.showLoadingHudInView(streamViewController.view)
         streamViewController.initialLoadClosure = { [unowned self] in self.loadCategory() }
         streamViewController.reloadClosure = { [unowned self] in self.reloadCurrentCategory() }
@@ -68,7 +71,7 @@ public final class CategoryViewController: StreamableViewController {
         streamViewController.loadInitialPage()
     }
 
-    private func updateInsets() {
+    fileprivate func updateInsets() {
         updateInsets(navBar: screen.topInsetView, streamController: streamViewController)
 
         if !userDidScroll && screen.categoryCardsVisible {
@@ -80,15 +83,11 @@ public final class CategoryViewController: StreamableViewController {
         }
     }
 
-    override func showNavBars(scrollToBottom: Bool) {
-        super.showNavBars(scrollToBottom)
+    override func showNavBars() {
+        super.showNavBars()
         positionNavBar(screen.navigationBar, visible: true, withConstraint: screen.navigationBarTopConstraint)
         screen.animateCategoriesList(navBarVisible: true)
         updateInsets()
-
-        if scrollToBottom {
-            self.scrollToBottom(streamViewController)
-        }
     }
 
     override func hideNavBars() {
@@ -98,12 +97,12 @@ public final class CategoryViewController: StreamableViewController {
         updateInsets()
     }
 
-    func toggleGrid(isGridView: Bool) {
+    func toggleGrid(_ isGridView: Bool) {
         generator?.toggleGrid()
     }
 
-    override public func streamViewWillBeginDragging(scrollView: UIScrollView) {
-        super.streamViewWillBeginDragging(scrollView)
+    override func streamViewWillBeginDragging(scrollView: UIScrollView) {
+        super.streamViewWillBeginDragging(scrollView: scrollView)
         userDidScroll = true
     }
 }
@@ -142,15 +141,15 @@ private extension CategoryViewController {
 // MARK: CategoryViewController: StreamDestination
 extension CategoryViewController: CategoryStreamDestination, StreamDestination {
 
-    public var pagingEnabled: Bool {
+    var pagingEnabled: Bool {
         get { return streamViewController.pagingEnabled }
         set { streamViewController.pagingEnabled = newValue }
     }
 
-    public func replacePlaceholder(type: StreamCellType.PlaceholderType, items: [StreamCellItem], completion: ElloEmptyCompletion) {
+    func replacePlaceholder(type: StreamCellType.PlaceholderType, items: [StreamCellItem], completion: @escaping ElloEmptyCompletion) {
         streamViewController.replacePlaceholder(type, with: items) {
-            if self.streamViewController.hasCellItems(for: .CategoryHeader) && !self.streamViewController.hasCellItems(for: .CategoryPosts) {
-                self.streamViewController.replacePlaceholder(.CategoryPosts, with: [StreamCellItem(type: .StreamLoading)]) {}
+            if self.streamViewController.hasCellItems(for: .categoryHeader) && !self.streamViewController.hasCellItems(for: .categoryPosts) {
+                self.streamViewController.replacePlaceholder(.categoryPosts, with: [StreamCellItem(type: .streamLoading)]) {}
             }
 
             completion()
@@ -158,12 +157,12 @@ extension CategoryViewController: CategoryStreamDestination, StreamDestination {
         updateInsets()
     }
 
-    public func setPlaceholders(items: [StreamCellItem]) {
+    func setPlaceholders(items: [StreamCellItem]) {
         streamViewController.clearForInitialLoad()
         streamViewController.appendStreamCellItems(items)
     }
 
-    public func setPrimaryJSONAble(jsonable: JSONAble) {
+    func setPrimary(jsonable: JSONAble) {
         if let category = jsonable as? Category {
             self.category = category
 
@@ -183,7 +182,7 @@ extension CategoryViewController: CategoryStreamDestination, StreamDestination {
         streamViewController.doneLoading()
     }
 
-    public func setCategories(categories: [Category]) {
+    func set(categories: [Category]) {
         allCategories = categories
 
         let shouldAnimate = !screen.categoryCardsVisible
@@ -192,59 +191,58 @@ extension CategoryViewController: CategoryStreamDestination, StreamDestination {
         }
 
         let pullToRefreshView = streamViewController.pullToRefreshView
-        pullToRefreshView?.hidden = true
-        screen.setCategoriesInfo(info, animated: shouldAnimate) {
-            pullToRefreshView?.hidden = false
+        pullToRefreshView?.isHidden = true
+        screen.set(categoriesInfo: info, animated: shouldAnimate) {
+            pullToRefreshView?.isHidden = false
         }
 
-        let selectedCategoryIndex = allCategories.indexOf { $0.slug == slug }
-        if let selectedCategoryIndex = selectedCategoryIndex where shouldAnimate {
-            screen.scrollToCategoryIndex(selectedCategoryIndex)
-            screen.selectCategoryIndex(selectedCategoryIndex)
+        let selectedCategoryIndex = allCategories.index { $0.slug == slug }
+        if let selectedCategoryIndex = selectedCategoryIndex, shouldAnimate {
+            screen.scrollToCategory(index: selectedCategoryIndex)
+            screen.selectCategory(index: selectedCategoryIndex)
         }
         updateInsets()
     }
 
-    public func primaryJSONAbleNotFound() {
+    func primaryJSONAbleNotFound() {
         self.streamViewController.doneLoading()
     }
 
-    public func setPagingConfig(responseConfig: ResponseConfig) {
+    func setPagingConfig(responseConfig: ResponseConfig) {
         streamViewController.responseConfig = responseConfig
     }
 }
 
 extension CategoryViewController: CategoryScreenDelegate {
 
-    public func selectCategoryForSlug(slug: String) {
-        guard let category = categoryForSlug(slug) else { return }
-        selectCatgory(category)
+    func selectCategoryFor(slug: String) {
+        guard let category = categoryFor(slug: slug) else { return }
+        select(category: category)
     }
 
-    private func categoryForSlug(slug: String) -> Category? {
+    fileprivate func categoryFor(slug: String) -> Category? {
         return allCategories.find { $0.slug == slug }
     }
 
-    public func categorySelected(index: Int) {
+    func categorySelected(index: Int) {
         guard
-            let category = allCategories.safeValue(index)
-        where category.id != self.category?.id
+            let category = allCategories.safeValue(index), category.id != self.category?.id
         else { return }
-        screen.selectCategoryIndex(index)
-        selectCatgory(category)
+        screen.selectCategory(index: index)
+        select(category: category)
     }
 
-    public func selectCatgory(category: Category) {
-		Tracker.sharedTracker.categoryOpened(category.slug)
+    func select(category: Category) {
+		Tracker.shared.categoryOpened(category.slug)
 
         var kind: StreamKind?
         switch category.level {
-        case .Meta:
+        case .meta:
             if let type = DiscoverType.fromURL(category.slug) {
-                kind = .Discover(type: type)
+                kind = .discover(type: type)
             }
         default:
-            kind = .Category(slug: category.slug)
+            kind = .category(slug: category.slug)
         }
 
         guard let streamKind = kind else { return }
@@ -258,5 +256,6 @@ extension CategoryViewController: CategoryScreenDelegate {
         self.slug = category.slug
         self.title = category.name
         loadCategory()
+        Tracker.shared.screenAppeared(self)
     }
 }

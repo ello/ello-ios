@@ -13,11 +13,11 @@ class ReauthenticationSpec: QuickSpec {
 
             it("should reauth with refresh token after 401") {
                 ElloProvider.sharedProvider = ElloProvider.RecordedStubbingProvider([
-                    RecordedResponse(endpoint: .FriendStream, response: .NetworkResponse(401, NSData())),
+                    RecordedResponse(endpoint: .friendStream, response: .networkResponse(401, Data())),
                 ])
                 var succeeded = false
                 var failed = false
-                ElloProvider.shared.elloRequest(.FriendStream, success: { _ in
+                ElloProvider.shared.elloRequest(.friendStream, success: { _ in
                     succeeded = true
                 }, failure: { _ in
                     failed = true
@@ -30,12 +30,12 @@ class ReauthenticationSpec: QuickSpec {
 
             it("should reauth with user/pass after 401") {
                 ElloProvider.sharedProvider = ElloProvider.RecordedStubbingProvider([
-                    RecordedResponse(endpoint: .FriendStream, response: .NetworkResponse(401, NSData())),
-                    RecordedResponse(endpoint: .ReAuth(token: ""), response: .NetworkResponse(401, NSData())),
+                    RecordedResponse(endpoint: .friendStream, response: .networkResponse(401, Data())),
+                    RecordedResponse(endpoint: .reAuth(token: ""), response: .networkResponse(401, Data())),
                 ])
                 var succeeded = false
                 var failed = false
-                ElloProvider.shared.elloRequest(.FriendStream, success: { _ in
+                ElloProvider.shared.elloRequest(.friendStream, success: { _ in
                     succeeded = true
                 }, failure: { _ in
                     failed = true
@@ -47,15 +47,15 @@ class ReauthenticationSpec: QuickSpec {
             }
 
             it("should reauth with token after NetworkFailure") {
-                let networkError = NSError.networkError("Failed to send request", code: ElloErrorCode.NetworkFailure)
+                let networkError = NSError.networkError("Failed to send request" as AnyObject?, code: ElloErrorCode.networkFailure)
                 ElloProvider.sharedProvider = ElloProvider.RecordedStubbingProvider([
-                    RecordedResponse(endpoint: .FriendStream, response: .NetworkResponse(401, NSData())),
-                    RecordedResponse(endpoint: .ReAuth(token: ""), response: .NetworkError(networkError)),
-                    RecordedResponse(endpoint: .ReAuth(token: ""), response: .NetworkError(networkError)),
+                    RecordedResponse(endpoint: .friendStream, response: .networkResponse(401, Data())),
+                    RecordedResponse(endpoint: .reAuth(token: ""), response: .networkError(networkError)),
+                    RecordedResponse(endpoint: .reAuth(token: ""), response: .networkError(networkError)),
                 ])
                 var succeeded = false
                 var failed = false
-                ElloProvider.shared.elloRequest(.FriendStream, success: { _ in
+                ElloProvider.shared.elloRequest(.friendStream, success: { _ in
                     succeeded = true
                 }, failure: { _ in
                     failed = true
@@ -68,13 +68,13 @@ class ReauthenticationSpec: QuickSpec {
 
             it("should logout after failed reauth 401") {
                 ElloProvider.sharedProvider = ElloProvider.RecordedStubbingProvider([
-                    RecordedResponse(endpoint: .FriendStream, response: .NetworkResponse(401, NSData())),
-                    RecordedResponse(endpoint: .ReAuth(token: ""), response: .NetworkResponse(401, NSData())),
-                    RecordedResponse(endpoint: .Auth(email: "", password: ""), response: .NetworkResponse(404, NSData())),
+                    RecordedResponse(endpoint: .friendStream, response: .networkResponse(401, Data())),
+                    RecordedResponse(endpoint: .reAuth(token: ""), response: .networkResponse(401, Data())),
+                    RecordedResponse(endpoint: .auth(email: "", password: ""), response: .networkResponse(404, Data())),
                 ])
                 var succeeded = false
                 var failed = false
-                ElloProvider.shared.elloRequest(.FriendStream, success: { _ in
+                ElloProvider.shared.elloRequest(.friendStream, success: { _ in
                     succeeded = true
                 }, failure: { _ in
                     failed = true

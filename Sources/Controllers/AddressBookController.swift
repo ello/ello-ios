@@ -2,22 +2,22 @@
 ///  AddressBookController.swift
 //
 
-import AddressBook
+import Contacts
 import Result
 
 
-typealias Completion = Result<AddressBook, AddressBookError> -> Void
+typealias Completion = (Result<AddressBook, AddressBookError>) -> Void
 
-public struct AddressBookController {
-    static func promptForAddressBookAccess(fromController controller: UIViewController, completion: Completion, cancelCompletion: ElloEmptyCompletion? = nil) {
+struct AddressBookController {
+    static func promptForAddressBookAccess(fromController controller: UIViewController, completion: @escaping Completion, cancelCompletion: @escaping ElloEmptyCompletion = {}) {
         switch AddressBookController.authenticationStatus() {
-        case .Authorized:
+        case .authorized:
             proceedWithImport(completion)
-        case .NotDetermined:
-            promptForAddressBookAccess(controller, completion: completion, cancelCompletion: cancelCompletion)
-        case .Denied:
+        case .notDetermined:
+            promptForAccess(controller, completion: completion, cancelCompletion: cancelCompletion)
+        case .denied:
             displayAddressBookAlert(controller, message: InterfaceString.Friends.AccessDenied, completion: completion)
-        case .Restricted:
+        case .restricted:
             displayAddressBookAlert(controller, message: InterfaceString.Friends.AccessRestricted, completion: completion)
         }
     }
@@ -25,28 +25,28 @@ public struct AddressBookController {
 
 extension AddressBookController {
 
-    private static func promptForAddressBookAccess(controller: UIViewController, completion: Completion, cancelCompletion: ElloEmptyCompletion? = nil) {
-        let alertController = AlertViewController(message: InterfaceString.Friends.ImportPermissionPrompt, type: .Rounded)
+    fileprivate static func promptForAccess(_ controller: UIViewController, completion: @escaping Completion, cancelCompletion: @escaping ElloEmptyCompletion = {}) {
+        let alertController = AlertViewController(message: InterfaceString.Friends.ImportPermissionPrompt, type: .rounded)
 
         let importMessage = InterfaceString.Friends.ImportAllow
-        let action = AlertAction(title: importMessage, style: .Green) { action in
-            Tracker.sharedTracker.importContactsInitiated()
+        let action = AlertAction(title: importMessage, style: .green) { action in
+            Tracker.shared.importContactsInitiated()
             self.proceedWithImport(completion)
         }
         alertController.addAction(action)
 
         let cancelMessage = InterfaceString.Friends.ImportNotNow
-        let cancelAction = AlertAction(title: cancelMessage, style: .RoundedGrayFill) { _ in
-            Tracker.sharedTracker.importContactsDenied()
-            cancelCompletion?()
+        let cancelAction = AlertAction(title: cancelMessage, style: .roundedGrayFill) { _ in
+            Tracker.shared.importContactsDenied()
+            cancelCompletion()
         }
         alertController.addAction(cancelAction)
 
-        controller.presentViewController(alertController, animated: true, completion: .None)
+        controller.present(alertController, animated: true, completion: .none)
     }
 
-    private static func proceedWithImport(completion: Completion) {
-        Tracker.sharedTracker.addressBookAccessed()
+    fileprivate static func proceedWithImport(_ completion: @escaping Completion) {
+        Tracker.shared.addressBookAccessed()
         AddressBookController.getAddressBook { result in
             nextTick {
                 completion(result)
@@ -54,48 +54,37 @@ extension AddressBookController {
         }
     }
 
-    private static func displayAddressBookAlert(controller: UIViewController, message: String, completion: Completion) {
+    fileprivate static func displayAddressBookAlert(_ controller: UIViewController, message: String, completion: @escaping Completion) {
         let alertController = AlertViewController(
-            message: NSString.localizedStringWithFormat(InterfaceString.Friends.ImportErrorTemplate, message) as String
+            message: NSString.localizedStringWithFormat(InterfaceString.Friends.ImportErrorTemplate as NSString, message) as String
         )
 
-        let action = AlertAction(title: InterfaceString.OK, style: .Dark) { _ in
-            completion(.Failure(.Cancelled))
+        let action = AlertAction(title: InterfaceString.OK, style: .dark) { _ in
+            completion(.failure(.cancelled))
         }
         alertController.addAction(action)
 
-        controller.presentViewController(alertController, animated: true, completion: .None)
+        controller.present(alertController, animated: true, completion: .none)
     }
 
-    private static func getAddressBook(completion: Completion) {
-        var error: Unmanaged<CFError>?
-        let ab = ABAddressBookCreateWithOptions(nil, &error) as Unmanaged<ABAddressBook>?
-
-        if error != nil {
-            completion(.Failure(.Unauthorized))
-            return
-        }
-
-        if let book: ABAddressBook = ab?.takeRetainedValue() {
-            switch ABAddressBookGetAuthorizationStatus() {
-            case .NotDetermined:
-                ABAddressBookRequestAccessWithCompletion(book) { granted, _ in
-                    if granted {
-                        nextTick { completion(.Success(AddressBook(addressBook: book))) }
-                    }
-                    else {
-                        nextTick { completion(.Failure(.Unauthorized)) }
-                    }
+    fileprivate static func getAddressBook(_ completion: @escaping Completion) {
+        switch AddressBookController.authenticationStatus() {
+        case .notDetermined:
+            let store = CNContactStore()
+            store.requestAccess(for: .contacts) { granted, _ in
+                if granted {
+                    completion(.success(AddressBook(store: CNContactStore())))
                 }
-            case .Authorized: completion(.Success(AddressBook(addressBook: book)))
-            default: completion(.Failure(.Unauthorized))
+                else {
+                    completion(.failure(.unauthorized))
+                }
             }
-        } else {
-            completion(.Failure(.Unknown))
+        case .authorized: completion(.success(AddressBook(store: CNContactStore())))
+        default: completion(.failure(.unauthorized))
         }
     }
 
-    private static func authenticationStatus() -> ABAuthorizationStatus {
-        return ABAddressBookGetAuthorizationStatus()
+    fileprivate static func authenticationStatus() -> CNAuthorizationStatus {
+        return CNContactStore.authorizationStatus(for: .contacts)
     }
 }

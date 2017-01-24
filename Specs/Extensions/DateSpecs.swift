@@ -1,23 +1,23 @@
 ////
-///  NSDateSpecs.swift
+///  DateSpecs.swift
 //
 
 import Foundation
 
-import Ello
+@testable import Ello
 import Quick
 import Moya
 import Nimble
 
 
-class NSDateSpecs: QuickSpec {
+class DateSpecs: QuickSpec {
     override func spec() {
 
-        describe("NSDate") {
+        describe("Date") {
 
-            let sep_30_1978 = NSDate(timeIntervalSince1970: 275961600)
-            let sep_30_1978_again = NSDate(timeIntervalSince1970: 275961600)
-            let now = NSDate()
+            let sep_30_1978 = Date(timeIntervalSince1970: 275961600)
+            let sep_30_1978_again = Date(timeIntervalSince1970: 275961600)
+            let now = Date()
 
             describe("toServerDateString()") {
                 // tested in DateFormatterSpec
@@ -42,7 +42,7 @@ class NSDateSpecs: QuickSpec {
 
                 context("date is in the future") {
                     it("returns false") {
-                        expect(NSDate.distantFuture().isInPast) == false
+                        expect(Date.distantFuture.isInPast) == false
                     }
                 }
 

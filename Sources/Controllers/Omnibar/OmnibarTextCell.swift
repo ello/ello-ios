@@ -2,7 +2,7 @@
 ///  OmnibarTextCell.swift
 //
 
-public class OmnibarTextCell: UITableViewCell {
+class OmnibarTextCell: UITableViewCell {
     static let reuseIdentifier = "OmnibarTextCell"
     struct Size {
         static let textMargins = UIEdgeInsets(top: 11, left: 15, bottom: 11, right: 15)
@@ -10,43 +10,43 @@ public class OmnibarTextCell: UITableViewCell {
         static let maxEditingHeight = CGFloat(77)
     }
 
-    public let textView: UITextView
-    public var isFirst = false {
+    let textView: UITextView
+    var isFirst = false {
         didSet {
             if isFirst && attributedText.string.characters.count == 0 {
-                textView.attributedText = ElloAttributedString.style(InterfaceString.Omnibar.SayEllo, [NSForegroundColorAttributeName: UIColor.blackColor()])
+                textView.attributedText = ElloAttributedString.style(InterfaceString.Omnibar.SayEllo, [NSForegroundColorAttributeName: UIColor.black])
             }
         }
     }
 
     class func generateTextView() -> UITextView {
         let textView = UITextView()
-        textView.backgroundColor = .clearColor()
-        textView.textColor = .blackColor()
-        textView.tintColor = .blackColor()
+        textView.backgroundColor = .clear
+        textView.textColor = .black
+        textView.tintColor = .black
         textView.font = UIFont.editorFont()
         textView.textContainerInset = UIEdgeInsets(top: 5, left: 0, bottom: 0, right: 0)
         textView.textContainer.lineFragmentPadding = 0
-        textView.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
+        textView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         textView.scrollsToTop = false
-        textView.scrollEnabled = false
+        textView.isScrollEnabled = false
         textView.showsHorizontalScrollIndicator = false
         textView.showsVerticalScrollIndicator = false
-        textView.keyboardAppearance = .Dark
-        textView.keyboardType = .Twitter
+        textView.keyboardAppearance = .dark
+        textView.keyboardType = .twitter
         return textView
     }
 
-    public var attributedText: NSAttributedString {
+    var attributedText: NSAttributedString {
         didSet {
             if attributedText.string.characters.count > 0 {
                 textView.attributedText = attributedText
             }
             else if isFirst {
-                textView.attributedText = ElloAttributedString.style(InterfaceString.Omnibar.SayEllo, [NSForegroundColorAttributeName: UIColor.blackColor()])
+                textView.attributedText = ElloAttributedString.style(InterfaceString.Omnibar.SayEllo, [NSForegroundColorAttributeName: UIColor.black])
             }
             else {
-                textView.attributedText = ElloAttributedString.style(InterfaceString.Omnibar.AddMoreText, [NSForegroundColorAttributeName: UIColor.blackColor()])
+                textView.attributedText = ElloAttributedString.style(InterfaceString.Omnibar.AddMoreText, [NSForegroundColorAttributeName: UIColor.black])
             }
         }
     }
@@ -56,30 +56,30 @@ public class OmnibarTextCell: UITableViewCell {
         attributedText = NSAttributedString(string: "")
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
-        textView.userInteractionEnabled = false
-        textView.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
+        textView.isUserInteractionEnabled = false
+        textView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         let backgroundView = UIView()
-        backgroundView.backgroundColor = .whiteColor()
+        backgroundView.backgroundColor = .white
         self.backgroundView = backgroundView
 
         contentView.addSubview(textView)
     }
 
-    required public init(coder: NSCoder) {
+    required init(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override public func layoutSubviews() {
+    override func layoutSubviews() {
         super.layoutSubviews()
 
         textView.frame = OmnibarTextCell.boundsForTextView(contentView.bounds)
     }
 
-    public class func boundsForTextView(frame: CGRect) -> CGRect {
+    class func boundsForTextView(_ frame: CGRect) -> CGRect {
         return frame.inset(Size.textMargins)
     }
 
-    public class func heightForText(attributedText: NSAttributedString, tableWidth: CGFloat, editing: Bool) -> CGFloat {
+    class func heightForText(_ attributedText: NSAttributedString, tableWidth: CGFloat, editing: Bool) -> CGFloat {
         var textWidth = tableWidth - (Size.textMargins.left + Size.textMargins.right)
         if editing {
             textWidth -= 80
@@ -87,7 +87,7 @@ public class OmnibarTextCell: UITableViewCell {
 
         let tv = generateTextView()
         tv.attributedText = attributedText
-        let tvSize = tv.sizeThatFits(CGSize(width: textWidth, height: .max))
+        let tvSize = tv.sizeThatFits(CGSize(width: textWidth, height: .greatestFiniteMagnitude))
         // adding a magic 1, for rare "off by 1" height calculations.
         let heightPadding = Size.textMargins.top + Size.textMargins.bottom + 1
         let textHeight = heightPadding + ceil(tvSize.height)

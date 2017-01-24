@@ -5,56 +5,56 @@
 import Foundation
 import SwiftyUserDefaults
 
-public enum StreamKind {
-    case CurrentUserStream
-    case AllCategories
-    case Announcements
-    case Discover(type: DiscoverType)
-    case CategoryPosts(slug: String)
-    case Following
-    case Starred
-    case Notifications(category: String?)
-    case PostDetail(postParam: String)
-    case SimpleStream(endpoint: ElloAPI, title: String)
-    case Unknown
-    case UserStream(userParam: String)
-    case Category(slug: String)
+enum StreamKind {
+    case currentUserStream
+    case allCategories
+    case announcements
+    case discover(type: DiscoverType)
+    case categoryPosts(slug: String)
+    case following
+    case starred
+    case notifications(category: String?)
+    case postDetail(postParam: String)
+    case simpleStream(endpoint: ElloAPI, title: String)
+    case unknown
+    case userStream(userParam: String)
+    case category(slug: String)
 
-    public var name: String {
+    var name: String {
         switch self {
-        case .CurrentUserStream: return InterfaceString.Profile.Title
-        case .AllCategories: return InterfaceString.Discover.AllCategories
-        case .Announcements: return ""
-        case .CategoryPosts: return InterfaceString.Discover.Categories
-        case .Discover: return InterfaceString.Discover.Title
-        case .Following: return InterfaceString.FollowingStream.Title
-        case .Starred: return InterfaceString.StarredStream.Title
-        case .Notifications: return InterfaceString.Notifications.Title
-        case .Category: return ""
-        case .PostDetail: return ""
-        case let .SimpleStream(_, title): return title
-        case .Unknown: return ""
-        case .UserStream: return ""
+        case .currentUserStream: return InterfaceString.Profile.Title
+        case .allCategories: return InterfaceString.Discover.AllCategories
+        case .announcements: return ""
+        case .categoryPosts: return InterfaceString.Discover.Categories
+        case .discover: return InterfaceString.Discover.Title
+        case .following: return InterfaceString.FollowingStream.Title
+        case .starred: return InterfaceString.StarredStream.Title
+        case .notifications: return InterfaceString.Notifications.Title
+        case .category: return ""
+        case .postDetail: return ""
+        case let .simpleStream(_, title): return title
+        case .unknown: return ""
+        case .userStream: return ""
         }
     }
 
-    public var cacheKey: String {
+    var cacheKey: String {
         switch self {
-        case .CurrentUserStream: return "Profile"
-        case .AllCategories: return "AllCategories"
-        case .Announcements: return "Announcements"
-        case .Category: return "Category"
-        case .Discover, .CategoryPosts: return "CategoryPosts"
-        case .Following: return "Following"
-        case .Starred: return "Starred"
-        case .Notifications: return "Notifications"
-        case .PostDetail: return "PostDetail"
-        case .Unknown: return "unknown"
-        case .UserStream:
+        case .currentUserStream: return "Profile"
+        case .allCategories: return "AllCategories"
+        case .announcements: return "Announcements"
+        case .category: return "Category"
+        case .discover, .categoryPosts: return "CategoryPosts"
+        case .following: return "Following"
+        case .starred: return "Starred"
+        case .notifications: return "Notifications"
+        case .postDetail: return "PostDetail"
+        case .unknown: return "unknown"
+        case .userStream:
             return "UserStream"
-        case let .SimpleStream(endpoint, title):
+        case let .simpleStream(endpoint, title):
             switch endpoint {
-            case .SearchForPosts:
+            case .searchForPosts:
                 return "SearchForPosts"
             default:
                 return "SimpleStream.\(title)"
@@ -62,22 +62,22 @@ public enum StreamKind {
         }
     }
 
-    public var lastViewedCreatedAtKey: String {
+    var lastViewedCreatedAtKey: String {
         return self.cacheKey + "_createdAt"
     }
 
-    public var columnSpacing: CGFloat {
+    var columnSpacing: CGFloat {
         switch self {
-        case .AllCategories: return 2
+        case .allCategories: return 2
         default: return 12
         }
     }
 
-    public var columnCount: Int {
+    var columnCount: Int {
         return columnCountFor(width: Window.width)
     }
 
-    public func columnCountFor(width width: CGFloat) -> Int {
+    func columnCountFor(width: CGFloat) -> Int {
         let gridColumns: Int
         if Window.isWide(width) {
             gridColumns = 3
@@ -94,62 +94,62 @@ public enum StreamKind {
         }
     }
 
-    public var showsCategory: Bool {
-        if case let .Discover(type) = self where type == .Featured {
+    var showsCategory: Bool {
+        if case let .discover(type) = self, type == .featured {
             return true
         }
         return false
     }
 
-    public var tappingTextOpensDetail: Bool {
+    var tappingTextOpensDetail: Bool {
         switch self {
-        case .PostDetail:
+        case .postDetail:
             return false
-        case .Notifications:
+        case .notifications:
             return true
         default:
             return isGridView
         }
     }
 
-    public var isProfileStream: Bool {
+    var isProfileStream: Bool {
         switch self {
-        case .CurrentUserStream, .UserStream: return true
+        case .currentUserStream, .userStream: return true
         default: return false
         }
     }
 
-    public var endpoint: ElloAPI {
+    var endpoint: ElloAPI {
         switch self {
-        case .CurrentUserStream: return .CurrentUserStream
-        case .AllCategories: return .Categories
-        case .Announcements: return .Announcements
-        case let .Category(slug): return .Category(slug: slug)
-        case let .CategoryPosts(slug): return .CategoryPosts(slug: slug)
-        case let .Discover(type): return .Discover(type: type)
-        case .Following: return .FriendStream
-        case .Starred: return .NoiseStream
-        case let .Notifications(category): return .NotificationsStream(category: category)
-        case let .PostDetail(postParam): return .PostDetail(postParam: postParam, commentCount: 10)
-        case let .SimpleStream(endpoint, _): return endpoint
-        case .Unknown: return .NotificationsStream(category: nil) // doesn't really get used
-        case let .UserStream(userParam): return .UserStream(userParam: userParam)
+        case .currentUserStream: return .currentUserStream
+        case .allCategories: return .categories
+        case .announcements: return .announcements
+        case let .category(slug): return .category(slug: slug)
+        case let .categoryPosts(slug): return .categoryPosts(slug: slug)
+        case let .discover(type): return .discover(type: type)
+        case .following: return .friendStream
+        case .starred: return .noiseStream
+        case let .notifications(category): return .notificationsStream(category: category)
+        case let .postDetail(postParam): return .postDetail(postParam: postParam, commentCount: 10)
+        case let .simpleStream(endpoint, _): return endpoint
+        case .unknown: return .notificationsStream(category: nil) // doesn't really get used
+        case let .userStream(userParam): return .userStream(userParam: userParam)
         }
     }
 
-    public var relationship: RelationshipPriority {
+    var relationship: RelationshipPriority {
         switch self {
-        case .Following: return .Following
-        case .Starred: return .Starred
-        default: return .Null
+        case .following: return .following
+        case .starred: return .starred
+        default: return .null
         }
     }
 
-    public func filter(jsonables: [JSONAble], viewsAdultContent: Bool) -> [JSONAble] {
+    func filter(_ jsonables: [JSONAble], viewsAdultContent: Bool) -> [JSONAble] {
         switch self {
-        case let .SimpleStream(endpoint, _):
+        case let .simpleStream(endpoint, _):
             switch endpoint {
-            case .Loves:
+            case .loves:
                 if let loves = jsonables as? [Love] {
                     return loves.reduce([]) { accum, love in
                         if let post = love.post {
@@ -164,9 +164,9 @@ public enum StreamKind {
             default:
                 return jsonables
             }
-        case .CategoryPosts, .Announcements:
+        case .categoryPosts, .announcements:
             return jsonables
-        case .Discover, .Category:
+        case .discover, .category:
             if let users = jsonables as? [User] {
                 return users.reduce([]) { accum, user in
                     if let post = user.mostRecentPost {
@@ -184,7 +184,7 @@ public enum StreamKind {
             else {
                 return []
             }
-        case .Notifications:
+        case .notifications:
             if let activities = jsonables as? [Activity] {
                 let notifications: [Notification] = activities.map { return Notification(activity: $0) }
                 return notifications.filter { return $0.isValidKind }
@@ -214,34 +214,34 @@ public enum StreamKind {
         return []
     }
 
-    public var avatarHeight: CGFloat {
+    var avatarHeight: CGFloat {
         return self.isGridView ? 30 : 40
     }
 
-    public func contentForPost(post: Post) -> [Regionable]? {
+    func contentForPost(_ post: Post) -> [Regionable]? {
         return self.isGridView ? post.summary : post.content
     }
 
-    public func setIsGridView(isGridView: Bool) {
+    func setIsGridView(_ isGridView: Bool) {
         GroupDefaults["\(cacheKey)GridViewPreferenceSet"] = true
         GroupDefaults["\(cacheKey)IsGridView"] = isGridView
     }
 
-    public var isGridView: Bool {
+    var isGridView: Bool {
         var defaultGrid: Bool
         switch self {
-        case .AllCategories: defaultGrid = true
+        case .allCategories: defaultGrid = true
         default: defaultGrid = false
         }
         return GroupDefaults["\(cacheKey)IsGridView"].bool ?? defaultGrid
     }
 
-    public var hasGridViewToggle: Bool {
+    var hasGridViewToggle: Bool {
         switch self {
-        case .Following, .Starred, .Discover, .CategoryPosts, .Category: return true
-        case let .SimpleStream(endpoint, _):
+        case .following, .starred, .discover, .categoryPosts, .category: return true
+        case let .simpleStream(endpoint, _):
             switch endpoint {
-            case .SearchForPosts, .Loves, .CategoryPosts:
+            case .searchForPosts, .loves, .categoryPosts:
                 return true
             default:
                 return false
@@ -250,9 +250,9 @@ public enum StreamKind {
         }
     }
 
-    public var showStarButton: Bool {
+    var showStarButton: Bool {
         switch self {
-        case .Notifications:
+        case .notifications:
             return false
         default:
             break
@@ -260,16 +260,16 @@ public enum StreamKind {
         return true
     }
 
-    public var isDetail: Bool {
+    var isDetail: Bool {
         switch self {
-        case .PostDetail: return true
+        case .postDetail: return true
         default: return false
         }
     }
 
-    public var supportsLargeImages: Bool {
+    var supportsLargeImages: Bool {
         switch self {
-        case .PostDetail: return true
+        case .postDetail: return true
         default: return false
         }
     }

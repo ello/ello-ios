@@ -7,26 +7,26 @@ import SwiftyJSON
 let AnnouncementVersion = 1
 
 @objc
-public final class Announcement: JSONAble, Groupable {
-    public let id: String
-    public let header: String
-    public let body: String
-    public let ctaURL: NSURL?
-    public let ctaCaption: String
-    public let createdAt: NSDate
-    public var image: Asset?
-    public var preferredAttachment: Attachment? { return image?.hdpi }
-    public var imageURL: NSURL? { return preferredAttachment?.url }
+final class Announcement: JSONAble, Groupable {
+    let id: String
+    let header: String
+    let body: String
+    let ctaURL: URL?
+    let ctaCaption: String
+    let createdAt: Date
+    var image: Asset?
+    var preferredAttachment: Attachment? { return image?.hdpi }
+    var imageURL: URL? { return preferredAttachment?.url }
 
-    public var groupId: String { return "Announcement-\(id)" }
+    var groupId: String { return "Announcement-\(id)" }
 
-    public init(
+    init(
         id: String,
         header: String,
         body: String,
-        ctaURL: NSURL?,
+        ctaURL: URL?,
         ctaCaption: String,
-        createdAt: NSDate) {
+        createdAt: Date) {
         self.id = id
         self.header = header
         self.body = body
@@ -36,7 +36,7 @@ public final class Announcement: JSONAble, Groupable {
         super.init(version: AnnouncementVersion)
     }
 
-    public required init(coder: NSCoder) {
+    required init(coder: NSCoder) {
         let decoder = Coder(coder)
         id = decoder.decodeKey("id")
         header = decoder.decodeKey("header")
@@ -48,7 +48,7 @@ public final class Announcement: JSONAble, Groupable {
         super.init(coder: coder)
     }
 
-    public override func encodeWithCoder(coder: NSCoder) {
+    override func encode(with coder: NSCoder) {
         let encoder = Coder(coder)
         encoder.encodeObject(id, forKey: "id")
         encoder.encodeObject(header, forKey: "header")
@@ -57,17 +57,17 @@ public final class Announcement: JSONAble, Groupable {
         encoder.encodeObject(ctaCaption, forKey: "ctaCaption")
         encoder.encodeObject(createdAt, forKey: "createdAt")
         encoder.encodeObject(image, forKey: "image")
-        super.encodeWithCoder(coder)
+        super.encode(with: coder)
     }
 
-    override public class func fromJSON(data: [String: AnyObject]) -> JSONAble {
+    override class func fromJSON(_ data: [String: AnyObject]) -> JSONAble {
         let json = JSON(data)
         let id = json["id"].stringValue
         let header = json["header"].stringValue
         let body = json["body"].stringValue
-        let ctaURL = json["cta_href"].string.flatMap { NSURL(string: $0) }
+        let ctaURL = json["cta_href"].string.flatMap { URL(string: $0) }
         let ctaCaption = json["cta_caption"].stringValue
-        let createdAt: NSDate = json["created_at"].string?.toNSDate() ?? NSDate()
+        let createdAt: Date = json["created_at"].string?.toDate() ?? Date()
 
         let announcement = Announcement(id: id,
             header: header,

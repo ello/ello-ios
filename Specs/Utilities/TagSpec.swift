@@ -2,9 +2,9 @@
 ///  TagSpec.swift
 //
 
+@testable import Ello
 import Quick
 import Nimble
-import Ello
 
 
 class TagSpec: QuickSpec {
@@ -39,8 +39,8 @@ class TagSpec: QuickSpec {
                 for (name, spec) in tests {
                     it("should render \(name)") {
                         let tag = Tag(input: spec.input)
-                        let output = tag!.makeEditable().string.stringByReplacingOccurrencesOfString("\n", withString: "\\n").stringByReplacingOccurrencesOfString("\t", withString: "\\t")
-                        let expected = spec.output.stringByReplacingOccurrencesOfString("\n", withString: "\\n").stringByReplacingOccurrencesOfString("\t", withString: "\\t")
+                        let output = tag!.makeEditable().string.replacingOccurrences(of: "\n", with: "\\n").replacingOccurrences(of: "\t", with: "\\t")
+                        let expected = spec.output.replacingOccurrences(of: "\n", with: "\\n").replacingOccurrences(of: "\t", with: "\\t")
                         expect(output) == expected
                     }
                 }

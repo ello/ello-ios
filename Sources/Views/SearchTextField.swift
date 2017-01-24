@@ -2,8 +2,8 @@
 ///  SearchTextField.swift
 //
 
-public class SearchTextField: UITextField {
-    override public var placeholder: String? {
+class SearchTextField: UITextField {
+    override var placeholder: String? {
         didSet {
             if let placeholder = placeholder {
                 attributedPlaceholder = NSAttributedString(
@@ -14,51 +14,51 @@ public class SearchTextField: UITextField {
             }
         }
     }
-    private var line = UIView()
+    fileprivate var line = UIView()
 
-    override required public init(frame: CGRect) {
+    override required init(frame: CGRect) {
         super.init(frame: frame)
         sharedInit()
     }
 
-    required public init?(coder: NSCoder) {
+    required init?(coder: NSCoder) {
         super.init(coder: coder)
         sharedInit()
     }
 
-    private func sharedInit() {
-        clearButtonMode = .WhileEditing
+    fileprivate func sharedInit() {
+        clearButtonMode = .whileEditing
         font = .defaultFont(18)
-        textColor = .blackColor()
-        autocapitalizationType = .None
-        autocorrectionType = .No
-        spellCheckingType = .No
+        textColor = .black
+        autocapitalizationType = .none
+        autocorrectionType = .no
+        spellCheckingType = .no
         enablesReturnKeyAutomatically = true
-        returnKeyType = .Search
-        keyboardAppearance = .Dark
-        keyboardType = .Default
-        leftViewMode = .Always
-        leftView = UIImageView(image: InterfaceImage.Search.normalImage)
+        returnKeyType = .search
+        keyboardAppearance = .dark
+        keyboardType = .default
+        leftViewMode = .always
+        leftView = UIImageView(image: InterfaceImage.search.normalImage)
 
         addSubview(line)
         line.backgroundColor = .greyA()
-        line.snp_makeConstraints { make in
+        line.snp.makeConstraints { make in
             make.leading.trailing.equalTo(self)
             make.bottom.equalTo(self).offset(-10)
             make.height.equalTo(1)
         }
     }
 
-    override public func textRectForBounds(bounds: CGRect) -> CGRect {
+    override func textRect(forBounds bounds: CGRect) -> CGRect {
         return rectForBounds(bounds)
     }
 
-    override public func editingRectForBounds(bounds: CGRect) -> CGRect {
+    override func editingRect(forBounds bounds: CGRect) -> CGRect {
         return rectForBounds(bounds)
     }
 
-    private func rectForBounds(bounds: CGRect) -> CGRect {
-        let rect = super.editingRectForBounds(bounds)
-        return rect.shrinkRight(10)
+    fileprivate func rectForBounds(_ bounds: CGRect) -> CGRect {
+        let rect = super.editingRect(forBounds: bounds)
+        return rect.shrink(right: 10)
     }
 }

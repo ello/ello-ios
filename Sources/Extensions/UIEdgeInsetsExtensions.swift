@@ -6,7 +6,7 @@ import CoreGraphics
 import UIKit
 import Foundation
 
-public extension UIEdgeInsets {
+extension UIEdgeInsets {
     init(top: CGFloat) {
         self.init(top: top, left: 0, bottom: 0, right: 0)
     }
@@ -41,7 +41,7 @@ public extension UIEdgeInsets {
 
 }
 
-public extension UIEdgeInsets {
+extension UIEdgeInsets {
     init(topMargin: CGFloat) {
         self.init(top: -topMargin, left: 0, bottom: 0, right: 0)
     }

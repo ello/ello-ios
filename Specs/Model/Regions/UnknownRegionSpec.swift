@@ -2,7 +2,7 @@
 ///  UnknownRegionSpec.swift
 //
 
-import Ello
+@testable import Ello
 import Quick
 import Nimble
 
@@ -13,13 +13,13 @@ class UnknownRegionSpec: QuickSpec {
         context("NSCoding") {
 
             var filePath = ""
-            if let url = NSURL(string: NSFileManager.ElloDocumentsDir()) {
-                filePath = url.URLByAppendingPathComponent("UnknownRegionSpec")!.absoluteString!
+            if let url = URL(string: FileManager.ElloDocumentsDir()) {
+                filePath = url.appendingPathComponent("UnknownRegionSpec").absoluteString
             }
 
             afterEach {
                 do {
-                    try NSFileManager.defaultManager().removeItemAtPath(filePath)
+                    try FileManager.default.removeItem(atPath: filePath)
                 }
                 catch {
 
@@ -43,7 +43,7 @@ class UnknownRegionSpec: QuickSpec {
                     let region: UnknownRegion = stub([:])
 
                     NSKeyedArchiver.archiveRootObject(region, toFile: filePath)
-                    let unArchivedRegion = NSKeyedUnarchiver.unarchiveObjectWithFile(filePath) as! UnknownRegion
+                    let unArchivedRegion = NSKeyedUnarchiver.unarchiveObject(withFile: filePath) as! UnknownRegion
 
                     expect(unArchivedRegion).toNot(beNil())
                     expect(unArchivedRegion.version) == 1

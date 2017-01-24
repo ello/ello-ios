@@ -15,7 +15,7 @@ class NotificationCellSpec: QuickSpec {
                 subject.frame.size = CGSize(width: 320, height: 40)
                 let author: User = .stub(["username": "ello"])
                 let post: Post = .stub(["authorId": author.id])
-                subject.title = NotificationAttributedTitle.attributedTitle(.PostMentionNotification, author: author, subject: post)
+                subject.title = NotificationAttributedTitle.attributedTitle(.postMentionNotification, author: author, subject: post)
                 subject.layoutIfNeeded()
 
                 expect(subject.titleTextView.frame.size.height) == 17
@@ -26,7 +26,7 @@ class NotificationCellSpec: QuickSpec {
                 subject.frame.size = CGSize(width: 160, height: 40)
                 let author: User = .stub(["username": "ello"])
                 let post: Post = .stub(["authorId": author.id])
-                subject.title = NotificationAttributedTitle.attributedTitle(.PostMentionNotification, author: author, subject: post)
+                subject.title = NotificationAttributedTitle.attributedTitle(.postMentionNotification, author: author, subject: post)
                 subject.layoutIfNeeded()
 
                 expect(subject.titleTextView.frame.size.height) == 51
@@ -35,10 +35,10 @@ class NotificationCellSpec: QuickSpec {
             context("snapshots") {
                 let author: User = .stub(["username": "ello"])
                 let post: Post = .stub(["author": author])
-                let title = NotificationAttributedTitle.attributedTitle(.PostMentionNotification, author: author, subject: post)
-                let createdAt = NSDate(timeIntervalSinceNow: -86_460)
+                let title = NotificationAttributedTitle.attributedTitle(.postMentionNotification, author: author, subject: post)
+                let createdAt = Date(timeIntervalSinceNow: -86_460)
                 let aspectRatio: CGFloat = 1
-                let image = UIImage.imageWithColor(.blueColor(), size: CGSize(width: 300, height: 300))!
+                let image = UIImage.imageWithColor(.blue, size: CGSize(width: 300, height: 300))!
                 let message = "<p>This is a notification!</p>"
 
                 let expectations: [(hasMessage: Bool, hasImage: Bool, canReply: Bool, buyButton: Bool)] = [
@@ -68,7 +68,7 @@ class NotificationCellSpec: QuickSpec {
                         subject.aspectRatio = aspectRatio
                         subject.buyButtonVisible = buyButton
                         if hasImage {
-                            subject.imageURL = NSURL(string: "http://ello.co/image.png")
+                            subject.imageURL = URL(string: "http://ello.co/image.png") as URL?
                             subject.notificationImageView.image = image
                         }
 
@@ -80,7 +80,7 @@ class NotificationCellSpec: QuickSpec {
                                 subject.messageHtml = message
                             }
                         }
-                        expectValidSnapshot(subject, device: .Phone6_Portrait)
+                        expectValidSnapshot(subject, device: .phone6_Portrait)
                     }
                 }
             }

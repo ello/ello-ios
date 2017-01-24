@@ -5,7 +5,7 @@
 import SnapKit
 
 
-public class JoinScreen: CredentialsScreen {
+class JoinScreen: CredentialsScreen {
     struct Size {
         static let fieldsTopMargin: CGFloat = 55
         static let fieldsErrorMargin: CGFloat = 15
@@ -20,41 +20,41 @@ public class JoinScreen: CredentialsScreen {
     var emailValid: Bool? = nil {
         didSet {
             if let emailValid = emailValid {
-                emailField.validationState = emailValid ? .OKSmall : .Error
+                emailField.validationState = emailValid ? .okSmall : .error
                 styleDiscoverButton()
             }
             else {
-                emailField.validationState = .None
+                emailField.validationState = .none
             }
         }
     }
     var email: String {
-        get { return emailField.text?.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()) ?? "" }
+        get { return emailField.text?.trimmingCharacters(in: CharacterSet.whitespaces) ?? "" }
         set { emailField.text = newValue }
     }
     var usernameValid: Bool? = nil {
         didSet {
             if let usernameValid = usernameValid {
-                usernameField.validationState = usernameValid ? .OKSmall : .Error
+                usernameField.validationState = usernameValid ? .okSmall : .error
                 styleDiscoverButton()
             }
             else {
-                usernameField.validationState = .None
+                usernameField.validationState = .none
             }
         }
     }
     var username: String {
-        get { return usernameField.text?.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()) ?? "" }
+        get { return usernameField.text?.trimmingCharacters(in: CharacterSet.whitespaces) ?? "" }
         set { usernameField.text = newValue }
     }
     var passwordValid: Bool? = nil {
         didSet {
             if let passwordValid = passwordValid {
-                passwordField.validationState = passwordValid ? .OKSmall : .Error
+                passwordField.validationState = passwordValid ? .okSmall : .error
                 styleDiscoverButton()
             }
             else {
-                passwordField.validationState = .None
+                passwordField.validationState = .none
             }
         }
     }
@@ -91,18 +91,18 @@ public class JoinScreen: CredentialsScreen {
 
     override func setText() {
         titleLabel.text = InterfaceString.Startup.SignUp
-        discoverButton.setTitle(InterfaceString.Join.Discover, forState: .Normal)
+        discoverButton.setTitle(InterfaceString.Join.Discover, for: .normal)
     }
 
     override func bindActions() {
         super.bindActions()
-        discoverButton.addTarget(self, action: #selector(submitAction), forControlEvents: .TouchUpInside)
-        termsButtonNormal.addTarget(self, action: #selector(termsAction), forControlEvents: .TouchUpInside)
-        termsButtonKeyboard.addTarget(self, action: #selector(termsAction), forControlEvents: .TouchUpInside)
-        passwordField.onePasswordButton.addTarget(self, action: #selector(onePasswordAction(_:)), forControlEvents: .TouchUpInside)
-        activateEmailButton.addTarget(self, action: #selector(activateEmail), forControlEvents: .TouchUpInside)
-        activateUsernameButton.addTarget(self, action: #selector(activateUsername), forControlEvents: .TouchUpInside)
-        activatePasswordButton.addTarget(self, action: #selector(activatePassword), forControlEvents: .TouchUpInside)
+        discoverButton.addTarget(self, action: #selector(submitAction), for: .touchUpInside)
+        termsButtonNormal.addTarget(self, action: #selector(termsAction), for: .touchUpInside)
+        termsButtonKeyboard.addTarget(self, action: #selector(termsAction), for: .touchUpInside)
+        passwordField.onePasswordButton.addTarget(self, action: #selector(onePasswordAction(_:)), for: .touchUpInside)
+        activateEmailButton.addTarget(self, action: #selector(activateEmail), for: .touchUpInside)
+        activateUsernameButton.addTarget(self, action: #selector(activateUsername), for: .touchUpInside)
+        activatePasswordButton.addTarget(self, action: #selector(activatePassword), for: .touchUpInside)
     }
 
     override func style() {
@@ -118,8 +118,8 @@ public class JoinScreen: CredentialsScreen {
         ])
         // needs i18n
         let attributedTitle = NSAttributedString(string: "By clicking Continue you are agreeing to our ", attributes: attrs) + NSAttributedString(string: "Terms", attributes: linkAttrs)
-        termsButtonNormal.setAttributedTitle(attributedTitle, forState: .Normal)
-        termsButtonKeyboard.setAttributedTitle(attributedTitle, forState: .Normal)
+        termsButtonNormal.setAttributedTitle(attributedTitle, for: .normal)
+        termsButtonKeyboard.setAttributedTitle(attributedTitle, for: .normal)
 
         ElloTextFieldView.styleAsEmailField(emailField)
         emailField.placeholder = InterfaceString.Join.EmailPlaceholder
@@ -132,15 +132,15 @@ public class JoinScreen: CredentialsScreen {
         ElloTextFieldView.styleAsPasswordField(passwordField)
         passwordField.placeholder = InterfaceString.Join.PasswordPlaceholder
         passwordField.delegate = self
-        passwordField.returnKeyType = .Join
+        passwordField.returnKeyType = .join
         passwordField.hasOnePassword = onePasswordAvailable
 
         messageLabel.numberOfLines = 0
 
-        termsButtonNormal.hidden = Keyboard.shared.active
-        termsButtonKeyboard.hidden = !Keyboard.shared.active
+        termsButtonNormal.isHidden = Keyboard.shared.active
+        termsButtonKeyboard.isHidden = !Keyboard.shared.active
 
-        continueBackground.backgroundColor = .whiteColor()
+        continueBackground.backgroundColor = .white
     }
 
     override func arrange() {
@@ -162,117 +162,117 @@ public class JoinScreen: CredentialsScreen {
         addSubview(continueBackground)
         continueBackground.addSubview(discoverButton)
 
-        scrollView.snp_makeConstraints { make in
+        scrollView.snp.makeConstraints { make in
             make.leading.trailing.equalTo(self)
-            make.top.equalTo(blackBar.snp_bottom)
-            make.bottom.equalTo(continueBackground.snp_top)
+            make.top.equalTo(blackBar.snp.bottom)
+            make.bottom.equalTo(continueBackground.snp.top)
         }
 
         let scrollViewAnchor = UIView()
         scrollView.addSubview(scrollViewAnchor)
-        scrollViewAnchor.snp_makeConstraints { make in
+        scrollViewAnchor.snp.makeConstraints { make in
             make.leading.trailing.top.equalTo(scrollView)
-            scrollViewWidthConstraint = make.width.equalTo(frame.size.width).priorityRequired().constraint
+            scrollViewWidthConstraint = make.width.equalTo(frame.size.width).priority(Priority.required).constraint
         }
 
-        activateEmailButton.snp_makeConstraints { make in
+        activateEmailButton.snp.makeConstraints { make in
             make.leading.trailing.equalTo(scrollView)
             make.centerY.equalTo(emailField)
             make.height.equalTo(emailField).offset(Size.fieldsInnerMargin)
         }
-        emailField.snp_makeConstraints { make in
-            make.top.equalTo(titleLabel.snp_bottom).offset(Size.fieldsTopMargin)
+        emailField.snp.makeConstraints { make in
+            make.top.equalTo(titleLabel.snp.bottom).offset(Size.fieldsTopMargin)
             make.leading.trailing.equalTo(scrollView).inset(CredentialsScreen.Size.inset)
         }
-        emailErrorLabel.snp_makeConstraints { make in
-            emailMarginConstraint = make.top.equalTo(emailField.snp_bottom).offset(Size.fieldsErrorMargin).priorityRequired().constraint
-            make.top.equalTo(emailField.snp_bottom).priorityMedium()
+        emailErrorLabel.snp.makeConstraints { make in
+            emailMarginConstraint = make.top.equalTo(emailField.snp.bottom).offset(Size.fieldsErrorMargin).priority(Priority.required).constraint
+            make.top.equalTo(emailField.snp.bottom).priority(Priority.medium)
             make.leading.trailing.equalTo(scrollView).inset(CredentialsScreen.Size.inset)
         }
         emailMarginConstraint.deactivate()
 
-        activateUsernameButton.snp_makeConstraints { make in
+        activateUsernameButton.snp.makeConstraints { make in
             make.leading.trailing.equalTo(scrollView)
             make.centerY.equalTo(usernameField)
             make.height.equalTo(usernameField).offset(Size.fieldsInnerMargin)
         }
-        usernameField.snp_makeConstraints { make in
-            make.top.equalTo(emailErrorLabel.snp_bottom).offset(Size.fieldsInnerMargin)
+        usernameField.snp.makeConstraints { make in
+            make.top.equalTo(emailErrorLabel.snp.bottom).offset(Size.fieldsInnerMargin)
             make.leading.trailing.equalTo(scrollView).inset(CredentialsScreen.Size.inset)
         }
-        usernameErrorLabel.snp_makeConstraints { make in
-            usernameMarginConstraint = make.top.equalTo(usernameField.snp_bottom).offset(Size.fieldsErrorMargin).priorityRequired().constraint
-            make.top.equalTo(usernameField.snp_bottom).priorityMedium()
+        usernameErrorLabel.snp.makeConstraints { make in
+            usernameMarginConstraint = make.top.equalTo(usernameField.snp.bottom).offset(Size.fieldsErrorMargin).priority(Priority.required).constraint
+            make.top.equalTo(usernameField.snp.bottom).priority(Priority.medium)
             make.leading.trailing.equalTo(scrollView).inset(CredentialsScreen.Size.inset)
         }
         usernameMarginConstraint.deactivate()
 
-        messageLabel.snp_makeConstraints { make in
-            messageMarginConstraint = make.top.equalTo(usernameErrorLabel.snp_bottom).offset(Size.fieldsErrorMargin).priorityRequired().constraint
-            make.top.equalTo(usernameErrorLabel.snp_bottom).priorityMedium()
+        messageLabel.snp.makeConstraints { make in
+            messageMarginConstraint = make.top.equalTo(usernameErrorLabel.snp.bottom).offset(Size.fieldsErrorMargin).priority(Priority.required).constraint
+            make.top.equalTo(usernameErrorLabel.snp.bottom).priority(Priority.medium)
             make.leading.trailing.equalTo(scrollView).inset(CredentialsScreen.Size.inset)
         }
         messageMarginConstraint.deactivate()
 
-        activatePasswordButton.snp_makeConstraints { make in
+        activatePasswordButton.snp.makeConstraints { make in
             make.leading.trailing.equalTo(scrollView)
             make.centerY.equalTo(passwordField)
             make.height.equalTo(passwordField).offset(Size.fieldsInnerMargin)
         }
-        passwordField.snp_makeConstraints { make in
-            make.top.equalTo(messageLabel.snp_bottom).offset(Size.fieldsInnerMargin)
+        passwordField.snp.makeConstraints { make in
+            make.top.equalTo(messageLabel.snp.bottom).offset(Size.fieldsInnerMargin)
             make.leading.trailing.equalTo(scrollView).inset(CredentialsScreen.Size.inset)
         }
-        passwordErrorLabel.snp_makeConstraints { make in
-            passwordMarginConstraint = make.top.equalTo(passwordField.snp_bottom).offset(Size.fieldsErrorMargin).priorityRequired().constraint
-            make.top.equalTo(passwordField.snp_bottom).priorityMedium()
+        passwordErrorLabel.snp.makeConstraints { make in
+            passwordMarginConstraint = make.top.equalTo(passwordField.snp.bottom).offset(Size.fieldsErrorMargin).priority(Priority.required).constraint
+            make.top.equalTo(passwordField.snp.bottom).priority(Priority.medium)
             make.leading.trailing.equalTo(scrollView).inset(CredentialsScreen.Size.inset)
             make.bottom.lessThanOrEqualTo(scrollView).inset(Size.inset)
         }
         passwordMarginConstraint.deactivate()
 
-        termsButtonKeyboard.snp_makeConstraints { make in
+        termsButtonKeyboard.snp.makeConstraints { make in
             make.leading.equalTo(scrollView).inset(CredentialsScreen.Size.inset)
-            make.top.equalTo(passwordErrorLabel.snp_bottom).offset(Size.inset)
+            make.top.equalTo(passwordErrorLabel.snp.bottom).offset(Size.inset)
             make.bottom.equalTo(scrollView).inset(CredentialsScreen.Size.inset)
         }
 
-        termsButtonNormal.snp_makeConstraints { make in
+        termsButtonNormal.snp.makeConstraints { make in
             make.leading.equalTo(scrollView).inset(CredentialsScreen.Size.inset)
-            make.bottom.equalTo(continueBackground.snp_top).offset(-Size.termsBottomInset)
+            make.bottom.equalTo(continueBackground.snp.top).offset(-Size.termsBottomInset)
         }
 
-        discoverButton.snp_makeConstraints { make in
+        discoverButton.snp.makeConstraints { make in
             make.leading.trailing.equalTo(self).inset(Size.buttonInset)
-            make.bottom.equalTo(keyboardAnchor.snp_top).offset(-Size.buttonInset)
+            make.bottom.equalTo(keyboardAnchor.snp.top).offset(-Size.buttonInset)
             make.height.equalTo(Size.buttonHeight)
         }
 
-        continueBackground.snp_makeConstraints { make in
+        continueBackground.snp.makeConstraints { make in
             make.leading.trailing.bottom.equalTo(self)
             make.top.equalTo(discoverButton).offset(-Size.buttonInset)
         }
     }
 
-    override public func resignFirstResponder() -> Bool {
-        emailField.resignFirstResponder()
-        usernameField.resignFirstResponder()
-        passwordField.resignFirstResponder()
+    override func resignFirstResponder() -> Bool {
+        _ = emailField.resignFirstResponder()
+        _ = usernameField.resignFirstResponder()
+        _ = passwordField.resignFirstResponder()
         return super.resignFirstResponder()
     }
 
-    override public func keyboardIsAnimating(keyboard: Keyboard) {
-        termsButtonNormal.hidden = keyboard.active
-        termsButtonKeyboard.hidden = !keyboard.active
+    override func keyboardIsAnimating(_ keyboard: Keyboard) {
+        termsButtonNormal.isHidden = keyboard.active
+        termsButtonKeyboard.isHidden = !keyboard.active
     }
 }
 
 extension JoinScreen {
-    private func styleDiscoverButton() {
+    fileprivate func styleDiscoverButton() {
         let allValid: Bool
         if let emailValid = emailValid,
-            usernameValid = usernameValid,
-            passwordValid = passwordValid
+            let usernameValid = usernameValid,
+            let passwordValid = passwordValid
         {
             allValid = emailValid && usernameValid && passwordValid
         }
@@ -290,48 +290,48 @@ extension JoinScreen {
 }
 
 extension JoinScreen {
-    public func activateEmail() {
-      emailField.becomeFirstResponder()
+    func activateEmail() {
+      _ = emailField.becomeFirstResponder()
     }
 
-    public func activateUsername() {
-      usernameField.becomeFirstResponder()
+    func activateUsername() {
+      _ = usernameField.becomeFirstResponder()
     }
 
-    public func activatePassword() {
-      passwordField.becomeFirstResponder()
+    func activatePassword() {
+      _ = passwordField.becomeFirstResponder()
     }
 
-    override public func backAction() {
+    override func backAction() {
         delegate?.backAction()
     }
 
-    public func submitAction() {
+    func submitAction() {
         delegate?.submit(email: email, username: username, password: password)
     }
 
-    public func termsAction() {
+    func termsAction() {
         delegate?.termsAction()
     }
 
-    public func onePasswordAction(sender: UIView) {
+    func onePasswordAction(_ sender: UIView) {
         delegate?.onePasswordAction(sender)
     }
 }
 
 extension JoinScreen: UITextFieldDelegate {
 
-    public func textFieldDidEndEditing(textField: UITextField) {
+    func textFieldDidEndEditing(_ textField: UITextField) {
         textField.setNeedsLayout()
         textField.layoutIfNeeded()
     }
 
-    public func textField(textField: UITextField, shouldChangeCharactersInRange nsrange: NSRange, replacementString: String) -> Bool {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn nsrange: NSRange, replacementString: String) -> Bool {
         guard let delegate = delegate else { return true }
 
         var text = textField.text ?? ""
         if let range = text.rangeFromNSRange(nsrange) {
-            text.replaceRange(range, with: replacementString)
+            text.replaceSubrange(range, with: replacementString)
         }
         var email = self.email,
             username = self.username,
@@ -351,18 +351,18 @@ extension JoinScreen: UITextFieldDelegate {
         return true
     }
 
-    public func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         switch textField {
         case emailField:
-            Tracker.sharedTracker.enteredEmail()
-            usernameField.becomeFirstResponder()
+            Tracker.shared.enteredEmail()
+            _ = usernameField.becomeFirstResponder()
             return true
         case usernameField:
-            Tracker.sharedTracker.enteredEmail()
-            passwordField.becomeFirstResponder()
+            Tracker.shared.enteredEmail()
+            _ = passwordField.becomeFirstResponder()
             return true
         case passwordField:
-            Tracker.sharedTracker.enteredPassword()
+            Tracker.shared.enteredPassword()
             delegate?.submit(email: email, username: username, password: password)
             return false
         default:
@@ -372,23 +372,23 @@ extension JoinScreen: UITextFieldDelegate {
 }
 
 extension JoinScreen: JoinScreenProtocol {
-    func loadingHUD(visible visible: Bool) {
+    func loadingHUD(visible: Bool) {
         if visible {
             ElloHUD.showLoadingHudInView(self)
         }
         else {
             ElloHUD.hideLoadingHudInView(self)
         }
-        emailField.enabled = !visible
-        usernameField.enabled = !visible
-        passwordField.enabled = !visible
-        userInteractionEnabled = !visible
+        emailField.isEnabled = !visible
+        usernameField.isEnabled = !visible
+        passwordField.isEnabled = !visible
+        isUserInteractionEnabled = !visible
     }
 
-    func showUsernameSuggestions(usernames: [String]) {
+    func showUsernameSuggestions(_ usernames: [String]) {
         let usernameAttrs = [
             NSFontAttributeName: UIFont.defaultFont(12),
-            NSUnderlineStyleAttributeName: NSUnderlineStyle.StyleSingle.rawValue,
+            NSUnderlineStyleAttributeName: NSUnderlineStyle.styleSingle.rawValue as AnyObject,
         ]
         let plainAttrs = [
             NSFontAttributeName: UIFont.defaultFont(12),
@@ -404,14 +404,14 @@ extension JoinScreen: JoinScreenProtocol {
         showMessageAttributed(msg)
     }
 
-    func showMessage(text: String) {
+    func showMessage(_ text: String) {
         let plainAttrs = [
             NSFontAttributeName: UIFont.defaultFont(12),
         ]
         showMessageAttributed(NSAttributedString(string: text, attributes: plainAttrs))
     }
 
-    func showMessageAttributed(attrd: NSAttributedString) {
+    func showMessageAttributed(_ attrd: NSAttributedString) {
         messageLabel.attributedText = attrd
 
         animate {
@@ -429,7 +429,7 @@ extension JoinScreen: JoinScreenProtocol {
         }
     }
 
-    func showUsernameError(text: String) {
+    func showUsernameError(_ text: String) {
         usernameErrorLabel.text = text
         usernameValid = false
 
@@ -448,7 +448,7 @@ extension JoinScreen: JoinScreenProtocol {
         }
     }
 
-    func showEmailError(text: String) {
+    func showEmailError(_ text: String) {
         emailErrorLabel.text = text
         emailValid = false
 
@@ -467,7 +467,7 @@ extension JoinScreen: JoinScreenProtocol {
         }
     }
 
-    func showPasswordError(text: String) {
+    func showPasswordError(_ text: String) {
         passwordErrorLabel.text = text
         passwordValid = false
 
@@ -486,7 +486,7 @@ extension JoinScreen: JoinScreenProtocol {
         }
     }
 
-    func showError(text: String) {
+    func showError(_ text: String) {
         showPasswordError(text)
     }
 }

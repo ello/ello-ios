@@ -2,7 +2,7 @@
 ///  AmazonCredentialsSpec.swift
 //
 
-import Ello
+@testable import Ello
 import Quick
 import Nimble
 import Moya
@@ -15,7 +15,7 @@ class AmazonCredentialsSpec: QuickSpec {
         describe("requesting credentials") {
             describe("requesting an AmazonCredentials object") {
                 beforeEach() {
-                    let endpoint = ElloAPI.AmazonCredentials
+                    let endpoint = ElloAPI.amazonCredentials
                     self.credentials = nil
                     ElloProvider.shared.elloRequest(endpoint,
                                     success: { credentialsData, responseConfig in

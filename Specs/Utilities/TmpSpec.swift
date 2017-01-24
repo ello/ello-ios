@@ -2,7 +2,7 @@
 ///  TmpSpec.swift
 //
 
-import Ello
+@testable import Ello
 import Quick
 import Nimble
 
@@ -17,26 +17,22 @@ class TmpSpec: QuickSpec {
             it("should return true") {
 
                 var directoryName = ""
-                if let url = NSURL(string: NSTemporaryDirectory()) {
-                    directoryName = url.URLByAppendingPathComponent(Tmp.uniqDir)!.absoluteString!
+                if let url = URL(string: NSTemporaryDirectory()) {
+                    directoryName = url.appendingPathComponent(Tmp.uniqDir).absoluteString
                 }
 
-                let directoryURL = NSURL.fileURLWithPath(directoryName, isDirectory: true)
-                try! NSFileManager.defaultManager().createDirectoryAtURL(directoryURL, withIntermediateDirectories: true, attributes: nil)
+                let directoryURL = URL(fileURLWithPath: directoryName, isDirectory: true)
+                try! FileManager.default.createDirectory(at: directoryURL, withIntermediateDirectories: true, attributes: nil)
 
                 let fileName = "exists"
-                let fileURL = directoryURL.URLByAppendingPathComponent(fileName)!
-                if let filePath = fileURL.path {
-                    let data = NSData()
-                    data.writeToURL(fileURL, atomically: true)
+                let fileURL = directoryURL.appendingPathComponent(fileName)
+                let filePath = fileURL.path
+                let data = Data()
+                try! data.write(to: fileURL, options: [.atomic])
 
-                    let doesActuallyExist = NSFileManager.defaultManager().fileExistsAtPath(filePath)
-                    expect(doesActuallyExist).to(beTrue())
-                    expect(Tmp.fileExists("exists")).to(beTrue())
-                }
-                else {
-                    fail("could not create fileURL.path")
-                }
+                let doesActuallyExist = FileManager.default.fileExists(atPath: filePath)
+                expect(doesActuallyExist).to(beTrue())
+                expect(Tmp.fileExists("exists")).to(beTrue())
             }
         }
 
@@ -51,15 +47,15 @@ class TmpSpec: QuickSpec {
         describe("Tmp.fileURL") {
             it("should be a URL") {
                 let fileURL = Tmp.fileURL("filename")
-                expect(fileURL).to(beAKindOf(NSURL))
+                expect(fileURL).notTo(beNil())
             }
         }
 
         describe("creating a file") {
-            it("+Tmp.write(NSData)") {                      // "test"
-                let originalData = NSData(base64EncodedString: "dGVzdA==", options: NSDataBase64DecodingOptions())!
+            it("+Tmp.write(Data)") {                      // "test"
+                let originalData = Data(base64Encoded: "dGVzdA==")!
                 _ = Tmp.write(originalData, to: "file")
-                if let readData : NSData = Tmp.read("file") {
+                if let readData : Data = Tmp.read("file") {
                     expect(readData).to(equal(originalData))
                 }
                 else {
@@ -79,7 +75,7 @@ class TmpSpec: QuickSpec {
             }
 
             it("+Tmp.write(UIImage)") {
-                let originalImage = UIImage(named: "specs-avatar", inBundle: NSBundle(forClass: self.dynamicType), compatibleWithTraitCollection: nil)!
+                let originalImage = UIImage(named: "specs-avatar", in: Bundle(for: type(of: self)), compatibleWith: nil)!
                 _ = Tmp.write(originalImage, to: "image")
                 if let readImage : UIImage = Tmp.read("image") {
                     let readData = UIImagePNGRepresentation(readImage)

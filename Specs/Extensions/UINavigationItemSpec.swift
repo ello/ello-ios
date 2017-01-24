@@ -2,15 +2,16 @@
 ///  UINavigationItemSpec.swift
 //
 
+@testable import Ello
 import Quick
 import Nimble
 
 
-public class NavItemResponder: NSObject {
-    static public func a() {}
-    static public func b() {}
-    static public func c() {}
-    static public func d() {}
+class NavItemResponder: NSObject {
+    static func a() {}
+    static func b() {}
+    static func c() {}
+    static func d() {}
 }
 
 class UINavigationItemSpec: QuickSpec {
@@ -26,12 +27,12 @@ class UINavigationItemSpec: QuickSpec {
 
                 let newItemsSame = [
                     UIBarButtonItem(
-                        barButtonSystemItem: .Camera,
+                        barButtonSystemItem: .camera,
                         target: target,
                         action: #selector(NavItemResponder.a)
                     ),
                     UIBarButtonItem(
-                        barButtonSystemItem: .Camera,
+                        barButtonSystemItem: .camera,
                         target: target,
                         action: #selector(NavItemResponder.b)
                     )
@@ -39,12 +40,12 @@ class UINavigationItemSpec: QuickSpec {
 
                 let newItemsDifferent = [
                     UIBarButtonItem(
-                        barButtonSystemItem: .Camera,
+                        barButtonSystemItem: .camera,
                         target: target,
                         action: #selector(NavItemResponder.c)
                     ),
                     UIBarButtonItem(
-                        barButtonSystemItem: .Camera,
+                        barButtonSystemItem: .camera,
                         target: target,
                         action: #selector(NavItemResponder.c)
                     )
@@ -52,12 +53,12 @@ class UINavigationItemSpec: QuickSpec {
 
                 let rightItems = [
                     UIBarButtonItem(
-                        barButtonSystemItem: .Camera,
+                        barButtonSystemItem: .camera,
                         target: target,
                         action: #selector(NavItemResponder.a)
                     ),
                         UIBarButtonItem(
-                            barButtonSystemItem: .Camera,
+                            barButtonSystemItem: .camera,
                             target: target,
                             action: #selector(NavItemResponder.b)
                         )

@@ -15,7 +15,7 @@ class Regex {
         self.pattern = pattern
         var error: NSError?
         do {
-            self.regex = try NSRegularExpression(pattern: pattern, options: NSRegularExpressionOptions(rawValue: 0))
+            self.regex = try NSRegularExpression(pattern: pattern, options: NSRegularExpression.Options(rawValue: 0))
         } catch let error1 as NSError {
             error = error1
             self.regex = nil
@@ -23,37 +23,37 @@ class Regex {
         if error != nil { return nil }
     }
 
-    func test(input: String) -> Bool {
+    func test(_ input: String) -> Bool {
         return match(input) != nil
     }
 
-    func match(input: String) -> String? {
-        if let range = input.rangeOfString(pattern, options: .RegularExpressionSearch) {
-            return input.substringWithRange(range)
+    func match(_ input: String) -> String? {
+        if let range = input.range(of: pattern, options: .regularExpression) {
+            return input.substring(with: range)
         }
         return nil
     }
 
-    func matches(input: String) -> [String] {
+    func matches(_ input: String) -> [String] {
         let nsstring = input as NSString
-        let matches = self.regex.matchesInString(input, options: [], range: NSRange(location: 0, length: nsstring.length))
+        let matches = self.regex.matches(in: input, options: [], range: NSRange(location: 0, length: nsstring.length))
         var ret = [String]()
         for match in matches {
-            let range = match.rangeAtIndex(0)
-            ret.append(nsstring.substringWithRange(range))
+            let range = match.rangeAt(0)
+            ret.append(nsstring.substring(with: range))
         }
         return ret
     }
 
-    func matchingGroups(input: String) -> [String] {
+    func matchingGroups(_ input: String) -> [String] {
         let nsstring = input as NSString
         var ret = [String]()
-        if let match = self.regex.firstMatchInString(input, options: [], range: NSRange(location: 0, length: nsstring.length)) {
+        if let match = self.regex.firstMatch(in: input, options: [], range: NSRange(location: 0, length: nsstring.length)) {
 
             for i in 0..<match.numberOfRanges {
-                let range = match.rangeAtIndex(i)
+                let range = match.rangeAt(i)
                 if range.location != NSNotFound {
-                    let matchedString = nsstring.substringWithRange(range)
+                    let matchedString = nsstring.substring(with: range)
                     ret.append(matchedString)
                 }
             }
@@ -63,9 +63,9 @@ class Regex {
 
 }
 
-infix operator =~ { precedence 130 }
-infix operator !~ { precedence 130 }
-infix operator ~ { precedence 150 }
+infix operator =~ : ComparisonPrecedence
+infix operator !~ : ComparisonPrecedence
+infix operator ~ : LogicalConjunctionPrecedence
 
 func =~ (input: String, pattern: String) -> Bool {
     if let regex = Regex(pattern) {

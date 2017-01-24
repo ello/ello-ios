@@ -2,39 +2,39 @@
 ///  StreamCreateCommentCellPresenter.swift
 //
 
-public struct StreamCreateCommentCellPresenter {
+struct StreamCreateCommentCellPresenter {
 
     static func configure(
-        cell: UICollectionViewCell,
+        _ cell: UICollectionViewCell,
         streamCellItem: StreamCellItem,
         streamKind: StreamKind,
-        indexPath: NSIndexPath,
+        indexPath: IndexPath,
         currentUser: User?)
     {
-        guard let
-            cell = cell as? StreamCreateCommentCell,
-            comment = streamCellItem.jsonable as? ElloComment,
-            post = comment.loadedFromPost,
-            user = comment.author
+        guard
+            let cell = cell as? StreamCreateCommentCell,
+            let comment = streamCellItem.jsonable as? ElloComment,
+            let post = comment.loadedFromPost,
+            let user = comment.author
         else {
             return
         }
 
         let ownPost = currentUser?.id == post.authorId
-        let ownRepost = (post.isRepost && post.repostAuthor?.id =?= currentUser?.id)
+        let ownRepost = (post.isRepost && (post.repostAuthor?.id =?= currentUser?.id))
         let replyAllVisibility: InteractionVisibility
         let watchVisibility: InteractionVisibility
         if ownPost {
-            replyAllVisibility = .Enabled
-            watchVisibility = .Hidden
+            replyAllVisibility = .enabled
+            watchVisibility = .hidden
         }
         else {
-            replyAllVisibility = .Hidden
+            replyAllVisibility = .hidden
             if ownRepost {
-                watchVisibility = .Hidden
+                watchVisibility = .hidden
             }
             else {
-                watchVisibility = .Enabled
+                watchVisibility = .enabled
             }
         }
 

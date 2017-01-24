@@ -2,14 +2,14 @@
 ///  CreateProfileViewController.swift
 //
 
-public class CreateProfileViewController: UIViewController, HasAppController {
+class CreateProfileViewController: UIViewController, HasAppController {
     var mockScreen: CreateProfileScreenProtocol?
     var screen: CreateProfileScreenProtocol { return mockScreen ?? (self.view as! CreateProfileScreenProtocol) }
     var parentAppController: AppViewController?
     var currentUser: User?
 
-    public var onboardingViewController: OnboardingViewController?
-    public var onboardingData: OnboardingData!
+    var onboardingViewController: OnboardingViewController?
+    var onboardingData: OnboardingData!
     var didSetName = false
     var didSetBio = false
     var didSetLinks = false
@@ -25,7 +25,7 @@ public class CreateProfileViewController: UIViewController, HasAppController {
             didUploadAvatarImage) && (!didSetLinks || linksAreValid)
     }
 
-    override public func loadView() {
+    override func loadView() {
         let screen = CreateProfileScreen()
         screen.delegate = self
         self.view = screen
@@ -33,30 +33,30 @@ public class CreateProfileViewController: UIViewController, HasAppController {
 }
 
 extension CreateProfileViewController: CreateProfileDelegate {
-    func presentController(controller: UIViewController) {
-        presentViewController(controller, animated: true, completion: nil)
+    func present(controller: UIViewController) {
+        present(controller, animated: true, completion: nil)
     }
 
     func dismissController() {
-        dismissViewControllerAnimated(true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
 
-    func assignName(name: String?) -> ValidationState {
+    func assign(name: String?) -> ValidationState {
         onboardingData.name = name
         didSetName = (name?.isEmpty == false)
         onboardingViewController?.canGoNext = profileIsValid
-        return didSetName ? .OKSmall : .None
+        return didSetName ? .okSmall : .none
     }
 
-    func assignBio(bio: String?) -> ValidationState {
+    func assign(bio: String?) -> ValidationState {
         onboardingData.bio = bio
         didSetBio = (bio?.isEmpty == false)
         onboardingViewController?.canGoNext = profileIsValid
-        return didSetBio ? .OKSmall : .None
+        return didSetBio ? .okSmall : .none
     }
 
-    func assignLinks(links: String?) -> ValidationState {
-        if let links = links where Validator.hasValidLinks(links) {
+    func assign(links: String?) -> ValidationState {
+        if let links = links, Validator.hasValidLinks(links) {
             onboardingData.links = links
             didSetLinks = true
             linksAreValid = true
@@ -74,26 +74,27 @@ extension CreateProfileViewController: CreateProfileDelegate {
         onboardingViewController?.canGoNext = profileIsValid
 
         debouncedLinksValidator { [weak self] in
-            guard let sself = self else { return }
-            sself.screen.linksValid = sself.didSetLinks ? sself.linksAreValid : nil
+            guard let `self` = self else { return }
+            self.screen.linksValid = self.didSetLinks ? self.linksAreValid : nil
         }
-        return linksAreValid ? .OKSmall : .None
+        return linksAreValid ? .okSmall : .none
     }
 
-    func assignCoverImage(image: ImageRegionData) {
+    func assign(coverImage: ImageRegionData) {
         didUploadCoverImage = true
-        onboardingData.coverImage = image
+        onboardingData.coverImage = coverImage
         onboardingViewController?.canGoNext = profileIsValid
     }
-    func assignAvatar(image: ImageRegionData) {
+
+    func assign(avatarImage: ImageRegionData) {
         didUploadAvatarImage = true
-        onboardingData.avatarImage = image
+        onboardingData.avatarImage = avatarImage
         onboardingViewController?.canGoNext = profileIsValid
     }
 }
 
 extension CreateProfileViewController: OnboardingStepController {
-    public func onboardingStepBegin() {
+    func onboardingStepBegin() {
         didSetName = (onboardingData.name?.isEmpty == false)
         didSetBio = (onboardingData.bio?.isEmpty == false)
         if let links = onboardingData.links {
@@ -116,31 +117,31 @@ extension CreateProfileViewController: OnboardingStepController {
         screen.avatarImage = onboardingData.avatarImage
     }
 
-    public func onboardingWillProceed(abort: Bool, proceedClosure: (success: OnboardingViewController.OnboardingProceed) -> Void) {
+    func onboardingWillProceed(abort: Bool, proceedClosure: @escaping (_ success: OnboardingViewController.OnboardingProceed) -> Void) {
         var properties: [String: AnyObject] = [:]
-        if let name = onboardingData.name where didSetName {
-            Tracker.sharedTracker.enteredOnboardName()
-            properties["name"] = name
+        if let name = onboardingData.name, didSetName {
+            Tracker.shared.enteredOnboardName()
+            properties["name"] = name as AnyObject?
         }
 
-        if let bio = onboardingData.bio where didSetBio {
-            Tracker.sharedTracker.enteredOnboardBio()
-            properties["unsanitized_short_bio"] = bio
+        if let bio = onboardingData.bio, didSetBio {
+            Tracker.shared.enteredOnboardBio()
+            properties["unsanitized_short_bio"] = bio as AnyObject?
         }
 
-        if let links = onboardingData.links where didSetLinks {
-            Tracker.sharedTracker.enteredOnboardLinks()
-            properties["external_links"] = links
+        if let links = onboardingData.links, didSetLinks {
+            Tracker.shared.enteredOnboardLinks()
+            properties["external_links"] = links as AnyObject?
         }
 
         let avatarImage: ImageRegionData? = didUploadAvatarImage ? onboardingData.avatarImage : nil
         if avatarImage != nil {
-            Tracker.sharedTracker.uploadedOnboardAvatar()
+            Tracker.shared.uploadedOnboardAvatar()
         }
 
         let coverImage: ImageRegionData? = didUploadCoverImage ? onboardingData.coverImage : nil
         if coverImage != nil {
-            Tracker.sharedTracker.uploadedOnboardCoverImage()
+            Tracker.shared.uploadedOnboardCoverImage()
         }
 
         guard avatarImage != nil || coverImage != nil || !properties.isEmpty else {
@@ -155,58 +156,59 @@ extension CreateProfileViewController: OnboardingStepController {
                 self.parentAppController?.currentUser = user
                 self.goToNextStep(abort, proceedClosure: proceedClosure) },
             failure: { error, _ in
-                proceedClosure(success: .Error)
+                proceedClosure(.error)
                 let message: String
-                if let elloError = error.elloError, messages = elloError.messages {
+                if let elloError = error.elloError, let messages = elloError.messages {
                     if elloError.attrs?["links"] != nil {
                         self.screen.linksValid = false
                     }
-                    message = messages.joinWithSeparator("\n")
+                    message = messages.joined(separator: "\n")
                 }
                 else {
                     message = InterfaceString.GenericError
                 }
                 let alertController = AlertViewController(error: message)
-                self.parentAppController?.presentViewController(alertController, animated: true, completion: nil)
+                self.parentAppController?.present(alertController, animated: true, completion: nil)
             })
     }
 
-    func goToNextStep(abort: Bool, proceedClosure: (success: OnboardingViewController.OnboardingProceed) -> Void) {
-        guard let
-            presenter = onboardingViewController?.parentAppController
-        where !abort else {
-            proceedClosure(success: .Abort)
+    func goToNextStep(_ abort: Bool, proceedClosure: @escaping (_ success: OnboardingViewController.OnboardingProceed) -> Void) {
+        guard
+            let presenter = onboardingViewController?.parentAppController, !abort else {
+            proceedClosure(.abort)
             return
         }
 
-        Tracker.sharedTracker.inviteFriendsTapped()
+        Tracker.shared.inviteFriendsTapped()
         AddressBookController.promptForAddressBookAccess(fromController: self,
-            completion: {result in
+            completion: { result in
             switch result {
-            case let .Success(addressBook):
-                Tracker.sharedTracker.contactAccessPreferenceChanged(true)
+            case let .success(addressBook):
+                Tracker.shared.contactAccessPreferenceChanged(true)
 
                 let vc = InviteFriendsViewController(addressBook: addressBook)
                 vc.currentUser = self.currentUser
                 vc.onboardingViewController = self.onboardingViewController
                 self.onboardingViewController?.inviteFriendsController = vc
 
-                proceedClosure(success: .Continue)
-            case let .Failure(addressBookError):
-                guard addressBookError != .Cancelled else {
-                    proceedClosure(success: .Error)
+                proceedClosure(.continue)
+            case let .failure(addressBookError):
+                guard addressBookError != .cancelled else {
+                    proceedClosure(.error)
                     return
                 }
 
-                Tracker.sharedTracker.contactAccessPreferenceChanged(false)
+                Tracker.shared.contactAccessPreferenceChanged(false)
                 let message = addressBookError.rawValue
-                let alertController = AlertViewController(error: NSString.localizedStringWithFormat(InterfaceString.Friends.ImportErrorTemplate, message) as String)
-                presenter.presentViewController(alertController, animated: true, completion: .None)
+                let alertController = AlertViewController(error: NSString.localizedStringWithFormat(InterfaceString.Friends.ImportErrorTemplate as NSString, [message]) as String)
+                presenter.present(alertController, animated: true, completion: .none)
             }
         },
             cancelCompletion: {
                 guard let onboardingView = self.onboardingViewController?.view else { return }
                 ElloHUD.hideLoadingHudInView(onboardingView)
+
+                proceedClosure(.continue)
         })
     }
 }

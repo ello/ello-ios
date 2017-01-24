@@ -2,14 +2,13 @@
 ///  NotificationsViewControllerSpec.swift
 //
 
-@testable
-import Ello
+@testable import Ello
 import Quick
 import Nimble
 
 
 class FakeNavigationController: UINavigationController {
-    override func pushViewController(viewController: UIViewController, animated: Bool) {
+    override func pushViewController(_ viewController: UIViewController, animated: Bool) {
         super.pushViewController(viewController, animated: false)
     }
 }

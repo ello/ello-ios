@@ -5,7 +5,7 @@
 import SnapKit
 
 
-public class CredentialsScreen: EmptyScreen {
+class CredentialsScreen: EmptyScreen {
     struct Size {
         static let backTopInset: CGFloat = 10
         static let titleTop: CGFloat = 110
@@ -18,12 +18,12 @@ public class CredentialsScreen: EmptyScreen {
     let titleLabel = StyledLabel(style: .LargeWhite)
     let gradientLayer = StartupGradientLayer()
 
-    override public func updateConstraints() {
+    override func updateConstraints() {
         super.updateConstraints()
-        scrollViewWidthConstraint.updateOffset(frame.size.width)
+        scrollViewWidthConstraint.update(offset: frame.size.width)
     }
 
-    override public func layoutSubviews() {
+    override func layoutSubviews() {
         super.layoutSubviews()
         let maxDimension = max(layer.frame.size.width, layer.frame.size.height)
         let size = CGSize(width: maxDimension, height: maxDimension)
@@ -32,13 +32,13 @@ public class CredentialsScreen: EmptyScreen {
     }
 
     override func bindActions() {
-        backButton.addTarget(self, action: #selector(backAction), forControlEvents: .TouchUpInside)
+        backButton.addTarget(self, action: #selector(backAction), for: .touchUpInside)
     }
 
     override func style() {
         super.style()
-        backButton.setImages(.AngleBracket, degree: 180, white: true)
-        backButton.contentMode = .Center
+        backButton.setImages(.angleBracket, degree: 180, white: true)
+        backButton.contentMode = .center
     }
 
     override func arrange() {
@@ -51,18 +51,18 @@ public class CredentialsScreen: EmptyScreen {
         scrollView.addSubview(titleLabel)
         scrollView.addSubview(backButton)
 
-        titleLabel.snp_makeConstraints { make in
+        titleLabel.snp.makeConstraints { make in
             make.top.equalTo(scrollView).offset(Size.titleTop)
             make.leading.equalTo(scrollView).offset(Size.inset)
         }
 
-        backButton.snp_makeConstraints { make in
+        backButton.snp.makeConstraints { make in
             make.top.equalTo(scrollView).offset(Size.backTopInset)
             make.leading.equalTo(scrollView)
             make.size.equalTo(CGSize.minButton)
         }
     }
 
-    public func backAction() {
+    func backAction() {
     }
 }

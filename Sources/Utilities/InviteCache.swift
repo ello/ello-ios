@@ -4,29 +4,33 @@
 
 import Foundation
 
-public struct InviteCache {
-    var cache: ObjectCache<NSString>
+private let key = "ElloInviteCache"
 
-    public init() {
-        cache = ObjectCache<NSString>(name: "ElloInviteCache")
-        cache.load()
+struct InviteCache {
+    var cache: [String]
+
+    init() {
+        if let existing = GroupDefaults[key].array as? [String] {
+            cache = existing
+        }
+        else {
+            cache = []
+        }
     }
 
-    public init(persistentLayer: PersistentLayer) {
-        cache = ObjectCache<NSString>(name: "ElloInviteCache", persistentLayer: persistentLayer)
-        cache.load()
-    }
+    mutating func saveInvite(_ contactID: String) {
+        guard !has(contactID) else { return }
 
-    public func saveInvite(contactID: String) {
-        if has(contactID) { return }
         cache.append(contactID)
+        GroupDefaults[key] = cache
     }
 
-    public func has(contactID: String) -> Bool {
-        return cache.getAll().contains(contactID)
+    func has(_ contactID: String) -> Bool {
+        return cache.contains(contactID)
     }
 
-    public func clear() {
-        cache.clear()
+    mutating func clear() {
+        cache = []
+        GroupDefaults[key] = nil
     }
 }

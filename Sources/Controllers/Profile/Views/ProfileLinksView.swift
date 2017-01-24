@@ -5,8 +5,8 @@
 import SnapKit
 
 
-public class ProfileLinksView: ProfileBaseView {
-    public struct Size {
+class ProfileLinksView: ProfileBaseView {
+    struct Size {
         static let margins = UIEdgeInsets(top: 12, left: 15, bottom: 15, right: 15)
         static let iconInsets = UIEdgeInsets(all: 15)
         static let iconSize = CGSize(width: 22, height: 22)
@@ -16,7 +16,7 @@ public class ProfileLinksView: ProfileBaseView {
         static let linkHeight: CGFloat = 26
     }
 
-    public var externalLinks: [ExternalLink] = [] {
+    var externalLinks: [ExternalLink] = [] {
         didSet {
             setNeedsUpdateConstraints()
             rearrangeLinks()
@@ -25,11 +25,11 @@ public class ProfileLinksView: ProfileBaseView {
 
     weak var webLinkDelegate: WebLinkDelegate?
 
-    private var linksBox = UIView()
-    private var iconsBox = UIView()
-    private var linkButtons: [UIButton] = []
-    private var iconButtons: [UIButton] = []
-    private var buttonLinks: [UIButton: ExternalLink] = [:]
+    fileprivate var linksBox = UIView()
+    fileprivate var iconsBox = UIView()
+    fileprivate var linkButtons: [UIButton] = []
+    fileprivate var iconButtons: [UIButton] = []
+    fileprivate var buttonLinks: [UIButton: ExternalLink] = [:]
 
     var onHeightMismatch: OnHeightMismatch?
 }
@@ -37,8 +37,8 @@ public class ProfileLinksView: ProfileBaseView {
 extension ProfileLinksView {
 
     override func style() {
-        backgroundColor = .whiteColor()
-        iconsBox.backgroundColor = .whiteColor()
+        backgroundColor = .white
+        iconsBox.backgroundColor = .white
     }
 
     override func bindActions() {
@@ -51,12 +51,12 @@ extension ProfileLinksView {
         addSubview(linksBox)
         addSubview(iconsBox)
 
-        linksBox.snp_makeConstraints { make in
+        linksBox.snp.makeConstraints { make in
             make.leading.top.bottom.equalTo(self).inset(Size.margins)
-            make.trailing.equalTo(iconsBox.snp_leading).offset(-Size.horizLinkButtonMargin)
+            make.trailing.equalTo(iconsBox.snp.leading).offset(-Size.horizLinkButtonMargin)
         }
 
-        iconsBox.snp_makeConstraints { make in
+        iconsBox.snp.makeConstraints { make in
             make.trailing.top.bottom.equalTo(self).inset(Size.iconInsets)
             make.width.equalTo(Size.iconSize.width)
         }
@@ -91,7 +91,7 @@ extension ProfileLinksView {
 
         let (perRow, iconsBoxWidth) = ProfileLinksSizeCalculator.calculateIconsBoxWidth(externalLinks, maxWidth: bounds.width)
 
-        iconsBox.snp_updateConstraints { make in
+        iconsBox.snp.updateConstraints { make in
             make.width.equalTo(iconsBoxWidth)
         }
 
@@ -120,9 +120,9 @@ extension ProfileLinksView {
         }
     }
 
-    private func addIconButton(externalLink: ExternalLink, iconsCount: Int, prevIcon: UIButton?, prevRow: UIView?, perRow: Int, hasTextLinks: Bool) -> UIButton {
+    fileprivate func addIconButton(_ externalLink: ExternalLink, iconsCount: Int, prevIcon: UIButton?, prevRow: UIView?, perRow: Int, hasTextLinks: Bool) -> UIButton {
         let button = UIButton()
-        button.addTarget(self, action: #selector(buttonTapped(_:)), forControlEvents: .TouchUpInside)
+        button.addTarget(self, action: #selector(buttonTapped(_:)), for: .touchUpInside)
         buttonLinks[button] = externalLink
 
         iconsBox.addSubview(button)
@@ -130,7 +130,7 @@ extension ProfileLinksView {
 
         button.layer.cornerRadius = Size.iconSize.width / 2
         button.backgroundColor = .greyE5()
-        button.snp_makeConstraints { make in
+        button.snp.makeConstraints { make in
             make.size.equalTo(Size.iconSize)
 
             let direction = hasTextLinks ? make.trailing : make.leading
@@ -139,36 +139,36 @@ extension ProfileLinksView {
             case 0:
                 direction.equalTo(iconsBox)
             default:
-                let prevDirection = hasTextLinks ? prevIcon!.snp_leading : prevIcon!.snp_trailing
+                let prevDirection = hasTextLinks ? prevIcon!.snp.leading : prevIcon!.snp.trailing
                 let offset = hasTextLinks ? -Size.iconMargins : Size.iconMargins
                 direction.equalTo(prevDirection).offset(offset)
             }
 
             if let prevRow = prevRow {
-                make.top.equalTo(prevRow.snp_bottom).offset(Size.iconMargins)
+                make.top.equalTo(prevRow.snp.bottom).offset(Size.iconMargins)
             }
             else {
                 make.top.equalTo(iconsBox)
             }
         }
 
-        button.pin_setImageFromURL(externalLink.iconURL!)
+        button.pin_setImage(from: externalLink.iconURL! as URL!)
         return button
     }
 
-    private func addLinkButton(externalLink: ExternalLink, prevLink: UIButton?) -> UIButton {
+    fileprivate func addLinkButton(_ externalLink: ExternalLink, prevLink: UIButton?) -> UIButton {
         let button = UIButton()
-        button.addTarget(self, action: #selector(buttonTapped(_:)), forControlEvents: .TouchUpInside)
+        button.addTarget(self, action: #selector(buttonTapped(_:)), for: .touchUpInside)
         buttonLinks[button] = externalLink
 
         linksBox.addSubview(button)
         linkButtons.append(button)
 
-        button.snp_makeConstraints { make in
+        button.snp.makeConstraints { make in
             make.leading.trailing.equalTo(linksBox)
 
             if let prevLink = prevLink {
-                make.top.equalTo(prevLink.snp_bottom).offset(Size.verticalLinkMargin)
+                make.top.equalTo(prevLink.snp.bottom).offset(Size.verticalLinkMargin)
             }
             else {
                 make.top.equalTo(linksBox)
@@ -178,26 +178,26 @@ extension ProfileLinksView {
         let attrs: [String: AnyObject] = [
             NSFontAttributeName: UIFont.defaultFont(),
             NSForegroundColorAttributeName: UIColor.greyA(),
-            NSUnderlineStyleAttributeName: NSUnderlineStyle.StyleSingle.rawValue,
+            NSUnderlineStyleAttributeName: NSUnderlineStyle.styleSingle.rawValue as AnyObject,
         ]
         let highlightedAttrs: [String: AnyObject] = [
             NSFontAttributeName: UIFont.defaultFont(),
-            NSForegroundColorAttributeName: UIColor.blackColor(),
-            NSUnderlineStyleAttributeName: NSUnderlineStyle.StyleSingle.rawValue,
+            NSForegroundColorAttributeName: UIColor.black,
+            NSUnderlineStyleAttributeName: NSUnderlineStyle.styleSingle.rawValue as AnyObject,
         ]
-        button.setAttributedTitle(NSAttributedString(string: externalLink.text, attributes: attrs), forState: .Normal)
-        button.setAttributedTitle(NSAttributedString(string: externalLink.text, attributes: highlightedAttrs), forState: .Highlighted)
-        button.contentHorizontalAlignment = .Left
+        button.setAttributedTitle(NSAttributedString(string: externalLink.text, attributes: attrs), for: .normal)
+        button.setAttributedTitle(NSAttributedString(string: externalLink.text, attributes: highlightedAttrs), for: .highlighted)
+        button.contentHorizontalAlignment = .left
         return button
     }
 
-    func buttonTapped(button: UIButton) {
-        guard let
-            externalLink = buttonLinks[button]
+    func buttonTapped(_ button: UIButton) {
+        guard
+            let externalLink = buttonLinks[button]
             else { return }
 
-        let request = NSURLRequest(URL: externalLink.url)
-        ElloWebViewHelper.handleRequest(request, webLinkDelegate: webLinkDelegate)
+        let request = URLRequest(url: externalLink.url as URL)
+        ElloWebViewHelper.handle(request: request, webLinkDelegate: webLinkDelegate)
     }
 }
 

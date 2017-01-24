@@ -17,7 +17,7 @@ class ProfileNamesViewSpec: QuickSpec {
                     ))
                 subject.name = "Jim"
                 subject.username = "@jimmy"
-                expectValidSnapshot(subject, named: "ProfileNamesView-horizontal", device: .Custom(subject.frame.size))
+                expectValidSnapshot(subject, named: "ProfileNamesView-horizontal", device: .custom(subject.frame.size))
             }
             it("vertical snapshots") {
                 let subject = ProfileNamesView(frame: CGRect(
@@ -26,7 +26,7 @@ class ProfileNamesViewSpec: QuickSpec {
                     ))
                 subject.name = "Jimmy Jim Jim Shabadoo"
                 subject.username = "@jimmy"
-                expectValidSnapshot(subject, named: "ProfileNamesView-vertical", device: .Custom(subject.frame.size))
+                expectValidSnapshot(subject, named: "ProfileNamesView-vertical", device: .custom(subject.frame.size))
             }
         }
     }

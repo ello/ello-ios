@@ -3,7 +3,7 @@
 //
 
 protocol ProfileCategoriesDelegate: class {
-    func categoryTapped(category: Category)
+    func categoryTapped(_ category: Category)
     func dismiss()
 }
 

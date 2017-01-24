@@ -6,21 +6,21 @@ import Moya
 import Foundation
 import UIKit
 
-public class S3UploadingService {
-    typealias S3UploadSuccessCompletion = (url: NSURL?) -> Void
+class S3UploadingService {
+    typealias S3UploadSuccessCompletion = (URL?) -> Void
 
     var uploader: ElloS3?
 
-    func upload(imageRegionData image: ImageRegionData, success: S3UploadSuccessCompletion, failure: ElloFailureCompletion) {
-        if let data = image.data, contentType = image.contentType {
-            upload(data, contentType: contentType, success: success, failure: failure)
+    func upload(imageRegionData image: ImageRegionData, success: @escaping S3UploadSuccessCompletion, failure: @escaping ElloFailureCompletion) {
+        if let data = image.data, let contentType = image.contentType {
+            upload(data as Data, contentType: contentType, success: success, failure: failure)
         }
         else {
             upload(image.image, success: success, failure: failure)
         }
     }
 
-    func upload(image: UIImage, success: S3UploadSuccessCompletion, failure: ElloFailureCompletion) {
+    func upload(_ image: UIImage, success: @escaping S3UploadSuccessCompletion, failure: @escaping ElloFailureCompletion) {
         inBackground {
             if let data = UIImageJPEGRepresentation(image, 0.8) {
                 // Head back to the thread the original caller was on before heading into the service calls. I may be overthinking it.
@@ -30,33 +30,33 @@ public class S3UploadingService {
             }
             else {
                 let error = NSError(domain: ElloErrorDomain, code: 500, userInfo: [NSLocalizedFailureReasonErrorKey: InterfaceString.Error.JPEGCompress])
-                failure(error: error, statusCode: nil)
+                failure(error, nil)
             }
         }
     }
 
-    func upload(data: NSData, contentType: String, success: S3UploadSuccessCompletion, failure: ElloFailureCompletion) {
+    func upload(_ data: Data, contentType: String, success: @escaping S3UploadSuccessCompletion, failure: @escaping ElloFailureCompletion) {
         let filename: String
         switch contentType {
         case "image/gif":
-            filename = "\(NSUUID().UUIDString).gif"
+            filename = "\(UUID().uuidString).gif"
         case "image/png":
-            filename = "\(NSUUID().UUIDString).png"
+            filename = "\(UUID().uuidString).png"
         default:
-            filename = "\(NSUUID().UUIDString).jpg"
+            filename = "\(UUID().uuidString).jpg"
         }
 
-        ElloProvider.shared.elloRequest(ElloAPI.AmazonCredentials,
+        ElloProvider.shared.elloRequest(ElloAPI.amazonCredentials,
             success: { credentialsData, responseConfig in
                 if let credentials = credentialsData as? AmazonCredentials {
                     self.uploader = ElloS3(credentials: credentials, filename: filename, data: data, contentType: contentType)
-                        .onSuccess({ (data: NSData) in
+                        .onSuccess({ (data: Data) in
                             let endpoint: String = credentials.endpoint
                             let prefix: String = credentials.prefix
-                            success(url: NSURL(string: "\(endpoint)/\(prefix)/\(filename)"))
+                            success(URL(string: "\(endpoint)/\(prefix)/\(filename)"))
                         })
-                        .onFailure({ (error: NSError) in
-                            failure(error: error, statusCode: nil)
+                        .onFailure({ (error: Swift.Error) in
+                            failure(error as NSError, nil) // FIXME - is this the correct usage of Error?
                         })
                         .start()
                 }

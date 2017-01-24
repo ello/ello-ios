@@ -16,7 +16,7 @@ class ProfileAvatarViewSpec: QuickSpec {
                     size: CGSize(width: 375, height: 255)
                 ))
                 subject.avatarImage = specImage(named: "specs-avatar")!
-                expectValidSnapshot(subject, named: "ProfileAvatarView", device: .Custom(subject.frame.size))
+                expectValidSnapshot(subject, named: "ProfileAvatarView", device: .custom(subject.frame.size))
             }
         }
     }

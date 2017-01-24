@@ -5,15 +5,15 @@
 import PINRemoteImage
 
 
-public class OnboardingViewController: BaseElloViewController, HasAppController {
-    private enum OnboardingDirection: CGFloat {
-        case Left = -1
-        case Right = 1
+class OnboardingViewController: BaseElloViewController, HasAppController {
+    fileprivate enum OnboardingDirection: CGFloat {
+        case left = -1
+        case right = 1
     }
-    public enum OnboardingProceed {
-        case Continue
-        case Abort
-        case Error
+    enum OnboardingProceed {
+        case `continue`
+        case abort
+        case error
     }
 
     var mockScreen: OnboardingScreenProtocol?
@@ -33,19 +33,19 @@ public class OnboardingViewController: BaseElloViewController, HasAppController 
     var isTransitioning: Bool { return transitioningViewController != nil }
     let onboardingData = OnboardingData()
     var visibleViewController: UIViewController?
-    private var transitioningViewController: UIViewController?
-    private var visibleViewControllerIndex: Int = 0
-    private var onboardingViewControllers = [UIViewController]()
+    fileprivate var transitioningViewController: UIViewController?
+    fileprivate var visibleViewControllerIndex: Int = 0
+    fileprivate var onboardingViewControllers = [UIViewController]()
 
-    public var hasAbortButton: Bool {
+    var hasAbortButton: Bool {
         get { return screen.hasAbortButton }
         set { screen.hasAbortButton = newValue }
     }
-    public var canGoNext: Bool {
+    var canGoNext: Bool {
         get { return screen.canGoNext }
         set { screen.canGoNext = newValue }
     }
-    public var prompt: String? {
+    var prompt: String? {
         get { return screen.prompt }
         set { screen.prompt = newValue }
     }
@@ -58,41 +58,34 @@ public class OnboardingViewController: BaseElloViewController, HasAppController 
             onboardingData.bio = currentUser.profile?.shortBio
             if let links = currentUser.externalLinksList {
                 onboardingData.links = links.reduce("") { (memo: String, link) in
-                    if (memo ?? "").characters.count == 0 {
-                        return link.url.absoluteString ?? ""
-                    }
-                    else if let url = link.url.absoluteString {
-                        return "\(memo), \(url)"
+                    if memo.characters.count == 0 {
+                        return link.url.absoluteString
                     }
                     else {
-                        return memo
+                        return "\(memo), \(link.url.absoluteString)"
                     }
                 }
             }
 
-            if let url = currentUser.avatarURL(),
-            urlString = url.absoluteString
-            where urlString !~ "ello-default"
+            if let url = currentUser.avatarURL(), url.absoluteString !~ "ello-default"
             {
-                PINRemoteImageManager.sharedImageManager().downloadImageWithURL(url) { result in
-                    if let animatedImage = result.animatedImage {
+                PINRemoteImageManager.shared().downloadImage(with: url, options: []) { result in
+                    if let animatedImage = result?.animatedImage {
                         self.onboardingData.avatarImage = ImageRegionData(image: animatedImage.posterImage, data: animatedImage.data, contentType: "image/gif")
                     }
-                    else if let image = result.image {
+                    else if let image = result?.image {
                         self.onboardingData.avatarImage = ImageRegionData(image: image)
                     }
                 }
             }
 
-            if let url = currentUser.coverImageURL(),
-            urlString = url.absoluteString
-            where urlString !~ "ello-default"
+            if let url = currentUser.coverImageURL(), url.absoluteString !~ "ello-default"
             {
-                PINRemoteImageManager.sharedImageManager().downloadImageWithURL(url) { result in
-                    if let animatedImage = result.animatedImage {
+                PINRemoteImageManager.shared().downloadImage(with: url, options: []) { result in
+                    if let animatedImage = result?.animatedImage {
                         self.onboardingData.coverImage = ImageRegionData(image: animatedImage.posterImage, data: animatedImage.data, contentType: "image/gif")
                     }
-                    else if let image = result.image {
+                    else if let image = result?.image {
                         self.onboardingData.coverImage = ImageRegionData(image: image)
                     }
                 }
@@ -106,19 +99,19 @@ public class OnboardingViewController: BaseElloViewController, HasAppController 
         }
     }
 
-    override public func loadView() {
+    override func loadView() {
         let screen = OnboardingScreen()
         screen.delegate = self
         self.view = screen
     }
 
-    override public func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
 
         setupOnboardingControllers()
     }
 
-    override public func viewDidLayoutSubviews() {
+    override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
         visibleViewController?.view.frame.origin.y = screen.controllerContainer.bounds.origin.y
@@ -148,13 +141,13 @@ private extension OnboardingViewController {
 }
 
 extension OnboardingViewController: OnboardingDelegate {
-    public func nextAction() { proceedToNextStep(abort: false) }
-    public func abortAction() { proceedToNextStep(abort: true) }
+    func nextAction() { proceedToNextStep(abort: false) }
+    func abortAction() { proceedToNextStep(abort: true) }
 }
 
 // MARK: Child View Controller handling
 extension OnboardingViewController {
-    override public func sizeForChildContentContainer(container: UIContentContainer, withParentContainerSize: CGSize) -> CGSize {
+    override func size(forChildContentContainer container: UIContentContainer, withParentContainerSize: CGSize) -> CGSize {
         return screen.controllerContainer.frame.size
     }
 }
@@ -162,24 +155,24 @@ extension OnboardingViewController {
 // MARK: Button Actions
 extension OnboardingViewController {
 
-    public func proceedToNextStep(abort abort: Bool) {
+    func proceedToNextStep(abort: Bool) {
         if visibleViewController is CategoriesSelectionViewController {
-            Tracker.sharedTracker.completedCategories()
+            Tracker.shared.completedCategories()
             if abort {
-                Tracker.sharedTracker.skippedNameBio()
+                Tracker.shared.skippedNameBio()
             }
         }
         else if visibleViewController is CreateProfileViewController {
-            Tracker.sharedTracker.addedNameBio()
+            Tracker.shared.addedNameBio()
             if abort {
-                Tracker.sharedTracker.skippedContactImport()
+                Tracker.shared.skippedContactImport()
             }
         }
         else if visibleViewController is InviteFriendsViewController {
-            Tracker.sharedTracker.completedContactImport()
+            Tracker.shared.completedContactImport()
         }
 
-        let proceedClosure: (success: OnboardingProceed) -> Void
+        let proceedClosure: (_ success: OnboardingProceed) -> Void
         if abort {
             proceedClosure = { _ in
                 self.doneOnboarding()
@@ -188,10 +181,10 @@ extension OnboardingViewController {
         else {
             proceedClosure = { success in
                 ElloHUD.hideLoadingHudInView(self.view)
-                if success == .Continue {
+                if success == .continue {
                     self.goToNextStep()
                 }
-                else if success == .Abort {
+                else if success == .abort {
                     self.doneOnboarding()
                 }
             }
@@ -199,7 +192,7 @@ extension OnboardingViewController {
 
         ElloHUD.showLoadingHudInView(self.view)
         let onboardingStep = visibleViewController as! OnboardingStepController
-        onboardingStep.onboardingWillProceed(abort, proceedClosure: proceedClosure)
+        onboardingStep.onboardingWillProceed(abort: abort, proceedClosure: proceedClosure)
     }
 
 }
@@ -207,7 +200,7 @@ extension OnboardingViewController {
 // MARK: Screen transitions
 extension OnboardingViewController {
 
-    private func addOnboardingViewController(viewController: UIViewController) {
+    fileprivate func addOnboardingViewController(_ viewController: UIViewController) {
         if visibleViewController == nil {
             showFirstViewController(viewController)
         }
@@ -215,16 +208,16 @@ extension OnboardingViewController {
         onboardingViewControllers.append(viewController)
     }
 
-    private func showFirstViewController(viewController: UIViewController) {
-        Tracker.sharedTracker.screenAppeared(viewController)
+    fileprivate func showFirstViewController(_ viewController: UIViewController) {
+        Tracker.shared.screenAppeared(viewController)
 
         prepareOnboardingController(viewController)
 
         addChildViewController(viewController)
         screen.controllerContainer.addSubview(viewController.view)
         viewController.view.frame = screen.controllerContainer.bounds
-        viewController.view.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
-        viewController.didMoveToParentViewController(self)
+        viewController.view.autoresizingMask = [.flexibleHeight, .flexibleWidth]
+        viewController.didMove(toParentViewController: self)
 
         visibleViewController = viewController
         visibleViewControllerIndex = 0
@@ -235,18 +228,18 @@ extension OnboardingViewController {
 // MARK: Moving through the screens
 extension OnboardingViewController {
 
-    public func goToNextStep() {
+    func goToNextStep() {
         self.visibleViewControllerIndex += 1
 
         if let nextViewController = onboardingViewControllers.safeValue(visibleViewControllerIndex) {
-            goToController(nextViewController, direction: .Right)
+            goToController(nextViewController, direction: .right)
         }
         else {
             doneOnboarding()
         }
     }
 
-    public func goToPreviousStep() {
+    func goToPreviousStep() {
         self.visibleViewControllerIndex -= 1
 
         if self.visibleViewControllerIndex == -1 {
@@ -255,16 +248,16 @@ extension OnboardingViewController {
         }
 
         if let prevViewController = onboardingViewControllers.safeValue(visibleViewControllerIndex) {
-            goToController(prevViewController, direction: .Left)
+            goToController(prevViewController, direction: .left)
         }
     }
 
-    private func doneOnboarding() {
+    fileprivate func doneOnboarding() {
         parentAppController?.doneOnboarding()
     }
 
-    public func goToController(viewController: UIViewController) {
-        goToController(viewController, direction: .Right)
+    func goToController(_ viewController: UIViewController) {
+        goToController(viewController, direction: .right)
     }
 
 }
@@ -272,7 +265,7 @@ extension OnboardingViewController {
 // MARK: Controller transitions
 extension OnboardingViewController {
 
-    private func goToController(viewController: UIViewController, direction: OnboardingDirection) {
+    fileprivate func goToController(_ viewController: UIViewController, direction: OnboardingDirection) {
         guard let visibleViewController = visibleViewController else { return }
 
         if let step = OnboardingStep(rawValue: visibleViewControllerIndex) {
@@ -284,20 +277,20 @@ extension OnboardingViewController {
         transitionFromViewController(visibleViewController, toViewController: viewController, direction: direction)
     }
 
-    private func prepareOnboardingController(viewController: UIViewController) {
+    fileprivate func prepareOnboardingController(_ viewController: UIViewController) {
         guard let onboardingStep = viewController as? OnboardingStepController else { return }
         onboardingStep.onboardingData = onboardingData
         onboardingStep.onboardingStepBegin()
     }
 
-    private func transitionFromViewController(visibleViewController: UIViewController, toViewController nextViewController: UIViewController, direction: OnboardingDirection) {
+    fileprivate func transitionFromViewController(_ visibleViewController: UIViewController, toViewController nextViewController: UIViewController, direction: OnboardingDirection) {
         if isTransitioning {
             return
         }
 
-        Tracker.sharedTracker.screenAppeared(nextViewController)
+        Tracker.shared.screenAppeared(nextViewController)
 
-        visibleViewController.willMoveToParentViewController(nil)
+        visibleViewController.willMove(toParentViewController: nil)
         addChildViewController(nextViewController)
 
         nextViewController.view.alpha = 1
@@ -309,18 +302,18 @@ extension OnboardingViewController {
             )
 
         transitioningViewController = nextViewController
-        transition(
+        transitionControllers(
             from: visibleViewController,
             to: nextViewController,
             duration: 0.4,
-            options: .TransitionNone,
+            options: UIViewAnimationOptions(),
             animations: {
                 self.screen.controllerContainer.insertSubview(nextViewController.view, aboveSubview: visibleViewController.view)
                 visibleViewController.view.frame.origin.x = -direction.rawValue * visibleViewController.view.frame.width
                 nextViewController.view.frame.origin.x = 0
             },
             completion: { _ in
-                nextViewController.didMoveToParentViewController(self)
+                nextViewController.didMove(toParentViewController: self)
                 visibleViewController.removeFromParentViewController()
                 self.visibleViewController = nextViewController
                 self.transitioningViewController = nil

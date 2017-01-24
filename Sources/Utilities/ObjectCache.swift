@@ -4,47 +4,47 @@
 
 import Foundation
 
-public protocol PersistentLayer {
-    func setObject(value: AnyObject?, forKey: String)
-    func objectForKey(defaultName: String) -> AnyObject?
-    func removeObjectForKey(defaultName: String)
+protocol PersistentLayer {
+    func setObject(_ value: Any?, forKey: String)
+    func objectForKey(_ defaultName: String) -> Any?
+    func removeObjectForKey(_ defaultName: String)
 }
 
-extension NSUserDefaults: PersistentLayer { }
+extension UserDefaults: PersistentLayer { }
 
-public class ObjectCache<T: AnyObject> {
-    private let persistentLayer: PersistentLayer
-    public var cache: [T] = []
-    public let name: String
+class ObjectCache<T: Any> {
+    fileprivate let persistentLayer: PersistentLayer
+    var cache: [T] = []
+    let name: String
 
-    public init(name: String) {
+    init(name: String) {
         self.name = name
         persistentLayer = GroupDefaults
     }
 
-    public init(name: String, persistentLayer: PersistentLayer) {
+    init(name: String, persistentLayer: PersistentLayer) {
         self.name = name
         self.persistentLayer = persistentLayer
     }
 
-    public func append(item: T) {
+    func append(_ item: T) {
         cache.append(item)
         persist()
     }
 
-    public func getAll() -> [T] {
+    func getAll() -> [T] {
         return cache
     }
 
     func persist() {
-        persistentLayer.setObject(cache, forKey: name)
+        persistentLayer.setObject(cache as AnyObject?, forKey: name)
     }
 
-    public func load() {
+    func load() {
         cache = persistentLayer.objectForKey(name) as? [T] ?? []
     }
 
-    public func clear() {
+    func clear() {
         persistentLayer.removeObjectForKey(name)
     }
 }

@@ -13,8 +13,8 @@ class EmptyStreamCellPresenterSpec: QuickSpec {
         describe("EmptyStreamCellPresenter") {
             it("configures the cell") {
                 let cell = EmptyStreamCell()
-                let item = StreamCellItem(type: .EmptyStream(height: 200))
-                EmptyStreamCellPresenter.configure(cell, streamCellItem: item, streamKind: .Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
+                let item = StreamCellItem(type: .emptyStream(height: 200))
+                EmptyStreamCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: nil)
 
                 expect(cell.title) == InterfaceString.EmptyStreamText
             }

@@ -2,42 +2,42 @@
 ///  AvatarButton.swift
 //
 
-public class AvatarButton: UIButton {
+class AvatarButton: UIButton {
     // for specs; ensure the correct URL is assigned
-    public var imageURL: NSURL?
+    var imageURL: URL?
 
-    public override init(frame: CGRect) {
+    override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
     }
 
-    public required init?(coder: NSCoder) {
+    required init?(coder: NSCoder) {
         super.init(coder: coder)
         setup()
     }
 
-    private func setup() {
+    fileprivate func setup() {
         clipsToBounds = false
     }
 
-    func setUserAvatar(image: UIImage) {
+    func setUserAvatar(_ image: UIImage) {
         imageURL = nil
         pin_cancelImageDownload()
-        setImage(image, forState: .Normal)
+        setImage(image, for: .normal)
     }
 
-    func setUserAvatarURL(url: NSURL?) {
+    func setUserAvatarURL(_ url: URL?) {
         imageURL = url
         setDefaultImage()
 
         if let url = url {
-            pin_setImageFromURL(url) { result in
-                if result.image != nil {
-                    if result.resultType != .MemoryCache {
+            pin_setImage(from: url) { result in
+                if result?.image != nil {
+                    if result?.resultType != .memoryCache {
                         self.alpha = 0
-                        UIView.animateWithDuration(0.3,
+                        UIView.animate(withDuration: 0.3,
                             delay:0.0,
-                            options:UIViewAnimationOptions.CurveLinear,
+                            options:UIViewAnimationOptions.curveLinear,
                             animations: {
                                 self.alpha = 1.0
                             }, completion: nil)
@@ -52,10 +52,10 @@ public class AvatarButton: UIButton {
 
     func setDefaultImage() {
         pin_cancelImageDownload()
-        setImage(nil, forState: .Normal)
+        setImage(nil, for: .normal)
     }
 
-    override public func layoutSubviews() {
+    override func layoutSubviews() {
         super.layoutSubviews()
         if let imageView = self.imageView {
             imageView.layer.cornerRadius = imageView.bounds.size.height / CGFloat(2)

@@ -2,21 +2,22 @@
 ///  BaseElloViewController.swift
 //
 
-@objc public protocol ControllerThatMightHaveTheCurrentUser {
+@objc
+protocol ControllerThatMightHaveTheCurrentUser {
     var currentUser: User? { get set }
 }
 
-public class BaseElloViewController: UIViewController, ControllerThatMightHaveTheCurrentUser {
+class BaseElloViewController: UIViewController, ControllerThatMightHaveTheCurrentUser {
 
-    public var elloNavigationItem = UINavigationItem()
+    var elloNavigationItem = UINavigationItem()
 
-    override public var title: String? {
+    override var title: String? {
         didSet {
             elloNavigationItem.title = title ?? ""
         }
     }
 
-    public var currentUser: User? {
+    var currentUser: User? {
         didSet { didSetCurrentUser() }
     }
 
@@ -28,14 +29,19 @@ public class BaseElloViewController: UIViewController, ControllerThatMightHaveTh
         return findViewController { vc in vc is ElloTabBarController } as? ElloTabBarController
     }
 
-    override public func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.fixNavBarItemPadding()
     }
 
-    override public func viewWillAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        Tracker.shared.screenAppeared(self)
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        UIApplication.sharedApplication().statusBarStyle = .LightContent
+        UIApplication.shared.statusBarStyle = .lightContent
     }
 
     func didSetCurrentUser() {}
@@ -43,13 +49,12 @@ public class BaseElloViewController: UIViewController, ControllerThatMightHaveTh
     @IBAction
     func backTapped() {
         guard
-            let navigationController = navigationController
-        where navigationController.childViewControllers.count > 1 else { return }
+            let navigationController = navigationController, navigationController.childViewControllers.count > 1 else { return }
 
-        navigationController.popViewControllerAnimated(true)
+        _ = navigationController.popViewController(animated: true)
     }
 
-    public func isRootViewController() -> Bool {
+    func isRootViewController() -> Bool {
         if let viewControllers = navigationController?.viewControllers {
             return (viewControllers[0] ) == self
         }
@@ -58,7 +63,7 @@ public class BaseElloViewController: UIViewController, ControllerThatMightHaveTh
 }
 
 // MARK: Search
-public extension BaseElloViewController {
+extension BaseElloViewController {
     func searchButtonTapped() {
         let search = SearchViewController()
         search.currentUser = currentUser

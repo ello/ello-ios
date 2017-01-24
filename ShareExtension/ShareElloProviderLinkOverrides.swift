@@ -5,7 +5,7 @@
 import Foundation
 
 extension ElloProvider {
-    func parseLinks(response: NSHTTPURLResponse?, config: ResponseConfig) -> ResponseConfig {
+    func parseLinks(_ response: HTTPURLResponse?, config: ResponseConfig) -> ResponseConfig {
         return config
     }
 }

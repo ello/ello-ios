@@ -2,7 +2,7 @@
 ///  StreamServiceSpec.swift
 //
 
-import Ello
+@testable import Ello
 import Quick
 import Moya
 import Nimble
@@ -21,10 +21,10 @@ class StreamServiceSpec: QuickSpec {
                         var loadedPosts:[Post]?
                         var config: ResponseConfig?
 
-                        streamService.loadStream(endpoint: ElloAPI.FriendStream, streamKind: nil, success: { (jsonables, responseConfig) in
-                            loadedPosts = (StreamKind.Following.filter(jsonables, viewsAdultContent: true) as! [Post])
+                        streamService.loadStream(endpoint: ElloAPI.friendStream, streamKind: nil, success: { (jsonables, responseConfig) in
+                            loadedPosts = (StreamKind.following.filter(jsonables, viewsAdultContent: true) as! [Post])
                             config = responseConfig
-                        }, failure: nil)
+                        }, failure: { _ in })
 
                         expect(config?.prevQueryItems?.count) == 2
                         expect(config?.nextQueryItems?.count) == 2
@@ -51,19 +51,18 @@ class StreamServiceSpec: QuickSpec {
                         expect(post0Author.username) == "dcdoran"
                         expect(post0Author.name) == "Sterling"
                         expect(post0Author.experimentalFeatures) == true
-                        expect(post0Author.relationshipPriority) == RelationshipPriority.Following
+                        expect(post0Author.relationshipPriority) == RelationshipPriority.following
                         expect(post0Author.avatarURL()?.absoluteString) == "https://d1qqdyhbrvi5gr.cloudfront.net/uploads/user/avatar/27/large_ello-09fd7088-2e4f-4781-87db-433d5dbc88a5.png"
                     }
 
                     xit("handles assets") {
                         var loadedPosts:[Post]?
 
-                        streamService.loadStream(endpoint: ElloAPI.FriendStream, streamKind: nil,
+                        streamService.loadStream(endpoint: ElloAPI.friendStream, streamKind: nil,
                             success: { (jsonables, responseConfig) in
-                                loadedPosts = (StreamKind.Following.filter(jsonables, viewsAdultContent: true) as! [Post])
+                                loadedPosts = (StreamKind.following.filter(jsonables, viewsAdultContent: true) as! [Post])
                             },
-                            failure: nil
-                        )
+                            failure: { _ in })
 
                         let post2:Post = loadedPosts![2] as Post
 
@@ -93,7 +92,7 @@ class StreamServiceSpec: QuickSpec {
 
                         expect(loadedComments!.count) == 1
 
-                        let expectedCreatedAt = "2014-06-02T00:00:00.000Z".toNSDate()!
+                        let expectedCreatedAt = "2014-06-02T00:00:00.000Z".toDate()!
                         let comment:ElloComment = loadedComments![0] as ElloComment
 
                         expect(comment.createdAt) == expectedCreatedAt
@@ -125,7 +124,7 @@ class StreamServiceSpec: QuickSpec {
                 context("404") {
 
                     beforeEach {
-                        ElloProvider_Specs.errorStatusCode = .Status404
+                        ElloProvider_Specs.errorStatusCode = .status404
                     }
 
                     it("Calls failure with an error and statusCode") {
@@ -134,7 +133,7 @@ class StreamServiceSpec: QuickSpec {
                         var loadedStatusCode:Int?
                         var loadedError:NSError?
 
-                        streamService.loadStream(endpoint: ElloAPI.FriendStream, streamKind: nil, success: { (jsonables, responseConfig) in
+                        streamService.loadStream(endpoint: ElloAPI.friendStream, streamKind: nil, success: { (jsonables, responseConfig) in
                             loadedJsonables = jsonables
                         }, failure: { (error, statusCode) in
                             loadedError = error

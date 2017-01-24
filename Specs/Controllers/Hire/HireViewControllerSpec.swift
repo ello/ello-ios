@@ -10,16 +10,16 @@ import Nimble
 class HireViewControllerSpec: QuickSpec {
     class FakeNavigationController: UINavigationController {
         var popped = false
-        override func popViewControllerAnimated(animated: Bool) -> UIViewController? {
+        override func popViewController(animated: Bool) -> UIViewController? {
             popped = true
-            return super.popViewControllerAnimated(animated)
+            return super.popViewController(animated: animated)
         }
     }
     class MockScreen: HireScreenProtocol {
         var keyboardVisible = false
         var successCalled = false
         var successVisible = false
-        func toggleKeyboard(visible visible: Bool) {
+        func toggleKeyboard(visible: Bool) {
             keyboardVisible = visible
         }
         func showSuccess() {
@@ -40,7 +40,7 @@ class HireViewControllerSpec: QuickSpec {
         beforeEach {
             mockScreen = MockScreen()
             let user: User = stub([:])
-            subject = HireViewController(user: user, type: .Hire)
+            subject = HireViewController(user: user, type: .hire)
             subject.mockScreen = mockScreen
             navigationController = FakeNavigationController(rootViewController: subject)
         }

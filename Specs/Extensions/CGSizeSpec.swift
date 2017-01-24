@@ -4,7 +4,7 @@
 
 import Quick
 import Nimble
-import Ello
+@testable import Ello
 
 
 class CGSizeSpec: QuickSpec {

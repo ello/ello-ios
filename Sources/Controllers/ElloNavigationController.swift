@@ -2,49 +2,49 @@
 ///  ElloNavigationController.swift
 //
 
-public let ExternalWebNotification = TypedNotification<String>(name: "ExternalWebNotification")
+let ExternalWebNotification = TypedNotification<String>(name: "ExternalWebNotification")
 
-public class ElloNavigationController: UINavigationController, ControllerThatMightHaveTheCurrentUser {
+class ElloNavigationController: UINavigationController, ControllerThatMightHaveTheCurrentUser {
 
     var interactionController: UIPercentDrivenInteractiveTransition?
     var postChangedNotification: NotificationObserver?
     var relationshipChangedNotification: NotificationObserver?
     var rootViewControllerName: String?
-    public var currentUser: User? {
+    var currentUser: User? {
         didSet { didSetCurrentUser() }
     }
 
     var backGesture: UIScreenEdgePanGestureRecognizer?
 
-    override public var tabBarItem: UITabBarItem? {
+    override var tabBarItem: UITabBarItem? {
         get { return childViewControllers.first?.tabBarItem ?? super.tabBarItem }
         set { self.tabBarItem = newValue }
     }
 
     enum RootViewControllers: String {
-        case Notifications = "NotificationsViewController"
-        case Profile = "ProfileViewController"
-        case Omnibar = "OmnibarViewController"
-        case Discover = "DiscoverAllCategoriesViewController"
+        case notifications = "NotificationsViewController"
+        case profile = "ProfileViewController"
+        case omnibar = "OmnibarViewController"
+        case discover = "DiscoverAllCategoriesViewController"
 
-        func controllerInstance(user: User) -> BaseElloViewController {
+        func controllerInstance(_ user: User) -> BaseElloViewController {
             switch self {
-            case Notifications: return NotificationsViewController()
-            case Profile: return ProfileViewController(user: user)
-            case Omnibar:
+            case .notifications: return NotificationsViewController()
+            case .profile: return ProfileViewController(user: user)
+            case .omnibar:
                 let vc = OmnibarViewController()
                 vc.canGoBack = false
                 return vc
-            case Discover: return DiscoverAllCategoriesViewController()
+            case .discover: return DiscoverAllCategoriesViewController()
             }
         }
     }
 
     func didSetCurrentUser() {
         if self.viewControllers.count == 0 {
-            if let
-                rootViewControllerName = rootViewControllerName,
-                currentUser = currentUser
+            if
+                let rootViewControllerName = rootViewControllerName,
+                let currentUser = currentUser
             {
                 if let controller = RootViewControllers(rawValue:rootViewControllerName)?.controllerInstance(currentUser) {
                     controller.currentUser = currentUser
@@ -61,7 +61,7 @@ public class ElloNavigationController: UINavigationController, ControllerThatMig
         }
     }
 
-    override public func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
         self.setNavigationBarHidden(true, animated: false)
 
@@ -74,11 +74,11 @@ public class ElloNavigationController: UINavigationController, ControllerThatMig
 
         postChangedNotification = NotificationObserver(notification: PostChangedNotification) { (post, change) in
             switch change {
-            case .Delete:
+            case .delete:
                 var keepers = [UIViewController]()
                 for controller in self.childViewControllers {
                     if let postDetailVC = controller as? PostDetailViewController {
-                        if let postId = postDetailVC.post?.id where postId != post.id {
+                        if let postId = postDetailVC.post?.id, postId != post.id {
                             keepers.append(controller)
                         }
                     }
@@ -93,11 +93,11 @@ public class ElloNavigationController: UINavigationController, ControllerThatMig
 
         relationshipChangedNotification = NotificationObserver(notification: RelationshipChangedNotification) { user in
             switch user.relationshipPriority {
-            case .Block:
+            case .block:
                 var keepers = [UIViewController]()
                 for controller in self.childViewControllers {
                     if let userStreamVC = controller as? ProfileViewController {
-                        if let userId = userStreamVC.user?.id where userId != user.id {
+                        if let userId = userStreamVC.user?.id, userId != user.id {
                             keepers.append(controller)
                         }
                     }
@@ -112,20 +112,20 @@ public class ElloNavigationController: UINavigationController, ControllerThatMig
         }
     }
 
-    func handleBackGesture(gesture: UIScreenEdgePanGestureRecognizer) {
+    func handleBackGesture(_ gesture: UIScreenEdgePanGestureRecognizer) {
         let percentThroughView = gesture.percentageThroughView(gesture.edges)
 
         switch gesture.state {
-        case .Began:
+        case .began:
             interactionController = UIPercentDrivenInteractiveTransition()
             topViewController?.backGestureAction()
-        case .Changed:
-            interactionController?.updateInteractiveTransition(percentThroughView)
-        case .Ended, .Cancelled:
+        case .changed:
+            interactionController?.update(percentThroughView)
+        case .ended, .cancelled:
             if percentThroughView > 0.5 {
-                interactionController?.finishInteractiveTransition()
+                interactionController?.finish()
             } else {
-                interactionController?.cancelInteractiveTransition()
+                interactionController?.cancel()
             }
             interactionController = nil
         default:
@@ -137,7 +137,7 @@ public class ElloNavigationController: UINavigationController, ControllerThatMig
 
 extension ElloNavigationController: UIGestureRecognizerDelegate {
 
-    public func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
     }
 
@@ -146,24 +146,20 @@ extension ElloNavigationController: UIGestureRecognizerDelegate {
 private let throttledTracker = debounce(0.1)
 extension ElloNavigationController: UINavigationControllerDelegate {
 
-    public func navigationController(navigationController: UINavigationController, didShowViewController viewController: UIViewController, animated: Bool) {
+    func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {
         backGesture?.edges = viewController.backGestureEdges
-
-        throttledTracker {
-            Tracker.sharedTracker.screenAppeared(viewController)
-        }
     }
 
-    public func navigationController(navigationController: UINavigationController, animationControllerForOperation operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController, toViewController toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationControllerOperation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
 
         switch operation {
-        case .Push: return ForwardAnimator()
-        case .Pop: return BackAnimator()
-        default: return .None
+        case .push: return ForwardAnimator()
+        case .pop: return BackAnimator()
+        default: return .none
         }
     }
 
-    public func navigationController(navigationController: UINavigationController, interactionControllerForAnimationController animationController: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
+    func navigationController(_ navigationController: UINavigationController, interactionControllerFor animationController: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
         return interactionController
     }
 

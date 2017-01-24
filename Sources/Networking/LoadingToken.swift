@@ -4,22 +4,22 @@
 
 import Foundation
 
-public struct LoadingToken {
-    private var loadInitialPageLoadingToken: String = ""
-    public var cancelLoadingClosure: ElloEmptyCompletion = {}
+struct LoadingToken {
+    fileprivate var loadInitialPageLoadingToken: String = ""
+    var cancelLoadingClosure: ElloEmptyCompletion = {}
 
-    public mutating func resetInitialPageLoadingToken() -> String {
-        let newToken = NSUUID().UUIDString
+    mutating func resetInitialPageLoadingToken() -> String {
+        let newToken = UUID().uuidString
         loadInitialPageLoadingToken = newToken
         return newToken
     }
 
-    public func isValidInitialPageLoadingToken(token: String) -> Bool {
+    func isValidInitialPageLoadingToken(_ token: String) -> Bool {
         return loadInitialPageLoadingToken == token
     }
 
-    public mutating func cancelInitialPage() {
-        resetInitialPageLoadingToken()
+    mutating func cancelInitialPage() {
+        _ = resetInitialPageLoadingToken()
         self.cancelLoadingClosure()
     }
 }

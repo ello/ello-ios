@@ -4,22 +4,22 @@
 
 import Moya
 
-public class ReAuthService {
+class ReAuthService {
 
-    public func reAuthenticateToken(success success: AuthSuccessCompletion, failure: ElloFailureCompletion, noNetwork: ElloEmptyCompletion) {
+    func reAuthenticateToken(success: @escaping AuthSuccessCompletion, failure: @escaping ElloFailureCompletion, noNetwork: @escaping ElloEmptyCompletion) {
         let endpoint: ElloAPI
         let token = AuthToken()
         let refreshToken = token.refreshToken
-        if let refreshToken = refreshToken where token.isPasswordBased {
-            endpoint = .ReAuth(token: refreshToken)
+        if let refreshToken = refreshToken, token.isPasswordBased {
+            endpoint = .reAuth(token: refreshToken)
         }
         else {
-            endpoint = .AnonymousCredentials
+            endpoint = .anonymousCredentials
         }
 
         ElloProvider.sharedProvider.request(endpoint) { (result) in
             switch result {
-            case let .Success(moyaResponse):
+            case let .success(moyaResponse):
                 let statusCode = moyaResponse.statusCode
                 let data = moyaResponse.data
 
@@ -29,21 +29,21 @@ public class ReAuthService {
                     success()
                 default:
                     let elloError = ElloProvider.generateElloError(data, statusCode: statusCode)
-                    failure(error: elloError, statusCode: statusCode)
+                    failure(elloError, statusCode)
                 }
-            case .Failure:
+            case .failure:
                 noNetwork()
             }
         }
     }
 
-    public func reAuthenticateUserCreds(success success: AuthSuccessCompletion, failure: ElloFailureCompletion, noNetwork: ElloEmptyCompletion) {
+    func reAuthenticateUserCreds(success: @escaping AuthSuccessCompletion, failure: @escaping ElloFailureCompletion, noNetwork: @escaping ElloEmptyCompletion) {
         var token = AuthToken()
-        if let email = token.username, password = token.password {
-            let endpoint: ElloAPI = .Auth(email: email, password: password)
+        if let email = token.username, let password = token.password {
+            let endpoint: ElloAPI = .auth(email: email, password: password)
             ElloProvider.sharedProvider.request(endpoint) { (result) in
                 switch result {
-                case let .Success(moyaResponse):
+                case let .success(moyaResponse):
                     let statusCode = moyaResponse.statusCode
                     let data = moyaResponse.data
 
@@ -53,9 +53,9 @@ public class ReAuthService {
                         success()
                     default:
                         let elloError = ElloProvider.generateElloError(data, statusCode: statusCode)
-                        failure(error: elloError, statusCode: statusCode)
+                        failure(elloError, statusCode)
                     }
-                case .Failure:
+                case .failure:
                     noNetwork()
                 }
             }

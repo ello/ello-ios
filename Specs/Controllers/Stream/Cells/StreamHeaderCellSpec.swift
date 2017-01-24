@@ -10,18 +10,18 @@ import Nimble_Snapshots
 
 class StreamHeaderCellSpec: QuickSpec {
     enum Owner {
-        case Me
-        case Other
+        case me
+        case other
     }
     enum Content {
-        case Post
-        case Repost
-        case Comment
+        case post
+        case repost
+        case comment
     }
     enum Style {
-        case Grid
-        case Wide
-        case Detail
+        case grid
+        case wide
+        case detail
     }
     override func spec() {
         describe("StreamHeaderCell") {
@@ -33,54 +33,54 @@ class StreamHeaderCellSpec: QuickSpec {
                 let expectations: [
                     (String, owner: Owner, content: Content, category: Bool, follow: Bool, style: Style)
                 ] = [
-                    ("own post", owner: .Me, content: .Post, category: false, follow: false, style: .Wide),
-                    ("own post in detail", owner: .Me, content: .Post, category: false, follow: false, style: .Detail),
-                    ("own post in grid", owner: .Me, content: .Post, category: false, follow: false, style: .Grid),
-                    ("own post w category", owner: .Me, content: .Post, category: true, follow: false, style: .Wide),
-                    ("own post w category in detail", owner: .Me, content: .Post, category: true, follow: false, style: .Detail),
-                    ("own post w category in grid", owner: .Me, content: .Post, category: true, follow: false, style: .Grid),
-                    ("own repost", owner: .Me, content: .Repost, category: false, follow: false, style: .Wide),
-                    ("own repost in detail", owner: .Me, content: .Repost, category: false, follow: false, style: .Detail),
-                    ("own repost in grid", owner: .Me, content: .Repost, category: false, follow: false, style: .Grid),
-                    ("own repost w category", owner: .Me, content: .Repost, category: true, follow: false, style: .Wide),
-                    ("own repost w category in detail", owner: .Me, content: .Repost, category: true, follow: false, style: .Detail),
-                    ("own repost w category in grid", owner: .Me, content: .Repost, category: true, follow: false, style: .Grid),
-                    ("own comment", owner: .Me, content: .Comment, category: false, follow: false, style: .Wide),
-                    ("own comment in detail", owner: .Me, content: .Comment, category: false, follow: false, style: .Detail),
-                    ("own comment in grid", owner: .Me, content: .Comment, category: false, follow: false, style: .Grid),
-                    ("other post", owner: .Other, content: .Post, category: false, follow: false, style: .Wide),
-                    ("other post in detail", owner: .Other, content: .Post, category: false, follow: false, style: .Detail),
-                    ("other post in grid", owner: .Other, content: .Post, category: false, follow: false, style: .Grid),
-                    ("other post w follow in detail", owner: .Other, content: .Post, category: false, follow: true, style: .Detail),
-                    ("other post w category", owner: .Other, content: .Post, category: true, follow: false, style: .Wide),
-                    ("other post w category in detail", owner: .Other, content: .Post, category: true, follow: false, style: .Detail),
-                    ("other post w category in grid", owner: .Other, content: .Post, category: true, follow: false, style: .Grid),
-                    ("other repost", owner: .Other, content: .Repost, category: false, follow: false, style: .Wide),
-                    ("other repost in detail", owner: .Other, content: .Repost, category: false, follow: false, style: .Detail),
-                    ("other repost in grid", owner: .Other, content: .Repost, category: false, follow: false, style: .Grid),
-                    ("other repost w follow in detail", owner: .Other, content: .Repost, category: false, follow: true, style: .Detail),
-                    ("other repost w category", owner: .Other, content: .Repost, category: true, follow: false, style: .Wide),
-                    ("other repost w category in detail", owner: .Other, content: .Repost, category: true, follow: false, style: .Detail),
-                    ("other repost w category in grid", owner: .Other, content: .Repost, category: true, follow: false, style: .Grid),
-                    ("other comment", owner: .Other, content: .Comment, category: false, follow: false, style: .Wide),
-                    ("other comment in detail", owner: .Other, content: .Comment, category: false, follow: false, style: .Detail),
-                    ("other comment in grid", owner: .Other, content: .Comment, category: false, follow: false, style: .Grid),
+                    ("own post", owner: .me, content: .post, category: false, follow: false, style: .wide),
+                    ("own post in detail", owner: .me, content: .post, category: false, follow: false, style: .detail),
+                    ("own post in grid", owner: .me, content: .post, category: false, follow: false, style: .grid),
+                    ("own post w category", owner: .me, content: .post, category: true, follow: false, style: .wide),
+                    ("own post w category in detail", owner: .me, content: .post, category: true, follow: false, style: .detail),
+                    ("own post w category in grid", owner: .me, content: .post, category: true, follow: false, style: .grid),
+                    ("own repost", owner: .me, content: .repost, category: false, follow: false, style: .wide),
+                    ("own repost in detail", owner: .me, content: .repost, category: false, follow: false, style: .detail),
+                    ("own repost in grid", owner: .me, content: .repost, category: false, follow: false, style: .grid),
+                    ("own repost w category", owner: .me, content: .repost, category: true, follow: false, style: .wide),
+                    ("own repost w category in detail", owner: .me, content: .repost, category: true, follow: false, style: .detail),
+                    ("own repost w category in grid", owner: .me, content: .repost, category: true, follow: false, style: .grid),
+                    ("own comment", owner: .me, content: .comment, category: false, follow: false, style: .wide),
+                    ("own comment in detail", owner: .me, content: .comment, category: false, follow: false, style: .detail),
+                    ("own comment in grid", owner: .me, content: .comment, category: false, follow: false, style: .grid),
+                    ("other post", owner: .other, content: .post, category: false, follow: false, style: .wide),
+                    ("other post in detail", owner: .other, content: .post, category: false, follow: false, style: .detail),
+                    ("other post in grid", owner: .other, content: .post, category: false, follow: false, style: .grid),
+                    ("other post w follow in detail", owner: .other, content: .post, category: false, follow: true, style: .detail),
+                    ("other post w category", owner: .other, content: .post, category: true, follow: false, style: .wide),
+                    ("other post w category in detail", owner: .other, content: .post, category: true, follow: false, style: .detail),
+                    ("other post w category in grid", owner: .other, content: .post, category: true, follow: false, style: .grid),
+                    ("other repost", owner: .other, content: .repost, category: false, follow: false, style: .wide),
+                    ("other repost in detail", owner: .other, content: .repost, category: false, follow: false, style: .detail),
+                    ("other repost in grid", owner: .other, content: .repost, category: false, follow: false, style: .grid),
+                    ("other repost w follow in detail", owner: .other, content: .repost, category: false, follow: true, style: .detail),
+                    ("other repost w category", owner: .other, content: .repost, category: true, follow: false, style: .wide),
+                    ("other repost w category in detail", owner: .other, content: .repost, category: true, follow: false, style: .detail),
+                    ("other repost w category in grid", owner: .other, content: .repost, category: true, follow: false, style: .grid),
+                    ("other comment", owner: .other, content: .comment, category: false, follow: false, style: .wide),
+                    ("other comment in detail", owner: .other, content: .comment, category: false, follow: false, style: .detail),
+                    ("other comment in grid", owner: .other, content: .comment, category: false, follow: false, style: .grid),
                 ]
-                let detailFrame = CGRect(x: 0, y: 0, width: 320, height: StreamCellType.Header.oneColumnHeight)
-                let commentFrame = CGRect(x: 0, y: 0, width: 320, height: StreamCellType.CommentHeader.oneColumnHeight)
-                let gridFrame = CGRect(x: 0, y: 0, width: 154, height: StreamCellType.Header.multiColumnHeight)
+                let detailFrame = CGRect(x: 0, y: 0, width: 320, height: StreamCellType.header.oneColumnHeight)
+                let commentFrame = CGRect(x: 0, y: 0, width: 320, height: StreamCellType.commentHeader.oneColumnHeight)
+                let gridFrame = CGRect(x: 0, y: 0, width: 154, height: StreamCellType.header.multiColumnHeight)
                 for (desc, owner, content, hasCategory, hasFollow, style) in expectations {
                     it("has valid screenshot for \(desc)") {
                         let inGrid: Bool
                         let inDetail: Bool
                         switch style {
-                            case .Grid:
+                            case .grid:
                                 inGrid = true
                                 inDetail = false
-                            case .Detail:
+                            case .detail:
                                 inGrid = false
                                 inDetail = true
-                            case .Wide:
+                            case .wide:
                                 inGrid = false
                                 inDetail = false
                         }
@@ -89,7 +89,7 @@ class StreamHeaderCellSpec: QuickSpec {
                         if inGrid {
                             subject.frame = gridFrame
                         }
-                        else if content == .Comment {
+                        else if content == .comment {
                             subject.frame = commentFrame
                         }
                         else {
@@ -100,18 +100,18 @@ class StreamHeaderCellSpec: QuickSpec {
                         subject.isGridLayout = inGrid
                         subject.followButtonVisible = hasFollow
 
-                        if content == .Comment {
+                        if content == .comment {
                             subject.showUsername = true
                             subject.avatarHeight = 30.0
                             subject.chevronHidden = false
-                            subject.goToPostView.hidden = true
+                            subject.goToPostView.isHidden = true
                             subject.canReply = true
                         }
                         else {
                             subject.showUsername = !inDetail
                             subject.avatarHeight = inGrid ? 30 : 40
                             subject.chevronHidden = true
-                            subject.goToPostView.hidden = false
+                            subject.goToPostView.isHidden = false
                             subject.canReply = false
                         }
 
@@ -119,14 +119,14 @@ class StreamHeaderCellSpec: QuickSpec {
                         let repostedBy: User?
                         let cellCategory: Ello.Category?
 
-                        if owner == .Me {
+                        if owner == .me {
                             user = me
                             switch content {
-                            case .Post:
+                            case .post:
                                 subject.ownPost = true
-                            case .Repost:
+                            case .repost:
                                 subject.ownPost = true
-                            case .Comment:
+                            case .comment:
                                 subject.ownComment = true
                             }
                         }
@@ -134,22 +134,22 @@ class StreamHeaderCellSpec: QuickSpec {
                             user = other
                         }
 
-                        if content == .Comment {
+                        if content == .comment {
                             subject.showUsername = true
                             subject.avatarHeight = 30.0
                             subject.chevronHidden = false
-                            subject.goToPostView.hidden = true
+                            subject.goToPostView.isHidden = true
                             subject.canReply = true
                         }
                         else {
                             subject.showUsername = !inDetail
                             subject.avatarHeight = inGrid ? 30 : 40
                             subject.chevronHidden = true
-                            subject.goToPostView.hidden = false
+                            subject.goToPostView.isHidden = false
                             subject.canReply = false
                         }
 
-                        if content == .Repost {
+                        if content == .repost {
                             repostedBy = reposter
                         }
                         else {
@@ -165,7 +165,7 @@ class StreamHeaderCellSpec: QuickSpec {
 
                         subject.timeStamp = "1m"
                         subject.setDetails(user: user, repostedBy: repostedBy, category: cellCategory)
-                        subject.avatarButton.setImage(UIImage(named: "specs-avatar", inBundle: NSBundle(forClass: self.dynamicType), compatibleWithTraitCollection: nil), forState: .Normal)
+                        subject.avatarButton.setImage(UIImage(named: "specs-avatar", in: Bundle(for: type(of: self)), compatibleWith: nil), for: .normal)
 
                         subject.layoutIfNeeded()
                         showView(subject)

@@ -2,7 +2,7 @@
 ///  StreamImageCellPresenterSpec.swift
 //
 
-import Ello
+@testable import Ello
 import Quick
 import Nimble
 
@@ -10,9 +10,8 @@ class StreamImageCellPresenterSpec: QuickSpec {
     override func spec() {
 
         beforeEach {
-            StreamKind.Following.setIsGridView(false)
-            StreamKind.Starred.setIsGridView(true)
-            supressRequestsTo("www.example.com")
+            StreamKind.following.setIsGridView(false)
+            StreamKind.starred.setIsGridView(true)
         }
 
         describe("configure") {
@@ -22,11 +21,11 @@ class StreamImageCellPresenterSpec: QuickSpec {
                 let imageRegion: ImageRegion = stub([:])
 
                 let cell: StreamImageCell = StreamImageCell.loadFromNib()
-                let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Image(data: imageRegion))
+                let item: StreamCellItem = StreamCellItem(jsonable: post, type: .image(data: imageRegion))
 
                 context("single column") {
                     it("configures fail constraints correctly") {
-                        StreamImageCellPresenter.configure(cell, streamCellItem: item, streamKind: .Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
+                        StreamImageCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: nil)
 
                         expect(cell.isGridView) == false
                     }
@@ -35,7 +34,7 @@ class StreamImageCellPresenterSpec: QuickSpec {
                 context("multiple columns") {
 
                     it("configures fail constraints correctly") {
-                        StreamImageCellPresenter.configure(cell, streamCellItem: item, streamKind: .Starred, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
+                        StreamImageCellPresenter.configure(cell, streamCellItem: item, streamKind: .starred, indexPath: IndexPath(item: 0, section: 0), currentUser: nil)
 
                         expect(cell.isGridView) == true
                     }
@@ -50,17 +49,17 @@ class StreamImageCellPresenterSpec: QuickSpec {
                         let post: Post = stub([:])
 
                         let imageRegion: ImageRegion = stub([
-                            "url" : NSURL(string: "http://www.example.com/image.gif")!
+                            "url" : URL(string: "http://www.example.com/image.gif")!
                         ])
 
                         let cell: StreamImageCell = StreamImageCell.loadFromNib()
-                        let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Image(data: imageRegion))
+                        let item: StreamCellItem = StreamCellItem(jsonable: post, type: .image(data: imageRegion))
 
-                        StreamImageCellPresenter.configure(cell, streamCellItem: item, streamKind: .Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
+                        StreamImageCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: nil)
 
                         expect(cell.isGif) == true
                         expect(cell.isLargeImage) == false
-                        expect(cell.largeImagePlayButton?.hidden) == true
+                        expect(cell.largeImagePlayButton?.isHidden) == true
                         expect(cell.presentedImageUrl).to(beNil())
                     }
                 }
@@ -71,17 +70,17 @@ class StreamImageCellPresenterSpec: QuickSpec {
                         let post: Post = stub([:])
 
                         let imageRegion: ImageRegion = stub([
-                            "url" : NSURL(string: "http://www.example.com/image.jpg")!
+                            "url" : URL(string: "http://www.example.com/image.jpg")!
                         ])
 
                         let cell: StreamImageCell = StreamImageCell.loadFromNib()
-                        let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Image(data: imageRegion))
+                        let item: StreamCellItem = StreamCellItem(jsonable: post, type: .image(data: imageRegion))
 
-                        StreamImageCellPresenter.configure(cell, streamCellItem: item, streamKind: .Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
+                        StreamImageCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: nil)
 
                         expect(cell.isGif) == false
                         expect(cell.isLargeImage) == false
-                        expect(cell.largeImagePlayButton?.hidden) == true
+                        expect(cell.largeImagePlayButton?.isHidden) == true
                         expect(cell.presentedImageUrl).to(beNil())
                     }
 
@@ -96,13 +95,13 @@ class StreamImageCellPresenterSpec: QuickSpec {
                         let post: Post = stub([:])
 
                         let optimized: Attachment = stub([
-                            "url" : NSURL(string: "http://www.example.com/optimized.jpg")!,
+                            "url" : URL(string: "http://www.example.com/optimized.jpg")!,
                             "type" : "image/jpg",
                             "size" : 9999999
                         ])
 
                         let hdpi: Attachment = stub([
-                            "url" : NSURL(string: "http://www.example.com/hdpi.jpg")!,
+                            "url" : URL(string: "http://www.example.com/hdpi.jpg")!,
                             "type" : "image/jpg",
                             "size" : 445566
                         ])
@@ -115,17 +114,17 @@ class StreamImageCellPresenterSpec: QuickSpec {
 
                         let imageRegion: ImageRegion = stub([
                             "asset" : asset,
-                            "url" : NSURL(string: "http://www.example.com/image.jpg")!
+                            "url" : URL(string: "http://www.example.com/image.jpg")!
                             ])
 
                         let cell: StreamImageCell = StreamImageCell.loadFromNib()
-                        let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Image(data: imageRegion))
+                        let item: StreamCellItem = StreamCellItem(jsonable: post, type: .image(data: imageRegion))
 
-                        StreamImageCellPresenter.configure(cell, streamCellItem: item, streamKind: .Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
+                        StreamImageCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: nil)
 
                         expect(cell.isGif) == false
                         expect(cell.isLargeImage) == false
-                        expect(cell.largeImagePlayButton?.hidden) == true
+                        expect(cell.largeImagePlayButton?.isHidden) == true
                         expect(cell.presentedImageUrl).to(beNil())
                     }
                 }
@@ -136,13 +135,13 @@ class StreamImageCellPresenterSpec: QuickSpec {
                         let post: Post = stub([:])
 
                         let optimized: Attachment = stub([
-                            "url" : NSURL(string: "http://www.example.com/optimized.gif")!,
+                            "url" : URL(string: "http://www.example.com/optimized.gif")!,
                             "type" : "image/gif",
                             "size" : 9999999
                             ])
 
                         let hdpi: Attachment = stub([
-                            "url" : NSURL(string: "http://www.example.com/hdpi.gif")!,
+                            "url" : URL(string: "http://www.example.com/hdpi.gif")!,
                             "type" : "image/gif",
                             "size" : 445566
                             ])
@@ -155,17 +154,17 @@ class StreamImageCellPresenterSpec: QuickSpec {
 
                         let imageRegion: ImageRegion = stub([
                             "asset" : asset,
-                            "url" : NSURL(string: "http://www.example.com/image.gif")!
+                            "url" : URL(string: "http://www.example.com/image.gif")!
                             ])
 
                         let cell: StreamImageCell = StreamImageCell.loadFromNib()
-                        let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Image(data: imageRegion))
+                        let item: StreamCellItem = StreamCellItem(jsonable: post, type: .image(data: imageRegion))
 
-                        StreamImageCellPresenter.configure(cell, streamCellItem: item, streamKind: .Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
+                        StreamImageCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: nil)
 
                         expect(cell.isGif) == true
                         expect(cell.isLargeImage) == true
-                        expect(cell.largeImagePlayButton?.hidden) == false
+                        expect(cell.largeImagePlayButton?.isHidden) == false
                         expect(cell.presentedImageUrl).notTo(beNil())
                     }
                 }
@@ -175,13 +174,13 @@ class StreamImageCellPresenterSpec: QuickSpec {
                         let post: Post = stub([:])
 
                         let optimized: Attachment = stub([
-                            "url" : NSURL(string: "http://www.example.com/optimized.gif")!,
+                            "url" : URL(string: "http://www.example.com/optimized.gif")!,
                             "type" : "image/gif",
                             "size" : 445566
                             ])
 
                         let hdpi: Attachment = stub([
-                            "url" : NSURL(string: "http://www.example.com/hdpi.gif")!,
+                            "url" : URL(string: "http://www.example.com/hdpi.gif")!,
                             "type" : "image/gif",
                             "size" : 445566
                             ])
@@ -194,17 +193,17 @@ class StreamImageCellPresenterSpec: QuickSpec {
 
                         let imageRegion: ImageRegion = stub([
                             "asset" : asset,
-                            "url" : NSURL(string: "http://www.example.com/image.gif")!
+                            "url" : URL(string: "http://www.example.com/image.gif")!
                             ])
 
                         let cell: StreamImageCell = StreamImageCell.loadFromNib()
-                        let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Image(data: imageRegion))
+                        let item: StreamCellItem = StreamCellItem(jsonable: post, type: .image(data: imageRegion))
 
-                        StreamImageCellPresenter.configure(cell, streamCellItem: item, streamKind: .Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
+                        StreamImageCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: nil)
 
                         expect(cell.isGif) == true
                         expect(cell.isLargeImage) == false
-                        expect(cell.largeImagePlayButton?.hidden) == true
+                        expect(cell.largeImagePlayButton?.isHidden) == true
                         expect(cell.presentedImageUrl).to(beNil())
                     }
                 }
@@ -216,41 +215,41 @@ class StreamImageCellPresenterSpec: QuickSpec {
                         let imageRegion: ImageRegion = stub([:])
 
                         let cell: StreamImageCell = StreamImageCell.loadFromNib()
-                        let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Image(data: imageRegion))
+                        let item: StreamCellItem = StreamCellItem(jsonable: post, type: .image(data: imageRegion))
 
-                        StreamImageCellPresenter.configure(cell, streamCellItem: item, streamKind: .Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
+                        StreamImageCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: nil)
 
-                        expect(cell.buyButton?.hidden) == true
-                        expect(cell.buyButtonGreen?.hidden) == true
+                        expect(cell.buyButton?.isHidden) == true
+                        expect(cell.buyButtonGreen?.isHidden) == true
                     }
 
                     it("shows buyButton if link is present") {
                         let post: Post = stub([:])
 
                         let imageRegion: ImageRegion = stub([
-                            "buyButtonURL" : NSURL(string: "https://amazon.com")!
+                            "buyButtonURL" : URL(string: "https://amazon.com")!
                             ])
 
                         let cell: StreamImageCell = StreamImageCell.loadFromNib()
-                        let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Image(data: imageRegion))
+                        let item: StreamCellItem = StreamCellItem(jsonable: post, type: .image(data: imageRegion))
 
-                        StreamImageCellPresenter.configure(cell, streamCellItem: item, streamKind: .Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
+                        StreamImageCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: nil)
 
-                        expect(cell.buyButton?.hidden) == false
-                        expect(cell.buyButtonGreen?.hidden) == false
+                        expect(cell.buyButton?.isHidden) == false
+                        expect(cell.buyButtonGreen?.isHidden) == false
                     }
 
                     it("sets buy button width to 40 in list") {
                         let post: Post = stub([:])
 
                         let imageRegion: ImageRegion = stub([
-                            "buyButtonURL" : NSURL(string: "https://amazon.com")!
+                            "buyButtonURL" : URL(string: "https://amazon.com")!
                             ])
 
                         let cell: StreamImageCell = StreamImageCell.loadFromNib()
-                        let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Image(data: imageRegion))
+                        let item: StreamCellItem = StreamCellItem(jsonable: post, type: .image(data: imageRegion))
 
-                        StreamImageCellPresenter.configure(cell, streamCellItem: item, streamKind: .Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
+                        StreamImageCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: nil)
                         cell.layoutIfNeeded()
                         expect(cell.buyButtonGreen?.frame.size.width) == 40
                         expect(cell.buyButtonGreen?.frame.size.height) == 40
@@ -260,13 +259,13 @@ class StreamImageCellPresenterSpec: QuickSpec {
                         let post: Post = stub([:])
 
                         let imageRegion: ImageRegion = stub([
-                            "buyButtonURL" : NSURL(string: "https://amazon.com")!
+                            "buyButtonURL" : URL(string: "https://amazon.com")!
                             ])
 
                         let cell: StreamImageCell = StreamImageCell.loadFromNib()
-                        let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Image(data: imageRegion))
+                        let item: StreamCellItem = StreamCellItem(jsonable: post, type: .image(data: imageRegion))
 
-                        StreamImageCellPresenter.configure(cell, streamCellItem: item, streamKind: .Starred, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
+                        StreamImageCellPresenter.configure(cell, streamCellItem: item, streamKind: .starred, indexPath: IndexPath(item: 0, section: 0), currentUser: nil)
                         cell.layoutIfNeeded()
                         expect(cell.buyButtonGreen?.frame.size.width) == 30
                         expect(cell.buyButtonGreen?.frame.size.height) == 30

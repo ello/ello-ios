@@ -1,4 +1,8 @@
-import Ello
+////
+///  DrawerViewControllerSpec.swift
+//
+
+@testable import Ello
 import Quick
 import Nimble
 

@@ -29,7 +29,7 @@ class CategoryScreenSpec: QuickSpec {
                     imageURL: nil
                     )
                 subject = CategoryScreen()
-                subject.setCategoriesInfo([infoA, infoB, infoA, infoB], animated: false, completion: {})
+                subject.set(categoriesInfo: [infoA, infoB, infoA, infoB], animated: false, completion: {})
                 delegate = MockCategoryScreenDelegate()
                 subject.delegate = delegate
             }
@@ -44,7 +44,7 @@ class CategoryScreenSpec: QuickSpec {
                 it("informs delegates of category selection") {
                     let categoryList = subviewThatMatches(subject, test: { $0 is CategoryCardListView }) as! CategoryCardListView
                     let button = subviewThatMatches(categoryList, test: { $0 is UIButton }) as! UIButton
-                    button.sendActionsForControlEvents(.TouchUpInside)
+                    button.sendActions(for: .touchUpInside)
                     expect(delegate.selectedIndex) == 0
                 }
             }

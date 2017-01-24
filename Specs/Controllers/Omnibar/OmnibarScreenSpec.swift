@@ -18,16 +18,16 @@ class OmnibarScreenMockDelegate : OmnibarScreenDelegate {
     func omnibarCancel() {
         didGoBack = true
     }
-    func omnibarPushController(controller: UIViewController) {
+    func omnibarPushController(_ controller: UIViewController) {
         didPushController = true
     }
-    func omnibarPresentController(controller : UIViewController) {
+    func omnibarPresentController(_ controller : UIViewController) {
         didPresentController = true
     }
     func omnibarDismissController() {
         didDismissController = true
     }
-    func omnibarSubmitted(regions: [OmnibarRegion], buyButtonURL: NSURL?) {
+    func omnibarSubmitted(_ regions: [OmnibarRegion], buyButtonURL: URL?) {
         submitted = true
         hasBuyButtonURL = buyButtonURL != nil
     }
@@ -35,20 +35,20 @@ class OmnibarScreenMockDelegate : OmnibarScreenDelegate {
 
 
 enum RegionExpectation {
-    case Text(String)
-    case Image
-    case Spacer
+    case text(String)
+    case image
+    case spacer
 
-    func matches(region: OmnibarRegion) -> Bool {
+    func matches(_ region: OmnibarRegion) -> Bool {
         switch (self, region) {
-        case (.Text, .AttributedText):
-            if case let .Text(text) = self {
+        case (.text, .attributedText):
+            if case let .text(text) = self {
                 return region.text!.string == text
             }
             return false
-        case (.Image, .Image): return true
-        case (.Image, .ImageData): return true
-        case (.Spacer, .Spacer): return true
+        case (.image, .image): return true
+        case (.image, .imageData): return true
+        case (.spacer, .spacer): return true
         default: return false
         }
     }
@@ -62,7 +62,7 @@ class OmnibarScreenSpec: QuickSpec {
 
         beforeEach {
             let controller = UIViewController()
-            subject = OmnibarScreen(frame: UIScreen.mainScreen().bounds)
+            subject = OmnibarScreen(frame: UIScreen.main.bounds)
             delegate = OmnibarScreenMockDelegate()
             subject.delegate = delegate
             controller.view.addSubview(subject)
@@ -72,7 +72,7 @@ class OmnibarScreenSpec: QuickSpec {
 
         describe("OmnibarScreen") {
             it("should use the '.Twitter' keyboard") {
-                expect(subject.textView.keyboardType) == UIKeyboardType.Twitter
+                expect(subject.textView.keyboardType) == UIKeyboardType.twitter
             }
 
             describe("tapping the avatar") {
@@ -96,7 +96,7 @@ class OmnibarScreenSpec: QuickSpec {
                 context("var delegate: OmnibarScreenDelegate?") {
                     it("sets the delegate") {
                         subject.delegate = delegate
-                        expect(ObjectIdentifier(subject.delegate ?? "")) == ObjectIdentifier(delegate)
+                        expect(ObjectIdentifier(subject.delegate!)) == ObjectIdentifier(delegate)
                     }
                 }
                 context("var title: String") {
@@ -108,8 +108,8 @@ class OmnibarScreenSpec: QuickSpec {
                 context("var submitTitle: String") {
                     it("sets the button title") {
                         subject.submitTitle = "post here"
-                        expect(subject.tabbarSubmitButton.titleForState(.Normal)) == "post here"
-                        expect(subject.keyboardSubmitButton.titleForState(.Normal)) == "post here"
+                        expect(subject.tabbarSubmitButton.title(for: .normal)) == "post here"
+                        expect(subject.keyboardSubmitButton.title(for: .normal)) == "post here"
                     }
                 }
                 context("var isComment: Bool") {
@@ -118,7 +118,7 @@ class OmnibarScreenSpec: QuickSpec {
                             subject.isComment = false
                         }
                         it("should show the buyButton") {
-                            expect(subject.buyButton.hidden) == false
+                            expect(subject.buyButton.isHidden) == false
                         }
                     }
                     context("when true") {
@@ -126,24 +126,24 @@ class OmnibarScreenSpec: QuickSpec {
                             subject.isComment = true
                         }
                         it("should hide the buyButton") {
-                            expect(subject.buyButton.hidden) == true
+                            expect(subject.buyButton.isHidden) == true
                         }
                     }
                 }
-                context("var avatarURL: NSURL?") {
+                context("var avatarURL: URL?") {
                     it("should set the button image (to nil)") {
                         let image = UIImage()
-                        subject.avatarButton.setImage(image, forState: .Normal)
-                        subject.avatarURL = NSURL(string: "http://www.example1.com")!
+                        subject.avatarButton.setImage(image, for: .normal)
+                        subject.avatarURL = URL(string: "http://www.example1.com")! as URL
                         subject.avatarURL = nil  // value needs to *change* for this to work
-                        expect(subject.avatarButton.imageForState(.Normal)).to(beNil())
+                        expect(subject.avatarButton.image(for: .normal)).to(beNil())
                     }
                 }
                 context("var avatarImage: UIImage?") {
                     it("should set the button image") {
                         let image = UIImage()
                         subject.avatarImage = image
-                        expect(subject.avatarButton.imageForState(.Normal)) == image
+                        expect(subject.avatarButton.image(for: .normal)) == image
                     }
                 }
                 context("var currentUser: User?") {
@@ -198,7 +198,7 @@ class OmnibarScreenSpec: QuickSpec {
                     context("when false") {
                         it("causes 'x' button to delete") {
                             subject.isEditing = false
-                            subject.regions = [.Text("foo")]
+                            subject.regions = [.text("foo")]
                             expect(subject.canPost()) == true
                             subject.cancelEditingAction()
                             expect(delegate.didPresentController) == true
@@ -208,7 +208,7 @@ class OmnibarScreenSpec: QuickSpec {
                     context("when true") {
                         it("causes 'x' button to cancel (when true)") {
                             subject.isEditing = true
-                            subject.regions = [.Text("foo")]
+                            subject.regions = [.text("foo")]
                             expect(subject.canPost()) == true
                             subject.cancelEditingAction()
                             expect(delegate.didPresentController) == false
@@ -236,7 +236,7 @@ class OmnibarScreenSpec: QuickSpec {
                     context("if the only region is text") {
                         it("should set the currentTextPath.row to 0") {
                             subject.currentTextPath = nil
-                            subject.regions = [.Text("")]
+                            subject.regions = [.text("")]
                             subject.startEditing()
                             expect(subject.currentTextPath?.row) == 0
                         }
@@ -244,7 +244,7 @@ class OmnibarScreenSpec: QuickSpec {
                     context("if the first region is an image") {
                         it("should set the currentTextPath.row to 2") {
                             subject.currentTextPath = nil
-                            subject.regions = [.Image(UIImage()), .Text("")]
+                            subject.regions = [.image(UIImage()), .text("")]
                             subject.startEditing()
                             expect(subject.currentTextPath?.row) == 2  // image, spacer, text
                         }
@@ -252,7 +252,7 @@ class OmnibarScreenSpec: QuickSpec {
                     context("if the only region is text and image") {
                         it("should not set the currentTextPath") {
                             subject.currentTextPath = nil
-                            subject.regions = [.Text(""), .Image(UIImage())]
+                            subject.regions = [.text(""), .image(UIImage())]
                             subject.startEditing()
                             expect(subject.currentTextPath?.row) == 0  // text, spacer, image, spacer, text
                         }
@@ -262,7 +262,7 @@ class OmnibarScreenSpec: QuickSpec {
                     context("if the only region is text") {
                         it("should set the currentTextPath.row to 0") {
                             subject.currentTextPath = nil
-                            subject.regions = [.Text("")]
+                            subject.regions = [.text("")]
                             subject.startEditingLast()
                             expect(subject.currentTextPath?.row) == 0
                         }
@@ -270,7 +270,7 @@ class OmnibarScreenSpec: QuickSpec {
                     context("if the first region is an image") {
                         it("should set the currentTextPath.row to 2") {
                             subject.currentTextPath = nil
-                            subject.regions = [.Image(UIImage()), .Text("")]
+                            subject.regions = [.image(UIImage()), .text("")]
                             subject.startEditingLast()
                             expect(subject.currentTextPath?.row) == 2  // image, spacer, text
                         }
@@ -278,7 +278,7 @@ class OmnibarScreenSpec: QuickSpec {
                     context("if the only region is text and image") {
                         it("should not set the currentTextPath") {
                             subject.currentTextPath = nil
-                            subject.regions = [.Text(""), .Image(UIImage())]
+                            subject.regions = [.text(""), .image(UIImage())]
                             subject.startEditingLast()
                             expect(subject.currentTextPath?.row) == 4  // text, image, spacer, text
                         }
@@ -287,32 +287,32 @@ class OmnibarScreenSpec: QuickSpec {
                 context("func startEditingAtPath()") {
                     it("should set the currentTextPath") {
                         subject.currentTextPath = nil
-                        subject.regions = [.Image(UIImage()), .Text("")]
-                        subject.startEditingAtPath(NSIndexPath(forRow: 2, inSection: 0))
+                        subject.regions = [.image(UIImage()), .text("")]
+                        subject.startEditingAtPath(IndexPath(row: 2, section: 0))
                         expect(subject.currentTextPath?.row) == 2
                     }
                     it("should not set the currentTextPath") {
                         subject.currentTextPath = nil
-                        subject.regions = [.Image(UIImage()), .Text("")]
-                        subject.startEditingAtPath(NSIndexPath(forRow: 1, inSection: 0))
+                        subject.regions = [.image(UIImage()), .text("")]
+                        subject.startEditingAtPath(IndexPath(row: 1, section: 0))
                         expect(subject.currentTextPath).to(beNil())
                     }
                 }
                 context("func stopEditing()") {
                     it("should set the currentTextPath to nil") {
-                        subject.regions = [.Text("")]
+                        subject.regions = [.text("")]
                         subject.startEditing()
                         expect(subject.currentTextPath?.row).notTo(beNil())
                         subject.stopEditing()
                         expect(subject.currentTextPath?.row).to(beNil())
                     }
                     it("should remove empty regions") {
-                        subject.regions = [.Text(""), .Image(UIImage()), .Text("")]
+                        subject.regions = [.text(""), .image(UIImage()), .text("")]
                         subject.startEditing()
                         subject.stopEditing()
                         expect(subject.regions.count) == 2
-                        expect(RegionExpectation.Image.matches(subject.regions[0])) == true
-                        expect(RegionExpectation.Text("").matches(subject.regions[1])) == true
+                        expect(RegionExpectation.image.matches(subject.regions[0])) == true
+                        expect(RegionExpectation.text("").matches(subject.regions[1])) == true
                     }
                 }
                 context("func updateButtons()") {
@@ -323,81 +323,81 @@ class OmnibarScreenSpec: QuickSpec {
                             subject.updateButtons()
                         }
                         it("should disable posting") {
-                            expect(subject.keyboardSubmitButton.enabled) == false
-                            expect(subject.tabbarSubmitButton.enabled) == false
+                            expect(subject.keyboardSubmitButton.isEnabled) == false
+                            expect(subject.tabbarSubmitButton.isEnabled) == false
                         }
                         it("should disable buyButton") {
-                            expect(subject.buyButton.enabled) == false
+                            expect(subject.buyButton.isEnabled) == false
                         }
                     }
                     context("if posts have text") {
                         beforeEach {
-                            subject.regions = [.Text("test")]
+                            subject.regions = [.text("test")]
                             subject.updateButtons()
                         }
                         it("should enable posting") {
-                            expect(subject.keyboardSubmitButton.enabled) == true
-                            expect(subject.tabbarSubmitButton.enabled) == true
+                            expect(subject.keyboardSubmitButton.isEnabled) == true
+                            expect(subject.tabbarSubmitButton.isEnabled) == true
                         }
                         it("should disable buyButton") {
-                            expect(subject.buyButton.enabled) == false
+                            expect(subject.buyButton.isEnabled) == false
                         }
                     }
                     context("if posts have text and images") {
                         beforeEach {
-                            subject.regions = [.Text("test"), .Image(UIImage())]
+                            subject.regions = [.text("test"), .image(UIImage())]
                             subject.updateButtons()
                         }
                         it("should enable posting") {
-                            expect(subject.keyboardSubmitButton.enabled) == true
-                            expect(subject.tabbarSubmitButton.enabled) == true
+                            expect(subject.keyboardSubmitButton.isEnabled) == true
+                            expect(subject.tabbarSubmitButton.isEnabled) == true
                         }
                         it("should enable buyButton") {
-                            expect(subject.buyButton.enabled) == true
+                            expect(subject.buyButton.isEnabled) == true
                         }
                     }
                     context("if reordering and posts have text") {
                         beforeEach {
-                            subject.regions = [.Text("test")]
+                            subject.regions = [.text("test")]
                             subject.reorderingTable(true)
                             subject.updateButtons()
                         }
                         it("should disable posting") {
-                            expect(subject.keyboardSubmitButton.enabled) == false
-                            expect(subject.tabbarSubmitButton.enabled) == false
+                            expect(subject.keyboardSubmitButton.isEnabled) == false
+                            expect(subject.tabbarSubmitButton.isEnabled) == false
                         }
                         it("should enable cancelling") {
-                            expect(subject.cancelButton.enabled) == true
+                            expect(subject.cancelButton.isEnabled) == true
                         }
                         it("should disable buyButton button") {
-                            expect(subject.buyButton.enabled) == false
+                            expect(subject.buyButton.isEnabled) == false
                         }
                     }
                     context("if reordering and posts have text and images") {
                         beforeEach {
-                            subject.regions = [.Text("test"), .Image(UIImage())]
+                            subject.regions = [.text("test"), .image(UIImage())]
                             subject.reorderingTable(true)
                             subject.updateButtons()
                         }
                         it("should disable posting") {
-                            expect(subject.keyboardSubmitButton.enabled) == false
-                            expect(subject.tabbarSubmitButton.enabled) == false
+                            expect(subject.keyboardSubmitButton.isEnabled) == false
+                            expect(subject.tabbarSubmitButton.isEnabled) == false
                         }
                         it("should enable cancelling") {
-                            expect(subject.cancelButton.enabled) == true
+                            expect(subject.cancelButton.isEnabled) == true
                         }
                         it("should disable buyButton button") {
-                            expect(subject.buyButton.enabled) == false
+                            expect(subject.buyButton.isEnabled) == false
                         }
                     }
                     context("if not reordering") {
                         beforeEach {
-                            subject.regions = [.Text("test")]
+                            subject.regions = [.text("test")]
                             subject.reorderingTable(false)
                             subject.updateButtons()
                         }
                         it("should enable cancelling") {
-                            expect(subject.cancelButton.enabled) == true
+                            expect(subject.cancelButton.isEnabled) == true
                         }
                     }
                 }
@@ -410,12 +410,12 @@ class OmnibarScreenSpec: QuickSpec {
                             expect(subject.regions[0].empty) == true
                         }
                         it("should disable buyButton") {
-                            expect(subject.buyButton.enabled) == false
+                            expect(subject.buyButton.isEnabled) == false
                         }
                     }
                     context("setting to one text region array") {
                         beforeEach {
-                            subject.regions = [.Text("testing")]
+                            subject.regions = [.text("testing")]
                         }
                         it("should set it to one text region") {
                             expect(subject.regions.count) == 1
@@ -423,12 +423,12 @@ class OmnibarScreenSpec: QuickSpec {
                             expect(subject.regions[0].empty) == false
                         }
                         it("should disable buyButton") {
-                            expect(subject.buyButton.enabled) == false
+                            expect(subject.buyButton.isEnabled) == false
                         }
                     }
                     context("setting to one image region") {
                         beforeEach {
-                            subject.regions = [.Image(UIImage())]
+                            subject.regions = [.image(UIImage())]
                         }
                         it("generates a text region") {
                             expect(subject.regions.count) == 2
@@ -437,7 +437,7 @@ class OmnibarScreenSpec: QuickSpec {
                             expect(subject.regions[1].text?.string) == ""
                         }
                         it("should enable buyButton") {
-                            expect(subject.buyButton.enabled) == true
+                            expect(subject.buyButton.isEnabled) == true
                         }
                     }
                 }
@@ -445,19 +445,19 @@ class OmnibarScreenSpec: QuickSpec {
 
             describe("generating editableRegions") {
                 let expectationRules: [(String, [OmnibarRegion], [RegionExpectation])] = [
-                    ("zero", [OmnibarRegion](), [.Text("")]),
-                    ("empty", [.Text("")], [.Text("")]),
-                    ("text", [.Text("some")], [.Text("some")]),
-                    ("image", [.Image(UIImage())], [.Image, .Spacer, .Text("")]),
-                    ("image,text", [.Image(UIImage()), .Text("some")], [.Image, .Spacer, .Text("some")]),
-                    ("text,image", [.Text("some"), .Image(UIImage())], [.Text("some"), .Spacer, .Image, .Spacer, .Text("")]),
-                    ("text,image,text", [.Text("some"), .Image(UIImage()), .Text("more")], [.Text("some"), .Spacer, .Image, .Spacer, .Text("more")]),
-                    ("text,image,image", [.Text("some"), .Image(UIImage()), .Image(UIImage())], [.Text("some"), .Spacer, .Image, .Spacer, .Image, .Spacer, .Text("")]),
-                    ("text,image,image,text", [.Text("some"), .Image(UIImage()), .Image(UIImage()), .Text("")], [.Text("some"), .Spacer, .Image, .Spacer, .Image, .Spacer, .Text("")]),
-                    ("image,text,image", [.Image(UIImage()), .Text("some"), .Image(UIImage())], [.Image, .Spacer, .Text("some"), .Spacer, .Image, .Spacer, .Text("")]),
+                    ("zero", [OmnibarRegion](), [.text("")]),
+                    ("empty", [.text("")], [.text("")]),
+                    ("text", [.text("some")], [.text("some")]),
+                    ("image", [.image(UIImage())], [.image, .spacer, .text("")]),
+                    ("image,text", [.image(UIImage()), .text("some")], [.image, .spacer, .text("some")]),
+                    ("text,image", [.text("some"), .image(UIImage())], [.text("some"), .spacer, .image, .spacer, .text("")]),
+                    ("text,image,text", [.text("some"), .image(UIImage()), .text("more")], [.text("some"), .spacer, .image, .spacer, .text("more")]),
+                    ("text,image,image", [.text("some"), .image(UIImage()), .image(UIImage())], [.text("some"), .spacer, .image, .spacer, .image, .spacer, .text("")]),
+                    ("text,image,image,text", [.text("some"), .image(UIImage()), .image(UIImage()), .text("")], [.text("some"), .spacer, .image, .spacer, .image, .spacer, .text("")]),
+                    ("image,text,image", [.image(UIImage()), .text("some"), .image(UIImage())], [.image, .spacer, .text("some"), .spacer, .image, .spacer, .text("")]),
                     ("text,image,image,image,text,image,image",
-                        [.Text("some"), .Image(UIImage()), .Image(UIImage()), .Image(UIImage()), .Text("text"), .Image(UIImage()), .Image(UIImage())],
-                        [.Text("some"), .Spacer, .Image, .Spacer, .Image, .Spacer, .Image, .Spacer, .Text("text"), .Spacer, .Image, .Spacer, .Image, .Spacer, .Text("")]
+                        [.text("some"), .image(UIImage()), .image(UIImage()), .image(UIImage()), .text("text"), .image(UIImage()), .image(UIImage())],
+                        [.text("some"), .spacer, .image, .spacer, .image, .spacer, .image, .spacer, .text("text"), .spacer, .image, .spacer, .image, .spacer, .text("")]
                     ),
                 ]
                 for (name, regions, expectations) in expectationRules {
@@ -466,7 +466,7 @@ class OmnibarScreenSpec: QuickSpec {
 
                         let editableRegions = subject.editableRegions
                         expect(editableRegions.count) == expectations.count
-                        for (index, expectation) in expectations.enumerate() {
+                        for (index, expectation) in expectations.enumerated() {
                             let (_, region) = editableRegions[index]
                             expect(expectation.matches(region)) == true
                         }
@@ -476,22 +476,22 @@ class OmnibarScreenSpec: QuickSpec {
 
             describe("generating reorderableRegions") {
                 let expectationRules: [(String, [OmnibarRegion], [RegionExpectation])] = [
-                    ("empty", [.Text("")],[RegionExpectation]()),
-                    ("text", [.Text("some")],[.Text("some")]),
-                    ("text with newlines", [.Text("some\ntext")],[.Text("some\ntext")]),
-                    ("image,empty", [.Image(UIImage()), .Text("")],[.Image]),
-                    ("image,text", [.Image(UIImage()), .Text("some")],[.Image,.Text("some")]),
-                    ("text,image,empty", [.Text("some"), .Image(UIImage()),.Text("")],[.Text("some"),.Image]),
-                    ("text,image,text", [.Text("some"), .Image(UIImage()),.Text("text")],[.Text("some"),.Image,.Text("text")]),
-                    ("text with newlines,image,text", [.Text("some\n\ntext"), .Image(UIImage()), .Text("more")],[.Text("some\n\ntext"),.Image,.Text("more")]),
-                    ("text,image,image,empty", [.Text("some"), .Image(UIImage()), .Image(UIImage()), .Text("")],[.Text("some"),.Image,.Image]),
-                    ("text,image,image,text", [.Text("some"), .Image(UIImage()), .Image(UIImage()), .Text("more")],[.Text("some"),.Image,.Image,.Text("more")]),
-                    ("text,image,image,text w newlines", [.Text("some"), .Image(UIImage()), .Image(UIImage()), .Text("more\nlines")],[.Text("some"),.Image,.Image,.Text("more\nlines")]),
-                    ("image,text,image,empty", [.Image(UIImage()), .Text("some"), .Image(UIImage()), .Text("")],[.Image,.Text("some"),.Image]),
-                    ("image,text,image,text", [.Image(UIImage()), .Text("some"), .Image(UIImage()), .Text("text")],[.Image,.Text("some"),.Image,.Text("text")]),
+                    ("empty", [.text("")],[RegionExpectation]()),
+                    ("text", [.text("some")],[.text("some")]),
+                    ("text with newlines", [.text("some\ntext")],[.text("some\ntext")]),
+                    ("image,empty", [.image(UIImage()), .text("")],[.image]),
+                    ("image,text", [.image(UIImage()), .text("some")],[.image,.text("some")]),
+                    ("text,image,empty", [.text("some"), .image(UIImage()),.text("")],[.text("some"),.image]),
+                    ("text,image,text", [.text("some"), .image(UIImage()),.text("text")],[.text("some"),.image,.text("text")]),
+                    ("text with newlines,image,text", [.text("some\n\ntext"), .image(UIImage()), .text("more")],[.text("some\n\ntext"),.image,.text("more")]),
+                    ("text,image,image,empty", [.text("some"), .image(UIImage()), .image(UIImage()), .text("")],[.text("some"),.image,.image]),
+                    ("text,image,image,text", [.text("some"), .image(UIImage()), .image(UIImage()), .text("more")],[.text("some"),.image,.image,.text("more")]),
+                    ("text,image,image,text w newlines", [.text("some"), .image(UIImage()), .image(UIImage()), .text("more\nlines")],[.text("some"),.image,.image,.text("more\nlines")]),
+                    ("image,text,image,empty", [.image(UIImage()), .text("some"), .image(UIImage()), .text("")],[.image,.text("some"),.image]),
+                    ("image,text,image,text", [.image(UIImage()), .text("some"), .image(UIImage()), .text("text")],[.image,.text("some"),.image,.text("text")]),
                     ("text,image,image,image,text,image,text",
-                        [.Text("some"), .Image(UIImage()), .Image(UIImage()), .Image(UIImage()), .Text("text"), .Image(UIImage()), .Image(UIImage()),.Text("some")],
-                        [.Text("some"), .Image, .Image, .Image, .Text("text"), .Image, .Image, .Text("some")]
+                        [.text("some"), .image(UIImage()), .image(UIImage()), .image(UIImage()), .text("text"), .image(UIImage()), .image(UIImage()),.text("some")],
+                        [.text("some"), .image, .image, .image, .text("text"), .image, .image, .text("some")]
                     ),
                 ]
                 for (name, regions, expectations) in expectationRules {
@@ -501,7 +501,7 @@ class OmnibarScreenSpec: QuickSpec {
                         subject.reorderingTable(true)
                         let editableRegions = subject.reorderableRegions
                         expect(editableRegions.count) == expectations.count
-                        for (index, expectation) in expectations.enumerate() {
+                        for (index, expectation) in expectations.enumerated() {
                             let (_, region) = editableRegions[index]
                             expect(expectation.matches(region)) == true
                         }
@@ -511,19 +511,19 @@ class OmnibarScreenSpec: QuickSpec {
 
             describe("generating editableRegions") {
                 let expectationRules: [(String, [OmnibarRegion], [RegionExpectation])] = [
-                    ("empty", [OmnibarRegion](),[.Text("")]),
-                    ("text", [.Text("some")],[.Text("some")]),
-                    ("text,text", [.Text("some\ntext")],[.Text("some\ntext")]),
-                    ("image,empty", [.Image(UIImage())],[.Image, .Spacer, .Text("")]),
-                    ("image,text", [.Image(UIImage()),.Text("some")],[.Image, .Spacer, .Text("some")]),
-                    ("text,image,empty", [.Text("some"),.Image(UIImage())],[.Text("some"), .Spacer, .Image, .Spacer,.Text("")]),
-                    ("text with newlines,image,text", [.Text("some\n\ntext"),.Image(UIImage()),.Text("more")],[.Text("some\n\ntext"), .Spacer, .Image, .Spacer, .Text("more")]),
-                    ("text,image,image,empty", [.Text("some"),.Image(UIImage()),.Image(UIImage())],[.Text("some"), .Spacer, .Image, .Spacer, .Image, .Spacer, .Text("")]),
-                    ("text,image,image,text", [.Text("some"),.Image(UIImage()),.Image(UIImage()),.Text("more\nlines")],[.Text("some"), .Spacer, .Image, .Spacer, .Image, .Spacer, .Text("more\nlines")]),
-                    ("image,text,image,empty", [.Image(UIImage()),.Text("some"),.Image(UIImage())],[.Image, .Spacer, .Text("some"), .Spacer, .Image, .Spacer, .Text("")]),
+                    ("empty", [OmnibarRegion](),[.text("")]),
+                    ("text", [.text("some")],[.text("some")]),
+                    ("text,text", [.text("some\ntext")],[.text("some\ntext")]),
+                    ("image,empty", [.image(UIImage())],[.image, .spacer, .text("")]),
+                    ("image,text", [.image(UIImage()),.text("some")],[.image, .spacer, .text("some")]),
+                    ("text,image,empty", [.text("some"),.image(UIImage())],[.text("some"), .spacer, .image, .spacer,.text("")]),
+                    ("text with newlines,image,text", [.text("some\n\ntext"),.image(UIImage()),.text("more")],[.text("some\n\ntext"), .spacer, .image, .spacer, .text("more")]),
+                    ("text,image,image,empty", [.text("some"),.image(UIImage()),.image(UIImage())],[.text("some"), .spacer, .image, .spacer, .image, .spacer, .text("")]),
+                    ("text,image,image,text", [.text("some"),.image(UIImage()),.image(UIImage()),.text("more\nlines")],[.text("some"), .spacer, .image, .spacer, .image, .spacer, .text("more\nlines")]),
+                    ("image,text,image,empty", [.image(UIImage()),.text("some"),.image(UIImage())],[.image, .spacer, .text("some"), .spacer, .image, .spacer, .text("")]),
                     ("text,image,image,image,text,image,text",
-                        [.Text("some"), .Image(UIImage()), .Image(UIImage()), .Image(UIImage()), .Text("text"), .Image(UIImage()), .Image(UIImage()), .Text("some")],
-                        [.Text("some"), .Spacer, .Image, .Spacer, .Image, .Spacer, .Image, .Spacer, .Text("text"), .Spacer, .Image, .Spacer, .Image, .Spacer, .Text("some")]
+                        [.text("some"), .image(UIImage()), .image(UIImage()), .image(UIImage()), .text("text"), .image(UIImage()), .image(UIImage()), .text("some")],
+                        [.text("some"), .spacer, .image, .spacer, .image, .spacer, .image, .spacer, .text("text"), .spacer, .image, .spacer, .image, .spacer, .text("some")]
                     ),
                 ]
                 for (name, regions, expectations) in expectationRules {
@@ -533,7 +533,7 @@ class OmnibarScreenSpec: QuickSpec {
                         subject.reorderingTable(false)
                         let editableRegions = subject.editableRegions
                         expect(editableRegions.count) == expectations.count
-                        for (index, expectation) in expectations.enumerate() {
+                        for (index, expectation) in expectations.enumerated() {
                             let (_, region) = editableRegions[index]
                             expect(expectation.matches(region)) == true
                         }
@@ -543,10 +543,10 @@ class OmnibarScreenSpec: QuickSpec {
 
             describe("deletable regions") {
                 let expectations: [(String, OmnibarRegion, Bool)] = [
-                    ("empty", .Text(""), false),
-                    ("text", .Text("text"), true),
-                    ("spacer", .Spacer, false),
-                    ("image", .Image(UIImage()), true),
+                    ("empty", .text(""), false),
+                    ("text", .text("text"), true),
+                    ("spacer", .spacer, false),
+                    ("image", .image(UIImage()), true),
                 ]
                 for (name, region, expected) in expectations {
                     it("\(name) should \(expected ? "be" : "not be") editable") {
@@ -556,74 +556,74 @@ class OmnibarScreenSpec: QuickSpec {
             }
 
             describe("deleting regions") {
-                let expectationRules: [(String, [OmnibarRegion], NSIndexPath, [RegionExpectation])] = [
-                    ("text", [.Text("some")], NSIndexPath(forRow: 0, inSection: 0),                               [.Text("")]),
-                    ("image", [.Image(UIImage())], NSIndexPath(forRow: 0, inSection: 0),                 [.Text("")]),
-                    ("image,text(0)", [.Image(UIImage()), .Text("some")], NSIndexPath(forRow: 0, inSection: 0),  [.Text("some")]),
-                    ("image,text(1)", [.Image(UIImage()), .Text("some")], NSIndexPath(forRow: 2, inSection: 0),  [.Image, .Spacer, .Text("")]),
-                    ("text,image(0)", [.Text("some"), .Image(UIImage())], NSIndexPath(forRow: 0, inSection: 0),  [.Image, .Spacer, .Text("")]),
-                    ("text,image(1)", [.Text("some"), .Image(UIImage())], NSIndexPath(forRow: 2, inSection: 0),  [.Text("some")]),
-                    ("text,image,text(0)", [.Text("some"), .Image(UIImage()), .Text("more")],NSIndexPath(forRow: 0, inSection: 0), [.Image, .Spacer, .Text("more")]),
-                    ("text,image,text(1a)", [.Text("some"), .Image(UIImage()), .Text("more")],NSIndexPath(forRow: 2, inSection: 0), [.Text("some\n\nmore")]),
-                    ("text,image,text(1b)", [.Text("some\n"), .Image(UIImage()), .Text("more")],NSIndexPath(forRow: 2, inSection: 0), [.Text("some\n\nmore")]),
-                    ("text,image,text(1c)", [.Text("some\n\n"), .Image(UIImage()), .Text("more")],NSIndexPath(forRow: 2, inSection: 0), [.Text("some\n\nmore")]),
-                    ("text,image,text(1d)", [.Text("some\n\n\n"), .Image(UIImage()), .Text("more")],NSIndexPath(forRow: 2, inSection: 0), [.Text("some\n\n\nmore")]),
-                    ("text,image,text(2)", [.Text("some"), .Image(UIImage()), .Text("more")], NSIndexPath(forRow: 4, inSection: 0), [.Text("some"), .Spacer, .Image, .Spacer, .Text("")]),
-                    ("text,image,image(0)", [.Text("some"), .Image(UIImage()), .Image(UIImage())], NSIndexPath(forRow: 0, inSection: 0), [.Image, .Spacer, .Image, .Spacer, .Text("")]),
-                    ("text,image,image(1)", [.Text("some"), .Image(UIImage()), .Image(UIImage())], NSIndexPath(forRow: 2, inSection: 0), [.Text("some"), .Spacer, .Image, .Spacer, .Text("")]),
-                    ("text,image,image(2)", [.Text("some"), .Image(UIImage()), .Image(UIImage())], NSIndexPath(forRow: 4, inSection: 0), [.Text("some"), .Spacer, .Image, .Spacer, .Text("")]),
-                    ("text,image,image,text(0)", [.Text("some"), .Image(UIImage()), .Image(UIImage()), .Text("text")], NSIndexPath(forRow: 0, inSection: 0), [.Image, .Spacer, .Image, .Spacer, .Text("text")]),
-                    ("text,image,image,text(1)", [.Text("some"), .Image(UIImage()), .Image(UIImage()), .Text("text")], NSIndexPath(forRow: 2, inSection: 0), [.Text("some"), .Spacer, .Image, .Spacer, .Text("text")]),
-                    ("text,image,image,text(2)", [.Text("some"), .Image(UIImage()), .Image(UIImage()), .Text("text")], NSIndexPath(forRow: 4, inSection: 0), [.Text("some"), .Spacer, .Image, .Spacer, .Text("text")]),
-                    ("text,image,image,text(3)", [.Text("some"), .Image(UIImage()), .Image(UIImage()), .Text("text")], NSIndexPath(forRow: 6, inSection: 0), [.Text("some"), .Spacer, .Image, .Spacer, .Image, .Spacer, .Text("")]),
-                    ("image,text,image(0)", [.Image(UIImage()), .Text("some"), .Image(UIImage())], NSIndexPath(forRow: 0, inSection: 0), [.Text("some"), .Spacer, .Image, .Spacer, .Text("")]),
-                    ("image,text,image(1)", [.Image(UIImage()), .Text("some"), .Image(UIImage())], NSIndexPath(forRow: 2, inSection: 0), [.Image, .Spacer, .Image, .Spacer, .Text("")]),
-                    ("image,text,image(2)", [.Image(UIImage()), .Text("some"), .Image(UIImage())], NSIndexPath(forRow: 4, inSection: 0), [.Image, .Spacer, .Text("some")]),
+                let expectationRules: [(String, [OmnibarRegion], IndexPath, [RegionExpectation])] = [
+                    ("text", [.text("some")], IndexPath(row: 0, section: 0),                               [.text("")]),
+                    ("image", [.image(UIImage())], IndexPath(row: 0, section: 0),                 [.text("")]),
+                    ("image,text(0)", [.image(UIImage()), .text("some")], IndexPath(row: 0, section: 0),  [.text("some")]),
+                    ("image,text(1)", [.image(UIImage()), .text("some")], IndexPath(row: 2, section: 0),  [.image, .spacer, .text("")]),
+                    ("text,image(0)", [.text("some"), .image(UIImage())], IndexPath(row: 0, section: 0),  [.image, .spacer, .text("")]),
+                    ("text,image(1)", [.text("some"), .image(UIImage())], IndexPath(row: 2, section: 0),  [.text("some")]),
+                    ("text,image,text(0)", [.text("some"), .image(UIImage()), .text("more")],IndexPath(row: 0, section: 0), [.image, .spacer, .text("more")]),
+                    ("text,image,text(1a)", [.text("some"), .image(UIImage()), .text("more")],IndexPath(row: 2, section: 0), [.text("some\n\nmore")]),
+                    ("text,image,text(1b)", [.text("some\n"), .image(UIImage()), .text("more")],IndexPath(row: 2, section: 0), [.text("some\n\nmore")]),
+                    ("text,image,text(1c)", [.text("some\n\n"), .image(UIImage()), .text("more")],IndexPath(row: 2, section: 0), [.text("some\n\nmore")]),
+                    ("text,image,text(1d)", [.text("some\n\n\n"), .image(UIImage()), .text("more")],IndexPath(row: 2, section: 0), [.text("some\n\n\nmore")]),
+                    ("text,image,text(2)", [.text("some"), .image(UIImage()), .text("more")], IndexPath(row: 4, section: 0), [.text("some"), .spacer, .image, .spacer, .text("")]),
+                    ("text,image,image(0)", [.text("some"), .image(UIImage()), .image(UIImage())], IndexPath(row: 0, section: 0), [.image, .spacer, .image, .spacer, .text("")]),
+                    ("text,image,image(1)", [.text("some"), .image(UIImage()), .image(UIImage())], IndexPath(row: 2, section: 0), [.text("some"), .spacer, .image, .spacer, .text("")]),
+                    ("text,image,image(2)", [.text("some"), .image(UIImage()), .image(UIImage())], IndexPath(row: 4, section: 0), [.text("some"), .spacer, .image, .spacer, .text("")]),
+                    ("text,image,image,text(0)", [.text("some"), .image(UIImage()), .image(UIImage()), .text("text")], IndexPath(row: 0, section: 0), [.image, .spacer, .image, .spacer, .text("text")]),
+                    ("text,image,image,text(1)", [.text("some"), .image(UIImage()), .image(UIImage()), .text("text")], IndexPath(row: 2, section: 0), [.text("some"), .spacer, .image, .spacer, .text("text")]),
+                    ("text,image,image,text(2)", [.text("some"), .image(UIImage()), .image(UIImage()), .text("text")], IndexPath(row: 4, section: 0), [.text("some"), .spacer, .image, .spacer, .text("text")]),
+                    ("text,image,image,text(3)", [.text("some"), .image(UIImage()), .image(UIImage()), .text("text")], IndexPath(row: 6, section: 0), [.text("some"), .spacer, .image, .spacer, .image, .spacer, .text("")]),
+                    ("image,text,image(0)", [.image(UIImage()), .text("some"), .image(UIImage())], IndexPath(row: 0, section: 0), [.text("some"), .spacer, .image, .spacer, .text("")]),
+                    ("image,text,image(1)", [.image(UIImage()), .text("some"), .image(UIImage())], IndexPath(row: 2, section: 0), [.image, .spacer, .image, .spacer, .text("")]),
+                    ("image,text,image(2)", [.image(UIImage()), .text("some"), .image(UIImage())], IndexPath(row: 4, section: 0), [.image, .spacer, .text("some")]),
                     ("text,image,image,image,text,image,image(0)",
-                        [.Text("some"), .Image(UIImage()), .Image(UIImage()), .Image(UIImage()), .Text("text"), .Image(UIImage()), .Image(UIImage())],
-                        NSIndexPath(forRow: 0, inSection: 0),
-                        [.Image, .Spacer, .Image, .Spacer, .Image, .Spacer, .Text("text"), .Spacer, .Image, .Spacer, .Image, .Spacer, .Text("")]
+                        [.text("some"), .image(UIImage()), .image(UIImage()), .image(UIImage()), .text("text"), .image(UIImage()), .image(UIImage())],
+                        IndexPath(row: 0, section: 0),
+                        [.image, .spacer, .image, .spacer, .image, .spacer, .text("text"), .spacer, .image, .spacer, .image, .spacer, .text("")]
                     ),
                     ("text,image,image,image,text,image,image(1)",
-                        [.Text("some"), .Image(UIImage()), .Image(UIImage()), .Image(UIImage()), .Text("text"), .Image(UIImage()), .Image(UIImage())],
-                        NSIndexPath(forRow: 2, inSection: 0),
-                        [.Text("some"), .Spacer, .Image, .Spacer, .Image, .Spacer, .Text("text"), .Spacer, .Image, .Spacer, .Image, .Spacer, .Text("")]
+                        [.text("some"), .image(UIImage()), .image(UIImage()), .image(UIImage()), .text("text"), .image(UIImage()), .image(UIImage())],
+                        IndexPath(row: 2, section: 0),
+                        [.text("some"), .spacer, .image, .spacer, .image, .spacer, .text("text"), .spacer, .image, .spacer, .image, .spacer, .text("")]
                     ),
                     ("text,image,image,image,text,image,image(2)",
-                        [.Text("some"), .Image(UIImage()), .Image(UIImage()), .Image(UIImage()), .Text("text"), .Image(UIImage()), .Image(UIImage())],
-                        NSIndexPath(forRow: 4, inSection: 0),
-                        [.Text("some"), .Spacer, .Image, .Spacer, .Image, .Spacer, .Text("text"), .Spacer, .Image, .Spacer, .Image, .Spacer, .Text("")]
+                        [.text("some"), .image(UIImage()), .image(UIImage()), .image(UIImage()), .text("text"), .image(UIImage()), .image(UIImage())],
+                        IndexPath(row: 4, section: 0),
+                        [.text("some"), .spacer, .image, .spacer, .image, .spacer, .text("text"), .spacer, .image, .spacer, .image, .spacer, .text("")]
                     ),
                     ("text,image,image,image,text,image,image(3)",
-                        [.Text("some"), .Image(UIImage()), .Image(UIImage()), .Image(UIImage()), .Text("text"), .Image(UIImage()), .Image(UIImage())],
-                        NSIndexPath(forRow: 6, inSection: 0),
-                        [.Text("some"), .Spacer, .Image, .Spacer, .Image, .Spacer, .Text("text"), .Spacer, .Image, .Spacer, .Image, .Spacer, .Text("")]
+                        [.text("some"), .image(UIImage()), .image(UIImage()), .image(UIImage()), .text("text"), .image(UIImage()), .image(UIImage())],
+                        IndexPath(row: 6, section: 0),
+                        [.text("some"), .spacer, .image, .spacer, .image, .spacer, .text("text"), .spacer, .image, .spacer, .image, .spacer, .text("")]
                     ),
                     ("text,image,image,image,text,image,image(4)",
-                        [.Text("some"), .Image(UIImage()), .Image(UIImage()), .Image(UIImage()), .Text("text"), .Image(UIImage()), .Image(UIImage())],
-                        NSIndexPath(forRow: 8, inSection: 0),
-                        [.Text("some"), .Spacer, .Image, .Spacer, .Image, .Spacer, .Image, .Spacer, .Image, .Spacer, .Image, .Spacer, .Text("")]
+                        [.text("some"), .image(UIImage()), .image(UIImage()), .image(UIImage()), .text("text"), .image(UIImage()), .image(UIImage())],
+                        IndexPath(row: 8, section: 0),
+                        [.text("some"), .spacer, .image, .spacer, .image, .spacer, .image, .spacer, .image, .spacer, .image, .spacer, .text("")]
                     ),
                     ("text,image,image,image,text,image,image(5)",
-                        [.Text("some"), .Image(UIImage()), .Image(UIImage()), .Image(UIImage()), .Text("text"), .Image(UIImage()), .Image(UIImage())],
-                        NSIndexPath(forRow: 10, inSection: 0),
-                        [.Text("some"), .Spacer, .Image, .Spacer, .Image, .Spacer, .Image, .Spacer, .Text("text"), .Spacer, .Image, .Spacer, .Text("")]
+                        [.text("some"), .image(UIImage()), .image(UIImage()), .image(UIImage()), .text("text"), .image(UIImage()), .image(UIImage())],
+                        IndexPath(row: 10, section: 0),
+                        [.text("some"), .spacer, .image, .spacer, .image, .spacer, .image, .spacer, .text("text"), .spacer, .image, .spacer, .text("")]
                     ),
                     ("text,image,image,image,text,image,image(6)",
-                        [.Text("some"), .Image(UIImage()), .Image(UIImage()), .Image(UIImage()), .Text("text"), .Image(UIImage()), .Image(UIImage())],
-                        NSIndexPath(forRow: 12, inSection: 0),
-                        [.Text("some"), .Spacer, .Image, .Spacer, .Image, .Spacer, .Image, .Spacer, .Text("text"), .Spacer, .Image, .Spacer, .Text("")]
+                        [.text("some"), .image(UIImage()), .image(UIImage()), .image(UIImage()), .text("text"), .image(UIImage()), .image(UIImage())],
+                        IndexPath(row: 12, section: 0),
+                        [.text("some"), .spacer, .image, .spacer, .image, .spacer, .image, .spacer, .text("text"), .spacer, .image, .spacer, .text("")]
                     ),
                 ]
                 for (name, regions, path, expectations) in expectationRules {
                     it("should correctly delete for \(name) at row \(path.row)") {
                         subject.regions = regions
 
-                        if subject.tableView(UITableView(), canEditRowAtIndexPath: path) {
-                            subject.deleteEditableAtIndexPath(path)
+                        if subject.tableView(UITableView(), canEditRowAt: path) {
+                            subject.deleteEditableAtIndexPath(path as IndexPath)
                             let editableRegions = subject.editableRegions
                             expect(editableRegions.count) == expectations.count
-                            for (index, expectation) in expectations.enumerate() {
+                            for (index, expectation) in expectations.enumerated() {
                                 let (_, region) = editableRegions[index]
                                 expect(expectation.matches(region)) == true
                             }
@@ -636,147 +636,147 @@ class OmnibarScreenSpec: QuickSpec {
             }
 
             describe("reordering regions") {
-                let expectationRules: [(String, [OmnibarRegion], (NSIndexPath, NSIndexPath), [RegionExpectation])] = [
+                let expectationRules: [(String, [OmnibarRegion], (IndexPath, IndexPath), [RegionExpectation])] = [
                     ("image,text(0)",
-                        [.Image(UIImage()), .Text("some")],
-                        (NSIndexPath(forRow: 0, inSection: 0), NSIndexPath(forRow: 1, inSection: 0)),
-                        [.Text("some"),.Spacer,.Image,.Spacer,.Text("")]
+                        [.image(UIImage()), .text("some")],
+                        (IndexPath(row: 0, section: 0), IndexPath(row: 1, section: 0)),
+                        [.text("some"),.spacer,.image,.spacer,.text("")]
                     ),
                     ("image,text(1)",
-                        [.Image(UIImage()), .Text("some")],
-                        (NSIndexPath(forRow: 1, inSection: 0), NSIndexPath(forRow: 0, inSection: 0)),
-                        [.Text("some"),.Spacer,.Image,.Spacer,.Text("")]
+                        [.image(UIImage()), .text("some")],
+                        (IndexPath(row: 1, section: 0), IndexPath(row: 0, section: 0)),
+                        [.text("some"),.spacer,.image,.spacer,.text("")]
                     ),
 
                     ("text,image,text(0)",
-                        [.Text("some"),.Spacer,.Image(UIImage()),.Text("text")],
-                        (NSIndexPath(forRow: 0, inSection: 0), NSIndexPath(forRow: 1, inSection: 0)),
-                        [.Image,.Spacer,.Text("some\n\ntext")]
+                        [.text("some"),.spacer,.image(UIImage()),.text("text")],
+                        (IndexPath(row: 0, section: 0), IndexPath(row: 1, section: 0)),
+                        [.image,.spacer,.text("some\n\ntext")]
                     ),
                     ("text,image,text(1)",
-                        [.Text("some"),.Spacer,.Image(UIImage()),.Text("text")],
-                        (NSIndexPath(forRow: 0, inSection: 0), NSIndexPath(forRow: 2, inSection: 0)),
-                        [.Image,.Spacer,.Text("text\n\nsome")]
+                        [.text("some"),.spacer,.image(UIImage()),.text("text")],
+                        (IndexPath(row: 0, section: 0), IndexPath(row: 2, section: 0)),
+                        [.image,.spacer,.text("text\n\nsome")]
                     ),
                     ("text,image,text(2)",
-                        [.Text("some"),.Spacer,.Image(UIImage()),.Text("text")],
-                        (NSIndexPath(forRow: 1, inSection: 0), NSIndexPath(forRow: 0, inSection: 0)),
-                        [.Image,.Spacer,.Text("some\n\ntext")]
+                        [.text("some"),.spacer,.image(UIImage()),.text("text")],
+                        (IndexPath(row: 1, section: 0), IndexPath(row: 0, section: 0)),
+                        [.image,.spacer,.text("some\n\ntext")]
                     ),
                     ("text,image,text(3)",
-                        [.Text("some"),.Spacer,.Image(UIImage()),.Text("text")],
-                        (NSIndexPath(forRow: 1, inSection: 0), NSIndexPath(forRow: 2, inSection: 0)),
-                        [.Text("some\n\ntext"),.Spacer,.Image,.Spacer,.Text("")]
+                        [.text("some"),.spacer,.image(UIImage()),.text("text")],
+                        (IndexPath(row: 1, section: 0), IndexPath(row: 2, section: 0)),
+                        [.text("some\n\ntext"),.spacer,.image,.spacer,.text("")]
                     ),
                     ("text,image,text(4)",
-                        [.Text("some"),.Image(UIImage()),.Text("text")],
-                        (NSIndexPath(forRow: 2, inSection: 0), NSIndexPath(forRow: 0, inSection: 0)),
-                        [.Text("text\n\nsome"),.Spacer,.Image,.Spacer,.Text("")]
+                        [.text("some"),.image(UIImage()),.text("text")],
+                        (IndexPath(row: 2, section: 0), IndexPath(row: 0, section: 0)),
+                        [.text("text\n\nsome"),.spacer,.image,.spacer,.text("")]
                     ),
                     ("text,image,text(5)",
-                        [.Text("some"),.Image(UIImage()),.Text("text")],
-                        (NSIndexPath(forRow: 2, inSection: 0), NSIndexPath(forRow: 1, inSection: 0)),
-                        [.Text("some\n\ntext"),.Spacer,.Image,.Spacer,.Text("")]
+                        [.text("some"),.image(UIImage()),.text("text")],
+                        (IndexPath(row: 2, section: 0), IndexPath(row: 1, section: 0)),
+                        [.text("some\n\ntext"),.spacer,.image,.spacer,.text("")]
                     ),
 
                     ("text with two trailing newlines,image,text",
-                        [.Text("some\n\n"),.Image(UIImage()), .Text("more")],
-                        (NSIndexPath(forRow: 0, inSection: 0), NSIndexPath(forRow: 1, inSection: 0)),
-                        [.Image,.Spacer,.Text("some\n\nmore")]
+                        [.text("some\n\n"),.image(UIImage()), .text("more")],
+                        (IndexPath(row: 0, section: 0), IndexPath(row: 1, section: 0)),
+                        [.image,.spacer,.text("some\n\nmore")]
                     ),
                     ("text with many trailing newlines,image,text",
-                        [.Text("some\n\n\n\n"),.Image(UIImage()), .Text("more")],
-                        (NSIndexPath(forRow: 0, inSection: 0), NSIndexPath(forRow: 1, inSection: 0)),
-                        [.Image,.Spacer,.Text("some\n\n\n\nmore")]
+                        [.text("some\n\n\n\n"),.image(UIImage()), .text("more")],
+                        (IndexPath(row: 0, section: 0), IndexPath(row: 1, section: 0)),
+                        [.image,.spacer,.text("some\n\n\n\nmore")]
                     ),
                     ("text with one trailing newline,image,text",
-                        [.Text("some\n"),.Image(UIImage()), .Text("more")],
-                        (NSIndexPath(forRow: 0, inSection: 0), NSIndexPath(forRow: 1, inSection: 0)),
-                        [.Image,.Spacer,.Text("some\n\nmore")]
+                        [.text("some\n"),.image(UIImage()), .text("more")],
+                        (IndexPath(row: 0, section: 0), IndexPath(row: 1, section: 0)),
+                        [.image,.spacer,.text("some\n\nmore")]
                     ),
 
                     ("text with newlines,image,text(0)",
-                        [.Text("some\n\ntext"),.Image(UIImage()), .Text("more")],
-                        (NSIndexPath(forRow: 0, inSection: 0), NSIndexPath(forRow: 1, inSection: 0)),
-                        [.Image,.Spacer,.Text("some\n\ntext\n\nmore")]
+                        [.text("some\n\ntext"),.image(UIImage()), .text("more")],
+                        (IndexPath(row: 0, section: 0), IndexPath(row: 1, section: 0)),
+                        [.image,.spacer,.text("some\n\ntext\n\nmore")]
                     ),
                     ("text with newlines,image,text(1)",
-                        [.Text("some\n\ntext"),.Image(UIImage()), .Text("more")],
-                        (NSIndexPath(forRow: 0, inSection: 0), NSIndexPath(forRow: 2, inSection: 0)),
-                        [.Image,.Spacer,.Text("more\n\nsome\n\ntext")]
+                        [.text("some\n\ntext"),.image(UIImage()), .text("more")],
+                        (IndexPath(row: 0, section: 0), IndexPath(row: 2, section: 0)),
+                        [.image,.spacer,.text("more\n\nsome\n\ntext")]
                     ),
 
                     ("text,image,image,empty(0)",
-                        [.Text("some"),.Spacer,.Image(UIImage()),.Image(UIImage()), .Text("")],
-                        (NSIndexPath(forRow: 0, inSection: 0), NSIndexPath(forRow: 1, inSection: 0)),
-                        [.Image,.Spacer,.Text("some"),.Spacer,.Image,.Spacer,.Text("")]
+                        [.text("some"),.spacer,.image(UIImage()),.image(UIImage()), .text("")],
+                        (IndexPath(row: 0, section: 0), IndexPath(row: 1, section: 0)),
+                        [.image,.spacer,.text("some"),.spacer,.image,.spacer,.text("")]
                     ),
                     ("text,image,image,empty(1)",
-                        [.Text("some"),.Spacer,.Image(UIImage()),.Image(UIImage()), .Text("")],
-                        (NSIndexPath(forRow: 1, inSection: 0), NSIndexPath(forRow: 0, inSection: 0)),
-                        [.Image,.Spacer,.Text("some"),.Spacer,.Image,.Spacer,.Text("")]
+                        [.text("some"),.spacer,.image(UIImage()),.image(UIImage()), .text("")],
+                        (IndexPath(row: 1, section: 0), IndexPath(row: 0, section: 0)),
+                        [.image,.spacer,.text("some"),.spacer,.image,.spacer,.text("")]
                     ),
                     ("text,image,image,empty(2)",
-                        [.Text("some"),.Spacer,.Image(UIImage()),.Image(UIImage()), .Text("")],
-                        (NSIndexPath(forRow: 2, inSection: 0), NSIndexPath(forRow: 0, inSection: 0)),
-                        [.Image,.Spacer,.Text("some"),.Spacer,.Image,.Spacer,.Text("")]
+                        [.text("some"),.spacer,.image(UIImage()),.image(UIImage()), .text("")],
+                        (IndexPath(row: 2, section: 0), IndexPath(row: 0, section: 0)),
+                        [.image,.spacer,.text("some"),.spacer,.image,.spacer,.text("")]
                     ),
                     ("text,image,image,empty(3)",
-                        [.Text("some"),.Spacer,.Image(UIImage()),.Image(UIImage()), .Text("")],
-                        (NSIndexPath(forRow: 0, inSection: 0), NSIndexPath(forRow: 2, inSection: 0)),
-                        [.Image,.Spacer,.Image,.Spacer,.Text("some")]
+                        [.text("some"),.spacer,.image(UIImage()),.image(UIImage()), .text("")],
+                        (IndexPath(row: 0, section: 0), IndexPath(row: 2, section: 0)),
+                        [.image,.spacer,.image,.spacer,.text("some")]
                     ),
 
                     ("text,image,image,text(0)",
-                        [.Text("some"),.Spacer,.Image(UIImage()),.Image(UIImage()), .Text("more")],
-                        (NSIndexPath(forRow: 0, inSection: 0), NSIndexPath(forRow: 1, inSection: 0)),
-                        [.Image,.Spacer,.Text("some"),.Spacer,.Image,.Spacer,.Text("more")]
+                        [.text("some"),.spacer,.image(UIImage()),.image(UIImage()), .text("more")],
+                        (IndexPath(row: 0, section: 0), IndexPath(row: 1, section: 0)),
+                        [.image,.spacer,.text("some"),.spacer,.image,.spacer,.text("more")]
                     ),
                     ("text,image,image,text(1)",
-                        [.Text("some"),.Spacer,.Image(UIImage()),.Image(UIImage()), .Text("more")],
-                        (NSIndexPath(forRow: 0, inSection: 0), NSIndexPath(forRow: 2, inSection: 0)),
-                        [.Image,.Spacer,.Image,.Spacer,.Text("some\n\nmore")]
+                        [.text("some"),.spacer,.image(UIImage()),.image(UIImage()), .text("more")],
+                        (IndexPath(row: 0, section: 0), IndexPath(row: 2, section: 0)),
+                        [.image,.spacer,.image,.spacer,.text("some\n\nmore")]
                     ),
                     ("text,image,image,text(2)",
-                        [.Text("some"),.Spacer,.Image(UIImage()),.Image(UIImage()), .Text("more")],
-                        (NSIndexPath(forRow: 0, inSection: 0), NSIndexPath(forRow: 3, inSection: 0)),
-                        [.Image,.Spacer,.Image,.Spacer,.Text("more\n\nsome")]
+                        [.text("some"),.spacer,.image(UIImage()),.image(UIImage()), .text("more")],
+                        (IndexPath(row: 0, section: 0), IndexPath(row: 3, section: 0)),
+                        [.image,.spacer,.image,.spacer,.text("more\n\nsome")]
                     ),
                     ("text,image,image,text(3)",
-                        [.Text("some"),.Spacer,.Image(UIImage()),.Image(UIImage()), .Text("more")],
-                        (NSIndexPath(forRow: 1, inSection: 0), NSIndexPath(forRow: 0, inSection: 0)),
-                        [.Image,.Spacer,.Text("some"),.Spacer,.Image,.Spacer,.Text("more")]
+                        [.text("some"),.spacer,.image(UIImage()),.image(UIImage()), .text("more")],
+                        (IndexPath(row: 1, section: 0), IndexPath(row: 0, section: 0)),
+                        [.image,.spacer,.text("some"),.spacer,.image,.spacer,.text("more")]
                     ),
                     ("text,image,image,text(4)",
-                        [.Text("some"),.Spacer,.Image(UIImage()),.Image(UIImage()), .Text("more")],
-                        (NSIndexPath(forRow: 1, inSection: 0), NSIndexPath(forRow: 2, inSection: 0)),
-                        [.Text("some"),.Spacer,.Image,.Spacer,.Image,.Spacer,.Text("more")]
+                        [.text("some"),.spacer,.image(UIImage()),.image(UIImage()), .text("more")],
+                        (IndexPath(row: 1, section: 0), IndexPath(row: 2, section: 0)),
+                        [.text("some"),.spacer,.image,.spacer,.image,.spacer,.text("more")]
                     ),
                     ("text,image,image,text(5)",
-                        [.Text("some"),.Spacer,.Image(UIImage()),.Image(UIImage()), .Text("more")],
-                        (NSIndexPath(forRow: 1, inSection: 0), NSIndexPath(forRow: 3, inSection: 0)),
-                        [.Text("some"),.Spacer,.Image,.Spacer,.Text("more"),.Spacer,.Image,.Spacer,.Text("")]
+                        [.text("some"),.spacer,.image(UIImage()),.image(UIImage()), .text("more")],
+                        (IndexPath(row: 1, section: 0), IndexPath(row: 3, section: 0)),
+                        [.text("some"),.spacer,.image,.spacer,.text("more"),.spacer,.image,.spacer,.text("")]
                     ),
 
                     ("text,image,image,text w newlines(0)",
-                        [.Text("some"),.Spacer,.Image(UIImage()),.Image(UIImage()), .Text("more\nlines")],
-                        (NSIndexPath(forRow: 0, inSection: 0), NSIndexPath(forRow: 2, inSection: 0)),
-                        [.Image,.Spacer,.Image,.Spacer,.Text("some\n\nmore\nlines")]
+                        [.text("some"),.spacer,.image(UIImage()),.image(UIImage()), .text("more\nlines")],
+                        (IndexPath(row: 0, section: 0), IndexPath(row: 2, section: 0)),
+                        [.image,.spacer,.image,.spacer,.text("some\n\nmore\nlines")]
                     ),
                     ("text,image,image,text w newlines(1)",
-                        [.Text("some"),.Spacer,.Image(UIImage()),.Image(UIImage()), .Text("more\nlines")],
-                        (NSIndexPath(forRow: 0, inSection: 0), NSIndexPath(forRow: 3, inSection: 0)),
-                        [.Image,.Spacer,.Image,.Spacer,.Text("more\nlines\n\nsome")]
+                        [.text("some"),.spacer,.image(UIImage()),.image(UIImage()), .text("more\nlines")],
+                        (IndexPath(row: 0, section: 0), IndexPath(row: 3, section: 0)),
+                        [.image,.spacer,.image,.spacer,.text("more\nlines\n\nsome")]
                     ),
                     ("text,image,image,text w newlines(2)",
-                        [.Text("some"),.Spacer,.Image(UIImage()),.Image(UIImage()), .Text("more\nlines")],
-                        (NSIndexPath(forRow: 2, inSection: 0), NSIndexPath(forRow: 0, inSection: 0)),
-                        [.Image,.Spacer,.Text("some"),.Spacer,.Image,.Spacer,.Text("more\nlines")]
+                        [.text("some"),.spacer,.image(UIImage()),.image(UIImage()), .text("more\nlines")],
+                        (IndexPath(row: 2, section: 0), IndexPath(row: 0, section: 0)),
+                        [.image,.spacer,.text("some"),.spacer,.image,.spacer,.text("more\nlines")]
                     ),
                     ("text,image,image,text w newlines(3)",
-                        [.Text("some"),.Spacer,.Image(UIImage()),.Image(UIImage()), .Text("more\nlines")],
-                        (NSIndexPath(forRow: 3, inSection: 0), NSIndexPath(forRow: 0, inSection: 0)),
-                        [.Text("more\nlines\n\nsome"),.Spacer,.Image,.Spacer,.Image,.Spacer,.Text("")]
+                        [.text("some"),.spacer,.image(UIImage()),.image(UIImage()), .text("more\nlines")],
+                        (IndexPath(row: 3, section: 0), IndexPath(row: 0, section: 0)),
+                        [.text("more\nlines\n\nsome"),.spacer,.image,.spacer,.image,.spacer,.text("")]
                     ),
                 ]
                 for (name, regions, reorder, expectations) in expectationRules {
@@ -785,13 +785,13 @@ class OmnibarScreenSpec: QuickSpec {
                             let (src, dest) = reorder
                             subject.regions = regions
                             subject.reorderingTable(true)
-                            subject.tableView(UITableView(), moveRowAtIndexPath: src, toIndexPath: dest)
+                            subject.tableView(UITableView(), moveRowAt: src, to: dest)
                             subject.reorderingTable(false)
                         }
                         it("should correctly reorder") {
                             let editableRegions = subject.editableRegions
                             expect(editableRegions.count) == expectations.count
-                            for (index, expectation) in expectations.enumerate() {
+                            for (index, expectation) in expectations.enumerated() {
                                 let (_, region) = editableRegions[index]
                                 expect(expectation.matches(region)) == true
                             }
@@ -801,57 +801,57 @@ class OmnibarScreenSpec: QuickSpec {
             }
 
             describe("deleting regions while reordering") {
-                let expectationRules: [(String, [OmnibarRegion], NSIndexPath, [RegionExpectation])] = [
-                    ("text", [.Text("some")], NSIndexPath(forRow: 0, inSection: 0),                               [.Text("")]),
-                    ("image", [.Image(UIImage())], NSIndexPath(forRow: 0, inSection: 0),                 [.Text("")]),
-                    ("image,text(0)", [.Image(UIImage()), .Text("some")], NSIndexPath(forRow: 0, inSection: 0),  [.Text("some")]),
-                    ("image,text(1)", [.Image(UIImage()), .Text("some")], NSIndexPath(forRow: 1, inSection: 0),  [.Image,.Spacer,.Text("")]),
-                    ("text,image(0)", [.Text("some"), .Image(UIImage())], NSIndexPath(forRow: 0, inSection: 0),  [.Image,.Spacer,.Text("")]),
-                    ("text,image(1)", [.Text("some"), .Image(UIImage())], NSIndexPath(forRow: 1, inSection: 0),  [.Text("some")]),
-                    ("text,image,image(0)", [.Text("some"), .Image(UIImage()), .Image(UIImage())], NSIndexPath(forRow: 0, inSection: 0), [.Image,.Spacer,.Image,.Spacer,.Text("")]),
-                    ("text,image,image(1)", [.Text("some"), .Image(UIImage()), .Image(UIImage())], NSIndexPath(forRow: 1, inSection: 0), [.Text("some"),.Spacer,.Image,.Spacer,.Text("")]),
-                    ("text,image,image(2)", [.Text("some"), .Image(UIImage()), .Image(UIImage())], NSIndexPath(forRow: 2, inSection: 0), [.Text("some"),.Spacer,.Image,.Spacer,.Text("")]),
+                let expectationRules: [(String, [OmnibarRegion], IndexPath, [RegionExpectation])] = [
+                    ("text", [.text("some")], IndexPath(row: 0, section: 0),                               [.text("")]),
+                    ("image", [.image(UIImage())], IndexPath(row: 0, section: 0),                 [.text("")]),
+                    ("image,text(0)", [.image(UIImage()), .text("some")], IndexPath(row: 0, section: 0),  [.text("some")]),
+                    ("image,text(1)", [.image(UIImage()), .text("some")], IndexPath(row: 1, section: 0),  [.image,.spacer,.text("")]),
+                    ("text,image(0)", [.text("some"), .image(UIImage())], IndexPath(row: 0, section: 0),  [.image,.spacer,.text("")]),
+                    ("text,image(1)", [.text("some"), .image(UIImage())], IndexPath(row: 1, section: 0),  [.text("some")]),
+                    ("text,image,image(0)", [.text("some"), .image(UIImage()), .image(UIImage())], IndexPath(row: 0, section: 0), [.image,.spacer,.image,.spacer,.text("")]),
+                    ("text,image,image(1)", [.text("some"), .image(UIImage()), .image(UIImage())], IndexPath(row: 1, section: 0), [.text("some"),.spacer,.image,.spacer,.text("")]),
+                    ("text,image,image(2)", [.text("some"), .image(UIImage()), .image(UIImage())], IndexPath(row: 2, section: 0), [.text("some"),.spacer,.image,.spacer,.text("")]),
                 ]
                 for (name, regions, path, expectations) in expectationRules {
                     describe("for \(name) at row \(path.row)") {
-                        let expectedBuyButton = expectations.reduce(false) { return $0 || $1.matches(.Image(UIImage())) }
+                        let expectedBuyButton = expectations.reduce(false) { return $0 || $1.matches(.image(UIImage())) }
                         beforeEach {
                             subject.regions = regions
                             subject.reorderingTable(true)
-                            subject.deleteReorderableAtIndexPath(path)
+                            subject.deleteReorderableAtIndexPath(path as IndexPath)
                             subject.reorderingTable(false)
                         }
                         it("should correctly delete") {
                             let editableRegions = subject.editableRegions
                             expect(editableRegions.count) == expectations.count
-                            for (index, expectation) in expectations.enumerate() {
+                            for (index, expectation) in expectations.enumerated() {
                                 let (_, region) = editableRegions[index]
                                 expect(expectation.matches(region)) == true
                             }
                         }
 
                         it("should set buyButton.enabled to \(expectedBuyButton)") {
-                            expect(subject.buyButton.enabled) == expectedBuyButton
+                            expect(subject.buyButton.isEnabled) == expectedBuyButton
                         }
                     }
                 }
                 it("should end reordering if no more regions") {
-                    subject.regions = [.Text("some")]
+                    subject.regions = [.text("some")]
                     subject.reorderingTable(true)
                     expect(subject.reordering) == true
-                    subject.deleteReorderableAtIndexPath(NSIndexPath(forRow: 0, inSection: 0))
+                    subject.deleteReorderableAtIndexPath(IndexPath(row: 0, section: 0))
                     expect(subject.reordering) == false
                     expect(subject.regions.count) == 1
-                    expect(RegionExpectation.Text("").matches(subject.regions[0])) == true
+                    expect(RegionExpectation.text("").matches(subject.regions[0])) == true
                 }
             }
 
             describe("adding images") {
                 let expectationRules: [(String, [OmnibarRegion], [RegionExpectation])] = [
-                    ("text", [.Text("some")], [.Text("some"),.Spacer,.Image,.Spacer,.Text("")]),
-                    ("image", [.Image(UIImage())], [.Image,.Spacer,.Image,.Spacer,.Text("")]),
-                    ("image,text", [.Image(UIImage()), .Text("some")], [.Image,.Spacer,.Text("some"),.Spacer,.Image,.Spacer,.Text("")]),
-                    ("text,image", [.Text("some"), .Image(UIImage())], [.Text("some"),.Spacer,.Image,.Spacer,.Image,.Spacer,.Text("")]),
+                    ("text", [.text("some")], [.text("some"),.spacer,.image,.spacer,.text("")]),
+                    ("image", [.image(UIImage())], [.image,.spacer,.image,.spacer,.text("")]),
+                    ("image,text", [.image(UIImage()), .text("some")], [.image,.spacer,.text("some"),.spacer,.image,.spacer,.text("")]),
+                    ("text,image", [.text("some"), .image(UIImage())], [.text("some"),.spacer,.image,.spacer,.image,.spacer,.text("")]),
                 ]
                 for (name, regions, expectations) in expectationRules {
                     describe("for \(name)") {
@@ -862,13 +862,13 @@ class OmnibarScreenSpec: QuickSpec {
                         it("should correctly add an image") {
                             let editableRegions = subject.editableRegions
                             expect(editableRegions.count) == expectations.count
-                            for (index, expectation) in expectations.enumerate() {
+                            for (index, expectation) in expectations.enumerated() {
                                 let (_, region) = editableRegions[index]
                                 expect(expectation.matches(region)) == true
                             }
                         }
                         it("should enable buyButton") {
-                            expect(subject.buyButton.enabled) == true
+                            expect(subject.buyButton.isEnabled) == true
                         }
                     }
                 }

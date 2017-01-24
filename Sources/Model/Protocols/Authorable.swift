@@ -4,7 +4,7 @@
 
 
 @objc
-public protocol Authorable {
-    var createdAt: NSDate { get }
+protocol Authorable {
+    var createdAt: Date { get }
     var author: User? { get }
 }

@@ -14,7 +14,7 @@ class DeepLinkingSpec: QuickSpec {
         var pushCalled = false
         var pushedVC: UIViewController?
 
-        override func pushViewController(viewController: UIViewController, animated: Bool) {
+        override func pushViewController(_ viewController: UIViewController, animated: Bool) {
             pushCalled = true
             pushedVC = viewController
         }
@@ -37,7 +37,7 @@ class DeepLinkingSpec: QuickSpec {
                     DeepLinking.showDiscover(navVC: fakeNavController, currentUser: fakeCurrentUser)
 
                     expect(fakeNavController.pushCalled) == true
-                    expect(fakeNavController.pushedVC).to(beAnInstanceOf(DiscoverAllCategoriesViewController))
+                    expect(fakeNavController.pushedVC).to(beAnInstanceOf(DiscoverAllCategoriesViewController.self))
                 }
 
                 it("does not push a new DiscoverAllCategoriesViewController if DiscoverAllCategoriesViewController is being viewed") {
@@ -57,7 +57,7 @@ class DeepLinkingSpec: QuickSpec {
                     DeepLinking.showSettings(navVC: fakeNavController, currentUser: fakeCurrentUser)
 
                     expect(fakeNavController.pushCalled) == true
-                    expect(fakeNavController.pushedVC).to(beAnInstanceOf(SettingsContainerViewController))
+                    expect(fakeNavController.pushedVC).to(beAnInstanceOf(SettingsContainerViewController.self))
                 }
             }
 
@@ -67,7 +67,7 @@ class DeepLinkingSpec: QuickSpec {
                     DeepLinking.showCategory(navVC: fakeNavController, currentUser: fakeCurrentUser, slug: "art")
 
                     expect(fakeNavController.pushCalled) == true
-                    expect(fakeNavController.pushedVC).to(beAnInstanceOf(CategoryViewController))
+                    expect(fakeNavController.pushedVC).to(beAnInstanceOf(CategoryViewController.self))
                 }
 
                 it("uses existing CategoryViewController when deep linking to a new category") {
@@ -83,7 +83,7 @@ class DeepLinkingSpec: QuickSpec {
 
                     expect(fakeNavController.pushCalled) == false
                     expect(fakeNavController.pushedVC).to(beNil())
-                    expect(catVC).to(beAnInstanceOf(CategoryViewController))
+                    expect(catVC).to(beAnInstanceOf(CategoryViewController.self))
                     expect(catVC?.slug) == "design"
                 }
 
@@ -104,7 +104,7 @@ class DeepLinkingSpec: QuickSpec {
                     DeepLinking.showProfile(navVC: fakeNavController, currentUser: fakeCurrentUser, username: "666")
 
                     expect(fakeNavController.pushCalled) == true
-                    expect(fakeNavController.pushedVC).to(beAnInstanceOf(ProfileViewController))
+                    expect(fakeNavController.pushedVC).to(beAnInstanceOf(ProfileViewController.self))
                 }
 
                 it("does not push a new ProfileViewController if ProfileViewController is being viewed") {
@@ -124,7 +124,7 @@ class DeepLinkingSpec: QuickSpec {
                     DeepLinking.showPostDetail(navVC: fakeNavController, currentUser: fakeCurrentUser, token: "123")
 
                     expect(fakeNavController.pushCalled) == true
-                    expect(fakeNavController.pushedVC).to(beAnInstanceOf(PostDetailViewController))
+                    expect(fakeNavController.pushedVC).to(beAnInstanceOf(PostDetailViewController.self))
                 }
 
                 it("pushes a new PostDetailViewController if viewing another post") {
@@ -134,7 +134,7 @@ class DeepLinkingSpec: QuickSpec {
                     DeepLinking.showPostDetail(navVC: fakeNavController, currentUser: fakeCurrentUser, token: "something-different")
 
                     expect(fakeNavController.pushCalled) == true
-                    expect(fakeNavController.pushedVC).to(beAnInstanceOf(PostDetailViewController))
+                    expect(fakeNavController.pushedVC).to(beAnInstanceOf(PostDetailViewController.self))
                 }
 
                 it("does not push a new PostDetailViewController if already viewing that post") {
@@ -154,7 +154,7 @@ class DeepLinkingSpec: QuickSpec {
                     DeepLinking.showSearch(navVC: fakeNavController, currentUser: fakeCurrentUser, terms: "cats")
 
                     expect(fakeNavController.pushCalled) == true
-                    expect(fakeNavController.pushedVC).to(beAnInstanceOf(SearchViewController))
+                    expect(fakeNavController.pushedVC).to(beAnInstanceOf(SearchViewController.self))
                 }
 
                 it("does not push a new SearchViewController if SearchViewController is being viewed") {
@@ -203,7 +203,7 @@ class DeepLinkingSpec: QuickSpec {
 
                 it("returns false if not viewing any category") {
                     let onCategory = DeepLinking.alreadyOnCurrentCategory(navVC: fakeNavController, slug: "art")
-                    
+
                     expect(onCategory) == false
                 }
             }
@@ -257,7 +257,7 @@ class DeepLinkingSpec: QuickSpec {
 
                 it("returns false if not viewing any post detail") {
                     let onPostDetail = DeepLinking.alreadyOnPostDetail(navVC: fakeNavController, postParam: "other-param")
-                    
+
                     expect(onPostDetail) == false
                 }
             }

@@ -2,7 +2,7 @@
 ///  ElloProviderSpec.swift
 //
 
-import Ello
+@testable import Ello
 import Quick
 import Moya
 import Nimble
@@ -13,9 +13,9 @@ class TestObserver {
     var handled = false
     var object:AnyObject?
 
-    func handleNotification(note:NSNotification) {
+    func handleNotification(_ note: NSNotification) {
         handled = true
-        object = note.object
+        object = note.object as AnyObject?
     }
 }
 
@@ -30,7 +30,7 @@ class ElloProviderSpec: QuickSpec {
         describe("SSL Pinning") {
 
             it("has a custom Alamofire.Manager") {
-                let defaultManager = Alamofire.Manager.sharedInstance
+                let defaultManager = SessionManager.default
                 let elloManager = ElloProvider.sharedProvider.manager
 
                 expect(elloManager).notTo(beIdenticalTo(defaultManager))
@@ -57,7 +57,7 @@ class ElloProviderSpec: QuickSpec {
 
                         it("posts a notification with a status of 401") {
 
-                            ElloProvider_Specs.errorStatusCode = .Status401_Unauthorized
+                            ElloProvider_Specs.errorStatusCode = .status401_Unauthorized
 
                             var loadedJSONAbles:[JSONAble]?
                             var loadedStatusCode:Int?
@@ -65,12 +65,12 @@ class ElloProviderSpec: QuickSpec {
                             var object: NSError?
                             var handled = false
 
-                            let testObserver = NotificationObserver(notification: ErrorStatusCode.Status401_Unauthorized.notification) { error in
+                            let testObserver = NotificationObserver(notification: ErrorStatusCode.status401_Unauthorized.notification) { error in
                                 object = error
                                 handled = true
                             }
 
-                            let endpoint: ElloAPI = .FriendStream
+                            let endpoint: ElloAPI = .friendStream
                             ElloProvider.shared.elloRequest(endpoint, success: { (data, responseConfig) in
                                 loadedJSONAbles = data as? [JSONAble]
                             }, failure: { (error, statusCode) in
@@ -110,19 +110,19 @@ class ElloProviderSpec: QuickSpec {
 
                         it("posts a notification with a status of 410") {
 
-                            ElloProvider_Specs.errorStatusCode = .Status410
+                            ElloProvider_Specs.errorStatusCode = .status410
 
                             var loadedJSONAbles:[JSONAble]?
                             var loadedStatusCode:Int?
                             var loadedError:NSError?
                             var handled = false
                             var object: NSError?
-                            let testObserver = NotificationObserver(notification: ErrorStatusCode.Status410.notification) { error in
+                            let testObserver = NotificationObserver(notification: ErrorStatusCode.status410.notification) { error in
                                 handled = true
                                 object = error
                             }
 
-                            let endpoint: ElloAPI = .FriendStream
+                            let endpoint: ElloAPI = .friendStream
                             ElloProvider.shared.elloRequest(endpoint,
                                 success: { (data, responseConfig) in
                                     loadedJSONAbles = data as? [JSONAble]
@@ -180,8 +180,8 @@ class ElloProviderSpec: QuickSpec {
 }
 
 class NetworkErrorSharedExamplesConfiguration: QuickConfiguration {
-    override class func configure(configuration: Configuration) {
-        sharedExamples("network error") { (sharedExampleContext: SharedExampleContext) in
+    override class func configure(_ configuration: Configuration) {
+        sharedExamples("network error") { (sharedExampleContext: @escaping SharedExampleContext) in
             it("Calls failure with an error and statusCode") {
 
                 let expectedTitle = sharedExampleContext()["title"] as! String
@@ -200,7 +200,7 @@ class NetworkErrorSharedExamplesConfiguration: QuickConfiguration {
                 var loadedStatusCode:Int?
                 var loadedError:NSError?
 
-                let endpoint: ElloAPI = .FriendStream
+                let endpoint: ElloAPI = .friendStream
                 ElloProvider.shared.elloRequest(endpoint,
                     success: { (data, responseConfig) in
                         loadedJSONAbles = data as? [JSONAble]
@@ -227,7 +227,7 @@ class NetworkErrorSharedExamplesConfiguration: QuickConfiguration {
                 expect(elloNetworkError.code) == expectedCodeType
 
                 if let expectedMessages = expectedMessages {
-                    for (index, message) in elloNetworkError.messages!.enumerate() {
+                    for (index, message) in elloNetworkError.messages!.enumerated() {
                         expect(message) == expectedMessages[index]
                     }
                 }
@@ -235,7 +235,7 @@ class NetworkErrorSharedExamplesConfiguration: QuickConfiguration {
                 if let expectedAttrs = expectedAttrs {
                     for (errorFieldKey, errorArray): (String, [String]) in elloNetworkError.attrs! {
                         let expectedArray = expectedAttrs[errorFieldKey]!
-                        for (_, error) in errorArray.enumerate() {
+                        for (_, error) in errorArray.enumerated() {
                             expect(expectedArray).to(contain(error))
                         }
                         expect(expectedAttrs[errorFieldKey]).toNot(beNil())

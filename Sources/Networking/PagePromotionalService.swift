@@ -6,14 +6,14 @@ import PINRemoteImage
 import FutureKit
 
 
-public class PagePromotionalService {
+class PagePromotionalService {
 
-    public func loadPagePromotionals() -> Future<[PagePromotional]?> {
+    func loadPagePromotionals() -> Future<[PagePromotional]?> {
         let promise = Promise<[PagePromotional]?>()
-        ElloProvider.shared.elloRequest(.PagePromotionals,
+        ElloProvider.shared.elloRequest(.pagePromotionals,
             success: { (data, responseConfig) in
                 if responseConfig.statusCode == 204 {
-                    promise.completeWithSuccess(.None)
+                    promise.completeWithSuccess(.none)
                 }
                 else if let pagePromotionals = data as? [PagePromotional] {
                     Preloader().preloadImages(pagePromotionals)

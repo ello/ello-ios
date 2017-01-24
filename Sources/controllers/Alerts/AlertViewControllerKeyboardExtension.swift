@@ -4,9 +4,9 @@
 
 import Foundation
 
-public extension AlertViewController {
+extension AlertViewController {
 
-    func keyboardUpdateFrame(keyboard: Keyboard) {
+    func keyboardUpdateFrame(_ keyboard: Keyboard) {
         let availHeight = UIWindow.mainWindow.frame.height - (Keyboard.shared.active ? Keyboard.shared.endFrame.height : 0)
         let top = max(15, (availHeight - view.frame.height) / 2)
         animateWithKeyboard {
@@ -15,7 +15,7 @@ public extension AlertViewController {
             let bottomInset = Keyboard.shared.keyboardBottomInset(inView: self.tableView)
             self.tableView.contentInset.bottom = bottomInset
             self.tableView.scrollIndicatorInsets.bottom = bottomInset
-            self.tableView.scrollEnabled = (bottomInset > 0 || self.view.frame.height == MaxHeight)
+            self.tableView.isScrollEnabled = (bottomInset > 0 || self.view.frame.height == MaxHeight)
         }
     }
 }

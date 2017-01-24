@@ -2,7 +2,7 @@
 ///  NotificationSpec.swift
 //
 
-import Ello
+@testable import Ello
 import Quick
 import Nimble
 
@@ -16,15 +16,15 @@ class NotificationSpec: QuickSpec {
                     "author": user,
                     "summary": [TextRegion(content: "<p>This is a post summary!</p>")]
                     ])
-                let createdAtDate = NSDate()
-                let activity: Activity = stub(["subject": post, "createdAt": createdAtDate, "subjectType": Activity.SubjectType.Post.rawValue, "kind": Activity.Kind.RepostNotification.rawValue])
+                let createdAtDate = Date()
+                let activity: Activity = stub(["subject": post, "createdAt": createdAtDate, "subjectType": Activity.SubjectType.post.rawValue, "kind": Activity.Kind.repostNotification.rawValue])
                 let notification = Notification(activity: activity)
 
                 expect(notification.author?.id) == user.id
                 expect(notification.createdAt) == createdAtDate
                 expect(notification.groupId) == "Notification-\(activity.id)"
-                expect(notification.activity.kind) == Activity.Kind.RepostNotification
-                expect(notification.activity.subjectType) == Activity.SubjectType.Post
+                expect(notification.activity.kind) == Activity.Kind.repostNotification
+                expect(notification.activity.subjectType) == Activity.SubjectType.post
                 expect((notification.subject as? Post)?.id) == post.id
 
                 expect(notification.attributedTitle.string) == "@foo reposted your post."
@@ -45,15 +45,15 @@ class NotificationSpec: QuickSpec {
                         imageRegion2,
                     ]
                 ])
-                let createdAtDate = NSDate()
-                let activity: Activity = stub(["subject": post, "createdAt": createdAtDate, "subjectType": Activity.SubjectType.Post.rawValue, "kind": Activity.Kind.RepostNotification.rawValue])
+                let createdAtDate = Date()
+                let activity: Activity = stub(["subject": post, "createdAt": createdAtDate, "subjectType": Activity.SubjectType.post.rawValue, "kind": Activity.Kind.repostNotification.rawValue])
                 let notification = Notification(activity: activity)
 
                 expect(notification.author?.id) == user.id
                 expect(notification.createdAt) == createdAtDate
                 expect(notification.groupId) == "Notification-\(activity.id)"
-                expect(notification.activity.kind) == Activity.Kind.RepostNotification
-                expect(notification.activity.subjectType) == Activity.SubjectType.Post
+                expect(notification.activity.kind) == Activity.Kind.repostNotification
+                expect(notification.activity.subjectType) == Activity.SubjectType.post
                 expect((notification.subject as? Post)?.id) == post.id
 
                 expect(notification.attributedTitle.string) == "@foo reposted your post."
@@ -72,15 +72,15 @@ class NotificationSpec: QuickSpec {
                     "author": user,
                     "summary": [TextRegion(content: "<p>This is a comment summary!</p>")]
                     ])
-                let createdAtDate = NSDate()
-                let activity: Activity = stub(["subject": comment, "createdAt": createdAtDate, "subjectType": Activity.SubjectType.Comment.rawValue, "kind": Activity.Kind.CommentMentionNotification.rawValue])
+                let createdAtDate = Date()
+                let activity: Activity = stub(["subject": comment, "createdAt": createdAtDate, "subjectType": Activity.SubjectType.comment.rawValue, "kind": Activity.Kind.commentMentionNotification.rawValue])
                 let notification = Notification(activity: activity)
 
                 expect(notification.author?.id) == user.id
                 expect(notification.createdAt) == createdAtDate
                 expect(notification.groupId) == "Notification-\(activity.id)"
-                expect(notification.activity.kind) == Activity.Kind.CommentMentionNotification
-                expect(notification.activity.subjectType) == Activity.SubjectType.Comment
+                expect(notification.activity.kind) == Activity.Kind.commentMentionNotification
+                expect(notification.activity.subjectType) == Activity.SubjectType.comment
                 expect((notification.subject as? ElloComment)?.id) == comment.id
 
                 expect(notification.attributedTitle.string) == "@foo mentioned you in a comment."
@@ -113,15 +113,15 @@ class NotificationSpec: QuickSpec {
                         commentRegion2,
                     ]
                 ])
-                let createdAtDate = NSDate()
-                let activity: Activity = stub(["subject": comment, "createdAt": createdAtDate, "subjectType": Activity.SubjectType.Comment.rawValue, "kind": Activity.Kind.CommentMentionNotification.rawValue])
+                let createdAtDate = Date()
+                let activity: Activity = stub(["subject": comment, "createdAt": createdAtDate, "subjectType": Activity.SubjectType.comment.rawValue, "kind": Activity.Kind.commentMentionNotification.rawValue])
                 let notification = Notification(activity: activity)
 
                 expect(notification.author?.id) == user.id
                 expect(notification.createdAt) == createdAtDate
                 expect(notification.groupId) == "Notification-\(activity.id)"
-                expect(notification.activity.kind) == Activity.Kind.CommentMentionNotification
-                expect(notification.activity.subjectType) == Activity.SubjectType.Comment
+                expect(notification.activity.kind) == Activity.Kind.commentMentionNotification
+                expect(notification.activity.subjectType) == Activity.SubjectType.comment
                 expect((notification.subject as? ElloComment)?.id) == comment.id
 
                 expect(notification.attributedTitle.string) == "@foo mentioned you in a comment."
@@ -132,13 +132,13 @@ class NotificationSpec: QuickSpec {
             context("NSCoding") {
 
                 var filePath = ""
-                if let url = NSURL(string: NSFileManager.ElloDocumentsDir()) {
-                    filePath = url.URLByAppendingPathComponent("NotificationSpec")!.absoluteString!
+                if let url = URL(string: FileManager.ElloDocumentsDir()) {
+                    filePath = url.appendingPathComponent("NotificationSpec").absoluteString
                 }
 
                 afterEach {
                     do {
-                        try NSFileManager.defaultManager().removeItemAtPath(filePath)
+                        try FileManager.default.removeItem(atPath: filePath)
                     }
                     catch {
 
@@ -148,7 +148,7 @@ class NotificationSpec: QuickSpec {
                 context("encoding") {
 
                     it("encodes successfully") {
-                        let notification: Notification = stub([:])
+                        let notification: Ello.Notification = stub([:])
 
                         let wasSuccessfulArchived = NSKeyedArchiver.archiveRootObject(notification, toFile: filePath)
 
@@ -159,7 +159,7 @@ class NotificationSpec: QuickSpec {
                 context("decoding") {
 
                     it("decodes successfully") {
-                        let expectedCreatedAt = NSDate()
+                        let expectedCreatedAt = Date()
 
                         let author: User = stub(["id" : "author-id"])
 
@@ -170,18 +170,18 @@ class NotificationSpec: QuickSpec {
                             "kind" : "noise_post",
                             "subjectType" : "Post"
                             ])
-                        let notification: Notification = stub(["activity": activity])
+                        let notification: Ello.Notification = stub(["activity": activity])
 
                         NSKeyedArchiver.archiveRootObject(notification, toFile: filePath)
-                        let unArchivedNotification = NSKeyedUnarchiver.unarchiveObjectWithFile(filePath) as? Notification
+                        let unArchivedNotification = NSKeyedUnarchiver.unarchiveObject(withFile: filePath) as? Ello.Notification
 
                         expect(unArchivedNotification).toNot(beNil())
                         expect(unArchivedNotification?.version) == 1
                         expect(unArchivedNotification?.author?.id) == "author-id"
                         expect(unArchivedNotification?.createdAt) == expectedCreatedAt
                         expect(unArchivedNotification?.activity.id) == "test-notication-id"
-                        expect(unArchivedNotification?.activity.kind.rawValue) == Activity.Kind.NoisePost.rawValue
-                        expect(unArchivedNotification?.activity.subjectType.rawValue) == Activity.SubjectType.Post.rawValue
+                        expect(unArchivedNotification?.activity.kind.rawValue) == Activity.Kind.noisePost.rawValue
+                        expect(unArchivedNotification?.activity.subjectType.rawValue) == Activity.SubjectType.post.rawValue
                     }
                 }
             }

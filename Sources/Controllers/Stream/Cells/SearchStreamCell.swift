@@ -2,47 +2,47 @@
 ///  SearchStreamCell.swift
 //
 
-public class SearchStreamCell: UICollectionViewCell {
+class SearchStreamCell: UICollectionViewCell {
     static let reuseIdentifier = "SearchStreamCell"
     struct Size {
         static let insets: CGFloat = 10
     }
 
-    private var debounced: ThrottledBlock = debounce(0.8)
-    private let searchField = SearchTextField()
-    public weak var delegate: SearchStreamDelegate?
+    fileprivate var debounced: ThrottledBlock = debounce(0.8)
+    fileprivate let searchField = SearchTextField()
+    weak var delegate: SearchStreamDelegate?
 
-    public var placeholder: String? {
+    var placeholder: String? {
         get { return searchField.placeholder }
         set { searchField.placeholder = newValue }
     }
-    public var search: String? {
+    var search: String? {
         get { return searchField.text }
         set { searchField.text = newValue }
     }
 
-    override public init(frame: CGRect) {
+    override init(frame: CGRect) {
         super.init(frame: frame)
-        self.backgroundColor = UIColor.whiteColor()
+        self.backgroundColor = UIColor.white
 
         style()
         arrange()
 
         searchField.delegate = self
-        searchField.addTarget(self, action: #selector(searchFieldDidChange), forControlEvents: .EditingChanged)
+        searchField.addTarget(self, action: #selector(searchFieldDidChange), for: .editingChanged)
     }
 
-    required public init?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    private func style() {
+    fileprivate func style() {
     }
 
-    private func arrange() {
+    fileprivate func arrange() {
         contentView.addSubview(searchField)
 
-        searchField.snp_makeConstraints { make in
+        searchField.snp.makeConstraints { make in
             make.top.bottom.equalTo(contentView)
             make.leading.trailing.equalTo(contentView).inset(Size.insets)
         }
@@ -50,15 +50,15 @@ public class SearchStreamCell: UICollectionViewCell {
 }
 
 extension SearchStreamCell: DismissableCell {
-    public func didEndDisplay() {
-        searchField.resignFirstResponder()
+    func didEndDisplay() {
+        _ = searchField.resignFirstResponder()
     }
 }
 
 extension SearchStreamCell: UITextFieldDelegate {
 
     @objc
-    public func searchFieldDidChange() {
+    func searchFieldDidChange() {
         let text = searchField.text ?? ""
         if text.characters.count == 0 {
             clearSearch()
@@ -71,29 +71,28 @@ extension SearchStreamCell: UITextFieldDelegate {
     }
 
     @objc
-    public func textFieldDidEndEditing(textField: UITextField) {
+    func textFieldDidEndEditing(_ textField: UITextField) {
         textField.setNeedsLayout()
         textField.layoutIfNeeded()
     }
 
     @objc
-    public func textFieldShouldReturn(textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        _ = textField.resignFirstResponder()
         return true
     }
 
-    private func searchForText() {
-        guard let
-            text = searchField.text
-        where
+    fileprivate func searchForText() {
+        guard
+            let text = searchField.text,
             text.characters.count > 0
         else { return }
 
-        self.delegate?.searchFieldChanged(text)
+        self.delegate?.searchFieldChanged(text: text)
     }
 
-    private func clearSearch() {
-        delegate?.searchFieldChanged("")
+    fileprivate func clearSearch() {
+        delegate?.searchFieldChanged(text: "")
         debounced {}
     }
 }

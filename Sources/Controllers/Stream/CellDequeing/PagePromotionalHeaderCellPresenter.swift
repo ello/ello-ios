@@ -2,18 +2,18 @@
 ///  PagePromotionalHeaderCellPresenter.swift
 //
 
-public struct PagePromotionalHeaderCellPresenter {
+struct PagePromotionalHeaderCellPresenter {
 
     static func configure(
-        cell: UICollectionViewCell,
+        _ cell: UICollectionViewCell,
         streamCellItem: StreamCellItem,
         streamKind: StreamKind,
-        indexPath: NSIndexPath,
+        indexPath: IndexPath,
         currentUser: User?)
     {
-        guard let
-            cell = cell as? CategoryHeaderCell,
-            pagePromotional = streamCellItem.jsonable as? PagePromotional
+        guard
+            let cell = cell as? CategoryHeaderCell,
+            let pagePromotional = streamCellItem.jsonable as? PagePromotional
         else { return }
 
         let config = CategoryHeaderCell.Config(pagePromotional: pagePromotional)

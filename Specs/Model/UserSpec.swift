@@ -2,8 +2,7 @@
 ///  UserSpec.swift
 //
 
-@testable
-import Ello
+@testable import Ello
 import Quick
 import Nimble
 
@@ -108,12 +107,12 @@ class UserSpec: QuickSpec {
 
                 it("should return true if post's author is the current user") {
                     let post: Post = stub(["authorId": "correctId"])
-                    expect(subject.isOwnPost(post)) == true
+                    expect(subject.isOwn(post: post)) == true
                 }
 
                 it("should return false if post's author is not the user") {
                     let post: Post = stub(["authorId": "WRONG ID"])
-                    expect(subject.isOwnPost(post)) == false
+                    expect(subject.isOwn(post: post)) == false
                 }
             }
 
@@ -123,12 +122,12 @@ class UserSpec: QuickSpec {
 
                 it("should return true if comment's author is the current user") {
                     let comment: ElloComment = stub(["authorId": "correctId"])
-                    expect(subject.isOwnComment(comment)) == true
+                    expect(subject.isOwn(comment: comment)) == true
                 }
 
                 it("should return false if comment's author is not the user") {
                     let comment: ElloComment = stub(["authorId": "WRONG ID"])
-                    expect(subject.isOwnComment(comment)) == false
+                    expect(subject.isOwn(comment: comment)) == false
                 }
             }
 
@@ -150,20 +149,20 @@ class UserSpec: QuickSpec {
                 }
             }
 
-            describe("isOwnParentPost(_:)") {
+            describe("isOwnParentPost(comment:)") {
 
                 let subject: User = stub(["id": "correctId"])
 
                 it("should return true if comment parentPost's author is the current user") {
                     let post: Post = stub(["authorId": "correctId"])
                     let comment: ElloComment = stub(["loadedFromPost": post])
-                    expect(subject.isOwnParentPost(comment)) == true
+                    expect(subject.isOwnParentPost(comment: comment)) == true
                 }
 
                 it("should return false if comment parentPost's author is not the user") {
                     let post: Post = stub(["authorId": "WRONG ID"])
                     let comment: ElloComment = stub(["loadedFromPost": post])
-                    expect(subject.isOwnParentPost(comment)) == false
+                    expect(subject.isOwnParentPost(comment: comment)) == false
                 }
             }
 
@@ -179,7 +178,7 @@ class UserSpec: QuickSpec {
                     expect(user.username) == "pam"
                     expect(user.name) == "Pamilanderson"
                     expect(user.experimentalFeatures) == true
-                    expect(user.relationshipPriority) == RelationshipPriority.None
+                    expect(user.relationshipPriority) == RelationshipPriority.none
                     expect(user.hasLovesEnabled) == true
                     expect(user.hasRepostingEnabled) == false
                     expect(user.hasSharingEnabled) == true
@@ -208,13 +207,13 @@ class UserSpec: QuickSpec {
            context("NSCoding") {
 
                 var filePath = ""
-                if let url = NSURL(string: NSFileManager.ElloDocumentsDir()) {
-                    filePath = url.URLByAppendingPathComponent("UserSpec")!.absoluteString!
+                if let url = URL(string: FileManager.ElloDocumentsDir()) {
+                    filePath = url.appendingPathComponent("UserSpec").absoluteString
                 }
 
                 afterEach {
                     do {
-                        try NSFileManager.defaultManager().removeItemAtPath(filePath)
+                        try FileManager.default.removeItem(atPath: filePath)
                     }
                     catch {
 
@@ -237,9 +236,9 @@ class UserSpec: QuickSpec {
                     it("decodes successfully") {
                         let post: Post = stub(["id" : "sample-post-id"])
                         let stubbedMostRecentPost: Post = stub(["id" : "another-sample-post-id", "authorId" : "sample-userId"])
-                        let attachment: Attachment = stub(["url": NSURL(string: "http://www.example.com")!, "height": 0, "width": 0, "type": "png", "size": 0 ])
+                        let attachment: Attachment = stub(["url": URL(string: "http://www.example.com")!, "height": 0, "width": 0, "type": "png", "size": 0 ])
                         let asset: Asset = stub(["regular" : attachment])
-                        let coverAttachment: Attachment = stub(["url": NSURL(string: "http://www.example2.com")!, "height": 0, "width": 0, "type": "png", "size": 0 ])
+                        let coverAttachment: Attachment = stub(["url": URL(string: "http://www.example2.com")!, "height": 0, "width": 0, "type": "png", "size": 0 ])
                         let coverAsset: Asset = stub(["xhdpi" : coverAttachment])
 
                         let user: User = stub([
@@ -265,7 +264,7 @@ class UserSpec: QuickSpec {
                         user.location = "Boulder"
 
                         NSKeyedArchiver.archiveRootObject(user, toFile: filePath)
-                        let unArchivedUser = NSKeyedUnarchiver.unarchiveObjectWithFile(filePath) as! User
+                        let unArchivedUser = NSKeyedUnarchiver.unarchiveObject(withFile: filePath) as! User
 
                         expect(unArchivedUser).toNot(beNil())
                         expect(unArchivedUser.version) == UserVersion
@@ -324,6 +323,44 @@ class UserSpec: QuickSpec {
                 let userB: User = stub([:])
                 let merged = userA.merge(userB) as! User
                 expect(merged.formattedShortBio) == "userA"
+            }
+        }
+
+        describe("updateDefaultImages") {
+            let uploadedURL = URL(string: "https://assets0.ello.co/images/uploaded.png")
+            let defaultAsset: Asset = stub(["url": "https://assets0.ello.co/images/ello-default-large.png"])
+            let customAsset: Asset = stub(["url": "https://assets0.ello.co/images/custom.png"])
+
+            it("ignores nil URLs") {
+                let user = User.stub(["avatar": defaultAsset, "coverImage": defaultAsset])
+                user.updateDefaultImages(avatarURL: nil, coverImageURL: nil)
+                expect(user.avatarURL()?.absoluteString).to(contain("ello-default-large"))
+            }
+            it("ignores replaces nil assets") {
+                let user = User.stub([:])
+                user.updateDefaultImages(avatarURL: uploadedURL, coverImageURL: uploadedURL)
+                expect(user.avatarURL()?.absoluteString).to(contain("uploaded"))
+                expect(user.coverImageURL()?.absoluteString).to(contain("uploaded"))
+            }
+            it("replaces default avatar") {
+                let user = User.stub(["avatar": defaultAsset])
+                user.updateDefaultImages(avatarURL: uploadedURL, coverImageURL: nil)
+                expect(user.avatarURL()?.absoluteString).to(contain("uploaded"))
+            }
+            it("replaces default cover image") {
+                let user = User.stub(["coverImage": defaultAsset])
+                user.updateDefaultImages(avatarURL: uploadedURL, coverImageURL: nil)
+                expect(user.coverImageURL()?.absoluteString).to(contain("uploaded"))
+            }
+            it("ignores custom avatar") {
+                let user = User.stub(["avatar": customAsset])
+                user.updateDefaultImages(avatarURL: nil, coverImageURL: uploadedURL)
+                expect(user.avatarURL()?.absoluteString).to(contain("custom"))
+            }
+            it("ignores custom cover image") {
+                let user = User.stub(["coverImage": customAsset])
+                user.updateDefaultImages(avatarURL: nil, coverImageURL: uploadedURL)
+                expect(user.coverImageURL()?.absoluteString).to(contain("custom"))
             }
         }
     }

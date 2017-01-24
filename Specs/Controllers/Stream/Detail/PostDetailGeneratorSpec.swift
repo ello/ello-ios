@@ -2,7 +2,7 @@
 ///  PostDetailGeneratorSpec.swift
 //
 
-import Ello
+@testable import Ello
 import Quick
 import Nimble
 
@@ -14,7 +14,7 @@ class PostDetailGeneratorSpec: QuickSpec {
                 "id": "123",
                 "content": [TextRegion.stub([:])]
                 ])
-            let streamKind: StreamKind = .CurrentUserStream
+            let streamKind: StreamKind = .currentUserStream
             var destination: PostDetailDestination!
             var subject: PostDetailGenerator!
 
@@ -93,26 +93,26 @@ class PostDetailDestination: StreamDestination {
         placeholderItems = items
     }
 
-    func replacePlaceholder(type: StreamCellType.PlaceholderType, items: [StreamCellItem], completion: ElloEmptyCompletion) {
+    func replacePlaceholder(type: StreamCellType.PlaceholderType, items: [StreamCellItem], completion: @escaping ElloEmptyCompletion) {
         switch type {
-        case .PostHeader:
+        case .postHeader:
             headerItems = items
-        case .PostLovers:
+        case .postLovers:
             postLoverItems = items
-        case .PostReposters:
+        case .postReposters:
             postReposterItems = items
-        case .PostComments:
+        case .postComments:
             postCommentItems = items
-        case .PostSocialPadding:
+        case .postSocialPadding:
             postSocialPaddingItems = items
-        case .PostCommentBar:
+        case .postCommentBar:
             postCommentBarItems = items
         default:
             otherPlaceHolderLoaded = true
         }
     }
 
-    func setPrimaryJSONAble(jsonable: JSONAble) {
+    func setPrimary(jsonable: JSONAble) {
         guard let post = jsonable as? Post else { return }
         self.post = post
     }

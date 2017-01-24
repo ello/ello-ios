@@ -3,7 +3,7 @@
 // MARK: BoxType
 
 /// The type conformed to by all boxes.
-public protocol BoxType {
+protocol BoxType {
 	/// The type of the wrapped value.
 	associatedtype Value
 
@@ -15,7 +15,7 @@ public protocol BoxType {
 }
 
 /// The type conformed to by mutable boxes.
-public protocol MutableBoxType: BoxType {
+protocol MutableBoxType: BoxType {
 	/// The (mutable) wrapped value.
 	var value: Value { get set }
 }
@@ -26,14 +26,14 @@ public protocol MutableBoxType: BoxType {
 /// Equality of `BoxType`s of `Equatable` types.
 ///
 /// We cannot declare that e.g. `Box<T: Equatable>` conforms to `Equatable`, so this is a relatively ad hoc definition.
-public func == <B: BoxType where B.Value: Equatable> (lhs: B, rhs: B) -> Bool {
+func == <B: BoxType> (lhs: B, rhs: B) -> Bool where B.Value: Equatable {
 	return lhs.value == rhs.value
 }
 
 /// Inequality of `BoxType`s of `Equatable` types.
 ///
 /// We cannot declare that e.g. `Box<T: Equatable>` conforms to `Equatable`, so this is a relatively ad hoc definition.
-public func != <B: BoxType where B.Value: Equatable> (lhs: B, rhs: B) -> Bool {
+func != <B: BoxType> (lhs: B, rhs: B) -> Bool where B.Value: Equatable {
 	return lhs.value != rhs.value
 }
 
@@ -41,6 +41,6 @@ public func != <B: BoxType where B.Value: Equatable> (lhs: B, rhs: B) -> Bool {
 // MARK: Map
 
 /// Maps the value of a box into a new box.
-public func map<B: BoxType, C: BoxType>(v: B, @noescape f: B.Value -> C.Value) -> C {
+func map<B: BoxType, C: BoxType>(_ v: B, f: (B.Value) -> C.Value) -> C {
 	return C(f(v.value))
 }

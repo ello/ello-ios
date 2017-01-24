@@ -49,7 +49,7 @@ class StreamContainerViewControllerSpec: QuickSpec {
                 it("has a tab bar item") {
                     expect(controller.tabBarItem).notTo(beNil())
 
-                    let selectedImage:UIImage = controller.navigationController!.tabBarItem.valueForKey("selectedImage") as! UIImage
+                    let selectedImage:UIImage = controller.navigationController!.tabBarItem.value(forKey: "selectedImage") as! UIImage
 
                     expect(selectedImage).notTo(beNil())
                 }
@@ -72,7 +72,7 @@ class StreamContainerViewControllerSpec: QuickSpec {
                     GroupDefaults[CurrentStreamKey] = 1
                     controller = StreamContainerViewController.instantiateFromStoryboard()
                     showController(controller)
-                    expect(controller.scrollView.contentOffset) == CGPoint(x: UIScreen.mainScreen().bounds.size.width, y: 0)
+                    expect(controller.scrollView.contentOffset) == CGPoint(x: UIScreen.main.bounds.size.width, y: 0)
                 }
 
                 it("should update the currentStreamIndex") {
@@ -97,7 +97,7 @@ class StreamContainerViewControllerSpec: QuickSpec {
                 }
 
                 it("IBActions are wired up") {
-                    let streamsSegmentedControlActions = controller.streamsSegmentedControl.actionsForTarget(controller, forControlEvent: UIControlEvents.ValueChanged)
+                    let streamsSegmentedControlActions = controller.streamsSegmentedControl.actions(forTarget: controller, forControlEvent: UIControlEvents.valueChanged)
 
                     expect(streamsSegmentedControlActions).to(contain("streamSegmentTapped:"))
 

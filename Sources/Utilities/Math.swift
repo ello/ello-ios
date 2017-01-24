@@ -16,7 +16,7 @@ For example:
 interpolate(from: 5, to: 15, at: 0.5) // Returns 10
 
 Like Processing's lerp() */
-public func interpolate(from fromValue: Double, to toValue: Double, at fraction: Double) -> Double {
+func interpolate(from fromValue: Double, to toValue: Double, at fraction: Double) -> Double {
     return fraction * (toValue - fromValue) + fromValue
 }
 
@@ -26,27 +26,27 @@ For example:
 map(value: 0.4, fromInterval: (0, 1), toInterval: (0, 10)) // Returns 4
 
 Like Processing's map(). */
-public func map(value: Double, fromInterval: (Double, Double), toInterval: (Double, Double)) -> Double {
+func map(_ value: Double, fromInterval: (Double, Double), toInterval: (Double, Double)) -> Double {
     return interpolate(from: toInterval.0, to: toInterval.1, at: (value - fromInterval.0) / (fromInterval.1 - fromInterval.0))
 }
 
 /** Clips a value so that it falls between the specified minimum and maximum. */
-public func clip<T: Comparable>(value: T, min minValue: T, max maxValue: T) -> T {
+func clip<T: Comparable>(_ value: T, min minValue: T, max maxValue: T) -> T {
     return max(min(value, maxValue), minValue)
 }
 
 /** `ceil`s the value, snapping to screen's pixel values */
-public func pixelAwareCeil(value: Double) -> Double {
-    let scale = Double(UIScreen.mainScreen().scale)
+func pixelAwareCeil(_ value: Double) -> Double {
+    let scale = Double(UIScreen.main.scale)
     return ceil(value*scale)/scale
 }
 
 /** `floor`s the value, snapping to screen's pixel values */
-public func pixelAwareFloor(value: Double) -> Double {
-    let scale = Double(UIScreen.mainScreen().scale)
+func pixelAwareFloor(_ value: Double) -> Double {
+    let scale = Double(UIScreen.main.scale)
     return floor(value*scale)/scale
 }
 
-public func calculateColumnWidth(frameWidth frameWidth: CGFloat, columnCount: Int) -> CGFloat {
+func calculateColumnWidth(frameWidth: CGFloat, columnCount: Int) -> CGFloat {
     return (frameWidth - 10 * CGFloat(columnCount - 1)) / CGFloat(columnCount)
 }

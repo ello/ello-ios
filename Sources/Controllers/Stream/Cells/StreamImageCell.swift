@@ -6,17 +6,17 @@ import FLAnimatedImage
 import PINRemoteImage
 import Alamofire
 
-public class StreamImageCell: StreamRegionableCell {
+class StreamImageCell: StreamRegionableCell {
     static let reuseIdentifier = "StreamImageCell"
 
     // this little hack prevents constraints from breaking on initial load
-    override public var bounds: CGRect {
+    override var bounds: CGRect {
         didSet {
           contentView.frame = bounds
         }
     }
 
-    public struct Size {
+    struct Size {
         static let bottomMargin: CGFloat = 10
         static let singleColumnFailWidth: CGFloat = 140
         static let singleColumnFailHeight: CGFloat = 160
@@ -26,44 +26,44 @@ public class StreamImageCell: StreamRegionableCell {
         static let singleColumnBuyButtonWidth: CGFloat = 40
     }
 
-    @IBOutlet public weak var imageView: FLAnimatedImageView!
-    @IBOutlet public weak var imageButton: UIView!
-    @IBOutlet public weak var buyButton: UIButton?
-    @IBOutlet public weak var buyButtonGreen: UIView?
-    @IBOutlet public weak var buyButtonWidthConstraint: NSLayoutConstraint!
-    @IBOutlet public weak var circle: PulsingCircle!
-    @IBOutlet public weak var failImage: UIImageView!
-    @IBOutlet public weak var failBackgroundView: UIView!
-    @IBOutlet public weak var leadingConstraint: NSLayoutConstraint!
-    @IBOutlet private weak var failWidthConstraint: NSLayoutConstraint!
-    @IBOutlet private weak var failHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var imageView: FLAnimatedImageView!
+    @IBOutlet weak var imageButton: UIView!
+    @IBOutlet weak var buyButton: UIButton?
+    @IBOutlet weak var buyButtonGreen: UIView?
+    @IBOutlet weak var buyButtonWidthConstraint: NSLayoutConstraint!
+    @IBOutlet weak var circle: PulsingCircle!
+    @IBOutlet weak var failImage: UIImageView!
+    @IBOutlet weak var failBackgroundView: UIView!
+    @IBOutlet weak var leadingConstraint: NSLayoutConstraint!
+    @IBOutlet fileprivate weak var failWidthConstraint: NSLayoutConstraint!
+    @IBOutlet fileprivate weak var failHeightConstraint: NSLayoutConstraint!
 
     // not used in StreamEmbedCell
-    @IBOutlet public weak var largeImagePlayButton: UIImageView?
-    @IBOutlet public weak var imageRightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var largeImagePlayButton: UIImageView?
+    @IBOutlet weak var imageRightConstraint: NSLayoutConstraint!
 
     weak var streamImageCellDelegate: StreamImageCellDelegate?
     weak var streamEditingDelegate: StreamEditingDelegate?
-    public var isGif = false
-    public var onHeightMismatch: OnHeightMismatch?
-    public var tallEnoughForFailToShow = true
-    public var presentedImageUrl: NSURL?
-    public var buyButtonURL: NSURL? {
+    var isGif = false
+    var onHeightMismatch: OnHeightMismatch?
+    var tallEnoughForFailToShow = true
+    var presentedImageUrl: URL?
+    var buyButtonURL: URL? {
         didSet {
             let hidden = (buyButtonURL == nil)
-            buyButton?.hidden = hidden
-            buyButtonGreen?.hidden = hidden
+            buyButton?.isHidden = hidden
+            buyButtonGreen?.isHidden = hidden
         }
     }
     var serverProvidedAspectRatio: CGFloat?
-    public var isLargeImage: Bool {
-        get { return !(largeImagePlayButton?.hidden ?? true) }
+    var isLargeImage: Bool {
+        get { return !(largeImagePlayButton?.isHidden ?? true) }
         set {
-            largeImagePlayButton?.image = InterfaceImage.VideoPlay.normalImage
-            largeImagePlayButton?.hidden = !newValue
+            largeImagePlayButton?.image = InterfaceImage.videoPlay.normalImage
+            largeImagePlayButton?.isHidden = !newValue
         }
     }
-    public var isGridView: Bool = false {
+    var isGridView: Bool = false {
         didSet {
             if isGridView {
                 buyButtonWidthConstraint.constant = Size.multiColumnBuyButtonWidth
@@ -78,25 +78,25 @@ public class StreamImageCell: StreamRegionableCell {
         }
     }
 
-    public enum StreamImageMargin {
-        case Post
-        case Comment
-        case Repost
+    enum StreamImageMargin {
+        case post
+        case comment
+        case repost
     }
-    public var margin: CGFloat {
+    var margin: CGFloat {
         switch marginType {
-        case .Post:
+        case .post:
             return 0
-        case .Comment:
+        case .comment:
             return StreamTextCellPresenter.commentMargin
-        case .Repost:
+        case .repost:
             return StreamTextCellPresenter.repostMargin
         }
     }
-    public var marginType: StreamImageMargin = .Post {
+    var marginType: StreamImageMargin = .post {
         didSet {
             leadingConstraint.constant = margin
-            if marginType == .Repost {
+            if marginType == .repost {
                 showBorder()
             }
             else {
@@ -105,8 +105,8 @@ public class StreamImageCell: StreamRegionableCell {
         }
     }
 
-    private var imageSize: CGSize?
-    private var aspectRatio: CGFloat? {
+    fileprivate var imageSize: CGSize?
+    fileprivate var aspectRatio: CGFloat? {
         guard let imageSize = imageSize else { return nil }
         return imageSize.width / imageSize.height
     }
@@ -118,16 +118,16 @@ public class StreamImageCell: StreamRegionableCell {
         return frame.width / aspectRatio
     }
 
-    override public func awakeFromNib() {
+    override func awakeFromNib() {
         super.awakeFromNib()
         if let playButton = largeImagePlayButton {
-            playButton.image = InterfaceImage.VideoPlay.normalImage
+            playButton.image = InterfaceImage.videoPlay.normalImage
         }
-        if let buyButton = buyButton, buyButtonGreen = buyButtonGreen {
-            buyButton.hidden = true
-            buyButtonGreen.hidden = true
-            buyButton.setTitle(nil, forState: .Normal)
-            buyButton.setImage(.BuyButton, imageStyle: .Normal, forState: .Normal)
+        if let buyButton = buyButton, let buyButtonGreen = buyButtonGreen {
+            buyButton.isHidden = true
+            buyButtonGreen.isHidden = true
+            buyButton.setTitle(nil, for: .normal)
+            buyButton.setImage(.buyButton, imageStyle: .normal, for: .normal)
             buyButtonGreen.backgroundColor = .greenD1()
             buyButtonGreen.setNeedsLayout()
             buyButtonGreen.layoutIfNeeded()
@@ -143,7 +143,7 @@ public class StreamImageCell: StreamRegionableCell {
         let singleTapGesture = UITapGestureRecognizer()
         singleTapGesture.numberOfTapsRequired = 1
         singleTapGesture.addTarget(self, action: #selector(imageTapped))
-        singleTapGesture.requireGestureRecognizerToFail(doubleTapGesture)
+        singleTapGesture.require(toFail: doubleTapGesture)
         imageButton.addGestureRecognizer(singleTapGesture)
 
         let longPressGesture = UILongPressGestureRecognizer()
@@ -151,29 +151,29 @@ public class StreamImageCell: StreamRegionableCell {
         imageButton.addGestureRecognizer(longPressGesture)
     }
 
-    public func setImageURL(url: NSURL) {
+    func setImageURL(_ url: URL) {
         imageView.image = nil
         imageView.alpha = 0
         circle.pulse()
-        failImage.hidden = true
+        failImage.isHidden = true
         failImage.alpha = 0
-        imageView.backgroundColor = UIColor.whiteColor()
+        imageView.backgroundColor = UIColor.white
         loadImage(url)
     }
 
-    public func setImage(image: UIImage) {
+    func setImage(_ image: UIImage) {
         imageView.pin_cancelImageDownload()
         imageView.image = image
         imageView.alpha = 1
-        failImage.hidden = true
+        failImage.isHidden = true
         failImage.alpha = 0
-        imageView.backgroundColor = UIColor.whiteColor()
+        imageView.backgroundColor = UIColor.white
     }
 
-    override public func layoutSubviews() {
+    override func layoutSubviews() {
         super.layoutSubviews()
 
-        if let aspectRatio = aspectRatio, imageSize = imageSize {
+        if let aspectRatio = aspectRatio, let imageSize = imageSize {
             let width = min(imageSize.width, self.frame.width)
             let actualHeight: CGFloat = ceil(width / aspectRatio) + Size.bottomMargin
             if actualHeight != frame.height {
@@ -188,29 +188,29 @@ public class StreamImageCell: StreamRegionableCell {
         }
     }
 
-    private func loadImage(url: NSURL) {
+    fileprivate func loadImage(_ url: URL) {
         guard url.scheme?.isEmpty == false else {
-            if let urlWithScheme = NSURL(string: "https:\(url.absoluteString)") {
+            if let urlWithScheme = URL(string: "https:\(url.absoluteString)") {
                 loadImage(urlWithScheme)
             }
             return
         }
-        self.imageView.pin_setImageFromURL(url) { result in
-            let success = result.image != nil || result.animatedImage != nil
-            let isAnimated = result.animatedImage != nil
+        self.imageView.pin_setImage(from: url) { result in
+            let success = result?.image != nil || result?.animatedImage != nil
+            let isAnimated = result?.animatedImage != nil
             if success {
-                let imageSize = isAnimated ? result.animatedImage.size : result.image.size
+                let imageSize = isAnimated ? result?.animatedImage.size : result?.image.size
                 self.imageSize = imageSize
 
                 if self.serverProvidedAspectRatio == nil {
                     postNotification(StreamNotification.AnimateCellHeightNotification, value: self)
                 }
 
-                if result.resultType != .MemoryCache {
+                if result?.resultType != .memoryCache {
                     self.imageView.alpha = 0
-                    UIView.animateWithDuration(0.3,
+                    UIView.animate(withDuration: 0.3,
                         delay:0.0,
-                        options:UIViewAnimationOptions.CurveLinear,
+                        options:UIViewAnimationOptions.curveLinear,
                         animations: {
                             self.imageView.alpha = 1.0
                         }, completion: { _ in
@@ -230,67 +230,67 @@ public class StreamImageCell: StreamRegionableCell {
         }
     }
 
-    private func imageLoadFailed() {
-        buyButton?.hidden = true
-        buyButtonGreen?.hidden = true
-        failImage.hidden = false
-        failBackgroundView.hidden = false
+    fileprivate func imageLoadFailed() {
+        buyButton?.isHidden = true
+        buyButtonGreen?.isHidden = true
+        failImage.isHidden = false
+        failBackgroundView.isHidden = false
         circle.stopPulse()
         imageSize = nil
-        largeImagePlayButton?.hidden = true
+        largeImagePlayButton?.isHidden = true
         nextTick { postNotification(StreamNotification.AnimateCellHeightNotification, value: self) }
-        UIView.animateWithDuration(0.15) {
+        UIView.animate(withDuration: 0.15, animations: {
             self.failImage.alpha = 1.0
             self.imageView.backgroundColor = UIColor.greyF1()
             self.failBackgroundView.backgroundColor = UIColor.greyF1()
             self.imageView.alpha = 1.0
             self.failBackgroundView.alpha = 1.0
-        }
+        })
     }
 
-    override public func prepareForReuse() {
+    override func prepareForReuse() {
         super.prepareForReuse()
 
-        marginType = .Post
-        imageButton.userInteractionEnabled = true
+        marginType = .post
+        imageButton.isUserInteractionEnabled = true
         onHeightMismatch = nil
         imageView.image = nil
         imageView.animatedImage = nil
         imageView.pin_cancelImageDownload()
         imageRightConstraint?.constant = 0
-        buyButton?.hidden = true
-        buyButtonGreen?.hidden = true
+        buyButton?.isHidden = true
+        buyButtonGreen?.isHidden = true
 
         hideBorder()
         isGif = false
         presentedImageUrl = nil
         isLargeImage = false
-        failImage.hidden = true
+        failImage.isHidden = true
         failImage.alpha = 0
-        failBackgroundView.hidden = true
+        failBackgroundView.isHidden = true
         failBackgroundView.alpha = 0
     }
 
     @IBAction func imageTapped() {
-        streamImageCellDelegate?.imageTapped(self.imageView, cell: self)
+        streamImageCellDelegate?.imageTapped(imageView: self.imageView, cell: self)
     }
 
     @IBAction func buyButtonTapped() {
         guard let buyButtonURL = buyButtonURL else {
             return
         }
-        Tracker.sharedTracker.buyButtonLinkVisited(buyButtonURL.URLString)
-        postNotification(ExternalWebNotification, value: buyButtonURL.URLString)
+        Tracker.shared.buyButtonLinkVisited(buyButtonURL.absoluteString)
+        postNotification(ExternalWebNotification, value: buyButtonURL.absoluteString)
     }
 
-    @IBAction func imageDoubleTapped(gesture: UIGestureRecognizer) {
-        let location = gesture.locationInView(nil)
-        streamEditingDelegate?.cellDoubleTapped(self, location: location)
+    @IBAction func imageDoubleTapped(_ gesture: UIGestureRecognizer) {
+        let location = gesture.location(in: nil)
+        streamEditingDelegate?.cellDoubleTapped(cell: self, location: location)
     }
 
-    @IBAction func imageLongPressed(gesture: UIGestureRecognizer) {
-        if gesture.state == .Began {
-            streamEditingDelegate?.cellLongPressed(self)
+    @IBAction func imageLongPressed(_ gesture: UIGestureRecognizer) {
+        if gesture.state == .began {
+            streamEditingDelegate?.cellLongPressed(cell: self)
         }
     }
 }

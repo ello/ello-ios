@@ -2,12 +2,12 @@
 ///  ElloManagerSpec.swift
 //
 
-import Ello
+@testable import Ello
 import Quick
 import Moya
 import Nimble
 import Alamofire
-import ElloCerts
+@testable import ElloCerts
 
 class ElloManagerSpec: QuickSpec {
     override func spec() {
@@ -41,7 +41,7 @@ class ElloManagerSpec: QuickSpec {
             describe("SSL Pinning") {
 
                 it("has a custom Alamofire.Manager") {
-                    let defaultManager = Alamofire.Manager.sharedInstance
+                    let defaultManager = SessionManager.default
                     let elloManager = ElloManager.manager
 
                     expect(elloManager).notTo(beIdenticalTo(defaultManager))
@@ -55,7 +55,7 @@ class ElloManagerSpec: QuickSpec {
                         var doesValidateHost = false
                         let keys: [SecKey]
                         switch policy {
-                        case let .PinPublicKeys(publicKeys, validateCertificateChain, validateHost):
+                        case let .pinPublicKeys(publicKeys, validateCertificateChain, validateHost):
                             doesValidateChain = validateCertificateChain
                             doesValidateHost = validateHost
                             keys = publicKeys

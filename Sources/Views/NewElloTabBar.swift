@@ -4,13 +4,13 @@
 
 class NewElloTabBar: UIView {
     enum Alignment {
-        case Left
-        case Right
+        case left
+        case right
     }
 
     enum Display {
-        case Title(String)
-        case Image(InterfaceImage)
+        case title(String)
+        case image(InterfaceImage)
     }
 
     struct Item {
@@ -20,14 +20,14 @@ class NewElloTabBar: UIView {
 
         var title: String? {
             switch display {
-            case let .Title(title): return title
+            case let .title(title): return title
             default: return nil
             }
         }
 
         var interfaceImage: InterfaceImage? {
             switch display {
-            case let .Image(interfaceImage): return interfaceImage
+            case let .image(interfaceImage): return interfaceImage
             default: return nil
             }
         }
@@ -43,11 +43,11 @@ class NewElloTabBar: UIView {
             didSet { updateContentView() }
         }
 
-        private let contentView: UIView
-        private let underlineView: UIView?
-        private let redDot: UIView = {
+        fileprivate let contentView: UIView
+        fileprivate let underlineView: UIView?
+        fileprivate let redDot: UIView = {
             let v = UIView()
-            v.backgroundColor = .redColor()
+            v.backgroundColor = .red
             return v
         }()
 
@@ -55,13 +55,13 @@ class NewElloTabBar: UIView {
             self.item = item
 
             switch item.display {
-            case .Title:
+            case .title:
                 let label = StyledLabel(style: .Black)
                 self.contentView = label
                 let underlineView = UIView()
-                underlineView.backgroundColor = UIColor.blackColor()
+                underlineView.backgroundColor = UIColor.black
                 self.underlineView = underlineView
-            case .Image:
+            case .image:
                 self.contentView = UIImageView()
                 self.underlineView = nil
             }
@@ -83,14 +83,14 @@ class NewElloTabBar: UIView {
             fatalError("init(coder:) has not been implemented")
         }
 
-        private func updateContentView() {
+        fileprivate func updateContentView() {
             switch item.display {
-            case let .Title(title):
+            case let .title(title):
                 let titleView = self.contentView as! StyledLabel
                 titleView.style = selected ? .Black : .Gray
                 titleView.text = title
                 titleView.clipsToBounds = false
-            case let .Image(interfaceImage):
+            case let .image(interfaceImage):
                 let imageView = self.contentView as! UIImageView
                 let actualImage = selected ? interfaceImage.selectedImage : interfaceImage.normalImage
                 imageView.image = actualImage
@@ -100,7 +100,7 @@ class NewElloTabBar: UIView {
         override func layoutSubviews() {
             super.layoutSubviews()
 
-            let contentSize = contentView.intrinsicContentSize()
+            let contentSize = contentView.intrinsicContentSize
             let actualSize = CGSize(width: contentSize.width + 2, height: contentSize.height + 2)
             contentView.frame = CGRect(
                 x: (bounds.width - actualSize.width) / 2,
@@ -111,9 +111,9 @@ class NewElloTabBar: UIView {
             let radius = Size.redDotRadius
             let offset: CGPoint
             switch item.display {
-            case .Title:
+            case .title:
                 offset = CGPoint(x: 0, y: 12.5)
-            case .Image:
+            case .image:
                 offset = CGPoint(x: -3.5, y: 12.5)
             }
             redDot.frame = CGRect(
@@ -125,7 +125,7 @@ class NewElloTabBar: UIView {
             redDot.layer.cornerRadius = radius
 
             if let underlineView = underlineView {
-                underlineView.hidden = !selected
+                underlineView.isHidden = !selected
                 underlineView.frame = CGRect(
                     x: (bounds.width - contentSize.width) / 2,
                     y: bounds.height - 14,
@@ -135,12 +135,12 @@ class NewElloTabBar: UIView {
             }
         }
 
-        override func intrinsicContentSize() -> CGSize {
-            var contentSize = self.contentView.intrinsicContentSize()
+        override var intrinsicContentSize: CGSize {
+            var contentSize = self.contentView.intrinsicContentSize
             switch item.display {
-            case .Title:
+            case .title:
                 contentSize.width += 11  // margins for the red dot
-            case .Image:
+            case .image:
                 contentSize.width = 24  // icon + red dot size
             }
             contentSize.height = 50  // tab bar height
@@ -158,8 +158,8 @@ class NewElloTabBar: UIView {
         setup()
     }
 
-    private func setup() {
-        backgroundColor = .whiteColor()
+    fileprivate func setup() {
+        backgroundColor = .white
     }
 
     var itemViews: [ItemView] = []
@@ -180,13 +180,13 @@ class NewElloTabBar: UIView {
             for view in itemViews {
                 view.selected = false
             }
-            if let index = selectedIndex, view = itemViews.safeValue(index) {
+            if let index = selectedIndex, let view = itemViews.safeValue(index) {
                 view.selected = true
             }
         }
     }
 
-    private func generateItemViews(items: [Item]) -> [ItemView] {
+    fileprivate func generateItemViews(_ items: [Item]) -> [ItemView] {
         return items.map { item in
             return ItemView(item: item)
         }
@@ -199,10 +199,10 @@ class NewElloTabBar: UIView {
 
         var left: CGFloat = 15
         let leftViews = itemViews.filter { view in
-            return view.item.alignment == .Left
+            return view.item.alignment == .left
         }
         for view in leftViews {
-            let size = view.intrinsicContentSize()
+            let size = view.intrinsicContentSize
             view.frame.origin = CGPoint(x: left, y: 0)
             view.frame.size = size
             left += size.width + tweenMargin
@@ -210,10 +210,10 @@ class NewElloTabBar: UIView {
 
         var right: CGFloat = bounds.width - 15
         let rightViews = itemViews.filter { view in
-            return view.item.alignment == .Right
+            return view.item.alignment == .right
         }
-        for view in rightViews.reverse() {
-            let size = view.intrinsicContentSize()
+        for view in rightViews.reversed() {
+            let size = view.intrinsicContentSize
             right -= size.width
             view.frame.origin = CGPoint(x: right, y: 0)
             view.frame.size = size

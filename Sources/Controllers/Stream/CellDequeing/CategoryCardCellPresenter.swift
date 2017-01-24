@@ -2,18 +2,18 @@
 ///  CategoryCardCellPresenter.swift
 //
 
-public struct CategoryCardCellPresenter {
+struct CategoryCardCellPresenter {
 
     static func configure(
-        cell: UICollectionViewCell,
+        _ cell: UICollectionViewCell,
         streamCellItem: StreamCellItem,
         streamKind: StreamKind,
-        indexPath: NSIndexPath,
+        indexPath: IndexPath,
         currentUser: User?)
     {
-        guard let
-            cell = cell as? CategoryCardCell,
-            category = streamCellItem.jsonable as? Category
+        guard
+            let cell = cell as? CategoryCardCell,
+            let category = streamCellItem.jsonable as? Category
         else { return }
 
         let desiredHeight: CGFloat = ceil(cell.frame.width / 1.5)
@@ -25,7 +25,7 @@ public struct CategoryCardCellPresenter {
 
         cell.title = category.name
         cell.imageURL = category.tileURL
-        cell.selectable = streamCellItem.type == .SelectableCategoryCard
+        cell.selectable = streamCellItem.type == .selectableCategoryCard
     }
 
 }

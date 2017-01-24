@@ -2,21 +2,21 @@
 ///  CategoryHeaderCellPresenter.swift
 //
 
-public struct CategoryHeaderCellPresenter {
+struct CategoryHeaderCellPresenter {
 
     static func configure(
-        cell: UICollectionViewCell,
+        _ cell: UICollectionViewCell,
         streamCellItem: StreamCellItem,
         streamKind: StreamKind,
-        indexPath: NSIndexPath,
+        indexPath: IndexPath,
         currentUser: User?)
     {
-        guard let
-            cell = cell as? CategoryHeaderCell,
-            category = streamCellItem.jsonable as? Category
+        guard
+            let cell = cell as? CategoryHeaderCell,
+            let category = streamCellItem.jsonable as? Category
         else { return }
 
-        var config = CategoryHeaderCell.Config(category: category)
+        let config = CategoryHeaderCell.Config(category: category)
         cell.config = config
     }
 }

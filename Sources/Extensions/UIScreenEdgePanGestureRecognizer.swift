@@ -3,17 +3,17 @@
 //
 
 extension UIScreenEdgePanGestureRecognizer {
-    func percentageThroughView(backEdge: UIRectEdge) -> CGFloat {
+    func percentageThroughView(_ backEdge: UIRectEdge) -> CGFloat {
         let view = self.view!
-        let x = locationInView(view).x
+        let x = location(in: view).x
         let width = view.bounds.size.width
         let percent = x / width
 
-        if (translationInView(view).x > 0.0) && (backEdge == UIRectEdge.Left) {
+        if (translation(in: view).x > 0.0) && (backEdge == UIRectEdge.left) {
             return percent
         }
 
-        if (translationInView(view).x < 0.0) && (backEdge == UIRectEdge.Right) {
+        if (translation(in: view).x < 0.0) && (backEdge == UIRectEdge.right) {
             return 1.0 - percent
         }
 

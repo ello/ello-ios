@@ -5,22 +5,22 @@
 
 import Foundation
 
-public class IntroViewController: UIViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate {
+class IntroViewController: UIViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate {
 
     var pageViewController: UIPageViewController?
     var viewControllers: [IntroPageController] = []
     var pageControl: UIPageControl = UIPageControl()
 
-    override public func viewDidLoad()
+    override func viewDidLoad()
     {
         super.viewDidLoad()
 
         let storyboard = UIStoryboard(name: "Intro", bundle: nil)
 
-        pageViewController = storyboard.instantiateViewControllerWithIdentifier("IntroPager") as? UIPageViewController
+        pageViewController = storyboard.instantiateViewController(withIdentifier: "IntroPager") as? UIPageViewController
 
-        let width = UIScreen.mainScreen().bounds.size.width
-        let height = UIScreen.mainScreen().bounds.size.height
+        let width = UIScreen.main.bounds.size.width
+        let height = UIScreen.main.bounds.size.height
         let frame = CGRect(x: 0, y: 0, width: width, height: height)
 
         pageViewController?.view.frame = frame
@@ -29,19 +29,19 @@ public class IntroViewController: UIViewController, UIPageViewControllerDataSour
 
         // Load and set views/pages
         let welcomePageViewController = storyboard
-            .instantiateViewControllerWithIdentifier("WelcomePage") as! WelcomePageController
+            .instantiateViewController(withIdentifier: "WelcomePage") as! WelcomePageController
         welcomePageViewController.pageIndex = 0
 
         let inspiredPageViewController = storyboard
-            .instantiateViewControllerWithIdentifier("InspiredPage") as! InspiredPageController
+            .instantiateViewController(withIdentifier: "InspiredPage") as! InspiredPageController
         inspiredPageViewController.pageIndex = 1
 
         let friendsPageViewController = storyboard
-            .instantiateViewControllerWithIdentifier("FriendsPage") as! FriendsPageController
+            .instantiateViewController(withIdentifier: "FriendsPage") as! FriendsPageController
         friendsPageViewController.pageIndex = 2
 
         let lovesPageViewController = storyboard
-            .instantiateViewControllerWithIdentifier("LovesPage") as! LovesPageController
+            .instantiateViewController(withIdentifier: "LovesPage") as! LovesPageController
         lovesPageViewController.pageIndex = 3
 
         viewControllers = [
@@ -52,7 +52,7 @@ public class IntroViewController: UIViewController, UIPageViewControllerDataSour
         ]
 
         pageViewController!.setViewControllers([welcomePageViewController],
-            direction: .Forward, animated: false, completion: nil)
+            direction: .forward, animated: false, completion: nil)
         pageViewController!.view.frame = CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.height)
 
         // Setup the page control
@@ -60,23 +60,23 @@ public class IntroViewController: UIViewController, UIPageViewControllerDataSour
         pageControl.frame.origin.x = view.bounds.size.width / 2 - pageControl.frame.size.width / 2
         pageControl.currentPage = 0
         pageControl.numberOfPages = viewControllers.count
-        pageControl.currentPageIndicatorTintColor = .blackColor()
+        pageControl.currentPageIndicatorTintColor = .black
         pageControl.pageIndicatorTintColor = .greyA()
-        pageControl.autoresizingMask = [.FlexibleBottomMargin, .FlexibleRightMargin, .FlexibleLeftMargin]
+        pageControl.autoresizingMask = [.flexibleBottomMargin, .flexibleRightMargin, .flexibleLeftMargin]
 
         // Setup skip button
         let skipButton = UIButton()
         let skipButtonRightMargin: CGFloat = 10
         skipButton.frame = CGRect(x: 0, y: 20, width: 0, height: 0)
-        skipButton.setTitle("Skip", forState: UIControlState.Normal)
+        skipButton.setTitle("Skip", for: .normal)
         skipButton.titleLabel?.font = UIFont.defaultFont()
         skipButton.sizeToFit()
         // Set frame margin from right edge
         skipButton.frame.origin.x = view.frame.width - skipButtonRightMargin - skipButton.frame.width
         skipButton.center.y = pageControl.center.y
-        skipButton.autoresizingMask = [.FlexibleBottomMargin, .FlexibleLeftMargin]
-        skipButton.setTitleColor(UIColor.greyA(), forState: .Normal)
-        skipButton.addTarget(self, action: #selector(IntroViewController.didTouchSkipIntro(_:)), forControlEvents: .TouchUpInside)
+        skipButton.autoresizingMask = [.flexibleBottomMargin, .flexibleLeftMargin]
+        skipButton.setTitleColor(UIColor.greyA(), for: .normal)
+        skipButton.addTarget(self, action: #selector(IntroViewController.didTouchSkipIntro(_:)), for: .touchUpInside)
 
         // Add subviews
         view.addSubview(pageControl)
@@ -87,22 +87,22 @@ public class IntroViewController: UIViewController, UIPageViewControllerDataSour
         view.addSubview(pageViewController!.view)
 
         // Move everything to the front
-        pageViewController!.didMoveToParentViewController(self)
-        view.bringSubviewToFront(pageControl)
-        view.bringSubviewToFront(skipButton)
+        pageViewController!.didMove(toParentViewController: self)
+        view.bringSubview(toFront: pageControl)
+        view.bringSubview(toFront: skipButton)
 
         // add status bar to intro
         let bar = UIView(frame: CGRect(x: 0, y: 0, width: frame.width, height: 20))
-        bar.autoresizingMask = [.FlexibleWidth, .FlexibleBottomMargin]
-        bar.backgroundColor = UIColor.blackColor()
+        bar.autoresizingMask = [.flexibleWidth, .flexibleBottomMargin]
+        bar.backgroundColor = UIColor.black
         view.addSubview(bar)
     }
 
-    func didTouchSkipIntro(sender: UIButton!) {
-        self.dismissViewControllerAnimated(false, completion:nil)
+    func didTouchSkipIntro(_ sender: UIButton!) {
+        self.dismiss(animated: false, completion:nil)
     }
 
-    public func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController?
+    func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController?
     {
         var index = (viewController as! IntroPageController).pageIndex!
 
@@ -115,7 +115,7 @@ public class IntroViewController: UIViewController, UIPageViewControllerDataSour
         return viewControllerAtIndex(index)
     }
 
-    public func pageViewController(pageViewController: UIPageViewController, viewControllerAfterViewController viewController: UIViewController) -> UIViewController?
+    func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController?
     {
         var index = (viewController as! IntroPageController).pageIndex!
 
@@ -129,12 +129,12 @@ public class IntroViewController: UIViewController, UIPageViewControllerDataSour
     }
 
     /// Source of truth for if you're on a new page
-    public func pageViewController(pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+    func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
 
         guard
             finished && completed,
             let newCurrentPage = pageViewController.viewControllers?.first as? IntroPageController,
-            pageIndex = newCurrentPage.pageIndex
+            let pageIndex = newCurrentPage.pageIndex
         else {
             return
         }
@@ -142,7 +142,7 @@ public class IntroViewController: UIViewController, UIPageViewControllerDataSour
         pageControl.currentPage = pageIndex
     }
 
-    func viewControllerAtIndex(index: Int) -> UIViewController? {
+    func viewControllerAtIndex(_ index: Int) -> UIViewController? {
 
         if index >= viewControllers.count {
             return nil

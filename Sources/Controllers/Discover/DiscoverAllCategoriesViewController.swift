@@ -2,27 +2,31 @@
 ///  DiscoverAllCategoriesViewController.swift
 //
 
-public class DiscoverAllCategoriesViewController: StreamableViewController {
+class DiscoverAllCategoriesViewController: StreamableViewController {
+    override func trackerName() -> String? { return "Discover" }
+    override func trackerProps() -> [String: AnyObject]? {
+        return ["category": "all" as AnyObject]
+    }
 
-    override public var tabBarItem: UITabBarItem? {
-        get { return UITabBarItem.item(.Sparkles, insets: UIEdgeInsets(top: 8, left: 0, bottom: -8, right: 0)) }
+    override var tabBarItem: UITabBarItem? {
+        get { return UITabBarItem.item(.sparkles, insets: UIEdgeInsets(top: 8, left: 0, bottom: -8, right: 0)) }
         set { self.tabBarItem = newValue }
     }
 
     var screen: DiscoverAllCategoriesScreen { return self.view as! DiscoverAllCategoriesScreen }
 
-    required public init() {
+    required init() {
         super.init(nibName: nil, bundle: nil)
 
         streamViewController.initialLoadClosure = { [unowned self] in self.loadCategories() }
-        streamViewController.streamKind = .AllCategories
+        streamViewController.streamKind = .allCategories
     }
 
-    required public init?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override public func loadView() {
+    override func loadView() {
         title = InterfaceString.Discover.Title
 
         if !isRootViewController() {
@@ -41,36 +45,31 @@ public class DiscoverAllCategoriesViewController: StreamableViewController {
 
     func loadCategories() {
         CategoryService().loadCategories().onSuccess { [weak self] categories in
-            guard let sself = self else { return }
+            guard let `self` = self else { return }
 
             let sortedCategories = CategoryList(categories: categories).categories
 
-            sself.streamViewController.showInitialJSONAbles(sortedCategories)
+            self.streamViewController.showInitialJSONAbles(sortedCategories)
         }.ignoreFailures()
     }
 
-    override public func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
-        scrollLogic.prevOffset = streamViewController.collectionView.contentOffset
         ElloHUD.showLoadingHudInView(streamViewController.view)
         streamViewController.loadInitialPage()
     }
 
-    private func updateInsets() {
+    fileprivate func updateInsets() {
         updateInsets(navBar: screen.navigationBar, streamController: streamViewController)
     }
 
-    override public func showNavBars(scrollToBottom: Bool) {
-        super.showNavBars(scrollToBottom)
+    override func showNavBars() {
+        super.showNavBars()
         positionNavBar(screen.navigationBar, visible: true, withConstraint: screen.navigationBarTopConstraint)
         updateInsets()
-
-        if scrollToBottom {
-            self.scrollToBottom(streamViewController)
-        }
     }
 
-    override public func hideNavBars() {
+    override func hideNavBars() {
         super.hideNavBars()
         positionNavBar(screen.navigationBar, visible: false, withConstraint: screen.navigationBarTopConstraint)
         updateInsets()
@@ -81,7 +80,7 @@ public class DiscoverAllCategoriesViewController: StreamableViewController {
 // MARK: StreamViewDelegate
 extension DiscoverAllCategoriesViewController {
 
-    override public func streamViewStreamCellItems(jsonables: [JSONAble], defaultGenerator generator: StreamCellItemGenerator) -> [StreamCellItem]? {
+    override func streamViewStreamCellItems(jsonables: [JSONAble], defaultGenerator generator: StreamCellItemGenerator) -> [StreamCellItem]? {
         guard let categories = jsonables as? [Category] else { return [] }
 
         let metaCategories = categories.filter { $0.isMeta }
@@ -95,8 +94,8 @@ extension DiscoverAllCategoriesViewController {
             metaCategoryList = CategoryList.metaCategories()
         }
 
-        var items: [StreamCellItem] = [StreamCellItem(jsonable: metaCategoryList, type: .CategoryList)]
-        items += cardCategories.map { StreamCellItem(jsonable: $0, type: .CategoryCard) }
+        var items: [StreamCellItem] = [StreamCellItem(jsonable: metaCategoryList, type: .categoryList)]
+        items += cardCategories.map { StreamCellItem(jsonable: $0, type: .categoryCard) }
         return items
     }
 }

@@ -2,7 +2,7 @@
 ///  CommentSpec.swift
 //
 
-import Ello
+@testable import Ello
 import Quick
 import Nimble
 
@@ -12,14 +12,14 @@ class CommentSpec: QuickSpec {
 
             it("parses correctly") {
                 // add stubs for references in json
-                ElloLinkedStore.sharedInstance.setObject(Post.stub(["id": "79"]), forKey: "79", type: .PostsType)
-                ElloLinkedStore.sharedInstance.setObject(User.stub(["userId": "420"]), forKey: "420", type: .UsersType)
+                ElloLinkedStore.sharedInstance.setObject(Post.stub(["id": "79"]), forKey: "79", type: .postsType)
+                ElloLinkedStore.sharedInstance.setObject(User.stub(["userId": "420"]), forKey: "420", type: .usersType)
 
                 let parsedComment = stubbedJSONData("comments_comment_details", "comments")
 
                 let createdAtString = "2014-06-02T00:00:00.000Z"
                 let comment = ElloComment.fromJSON(parsedComment) as! ElloComment
-                var createdAt: NSDate = createdAtString.toNSDate()!
+                var createdAt = createdAtString.toDate()!
                 // active record
                 expect(comment.createdAt) == createdAt
                 // required
@@ -66,13 +66,13 @@ class CommentSpec: QuickSpec {
         context("NSCoding") {
 
             var filePath = ""
-            if let url = NSURL(string: NSFileManager.ElloDocumentsDir()) {
-                filePath = url.URLByAppendingPathComponent("CommentSpec")!.absoluteString!
+            if let url = URL(string: FileManager.ElloDocumentsDir()) {
+                filePath = url.appendingPathComponent("CommentSpec").absoluteString
             }
 
             afterEach {
                 do {
-                    try NSFileManager.defaultManager().removeItemAtPath(filePath)
+                    try FileManager.default.removeItem(atPath: filePath)
                 }
                 catch {
 
@@ -90,7 +90,7 @@ class CommentSpec: QuickSpec {
 
             context("decoding") {
 
-                func testRegionContent(content: [Regionable]) {
+                func testRegionContent(_ content: [Regionable]) {
                     expect(content.count) == 2
                     let textRegion = content[0] as! TextRegion
                     let imageRegion = content[1] as! ImageRegion
@@ -116,7 +116,7 @@ class CommentSpec: QuickSpec {
                 }
 
                 it("decodes successfully") {
-                    let expectedCreatedAt = NSDate()
+                    let expectedCreatedAt = Date()
 
                     let parentPost: Post = stub([
                         "id" : "sample-parent-post-id"
@@ -127,7 +127,7 @@ class CommentSpec: QuickSpec {
                     ])
 
                     let hdpi: Attachment = stub([
-                        "url" : NSURL(string: "http://www.example.com")!,
+                        "url" : URL(string: "http://www.example.com")!,
                         "height" : 122,
                         "width" : 887,
                         "type" : "jpeg",
@@ -135,7 +135,7 @@ class CommentSpec: QuickSpec {
                     ])
 
                     let xhdpi: Attachment = stub([
-                        "url" : NSURL(string: "http://www.example2.com")!,
+                        "url" : URL(string: "http://www.example2.com")!,
                         "height" : 98,
                         "width" : 112,
                         "type" : "png",
@@ -155,7 +155,7 @@ class CommentSpec: QuickSpec {
                     let imageRegion: ImageRegion = stub([
                         "asset" : asset,
                         "alt" : "sample-alt",
-                        "url" : NSURL(string: "http://www.example5.com")!
+                        "url" : URL(string: "http://www.example5.com")!
                     ])
 
                     let content = [textRegion, imageRegion]
@@ -169,7 +169,7 @@ class CommentSpec: QuickSpec {
                     ])
 
                     NSKeyedArchiver.archiveRootObject(comment, toFile: filePath)
-                    let unArchivedComment = NSKeyedUnarchiver.unarchiveObjectWithFile(filePath) as! ElloComment
+                    let unArchivedComment = NSKeyedUnarchiver.unarchiveObject(withFile: filePath) as! ElloComment
 
                     expect(unArchivedComment).toNot(beNil())
                     expect(unArchivedComment.version) == 1

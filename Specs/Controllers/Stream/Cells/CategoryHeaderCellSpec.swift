@@ -12,18 +12,18 @@ import PINCache
 class CategoryHeaderCellSpec: QuickSpec {
 
     enum Style {
-        case Narrow
-        case Wide
+        case narrow
+        case wide
         case iPad
 
         var width: CGFloat {
             switch self {
-            case .Narrow: return 320
-            case .Wide: return 375
+            case .narrow: return 320
+            case .wide: return 375
             case .iPad: return 768
             }
         }
-        func frame(height: CGFloat)  -> CGRect {
+        func frame(_ height: CGFloat)  -> CGRect {
             return CGRect(x: 0, y: 0, width: self.width, height: height)
         }
 
@@ -35,8 +35,8 @@ class CategoryHeaderCellSpec: QuickSpec {
             var subject: CategoryHeaderCell!
 
             func setImages() {
-                subject.postedByAvatar.setImage(UIImage(named: "specs-avatar", inBundle: NSBundle(forClass: self.dynamicType), compatibleWithTraitCollection: nil), forState: .Normal)
-                subject.setImage(UIImage(named: "specs-category-image.jpg", inBundle: NSBundle(forClass: self.dynamicType), compatibleWithTraitCollection: nil)!)
+                subject.postedByAvatar.setImage(UIImage(named: "specs-avatar", in: Bundle(for: type(of: self)), compatibleWith: nil), for: .normal)
+                subject.setImage(UIImage(named: "specs-category-image.jpg", in: Bundle(for: type(of: self)), compatibleWith: nil)!)
             }
 
             describe("snapshots") {
@@ -49,31 +49,31 @@ class CategoryHeaderCellSpec: QuickSpec {
                 let expectations: [
                     (String, type: StreamCellType, name: String, isSponsored: Bool, body: String, ctaCaption: String, style: Style)
                 ] = [
-                    ("category not sponsored, narrow", type: .CategoryPromotionalHeader, name: "A Longer Title Goes Here, does it wrap?", isSponsored: false, body: shortBody, ctaCaption: shortCtaCaption, style: .Narrow),
-                    ("category not sponsored, wide", type: .CategoryPromotionalHeader, name: "Art", isSponsored: false, body: shortBody, ctaCaption: shortCtaCaption, style: .Wide),
-                    ("category not sponsored, iPad", type: .CategoryPromotionalHeader, name: "Art", isSponsored: false, body: shortBody, ctaCaption: shortCtaCaption, style: .iPad),
-                    ("category sponsored, narrow", type: .CategoryPromotionalHeader, name: "Art", isSponsored: true, body: shortBody, ctaCaption: shortCtaCaption, style: .Narrow),
-                    ("category sponsored, wide", type: .CategoryPromotionalHeader, name: "Art", isSponsored: true, body: shortBody, ctaCaption: shortCtaCaption, style: .Wide),
-                    ("category sponsored, iPad", type: .CategoryPromotionalHeader, name: "Art", isSponsored: true, body: shortBody, ctaCaption: shortCtaCaption, style: .iPad),
-                    ("category long body, narrow", type: .CategoryPromotionalHeader, name: "Art", isSponsored: true, body: longBody, ctaCaption: shortCtaCaption, style: .Narrow),
-                    ("category long body, wide", type: .CategoryPromotionalHeader, name: "Art", isSponsored: true, body: longBody, ctaCaption: shortCtaCaption, style: .Wide),
-                    ("category long body, iPad", type: .CategoryPromotionalHeader, name: "Art", isSponsored: true, body: longBody, ctaCaption: shortCtaCaption, style: .iPad),
-                    ("category long body, long cta caption, narrow", type: .CategoryPromotionalHeader, name: "Art", isSponsored: true, body: longBody, ctaCaption: longCtaCaption, style: .Narrow),
-                    ("category long body, long cta caption, wide", type: .CategoryPromotionalHeader, name: "Art", isSponsored: true, body: longBody, ctaCaption: longCtaCaption, style: .Wide),
-                    ("category long body, long cta caption, iPad", type: .CategoryPromotionalHeader, name: "Art", isSponsored: true, body: longBody, ctaCaption: longCtaCaption, style: .iPad),
+                    ("category not sponsored, narrow", type: .categoryPromotionalHeader, name: "A Longer Title Goes Here, does it wrap?", isSponsored: false, body: shortBody, ctaCaption: shortCtaCaption, style: .narrow),
+                    ("category not sponsored, wide", type: .categoryPromotionalHeader, name: "Art", isSponsored: false, body: shortBody, ctaCaption: shortCtaCaption, style: .wide),
+                    ("category not sponsored, iPad", type: .categoryPromotionalHeader, name: "Art", isSponsored: false, body: shortBody, ctaCaption: shortCtaCaption, style: .iPad),
+                    ("category sponsored, narrow", type: .categoryPromotionalHeader, name: "Art", isSponsored: true, body: shortBody, ctaCaption: shortCtaCaption, style: .narrow),
+                    ("category sponsored, wide", type: .categoryPromotionalHeader, name: "Art", isSponsored: true, body: shortBody, ctaCaption: shortCtaCaption, style: .wide),
+                    ("category sponsored, iPad", type: .categoryPromotionalHeader, name: "Art", isSponsored: true, body: shortBody, ctaCaption: shortCtaCaption, style: .iPad),
+                    ("category long body, narrow", type: .categoryPromotionalHeader, name: "Art", isSponsored: true, body: longBody, ctaCaption: shortCtaCaption, style: .narrow),
+                    ("category long body, wide", type: .categoryPromotionalHeader, name: "Art", isSponsored: true, body: longBody, ctaCaption: shortCtaCaption, style: .wide),
+                    ("category long body, iPad", type: .categoryPromotionalHeader, name: "Art", isSponsored: true, body: longBody, ctaCaption: shortCtaCaption, style: .iPad),
+                    ("category long body, long cta caption, narrow", type: .categoryPromotionalHeader, name: "Art", isSponsored: true, body: longBody, ctaCaption: longCtaCaption, style: .narrow),
+                    ("category long body, long cta caption, wide", type: .categoryPromotionalHeader, name: "Art", isSponsored: true, body: longBody, ctaCaption: longCtaCaption, style: .wide),
+                    ("category long body, long cta caption, iPad", type: .categoryPromotionalHeader, name: "Art", isSponsored: true, body: longBody, ctaCaption: longCtaCaption, style: .iPad),
 
-                    ("page not sponsored, narrow", type: .PagePromotionalHeader, name: "A Longer Title Goes Here, does it wrap?", isSponsored: false, body: shortBody, ctaCaption: shortCtaCaption, style: .Narrow),
-                    ("page not sponsored, wide", type: .PagePromotionalHeader, name: "Art", isSponsored: false, body: shortBody, ctaCaption: shortCtaCaption, style: .Wide),
-                    ("page not sponsored, iPad", type: .PagePromotionalHeader, name: "Art", isSponsored: false, body: shortBody, ctaCaption: shortCtaCaption, style: .iPad),
-                    ("page sponsored, narrow", type: .PagePromotionalHeader, name: "Art", isSponsored: true, body: shortBody, ctaCaption: shortCtaCaption, style: .Narrow),
-                    ("page sponsored, wide", type: .PagePromotionalHeader, name: "Art", isSponsored: true, body: shortBody, ctaCaption: shortCtaCaption, style: .Wide),
-                    ("page sponsored, iPad", type: .PagePromotionalHeader, name: "Art", isSponsored: true, body: shortBody, ctaCaption: shortCtaCaption, style: .iPad),
-                    ("page long body, narrow", type: .PagePromotionalHeader, name: "Art", isSponsored: true, body: longBody, ctaCaption: shortCtaCaption, style: .Narrow),
-                    ("page long body, wide", type: .PagePromotionalHeader, name: "Art", isSponsored: true, body: longBody, ctaCaption: shortCtaCaption, style: .Wide),
-                    ("page long body, iPad", type: .PagePromotionalHeader, name: "Art", isSponsored: true, body: longBody, ctaCaption: shortCtaCaption, style: .iPad),
-                    ("page long body, long cta caption, narrow", type: .PagePromotionalHeader, name: "Art", isSponsored: true, body: longBody, ctaCaption: longCtaCaption, style: .Narrow),
-                    ("page long body, long cta caption, wide", type: .PagePromotionalHeader, name: "Art", isSponsored: true, body: longBody, ctaCaption: longCtaCaption, style: .Wide),
-                    ("page long body, long cta caption, iPad", type: .PagePromotionalHeader, name: "Art", isSponsored: true, body: longBody, ctaCaption: longCtaCaption, style: .iPad)
+                    ("page not sponsored, narrow", type: .pagePromotionalHeader, name: "A Longer Title Goes Here, does it wrap?", isSponsored: false, body: shortBody, ctaCaption: shortCtaCaption, style: .narrow),
+                    ("page not sponsored, wide", type: .pagePromotionalHeader, name: "Art", isSponsored: false, body: shortBody, ctaCaption: shortCtaCaption, style: .wide),
+                    ("page not sponsored, iPad", type: .pagePromotionalHeader, name: "Art", isSponsored: false, body: shortBody, ctaCaption: shortCtaCaption, style: .iPad),
+                    ("page sponsored, narrow", type: .pagePromotionalHeader, name: "Art", isSponsored: true, body: shortBody, ctaCaption: shortCtaCaption, style: .narrow),
+                    ("page sponsored, wide", type: .pagePromotionalHeader, name: "Art", isSponsored: true, body: shortBody, ctaCaption: shortCtaCaption, style: .wide),
+                    ("page sponsored, iPad", type: .pagePromotionalHeader, name: "Art", isSponsored: true, body: shortBody, ctaCaption: shortCtaCaption, style: .iPad),
+                    ("page long body, narrow", type: .pagePromotionalHeader, name: "Art", isSponsored: true, body: longBody, ctaCaption: shortCtaCaption, style: .narrow),
+                    ("page long body, wide", type: .pagePromotionalHeader, name: "Art", isSponsored: true, body: longBody, ctaCaption: shortCtaCaption, style: .wide),
+                    ("page long body, iPad", type: .pagePromotionalHeader, name: "Art", isSponsored: true, body: longBody, ctaCaption: shortCtaCaption, style: .iPad),
+                    ("page long body, long cta caption, narrow", type: .pagePromotionalHeader, name: "Art", isSponsored: true, body: longBody, ctaCaption: longCtaCaption, style: .narrow),
+                    ("page long body, long cta caption, wide", type: .pagePromotionalHeader, name: "Art", isSponsored: true, body: longBody, ctaCaption: longCtaCaption, style: .wide),
+                    ("page long body, long cta caption, iPad", type: .pagePromotionalHeader, name: "Art", isSponsored: true, body: longBody, ctaCaption: longCtaCaption, style: .iPad)
                 ]
                 for (desc, type, name, isSponsored, body, ctaCaption, style) in expectations {
 
@@ -116,17 +116,17 @@ class CategoryHeaderCellSpec: QuickSpec {
                             "promotionals" : [promotional]
                         ])
 
-                        if type == .CategoryPromotionalHeader {
+                        if type == .categoryPromotionalHeader {
                             let height = CategoryHeaderCellSizeCalculator.calculateCategoryHeight(category, cellWidth: style.width)
                             subject = CategoryHeaderCell(frame: style.frame(height))
-                            let item = StreamCellItem(jsonable: category, type: .CategoryPromotionalHeader)
-                            CategoryHeaderCellPresenter.configure(subject, streamCellItem: item, streamKind: .Category(slug: "Art"), indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
+                            let item = StreamCellItem(jsonable: category, type: .categoryPromotionalHeader)
+                            CategoryHeaderCellPresenter.configure(subject, streamCellItem: item, streamKind: .category(slug: "Art"), indexPath: IndexPath(item: 0, section: 0), currentUser: nil)
                         }
                         else {
                             let height = CategoryHeaderCellSizeCalculator.calculatePagePromotionalHeight(pagePromotional, cellWidth: style.width)
                             subject = CategoryHeaderCell(frame: style.frame(height))
-                            let item = StreamCellItem(jsonable: pagePromotional, type: .PagePromotionalHeader)
-                            PagePromotionalHeaderCellPresenter.configure(subject, streamCellItem: item, streamKind: .Category(slug: "Design"), indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
+                            let item = StreamCellItem(jsonable: pagePromotional, type: .pagePromotionalHeader)
+                            PagePromotionalHeaderCellPresenter.configure(subject, streamCellItem: item, streamKind: .category(slug: "Design"), indexPath: IndexPath(item: 0, section: 0), currentUser: nil)
                         }
                         setImages()
 

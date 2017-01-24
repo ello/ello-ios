@@ -8,8 +8,8 @@ extension UITabBar {
         return subviews.filter { $0 is UIControl }
     }
 
-    func itemPositionsIn(view: UIView) -> [CGRect] {
-        return itemViews.map { self.convertRect($0.frame, toView: view) }
+    func itemPositionsIn(_ view: UIView) -> [CGRect] {
+        return itemViews.map { self.convert($0.frame, to: view) }
     }
 
 }

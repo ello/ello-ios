@@ -5,106 +5,106 @@
 import Foundation
 import Keys
 
-public enum ElloURI: String {
+enum ElloURI: String {
     // matching stream or page in app
-    case Discover = "discover(/featured|/recommended)?/?$"
-    case DiscoverRandom = "discover/random"
-    case DiscoverRecent = "discover/recent"
-    case DiscoverRelated = "discover/related"
-    case DiscoverTrending = "discover/trending"
-    case Category = "discover/([^\\/]+)/?$"
-    case Enter = "enter"
-    case Friends = "friends"
-    case Following = "following"
-    case Noise = "noise"
-    case Notifications = "notifications(?:\\/?|\\/([^\\/]+)/?)$"
-    case PushNotificationComment = "notifications/posts/([^\\/]+)\\/comments/([^\\/]+)$"
-    case PushNotificationPost = "notifications/posts/([^\\/]+)\\/?$"
-    case PushNotificationUser = "notifications/users/([^\\/]+)\\/?$"
-    case Post = "\\/post\\/([^\\/]+)\\/?$"
-    case Profile = "\\/?$"
-    case ProfileFollowers = "followers\\/?$"
-    case ProfileFollowing = "following\\/?$"
-    case ProfileLoves = "loves\\/?$"
-    case Search = "(search|find)\\b\\/?(\\?*.)?"
-    case SearchPeople = "(search|find)/people"
-    case SearchPosts = "(search|find)/posts"
-    case Settings = "settings"
+    case discover = "discover(/featured|/recommended)?/?$"
+    case discoverRandom = "discover/random"
+    case discoverRecent = "discover/recent"
+    case discoverRelated = "discover/related"
+    case discoverTrending = "discover/trending"
+    case category = "discover/([^\\/]+)/?$"
+    case enter = "enter"
+    case friends = "friends"
+    case following = "following"
+    case noise = "noise"
+    case notifications = "notifications(?:\\/?|\\/([^\\/]+)/?)$"
+    case pushNotificationComment = "notifications/posts/([^\\/]+)\\/comments/([^\\/]+)$"
+    case pushNotificationPost = "notifications/posts/([^\\/]+)\\/?$"
+    case pushNotificationUser = "notifications/users/([^\\/]+)\\/?$"
+    case post = "\\/post\\/([^\\/]+)\\/?$"
+    case profile = "\\/?$"
+    case profileFollowers = "followers\\/?$"
+    case profileFollowing = "following\\/?$"
+    case profileLoves = "loves\\/?$"
+    case search = "(search|find)\\b\\/?(\\?*.)?"
+    case searchPeople = "(search|find)/people"
+    case searchPosts = "(search|find)/posts"
+    case settings = "settings"
     // other ello pages
-    case Confirm = "confirm"
-    case BetaPublicProfiles = "beta-public-profiles"
-    case Downloads = "downloads"
-    case Exit = "exit"
-    case Explore = "explore"
-    case ExploreRecommended = "explore/recommended"
-    case ExploreRecent = "explore/recent"
-    case ExploreTrending = "explore/trending"
-    case FaceMaker = "facemaker"
-    case ForgotMyPassword = "forgot-my-password"
-    case FreedomOfSpeech = "freedom-of-speech"
-    case Invitations = "invitations"
-    case Invite = "join/([^\\/]+)/?$"
-    case Join = "join"
-    case Login = "login"
-    case Manifesto = "manifesto"
-    case NativeRedirect = "native_redirect"
-    case Onboarding = "onboarding"
-    case PasswordResetError = "password-reset-error"
-    case RandomSearch = "random_searches"
-    case RequestInvite = "request-an-invite"
-    case RequestInvitation = "request-an-invitation"
-    case RequestInvitations = "request_invitations"
-    case ResetMyPassword = "reset-my-password"
-    case Root = "?$"
-    case Subdomain = "\\/\\/.+(?<!(w{3}|staging))\\."
-    case Starred = "starred"
-    case Unblock = "unblock"
-    case WhoMadeThis = "who-made-this"
-    case WTF = "(wtf$|wtf\\/.*$)"
+    case confirm = "confirm"
+    case betaPublicProfiles = "beta-public-profiles"
+    case downloads = "downloads"
+    case exit = "exit"
+    case explore = "explore"
+    case exploreRecommended = "explore/recommended"
+    case exploreRecent = "explore/recent"
+    case exploreTrending = "explore/trending"
+    case faceMaker = "facemaker"
+    case forgotMyPassword = "forgot-my-password"
+    case freedomOfSpeech = "freedom-of-speech"
+    case invitations = "invitations"
+    case invite = "join/([^\\/]+)/?$"
+    case join = "join"
+    case login = "login"
+    case manifesto = "manifesto"
+    case nativeRedirect = "native_redirect"
+    case onboarding = "onboarding"
+    case passwordResetError = "password-reset-error"
+    case randomSearch = "random_searches"
+    case requestInvite = "request-an-invite"
+    case requestInvitation = "request-an-invitation"
+    case requestInvitations = "request_invitations"
+    case resetMyPassword = "reset-my-password"
+    case root = "?$"
+    case subdomain = "\\/\\/.+(?<!(w{3}|staging))\\."
+    case starred = "starred"
+    case unblock = "unblock"
+    case whoMadeThis = "who-made-this"
+    case wtf = "(wtf$|wtf\\/.*$)"
     // more specific
-    case Email = "(.+)@(.+)\\.([a-z]{2,})"
-    case External = "https?:\\/\\/.{3,}"
+    case email = "(.+)@(.+)\\.([a-z]{2,})"
+    case external = "https?:\\/\\/.{3,}"
 
-    public var loadsInWebViewFromWebView: Bool {
+    var loadsInWebViewFromWebView: Bool {
         switch self {
-        case .Discover,
-             .Category,
-             .Email,
-             .Enter,
-             .Explore,
-             .Following,
-             .Starred,
-             .Notifications,
-             .Post,
-             .Profile,
-             .Root,
-             .Search,
-             .Settings:
+        case .discover,
+             .category,
+             .email,
+             .enter,
+             .explore,
+             .following,
+             .starred,
+             .notifications,
+             .post,
+             .profile,
+             .root,
+             .search,
+             .settings:
             return false
         default: return true
         }
     }
 
-    public var shouldLoadInApp: Bool {
+    var shouldLoadInApp: Bool {
         switch self {
-        case .Confirm,
-             .Downloads,
-             .Email,
-             .External,
-             .FaceMaker,
-             .ForgotMyPassword,
-             .FreedomOfSpeech,
-             .Manifesto,
-             .NativeRedirect,
-             .PasswordResetError,
-             .RandomSearch,
-             .RequestInvitation,
-             .RequestInvitations,
-             .RequestInvite,
-             .ResetMyPassword,
-             .Subdomain,
-             .Unblock,
-             .WhoMadeThis:
+        case .confirm,
+             .downloads,
+             .email,
+             .external,
+             .faceMaker,
+             .forgotMyPassword,
+             .freedomOfSpeech,
+             .manifesto,
+             .nativeRedirect,
+             .passwordResetError,
+             .randomSearch,
+             .requestInvitation,
+             .requestInvitations,
+             .requestInvite,
+             .resetMyPassword,
+             .subdomain,
+             .unblock,
+             .whoMadeThis:
             return false
         default:
             return true
@@ -112,8 +112,8 @@ public enum ElloURI: String {
     }
 
     // get the proper domain
-    private static var _httpProtocol: String?
-    public static var httpProtocol: String {
+    fileprivate static var _httpProtocol: String?
+    static var httpProtocol: String {
         get {
             return ElloURI._httpProtocol ?? ElloKeys().httpProtocol()
         }
@@ -123,8 +123,8 @@ public enum ElloURI: String {
             }
         }
     }
-    private static var _domain: String?
-    public static var domain: String {
+    fileprivate static var _domain: String?
+    static var domain: String {
         get {
         return ElloURI._domain ?? ElloKeys().domain()
         }
@@ -134,93 +134,93 @@ public enum ElloURI: String {
             }
         }
     }
-    public static var baseURL: String { return "\(ElloURI.httpProtocol)://\(ElloURI.domain)" }
+    static var baseURL: String { return "\(ElloURI.httpProtocol)://\(ElloURI.domain)" }
 
     // this is taken directly from app/models/user.rb
     static let usernameRegex = "([\\w\\-]+)"
     static let fuzzyDomain: String = "((w{3}\\.)?ello\\.(?:ninja|co)|ello-stag(?:ing|e)\\d?\\.herokuapp\\.com|ello-fg-stage\\d?\\.herokuapp\\.com)"
     static var userPathRegex: String { return "\(ElloURI.fuzzyDomain)\\/\(ElloURI.usernameRegex)\\??.*" }
 
-    public static func match(url: String) -> (type: ElloURI, data: String) {
+    static func match(_ url: String) -> (type: ElloURI, data: String) {
         let trimmed = ElloURI.replaceElloScheme(url)
         for type in self.all {
-            if let _ = trimmed.rangeOfString(type.regexPattern, options: .RegularExpressionSearch) {
+            if let _ = trimmed.range(of: type.regexPattern, options: .regularExpression) {
                 return (type, type.data(trimmed))
             }
         }
-        return (self.External, self.External.data(trimmed))
+        return (self.external, self.external.data(trimmed))
     }
 
-    private var regexPattern: String {
+    fileprivate var regexPattern: String {
         switch self {
-        case .Email,
-             .External:
+        case .email,
+             .external:
             return rawValue
-        case .Category, .Invite, .Notifications, .Search:
+        case .category, .invite, .notifications, .search:
             return "\(ElloURI.fuzzyDomain)\\/\(rawValue)"
-        case .Post:
+        case .post:
             return "\(ElloURI.userPathRegex)\(rawValue)"
-        case .PushNotificationComment,
-             .PushNotificationPost,
-             .PushNotificationUser:
+        case .pushNotificationComment,
+             .pushNotificationPost,
+             .pushNotificationUser:
             return "\(rawValue)"
-        case .Profile:
+        case .profile:
             return "\(ElloURI.userPathRegex)\(rawValue)"
-        case .ProfileFollowers,
-             .ProfileFollowing,
-             .ProfileLoves:
+        case .profileFollowers,
+             .profileFollowing,
+             .profileLoves:
             return "\(ElloURI.userPathRegex)\(rawValue)"
-        case .Subdomain:
+        case .subdomain:
             return "\(rawValue)\(ElloURI.fuzzyDomain)"
         default:
             return "\(ElloURI.fuzzyDomain)\\/\(rawValue)\\/?$"
         }
     }
 
-    private static func replaceElloScheme(path: String) -> String {
-        if path.beginsWith("ello://") {
-            return path.stringByReplacingOccurrencesOfString("ello://", withString: "\(baseURL)/")
+    fileprivate static func replaceElloScheme(_ path: String) -> String {
+        if path.hasPrefix("ello://") {
+            return path.replacingOccurrences(of: "ello://", with: "\(baseURL)/")
         }
         return path
     }
 
-    private func data(url: String) -> String {
+    fileprivate func data(_ url: String) -> String {
         let regex = Regex(self.regexPattern)
         switch self {
-        case .Discover:
+        case .discover:
             return "recommended"
-        case .DiscoverRandom:
+        case .discoverRandom:
             return "random"
-        case .DiscoverRecent:
+        case .discoverRecent:
             return "recent"
-        case .DiscoverRelated:
+        case .discoverRelated:
             return "related"
-        case .DiscoverTrending:
+        case .discoverTrending:
             return "trending"
-        case .Category:
+        case .category:
             return regex?.matchingGroups(url).safeValue(2) ?? url
-        case .PushNotificationUser:
+        case .pushNotificationUser:
             return regex?.matchingGroups(url).safeValue(1) ?? url
-        case .PushNotificationComment:
+        case .pushNotificationComment:
             return regex?.matchingGroups(url).safeValue(1) ?? url
-        case .Invite:
+        case .invite:
             return regex?.matchingGroups(url).safeValue(2) ?? url
-        case .Notifications:
+        case .notifications:
             return regex?.matchingGroups(url).safeValue(2) ?? "notifications"
-        case .ProfileFollowers, .ProfileFollowing, .ProfileLoves:
+        case .profileFollowers, .profileFollowing, .profileLoves:
             return regex?.matchingGroups(url).safeValue(2) ?? url
-        case .Post:
+        case .post:
             let last = regex?.matchingGroups(url).safeValue(3) ?? url
             let lastArr = last.characters.split { $0 == "?" }.map { String($0) }
             return lastArr.first ?? last
-        case .PushNotificationPost:
+        case .pushNotificationPost:
             return regex?.matchingGroups(url).safeValue(1) ?? url
-        case .Profile:
+        case .profile:
             return regex?.matchingGroups(url).safeValue(2) ?? url
-        case .Search:
-            if let urlComponents = NSURLComponents(string: url),
-                queryItems = urlComponents.queryItems,
-                terms = (queryItems.filter { $0.name == "terms" }.first?.value)
+        case .search:
+            if let urlComponents = URLComponents(string: url),
+                let queryItems = urlComponents.queryItems,
+                let terms = (queryItems.filter { $0.name == "terms" }.first?.value)
             {
                 return terms
             }
@@ -233,63 +233,63 @@ public enum ElloURI: String {
 
     // Order matters: [MostSpecific, MostGeneric]
     static let all = [
-        Email,
-        Subdomain,
-        Post,
-        WTF,
-        Root,
+        email,
+        subdomain,
+        post,
+        wtf,
+        root,
         // generic / pages
-        BetaPublicProfiles,
-        Confirm,
-        Discover,
-        DiscoverRandom,
-        DiscoverRecent,
-        DiscoverRelated,
-        DiscoverTrending,
-        Category,
-        Downloads,
-        Enter,
-        Exit,
-        Explore,
-        ExploreRecommended,
-        ExploreRecent,
-        ExploreTrending,
-        ForgotMyPassword,
-        FreedomOfSpeech,
-        FaceMaker,
-        Friends,
-        Following,
-        Invitations,
-        Invite,
-        Join,
-        Login,
-        Manifesto,
-        NativeRedirect,
-        Noise,
-        PushNotificationComment,
-        PushNotificationPost,
-        PushNotificationUser,
-        Notifications,
-        Onboarding,
-        PasswordResetError,
-        RandomSearch,
-        RequestInvite,
-        RequestInvitation,
-        RequestInvitations,
-        ResetMyPassword,
-        SearchPeople,
-        SearchPosts,
-        Search,
-        Settings,
-        Starred,
-        Unblock,
-        WhoMadeThis,
+        betaPublicProfiles,
+        confirm,
+        discover,
+        discoverRandom,
+        discoverRecent,
+        discoverRelated,
+        discoverTrending,
+        category,
+        downloads,
+        enter,
+        exit,
+        explore,
+        exploreRecommended,
+        exploreRecent,
+        exploreTrending,
+        forgotMyPassword,
+        freedomOfSpeech,
+        faceMaker,
+        friends,
+        following,
+        invitations,
+        invite,
+        join,
+        login,
+        manifesto,
+        nativeRedirect,
+        noise,
+        pushNotificationComment,
+        pushNotificationPost,
+        pushNotificationUser,
+        notifications,
+        onboarding,
+        passwordResetError,
+        randomSearch,
+        requestInvite,
+        requestInvitation,
+        requestInvitations,
+        resetMyPassword,
+        searchPeople,
+        searchPosts,
+        search,
+        settings,
+        starred,
+        unblock,
+        whoMadeThis,
         // profile specific
-        ProfileFollowing,
-        ProfileFollowers,
-        ProfileLoves,
-        Profile,
+        profileFollowing,
+        profileFollowers,
+        profileLoves,
+        profile,
         // anything else
-        External
+        external
     ]
 }

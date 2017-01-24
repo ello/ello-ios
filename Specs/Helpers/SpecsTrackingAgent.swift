@@ -2,41 +2,41 @@
 ///  SpecsTrackingAgent.swift
 //
 
-import Ello
+@testable import Ello
 
-public class SpecsTrackingAgent: AnalyticsAgent {
+class SpecsTrackingAgent: AnalyticsAgent {
 
-    public var resetCalled = false
-    public var lastEvent = ""
-    public var lastUserId = ""
-    public var lastTraits: [NSObject: AnyObject] = [:]
-    public var lastScreenTitle = ""
-    public var lastProperties: [NSObject: AnyObject] = [:]
+    var resetCalled = false
+    var lastEvent = ""
+    var lastUserId = ""
+    var lastTraits: [AnyHashable: Any] = [:]
+    var lastScreenTitle = ""
+    var lastProperties: [AnyHashable: Any] = [:]
 
-    public func identify(userId: String!, traits: [NSObject: AnyObject]!) {
+    func identify(_ userId: String!, traits: [AnyHashable: Any]!) {
         lastUserId = userId
         lastTraits = traits
     }
 
-    public func track(event: String!) {
+    func track(_ event: String!) {
         lastEvent = event
     }
 
-    public func track(event: String!, properties: [NSObject: AnyObject]!) {
+    func track(_ event: String!, properties: [AnyHashable: Any]!) {
         lastEvent = event
         lastProperties = properties
     }
 
-    public func screen(screenTitle: String!) {
+    func screen(_ screenTitle: String!) {
         lastScreenTitle = screenTitle
     }
 
-    public func screen(screenTitle: String!, properties: [NSObject: AnyObject]!) {
+    func screen(_ screenTitle: String!, properties: [AnyHashable: Any]!) {
         lastScreenTitle = screenTitle ?? ""
         lastProperties = properties ?? [:]
     }
 
-    public func reset() {
+    func reset() {
         resetCalled = true
     }
 }

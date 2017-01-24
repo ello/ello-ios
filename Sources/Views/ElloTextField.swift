@@ -2,22 +2,22 @@
 ///  ElloTextField.swift
 //
 
-public class ElloTextField: UITextField {
-    public var firstResponderDidChange: (Bool -> Void)?
+class ElloTextField: UITextField {
+    var firstResponderDidChange: ((Bool) -> Void)?
     var hasOnePassword = false
-    var validationState = ValidationState.None {
+    var validationState = ValidationState.none {
         didSet {
-            self.rightViewMode = .Always
+            self.rightViewMode = .always
             self.rightView = UIImageView(image: validationState.imageRepresentation)
         }
     }
 
-    required override public init(frame: CGRect) {
+    required override init(frame: CGRect) {
         super.init(frame: frame)
         self.sharedSetup()
     }
 
-    required public init?(coder: NSCoder) {
+    required init?(coder: NSCoder) {
         super.init(coder: coder)
         self.sharedSetup()
     }
@@ -25,21 +25,21 @@ public class ElloTextField: UITextField {
     func sharedSetup() {
         self.backgroundColor = UIColor.greyE5()
         self.font = UIFont.defaultFont()
-        self.textColor = UIColor.blackColor()
+        self.textColor = UIColor.black
 
         self.setNeedsDisplay()
     }
 
-    override public func textRectForBounds(bounds: CGRect) -> CGRect {
+    override func textRect(forBounds bounds: CGRect) -> CGRect {
         return rectForBounds(bounds)
     }
 
-    override public func editingRectForBounds(bounds: CGRect) -> CGRect {
+    override func editingRect(forBounds bounds: CGRect) -> CGRect {
         return rectForBounds(bounds)
     }
 
-    override public func clearButtonRectForBounds(bounds: CGRect) -> CGRect {
-        var rect = super.clearButtonRectForBounds(bounds)
+    override func clearButtonRect(forBounds bounds: CGRect) -> CGRect {
+        var rect = super.clearButtonRect(forBounds: bounds)
         rect.origin.x -= 10
         if hasOnePassword {
             rect.origin.x -= 44
@@ -47,33 +47,33 @@ public class ElloTextField: UITextField {
         return rect
     }
 
-    override public func rightViewRectForBounds(bounds: CGRect) -> CGRect {
-        var rect = super.rightViewRectForBounds(bounds)
+    override func rightViewRect(forBounds bounds: CGRect) -> CGRect {
+        var rect = super.rightViewRect(forBounds: bounds)
         rect.origin.x -= 10
         return rect
     }
 
-    override public func leftViewRectForBounds(bounds: CGRect) -> CGRect {
-        var rect = super.leftViewRectForBounds(bounds)
+    override func leftViewRect(forBounds bounds: CGRect) -> CGRect {
+        var rect = super.leftViewRect(forBounds: bounds)
         rect.origin.x += 11
         return rect
     }
 
-    private func rectForBounds(bounds: CGRect) -> CGRect {
-        var rect = bounds.shrinkLeft(15).inset(topBottom: 10, sides: 15)
+    fileprivate func rectForBounds(_ bounds: CGRect) -> CGRect {
+        var rect = bounds.shrink(left: 15).inset(topBottom: 10, sides: 15)
         if let leftView = leftView {
-            rect = rect.shrinkRight(leftView.frame.size.width + 6)
+            rect = rect.shrink(right: leftView.frame.size.width + 6)
         }
         return rect
     }
 
-    override public func becomeFirstResponder() -> Bool {
+    override func becomeFirstResponder() -> Bool {
         let val = super.becomeFirstResponder()
         firstResponderDidChange?(true)
         return val
     }
 
-    override public func resignFirstResponder() -> Bool {
+    override func resignFirstResponder() -> Bool {
         let val = super.resignFirstResponder()
         firstResponderDidChange?(false)
         return val

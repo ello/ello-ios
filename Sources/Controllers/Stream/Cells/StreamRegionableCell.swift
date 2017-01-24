@@ -4,23 +4,23 @@
 
 import Foundation
 
-public class StreamRegionableCell: UICollectionViewCell {
-    public var leftBorder = CALayer()
+class StreamRegionableCell: UICollectionViewCell {
+    var leftBorder = CALayer()
 
-    override public func awakeFromNib() {
+    override func awakeFromNib() {
         super.awakeFromNib()
-        leftBorder.backgroundColor = UIColor.blackColor().CGColor
+        leftBorder.backgroundColor = UIColor.black.cgColor
     }
 
-    public func showBorder() {
+    func showBorder() {
         self.layer.addSublayer(leftBorder)
     }
 
-    public func hideBorder() {
+    func hideBorder() {
         leftBorder.removeFromSuperlayer()
     }
 
-    override public func layoutSubviews() {
+    override func layoutSubviews() {
         leftBorder.frame = CGRect(x: 15, y: 0, width: 1, height: self.bounds.height)
         super.layoutSubviews()
     }

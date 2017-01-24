@@ -3,38 +3,38 @@
 //
 
 @objc
-public protocol NotificationsScreenDelegate {
-    func activatedCategory(filter: String)
+protocol NotificationsScreenDelegate {
+    func activatedCategory(_ filter: String)
 }
 
-public class NotificationsScreen: UIView {
+class NotificationsScreen: UIView {
 
-    private let filterAllButton = NotificationsScreen.filterButton(title: "All")
-    private let filterCommentsButton = NotificationsScreen.filterButton(image: .Comments)
-    private let filterMentionButton = NotificationsScreen.filterButton(title: "@")
-    private let filterHeartButton = NotificationsScreen.filterButton(image: .Heart)
-    private let filterRepostButton = NotificationsScreen.filterButton(image: .Repost)
-    private let filterInviteButton = NotificationsScreen.filterButton(image: .Invite)
+    fileprivate let filterAllButton = NotificationsScreen.filterButton(title: "All")
+    fileprivate let filterCommentsButton = NotificationsScreen.filterButton(image: .comments)
+    fileprivate let filterMentionButton = NotificationsScreen.filterButton(title: "@")
+    fileprivate let filterHeartButton = NotificationsScreen.filterButton(image: .heart)
+    fileprivate let filterRepostButton = NotificationsScreen.filterButton(image: .repost)
+    fileprivate let filterInviteButton = NotificationsScreen.filterButton(image: .invite)
 
-    private class func filterButton() -> UIButton {
+    fileprivate class func filterButton() -> UIButton {
         let button = UIButton()
         button.titleLabel?.font = UIFont.defaultFont()
-        button.setTitleColor(UIColor.whiteColor(), forState: .Selected)
-        button.setTitleColor(UIColor.greyA(), forState: .Normal)
-        button.setBackgroundImage(UIImage.imageWithColor(UIColor.blackColor()), forState: .Selected)
-        button.setBackgroundImage(UIImage.imageWithColor(UIColor.greyE5()), forState: .Normal)
+        button.setTitleColor(UIColor.white, for: .selected)
+        button.setTitleColor(UIColor.greyA(), for: .normal)
+        button.setBackgroundImage(UIImage.imageWithColor(UIColor.black), for: .selected)
+        button.setBackgroundImage(UIImage.imageWithColor(UIColor.greyE5()), for: .normal)
         return button
     }
-    private class func filterButton(image interfaceImage: InterfaceImage) -> UIButton {
+    fileprivate class func filterButton(image interfaceImage: InterfaceImage) -> UIButton {
         let button = filterButton()
-        button.setImage(interfaceImage.normalImage, forState: .Normal)
-        button.setImage(interfaceImage.whiteImage, forState: .Selected)
-        button.imageView!.contentMode = .ScaleAspectFit
+        button.setImage(interfaceImage.normalImage, for: .normal)
+        button.setImage(interfaceImage.whiteImage, for: .selected)
+        button.imageView!.contentMode = .scaleAspectFit
         return button
     }
-    private class func filterButton(title title: String) -> UIButton {
+    fileprivate class func filterButton(title: String) -> UIButton {
         let button = filterButton()
-        button.setTitle(title, forState: .Normal)
+        button.setTitle(title, for: .normal)
         return button
     }
 
@@ -45,12 +45,12 @@ public class NotificationsScreen: UIView {
 
     var navBarVisible = true
 
-    override public init(frame: CGRect) {
+    override init(frame: CGRect) {
 
         filterMentionButton.titleLabel!.font = UIFont.defaultFont(16)
 
         super.init(frame: frame)
-        backgroundColor = UIColor.whiteColor()
+        backgroundColor = UIColor.white
         self.addSubview(streamContainer)
 
         for (button, action) in [
@@ -62,52 +62,52 @@ public class NotificationsScreen: UIView {
             (filterInviteButton, "inviteButtonTapped:"),
         ] {
             filterBar.addSubview(button)
-            button.addTarget(self, action: Selector(action), forControlEvents: .TouchUpInside)
+            button.addTarget(self, action: Selector(action), for: .touchUpInside)
         }
         filterBar.selectButton(filterAllButton)
         self.addSubview(filterBar)
     }
 
-    required public init?(coder: NSCoder) {
+    required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
 
-    override public func layoutSubviews() {
+    override func layoutSubviews() {
         super.layoutSubviews()
 
         positionFilterBar()
         streamContainer.frame = self.bounds.fromTop()
-            .withHeight(self.frame.height)
+            .with(height: self.frame.height)
     }
 
-    func allButtonTapped(sender: UIButton) {
+    func allButtonTapped(_ sender: UIButton) {
         filterBar.selectButton(sender)
-        delegate?.activatedCategory(NotificationFilterType.All.rawValue)
+        delegate?.activatedCategory(NotificationFilterType.all.rawValue)
     }
 
-    func commentsButtonTapped(sender: UIButton) {
+    func commentsButtonTapped(_ sender: UIButton) {
         filterBar.selectButton(sender)
-        delegate?.activatedCategory(NotificationFilterType.Comments.rawValue)
+        delegate?.activatedCategory(NotificationFilterType.comments.rawValue)
     }
 
-    func mentionButtonTapped(sender: UIButton) {
+    func mentionButtonTapped(_ sender: UIButton) {
         filterBar.selectButton(sender)
-        delegate?.activatedCategory(NotificationFilterType.Mention.rawValue)
+        delegate?.activatedCategory(NotificationFilterType.mention.rawValue)
     }
 
-    func heartButtonTapped(sender: UIButton) {
+    func heartButtonTapped(_ sender: UIButton) {
         filterBar.selectButton(sender)
-        delegate?.activatedCategory(NotificationFilterType.Heart.rawValue)
+        delegate?.activatedCategory(NotificationFilterType.heart.rawValue)
     }
 
-    func repostButtonTapped(sender: UIButton) {
+    func repostButtonTapped(_ sender: UIButton) {
         filterBar.selectButton(sender)
-        delegate?.activatedCategory(NotificationFilterType.Repost.rawValue)
+        delegate?.activatedCategory(NotificationFilterType.repost.rawValue)
     }
 
-    func inviteButtonTapped(sender: UIButton) {
+    func inviteButtonTapped(_ sender: UIButton) {
         filterBar.selectButton(sender)
-        delegate?.activatedCategory(NotificationFilterType.Relationship.rawValue)
+        delegate?.activatedCategory(NotificationFilterType.relationship.rawValue)
     }
 }
 
@@ -115,27 +115,28 @@ public class NotificationsScreen: UIView {
 // MARK: Filter Bar
 extension NotificationsScreen {
 
-    func selectFilterButton(filterType: NotificationFilterType) {
+    func selectFilterButton(_ filterType: NotificationFilterType) {
         switch filterType {
-        case .All: filterBar.selectButton(filterAllButton)
-        case .Comments: filterBar.selectButton(filterCommentsButton)
-        case .Mention: filterBar.selectButton(filterMentionButton)
-        case .Heart: filterBar.selectButton(filterHeartButton)
-        case .Repost: filterBar.selectButton(filterRepostButton)
-        case .Relationship: filterBar.selectButton(filterInviteButton)
+        case .all: filterBar.selectButton(filterAllButton)
+        case .comments: filterBar.selectButton(filterCommentsButton)
+        case .mention: filterBar.selectButton(filterMentionButton)
+        case .heart: filterBar.selectButton(filterHeartButton)
+        case .repost: filterBar.selectButton(filterRepostButton)
+        case .relationship: filterBar.selectButton(filterInviteButton)
         }
     }
 
-    func animateNavigationBar(visible visible: Bool) {
+    func animateNavigationBar(visible: Bool) {
         navBarVisible = visible
         animate {
             self.positionFilterBar()
         }
-        UIApplication.sharedApplication().setStatusBarHidden(!visible, withAnimation: .None)
+//        UIApplication.shared.
+//        UIApplication.shared.setStatusBarHidden(!visible, with: .none)
     }
 
-    private func positionFilterBar() {
-        filterBar.frame = self.bounds.withHeight(NotificationsFilterBar.Size.height)
+    fileprivate func positionFilterBar() {
+        filterBar.frame = self.bounds.with(height: NotificationsFilterBar.Size.height)
         if navBarVisible {
             filterBar.frame.origin.y = 0
         }

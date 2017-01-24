@@ -19,7 +19,7 @@ class ProfileStatsViewSpec: QuickSpec {
                 subject.followingCount = "4.5K"
                 subject.followersCount = "∞"
                 subject.lovesCount = "6.78M"
-                expectValidSnapshot(subject, named: "ProfileStatsView", device: .Custom(subject.frame.size))
+                expectValidSnapshot(subject, named: "ProfileStatsView", device: .custom(subject.frame.size))
             }
 
             it("highlights button presses") {
@@ -34,8 +34,8 @@ class ProfileStatsViewSpec: QuickSpec {
                 let button: UIButton! = subviewThatMatches(subject) { view in
                     return view is UIButton
                 }
-                button.sendActionsForControlEvents(.TouchDown)
-                expectValidSnapshot(subject, named: "ProfileStatsView-highlighted", device: .Custom(subject.frame.size))
+                button.sendActions(for: .touchDown)
+                expectValidSnapshot(subject, named: "ProfileStatsView-highlighted", device: .custom(subject.frame.size))
             }
         }
     }

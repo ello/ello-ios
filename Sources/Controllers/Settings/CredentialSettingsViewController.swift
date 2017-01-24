@@ -6,59 +6,59 @@ import Foundation
 
 private let CredentialSettingsSubmitViewHeight: CGFloat = 128
 
-public protocol CredentialSettingsDelegate: class {
-    func credentialSettingsUserChanged(user: User)
+protocol CredentialSettingsDelegate: class {
+    func credentialSettingsUserChanged(_ user: User)
     func credentialSettingsDidUpdate()
 }
 
 private enum CredentialSettingsRow: Int {
-    case Username
-    case Email
-    case Password
-    case Submit
-    case Unknown
+    case username
+    case email
+    case password
+    case submit
+    case unknown
 }
 
-public class CredentialSettingsViewController: UITableViewController {
-    weak public var usernameView: ElloTextFieldView!
-    weak public var emailView: ElloTextFieldView!
-    weak public var passwordView: ElloTextFieldView!
-    @IBOutlet weak public var currentPasswordField: ElloTextField!
-    weak public var errorLabel: StyledLabel!
-    @IBOutlet weak public var saveButton: StyledButton!
+class CredentialSettingsViewController: UITableViewController {
+    weak var usernameView: ElloTextFieldView!
+    weak var emailView: ElloTextFieldView!
+    weak var passwordView: ElloTextFieldView!
+    @IBOutlet weak var currentPasswordField: ElloTextField!
+    weak var errorLabel: StyledLabel!
+    @IBOutlet weak var saveButton: StyledButton!
 
-    public var currentUser: User? {
+    var currentUser: User? {
         didSet {
-            if isViewLoaded() {
+            if isViewLoaded {
                 setupViews()
             }
         }
     }
-    weak public var delegate: CredentialSettingsDelegate?
+    weak var delegate: CredentialSettingsDelegate?
     var validationCancel: BasicBlock?
 
-    public var isUpdatable: Bool {
+    var isUpdatable: Bool {
         return currentUser?.username != usernameView.textField.text
             || currentUser?.profile?.email != emailView.textField.text
             || passwordView.textField.text?.isEmpty == false
     }
 
-    public var height: CGFloat {
+    var height: CGFloat {
         let cellHeights = usernameView.height + emailView.height + passwordView.height
         return cellHeights + (isUpdatable ? submitViewHeight : 0)
     }
 
-    private var password: String { return passwordView.textField.text ?? "" }
-    private var currentPassword: String { return currentPasswordField.text ?? "" }
-    private var username: String { return usernameView.textField.text ?? "" }
-    private var email: String { return emailView.textField.text ?? "" }
+    fileprivate var password: String { return passwordView.textField.text ?? "" }
+    fileprivate var currentPassword: String { return currentPasswordField.text ?? "" }
+    fileprivate var username: String { return usernameView.textField.text ?? "" }
+    fileprivate var email: String { return emailView.textField.text ?? "" }
 
-    override public func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
     }
 
-    private func setupViews() {
+    fileprivate func setupViews() {
         ElloTextFieldView.styleAsUsername(usernameView)
         usernameView.textField.text = currentUser?.username
         usernameView.textFieldDidChange = self.usernameChanged
@@ -70,28 +70,28 @@ public class CredentialSettingsViewController: UITableViewController {
         ElloTextFieldView.styleAsPassword(passwordView)
         passwordView.textFieldDidChange = self.passwordChanged
 
-        currentPasswordField.addTarget(self, action: #selector(CredentialSettingsViewController.currentPasswordChanged), forControlEvents: .EditingChanged)
+        currentPasswordField.addTarget(self, action: #selector(CredentialSettingsViewController.currentPasswordChanged), for: .editingChanged)
 
         tableView.scrollsToTop = false
     }
 
-    private func emailChanged(text: String) {
-        self.emailView.setState(.Loading)
+    fileprivate func emailChanged(_ text: String) {
+        self.emailView.setState(.loading)
         self.emailView.setErrorMessage("")
         self.updateView()
 
         self.validationCancel?()
         self.validationCancel = cancelableDelay(0.5) { [unowned self] in
             if text.isEmpty {
-                self.emailView.setState(.Error)
+                self.emailView.setState(.error)
                 self.updateView()
             } else if text == self.currentUser?.profile?.email {
-                self.emailView.setState(.None)
+                self.emailView.setState(.none)
                 self.updateView()
             } else if Validator.isValidEmail(text) {
                 AvailabilityService().emailAvailability(text, success: { availability in
                     if text != self.emailView.textField.text { return }
-                    let state: ValidationState = availability.isEmailAvailable ? .OK : .Error
+                    let state: ValidationState = availability.isEmailAvailable ? .ok : .error
 
                     if !availability.isEmailAvailable {
                         let msg = InterfaceString.Validator.EmailInvalid
@@ -100,11 +100,11 @@ public class CredentialSettingsViewController: UITableViewController {
                     self.emailView.setState(state)
                     self.updateView()
                 }, failure: { _, _ in
-                    self.emailView.setState(.None)
+                    self.emailView.setState(.none)
                     self.updateView()
                 })
             } else {
-                self.emailView.setState(.Error)
+                self.emailView.setState(.error)
                 let msg = InterfaceString.Validator.EmailInvalid
                 self.emailView.setErrorMessage(msg)
                 self.updateView()
@@ -112,8 +112,8 @@ public class CredentialSettingsViewController: UITableViewController {
         }
     }
 
-    private func usernameChanged(text: String) {
-        self.usernameView.setState(.Loading)
+    fileprivate func usernameChanged(_ text: String) {
+        self.usernameView.setState(.loading)
         self.usernameView.setErrorMessage("")
         self.usernameView.setMessage("")
         self.updateView()
@@ -121,21 +121,21 @@ public class CredentialSettingsViewController: UITableViewController {
         self.validationCancel?()
         self.validationCancel = cancelableDelay(0.5) { [unowned self] in
             if text.isEmpty {
-                self.usernameView.setState(.Error)
+                self.usernameView.setState(.error)
                 self.updateView()
             } else if text == self.currentUser?.username {
-                self.usernameView.setState(.None)
+                self.usernameView.setState(.none)
                 self.updateView()
             } else {
                 AvailabilityService().usernameAvailability(text, success: { availability in
                     if text != self.usernameView.textField.text { return }
-                    let state: ValidationState = availability.isUsernameAvailable ? .OK : .Error
+                    let state: ValidationState = availability.isUsernameAvailable ? .ok : .error
 
                     if !availability.isUsernameAvailable {
                         let msg = InterfaceString.Join.UsernameUnavailable
                         self.usernameView.setErrorMessage(msg)
                         if !availability.usernameSuggestions.isEmpty {
-                            let suggestions = availability.usernameSuggestions.joinWithSeparator(", ")
+                            let suggestions = availability.usernameSuggestions.joined(separator: ", ")
                             let msg = String(format: InterfaceString.Join.UsernameSuggestionPrefix, suggestions)
                             self.usernameView.setMessage(msg)
                         }
@@ -143,22 +143,22 @@ public class CredentialSettingsViewController: UITableViewController {
                     self.usernameView.setState(state)
                     self.updateView()
                 }, failure: { _, _ in
-                    self.usernameView.setState(.None)
+                    self.usernameView.setState(.none)
                     self.updateView()
                 })
             }
         }
     }
 
-    private func passwordChanged(text: String) {
+    fileprivate func passwordChanged(_ text: String) {
         self.passwordView.setErrorMessage("")
 
         if text.isEmpty {
-            self.passwordView.setState(.None)
+            self.passwordView.setState(.none)
         } else if Validator.isValidPassword(text) {
-            self.passwordView.setState(.OK)
+            self.passwordView.setState(.ok)
         } else {
-            self.passwordView.setState(.Error)
+            self.passwordView.setState(.error)
             let msg = InterfaceString.Validator.PasswordInvalid
             self.passwordView.setErrorMessage(msg)
         }
@@ -166,45 +166,45 @@ public class CredentialSettingsViewController: UITableViewController {
         self.updateView()
     }
 
-    private func updateView() {
+    fileprivate func updateView() {
         self.tableView.beginUpdates()
         self.tableView.endUpdates()
         valueChanged()
     }
 
-    public func valueChanged() {
+    func valueChanged() {
         delegate?.credentialSettingsDidUpdate()
     }
 
-    override public func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        switch CredentialSettingsRow(rawValue: indexPath.row) ?? .Unknown {
-        case .Username: return usernameView.height
-        case .Email: return emailView.height
-        case .Password: return passwordView.height
-        case .Submit: return submitViewHeight
-        case .Unknown: return 0
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        switch CredentialSettingsRow(rawValue: indexPath.row) ?? .unknown {
+        case .username: return usernameView.height
+        case .email: return emailView.height
+        case .password: return passwordView.height
+        case .submit: return submitViewHeight
+        case .unknown: return 0
         }
     }
 
-    private var submitViewHeight: CGFloat {
+    fileprivate var submitViewHeight: CGFloat {
         let height = CredentialSettingsSubmitViewHeight
         return height + (errorLabel.text?.isEmpty == false ? errorLabel.frame.height + 8 : 0)
     }
 
-    public func currentPasswordChanged() {
-        saveButton.enabled = Validator.isValidPassword(currentPassword)
+    func currentPasswordChanged() {
+        saveButton.isEnabled = Validator.isValidPassword(currentPassword)
     }
 
     @IBAction func saveButtonTapped() {
         var content: [String: AnyObject] = [
-            "username": username,
-            "email": email,
-            "current_password": currentPassword
+            "username": username as AnyObject,
+            "email": email as AnyObject,
+            "current_password": currentPassword as AnyObject
         ]
 
         if !currentPassword.isEmpty {
-            content["password"] = password
-            content["password_confirmation"] = password
+            content["password"] = password as AnyObject?
+            content["password_confirmation"] = password as AnyObject?
         }
 
         ProfileService().updateUserProfile(content, success: { user in
@@ -220,7 +220,7 @@ public class CredentialSettingsViewController: UITableViewController {
         })
     }
 
-    private func resetViews() {
+    fileprivate func resetViews() {
         currentPasswordField.text = ""
         passwordView.textField.text = ""
         errorLabel.text = ""
@@ -231,7 +231,7 @@ public class CredentialSettingsViewController: UITableViewController {
         updateView()
     }
 
-    private func handleError(error: ElloNetworkError) {
+    fileprivate func handleError(_ error: ElloNetworkError) {
         if let message = error.attrs?["password"] {
             passwordView.setErrorMessage(message.first ?? "")
         }
@@ -251,14 +251,14 @@ public class CredentialSettingsViewController: UITableViewController {
     }
 }
 
-public extension CredentialSettingsViewController {
+extension CredentialSettingsViewController {
     class func instantiateFromStoryboard() -> CredentialSettingsViewController {
-        return UIStoryboard(name: "Settings", bundle: NSBundle(forClass: AppDelegate.self)).instantiateViewControllerWithIdentifier("CredentialSettingsViewController") as! CredentialSettingsViewController
+        return UIStoryboard(name: "Settings", bundle: Bundle(for: AppDelegate.self)).instantiateViewController(withIdentifier: "CredentialSettingsViewController") as! CredentialSettingsViewController
     }
 }
 
-public extension CredentialSettingsViewController {
-    public override func scrollViewDidScroll(scrollView: UIScrollView) {
+extension CredentialSettingsViewController {
+    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
         tableView.setContentOffset(.zero, animated: false)
     }
 }

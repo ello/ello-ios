@@ -2,7 +2,7 @@
 ///  ActivitySpec.swift
 //
 
-import Ello
+@testable import Ello
 import Quick
 import Nimble
 
@@ -16,13 +16,13 @@ class ActivitySpec: QuickSpec {
                     let parsedActivities = stubbedJSONDataArray("activity_streams_friend_stream", "activities")
                     let activity = Activity.fromJSON(parsedActivities[0]) as! Activity
                     let createdAtStr = "2014-06-03T00:00:00.000Z"
-                    let createdAt: NSDate = createdAtStr.toNSDate()!
+                    let createdAt = createdAtStr.toDate()!
                     // active record
                     expect(activity.id) == createdAtStr
                     expect(activity.createdAt) == createdAt
                     // required
-                    expect(activity.kind) == Activity.Kind.OwnPost
-                    expect(activity.subjectType) == Activity.SubjectType.Post
+                    expect(activity.kind) == Activity.Kind.ownPost
+                    expect(activity.subjectType) == Activity.SubjectType.post
                     // links
                     expect(activity.subject).to(beAKindOf(Post.self))
                 }
@@ -31,13 +31,13 @@ class ActivitySpec: QuickSpec {
                     let parsedActivities = stubbedJSONDataArray("activity_streams_friend_stream", "activities")
                     let activity = Activity.fromJSON(parsedActivities[1]) as! Activity
                     let createdAtStr = "2014-06-02T00:00:00.000Z"
-                    let createdAt: NSDate = createdAtStr.toNSDate()!
+                    let createdAt = createdAtStr.toDate()!
                     // active record
                     expect(activity.id) == createdAtStr
                     expect(activity.createdAt) == createdAt
                     // required
-                    expect(activity.kind) == Activity.Kind.FriendPost
-                    expect(activity.subjectType) == Activity.SubjectType.Post
+                    expect(activity.kind) == Activity.Kind.friendPost
+                    expect(activity.subjectType) == Activity.SubjectType.post
                     // links
                     expect(activity.subject).to(beAKindOf(Post.self))
                 }
@@ -46,13 +46,13 @@ class ActivitySpec: QuickSpec {
                     let parsedActivities = stubbedJSONDataArray("activity_streams_friend_stream", "activities")
                     let activity = Activity.fromJSON(parsedActivities[2]) as! Activity
                     let createdAtStr = "2014-06-01T00:00:00.000Z"
-                    let createdAt: NSDate = createdAtStr.toNSDate()!
+                    let createdAt = createdAtStr.toDate()!
                     // active record
                     expect(activity.id) == createdAtStr
                     expect(activity.createdAt) == createdAt
                     // required
-                    expect(activity.kind) == Activity.Kind.WelcomePost
-                    expect(activity.subjectType) == Activity.SubjectType.User
+                    expect(activity.kind) == Activity.Kind.welcomePost
+                    expect(activity.subjectType) == Activity.SubjectType.user
                     // links
                     expect(activity.subject).to(beAKindOf(User.self))
                 }
@@ -62,13 +62,13 @@ class ActivitySpec: QuickSpec {
         context("NSCoding") {
 
             var filePath = ""
-            if let url = NSURL(string: NSFileManager.ElloDocumentsDir()) {
-                filePath = url.URLByAppendingPathComponent("ActivitySpec")!.absoluteString!
+            if let url = URL(string: FileManager.ElloDocumentsDir()) {
+                filePath = url.appendingPathComponent("ActivitySpec").absoluteString
             }
 
             afterEach {
                 do {
-                    try NSFileManager.defaultManager().removeItemAtPath(filePath)
+                    try FileManager.default.removeItem(atPath: filePath)
                 }
                 catch {
 
@@ -87,7 +87,7 @@ class ActivitySpec: QuickSpec {
             context("decoding") {
 
                 it("decodes own post successfully") {
-                    let expectedCreatedAt = NSDate()
+                    let expectedCreatedAt = Date()
                     let post: Post = stub(["id" : "768"])
                     let activity: Activity = stub([
                         "subject" : post,
@@ -98,7 +98,7 @@ class ActivitySpec: QuickSpec {
                     ])
 
                     NSKeyedArchiver.archiveRootObject(activity, toFile: filePath)
-                    let unArchivedActivity = NSKeyedUnarchiver.unarchiveObjectWithFile(filePath) as! Activity
+                    let unArchivedActivity = NSKeyedUnarchiver.unarchiveObject(withFile: filePath) as! Activity
 
                     expect(unArchivedActivity).toNot(beNil())
                     expect(unArchivedActivity.version) == 1
@@ -106,8 +106,8 @@ class ActivitySpec: QuickSpec {
                     expect(unArchivedActivity.id) == "456"
                     expect(unArchivedActivity.createdAt) == expectedCreatedAt
                     // required
-                    expect(unArchivedActivity.kind) == Activity.Kind.OwnPost
-                    expect(unArchivedActivity.subjectType) == Activity.SubjectType.Post
+                    expect(unArchivedActivity.kind) == Activity.Kind.ownPost
+                    expect(unArchivedActivity.subjectType) == Activity.SubjectType.post
                     // links
                     let unArchivedPost = unArchivedActivity.subject as! Post
                     expect(unArchivedPost).to(beAKindOf(Post.self))
@@ -115,7 +115,7 @@ class ActivitySpec: QuickSpec {
                 }
 
                 it("decodes friend post successfully") {
-                    let expectedCreatedAt = NSDate()
+                    let expectedCreatedAt = Date()
                     let post: Post = stub(["id" : "768"])
                     let activity: Activity = stub([
                         "subject" : post,
@@ -126,7 +126,7 @@ class ActivitySpec: QuickSpec {
                         ])
 
                     NSKeyedArchiver.archiveRootObject(activity, toFile: filePath)
-                    let unArchivedActivity = NSKeyedUnarchiver.unarchiveObjectWithFile(filePath) as! Activity
+                    let unArchivedActivity = NSKeyedUnarchiver.unarchiveObject(withFile: filePath) as! Activity
 
                     expect(unArchivedActivity).toNot(beNil())
                     expect(unArchivedActivity.version) == 1
@@ -134,8 +134,8 @@ class ActivitySpec: QuickSpec {
                     expect(unArchivedActivity.id) == "456"
                     expect(unArchivedActivity.createdAt) == expectedCreatedAt
                     // required
-                    expect(unArchivedActivity.kind) == Activity.Kind.FriendPost
-                    expect(unArchivedActivity.subjectType) == Activity.SubjectType.Post
+                    expect(unArchivedActivity.kind) == Activity.Kind.friendPost
+                    expect(unArchivedActivity.subjectType) == Activity.SubjectType.post
                     // links
                     let unArchivedPost = unArchivedActivity.subject as! Post
                     expect(unArchivedPost).to(beAKindOf(Post.self))
@@ -143,7 +143,7 @@ class ActivitySpec: QuickSpec {
                 }
 
                 it("decodes welcome post successfully") {
-                    let expectedCreatedAt = NSDate()
+                    let expectedCreatedAt = Date()
                     let user: User = stub(["id" : "768"])
                     let activity: Activity = stub([
                         "subject" : user,
@@ -154,7 +154,7 @@ class ActivitySpec: QuickSpec {
                         ])
 
                     NSKeyedArchiver.archiveRootObject(activity, toFile: filePath)
-                    let unArchivedActivity = NSKeyedUnarchiver.unarchiveObjectWithFile(filePath) as! Activity
+                    let unArchivedActivity = NSKeyedUnarchiver.unarchiveObject(withFile: filePath) as! Activity
 
                     expect(unArchivedActivity).toNot(beNil())
                     expect(unArchivedActivity.version) == 1
@@ -162,8 +162,8 @@ class ActivitySpec: QuickSpec {
                     expect(unArchivedActivity.id) == "456"
                     expect(unArchivedActivity.createdAt) == expectedCreatedAt
                     // required
-                    expect(unArchivedActivity.kind) == Activity.Kind.WelcomePost
-                    expect(unArchivedActivity.subjectType) == Activity.SubjectType.User
+                    expect(unArchivedActivity.kind) == Activity.Kind.welcomePost
+                    expect(unArchivedActivity.subjectType) == Activity.SubjectType.user
                     // links
                     let unArchivedUser = unArchivedActivity.subject as! User
                     expect(unArchivedUser).to(beAKindOf(User.self))
@@ -171,7 +171,7 @@ class ActivitySpec: QuickSpec {
                 }
 
                 it("decodes noise post successfully") {
-                    let expectedCreatedAt = NSDate()
+                    let expectedCreatedAt = Date()
                     let post: Post = stub(["id" : "768"])
                     let activity: Activity = stub([
                         "subject" : post,
@@ -182,7 +182,7 @@ class ActivitySpec: QuickSpec {
                     ])
 
                     NSKeyedArchiver.archiveRootObject(activity, toFile: filePath)
-                    let unArchivedActivity = NSKeyedUnarchiver.unarchiveObjectWithFile(filePath) as! Activity
+                    let unArchivedActivity = NSKeyedUnarchiver.unarchiveObject(withFile: filePath) as! Activity
 
                     expect(unArchivedActivity).toNot(beNil())
                     expect(unArchivedActivity.version) == 1
@@ -190,8 +190,8 @@ class ActivitySpec: QuickSpec {
                     expect(unArchivedActivity.id) == "456"
                     expect(unArchivedActivity.createdAt) == expectedCreatedAt
                     // required
-                    expect(unArchivedActivity.kind) == Activity.Kind.NoisePost
-                    expect(unArchivedActivity.subjectType) == Activity.SubjectType.Post
+                    expect(unArchivedActivity.kind) == Activity.Kind.noisePost
+                    expect(unArchivedActivity.subjectType) == Activity.SubjectType.post
                     // links
                     let unArchivedPost = unArchivedActivity.subject as! Post
                     expect(unArchivedPost).to(beAKindOf(Post.self))

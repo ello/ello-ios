@@ -5,95 +5,95 @@
 import Foundation
 import UIKit
 
-public class ContentFlagger {
+class ContentFlagger {
 
     var contentFlagged: Bool?
 
-    weak public var presentingController: UIViewController?
+    weak var presentingController: UIViewController?
     let flaggableId: String
     let contentType: ContentType
     var commentPostId: String?
 
-    public init(presentingController: UIViewController, flaggableId: String, contentType: ContentType, commentPostId: String? = nil) {
+    init(presentingController: UIViewController, flaggableId: String, contentType: ContentType, commentPostId: String? = nil) {
         self.presentingController = presentingController
         self.flaggableId = flaggableId
         self.contentType = contentType
         self.commentPostId = commentPostId
     }
 
-    public enum AlertOption: String {
-        case Spam = "Spam"
-        case Violence = "Violence"
-        case Copyright = "Copyright infringement"
-        case Threatening = "Threatening"
-        case Hate = "Hate Speech"
-        case Adult = "NSFW Content"
-        case DontLike = "I don't like it"
+    enum AlertOption: String {
+        case spam = "Spam"
+        case violence = "Violence"
+        case copyright = "Copyright infringement"
+        case threatening = "Threatening"
+        case hate = "Hate Speech"
+        case adult = "NSFW Content"
+        case dontLike = "I don't like it"
 
-        public var name: String {
+        var name: String {
             return self.rawValue
         }
 
-        public var kind: String {
+        var kind: String {
             switch self {
-            case Spam: return "spam"
-            case Violence: return "violence"
-            case Copyright: return "copyright"
-            case Threatening: return "threatening"
-            case Hate: return "hate_speech"
-            case Adult: return "adult"
-            case DontLike: return "offensive"
+            case .spam: return "spam"
+            case .violence: return "violence"
+            case .copyright: return "copyright"
+            case .threatening: return "threatening"
+            case .hate: return "hate_speech"
+            case .adult: return "adult"
+            case .dontLike: return "offensive"
             }
         }
 
-        static let all = [Spam, Violence, Copyright, Threatening, Hate, Adult, DontLike]
+        static let all = [spam, violence, copyright, threatening, hate, adult, dontLike]
     }
 
-    func handler(action: AlertAction) {
+    func handler(_ action: AlertAction) {
         let option = AlertOption(rawValue: action.title)
         if let option = option {
             let endPoint: ElloAPI
             switch contentType {
-            case .Post:
-                endPoint = ElloAPI.FlagPost(postId: flaggableId, kind: option.kind)
-            case .Comment:
-                endPoint = ElloAPI.FlagComment(postId: commentPostId!, commentId: flaggableId, kind: option.kind)
-            case .User:
-                endPoint = ElloAPI.FlagUser(userId: flaggableId, kind: option.kind)
+            case .post:
+                endPoint = ElloAPI.flagPost(postId: flaggableId, kind: option.kind)
+            case .comment:
+                endPoint = ElloAPI.flagComment(postId: commentPostId!, commentId: flaggableId, kind: option.kind)
+            case .user:
+                endPoint = ElloAPI.flagUser(userId: flaggableId, kind: option.kind)
             }
 
             let service = ContentFlaggingService()
             service.flagContent(endPoint, success: {
-                Tracker.sharedTracker.contentFlagged(self.contentType, flag: option, contentId: self.flaggableId)
+                Tracker.shared.contentFlagged(self.contentType, flag: option, contentId: self.flaggableId)
                 self.contentFlagged = true
             }, failure: { (error, statusCode) in
                 let message = error.elloErrorMessage ?? error.localizedDescription
-                Tracker.sharedTracker.contentFlaggingFailed(self.contentType, message: message, contentId: self.flaggableId)
+                Tracker.shared.contentFlaggingFailed(self.contentType, message: message, contentId: self.flaggableId)
                 self.contentFlagged = false
             })
         }
     }
 
-    public func displayFlaggingSheet() {
+    func displayFlaggingSheet() {
         guard let presentingController = presentingController else {
             return
         }
 
-        let alertController = AlertViewController(message: "Would you like to flag this content as:", textAlignment: .Left)
+        let alertController = AlertViewController(message: "Would you like to flag this content as:", textAlignment: .left)
 
         for option in AlertOption.all {
-            let action = AlertAction(title: option.name, style: .Dark, handler: handler)
+            let action = AlertAction(title: option.name, style: .dark, handler: handler)
             alertController.addAction(action)
         }
 
-        let cancelAction = AlertAction(title: InterfaceString.Cancel, style: .Light) { _ in
-            Tracker.sharedTracker.contentFlaggingCanceled(self.contentType, contentId: self.flaggableId)
+        let cancelAction = AlertAction(title: InterfaceString.Cancel, style: .light) { _ in
+            Tracker.shared.contentFlaggingCanceled(self.contentType, contentId: self.flaggableId)
         }
 
         alertController.addAction(cancelAction)
 
         logPresentingAlert(presentingController.readableClassName())
-        presentingController.presentViewController(alertController, animated: true, completion: .None)
+        presentingController.present(alertController, animated: true, completion: .none)
     }
 
 }

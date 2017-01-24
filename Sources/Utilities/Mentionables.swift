@@ -3,7 +3,7 @@
 //
 
 struct Mentionables {
-    static func findAll(regions: [Regionable]) -> [String] {
+    static func findAll(_ regions: [Regionable]) -> [String] {
         var mentions = [String]()
         let regex = Regex("\\B@[\\w-]+")!
         for region in regions {

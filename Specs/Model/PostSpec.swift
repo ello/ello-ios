@@ -2,7 +2,7 @@
 ///  PostSpec.swift
 //
 
-import Ello
+@testable import Ello
 import Quick
 import Nimble
 
@@ -22,7 +22,7 @@ class PostSpec: QuickSpec {
 
                 let createdAtString = "2014-06-01T00:00:00.000Z"
                 let post = Post.fromJSON(parsedPost) as! Post
-                var createdAt: NSDate = createdAtString.toNSDate()!
+                var createdAt = createdAtString.toDate()!
                 // active record
                 expect(post.createdAt) == createdAt
                 // required
@@ -63,8 +63,8 @@ class PostSpec: QuickSpec {
                 let createdAtString = "2015-12-14T17:01:48.122Z"
                 let post = Post.fromJSON(parsedPost) as! Post
                 let author: User = stub(["id": post.authorId, "username": "archer"])
-                ElloLinkedStore.sharedInstance.setObject(author, forKey: post.authorId, type: .UsersType)
-                var createdAt: NSDate = createdAtString.toNSDate()!
+                ElloLinkedStore.sharedInstance.setObject(author, forKey: post.authorId, type: .usersType)
+                var createdAt = createdAtString.toDate()!
                 // active record
                 expect(post.createdAt) == createdAt
                 // required
@@ -99,13 +99,13 @@ class PostSpec: QuickSpec {
         context("NSCoding") {
 
             var filePath = ""
-            if let url = NSURL(string: NSFileManager.ElloDocumentsDir()) {
-                filePath = url.URLByAppendingPathComponent("PostSpec")!.absoluteString!
+            if let url = URL(string: FileManager.ElloDocumentsDir()) {
+                filePath = url.appendingPathComponent("PostSpec").absoluteString
             }
 
             afterEach {
                 do {
-                    try NSFileManager.defaultManager().removeItemAtPath(filePath)
+                    try FileManager.default.removeItem(atPath: filePath)
                 }
                 catch {
 
@@ -123,7 +123,7 @@ class PostSpec: QuickSpec {
 
             context("decoding") {
 
-                func testRegionContent(content: [Regionable]) {
+                func testRegionContent(_ content: [Regionable]) {
                     expect(content.count) == 2
                     let textRegion = content[0] as! TextRegion
                     let imageRegion = content[1] as! ImageRegion
@@ -149,14 +149,14 @@ class PostSpec: QuickSpec {
                 }
 
                 it("decodes successfully") {
-                    let expectedCreatedAt = NSDate()
+                    let expectedCreatedAt = Date()
                     let author: User = stub([
                         "id" : "555",
                         "username": "thenim"
                     ])
 
                     let hdpi: Attachment = stub([
-                        "url" : NSURL(string: "http://www.example.com")!,
+                        "url" : URL(string: "http://www.example.com")!,
                         "height" : 35,
                         "width" : 45,
                         "type" : "jpeg",
@@ -164,7 +164,7 @@ class PostSpec: QuickSpec {
                     ])
 
                     let xhdpi: Attachment = stub([
-                        "url" : NSURL(string: "http://www.example2.com")!,
+                        "url" : URL(string: "http://www.example2.com")!,
                         "height" : 99,
                         "width" : 10,
                         "type" : "png",
@@ -184,7 +184,7 @@ class PostSpec: QuickSpec {
                     let imageRegion: ImageRegion = stub([
                         "asset" : asset,
                         "alt" : "some-altness",
-                        "url" : NSURL(string: "http://www.example5.com")!
+                        "url" : URL(string: "http://www.example5.com")!
                     ])
 
                     let comment: ElloComment = stub([
@@ -225,13 +225,13 @@ class PostSpec: QuickSpec {
                     ])
 
                     NSKeyedArchiver.archiveRootObject(post, toFile: filePath)
-                    let unArchivedPost = NSKeyedUnarchiver.unarchiveObjectWithFile(filePath) as! Post
+                    let unArchivedPost = NSKeyedUnarchiver.unarchiveObject(withFile: filePath) as! Post
 
                     expect(unArchivedPost).toNot(beNil())
                     expect(unArchivedPost.version) == 2
                     // active record
                     expect(unArchivedPost.id) == "768"
-                    expect(unArchivedPost.createdAt) == expectedCreatedAt
+                    expect(unArchivedPost.createdAt) == expectedCreatedAt as Date
                     // required
                     expect(unArchivedPost.href) == "0987"
                     expect(unArchivedPost.token) == "toke-en"

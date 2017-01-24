@@ -3,28 +3,28 @@
 //
 
 
-public protocol AutoCompleteDelegate: NSObjectProtocol {
-    func autoComplete(controller: AutoCompleteViewController, itemSelected item: AutoCompleteItem)
+protocol AutoCompleteDelegate: NSObjectProtocol {
+    func autoComplete(_ controller: AutoCompleteViewController, itemSelected item: AutoCompleteItem)
 }
 
-public class AutoCompleteViewController: UIViewController {
-    @IBOutlet weak public var tableView: UITableView!
-    public let dataSource = AutoCompleteDataSource()
-    public let service = AutoCompleteService()
-    public weak var delegate: AutoCompleteDelegate?
+class AutoCompleteViewController: UIViewController {
+    @IBOutlet weak var tableView: UITableView!
+    let dataSource = AutoCompleteDataSource()
+    let service = AutoCompleteService()
+    weak var delegate: AutoCompleteDelegate?
 
-    required public init() {
-        super.init(nibName: "AutoCompleteViewController", bundle: .None)
+    required init() {
+        super.init(nibName: "AutoCompleteViewController", bundle: .none)
     }
 
-    required public init?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }
 
 // MARK: View Lifecycle
 extension AutoCompleteViewController {
-    override public func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = dataSource
@@ -35,47 +35,47 @@ extension AutoCompleteViewController {
 
 
 // MARK: Public
-public extension AutoCompleteViewController {
+extension AutoCompleteViewController {
 
-    func load(match: AutoCompleteMatch, loaded: (count: Int) -> Void) {
+    func load(_ match: AutoCompleteMatch, loaded: @escaping (_ count: Int) -> Void) {
         switch match.type {
-        case .Emoji:
+        case .emoji:
             let results: [AutoCompleteResult] = service.loadEmojiResults(match.text)
             self.dataSource.items = results.map { AutoCompleteItem(result: $0, type: match.type, match: match) }
             self.tableView.reloadData()
-            loaded(count: self.dataSource.items.count)
-        case .Username:
+            loaded(self.dataSource.items.count)
+        case .username:
             service.loadUsernameResults(match.text,
                 success: { (results, _) in
                     self.dataSource.items = results.map { AutoCompleteItem(result: $0, type: match.type, match: match) }
                     self.tableView.reloadData()
-                    loaded(count: self.dataSource.items.count)
+                    loaded(self.dataSource.items.count)
                 }, failure: showAutoCompleteLoadFailure)
-        case .Location:
+        case .location:
             service.loadLocationResults(match.text,
                 success: { (results, _) in
                     self.dataSource.items = results.map { AutoCompleteItem(result: $0, type: match.type, match: match) }
                     self.tableView.reloadData()
-                    loaded(count: self.dataSource.items.count)
+                    loaded(self.dataSource.items.count)
                 }, failure: showAutoCompleteLoadFailure)
         }
     }
 
-    func showAutoCompleteLoadFailure(error: NSError, statusCode: Int?) {
+    func showAutoCompleteLoadFailure(_ error: NSError, statusCode: Int?) {
         let message = InterfaceString.GenericError
         let alertController = AlertViewController(message: message)
-        let action = AlertAction(title: InterfaceString.OK, style: .Dark, handler: nil)
+        let action = AlertAction(title: InterfaceString.OK, style: .dark, handler: nil)
         alertController.addAction(action)
         logPresentingAlert("AutoCompleteViewController")
-        presentViewController(alertController, animated: true) {
-            self.navigationController?.popViewControllerAnimated(true)
+        present(alertController, animated: true) {
+            _ = self.navigationController?.popViewController(animated: true)
         }
     }
 }
 
 // MARK: UITableViewDelegate
 extension AutoCompleteViewController: UITableViewDelegate {
-    public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let item = dataSource.itemForIndexPath(indexPath) {
             delegate?.autoComplete(self, itemSelected: item)
         }
@@ -86,10 +86,10 @@ extension AutoCompleteViewController: UITableViewDelegate {
 // MARK: Private
 private extension AutoCompleteViewController {
     func registerCells() {
-        tableView.registerNib(AutoCompleteCell.nib(), forCellReuseIdentifier: AutoCompleteCell.reuseIdentifier)
+        tableView.register(AutoCompleteCell.nib(), forCellReuseIdentifier: AutoCompleteCell.reuseIdentifier)
     }
 
     func style() {
-        tableView.backgroundColor = UIColor.blackColor()
+        tableView.backgroundColor = UIColor.black
     }
 }

@@ -2,7 +2,7 @@
 ///  UIWebViewSpecs.swift
 //
 
-import Ello
+@testable import Ello
 import Quick
 import Nimble
 
@@ -15,8 +15,8 @@ class UIWebViewSpecs: QuickSpec, UIWebViewDelegate {
         xdescribe("-windowContentSize") {
             beforeEach() {
                 let html = "<div id=\"post-container\"><img style=\"width: 100pt; height: 100pt;\" width=\"100\" height=\"100\" src=\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAAAAAA6fptVAAAACklEQVR4nGNiAAAABgADNjd8qAAAAABJRU5ErkJggg==\" /></div>"
-                self.webView = UIWebView(frame: CGRectZero)
-                self.webView.loadHTMLString(html, baseURL: NSURL(string: "/"))
+                self.webView = UIWebView(frame: .zero)
+                self.webView.loadHTMLString(html, baseURL: URL(string: "/") as URL?)
                 self.webView.delegate = self
             }
 
@@ -27,7 +27,7 @@ class UIWebViewSpecs: QuickSpec, UIWebViewDelegate {
         }
     }
 
-    func webViewDidFinishLoad(webView: UIWebView) {
+    func webViewDidFinishLoad(_ webView: UIWebView) {
         if let size = self.webView.windowContentSize() {
             self.size = size
         }

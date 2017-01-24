@@ -5,14 +5,14 @@
 import Foundation
 
 extension RegionKind {
-    public func streamCellTypes(regionable: Regionable) -> [StreamCellType] {
+    func streamCellTypes(_ regionable: Regionable) -> [StreamCellType] {
         switch self {
-        case .Image:
-            return [.Image(data: regionable)]
-        case .Text:
+        case .image:
+            return [.image(data: regionable)]
+        case .text:
             if let textRegion = regionable as? TextRegion {
                 let content = textRegion.content
-                let paragraphs = content.componentsSeparatedByString("</p>")
+                let paragraphs = content.components(separatedBy: "</p>")
                 return paragraphs.flatMap { (para: String) -> StreamCellType? in
                     if para == "" {
                         return nil
@@ -20,14 +20,14 @@ extension RegionKind {
 
                     let newRegion = TextRegion(content: para + "</p>")
                     newRegion.isRepost = textRegion.isRepost
-                    return .Text(data: newRegion)
+                    return .text(data: newRegion)
                 }
             }
             return []
-        case .Embed:
-            return [.Embed(data: regionable)]
-        case .Unknown:
-            return [.Unknown]
+        case .embed:
+            return [.embed(data: regionable)]
+        case .unknown:
+            return [.unknown]
         }
     }
 }

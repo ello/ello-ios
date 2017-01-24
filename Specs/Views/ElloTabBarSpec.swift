@@ -2,7 +2,7 @@
 ///  ElloTabBarSpec.swift
 //
 
-import Ello
+@testable import Ello
 import Quick
 import Nimble
 import Nimble_Snapshots
@@ -18,16 +18,16 @@ class ElloTabBarSpec: QuickSpec {
 
             beforeEach {
                 let items = [
-                    UITabBarItem.item(.Sparkles),
-                    UITabBarItem.item(.Bolt),
-                    UITabBarItem.item(.CircBig),
-                    UITabBarItem.item(.Person),
-                    UITabBarItem.item(.Omni),
+                    UITabBarItem.item(.sparkles),
+                    UITabBarItem.item(.bolt),
+                    UITabBarItem.item(.circBig),
+                    UITabBarItem.item(.person),
+                    UITabBarItem.item(.omni),
                 ]
                 subject = ElloTabBar()
                 subject.items = items
                 redDot = subject.addRedDotAtIndex(1)
-                redDot.hidden = false
+                redDot.isHidden = false
             }
 
             context("red dot position") {

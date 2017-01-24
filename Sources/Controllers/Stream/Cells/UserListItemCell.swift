@@ -4,52 +4,52 @@
 
 import Foundation
 
-public class UserListItemCell: UICollectionViewCell {
+class UserListItemCell: UICollectionViewCell {
     static let reuseIdentifier = "UserListItemCell"
 
-    weak public var avatarButton: AvatarButton!
-    @IBOutlet weak public var usernameLabel: UILabel!
-    @IBOutlet weak public var nameLabel: UILabel!
-    weak public var relationshipControl: RelationshipControl!
+    weak var avatarButton: AvatarButton!
+    @IBOutlet weak var usernameLabel: UILabel!
+    @IBOutlet weak var nameLabel: UILabel!
+    weak var relationshipControl: RelationshipControl!
     weak var userDelegate: UserDelegate?
     var bottomBorder = CALayer()
 
-    override public func awakeFromNib() {
+    override func awakeFromNib() {
         super.awakeFromNib()
         style()
     }
 
-    func setUser(user: User?) {
+    func setUser(_ user: User?) {
         avatarButton.setUserAvatarURL(user?.avatarURL())
 
         relationshipControl.userId = user?.id ?? ""
         relationshipControl.userAtName = user?.atName ?? ""
-        relationshipControl.relationshipPriority = user?.relationshipPriority ?? RelationshipPriority.None
+        relationshipControl.relationshipPriority = user?.relationshipPriority ?? .none
 
         usernameLabel.text = user?.atName
         nameLabel.text = user?.name
     }
 
-    private func style() {
+    fileprivate func style() {
         usernameLabel.font = UIFont.defaultBoldFont(18)
-        usernameLabel.textColor = UIColor.blackColor()
-        usernameLabel.lineBreakMode = NSLineBreakMode.ByTruncatingTail
+        usernameLabel.textColor = UIColor.black
+        usernameLabel.lineBreakMode = NSLineBreakMode.byTruncatingTail
 
         nameLabel.font = UIFont.defaultFont()
         nameLabel.textColor = UIColor.greyA()
-        nameLabel.lineBreakMode = NSLineBreakMode.ByTruncatingTail
+        nameLabel.lineBreakMode = NSLineBreakMode.byTruncatingTail
 
         // bottom border
-        bottomBorder.backgroundColor = UIColor.greyF1().CGColor
+        bottomBorder.backgroundColor = UIColor.greyF1().cgColor
         self.layer.addSublayer(bottomBorder)
     }
 
-    override public func layoutSubviews() {
+    override func layoutSubviews() {
         bottomBorder.frame = CGRect(x: 0, y: self.bounds.height - 1, width: self.bounds.width, height: 1)
         super.layoutSubviews()
     }
 
-    @IBAction func userTapped(sender: AvatarButton) {
-        userDelegate?.userTappedAuthor(self)
+    @IBAction func userTapped(_ sender: AvatarButton) {
+        userDelegate?.userTappedAuthor(cell: self)
     }
 }

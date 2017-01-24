@@ -25,20 +25,20 @@ class RelationshipControlSpec: QuickSpec {
 
             describe("snapshots") {
                 let relationships: [(RelationshipControlStyle, RelationshipPriority)] = [
-                    (.Default, .Following),
-                    (.Default, .Starred),
-                    (.Default, .Mute),
-                    (.Default, .None),
-                    (.ProfileView, .Following),
-                    (.ProfileView, .Starred),
-                    (.ProfileView, .Mute),
-                    (.ProfileView, .None),
+                    (.default, .following),
+                    (.default, .starred),
+                    (.default, .mute),
+                    (.default, .none),
+                    (.profileView, .following),
+                    (.profileView, .starred),
+                    (.profileView, .mute),
+                    (.profileView, .none),
                 ]
                 for (style, relationship) in relationships {
                     it("setting style to \(style) and relationshipPriority to \(relationship)") {
                         subject.style = style
                         subject.relationshipPriority = relationship
-                        expectValidSnapshot(subject, named: "style_\(style)_relationshipPriority_\(relationship)", device: .Custom(subject.intrinsicContentSize()))
+                        expectValidSnapshot(subject, named: "style_\(style)_relationshipPriority_\(relationship)", device: .custom(subject.intrinsicContentSize))
                     }
                 }
             }
@@ -47,17 +47,17 @@ class RelationshipControlSpec: QuickSpec {
                 it("should calculate when showStarButton=false") {
                     subject.showStarButton = false
                     let expectedSize = CGSize(width: 105, height: 30)
-                    expect(subject.intrinsicContentSize()) == expectedSize
-                    subject.frame = CGRect(origin: CGPointZero, size: expectedSize)
+                    expect(subject.intrinsicContentSize) == expectedSize
+                    subject.frame = CGRect(origin: .zero, size: expectedSize)
                     subject.layoutIfNeeded()
-                    expect(subject.starButton.frame) == CGRectZero
+                    expect(subject.starButton.frame) == CGRect.zero
                     expect(subject.followingButton.frame) == CGRect(x: 0, y: 0, width: 105, height: 30)
                 }
                 it("should calculate when showStarButton=true") {
                     subject.showStarButton = true
                     let expectedSize = CGSize(width: 142, height: 30)
-                    expect(subject.intrinsicContentSize()) == expectedSize
-                    subject.frame = CGRect(origin: CGPointZero, size: expectedSize)
+                    expect(subject.intrinsicContentSize) == expectedSize
+                    subject.frame = CGRect(origin: .zero, size: expectedSize)
                     subject.layoutIfNeeded()
                     expect(subject.starButton.frame) == CGRect(x: 112, y: 0, width: 30, height: 30)
                     expect(subject.followingButton.frame) == CGRect(x: 0, y: 0, width: 105, height: 30)
@@ -70,64 +70,64 @@ class RelationshipControlSpec: QuickSpec {
 
                     describe("tapping the following button") {
 
-                        for relationshipPriority in [RelationshipPriority.Inactive, RelationshipPriority.None, RelationshipPriority.Null] {
+                        for relationshipPriority in [RelationshipPriority.inactive, RelationshipPriority.none, RelationshipPriority.null] {
                             context("RelationshipPriority.\(relationshipPriority)") {
 
                                 it("unfollows the user") {
                                     subject.relationshipPriority = relationshipPriority
-                                    subject.followingButton.sendActionsForControlEvents(.TouchUpInside)
-                                    expect(subject.relationshipPriority) == RelationshipPriority.Following
+                                    subject.followingButton.sendActions(for: .touchUpInside)
+                                    expect(subject.relationshipPriority) == RelationshipPriority.following
                                 }
                             }
                         }
 
-                        context("RelationshipPriority.Following") {
+                        context("RelationshipPriority.following") {
 
                             it("unfollows the user") {
-                                subject.relationshipPriority = .Following
-                                subject.followingButton.sendActionsForControlEvents(.TouchUpInside)
-                                expect(subject.relationshipPriority) == RelationshipPriority.Inactive
+                                subject.relationshipPriority = .following
+                                subject.followingButton.sendActions(for: .touchUpInside)
+                                expect(subject.relationshipPriority) == RelationshipPriority.inactive
                             }
                         }
 
-                        context("RelationshipPriority.Starred") {
+                        context("RelationshipPriority.starred") {
 
                             it("unstars the user") {
-                                subject.relationshipPriority = .Starred
-                                subject.followingButton.sendActionsForControlEvents(.TouchUpInside)
-                                expect(subject.relationshipPriority) == RelationshipPriority.Following
+                                subject.relationshipPriority = .starred
+                                subject.followingButton.sendActions(for: .touchUpInside)
+                                expect(subject.relationshipPriority) == RelationshipPriority.following
                             }
                         }
                     }
 
                     describe("tapping the starred button") {
 
-                        for relationshipPriority in [RelationshipPriority.Inactive, RelationshipPriority.None, RelationshipPriority.Null] {
+                        for relationshipPriority in [RelationshipPriority.inactive, RelationshipPriority.none, RelationshipPriority.null] {
                             context("RelationshipPriority.\(relationshipPriority)") {
 
                                 it("stars the user") {
                                     subject.relationshipPriority = relationshipPriority
-                                    subject.starButton.sendActionsForControlEvents(.TouchUpInside)
-                                    expect(subject.relationshipPriority) == RelationshipPriority.Starred
+                                    subject.starButton.sendActions(for: .touchUpInside)
+                                    expect(subject.relationshipPriority) == RelationshipPriority.starred
                                 }
                             }
                         }
 
-                        context("RelationshipPriority.Following") {
+                        context("RelationshipPriority.following") {
 
                             it("stars the user") {
-                                subject.relationshipPriority = .Following
-                                subject.starButton.sendActionsForControlEvents(.TouchUpInside)
-                                expect(subject.relationshipPriority) == RelationshipPriority.Starred
+                                subject.relationshipPriority = .following
+                                subject.starButton.sendActions(for: .touchUpInside)
+                                expect(subject.relationshipPriority) == RelationshipPriority.starred
                             }
                         }
 
-                        context("RelationshipPriority.Starred") {
+                        context("RelationshipPriority.starred") {
 
                             it("unstars the user") {
-                                subject.relationshipPriority = .Starred
-                                subject.starButton.sendActionsForControlEvents(.TouchUpInside)
-                                expect(subject.relationshipPriority) == RelationshipPriority.Following
+                                subject.relationshipPriority = .starred
+                                subject.starButton.sendActions(for: .touchUpInside)
+                                expect(subject.relationshipPriority) == RelationshipPriority.following
                             }
                         }
                     }
@@ -138,8 +138,8 @@ class RelationshipControlSpec: QuickSpec {
                     describe("tapping the main button") {
 
                         it("launches the block modal") {
-                            subject.relationshipPriority = .Mute
-                            subject.followingButton.sendActionsForControlEvents(.TouchUpInside)
+                            subject.relationshipPriority = .mute
+                            subject.followingButton.sendActions(for: .touchUpInside)
                             let presentedVC = relationshipController.presentingController?.presentedViewController as? BlockUserModalViewController
                             expect(presentedVC).notTo(beNil())
                         }

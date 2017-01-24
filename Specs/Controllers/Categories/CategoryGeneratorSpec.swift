@@ -2,7 +2,7 @@
 ///  CategoryGeneratorSpec.swift
 //
 
-import Ello
+@testable import Ello
 import Quick
 import Nimble
 
@@ -16,7 +16,7 @@ class CategoryGeneratorSpec: QuickSpec {
             }
 
             let currentUser: User = stub(["id": "42"])
-            let streamKind: StreamKind = .Category(slug: "recommended")
+            let streamKind: StreamKind = .category(slug: "recommended")
 
             context("page promotional") {
                 let category = Ello.Category.stub(["level" : "meta", "slug" : "recommended"])
@@ -125,18 +125,18 @@ class CategoryDestination: CategoryStreamDestination {
         placeholderItems = items
     }
 
-    func replacePlaceholder(type: StreamCellType.PlaceholderType, items: [StreamCellItem], completion: ElloEmptyCompletion) {
+    func replacePlaceholder(type: StreamCellType.PlaceholderType, items: [StreamCellItem], completion: @escaping ElloEmptyCompletion) {
         switch type {
-        case .CategoryHeader:
+        case .categoryHeader:
             headerItems = items
-        case .CategoryPosts:
+        case .categoryPosts:
             postItems = items
         default:
             otherPlaceHolderLoaded = true
         }
     }
 
-    func setPrimaryJSONAble(jsonable: JSONAble) {
+    func setPrimary(jsonable: JSONAble) {
         if let category = jsonable as? Ello.Category {
             self.category = category
         }
@@ -146,13 +146,13 @@ class CategoryDestination: CategoryStreamDestination {
         }
     }
 
-    func setCategories(categories: [Ello.Category]) {
+    func set(categories: [Ello.Category]) {
         self.categories = categories
     }
 
     func primaryJSONAbleNotFound() {
     }
-    
+
     func setPagingConfig(responseConfig: ResponseConfig) {
         self.responseConfig = responseConfig
     }

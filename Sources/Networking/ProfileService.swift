@@ -5,21 +5,21 @@
 import Moya
 import SwiftyJSON
 
-public typealias AccountDeletionSuccessCompletion = () -> Void
-public typealias ProfileSuccessCompletion = (user: User) -> Void
-public typealias ProfileUploadSuccessCompletion = (url: NSURL, user: User) -> Void
-public typealias ProfileUploadBothSuccessCompletion = (avatarURL: NSURL?, coverImageURL: NSURL?, user: User) -> Void
+typealias AccountDeletionSuccessCompletion = () -> Void
+typealias ProfileSuccessCompletion = (User) -> Void
+typealias ProfileUploadSuccessCompletion = (URL, User) -> Void
+typealias ProfileUploadBothSuccessCompletion = (URL?, URL?, User) -> Void
 
-public struct ProfileService {
+struct ProfileService {
 
-    public init(){}
+    init(){}
 
-    public func loadCurrentUser(success success: ProfileSuccessCompletion, failure: ElloFailureCompletion) {
-        let endpoint: ElloAPI = .CurrentUserProfile
+    func loadCurrentUser(success: @escaping ProfileSuccessCompletion, failure: @escaping ElloFailureCompletion) {
+        let endpoint: ElloAPI = .currentUserProfile
         ElloProvider.shared.elloRequest(endpoint,
             success: { (data, _) in
                 if let user = data as? User {
-                    success(user: user)
+                    success(user)
                 }
                 else {
                     ElloProvider.unCastableJSONAble(failure)
@@ -28,11 +28,11 @@ public struct ProfileService {
             failure: failure )
     }
 
-    public func updateUserProfile(content: [String: AnyObject], success: ProfileSuccessCompletion, failure: ElloFailureCompletion) {
-        ElloProvider.shared.elloRequest(ElloAPI.ProfileUpdate(body: content),
+    func updateUserProfile(_ content: [String: AnyObject], success: @escaping ProfileSuccessCompletion, failure: @escaping ElloFailureCompletion) {
+        ElloProvider.shared.elloRequest(ElloAPI.profileUpdate(body: content),
             success: { data, responseConfig in
                 if let user = data as? User {
-                    success(user: user)
+                    success(user)
                 } else {
                     ElloProvider.unCastableJSONAble(failure)
                 }
@@ -41,63 +41,66 @@ public struct ProfileService {
         )
     }
 
-    public func updateUserCoverImage(
-        image: ImageRegionData,
+    func updateUserCoverImage(
+        _ image: ImageRegionData,
         properties: [String: AnyObject] = [:],
-        success: ProfileUploadSuccessCompletion, failure: ElloFailureCompletion) {
+        success: @escaping ProfileUploadSuccessCompletion, failure: @escaping ElloFailureCompletion) {
         updateUserImage(image, key: "remote_cover_image_url", properties: properties, success: { (url, user) in
-            TemporaryCache.save(.CoverImage, image: image.image)
-            success(url: url, user: user)
+            user.updateDefaultImages(avatarURL: nil, coverImageURL: url)
+            TemporaryCache.save(.coverImage, image: image.image)
+            success(url, user)
         }, failure: failure)
     }
 
-    public func updateUserAvatarImage(
-        image: ImageRegionData,
+    func updateUserAvatarImage(
+        _ image: ImageRegionData,
         properties: [String: AnyObject] = [:],
-        success: ProfileUploadSuccessCompletion, failure: ElloFailureCompletion) {
+        success: @escaping ProfileUploadSuccessCompletion, failure: @escaping ElloFailureCompletion) {
         updateUserImage(image, key: "remote_avatar_url", properties: properties, success: { (url, user) in
-            TemporaryCache.save(.Avatar, image: image.image)
-            success(url: url, user: user)
+            user.updateDefaultImages(avatarURL: url, coverImageURL: nil)
+            TemporaryCache.save(.avatar, image: image.image)
+            success(url, user)
         }, failure: failure)
     }
 
-    public func updateUserImages(
-        avatarImage avatarImage: ImageRegionData?,
+    func updateUserImages(
+        avatarImage: ImageRegionData?,
         coverImage: ImageRegionData?,
         properties: [String: AnyObject] = [:],
-        success: ProfileUploadBothSuccessCompletion,
-        failure: ElloFailureCompletion
+        success: @escaping ProfileUploadBothSuccessCompletion,
+        failure: @escaping ElloFailureCompletion
     ) {
-        var avatarURL: NSURL?
-        var coverImageURL: NSURL?
+        var avatarURL: URL?
+        var coverImageURL: URL?
         var error: NSError?
         var statusCode: Int?
         let bothImages = after(2) {
             if let error = error {
-                failure(error: error, statusCode: statusCode)
+                failure(error, statusCode)
             }
             else {
                 var mergedProperties: [String: AnyObject] = properties
 
-                if let avatarImage = avatarImage, avatarURL = avatarURL {
-                    TemporaryCache.save(.Avatar, image: avatarImage.image)
-                    mergedProperties["remote_avatar_url"] = avatarURL.absoluteString
+                if let avatarImage = avatarImage, let avatarURL = avatarURL {
+                    TemporaryCache.save(.avatar, image: avatarImage.image)
+                    mergedProperties["remote_avatar_url"] = avatarURL.absoluteString as AnyObject
                 }
 
-                if let coverImage = coverImage, coverImageURL = coverImageURL {
-                    TemporaryCache.save(.CoverImage, image: coverImage.image)
-                    mergedProperties["remote_cover_image_url"] = coverImageURL.absoluteString
+                if let coverImage = coverImage, let coverImageURL = coverImageURL {
+                    TemporaryCache.save(.coverImage, image: coverImage.image)
+                    mergedProperties["remote_cover_image_url"] = coverImageURL.absoluteString as AnyObject
                 }
 
                 self.updateUserProfile(mergedProperties, success: { user in
-                    success(avatarURL: avatarURL, coverImageURL: coverImageURL, user: user)
+                    user.updateDefaultImages(avatarURL: avatarURL, coverImageURL: coverImageURL)
+                    success(avatarURL, coverImageURL, user)
                 }, failure: failure)
             }
         }
 
         if let avatarImage = avatarImage {
             S3UploadingService().upload(imageRegionData: avatarImage, success: { url in
-                avatarURL = url
+                avatarURL = url as URL?
                 bothImages()
             }, failure: { uploadError, uploadStatusCode in
                 error = error ?? uploadError
@@ -111,7 +114,7 @@ public struct ProfileService {
 
         if let coverImage = coverImage {
             S3UploadingService().upload(imageRegionData: coverImage, success: { url in
-                coverImageURL = url
+                coverImageURL = url as URL?
                 bothImages()
             }, failure: { uploadError, uploadStatusCode in
                 error = error ?? uploadError
@@ -124,34 +127,33 @@ public struct ProfileService {
         }
     }
 
-    public func updateUserDeviceToken(token: NSData) {
-        log("push token", object: String(token.description.characters.filter { !"<> ".characters.contains($0) }))
-        ElloProvider.shared.elloRequest(ElloAPI.PushSubscriptions(token: token),
+    func updateUserDeviceToken(_ token: Data) {
+        log(comment: "push token", object: String(token.description.characters.filter { !"<> ".characters.contains($0) }))
+        ElloProvider.shared.elloRequest(ElloAPI.pushSubscriptions(token: token),
             success: { _, _ in })
     }
 
-    public func removeUserDeviceToken(token: NSData) {
-        ElloProvider.shared.elloRequest(ElloAPI.DeleteSubscriptions(token: token),
+    func removeUserDeviceToken(_ token: Data) {
+        ElloProvider.shared.elloRequest(ElloAPI.deleteSubscriptions(token: token),
             success: { _, _ in })
     }
 
-    private func updateUserImage(image: ImageRegionData, key: String, properties: [String: AnyObject], success: ProfileUploadSuccessCompletion, failure: ElloFailureCompletion) {
+    fileprivate func updateUserImage(_ image: ImageRegionData, key: String, properties: [String: AnyObject], success: @escaping ProfileUploadSuccessCompletion, failure: @escaping ElloFailureCompletion) {
         S3UploadingService().upload(imageRegionData: image, success: { url in
-            if let url = url,
-                urlString = url.absoluteString
-            {
-                let mergedProperties: [String: AnyObject] = properties + [
-                    key: urlString,
-                ]
-                self.updateUserProfile(mergedProperties, success: { user in
-                    success(url: url, user: user)
-                }, failure: failure)
-            }
+            guard let url = url else { return }
+
+            let urlString = url.absoluteString
+            let mergedProperties: [String: AnyObject] = properties + [
+                key: urlString as AnyObject,
+            ]
+            self.updateUserProfile(mergedProperties, success: { user in
+                success(url as URL, user)
+            }, failure: failure)
         }, failure: failure)
     }
 
-    public func deleteAccount(success success: AccountDeletionSuccessCompletion, failure: ElloFailureCompletion) {
-        ElloProvider.shared.elloRequest(ElloAPI.ProfileDelete,
+    func deleteAccount(success: @escaping AccountDeletionSuccessCompletion, failure: @escaping ElloFailureCompletion) {
+        ElloProvider.shared.elloRequest(ElloAPI.profileDelete,
             success: { _, _ in success() },
             failure: failure)
     }

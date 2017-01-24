@@ -4,25 +4,25 @@
 
 extension UIButton {
 
-    func setImage(interfaceImage: InterfaceImage, imageStyle: InterfaceImage.Style, forState state: UIControlState) {
-        self.setImage(interfaceImage.image(imageStyle), forState: state)
+    func setImage(_ interfaceImage: InterfaceImage, imageStyle: InterfaceImage.Style, for state: UIControlState) {
+        self.setImage(interfaceImage.image(imageStyle), for: state)
     }
 
-    func setImages(interfaceImage: InterfaceImage, degree: Double = 0, white: Bool = false) {
+    func setImages(_ interfaceImage: InterfaceImage, degree: Double = 0, white: Bool = false) {
         if white {
-            self.setImage(interfaceImage.whiteImage, forState: .Normal, degree: degree)
+            self.setImage(interfaceImage.whiteImage, for: .normal, degree: degree)
         }
         else {
-            self.setImage(interfaceImage.normalImage, forState: .Normal, degree: degree)
+            self.setImage(interfaceImage.normalImage, for: .normal, degree: degree)
         }
-        self.setImage(interfaceImage.selectedImage, forState: .Selected, degree: degree)
+        self.setImage(interfaceImage.selectedImage, for: .selected, degree: degree)
     }
 
-    func setImage(image: UIImage!, forState state: UIControlState = .Normal, degree: Double) {
-        self.setImage(image, forState: state)
+    func setImage(_ image: UIImage!, for state: UIControlState = .normal, degree: Double) {
+        self.setImage(image, for: state)
         if degree != 0 {
             let radians = (degree * M_PI) / 180.0
-            transform = CGAffineTransformMakeRotation(CGFloat(radians))
+            transform = CGAffineTransform(rotationAngle: CGFloat(radians))
         }
     }
 }

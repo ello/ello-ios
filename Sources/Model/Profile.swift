@@ -2,9 +2,9 @@
 ///  Profile.swift
 //
 
-import Crashlytics
 import Foundation
 import SwiftyJSON
+
 
 // version 1: initial
 // version 2: added hasAutoWatchEnabled and moved in notifyOfWatch* settings
@@ -12,53 +12,53 @@ import SwiftyJSON
 let ProfileVersion: Int = 3
 
 @objc(Profile)
-public final class Profile: JSONAble {
+final class Profile: JSONAble {
 
     // active record
-    public let id: String
-    public let createdAt: NSDate
+    let id: String
+    let createdAt: Date
     // required
-    public let shortBio: String
-    public let email: String
-    public let confirmedAt: NSDate
-    public var isPublic: Bool
-    public var mutedCount: Int
-    public var blockedCount: Int
-    public var hasSharingEnabled: Bool
-    public var hasAdNotificationsEnabled: Bool
-    public var hasAutoWatchEnabled: Bool
-    public let allowsAnalytics: Bool
-    public let notifyOfCommentsViaEmail: Bool
-    public let notifyOfLovesViaEmail: Bool
-    public let notifyOfInvitationAcceptancesViaEmail: Bool
-    public let notifyOfMentionsViaEmail: Bool
-    public let notifyOfNewFollowersViaEmail: Bool
-    public let notifyOfRepostsViaEmail: Bool
-    public let subscribeToUsersEmailList: Bool
-    public let subscribeToDailyEllo: Bool
-    public let subscribeToWeeklyEllo: Bool
-    public let subscribeToOnboardingDrip: Bool
-    public let notifyOfAnnouncementsViaPush: Bool
-    public let notifyOfCommentsViaPush: Bool
-    public let notifyOfLovesViaPush: Bool
-    public let notifyOfMentionsViaPush: Bool
-    public let notifyOfRepostsViaPush: Bool
-    public let notifyOfNewFollowersViaPush: Bool
-    public let notifyOfInvitationAcceptancesViaPush: Bool
-    public var notifyOfWatchesViaPush: Bool
-    public var notifyOfWatchesViaEmail: Bool
-    public var notifyOfCommentsOnPostWatchViaPush: Bool
-    public var notifyOfCommentsOnPostWatchViaEmail: Bool
-    public let discoverable: Bool
+    let shortBio: String
+    let email: String
+    let confirmedAt: Date
+    var isPublic: Bool
+    var mutedCount: Int
+    var blockedCount: Int
+    var hasSharingEnabled: Bool
+    var hasAdNotificationsEnabled: Bool
+    var hasAutoWatchEnabled: Bool
+    let allowsAnalytics: Bool
+    let notifyOfCommentsViaEmail: Bool
+    let notifyOfLovesViaEmail: Bool
+    let notifyOfInvitationAcceptancesViaEmail: Bool
+    let notifyOfMentionsViaEmail: Bool
+    let notifyOfNewFollowersViaEmail: Bool
+    let notifyOfRepostsViaEmail: Bool
+    let subscribeToUsersEmailList: Bool
+    let subscribeToDailyEllo: Bool
+    let subscribeToWeeklyEllo: Bool
+    let subscribeToOnboardingDrip: Bool
+    let notifyOfAnnouncementsViaPush: Bool
+    let notifyOfCommentsViaPush: Bool
+    let notifyOfLovesViaPush: Bool
+    let notifyOfMentionsViaPush: Bool
+    let notifyOfRepostsViaPush: Bool
+    let notifyOfNewFollowersViaPush: Bool
+    let notifyOfInvitationAcceptancesViaPush: Bool
+    var notifyOfWatchesViaPush: Bool
+    var notifyOfWatchesViaEmail: Bool
+    var notifyOfCommentsOnPostWatchViaPush: Bool
+    var notifyOfCommentsOnPostWatchViaEmail: Bool
+    let discoverable: Bool
     // optional
-    public var gaUniqueId: String?
+    var gaUniqueId: String?
 
-    public init(
+    init(
         id: String,
-        createdAt: NSDate,
+        createdAt: Date,
         shortBio: String,
         email: String,
-        confirmedAt: NSDate,
+        confirmedAt: Date,
         isPublic: Bool,
         mutedCount: Int,
         blockedCount: Int,
@@ -128,7 +128,7 @@ public final class Profile: JSONAble {
 
 // MARK: NSCoding
 
-    public required init(coder aDecoder: NSCoder) {
+    required init(coder aDecoder: NSCoder) {
         let decoder = Coder(aDecoder)
         // active record
         self.id = decoder.decodeOptionalKey("id") ?? ""
@@ -186,7 +186,7 @@ public final class Profile: JSONAble {
         super.init(coder: decoder.coder)
     }
 
-    public override func encodeWithCoder(encoder: NSCoder) {
+    override func encode(with encoder: NSCoder) {
         let coder = Coder(encoder)
         // active record
         coder.encodeObject(id, forKey: "id")
@@ -224,21 +224,20 @@ public final class Profile: JSONAble {
         coder.encodeObject(notifyOfCommentsOnPostWatchViaPush, forKey: "notifyOfCommentsOnPostWatchViaPush")
         coder.encodeObject(notifyOfCommentsOnPostWatchViaEmail, forKey: "notifyOfCommentsOnPostWatchViaEmail")
         coder.encodeObject(discoverable, forKey: "discoverable")
-        super.encodeWithCoder(coder.coder)
+        super.encode(with: coder.coder)
     }
 
 // MARK: JSONAble
 
-    override public class func fromJSON(data: [String: AnyObject]) -> JSONAble {
+    override class func fromJSON(_ data: [String: AnyObject]) -> JSONAble {
         let json = JSON(data)
-        Crashlytics.sharedInstance().setObjectValue(json.rawString(), forKey: CrashlyticsKey.ProfileFromJSON.rawValue)
         // create profile
         let profile = Profile(
-            id: json["id"].stringValue ?? "",
-            createdAt: (json["created_at"].stringValue.toNSDate() ?? NSDate()),
+            id: json["id"].string ?? "",
+            createdAt: (json["created_at"].stringValue.toDate() ?? Date()),
             shortBio: json["short_bio"].stringValue,
             email: json["email"].stringValue,
-            confirmedAt: (json["confirmed_at"].stringValue.toNSDate() ?? NSDate()),
+            confirmedAt: (json["confirmed_at"].stringValue.toDate() ?? Date()),
             isPublic: json["is_public"].boolValue,
             mutedCount: json["muted_count"].intValue,
             blockedCount: json["blocked_count"].intValue,

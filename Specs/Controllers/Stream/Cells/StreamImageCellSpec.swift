@@ -10,7 +10,7 @@ import Nimble
 class StreamImageCellSpec: QuickSpec {
     override func spec() {
         describe("StreamImageCell") {
-            let image = UIImage.imageWithColor(.blueColor(), size: CGSize(width: 500, height: 300))!
+            let image = UIImage.imageWithColor(.blue, size: CGSize(width: 500, height: 300))!
 
             let expectations: [(listView: Bool, isComment: Bool, isRepost: Bool, buyButton: Bool)] = [
                 (listView: true, isComment: false, isRepost: false, buyButton: false),
@@ -28,12 +28,12 @@ class StreamImageCellSpec: QuickSpec {
                 it("\(listView ? "list" : "grid") view \(isComment ? "comment" : (isRepost ? "repost" : "post"))\(buyButton ? " with buy button" : "") should match snapshot") {
                     let subject = StreamImageCell.loadFromNib() as StreamImageCell
                     subject.isGridView = !listView
-                    subject.marginType = (isComment ? .Comment : (isRepost ? .Repost : .Post))
+                    subject.marginType = (isComment ? .comment : (isRepost ? .repost : .post))
                     subject.setImage(image)
                     if buyButton {
-                        subject.buyButtonURL = NSURL(string: "http://ello.co")
+                        subject.buyButtonURL = URL(string: "http://ello.co")
                     }
-                    expectValidSnapshot(subject, device: .Custom(CGSize(width: 375, height: 225)))
+                    expectValidSnapshot(subject, device: .custom(CGSize(width: 375, height: 225)))
                 }
             }
         }

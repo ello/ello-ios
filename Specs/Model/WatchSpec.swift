@@ -2,7 +2,7 @@
 ///  WatchSpec.swift
 //
 
-import Ello
+@testable import Ello
 import Quick
 import Nimble
 
@@ -17,10 +17,10 @@ class WatchSpec: QuickSpec {
                 let watch = Watch.fromJSON(data) as! Watch
 
                 let createdAtString = "2015-10-22T17:04:06.789Z"
-                let createdAt: NSDate = createdAtString.toNSDate()!
+                let createdAt = createdAtString.toDate()!
 
                 let updatedAtString = "2015-10-22T17:04:06.789Z"
-                let updatedAt: NSDate = updatedAtString.toNSDate()!
+                let updatedAt = updatedAtString.toDate()!
 
                 // active record
                 expect(watch.id) == "23"
@@ -36,13 +36,13 @@ class WatchSpec: QuickSpec {
         context("NSCoding") {
 
             var filePath = ""
-            if let url = NSURL(string: NSFileManager.ElloDocumentsDir()) {
-                filePath = url.URLByAppendingPathComponent("WatchSpec")!.absoluteString!
+            if let url = URL(string: FileManager.ElloDocumentsDir()) {
+                filePath = url.appendingPathComponent("WatchSpec").absoluteString
             }
 
             afterEach {
                 do {
-                    try NSFileManager.defaultManager().removeItemAtPath(filePath)
+                    try FileManager.default.removeItem(atPath: filePath)
                 }
                 catch {
 
@@ -63,8 +63,8 @@ class WatchSpec: QuickSpec {
             context("decoding") {
 
                 it("decodes successfully") {
-                    let expectedCreatedAt = NSDate()
-                    let expectedUpdatedAt = NSDate()
+                    let expectedCreatedAt = Date()
+                    let expectedUpdatedAt = Date()
 
                     let user: User = stub([
                         "id" : "444"
@@ -85,7 +85,7 @@ class WatchSpec: QuickSpec {
                     ])
 
                     NSKeyedArchiver.archiveRootObject(watch, toFile: filePath)
-                    let unArchivedWatch = NSKeyedUnarchiver.unarchiveObjectWithFile(filePath) as! Watch
+                    let unArchivedWatch = NSKeyedUnarchiver.unarchiveObject(withFile: filePath) as! Watch
 
                     expect(unArchivedWatch).toNot(beNil())
                     expect(unArchivedWatch.version) == 1

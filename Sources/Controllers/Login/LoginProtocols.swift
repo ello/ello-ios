@@ -5,9 +5,9 @@
 protocol LoginDelegate: class {
     func backAction()
     func forgotPasswordAction()
-    func onePasswordAction(sender: UIView)
-    func validate(username username: String, password: String)
-    func submit(username username: String, password: String)
+    func onePasswordAction(_ sender: UIView)
+    func validate(username: String, password: String)
+    func submit(username: String, password: String)
 }
 
 protocol LoginScreenProtocol: class {
@@ -16,8 +16,8 @@ protocol LoginScreenProtocol: class {
     var password: String { get set }
     var passwordValid: Bool? { get set }
     var onePasswordAvailable: Bool { get set }
-    func loadingHUD(visible visible: Bool)
-    func showError(text: String)
+    func loadingHUD(visible: Bool)
+    func showError(_ text: String)
     func hideError()
     func resignFirstResponder() -> Bool
 }

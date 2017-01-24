@@ -2,21 +2,21 @@
 ///  StreamTextCellPresenter.swift
 //
 
-public struct StreamTextCellPresenter {
+struct StreamTextCellPresenter {
     static let commentMargin = CGFloat(60)
     static let postMargin = CGFloat(15)
     static let repostMargin = CGFloat(30)
 
     static func configure(
-        cell: UICollectionViewCell,
+        _ cell: UICollectionViewCell,
         streamCellItem: StreamCellItem,
         streamKind: StreamKind,
-        indexPath: NSIndexPath,
+        indexPath: IndexPath,
         currentUser: User?)
     {
         if let cell = cell as? StreamTextCell {
             cell.onWebContentReady { webView in
-                if let actualHeight = webView.windowContentSize()?.height where actualHeight != streamCellItem.calculatedCellHeights.webContent {
+                if let actualHeight = webView.windowContentSize()?.height, actualHeight != streamCellItem.calculatedCellHeights.webContent {
                     streamCellItem.calculatedCellHeights.webContent = actualHeight
                     streamCellItem.calculatedCellHeights.oneColumn = actualHeight
                     streamCellItem.calculatedCellHeights.multiColumn = actualHeight
@@ -29,7 +29,7 @@ public struct StreamTextCellPresenter {
                 isRepost = textRegion.isRepost
                 let content = textRegion.content
                 let html = StreamTextCellHTML.postHTML(content)
-                cell.webView.loadHTMLString(html, baseURL: NSURL(string: "/"))
+                cell.webView.loadHTMLString(html, baseURL: URL(string: "/"))
             }
             // Repost specifics
             if isRepost == true {

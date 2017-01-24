@@ -1,5 +1,4 @@
-@testable
-import Ello
+@testable import Ello
 import Quick
 import Nimble
 
@@ -10,17 +9,17 @@ class PushNotificationControllerSpec: QuickSpec {
             var currentBadgeCount = 0
 
             beforeEach {
-                currentBadgeCount = UIApplication.sharedApplication().applicationIconBadgeNumber
+                currentBadgeCount = UIApplication.shared.applicationIconBadgeNumber
             }
 
             afterEach {
-                UIApplication.sharedApplication().applicationIconBadgeNumber = currentBadgeCount
+                UIApplication.shared.applicationIconBadgeNumber = currentBadgeCount
             }
 
             describe("-hasAlert(_:)") {
                 context("has alert") {
                     it("returns true") {
-                        let userInfo: [NSObject : AnyObject] = [
+                        let userInfo: [AnyHashable: Any] = [
                             "destination_user_id" : 1234,
                             "application_target" : "notifications/posts/4",
                             "type" : "repost",
@@ -29,7 +28,7 @@ class PushNotificationControllerSpec: QuickSpec {
                                     "body" : "@bob has reposted one of your posts",
                                     "title" : "New Repost"
                                 ],
-                                "badge" : NSNumber(integer: 4)
+                                "badge" : NSNumber(value: 4)
                             ]
                         ]
 
@@ -39,11 +38,11 @@ class PushNotificationControllerSpec: QuickSpec {
 
                 context("no alert") {
                     it("returns false") {
-                        let userInfo: [NSObject : AnyObject] = [
+                        let userInfo: [AnyHashable: Any] = [
                             "destination_user_id" : 1234,
                             "type" : "reset_badge_count",
                             "aps" : [
-                                "badge" : NSNumber(integer: 0)
+                                "badge" : NSNumber(value: 0)
                             ]
                         ]
 
@@ -56,26 +55,26 @@ class PushNotificationControllerSpec: QuickSpec {
 
                 context("has badge") {
                     it("updates to new value") {
-                        UIApplication.sharedApplication().applicationIconBadgeNumber = 5
-                        let userInfo: [NSObject : AnyObject] = [
+                        UIApplication.shared.applicationIconBadgeNumber = 5
+                        let userInfo: [AnyHashable: Any] = [
                             "destination_user_id" : 1234,
                             "type" : "reset_badge_count",
                             "aps" : [
-                                "badge" : NSNumber(integer: 0)
+                                "badge" : NSNumber(value: 0)
                             ]
                         ]
                         PushNotificationController.sharedController.updateBadgeCount(userInfo)
                         // yes, apparently, *printing* the value makes this spec pass
-                        print("count: \(UIApplication.sharedApplication().applicationIconBadgeNumber)")
+                        print("count: \(UIApplication.shared.applicationIconBadgeNumber)")
 
-                        expect(UIApplication.sharedApplication().applicationIconBadgeNumber) == 0
+                        expect(UIApplication.shared.applicationIconBadgeNumber) == 0
                     }
                 }
 
                 context("no badge") {
                     it("does nothing") {
-                        UIApplication.sharedApplication().applicationIconBadgeNumber = 5
-                        let userInfo: [NSObject : AnyObject] = [
+                        UIApplication.shared.applicationIconBadgeNumber = 5
+                        let userInfo: [AnyHashable: Any] = [
                             "destination_user_id" : 1234,
                             "type" : "reset_badge_count",
                             "aps" : [
@@ -83,7 +82,7 @@ class PushNotificationControllerSpec: QuickSpec {
                         ]
                         PushNotificationController.sharedController.updateBadgeCount(userInfo)
 
-                        expect(UIApplication.sharedApplication().applicationIconBadgeNumber) == 5
+                        expect(UIApplication.shared.applicationIconBadgeNumber) == 5
                     }
                 }
             }
@@ -96,19 +95,19 @@ class PushNotificationControllerSpec: QuickSpec {
                 }
 
                 context("when the user isn't authenticated") {
-                    it("returns .None") {
+                    it("returns .none") {
                         keychain.isPasswordBased = false
-                        let controller = PushNotificationController(defaults: NSUserDefaults(), keychain: keychain)
+                        let controller = PushNotificationController(defaults: UserDefaults(), keychain: keychain)
                         let alert = controller.requestPushAccessIfNeeded()
                         expect(alert).to(beNil())
                     }
                 }
 
                 context("when the user is authenticated, but has denied access") {
-                    it("returns .None") {
+                    it("returns .none") {
                         keychain.isPasswordBased = true
 
-                        let controller = PushNotificationController(defaults: NSUserDefaults(), keychain: keychain)
+                        let controller = PushNotificationController(defaults: UserDefaults(), keychain: keychain)
                         controller.permissionDenied = true
                         let alert = controller.requestPushAccessIfNeeded()
 
@@ -121,13 +120,13 @@ class PushNotificationControllerSpec: QuickSpec {
                         keychain.authToken = "abcde"
                         keychain.isPasswordBased = true
 
-                        let controller = PushNotificationController(defaults: NSUserDefaults(), keychain: keychain)
+                        let controller = PushNotificationController(defaults: UserDefaults(), keychain: keychain)
                         controller.permissionDenied = false
                         controller.needsPermission = true
 
                         let alert = controller.requestPushAccessIfNeeded()
 
-                        expect(alert).to(beAnInstanceOf(AlertViewController))
+                        expect(alert).to(beAnInstanceOf(AlertViewController.self))
                     }
                 }
             }

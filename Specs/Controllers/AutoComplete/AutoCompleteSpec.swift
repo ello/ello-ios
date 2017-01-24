@@ -2,7 +2,7 @@
 ///  AutoCompleteSpec.swift
 //
 
-import Ello
+@testable import Ello
 import Quick
 import Nimble
 
@@ -89,7 +89,7 @@ class AutoCompleteSpec: QuickSpec {
                 context("colon at end of word") {
                     it("returns true") {
                         let str = "list:"
-                        let result = subject.eagerCheck(str, location: 5)
+                        let result = subject.eagerCheck(str, location: 6)
 
                         expect(result) == false
                     }
@@ -98,7 +98,7 @@ class AutoCompleteSpec: QuickSpec {
                 context("emoji") {
                     it("returns true") {
                         let str = "start :emoji"
-                        let result = subject.eagerCheck(str, location: 9)
+                        let result = subject.eagerCheck(str, location: 8)
 
                         expect(result) == true
                     }
@@ -107,7 +107,7 @@ class AutoCompleteSpec: QuickSpec {
                 context("end of emoji") {
                     it("returns false") {
                         let str = "start :emoji:"
-                        let result = subject.eagerCheck(str, location: 13)
+                        let result = subject.eagerCheck(str, location: 14)
 
                         expect(result) == false
                     }
@@ -125,7 +125,7 @@ class AutoCompleteSpec: QuickSpec {
                 context("location at the end of the string") {
                     it("returns the correct character range and string") {
                         let str = "@hi"
-                        let result = subject.eagerCheck(str, location: 2)
+                        let result = subject.eagerCheck(str, location: 3)
 
                         expect(result) == true
                     }
@@ -134,7 +134,7 @@ class AutoCompleteSpec: QuickSpec {
                 context("whitespace after a match") {
                     it("returns false") {
                         let str = "@username "
-                        let result = subject.eagerCheck(str, location: 9)
+                        let result = subject.eagerCheck(str, location: 10)
 
                         expect(result) == false
                     }
@@ -161,7 +161,7 @@ class AutoCompleteSpec: QuickSpec {
                 context("location one past the end") {
                     it("returns false") {
                         let str = ":hi"
-                        let result = subject.eagerCheck(str, location: 3)
+                        let result = subject.eagerCheck(str, location: 4)
 
                         expect(result) == false
                     }
@@ -209,7 +209,7 @@ class AutoCompleteSpec: QuickSpec {
                 context("neither") {
                     it("returns nil") {
                         let str = "nothing here to find"
-                        let result = subject.check(str, location: 8)
+                        let result = subject.check(str, location: 9)
 
                         expect(result).to(beNil())
                     }
@@ -218,10 +218,12 @@ class AutoCompleteSpec: QuickSpec {
                 context("username") {
                     it("returns the correct character range and string") {
                         let str = "@sean"
-                        let result = subject.check(str, location: 2)
+                        let result = subject.check(str, location: 3)
 
-                        expect(result?.type) == AutoCompleteType.Username
-                        expect(result?.range) == str.startIndex..<str.startIndex.advancedBy(3)
+                        let endIndex = str.characters.index(str.startIndex, offsetBy: 3)
+
+                        expect(result?.type) == AutoCompleteType.username
+                        expect(result?.range) == str.startIndex..<endIndex
                         expect(result?.text) == "@se"
                     }
                 }
@@ -229,10 +231,13 @@ class AutoCompleteSpec: QuickSpec {
                 context("username in long string") {
                     it("returns the correct character range and string") {
                         let str = "hi there @sean"
-                        let result = subject.check(str, location: 12)
+                        let result = subject.check(str, location: 13)
 
-                        expect(result?.type) == AutoCompleteType.Username
-                        expect(result?.range) == str.startIndex.advancedBy(9)..<str.startIndex.advancedBy(13)
+                        let startIndex = str.characters.index(str.startIndex, offsetBy: 9)
+                        let endIndex = str.characters.index(str.startIndex, offsetBy: 13)
+
+                        expect(result?.type) == AutoCompleteType.username
+                        expect(result?.range) == startIndex..<endIndex
                         expect(result?.text) == "@sea"
                     }
                 }
@@ -240,7 +245,7 @@ class AutoCompleteSpec: QuickSpec {
                 context("colon at end of word") {
                     it("returns nil") {
                         let str = "list:"
-                        let result = subject.check(str, location: 5)
+                        let result = subject.check(str, location: 6)
 
                         expect(result).to(beNil())
                     }
@@ -249,10 +254,13 @@ class AutoCompleteSpec: QuickSpec {
                 context("emoji") {
                     it("returns the correct character range and string") {
                         let str = "start :emoji"
-                        let result = subject.check(str, location: 9)
+                        let result = subject.check(str, location: 10)
 
-                        expect(result?.type) == AutoCompleteType.Emoji
-                        expect(result?.range) == str.startIndex.advancedBy(6)..<str.startIndex.advancedBy(10)
+                        let startIndex = str.characters.index(str.startIndex, offsetBy: 6)
+                        let endIndex = str.characters.index(str.startIndex, offsetBy: 10)
+
+                        expect(result?.type) == AutoCompleteType.emoji
+                        expect(result?.range) == startIndex..<endIndex
                         expect(result?.text) == ":emo"
                     }
                 }
@@ -260,7 +268,7 @@ class AutoCompleteSpec: QuickSpec {
                 context("end of emoji") {
                     it("returns nil") {
                         let str = "start :emoji:"
-                        let result = subject.check(str, location: 13)
+                        let result = subject.check(str, location: 14)
 
                         expect(result).to(beNil())
                     }
@@ -269,10 +277,13 @@ class AutoCompleteSpec: QuickSpec {
                 context("double emoji") {
                     it("returns the 2nd emoji word part") {
                         let str = "some long sentence :start::thumbsup"
-                        let result = subject.check(str, location: 29)
+                        let result = subject.check(str, location: 30)
 
-                        expect(result?.type) == AutoCompleteType.Emoji
-                        expect(result?.range) == str.startIndex.advancedBy(26)..<str.startIndex.advancedBy(30)
+                        let startIndex = str.characters.index(str.startIndex, offsetBy: 26)
+                        let endIndex = str.characters.index(str.startIndex, offsetBy: 30)
+
+                        expect(result?.type) == AutoCompleteType.emoji
+                        expect(result?.range) == startIndex..<endIndex
                         expect(result?.text) == ":thu"
                     }
                 }
@@ -280,10 +291,10 @@ class AutoCompleteSpec: QuickSpec {
                 context("location at the end of the string") {
                     it("returns the correct character range and string") {
                         let str = "@hi"
-                        let result = subject.check(str, location: 2)
-
-                        expect(result?.type) == AutoCompleteType.Username
-                        expect(result?.range) == str.startIndex..<str.startIndex.advancedBy(3)
+                        let result = subject.check(str, location: 3)
+                        let endIndex = str.characters.index(str.startIndex, offsetBy: 3)
+                        expect(result?.type) == AutoCompleteType.username
+                        expect(result?.range) == str.startIndex..<endIndex
                         expect(result?.text) == "@hi"
                     }
                 }
@@ -291,7 +302,7 @@ class AutoCompleteSpec: QuickSpec {
                 context("whitespace after a match") {
                     it("returns nil") {
                         let str = "@username "
-                        let result = subject.check(str, location: 9)
+                        let result = subject.check(str, location: 10)
 
                         expect(result).to(beNil())
                     }
@@ -300,7 +311,7 @@ class AutoCompleteSpec: QuickSpec {
                 context("location out of bounds") {
                     it("returns nil") {
                         let str = "hi"
-                        let result = subject.check(str, location: 100)
+                        let result = subject.check(str, location: 101)
 
                         expect(result).to(beNil())
                     }
@@ -309,7 +320,7 @@ class AutoCompleteSpec: QuickSpec {
                 context("location one past the end") {
                     it("returns nil") {
                         let str = ":hi"
-                        let result = subject.check(str, location: 3)
+                        let result = subject.check(str, location: 4)
 
                         expect(result).to(beNil())
                     }
@@ -318,7 +329,7 @@ class AutoCompleteSpec: QuickSpec {
                 context("email address") {
                     it("returns nil") {
                         let str = "joe@example"
-                        let result = subject.check(str, location: 9)
+                        let result = subject.check(str, location: 10)
 
                         expect(result).to(beNil())
                     }
@@ -327,7 +338,7 @@ class AutoCompleteSpec: QuickSpec {
                 context("emoji already in string") {
                     it("returns nil") {
                         let str = ":+1:two"
-                        let result = subject.check(str, location: 6)
+                        let result = subject.check(str, location: 7)
 
                         expect(result).to(beNil())
                     }
@@ -336,18 +347,24 @@ class AutoCompleteSpec: QuickSpec {
                 context("emoji already in string, started new emoji") {
                     it("returns :two when separated by space") {
                         let str = ":+1: :two"
-                        let result = subject.check(str, location: 8)
+                        let result = subject.check(str, location: 9)
 
-                        expect(result?.type) == AutoCompleteType.Emoji
-                        expect(result?.range) == str.startIndex.advancedBy(5)..<str.startIndex.advancedBy(9)
+                        let startIndex = str.characters.index(str.startIndex, offsetBy: 5)
+                        let endIndex = str.characters.index(str.startIndex, offsetBy: 9)
+
+                        expect(result?.type) == AutoCompleteType.emoji
+                        expect(result?.range) == startIndex..<endIndex
                         expect(result?.text) == ":two"
                     }
                     it("returns :two when emojis are touching") {
                         let str = ":+1::two"
-                        let result = subject.check(str, location: 7)
+                        let result = subject.check(str, location: 8)
 
-                        expect(result?.type) == AutoCompleteType.Emoji
-                        expect(result?.range) == str.startIndex.advancedBy(4)..<str.startIndex.advancedBy(8)
+                        let startIndex = str.characters.index(str.startIndex, offsetBy: 4)
+                        let endIndex = str.characters.index(str.startIndex, offsetBy: 8)
+
+                        expect(result?.type) == AutoCompleteType.emoji
+                        expect(result?.range) == startIndex..<endIndex
                         expect(result?.text) == ":two"
                     }
                 }

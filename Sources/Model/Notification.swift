@@ -4,40 +4,40 @@
 
 import Foundation
 
-public enum NotificationFilterType: String {
-    case All = "NotificationFilterTypeAll"
-    case Comments = "NotificationFilterTypeComments"
-    case Mention = "NotificationFilterTypeMention"
-    case Heart = "NotificationFilterTypeHeart"
-    case Repost = "NotificationFilterTypeRepost"
-    case Relationship = "NotificationFilterTypeRelationship"
+enum NotificationFilterType: String {
+    case all = "NotificationFilterTypeAll"
+    case comments = "NotificationFilterTypeComments"
+    case mention = "NotificationFilterTypeMention"
+    case heart = "NotificationFilterTypeHeart"
+    case repost = "NotificationFilterTypeRepost"
+    case relationship = "NotificationFilterTypeRelationship"
 
     var category: String? {
         switch self {
-            case .All:
+            case .all:
                 return nil
-            case .Comments:  // …
+            case .comments:  // …
                 return "comments"
-            case .Mention:  // @
+            case .mention:  // @
                 return "mentions"
-            case .Heart:
+            case .heart:
                 return "loves"
-            case .Repost:
+            case .repost:
                 return "reposts"
-            case .Relationship:
+            case .relationship:
                 return "relationships"
         }
     }
 
-    static func fromCategory(categoryString: String?) -> NotificationFilterType {
+    static func fromCategory(_ categoryString: String?) -> NotificationFilterType {
         let category = categoryString ?? ""
         switch category {
-        case "comments": return .Comments
-        case "mentions": return .Mention
-        case "loves": return .Heart
-        case "reposts": return .Repost
-        case "relationships": return .Relationship
-        default: return .All
+        case "comments": return .comments
+        case "mentions": return .mention
+        case "loves": return .heart
+        case "reposts": return .repost
+        case "relationships": return .relationship
+        default: return .all
         }
     }
 }
@@ -45,24 +45,24 @@ public enum NotificationFilterType: String {
 let NotificationVersion = 1
 
 @objc(Notification)
-public final class Notification: JSONAble, Authorable, Groupable {
+final class Notification: JSONAble, Authorable, Groupable {
 
     // required
-    public let activity: Activity
+    let activity: Activity
     // optional
-    public var author: User?
+    var author: User?
     // if postId is present, this notification is opened using "PostDetailViewController"
-    public var postId: String?
+    var postId: String?
     // computed
-    public var createdAt: NSDate { return activity.createdAt }
-    public var groupId: String { return "Notification-\(activity.id)" }
-    public var subject: JSONAble? { willSet { attributedTitleStore = nil } }
+    var createdAt: Date { return activity.createdAt as Date }
+    var groupId: String { return "Notification-\(activity.id)" }
+    var subject: JSONAble? { willSet { attributedTitleStore = nil } }
 
     // notification specific
-    public var textRegion: TextRegion?
-    public var imageRegion: ImageRegion?
-    private var attributedTitleStore: NSAttributedString? = nil
-    public var attributedTitle: NSAttributedString {
+    var textRegion: TextRegion?
+    var imageRegion: ImageRegion?
+    fileprivate var attributedTitleStore: NSAttributedString? = nil
+    var attributedTitle: NSAttributedString {
         if let attributedTitle = attributedTitleStore {
             return attributedTitle
         }
@@ -70,32 +70,32 @@ public final class Notification: JSONAble, Authorable, Groupable {
         return attributedTitleStore!
     }
 
-    public var hasImage: Bool {
+    var hasImage: Bool {
         return self.imageRegion != nil
     }
-    public var canReplyToComment: Bool {
+    var canReplyToComment: Bool {
         switch activity.kind {
-        case .PostMentionNotification,
-            .CommentNotification,
-            .CommentMentionNotification,
-            .CommentOnOriginalPostNotification,
-            .CommentOnRepostNotification:
+        case .postMentionNotification,
+            .commentNotification,
+            .commentMentionNotification,
+            .commentOnOriginalPostNotification,
+            .commentOnRepostNotification:
             return true
         default:
             return false
         }
     }
-    public var canBackFollow: Bool {
-        return false // activity.kind == .NewFollowerPost
+    var canBackFollow: Bool {
+        return false // activity.kind == .newFollowerPost
     }
 
-    public var isValidKind: Bool {
-        return activity.kind != .Unknown
+    var isValidKind: Bool {
+        return activity.kind != .unknown
     }
 
 // MARK: Initialization
 
-    public init(activity: Activity) {
+    init(activity: Activity) {
         self.activity = activity
 
         if let post = activity.subject as? Post {
@@ -110,7 +110,7 @@ public final class Notification: JSONAble, Authorable, Groupable {
             self.author = user
         }
         else if let actionable = activity.subject as? PostActionable,
-            user = actionable.user
+            let user = actionable.user
         {
             self.postId = actionable.postId
             self.author = user
@@ -139,23 +139,23 @@ public final class Notification: JSONAble, Authorable, Groupable {
 
 // MARK: NSCoding
 
-    public required init(coder aDecoder: NSCoder) {
+    required init(coder aDecoder: NSCoder) {
         let decoder = Coder(aDecoder)
         self.activity = decoder.decodeKey("activity")
         self.author = decoder.decodeOptionalKey("author")
         super.init(coder: decoder.coder)
     }
 
-    public override func encodeWithCoder(encoder: NSCoder) {
+    override func encode(with encoder: NSCoder) {
         let coder = Coder(encoder)
         coder.encodeObject(activity, forKey: "activity")
         coder.encodeObject(author, forKey: "author")
-        super.encodeWithCoder(coder.coder)
+        super.encode(with: coder.coder)
     }
 
 // MARK: Private
 
-    private func assignRegionsFromContent(content: [Regionable], parentSummary: [Regionable]? = nil) {
+    fileprivate func assignRegionsFromContent(_ content: [Regionable], parentSummary: [Regionable]? = nil) {
         // assign textRegion and imageRegion from the post content - finds
         // the first of both kinds of regions
         var textContent: [String] = []
@@ -167,8 +167,7 @@ public final class Notification: JSONAble, Authorable, Groupable {
                 if let newTextRegion = region as? TextRegion {
                     textContent.append(newTextRegion.content)
                 }
-                else if let newImageRegion = region as? ImageRegion
-                    where parentImage == nil
+                else if let newImageRegion = region as? ImageRegion, parentImage == nil
                 {
                     parentImage = newImageRegion
                 }
@@ -179,15 +178,14 @@ public final class Notification: JSONAble, Authorable, Groupable {
             if let newTextRegion = region as? TextRegion {
                 textContent.append(newTextRegion.content)
             }
-            else if let newImageRegion = region as? ImageRegion
-                where contentImage == nil
+            else if let newImageRegion = region as? ImageRegion, contentImage == nil
             {
                 contentImage = newImageRegion
             }
         }
 
         imageRegion = contentImage ?? parentImage
-        textRegion = TextRegion(content: textContent.joinWithSeparator("<br/>"))
+        textRegion = TextRegion(content: textContent.joined(separator: "<br/>"))
     }
 }
 

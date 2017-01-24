@@ -19,14 +19,14 @@ class CategoriesSelectionViewControllerSpec: QuickSpec {
             beforeEach {
                 let category: Ello.Category = stub(["name": "Art"])
                 categories = [category]
-                subject.categoriesSelectionChanged(categories)
+                subject.categoriesSelectionChanged(selection: categories)
             }
 
             it("saves selected categories from streamViewController") {
                 expect(subject.selectedCategories) == categories
             }
             it("submitting categories saves categories to onboardingData") {
-                subject.onboardingWillProceed(false, proceedClosure: { _ in })
+                subject.onboardingWillProceed(abort: false, proceedClosure: { _ in })
                 expect(subject.onboardingData.categories) == categories
             }
         }

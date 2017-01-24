@@ -2,7 +2,7 @@
 ///  LoveSpec.swift
 //
 
-import Ello
+@testable import Ello
 import Quick
 import Nimble
 
@@ -17,10 +17,10 @@ class LoveSpec: QuickSpec {
                 let love = Love.fromJSON(data) as! Love
 
                 let createdAtString = "2015-10-22T17:04:06.789Z"
-                let createdAt: NSDate = createdAtString.toNSDate()!
+                let createdAt = createdAtString.toDate()!
 
                 let updatedAtString = "2015-10-22T17:04:06.789Z"
-                let updatedAt: NSDate = updatedAtString.toNSDate()!
+                let updatedAt = updatedAtString.toDate()!
 
                 // active record
                 expect(love.id) == "23"
@@ -37,13 +37,13 @@ class LoveSpec: QuickSpec {
         context("NSCoding") {
 
             var filePath = ""
-            if let url = NSURL(string: NSFileManager.ElloDocumentsDir()) {
-                filePath = url.URLByAppendingPathComponent("LoveSpec")!.absoluteString!
+            if let url = URL(string: FileManager.ElloDocumentsDir()) {
+                filePath = url.appendingPathComponent("LoveSpec").absoluteString
             }
 
             afterEach {
                 do {
-                    try NSFileManager.defaultManager().removeItemAtPath(filePath)
+                    try FileManager.default.removeItem(atPath: filePath)
                 }
                 catch {
 
@@ -64,8 +64,8 @@ class LoveSpec: QuickSpec {
             context("decoding") {
 
                 it("decodes successfully") {
-                    let expectedCreatedAt = NSDate()
-                    let expectedUpdatedAt = NSDate()
+                    let expectedCreatedAt = Date()
+                    let expectedUpdatedAt = Date()
 
                     let user: User = stub([
                         "id" : "444"
@@ -87,7 +87,7 @@ class LoveSpec: QuickSpec {
                     ])
 
                     NSKeyedArchiver.archiveRootObject(love, toFile: filePath)
-                    let unArchivedLove = NSKeyedUnarchiver.unarchiveObjectWithFile(filePath) as! Love
+                    let unArchivedLove = NSKeyedUnarchiver.unarchiveObject(withFile: filePath) as! Love
 
                     expect(unArchivedLove).toNot(beNil())
                     expect(unArchivedLove.version) == 1

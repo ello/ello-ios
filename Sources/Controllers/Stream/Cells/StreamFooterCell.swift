@@ -4,55 +4,55 @@
 
 let streamCellDidOpenNotification = TypedNotification<UICollectionViewCell>(name: "StreamCellDidOpenNotification")
 
-public class StreamFooterCell: UICollectionViewCell {
+class StreamFooterCell: UICollectionViewCell {
     static let reuseIdentifier = "StreamFooterCell"
 
-    @IBOutlet weak public var toolBar: UIToolbar!
-    @IBOutlet weak public var containerView: UIView!
-    @IBOutlet weak public var innerContentView: UIView!
+    @IBOutlet weak var toolBar: UIToolbar!
+    @IBOutlet weak var containerView: UIView!
+    @IBOutlet weak var innerContentView: UIView!
 
-    public var commentsOpened = false
-    public weak var delegate: PostbarDelegate?
-    public weak var streamEditingDelegate: StreamEditingDelegate?
+    var commentsOpened = false
+    weak var delegate: PostbarDelegate?
+    weak var streamEditingDelegate: StreamEditingDelegate?
 
-    public let viewsItem = ElloPostToolBarOption.Views.barButtonItem()
-    public var viewsControl: ImageLabelControl {
+    let viewsItem = ElloPostToolBarOption.views.barButtonItem()
+    var viewsControl: ImageLabelControl {
         return self.viewsItem.customView as! ImageLabelControl
     }
 
-    public let lovesItem = ElloPostToolBarOption.Loves.barButtonItem()
-    public var lovesControl: ImageLabelControl {
+    let lovesItem = ElloPostToolBarOption.loves.barButtonItem()
+    var lovesControl: ImageLabelControl {
         return self.lovesItem.customView as! ImageLabelControl
     }
 
-    public let commentsItem = ElloPostToolBarOption.Comments.barButtonItem()
-    public var commentsControl: ImageLabelControl {
+    let commentsItem = ElloPostToolBarOption.comments.barButtonItem()
+    var commentsControl: ImageLabelControl {
         return self.commentsItem.customView as! ImageLabelControl
     }
 
-    public let repostItem = ElloPostToolBarOption.Repost.barButtonItem()
-    public var repostControl: ImageLabelControl {
+    let repostItem = ElloPostToolBarOption.repost.barButtonItem()
+    var repostControl: ImageLabelControl {
         return self.repostItem.customView as! ImageLabelControl
     }
 
-    public let shareItem = ElloPostToolBarOption.Share.barButtonItem()
-    public var shareControl: ImageLabelControl {
+    let shareItem = ElloPostToolBarOption.share.barButtonItem()
+    var shareControl: ImageLabelControl {
         return self.shareItem.customView as! ImageLabelControl
     }
 
-    public let replyItem = ElloPostToolBarOption.Reply.barButtonItem()
-    public var replyControl: ImageLabelControl {
+    let replyItem = ElloPostToolBarOption.reply.barButtonItem()
+    var replyControl: ImageLabelControl {
         return self.replyItem.customView as! ImageLabelControl
     }
 
-    private func updateButtonVisibility(button: UIControl, visibility: InteractionVisibility) {
-        button.hidden = !visibility.isVisible
-        button.enabled = visibility.isEnabled
-        button.selected = visibility.isSelected
+    fileprivate func updateButtonVisibility(_ button: UIControl, visibility: InteractionVisibility) {
+        button.isHidden = !visibility.isVisible
+        button.isEnabled = visibility.isEnabled
+        button.isSelected = visibility.isSelected
     }
 
-    public func updateToolbarItems(
-        streamKind streamKind: StreamKind,
+    func updateToolbarItems(
+        streamKind: StreamKind,
         repostVisibility: InteractionVisibility,
         commentVisibility: InteractionVisibility,
         shareVisibility: InteractionVisibility,
@@ -107,16 +107,16 @@ public class StreamFooterCell: UICollectionViewCell {
         self.toolBar.items = Array(toolbarItems.flatMap { [self.flexibleItem(), $0] }.dropFirst())
     }
 
-    override public func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        super.touchesEnded(touches, withEvent: event)
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesEnded(touches, with: event)
     }
 
-    override public func awakeFromNib() {
+    override func awakeFromNib() {
         super.awakeFromNib()
-        toolBar.translucent = false
-        toolBar.barTintColor = UIColor.whiteColor()
+        toolBar.isTranslucent = false
+        toolBar.barTintColor = UIColor.white
         toolBar.clipsToBounds = true
-        toolBar.layer.borderColor = UIColor.whiteColor().CGColor
+        toolBar.layer.borderColor = UIColor.white.cgColor
 
         let longPressGesture = UILongPressGestureRecognizer()
         longPressGesture.addTarget(self, action: #selector(longPressed(_:)))
@@ -125,48 +125,48 @@ public class StreamFooterCell: UICollectionViewCell {
         addButtonHandlers()
     }
 
-    public var views: String? {
+    var views: String? {
         get { return viewsControl.title }
         set { viewsControl.title = newValue }
     }
 
-    public var comments: String? {
+    var comments: String? {
         get { return commentsControl.title }
         set { commentsControl.title = newValue }
     }
 
-    public var loves: String? {
+    var loves: String? {
         get { return lovesControl.title }
         set { lovesControl.title = newValue }
     }
 
-    public var reposts: String? {
+    var reposts: String? {
         get { return repostControl.title }
         set { repostControl.title = newValue }
     }
 
 // MARK: - Private
 
-    private func fixedItem(width: CGFloat) -> UIBarButtonItem {
-        let item = UIBarButtonItem(barButtonSystemItem: .FixedSpace, target: nil, action: nil)
+    fileprivate func fixedItem(_ width: CGFloat) -> UIBarButtonItem {
+        let item = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
         item.width = width
         return item
     }
 
-    private func flexibleItem() -> UIBarButtonItem {
-        return UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: nil)
+    fileprivate func flexibleItem() -> UIBarButtonItem {
+        return UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
     }
 
-    private func addButtonHandlers() {
-        commentsControl.addTarget(self, action: #selector(StreamFooterCell.commentsButtonTapped), forControlEvents: .TouchUpInside)
-        lovesControl.addTarget(self, action: #selector(StreamFooterCell.lovesButtonTapped), forControlEvents: .TouchUpInside)
-        replyControl.addTarget(self, action: #selector(StreamFooterCell.replyButtonTapped), forControlEvents: .TouchUpInside)
-        repostControl.addTarget(self, action: #selector(StreamFooterCell.repostButtonTapped), forControlEvents: .TouchUpInside)
-        shareControl.addTarget(self, action: #selector(StreamFooterCell.shareButtonTapped), forControlEvents: .TouchUpInside)
-        viewsControl.addTarget(self, action: #selector(StreamFooterCell.viewsButtonTapped), forControlEvents: .TouchUpInside)
+    fileprivate func addButtonHandlers() {
+        commentsControl.addTarget(self, action: #selector(StreamFooterCell.commentsButtonTapped), for: .touchUpInside)
+        lovesControl.addTarget(self, action: #selector(StreamFooterCell.lovesButtonTapped), for: .touchUpInside)
+        replyControl.addTarget(self, action: #selector(StreamFooterCell.replyButtonTapped), for: .touchUpInside)
+        repostControl.addTarget(self, action: #selector(StreamFooterCell.repostButtonTapped), for: .touchUpInside)
+        shareControl.addTarget(self, action: #selector(StreamFooterCell.shareButtonTapped), for: .touchUpInside)
+        viewsControl.addTarget(self, action: #selector(StreamFooterCell.viewsButtonTapped), for: .touchUpInside)
     }
 
-    override public func layoutSubviews() {
+    override func layoutSubviews() {
         super.layoutSubviews()
         let newBounds = CGRect(x: 0, y: 0, width: bounds.width, height: 44)
         contentView.frame = newBounds
@@ -188,9 +188,9 @@ public class StreamFooterCell: UICollectionViewCell {
     }
 
     func cancelCommentLoading() {
-        commentsControl.enabled = true
+        commentsControl.isEnabled = true
         commentsControl.finishAnimation()
-        commentsControl.selected = false
+        commentsControl.isSelected = false
         commentsOpened = false
     }
 
@@ -212,9 +212,9 @@ public class StreamFooterCell: UICollectionViewCell {
     @IBAction func replyButtonTapped() {
     }
 
-    @IBAction func longPressed(gesture: UIGestureRecognizer) {
-        if gesture.state == .Began {
-            streamEditingDelegate?.cellLongPressed(self)
+    @IBAction func longPressed(_ gesture: UIGestureRecognizer) {
+        if gesture.state == .began {
+            streamEditingDelegate?.cellLongPressed(cell: self)
         }
     }
 }

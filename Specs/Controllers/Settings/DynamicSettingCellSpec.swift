@@ -2,7 +2,7 @@
 ///  DynamicSettingCellSpec.swift
 //
 
-import Ello
+@testable import Ello
 import Quick
 import Nimble
 
@@ -70,13 +70,13 @@ private class FakeDelegate: DynamicSettingCellDelegate {
     var setting: DynamicSetting?
     var value: Bool?
 
-    private func toggleSetting(setting: DynamicSetting, value: Bool) {
+    fileprivate func toggleSetting(_ setting: DynamicSetting, value: Bool) {
         didCall = true
         self.setting = setting
         self.value = value
     }
 
-    private func deleteAccount() {
+    fileprivate func deleteAccount() {
         didCall = true
     }
 }

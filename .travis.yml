@@ -1,14 +1,16 @@
-osx_image: xcode8
+osx_image: xcode8.2
 language: objective-c
-xcode_sdk: iphonesimulator10.0
+xcode_sdk: iphonesimulator10.2
 git:
   depth: 1
 cache:
 - bundler
 - cocoapods
 before_install:
-- xcrun instruments -w "iPhone 7 (10.0) [5F911B30-5F23-403B-9697-1DFDC24773C8]" ||
-  echo "(Pre)Launched the simulator."
+before_install:
+- export IOS_SIMULATOR_UDID=`instruments -s devices | grep "iPhone 7 (10.2" | awk -F '[ ]' '{print $4}' | awk -F '[\[]' '{print $2}' | sed 's/.$//'`
+- echo $IOS_SIMULATOR_UDID
+- open -a "simulator" --args -CurrentDeviceUDID $IOS_SIMULATOR_UDID
 install:
 - gem install bundler
 - bundle install
@@ -26,22 +28,10 @@ before_script:
 - export LANG=en_US.UTF-8
 script:
 - gem install danger --no-ri --no-rdoc && danger
-- set -o pipefail && xcodebuild -workspace Ello.xcworkspace -scheme Ello -configuration
-  Debug -destination "OS=10.0,name=iPhone 7" clean test | xcpretty -f `xcpretty-travis-formatter`
+- set -o pipefail && travis_retry xcodebuild -workspace Ello.xcworkspace -scheme Ello -configuration
+  Debug -destination "id=E40727B3-41FB-4D6E-B4CB-BFA87109EB12" clean test | xcpretty -f `xcpretty-travis-formatter`
 notifications:
   email: false
   slack:
     rooms:
       secure: Rew+SaUriW54jGxs1A5s0QX282QOjXLErm4E6uAMexbwJK5HePAU157rp+/EynEUttykYHIkj4yI91p17xfH5MiCy5wLz6nd1EZX/8zJ2gBg+b1HnqA3MHG/VSXysnug7htQXoC5wkMOUqJJvWBCO0xqeI7cGZR+p0hCrwZR9WA=
-env:
-  global:
-  - secure: NlynF9hcXA5hGxY3ApAMmYrTDmszD5ocS8/aKPYZXdlBXOJ0c2DC6EiPhNXxFsWXOfIS8cO8r0cxGCRDU1bsmw0MR8t9/i4o1uw3l+F8ftHZQHKCC6BDbTrPYgi79ojNjjNtO/BM98U2ew6Rk8eqN+tjpxX0DWU+3Mwp30NaZm8=
-  - secure: v5s+GDcGM/kgAT5fTuz1nbPlO2obuPjtl7enNfUId9XrpAy5P/2u1SfQvvMGU32uiWV7misINsw3LldX8lCG1GliwBeTtFsk+FmuatU92So87ji2rGy3Nw3gcZx8gYHkvc8mRTzn7WXFcs9ZC9m9knJLKLKDcj1zVbgX/0qv1R4=
-  - secure: PcijtSDEVk+43rP715U1PEM5i6EcQuAHN/GIFr1hNnex+ae7H+TDsY1tdlLCFefyN0yj+uI9FKoTWLz4jfACXw7XHiu17/QBRushIteTDtCH4wcMFCzzt10n95wOrF0bZld8g9tIThZ4BqQQIyGlbantY/HxkXZz0mtXoiYnIvI=
-  - secure: Wt7q431Xlin77h4AKbAYf7QVRCJyK92f9aTSbz3vcJ7oGko0As0Q/HNTfxFglTttay1crJv94dMHNscHHO0E/mzfATKx3FXMfSeHPmr+73cg+5M5zrPOfVMGd6qW5qOZpOxCABXKSwYiQZRcWwcN313oKE02w46rDozqv93+zdo=
-  - secure: NyXTXD0ae8WFav0FnqyuG+byCPXXwSgMnCd67Pq2adyFHzV7WEj6QtwpbuheatB3h+6lIPNGhYriC+4w6tPcCPzCu+i2JPeW5p3kFDJ/MZDpwWCwaBzbgqDrmsS2TDCxibzvEmHdOAMV4f097jACPWeIMrMekKfbATsxPMHKjws=
-  - secure: rSjd2UJV5N4DH2GvhfUE6a8ZcT5nN1NWnZPrJ8h6tNd896U/NZi+myWERLbiclBp0pqXB3J8xCR01Klk2MK5z1kHnCYsDC+cUGsa6X7OOAMliIWGcsOkXeK6RcnM64wdXVK0UiPLY6RHAc9jo9+HSbGUL/Uc+VDVRfe1Kt0jhI8=
-  - secure: MAphXemYWMsswqQH9XHXk+AHfykEStqrVBBlY4BxL5213TDzfZCsH0ERMn5Fx5ppuAatGi0Mk6kFjdj802X0gkF2WXQysFPxR5cl1LPLaL9Cfzmd/k0ZsMCaHmbRLUar4IgHPCIFXItnjti3s/jZTF94BaWho/UCYPmA+MrG/pg=
-  - secure: Ba6zrt57BLhlnZdac9s/t35bv5saMveHtM0eMe3jvRVapkTAIRHlRPpgDvGwLdiTSeI+228vT6Sl/W91pEJKvnfNGsBW9va4og1PSiLA/uA9yzGLWnR/XEGqy5QouPFS4J5WhO3tWxesUipF1rdOfywRPTrQ4l3RrUaoYWXzu7M=
-  - secure: tbEDsgNiw2IwXMdroMdVSrGnaWZ1RNQk3WX/BbPngwr7DBiAPH+G+SrSFPt+Vuj78fBHrSC18rYj8bRRd8v5LucNSsgb/M9yVYQiUv/nXvtwkaq/CnArgu6Z1s8e4Az195yMJpvJKn9GTTtquLA7GMWDjSjGvjPDaXnEhsFV19Yl5dtcX5OP42mW2RnPKac9czyP09HK8E0wqna8lAcDwZ6PJSJz4QFZm0nxcYcMqBVz1fJnrDyRprEr1Xp3g/H4vjnGGkKlqdgcFk7BxdOSf859+2BLbWpqNG5Xfd1rY4Qq40Tu2AhA7ZXE185fb3rbT+rOvVcySYRl6GbXBGt16MLHg9LKGTjSqbiYBptx90IpaiAjqdpWDZpLPGRZJvNPWLi0bwr3RP2wukTavKNPSXeac4Zgm7QQfTPn4RmPZjrR5pT90JkEWKBnkFbyi9k0hBMh4T2H3XzmDe7nVKw2HfuHsjt7zE2UasbhAiI5Fjs+qDlCYz5/oZL5ZaabuDPknD7iRO5wnXeiSzLxLIdVxqJGIKbEIZraPKP1dsSaXs/FVwq/vY/kQWepn8Ki2ml7NL+2/jmW8+RisFooe0aVjEXCZXqIrx/CzWpTJSxxdH/0ZVKM6hfHDwCP+SzBmNePD8JfeKLLH6CaZ9fGKi1eJkaPt5SqBRBlVuKD8wny97Y=
-  - secure: YKsBcMxk4Nk8V03972a8SpW6r7/Eq1OxOk8F71QgxJ+4/bvccH0X076FC1ayMzu2597lnJ48P3P4MEo3i3cpuzzRCK1HgV9KRUH/AEIXpFu5FqvTCnSx5uCfKi5CtIEDwpr2LVkQGwyV/4gCS/jzpMjWped5PYI9YJgSr9rtx8PIohjXddTkOf2QHP6Onk7f8hlibyyg4i3kBcZK7+t/2+BAqmilo5xi3k4E9TLUNEFU47VoBjsh5B9bw9hXmQLMTbTZwdOwmb/xVs/vLyPfHvAugOpKQiCdneHx0vOApfn0E13HwZgjNQdJjx7YrpI7jvqUezhUmBwduEKfL7TtcWuPpbXy+VZVkez+hi4fXkjcO5Bi5puhjP1mLUS9z3YX/XWY77mbv4L/bx2tSct5+k2Uoqpg3pfBSWgMOB0MrQkdyUJcSkOFtvmzoJKlwUO9VGqJyWSsXc9Qxa54x70q/rH6r4Our+lV2qb8HBt8bBiIcuFJWIPBSFSOm3aK0jp1jSB0eM1dwdc0tWyIbRxhJ+0bwuQgcIt+BvEGHbGNiG8A/4jpT9dZJOybodWoHN1PP4nZadoH1jpJNPchrmVMcLVx8at7RcuhG45WosF+VRlnmla2XqVv8f5+2DQ9Lq513ddlR19JtZkMWr/7Labf2eQESXsDQ+aC6Rl4dymVW3U=

@@ -5,7 +5,7 @@
 import YapDatabase
 import Foundation
 
-public typealias FromJSONClosure = (data: [String: AnyObject]) -> JSONAble
+typealias FromJSONClosure = ([String: AnyObject]) -> JSONAble
 
 let JSONAbleVersion = 1
 
@@ -15,33 +15,33 @@ protocol JSONSaveable {
 }
 
 @objc(JSONAble)
-public class JSONAble: NSObject, NSCoding {
+class JSONAble: NSObject, NSCoding {
     // links
-    public var links: [String: AnyObject]?
-    public let version: Int
+    var links: [String: AnyObject]?
+    let version: Int
 
-    public init(version: Int) {
+    init(version: Int) {
         self.version = version
         super.init()
     }
 
-    public required init(coder aDecoder: NSCoder) {
+    required init(coder aDecoder: NSCoder) {
         let decoder = Coder(aDecoder)
         self.links = decoder.decodeOptionalKey("links")
         self.version = decoder.decodeKey("version")
     }
 
-    public func encodeWithCoder(encoder: NSCoder) {
+    func encode(with encoder: NSCoder) {
         let coder = Coder(encoder)
         coder.encodeObject(links, forKey: "links")
         coder.encodeObject(version, forKey: "version")
     }
 
-    public class func fromJSON(data: [String: AnyObject]) -> JSONAble {
+    class func fromJSON(_ data: [String: AnyObject]) -> JSONAble {
         return JSONAble(version: JSONAbleVersion)
     }
 
-    public func merge(other: JSONAble) -> JSONAble {
+    func merge(_ other: JSONAble) -> JSONAble {
         return other
     }
 }
@@ -49,24 +49,24 @@ public class JSONAble: NSObject, NSCoding {
 // MARK: Links methods to get JSONAbles
 
 extension JSONAble {
-    public func getLinkObject(identifier: String) -> JSONAble? {
+    func getLinkObject(_ identifier: String) -> JSONAble? {
         var obj: JSONAble?
         if let id = links?[identifier]?["id"] as? String,
-            collection = links?[identifier]?["type"] as? String
+            let collection = links?[identifier]?["type"] as? String
         {
-            ElloLinkedStore.sharedInstance.readConnection.readWithBlock { transaction in
-                obj = transaction.objectForKey(id, inCollection: collection) as? JSONAble
+            ElloLinkedStore.sharedInstance.readConnection.read { transaction in
+                obj = transaction.object(forKey: id, inCollection: collection) as? JSONAble
             }
         }
         else if let id = links?[identifier] as? String {
-            ElloLinkedStore.sharedInstance.readConnection.readWithBlock { transaction in
-                obj = transaction.objectForKey(id, inCollection: identifier) as? JSONAble
+            ElloLinkedStore.sharedInstance.readConnection.read { transaction in
+                obj = transaction.object(forKey: id, inCollection: identifier) as? JSONAble
             }
         }
         return obj
     }
 
-    public func getLinkArray(identifier: String) -> [JSONAble] {
+    func getLinkArray(_ identifier: String) -> [JSONAble] {
 
         guard let ids =
             self.links?[identifier] as? [String] ??
@@ -74,9 +74,9 @@ extension JSONAble {
         else { return [] }
 
         var arr = [JSONAble]()
-        ElloLinkedStore.sharedInstance.readConnection.readWithBlock { transaction in
+        ElloLinkedStore.sharedInstance.readConnection.read { transaction in
             for key in ids {
-                if let jsonable = transaction.objectForKey(key, inCollection: identifier) as? JSONAble {
+                if let jsonable = transaction.object(forKey: key, inCollection: identifier) as? JSONAble {
                     arr.append(jsonable)
                 }
             }
@@ -84,24 +84,24 @@ extension JSONAble {
         return arr
     }
 
-    public func addLinkObject(identifier: String, key: String, type: MappingType) {
+    func addLinkObject(_ identifier: String, key: String, type: MappingType) {
         if links == nil { links = [String: AnyObject]() }
-        links![identifier] = ["id": key, "type": type.rawValue]
+        links![identifier] = ["id": key, "type": type.rawValue] as AnyObject
 
     }
 
-    public func addLinkObject(model: JSONAble, identifier: String, key: String, type: MappingType) {
+    func addLinkObject(_ model: JSONAble, identifier: String, key: String, type: MappingType) {
         addLinkObject(identifier, key: key, type: type)
         ElloLinkedStore.sharedInstance.setObject(model, forKey: key, type: type)
     }
 
-    public func clearLinkObject(identifier: String) {
+    func clearLinkObject(_ identifier: String) {
         if links == nil { links = [String: AnyObject]() }
         links![identifier] = nil
     }
 
-    public func addLinkArray(identifier: String, array: [String], type: MappingType) {
+    func addLinkArray(_ identifier: String, array: [String], type: MappingType) {
         if links == nil { links = [String: AnyObject]() }
-        links![identifier] = ["ids": array, "type": type.rawValue]
+        links![identifier] = ["ids": array, "type": type.rawValue] as AnyObject
     }
 }

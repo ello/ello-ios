@@ -6,21 +6,21 @@ import SnapKit
 
 
 /// Easy keyboard views: pin an anchor to `keyboardAnchor.top`. It'll animate automatically, too.
-public class Screen: UIView {
+class Screen: UIView {
     let keyboardAnchor = UIView()
-    private var keyboardTopConstraint: Constraint!
-    private var keyboardWillShowObserver: NotificationObserver?
-    private var keyboardWillHideObserver: NotificationObserver?
+    fileprivate var keyboardTopConstraint: Constraint!
+    fileprivate var keyboardWillShowObserver: NotificationObserver?
+    fileprivate var keyboardWillHideObserver: NotificationObserver?
 
     convenience init() {
-        self.init(frame: UIScreen.mainScreen().bounds)
+        self.init(frame: UIScreen.main.bounds)
     }
 
-    public required override init(frame: CGRect) {
+    required override init(frame: CGRect) {
         super.init(frame: frame)
 
         addSubview(keyboardAnchor)
-        backgroundColor = .whiteColor()
+        backgroundColor = .white
 
         screenInit()
         style()
@@ -33,7 +33,7 @@ public class Screen: UIView {
         layoutIfNeeded()
     }
 
-    public required init?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
@@ -41,8 +41,8 @@ public class Screen: UIView {
         teardownKeyboardObservers()
     }
 
-    override public func willMoveToWindow(newWindow: UIWindow?) {
-        super.willMoveToWindow(newWindow)
+    override func willMove(toWindow newWindow: UIWindow?) {
+        super.willMove(toWindow: newWindow)
 
         if newWindow != nil && window == nil {
             setupKeyboardObservers()
@@ -52,38 +52,38 @@ public class Screen: UIView {
         }
     }
 
-    private func setupKeyboardObservers() {
+    fileprivate func setupKeyboardObservers() {
         keyboardWillShowObserver = NotificationObserver(notification: Keyboard.Notifications.KeyboardWillShow, block: keyboardWillChange)
         keyboardWillHideObserver = NotificationObserver(notification: Keyboard.Notifications.KeyboardWillHide, block: keyboardWillChange)
     }
 
-    private func teardownKeyboardObservers() {
+    fileprivate func teardownKeyboardObservers() {
         keyboardWillShowObserver?.removeObserver()
         keyboardWillHideObserver?.removeObserver()
         keyboardWillShowObserver = nil
         keyboardWillHideObserver = nil
     }
 
-    func keyboardWillChange(keyboard: Keyboard) {
+    func keyboardWillChange(_ keyboard: Keyboard) {
         let bottomInset = keyboard.keyboardBottomInset(inView: self)
         animate(duration: keyboard.duration, options: keyboard.options, completion: { _ in self.keyboardDidAnimate() }) {
-            self.keyboardTopConstraint.updateOffset(-bottomInset)
+            self.keyboardTopConstraint.update(offset: -bottomInset)
             self.keyboardIsAnimating(keyboard)
             self.layoutIfNeeded()
         }
     }
 
-    public func keyboardIsAnimating(keyboard: Keyboard) {}
-    public func keyboardDidAnimate() {}
+    func keyboardIsAnimating(_ keyboard: Keyboard) {}
+    func keyboardDidAnimate() {}
 
     func screenInit() {}
     func style() {}
     func bindActions() {}
     func setText() {}
     func arrange() {
-        keyboardAnchor.snp_makeConstraints { make in
+        keyboardAnchor.snp.makeConstraints { make in
             make.leading.trailing.bottom.equalTo(self)
-            keyboardTopConstraint = make.top.equalTo(self.snp_bottom).constraint
+            keyboardTopConstraint = make.top.equalTo(self.snp.bottom).constraint
         }
     }
 }

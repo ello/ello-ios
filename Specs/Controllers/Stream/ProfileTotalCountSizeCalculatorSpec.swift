@@ -16,7 +16,7 @@ class ProfileTotalCountSizeCalculatorSpec: QuickSpec {
                 let user: User = stub([:])
                 let calc = ProfileTotalCountSizeCalculator()
                 var height: CGFloat!
-                calc.calculate(StreamCellItem(jsonable: user, type: .Header))
+                calc.calculate(StreamCellItem(jsonable: user, type: .header))
                     .onSuccess { h in height = h }
                     .onFail { _ in }
                 expect(height) == 0

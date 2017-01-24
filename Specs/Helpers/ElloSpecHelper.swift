@@ -2,15 +2,13 @@
 ///  ElloSpecHelpers.swift
 //
 
-@testable
-import Ello
+@testable import Ello
 import Quick
-import OHHTTPStubs
 import Nimble_Snapshots
 
 // Add in custom configuration
 class ElloConfiguration: QuickConfiguration {
-    override class func configure(config: Configuration) {
+    override class func configure(_ config: Configuration) {
         config.beforeSuite {
             setNimbleTolerance(0.001)
             ElloLinkedStore.databaseName = "ello_test.sqlite"
@@ -20,29 +18,29 @@ class ElloConfiguration: QuickConfiguration {
             keychain.username = "email"
             keychain.password = "password"
             keychain.authToken = "abcde"
-            keychain.authTokenExpires = NSDate().dateByAddingTimeInterval(3600)
+            keychain.authTokenExpires = Date().addingTimeInterval(3600)
             keychain.authTokenType = "grant"
             keychain.refreshAuthToken = "abcde"
             keychain.isPasswordBased = true
             AuthToken.sharedKeychain = keychain
 
-            ElloProvider.shared.authState = .Authenticated
+            ElloProvider.shared.authState = .authenticated
             ElloProvider.shared.queue = nil
             ElloProvider.sharedProvider = ElloProvider.StubbingProvider()
 
-            ElloLinkedStore.sharedInstance.writeConnection.readWriteWithBlock { transaction in
+            ElloLinkedStore.sharedInstance.writeConnection.readWrite { transaction in
                 transaction.removeAllObjectsInAllCollections()
             }
         }
         config.afterEach {
-            ElloProvider_Specs.errorStatusCode = .Status404
+            ElloProvider_Specs.errorStatusCode = .status404
             let window = UIWindow()
             window.rootViewController = UIViewController()
             window.makeKeyAndVisible()
         }
         config.afterSuite {
             AuthToken.sharedKeychain = ElloKeychain()
-            ElloLinkedStore.sharedInstance.writeConnection.readWriteWithBlock { transaction in
+            ElloLinkedStore.sharedInstance.writeConnection.readWrite { transaction in
                 transaction.removeAllObjectsInAllCollections()
             }
             ElloProvider.sharedProvider = ElloProvider.DefaultProvider()
@@ -51,12 +49,12 @@ class ElloConfiguration: QuickConfiguration {
 }
 
 func specImage(named name: String) -> UIImage? {
-    return UIImage(named: name, inBundle: NSBundle(forClass: ElloConfiguration.self), compatibleWithTraitCollection: nil)!
+    return UIImage(named: name, in: Bundle(for: ElloConfiguration.self), compatibleWith: nil)!
 }
 
-func stubbedJSONData(file: String, _ propertyName: String) -> ([String:AnyObject]) {
-    let loadedData:NSData = stubbedData(file)
-    let json: AnyObject = try! NSJSONSerialization.JSONObjectWithData(loadedData, options: [])
+func stubbedJSONData(_ file: String, _ propertyName: String) -> ([String: AnyObject]) {
+    let loadedData: Data = stubbedData(file)
+    let json: AnyObject = try! JSONSerialization.jsonObject(with: loadedData, options: []) as AnyObject
 
     var castJSON = json as! [String: AnyObject]
     let parsedProperty = castJSON[propertyName] as! [String:AnyObject]
@@ -67,9 +65,9 @@ func stubbedJSONData(file: String, _ propertyName: String) -> ([String:AnyObject
     return parsedProperty
 }
 
-func stubbedJSONDataArray(file: String, _ propertyName: String) -> [[String:AnyObject]] {
-    let loadedData:NSData = stubbedData(file)
-    let json: AnyObject = try! NSJSONSerialization.JSONObjectWithData(loadedData, options: [])
+func stubbedJSONDataArray(_ file: String, _ propertyName: String) -> [[String: AnyObject]] {
+    let loadedData: Data = stubbedData(file)
+    let json: AnyObject = try! JSONSerialization.jsonObject(with: loadedData, options: []) as AnyObject
 
     var castJSON:[String:AnyObject] = json as! [String: AnyObject]
     let parsedProperty = castJSON[propertyName] as! [[String:AnyObject]]
@@ -78,11 +76,4 @@ func stubbedJSONDataArray(file: String, _ propertyName: String) -> [[String:AnyO
     }
 
     return parsedProperty
-}
-
-func supressRequestsTo(domain: String) {
-    OHHTTPStubs.stubRequestsPassingTest({$0.URL!.host == domain}) { _ in
-        return OHHTTPStubsResponse(data: NSData(),
-            statusCode: 200, headers: ["Content-Type":"image/gif"])
-    }
 }

@@ -2,48 +2,46 @@
 ///  Tmp.swift
 //
 
-public struct Tmp {
-    public static let uniqDir = Tmp.uniqueName()
+struct Tmp {
+    static let uniqDir = Tmp.uniqueName()
 
-    public static func fileExists(fileName: String) -> Bool {
-        if let fileURL = self.fileURL(fileName),
-            filePath = fileURL.path
-        {
-            return NSFileManager.defaultManager().fileExistsAtPath(filePath)
+    static func fileExists(_ fileName: String) -> Bool {
+        if let fileURL = self.fileURL(fileName) {
+            let filePath = fileURL.path
+            return FileManager.default.fileExists(atPath: filePath)
         }
         else {
             return false
         }
     }
 
-    public static func directoryURL() -> NSURL? {
-        if let pathURL = NSURL(string: NSTemporaryDirectory()),
-            directoryName = pathURL.URLByAppendingPathComponent(Tmp.uniqDir)?.absoluteString
-        {
-            return NSURL.fileURLWithPath(directoryName, isDirectory: true)
+    static func directoryURL() -> URL? {
+        if let pathURL = URL(string: NSTemporaryDirectory()) {
+            let directoryName = pathURL.appendingPathComponent(Tmp.uniqDir).absoluteString
+            return URL(fileURLWithPath: directoryName, isDirectory: true)
         }
         return nil
     }
 
-    public static func fileURL(fileName: String) -> NSURL? {
+    static func fileURL(_ fileName: String) -> URL? {
         if let directoryURL = directoryURL() {
-            return directoryURL.URLByAppendingPathComponent(fileName)
+            return directoryURL.appendingPathComponent(fileName)
         }
         return nil
     }
 
     static func uniqueName() -> String {
-        return NSProcessInfo.processInfo().globallyUniqueString
+        return ProcessInfo.processInfo.globallyUniqueString
     }
 
-    public static func write(toDataable: ToNSData, to fileName: String) -> NSURL? {
-        if let data = toDataable.toNSData() {
+    static func write(_ toDataable: ToData, to fileName: String) -> URL? {
+        if let data = toDataable.toData() {
             if let directoryURL = self.directoryURL() {
                 do {
-                    try NSFileManager.defaultManager().createDirectoryAtURL(directoryURL, withIntermediateDirectories: true, attributes: nil)
+                    try FileManager.default.createDirectory(at: directoryURL, withIntermediateDirectories: true, attributes: nil)
 
                     if let fileURL = self.fileURL(fileName) {
-                        data.writeToURL(fileURL, atomically: true)
+                        try? data.write(to: fileURL, options: [.atomic])
                         return fileURL
                     }
                 }
@@ -55,35 +53,35 @@ public struct Tmp {
         return nil
     }
 
-    public static func read(fileName: String) -> NSData? {
+    static func read(_ fileName: String) -> Data? {
         if fileExists(fileName) {
             if let fileURL = fileURL(fileName) {
-                return NSData(contentsOfURL: fileURL)
+                return (try? Data(contentsOf: fileURL))
             }
         }
         return nil
     }
 
-    public static func read(fileName: String) -> String? {
-        if let data: NSData = read(fileName) {
-            return NSString(data: data, encoding: NSUTF8StringEncoding) as? String
+    static func read(_ fileName: String) -> String? {
+        if let data: Data = read(fileName) {
+            return NSString(data: data, encoding: String.Encoding.utf8.rawValue) as? String
         }
         return nil
     }
 
-    public static func read(fileName: String) -> UIImage? {
-        if let data: NSData = read(fileName) {
+    static func read(_ fileName: String) -> UIImage? {
+        if let data: Data = read(fileName) {
             return UIImage(data: data)
         }
         return nil
     }
 
-    public static func remove(fileName: String) -> Bool {
+    static func remove(_ fileName: String) -> Bool {
         let fileURL = self.fileURL(fileName)
         if let filePath = fileURL?.path {
-            if NSFileManager.defaultManager().fileExistsAtPath(filePath) {
+            if FileManager.default.fileExists(atPath: filePath) {
                 do {
-                    try NSFileManager.defaultManager().removeItemAtPath(filePath)
+                    try FileManager.default.removeItem(atPath: filePath)
                     return true
                 }
                 catch {

@@ -5,10 +5,10 @@
 import WebKit
 import Foundation
 
-public class StreamTextCell: StreamRegionableCell, UIWebViewDelegate, UIGestureRecognizerDelegate {
+class StreamTextCell: StreamRegionableCell, UIWebViewDelegate, UIGestureRecognizerDelegate {
     static let reuseIdentifier = "StreamTextCell"
 
-    typealias WebContentReady = (webView: UIWebView) -> Void
+    typealias WebContentReady = (_ webView: UIWebView) -> Void
 
     @IBOutlet weak var webView: UIWebView!
     @IBOutlet weak var leadingConstraint: NSLayoutConstraint!
@@ -17,9 +17,9 @@ public class StreamTextCell: StreamRegionableCell, UIWebViewDelegate, UIGestureR
     weak var streamEditingDelegate: StreamEditingDelegate?
     var webContentReady: WebContentReady?
 
-    override public func awakeFromNib() {
+    override func awakeFromNib() {
         super.awakeFromNib()
-        webView.scrollView.scrollEnabled = false
+        webView.scrollView.isScrollEnabled = false
         webView.scrollView.scrollsToTop = false
 
         let doubleTapGesture = UITapGestureRecognizer()
@@ -33,26 +33,26 @@ public class StreamTextCell: StreamRegionableCell, UIWebViewDelegate, UIGestureR
         webView.addGestureRecognizer(longPressGesture)
     }
 
-    public func gestureRecognizer(_: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer _: UIGestureRecognizer) -> Bool {
+    func gestureRecognizer(_: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith _: UIGestureRecognizer) -> Bool {
         return true
     }
 
-    @IBAction func doubleTapped(gesture: UIGestureRecognizer) {
-        let location = gesture.locationInView(nil)
-        streamEditingDelegate?.cellDoubleTapped(self, location: location)
+    @IBAction func doubleTapped(_ gesture: UIGestureRecognizer) {
+        let location = gesture.location(in: nil)
+        streamEditingDelegate?.cellDoubleTapped(cell: self, location: location)
     }
 
-    @IBAction func longPressed(gesture: UIGestureRecognizer) {
-        if gesture.state == .Began {
-            streamEditingDelegate?.cellLongPressed(self)
+    @IBAction func longPressed(_ gesture: UIGestureRecognizer) {
+        if gesture.state == .began {
+            streamEditingDelegate?.cellLongPressed(cell: self)
         }
     }
 
-    func onWebContentReady(handler: WebContentReady?) {
+    func onWebContentReady(_ handler: WebContentReady?) {
         webContentReady = handler
     }
 
-    override public func prepareForReuse() {
+    override func prepareForReuse() {
         super.prepareForReuse()
         hideBorder()
         webContentReady = nil
@@ -60,19 +60,18 @@ public class StreamTextCell: StreamRegionableCell, UIWebViewDelegate, UIGestureR
         webView.loadHTMLString("", baseURL: nil)
     }
 
-    public func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
-        if let scheme = request.URL?.scheme
-            where scheme == "default"
+    func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebViewNavigationType) -> Bool {
+        if let scheme = request.url?.scheme, scheme == "default"
         {
-            userDelegate?.userTappedText(self)
+            userDelegate?.userTappedText(cell: self)
             return false
         }
         else {
-            return ElloWebViewHelper.handleRequest(request, webLinkDelegate: webLinkDelegate)
+            return ElloWebViewHelper.handle(request: request, webLinkDelegate: webLinkDelegate)
         }
     }
 
-    public func webViewDidFinishLoad(webView: UIWebView) {
-        webContentReady?(webView: webView)
+    func webViewDidFinishLoad(_ webView: UIWebView) {
+        webContentReady?(webView)
     }
 }

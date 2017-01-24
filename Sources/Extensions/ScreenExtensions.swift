@@ -4,7 +4,7 @@
 
 extension UIWindow {
     class var mainWindow: UIWindow {
-        return UIApplication.sharedApplication().keyWindow ?? UIWindow()
+        return UIApplication.shared.keyWindow ?? UIWindow()
     }
 
     class func windowBounds() -> CGRect {
@@ -26,9 +26,9 @@ extension UIWindow {
 }
 
 
-public class Window {
-    static public func isWide(width: CGFloat) -> Bool {
+class Window {
+    static func isWide(_ width: CGFloat) -> Bool {
         return width > 1000
     }
-    static public var width: CGFloat { return UIWindow.mainWindow.frame.size.width }
+    static var width: CGFloat { return UIWindow.mainWindow.frame.size.width }
 }

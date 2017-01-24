@@ -4,14 +4,14 @@
 
 import CoreGraphics
 
-public extension CGSize {
+extension CGSize {
     static let minButton = CGSize(width: 40, height: 40)
 
-    public var integral: CGSize {
+    var integral: CGSize {
         return CGSize(width: ceil(width), height: ceil(height))
     }
 
-    public func scaledSize(maxSize: CGSize) -> CGSize {
+    func scaledSize(_ maxSize: CGSize) -> CGSize {
         var newSize = self
         if newSize.width > maxSize.width {
             let scale = maxSize.width / newSize.width

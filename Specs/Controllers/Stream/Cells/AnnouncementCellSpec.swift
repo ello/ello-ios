@@ -18,7 +18,7 @@ class AnnouncementCellSpec: QuickSpec {
                     var config = AnnouncementCell.Config()
                     config.title = title
                     config.body = body
-                    config.image = UIImage(named: "specs-avatar", inBundle: NSBundle(forClass: self.dynamicType), compatibleWithTraitCollection: nil)!
+                    config.image = UIImage(named: "specs-avatar", in: Bundle(for: type(of: self)), compatibleWith: nil)!
                     config.callToAction = "Learn More"
                     return config
                 }
@@ -31,12 +31,12 @@ class AnnouncementCellSpec: QuickSpec {
                 ]
                 for (description, config) in expectations {
                     it("should have valid snapshot for \(description)") {
-                        let announcement = Announcement(id: "1", header: config.title!, body: config.body!, ctaURL: nil, ctaCaption: config.callToAction!, createdAt: NSDate())
+                        let announcement = Announcement(id: "1", header: config.title!, body: config.body!, ctaURL: nil, ctaCaption: config.callToAction!, createdAt: Date())
                         let width: CGFloat = 375
                         let height = AnnouncementCellSizeCalculator.calculateAnnouncementHeight(announcement, cellWidth: width)
                         let subject = AnnouncementCell()
                         subject.config = config
-                        expectValidSnapshot(subject, device: .Custom(CGSize(width: width, height: height)))
+                        expectValidSnapshot(subject, device: .custom(CGSize(width: width, height: height)))
                     }
                 }
             }

@@ -2,49 +2,49 @@
 ///  TwoLineButton.swift
 //
 
-public class TwoLineButton: UIButton {
+class TwoLineButton: UIButton {
 
-    public var title: String = "" {
+    var title: String = "" {
         didSet { updateText() }
     }
 
-    public var count: String = "" {
+    var count: String = "" {
         didSet { updateText() }
     }
 
-    required override public init(frame: CGRect) {
+    required override init(frame: CGRect) {
         super.init(frame: frame)
         self.sharedSetup()
     }
 
-    required public init?(coder: NSCoder) {
+    required init?(coder: NSCoder) {
         super.init(coder: coder)
         self.sharedSetup()
     }
 
     func sharedSetup() {
         titleLabel?.numberOfLines = 0
-        backgroundColor = .clearColor()
-        contentHorizontalAlignment = .Left
+        backgroundColor = .clear
+        contentHorizontalAlignment = .left
     }
 
     // MARK: Private
 
-    private func attributes(color: UIColor, font: UIFont, underline: Bool = false) -> [String : AnyObject] {
+    fileprivate func attributes(_ color: UIColor, font: UIFont, underline: Bool = false) -> [String : AnyObject] {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 5
-        paragraphStyle.alignment = .Left
+        paragraphStyle.alignment = .left
 
         return [
             NSFontAttributeName : font,
             NSForegroundColorAttributeName : color,
             NSParagraphStyleAttributeName : paragraphStyle,
-            NSUnderlineStyleAttributeName : (underline ? NSUnderlineStyle.StyleSingle.rawValue : NSUnderlineStyle.StyleNone.rawValue)
+            NSUnderlineStyleAttributeName : (underline ? NSUnderlineStyle.styleSingle.rawValue : NSUnderlineStyle.styleNone.rawValue) as AnyObject
         ]
     }
 
-    private func updateText() {
-        let countNormalAttributes = attributes(UIColor.blackColor(), font: UIFont.defaultBoldFont())
+    fileprivate func updateText() {
+        let countNormalAttributes = attributes(UIColor.black, font: UIFont.defaultBoldFont())
         let countSelectedAttributes = attributes(UIColor.greyA(), font: UIFont.defaultBoldFont())
 
         let titleNormalAttributes = attributes(UIColor.greyA(), font: UIFont.defaultFont(), underline: true)
@@ -56,8 +56,8 @@ public class TwoLineButton: UIButton {
         let attributedNormalTitle = NSAttributedString(string: title, attributes: titleNormalAttributes)
         let attributedSelectedTitle = NSAttributedString(string: title, attributes: titleSelectedAttributes)
 
-        setAttributedTitle(attributedNormalCount + attributedNormalTitle, forState: .Normal)
-        setAttributedTitle(attributedSelectedCount + attributedSelectedTitle, forState: .Highlighted)
+        setAttributedTitle(attributedNormalCount + attributedNormalTitle, for: .normal)
+        setAttributedTitle(attributedSelectedCount + attributedSelectedTitle, for: .highlighted)
         sizeToFit()
     }
 

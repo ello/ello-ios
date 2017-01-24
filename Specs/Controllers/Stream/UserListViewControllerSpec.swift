@@ -2,7 +2,7 @@
 ///  SimpleStreamViewControllerSpec.swift
 //
 
-import Ello
+@testable import Ello
 import Foundation
 import Quick
 import Nimble
@@ -13,7 +13,7 @@ class SimpleStreamViewControllerSpec: QuickSpec {
 
         var subject: SimpleStreamViewController!
         beforeEach {
-            subject = SimpleStreamViewController(endpoint: ElloAPI.UserStreamFollowers(userId: "666"), title: "Followers")
+            subject = SimpleStreamViewController(endpoint: ElloAPI.userStreamFollowers(userId: "666"), title: "Followers")
         }
 
         describe("initialization") {

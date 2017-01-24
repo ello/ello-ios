@@ -2,7 +2,7 @@
 ///  StringExtensionSpec.swift
 //
 
-import Ello
+@testable import Ello
 import Quick
 import Nimble
 
@@ -101,64 +101,14 @@ class StringExtensionSpec: QuickSpec {
                 expect(str.SHA1String) == "a94a8fe5ccb19ba61c4c0873d391e987982fbbd3"
             }
         }
-        describe("contains") {
-            context("contains string") {
-                it("returns true") {
-                    let str = "test"
-                    expect(str.contains("est")).to(beTrue())
-                }
-            }
-            context("does not contain string") {
-                it("returns false") {
-                    let str = "test"
-                    expect(str.contains("set")).to(beFalse())
-                }
-            }
-        }
-        describe("endsWith") {
-            context("endsWith string") {
-                it("returns true") {
-                    let str = "test"
-                    expect(str.endsWith("est")).to(beTrue())
-                }
-                it("returns true if string is repeated") {
-                    let str = "test test"
-                    expect(str.endsWith("est")).to(beTrue())
-                }
-            }
-            context("does not endWith string") {
-                it("returns false") {
-                    let str = "test"
-                    expect(str.endsWith("tes")).to(beFalse())
-                }
-            }
-        }
-        describe("beginsWith") {
-            context("beginsWith string") {
-                it("returns true") {
-                    let str = "test"
-                    expect(str.beginsWith("tes")).to(beTrue())
-                }
-                it("returns true if string is repeated") {
-                    let str = "test test"
-                    expect(str.beginsWith("tes")).to(beTrue())
-                }
-            }
-            context("does not beginWith string") {
-                it("returns false") {
-                    let str = "test"
-                    expect(str.beginsWith("est")).to(beFalse())
-                }
-            }
-        }
         describe("split") {
             it("splits a string") {
                 let str = "a,b,cc,ddd"
-                expect(str.split(char: ",")) == ["a", "b", "cc", "ddd"]
+                expect(str.split(",")) == ["a", "b", "cc", "ddd"]
             }
             it("ignores a string with no splits") {
                 let str = "abccddd"
-                expect(str.split(char: ",")) == ["abccddd"]
+                expect(str.split(",")) == ["abccddd"]
             }
         }
         describe("trimmed") {

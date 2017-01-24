@@ -1,6 +1,6 @@
 PODS:
   - 1PasswordExtension (1.6.1)
-  - Alamofire (3.5.1)
+  - Alamofire (4.2.0)
   - Analytics/Core-iOS (2.0.17):
     - TRVSDictionaryWithCaseInsensitivity (= 0.0.2)
   - Analytics/Segmentio (2.0.17):
@@ -17,49 +17,37 @@ PODS:
     - Fabric (~> 1.6.3)
   - CRToast (0.0.7)
   - DeltaCalculator (1.0.4)
-  - ElloCerts (1.2.0):
-    - Alamofire (~> 3.0)
-  - ElloUIFonts (1.2.0)
+  - ElloCerts (2.0.0):
+    - Alamofire (~> 4.0)
+  - ElloUIFonts (2.0.0)
   - Fabric (1.6.11)
-  - FBSnapshotTestCase (2.1.2):
-    - FBSnapshotTestCase/SwiftSupport (= 2.1.2)
-  - FBSnapshotTestCase/Core (2.1.2)
-  - FBSnapshotTestCase/SwiftSupport (2.1.2):
+  - FBSnapshotTestCase (2.1.4):
+    - FBSnapshotTestCase/SwiftSupport (= 2.1.4)
+  - FBSnapshotTestCase/Core (2.1.4)
+  - FBSnapshotTestCase/SwiftSupport (2.1.4):
     - FBSnapshotTestCase/Core
   - FLAnimatedImage (1.0.12)
-  - FutureKit (2.3.0)
-  - ImagePickerSheetController (0.9.1)
+  - FutureKit (2.0.0)
+  - ImagePickerSheetController (0.9.3)
   - iRate (1.11.7)
   - JTSImageViewController (1.5)
-  - KeychainAccess (2.4.0)
+  - JWTDecode (2.0.0)
+  - KeychainAccess (3.0.1)
   - Keys (1.0.0)
   - KINWebBrowser (1.1.0)
   - MBProgressHUD (0.9.2)
-  - Moya (7.0.4):
-    - Moya/Core (= 7.0.4)
-  - Moya/Core (7.0.4):
-    - Alamofire (~> 3.5)
-    - Result (~> 2.0)
-  - Nimble (4.1.0)
-  - Nimble-Snapshots (4.4.2):
-    - Nimble-Snapshots/Core (= 4.4.2)
-  - Nimble-Snapshots/Core (4.4.2):
+  - Moya (8.0.0):
+    - Moya/Core (= 8.0.0)
+  - Moya/Core (8.0.0):
+    - Alamofire (~> 4.2.0)
+    - Result (~> 3.1.0)
+  - Nimble (5.1.1)
+  - Nimble-Snapshots (4.4.0):
+    - Nimble-Snapshots/Core (= 4.4.0)
+  - Nimble-Snapshots/Core (4.4.0):
     - FBSnapshotTestCase (~> 2.0)
     - Nimble
     - Quick
-  - OHHTTPStubs (4.8.0):
-    - OHHTTPStubs/Default (= 4.8.0)
-  - OHHTTPStubs/Core (4.8.0)
-  - OHHTTPStubs/Default (4.8.0):
-    - OHHTTPStubs/Core
-    - OHHTTPStubs/JSON
-    - OHHTTPStubs/NSURLSession
-    - OHHTTPStubs/OHPathHelpers
-  - OHHTTPStubs/JSON (4.8.0):
-    - OHHTTPStubs/Core
-  - OHHTTPStubs/NSURLSession (4.8.0):
-    - OHHTTPStubs/Core
-  - OHHTTPStubs/OHPathHelpers (4.8.0)
   - PINCache (2.3)
   - PINRemoteImage (1.2.3):
     - PINRemoteImage/FLAnimatedImage (= 1.2.3)
@@ -68,15 +56,15 @@ PODS:
   - PINRemoteImage/FLAnimatedImage (1.2.3):
     - FLAnimatedImage (>= 1.0)
     - PINRemoteImage/Core
-  - Quick (0.9.3)
-  - Result (2.1.3)
-  - SnapKit (0.21.1)
+  - Quick (1.0.0)
+  - Result (3.1.0)
+  - SnapKit (3.1.2)
   - SSPullToRefresh (1.2.4)
   - SVGKit (2.0.1):
     - CocoaLumberjack (~> 2.x)
-  - SwiftyJSON (3.0.0)
-  - SwiftyUserDefaults (1.3.0)
-  - TimeAgoInWords (2.0.1)
+  - SwiftyJSON (3.1.4)
+  - SwiftyUserDefaults (3.0.0)
+  - TimeAgoInWords (3.0.0)
   - TRVSDictionaryWithCaseInsensitivity (0.0.2)
   - WebLinking (1.1.0)
   - YapDatabase (2.8.1):
@@ -125,37 +113,37 @@ PODS:
 
 DEPENDENCIES:
   - 1PasswordExtension (from `https://github.com/ello/onepassword-app-extension`)
-  - Alamofire (~> 3.0)
+  - Alamofire (~> 4.0)
   - Analytics/Segmentio
   - Crashlytics (~> 3.4)
   - CRToast (from `https://github.com/ello/CRToast`)
-  - DeltaCalculator (~> 1.0)
-  - ElloCerts (~> 1.2)
-  - ElloUIFonts (~> 1.2.0)
+  - DeltaCalculator (from `https://github.com/ello/DeltaCalculator`)
+  - ElloCerts (from `git@github.com:ello/Ello-iOS-Certs`)
+  - ElloUIFonts (from `git@github.com:ello/ElloUIFonts`)
   - Fabric (~> 1.6)
-  - FBSnapshotTestCase (from `https://github.com/ello/ios-snapshot-test-case`)
+  - FBSnapshotTestCase
   - FLAnimatedImage (~> 1.0)
-  - FutureKit (~> 2.0)
-  - ImagePickerSheetController (from `https://github.com/lbrndnr/ImagePickerSheetController`, commit `92bcc3fde8def54c1947771247d5d677377a2f39`)
+  - FutureKit (from `https://github.com/FutureKit/FutureKit`, branch `v3`)
+  - ImagePickerSheetController (from `https://github.com/ello/ImagePickerSheetController`, branch `swift3`)
   - iRate (~> 1.11)
   - JTSImageViewController (from `https://github.com/ello/JTSImageViewController`)
-  - KeychainAccess (~> 2.4.0)
+  - JWTDecode (~> 2.0)
+  - KeychainAccess (~> 3.0)
   - Keys (from `Pods/CocoaPodsKeys`)
   - KINWebBrowser (from `https://github.com/ello/KINWebBrowser`)
   - MBProgressHUD (~> 0.9.0)
-  - Moya (~> 7.0)
-  - Nimble (= 4.1.0)
-  - Nimble-Snapshots (from `https://github.com/ashfurrow/Nimble-Snapshots`)
-  - OHHTTPStubs (~> 4.3)
+  - Moya (~> 8.0.0-beta.6)
+  - Nimble (= 5.1.1)
+  - Nimble-Snapshots (~> 4.4)
   - PINRemoteImage (from `https://github.com/pinterest/PINRemoteImage.git`, commit `af312667f0ce830264198366f481f1b222675a31`)
-  - Quick (~> 0.9.3)
-  - SnapKit (from `https://github.com/SnapKit/SnapKit`, commit `307d03ec433d61fbb25c9c4a6bb32689537db4d6`)
+  - Quick (~> 1.0)
+  - SnapKit (from `https://github.com/ello/SnapKit`)
   - SSPullToRefresh (~> 1.2)
-  - SVGKit (from `https://github.com/ello/SVGKit`, commit `6160bbdfd0a8924b5e57b13c462db6a0944c8966`)
-  - SwiftyJSON (from `https://github.com/ello/SwiftyJSON`, branch `Swift-2.0`)
-  - SwiftyUserDefaults (~> 1.3.0)
-  - TimeAgoInWords (from `https://github.com/ello/TimeAgoInWords`, commit `3cf3e8b3b8d76168a2324294db70790fade54925`)
-  - WebLinking (~> 1.0)
+  - SVGKit (from `https://github.com/ello/SVGKit`)
+  - SwiftyJSON (~> 3.1)
+  - SwiftyUserDefaults (~> 3.0)
+  - TimeAgoInWords (from `https://github.com/ello/TimeAgoInWords`)
+  - WebLinking (from `https://github.com/kylef/WebLinking.swift`)
   - YapDatabase (= 2.8.1)
 
 EXTERNAL SOURCES:
@@ -163,34 +151,35 @@ EXTERNAL SOURCES:
     :git: https://github.com/ello/onepassword-app-extension
   CRToast:
     :git: https://github.com/ello/CRToast
-  FBSnapshotTestCase:
-    :git: https://github.com/ello/ios-snapshot-test-case
+  DeltaCalculator:
+    :git: https://github.com/ello/DeltaCalculator
+  ElloCerts:
+    :git: git@github.com:ello/Ello-iOS-Certs
+  ElloUIFonts:
+    :git: git@github.com:ello/ElloUIFonts
+  FutureKit:
+    :branch: v3
+    :git: https://github.com/FutureKit/FutureKit
   ImagePickerSheetController:
-    :commit: 92bcc3fde8def54c1947771247d5d677377a2f39
-    :git: https://github.com/lbrndnr/ImagePickerSheetController
+    :branch: swift3
+    :git: https://github.com/ello/ImagePickerSheetController
   JTSImageViewController:
     :git: https://github.com/ello/JTSImageViewController
   Keys:
     :path: Pods/CocoaPodsKeys
   KINWebBrowser:
     :git: https://github.com/ello/KINWebBrowser
-  Nimble-Snapshots:
-    :git: https://github.com/ashfurrow/Nimble-Snapshots
   PINRemoteImage:
     :commit: af312667f0ce830264198366f481f1b222675a31
     :git: https://github.com/pinterest/PINRemoteImage.git
   SnapKit:
-    :commit: 307d03ec433d61fbb25c9c4a6bb32689537db4d6
-    :git: https://github.com/SnapKit/SnapKit
+    :git: https://github.com/ello/SnapKit
   SVGKit:
-    :commit: 6160bbdfd0a8924b5e57b13c462db6a0944c8966
     :git: https://github.com/ello/SVGKit
-  SwiftyJSON:
-    :branch: Swift-2.0
-    :git: https://github.com/ello/SwiftyJSON
   TimeAgoInWords:
-    :commit: 3cf3e8b3b8d76168a2324294db70790fade54925
     :git: https://github.com/ello/TimeAgoInWords
+  WebLinking:
+    :git: https://github.com/kylef/WebLinking.swift
 
 CHECKOUT OPTIONS:
   1PasswordExtension:
@@ -199,76 +188,82 @@ CHECKOUT OPTIONS:
   CRToast:
     :commit: c84bf5ff9ee16b99e45f3bf25bb5db9c386fa728
     :git: https://github.com/ello/CRToast
-  FBSnapshotTestCase:
-    :commit: 9dd0dd1ddb177adc3555df0c2dfd3b6848eaba9b
-    :git: https://github.com/ello/ios-snapshot-test-case
+  DeltaCalculator:
+    :commit: d384bca310305e0d000768b558cc128dec0a4aa5
+    :git: https://github.com/ello/DeltaCalculator
+  ElloCerts:
+    :commit: 0fb257526178beb86ef6ce1d4b11bfd08cb3bcf1
+    :git: git@github.com:ello/Ello-iOS-Certs
+  ElloUIFonts:
+    :commit: c0bcfe900cdcc97f7df534657d5ce3b1efeb6a67
+    :git: git@github.com:ello/ElloUIFonts
+  FutureKit:
+    :commit: 43d4f55387e82e3a0892d346fc1a7018a7a5f15c
+    :git: https://github.com/FutureKit/FutureKit
   ImagePickerSheetController:
-    :commit: 92bcc3fde8def54c1947771247d5d677377a2f39
-    :git: https://github.com/lbrndnr/ImagePickerSheetController
+    :commit: 18e8d063a15c9d081d510f82ba25b46edfda7e28
+    :git: https://github.com/ello/ImagePickerSheetController
   JTSImageViewController:
     :commit: 4f0a918c38c7606fc5f876774cd3b96701b3f548
     :git: https://github.com/ello/JTSImageViewController
   KINWebBrowser:
     :commit: bcf29fd0beb6afb1c28a236306ad0fa1b8677bf3
     :git: https://github.com/ello/KINWebBrowser
-  Nimble-Snapshots:
-    :commit: 26c5ba0a953faccb358f139c60461f3010da7e56
-    :git: https://github.com/ashfurrow/Nimble-Snapshots
   PINRemoteImage:
     :commit: af312667f0ce830264198366f481f1b222675a31
     :git: https://github.com/pinterest/PINRemoteImage.git
   SnapKit:
-    :commit: 307d03ec433d61fbb25c9c4a6bb32689537db4d6
-    :git: https://github.com/SnapKit/SnapKit
+    :commit: ab6c1fd91f2f598f34e29fcf8dd2eea5500daac9
+    :git: https://github.com/ello/SnapKit
   SVGKit:
     :commit: 6160bbdfd0a8924b5e57b13c462db6a0944c8966
     :git: https://github.com/ello/SVGKit
-  SwiftyJSON:
-    :commit: c96832365b9ba4e8fa17fad2fa67399e3ed055de
-    :git: https://github.com/ello/SwiftyJSON
   TimeAgoInWords:
-    :commit: 3cf3e8b3b8d76168a2324294db70790fade54925
+    :commit: d1e1dc78028612f8c65d6a967c8fab3ffec516c1
     :git: https://github.com/ello/TimeAgoInWords
+  WebLinking:
+    :commit: fddbacc30deab8afe12ce1d3b78bd27c593a0c29
+    :git: https://github.com/kylef/WebLinking.swift
 
 SPEC CHECKSUMS:
   1PasswordExtension: faed6b7ab3f1e26551b08fef580c88bff0d0f247
-  Alamofire: 0dfba1184a543e2aa160f4e39cac4e8aba48d223
+  Alamofire: aa2e09d871c9160ac53c90e83c68064a94e3dfbe
   Analytics: 51d6163cb568c8ede69f2b92ef4779d91e1524e2
   CocoaLumberjack: aa9dcab71bdf9eaf2a63bbd9ddc87863efe45457
   Crashlytics: 2b6dbe138a42395577cfa73dfa1aa7248cadf39e
   CRToast: eb22641501990233c53cb8f83f7d2ea87e0ddf73
   DeltaCalculator: 97ea120ac2ebcf55e472d7ba872c8bc79c138454
-  ElloCerts: 75bad99e881ee0c8160fbd32bf57fd10fd217d8b
-  ElloUIFonts: 9c1dddfae6479ade038a0b18009e45b4f7a93eed
+  ElloCerts: f12a2de4456c84010fde1be70e98cff6b06389e1
+  ElloUIFonts: 50eada1c661020aa63104ced5055e22aac3d61a5
   Fabric: 5911403591946b8228ab1c51d98f1d7137e863c6
-  FBSnapshotTestCase: 918c55861356ee83aee7843d759f55a18ff6982b
+  FBSnapshotTestCase: 094f9f314decbabe373b87cc339bea235a63e07a
   FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31
-  FutureKit: 55901ceb084dda25d089bc9f0d7050722a533648
-  ImagePickerSheetController: 39ae352f5d93a328e9ed64dca2951de42d0d093b
+  FutureKit: 409baf0c683f4cdd1784b90782f43386ca3749a5
+  ImagePickerSheetController: 4789b06940e299431455c61be77fda440883c36c
   iRate: adae3f183d83c925ac42d7a2e86e89e838963f57
   JTSImageViewController: 89ae3c003060c65418fd3224ebbd67acc6046608
-  KeychainAccess: c2a71459af5bddf720a51806046a598500976c04
+  JWTDecode: 178e47e5d28d3abcff778bacced8342858cd6cb5
+  KeychainAccess: 017ea25e313a49eda10bb19b0bb0760fb1edfe1a
   Keys: 9c35bf00f612ee1d48556f4a4b9b4551e224e90f
   KINWebBrowser: dad85d7d93e6f4620a8589b96992394affffa66e
   MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1
-  Moya: d309d994aa096916c4d95bc2a162789b4745d7cb
-  Nimble: 97a0a4cae5124c117115634b2d055d8c97d0af19
-  Nimble-Snapshots: 9dc8c47ce13d68652caf2510d697c25eb732e487
-  OHHTTPStubs: b393565822317305b87a1440d4c7aff131679f66
+  Moya: 850a166ab8241bd1c1cea6dbe012e3a2ad62944a
+  Nimble: 415e3aa3267e7bc2c96b05fa814ddea7bb686a29
+  Nimble-Snapshots: e743439f26c2fa99d8f7e0d7c01c99bcb40aa6f2
   PINCache: ce36ed282031b92fc7733ffe831f474ff80fddc2
   PINRemoteImage: 77a7f7bfacd2b4040786a0e31192a81003fdd41f
-  Quick: 13a2a2b19a5d8e3ed4fd0c36ee46597fd77ebf71
-  Result: 18e1a7597fbcca5923c565b40a25a98afafdee02
-  SnapKit: bbad04cb016c7cead63965f16b00c09318d271ee
+  Quick: 8024e4a47e6cc03a9d5245ef0948264fc6d27cff
+  Result: 4e3ed5995ed94d0cd6a09be9a431fce3f3624bbf
+  SnapKit: 66bf0e9c5e02fdb6d2a549adb845ab4440d3ccfe
   SSPullToRefresh: 369e862c1d6528c7a354fc85cd4763d4e670e9af
   SVGKit: 2afbeaf2c2be4615476951284750c3ddb790d0c7
-  SwiftyJSON: 6f102a82daf888b0e39fe71ff12e36605c02babb
-  SwiftyUserDefaults: 507da0dcabec653f76ecab845635a6d220c1484a
-  TimeAgoInWords: 10f520fe4f41d0e7ae6c550bb394f9b9074b1140
+  SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
+  SwiftyUserDefaults: 0f1d45fc3aafb9064dac661e367f8f83fe21a4b4
+  TimeAgoInWords: 85c5f962523d61f7ca34d3b83c70afb28cd257e2
   TRVSDictionaryWithCaseInsensitivity: 51d2ccf52c6d645d27b63467a98fa02c556e01b0
   WebLinking: 3f71787c14a225148e8be29fe6e7c98597cbc459
   YapDatabase: 861c720d5850a59f9e5c0bad0fd95334012b9dc9
 
-PODFILE CHECKSUM: 2efc1d2cd421f509e7c30f91678a6a47f5bf41ff
+PODFILE CHECKSUM: cb5cc74e76f9a8b541df4e98a5c03b0740984e24
 
 COCOAPODS: 1.1.1

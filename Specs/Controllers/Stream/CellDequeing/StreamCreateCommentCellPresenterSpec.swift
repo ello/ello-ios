@@ -9,22 +9,22 @@ import Nimble
 
 class StreamCreateCommentCellPresenterSpec: QuickSpec {
     enum PostOwnership {
-        case OtherPost
-        case MyPost
-        case MyRepostOtherPost
-        case OtherRepostMyPost
-        case OtherRepostOtherPost
+        case otherPost
+        case myPost
+        case myRepostOtherPost
+        case otherRepostMyPost
+        case otherRepostOtherPost
     }
 
     override func spec() {
         describe("StreamCreateCommentCellPresenter") {
             context("replyAll and watch button visibility") {
                 let expectations: [(postOwner: PostOwnership, canWatch: Bool, canReplyAll: Bool)] = [
-                    (postOwner: .OtherPost, canWatch: true, canReplyAll: false),
-                    (postOwner: .MyPost, canWatch: false, canReplyAll: true),
-                    (postOwner: .MyRepostOtherPost, canWatch: false, canReplyAll: true),
-                    (postOwner: .OtherRepostMyPost, canWatch: false, canReplyAll: false),
-                    (postOwner: .OtherRepostOtherPost, canWatch: true, canReplyAll: false),
+                    (postOwner: .otherPost, canWatch: true, canReplyAll: false),
+                    (postOwner: .myPost, canWatch: false, canReplyAll: true),
+                    (postOwner: .myRepostOtherPost, canWatch: false, canReplyAll: true),
+                    (postOwner: .otherRepostMyPost, canWatch: false, canReplyAll: false),
+                    (postOwner: .otherRepostOtherPost, canWatch: true, canReplyAll: false),
                 ]
                 for (postOwner, canWatch, canReplyAll) in expectations {
                     context("post owner \(postOwner)") {
@@ -36,28 +36,28 @@ class StreamCreateCommentCellPresenterSpec: QuickSpec {
                         var item: StreamCellItem!
                         beforeEach {
                             switch postOwner {
-                            case .OtherPost:
+                            case .otherPost:
                                 post = Post.stub(["author": otherUser])
-                            case .MyPost:
+                            case .myPost:
                                 post = Post.stub(["author": currentUser])
-                            case .MyRepostOtherPost:
+                            case .myRepostOtherPost:
                                 post = Post.stub(["author": currentUser, "repostAuthor": otherUser, "repostContent": [TextRegion(content: "")]])
-                            case .OtherRepostMyPost:
+                            case .otherRepostMyPost:
                                 post = Post.stub(["author": otherUser, "repostAuthor": currentUser, "repostContent": [TextRegion(content: "")]])
-                            case .OtherRepostOtherPost:
+                            case .otherRepostOtherPost:
                                 post = Post.stub(["author": otherUser, "repostAuthor": otherUser, "repostContent": [TextRegion(content: "")]])
                             }
                             comment = ElloComment.stub(["loadedFromPost": post])
-                            item = StreamCellItem(jsonable: comment, type: .CreateComment)
+                            item = StreamCellItem(jsonable: comment, type: .createComment)
                             cell = StreamCreateCommentCell()
                         }
                         it("cell \(canWatch ? "can" : "cannot") watch") {
-                            StreamCreateCommentCellPresenter.configure(cell, streamCellItem: item, streamKind: .Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: currentUser)
-                            expect(cell.watchVisibility == .Enabled) == canWatch
+                            StreamCreateCommentCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: currentUser)
+                            expect(cell.watchVisibility == .enabled) == canWatch
                         }
                         it("cell \(canReplyAll ? "can" : "cannot") reply all") {
-                            StreamCreateCommentCellPresenter.configure(cell, streamCellItem: item, streamKind: .Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: currentUser)
-                            expect(cell.replyAllVisibility == .Enabled) == canReplyAll
+                            StreamCreateCommentCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: currentUser)
+                            expect(cell.replyAllVisibility == .enabled) == canReplyAll
                         }
                     }
                 }

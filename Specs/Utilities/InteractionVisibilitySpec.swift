@@ -11,11 +11,11 @@ class InteractionVisibilitySpec: QuickSpec {
     override func spec() {
         describe("InteractionVisibility") {
             let expectations: [(InteractionVisibility, isVisible: Bool, isEnabled: Bool, isSelected: Bool)] = [
-                (.Enabled,             isVisible: true, isEnabled: true, isSelected: false),
-                (.SelectedAndEnabled,  isVisible: true, isEnabled: true, isSelected: true),
-                (.SelectedAndDisabled, isVisible: true, isEnabled: false, isSelected: true),
-                (.Disabled,            isVisible: true, isEnabled: false, isSelected: false),
-                (.Hidden,              isVisible: false, isEnabled: false, isSelected: false),
+                (.enabled,             isVisible: true, isEnabled: true, isSelected: false),
+                (.selectedAndEnabled,  isVisible: true, isEnabled: true, isSelected: true),
+                (.selectedAndDisabled, isVisible: true, isEnabled: false, isSelected: true),
+                (.disabled,            isVisible: true, isEnabled: false, isSelected: false),
+                (.hidden,              isVisible: false, isEnabled: false, isSelected: false),
             ]
             for (visibility, expectedVisible, expectedEnabled, expectedSelected) in expectations {
                 it("\(visibility) should have isVisible == \(expectedVisible)") {

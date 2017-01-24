@@ -3,52 +3,52 @@
 //
 
 extension OmnibarScreen: UITableViewDelegate, UITableViewDataSource {
-    public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return tableViewRegions.count
     }
 
-    public func tableView(tableView: UITableView, heightForRowAtIndexPath path: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt path: IndexPath) -> CGFloat {
         if let (_, region) = tableViewRegions.safeValue(path.row) {
             switch region {
-            case let .AttributedText(attrdString):
+            case let .attributedText(attrdString):
                 return OmnibarTextCell.heightForText(attrdString, tableWidth: regionsTableView.frame.width, editing: reordering)
-            case let .Image(image):
+            case let .image(image):
                 return OmnibarImageCell.heightForImage(image, tableWidth: regionsTableView.frame.width, editing: reordering)
-            case let .ImageData(image, _, _):
+            case let .imageData(image, _, _):
                 return OmnibarImageCell.heightForImage(image, tableWidth: regionsTableView.frame.width, editing: reordering)
-            case .ImageURL:
+            case .imageURL:
                 return OmnibarImageDownloadCell.Size.height
-            case .Spacer:
+            case .spacer:
                 return OmnibarImageCell.Size.bottomMargin
-            case .Error:
+            case .error:
                 return OmnibarErrorCell.Size.height
             }
         }
         return 0
     }
 
-    public func tableView(tableView: UITableView, cellForRowAtIndexPath path: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt path: IndexPath) -> UITableViewCell {
         if let (_, region) = tableViewRegions.safeValue(path.row) {
-            let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier(region.reuseIdentifier, forIndexPath: path)
-            cell.selectionStyle = .None
+            let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: region.reuseIdentifier, for: path)
+            cell.selectionStyle = .none
             cell.showsReorderControl = true
 
             switch region {
-            case let .AttributedText(attributedText):
+            case let .attributedText(attributedText):
                 let textCell = cell as! OmnibarTextCell
                 textCell.isFirst = path.row == 0
                 textCell.attributedText = attributedText
-            case let .Image(image):
+            case let .image(image):
                 let imageCell = cell as! OmnibarImageCell
                 imageCell.hasBuyButtonURL = (buyButtonURL != nil)
                 imageCell.omnibarImage = image
                 imageCell.reordering = reordering
-            case let .ImageData(_, data, _):
+            case let .imageData(_, data, _):
                 let imageCell = cell as! OmnibarImageCell
                 imageCell.hasBuyButtonURL = (buyButtonURL != nil)
                 imageCell.omnibarAnimagedImage = FLAnimatedImage(animatedGIFData: data)
                 imageCell.reordering = reordering
-            case let .Error(url):
+            case let .error(url):
                 let textCell = cell as! OmnibarErrorCell
                 textCell.url = url
             default: break
@@ -58,10 +58,10 @@ extension OmnibarScreen: UITableViewDelegate, UITableViewDataSource {
         return UITableViewCell()
     }
 
-    public func tableView(tableView: UITableView, didSelectRowAtIndexPath path: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt path: IndexPath) {
         if let (_, region) = tableViewRegions.safeValue(path.row) {
             switch region {
-            case .AttributedText(_):
+            case .attributedText(_):
                 startEditingAtPath(path)
             default:
                 stopEditing()
@@ -69,32 +69,32 @@ extension OmnibarScreen: UITableViewDelegate, UITableViewDataSource {
         }
     }
 
-    public func tableView(tableView: UITableView, canMoveRowAtIndexPath path: NSIndexPath) -> Bool {
+    func tableView(_ tableView: UITableView, canMoveRowAt path: IndexPath) -> Bool {
         if let (_, region) = tableViewRegions.safeValue(path.row) {
             switch region {
-            case .Error, .Spacer: return false
+            case .error, .spacer: return false
             default: return true
             }
         }
         return false
     }
 
-    public func tableView(tableView: UITableView, moveRowAtIndexPath sourcePath: NSIndexPath, toIndexPath destPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, moveRowAt sourcePath: IndexPath, to destPath: IndexPath) {
         if let source = reorderableRegions.safeValue(sourcePath.row) {
-            reorderableRegions.removeAtIndex(sourcePath.row)
-            reorderableRegions.insert(source, atIndex: destPath.row)
+            reorderableRegions.remove(at: sourcePath.row)
+            reorderableRegions.insert(source, at: destPath.row)
         }
     }
 
-    public func tableView(tableView: UITableView, canEditRowAtIndexPath path: NSIndexPath) -> Bool {
+    func tableView(_ tableView: UITableView, canEditRowAt path: IndexPath) -> Bool {
         if let (_, region) = tableViewRegions.safeValue(path.row) {
             return region.editable
         }
         return false
     }
 
-    public func tableView(tableView: UITableView, commitEditingStyle style: UITableViewCellEditingStyle, forRowAtIndexPath path: NSIndexPath) {
-        if style == .Delete {
+    func tableView(_ tableView: UITableView, commit style: UITableViewCellEditingStyle, forRowAt path: IndexPath) {
+        if style == .delete {
             if reordering {
                 deleteReorderableAtIndexPath(path)
             }
@@ -104,78 +104,77 @@ extension OmnibarScreen: UITableViewDelegate, UITableViewDataSource {
         }
     }
 
-    public func deleteReorderableAtIndexPath(path: NSIndexPath) {
-        if let (_, region) = reorderableRegions.safeValue(path.row)
-            where region.editable
+    func deleteReorderableAtIndexPath(_ path: IndexPath) {
+        if let (_, region) = reorderableRegions.safeValue(path.row), region.editable
         {
-            reorderableRegions.removeAtIndex(path.row)
-            regionsTableView.deleteRowsAtIndexPaths([path], withRowAnimation: .Automatic)
+            reorderableRegions.remove(at: path.row)
+            regionsTableView.deleteRows(at: [path], with: .automatic)
             if reorderableRegions.count == 0 {
                 reorderingTable(false)
             }
         }
     }
 
-    public func deleteEditableAtIndexPath(path: NSIndexPath) {
+    func deleteEditableAtIndexPath(_ path: IndexPath) {
         if let (index_, region) = editableRegions.safeValue(path.row),
-            index = index_ where region.editable
+            let index = index_, region.editable
         {
             if editableRegions.count == 1 {
-                submitableRegions = [.Text("")]
+                submitableRegions = [.text("")]
                 editableRegions = generateEditableRegions(submitableRegions)
-                regionsTableView.reloadRowsAtIndexPaths([path], withRowAnimation: .Top)
+                regionsTableView.reloadRows(at: [path], with: .top)
             }
             else {
-                submitableRegions.removeAtIndex(index)
+                submitableRegions.remove(at: index)
                 var deletePaths = [path]
-                var reloadPaths = [NSIndexPath]()
-                var insertPaths = [NSIndexPath]()
+                var reloadPaths = [IndexPath]()
+                var insertPaths = [IndexPath]()
                 regionsTableView.beginUpdates()
 
                 // remove the spacer *after* the deleted row (if it's the first
                 // or N-1th row in series of image rows), and *before* the last
                 // row (if it's the last row in a series of image rows)
                 if let (_, belowTextRegion) = editableRegions.safeValue(path.row + 2),
-                    (_, aboveTextRegion) = editableRegions.safeValue(path.row - 2),
-                    belowText = belowTextRegion.text, aboveText = aboveTextRegion.text
+                    let (_, aboveTextRegion) = editableRegions.safeValue(path.row - 2),
+                    let belowText = belowTextRegion.text, let aboveText = aboveTextRegion.text
                 {
                     // merge text in submitableRegions
                     let newText = aboveText.joinWithNewlines(belowText)
-                    submitableRegions[index - 1] = .AttributedText(newText)
-                    submitableRegions.removeAtIndex(index)
-                    reloadPaths.append(NSIndexPath(forItem: path.row - 2, inSection: 0))
-                    deletePaths.append(NSIndexPath(forItem: path.row - 1, inSection: 0))
-                    deletePaths.append(NSIndexPath(forItem: path.row + 1, inSection: 0))
-                    deletePaths.append(NSIndexPath(forItem: path.row + 2, inSection: 0))
+                    submitableRegions[index - 1] = .attributedText(newText)
+                    submitableRegions.remove(at: index)
+                    reloadPaths.append(IndexPath(item: path.row - 2, section: 0))
+                    deletePaths.append(IndexPath(item: path.row - 1, section: 0))
+                    deletePaths.append(IndexPath(item: path.row + 1, section: 0))
+                    deletePaths.append(IndexPath(item: path.row + 2, section: 0))
                 }
-                else if let last = submitableRegions.last where !last.isText {
+                else if let last = submitableRegions.last, !last.isText {
                     insertPaths.append(path)
-                    submitableRegions.append(.Text(""))
+                    submitableRegions.append(.text(""))
                 }
-                else if let (_, region) = editableRegions.safeValue(path.row + 1) where region.isSpacer {
-                    deletePaths.append(NSIndexPath(forItem: path.row + 1, inSection: 0))
+                else if let (_, region) = editableRegions.safeValue(path.row + 1), region.isSpacer {
+                    deletePaths.append(IndexPath(item: path.row + 1, section: 0))
                 }
-                else if let (_, region) = editableRegions.safeValue(path.row - 1) where region.isSpacer {
-                    deletePaths.append(NSIndexPath(forItem: path.row - 1, inSection: 0))
+                else if let (_, region) = editableRegions.safeValue(path.row - 1), region.isSpacer {
+                    deletePaths.append(IndexPath(item: path.row - 1, section: 0))
                 }
 
                 editableRegions = generateEditableRegions(submitableRegions)
-                regionsTableView.deleteRowsAtIndexPaths(deletePaths, withRowAnimation: .Automatic)
-                regionsTableView.reloadRowsAtIndexPaths(reloadPaths, withRowAnimation: .None)
-                regionsTableView.insertRowsAtIndexPaths(insertPaths, withRowAnimation: .Automatic)
+                regionsTableView.deleteRows(at: deletePaths, with: .automatic)
+                regionsTableView.reloadRows(at: reloadPaths, with: .none)
+                regionsTableView.insertRows(at: insertPaths, with: .automatic)
                 regionsTableView.endUpdates()
             }
         }
         updateButtons()
     }
 
-    public func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         if scrollView == textScrollView {
             synchronizeScrollViews()
         }
     }
 
-    public func scrollViewDidScroll(scrollView: UIScrollView) {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if scrollView != regionsTableView {
             regionsTableView.contentOffset = scrollView.contentOffset
         }

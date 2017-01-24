@@ -3,50 +3,50 @@
 //
 
 
-public typealias OnCalculatedCellHeightsMismatch = (CalculatedCellHeights) -> Void
+typealias OnCalculatedCellHeightsMismatch = (CalculatedCellHeights) -> Void
 
-public struct CalculatedCellHeights {
-    public enum Prop {
-        case OneColumn
-        case MultiColumn
-        case WebContent
-        case ProfileAvatar
-        case ProfileNames
-        case ProfileTotalCount
-        case ProfileStats
-        case ProfileBio
-        case ProfileLocation
-        case ProfileLinks
+struct CalculatedCellHeights {
+    enum Prop {
+        case oneColumn
+        case multiColumn
+        case webContent
+        case profileAvatar
+        case profileNames
+        case profileTotalCount
+        case profileStats
+        case profileBio
+        case profileLocation
+        case profileLinks
     }
 
-    mutating func assign(prop: Prop, height: CGFloat) {
+    mutating func assign(_ prop: Prop, height: CGFloat) {
         switch prop {
-        case .ProfileAvatar:
+        case .profileAvatar:
             profileAvatar = height
-        case .ProfileNames:
+        case .profileNames:
             profileNames = height
-        case .ProfileTotalCount:
+        case .profileTotalCount:
             profileTotalCount = height
-        case .ProfileStats:
+        case .profileStats:
             profileStats = height
-        case .ProfileBio:
+        case .profileBio:
             profileBio = height
-        case .ProfileLocation:
+        case .profileLocation:
             profileLocation = height
-        case .ProfileLinks:
+        case .profileLinks:
             profileLinks = height
         default: break
         }
     }
 
-    public var oneColumn: CGFloat?
-    public var multiColumn: CGFloat?
-    public var webContent: CGFloat?
-    public var profileAvatar: CGFloat?
-    public var profileNames: CGFloat?
-    public var profileTotalCount: CGFloat?
-    public var profileStats: CGFloat?
-    public var profileBio: CGFloat?
-    public var profileLocation: CGFloat?
-    public var profileLinks: CGFloat?
+    var oneColumn: CGFloat?
+    var multiColumn: CGFloat?
+    var webContent: CGFloat?
+    var profileAvatar: CGFloat?
+    var profileNames: CGFloat?
+    var profileTotalCount: CGFloat?
+    var profileStats: CGFloat?
+    var profileBio: CGFloat?
+    var profileLocation: CGFloat?
+    var profileLinks: CGFloat?
 }

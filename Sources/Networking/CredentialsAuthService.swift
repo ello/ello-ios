@@ -4,15 +4,15 @@
 
 import Moya
 
-public typealias AuthSuccessCompletion = () -> Void
+typealias AuthSuccessCompletion = () -> Void
 
-public class CredentialsAuthService {
+class CredentialsAuthService {
 
-    public func authenticate(email email: String, password: String, success: AuthSuccessCompletion, failure: ElloFailureCompletion) {
-        let endpoint: ElloAPI = .Auth(email: email, password: password)
+    func authenticate(email: String, password: String, success: @escaping AuthSuccessCompletion, failure: @escaping ElloFailureCompletion) {
+        let endpoint: ElloAPI = .auth(email: email, password: password)
         ElloProvider.sharedProvider.request(endpoint) { (result) in
             switch result {
-            case let .Success(moyaResponse):
+            case let .success(moyaResponse):
                 switch moyaResponse.statusCode {
                 case 200...299:
                     ElloProvider.shared.authenticated(isPasswordBased: true)
@@ -20,10 +20,10 @@ public class CredentialsAuthService {
                     success()
                 default:
                     let elloError = ElloProvider.generateElloError(moyaResponse.data, statusCode: moyaResponse.statusCode)
-                    failure(error: elloError, statusCode: moyaResponse.statusCode)
+                    failure(elloError, moyaResponse.statusCode)
                 }
-            case let .Failure(error):
-                failure(error: error as NSError, statusCode: nil)
+            case let .failure(error):
+                failure(error as NSError, nil)
             }
         }
     }

@@ -38,6 +38,12 @@ fastlane refresh_dsyms
 ```
 Downloads dSyms from Apple, and uploads them to Crashlytics
 
+  Options:
+
+      version:x.y.z (defaults to ENV[VERSION_NUMBER])
+
+      build:1234 (defaults to latest build number)
+
 ----
 
 This README.md is auto-generated and will be re-generated every time [fastlane](https://fastlane.tools) is run.

@@ -2,20 +2,20 @@
 ///  CreateCommentBackgroundView.swift
 //
 
-public class CreateCommentBackgroundView: UIView {
+class CreateCommentBackgroundView: UIView {
 
-    required override public init(frame: CGRect) {
+    required override init(frame: CGRect) {
         super.init(frame: frame)
-        self.backgroundColor = UIColor.clearColor()
+        self.backgroundColor = UIColor.clear
     }
 
-    required public init?(coder: NSCoder) {
+    required init?(coder: NSCoder) {
         super.init(coder: coder)
-        self.backgroundColor = UIColor.clearColor()
+        self.backgroundColor = UIColor.clear
     }
 
-    override public func drawRect(rect: CGRect) {
-        let color = UIColor.blackColor()
+    override func draw(_ rect: CGRect) {
+        let color = UIColor.black
         let margin: CGFloat = 10
         let midY = self.frame.height / CGFloat(2)
 
@@ -30,14 +30,14 @@ public class CreateCommentBackgroundView: UIView {
             br: CGPoint(x: bounds.width - radius, y: bounds.height - radius)
         )
 
-        bezierPath.moveToPoint(CGPoint(x: 0, y: midY))
-        bezierPath.addLineToPoint(CGPoint(x: margin, y: midY - margin))
-        bezierPath.addArcWithCenter(corners.tl, radius: radius, startAngle: -π, endAngle: -π / 2, clockwise: true)
-        bezierPath.addArcWithCenter(corners.tr, radius: radius, startAngle: -π / 2, endAngle: 0, clockwise: true)
-        bezierPath.addArcWithCenter(corners.br, radius: radius, startAngle: 0, endAngle: π / 2, clockwise: true)
-        bezierPath.addArcWithCenter(corners.bl, radius: radius, startAngle: π / 2, endAngle: π, clockwise: true)
-        bezierPath.addLineToPoint(CGPoint(x: margin, y: midY + margin))
-        bezierPath.closePath()
+        bezierPath.move(to: CGPoint(x: 0, y: midY))
+        bezierPath.addLine(to: CGPoint(x: margin, y: midY - margin))
+        bezierPath.addArc(withCenter: corners.tl, radius: radius, startAngle: -π, endAngle: -π / 2, clockwise: true)
+        bezierPath.addArc(withCenter: corners.tr, radius: radius, startAngle: -π / 2, endAngle: 0, clockwise: true)
+        bezierPath.addArc(withCenter: corners.br, radius: radius, startAngle: 0, endAngle: π / 2, clockwise: true)
+        bezierPath.addArc(withCenter: corners.bl, radius: radius, startAngle: π / 2, endAngle: π, clockwise: true)
+        bezierPath.addLine(to: CGPoint(x: margin, y: midY + margin))
+        bezierPath.close()
         color.setFill()
         bezierPath.fill()
     }

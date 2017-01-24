@@ -15,11 +15,11 @@ class AnonymousAuthenticationSpec: QuickSpec {
             }
 
             it("should request anonymous credentials when no credentials are available") {
-                ElloProvider.shared.authState = .NoToken
+                ElloProvider.shared.authState = .noToken
 
                 var succeeded = false
                 var failed = false
-                ElloProvider.shared.elloRequest(.Availability(content: [:]), success: { _ in
+                ElloProvider.shared.elloRequest(.availability(content: [:]), success: { _ in
                     succeeded = true
                 }, failure: { _ in
                     failed = true
@@ -31,11 +31,11 @@ class AnonymousAuthenticationSpec: QuickSpec {
             }
 
             it("should request anonymous credentials initially when no credentials are available") {
-                ElloProvider.shared.authState = .Initial
+                ElloProvider.shared.authState = .initial
 
                 var succeeded = false
                 var failed = false
-                ElloProvider.shared.elloRequest(.Availability(content: [:]), success: { _ in
+                ElloProvider.shared.elloRequest(.availability(content: [:]), success: { _ in
                     succeeded = true
                 }, failure: { _ in
                     failed = true
@@ -47,11 +47,11 @@ class AnonymousAuthenticationSpec: QuickSpec {
             }
 
             it("should fail requests that need authentication when anonymous credentials are available") {
-                ElloProvider.shared.authState = .Anonymous
+                ElloProvider.shared.authState = .anonymous
 
                 var succeeded = false
                 var failed = false
-                ElloProvider.shared.elloRequest(.FriendStream, success: { _ in
+                ElloProvider.shared.elloRequest(.friendStream, success: { _ in
                     succeeded = true
                 }, failure: { _ in
                     failed = true
@@ -62,13 +62,13 @@ class AnonymousAuthenticationSpec: QuickSpec {
 
             it("should fail anonymous requests when anonymous credentials are invalid") {
                 ElloProvider.sharedProvider = ElloProvider.RecordedStubbingProvider([
-                    RecordedResponse(endpoint: .Availability(content: [:]), response: .NetworkResponse(401, NSData())),
+                    RecordedResponse(endpoint: .availability(content: [:]), response: .networkResponse(401, Data())),
                 ])
-                ElloProvider.shared.authState = .Anonymous
+                ElloProvider.shared.authState = .anonymous
 
                 var succeeded = false
                 var failed = false
-                ElloProvider.shared.elloRequest(.Availability(content: [:]), success: { _ in
+                ElloProvider.shared.elloRequest(.availability(content: [:]), success: { _ in
                     succeeded = true
                 }, failure: { _ in
                     failed = true

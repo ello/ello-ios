@@ -4,9 +4,9 @@
 
 protocol JoinDelegate: class {
     func backAction()
-    func validate(email email: String, username: String, password: String)
-    func onePasswordAction(sender: UIView)
-    func submit(email email: String, username: String, password: String)
+    func validate(email: String, username: String, password: String)
+    func onePasswordAction(_ sender: UIView)
+    func submit(email: String, username: String, password: String)
     func termsAction()
 }
 
@@ -19,18 +19,18 @@ protocol JoinScreenProtocol: class {
     var passwordValid: Bool? { get set }
     var onePasswordAvailable: Bool { get set }
 
-    func loadingHUD(visible visible: Bool)
+    func loadingHUD(visible: Bool)
 
-    func showMessage(text: String)
-    func showUsernameSuggestions(usernames: [String])
+    func showMessage(_ text: String)
+    func showUsernameSuggestions(_ usernames: [String])
     func hideMessage()
-    func showUsernameError(text: String)
+    func showUsernameError(_ text: String)
     func hideUsernameError()
-    func showEmailError(text: String)
+    func showEmailError(_ text: String)
     func hideEmailError()
-    func showPasswordError(text: String)
+    func showPasswordError(_ text: String)
     func hidePasswordError()
-    func showError(text: String)
+    func showError(_ text: String)
 
     func resignFirstResponder() -> Bool
 }

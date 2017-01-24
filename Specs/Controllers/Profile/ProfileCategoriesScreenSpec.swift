@@ -22,7 +22,7 @@ class ProfileCategoriesScreenSpec: QuickSpec {
 
                     let subject = ProfileCategoriesScreen(categories: categories)
                     showView(subject)
-                    expectValidSnapshot(subject, named: "ProfileCategoriesScreen_1", device: .Phone6_Portrait)
+                    expectValidSnapshot(subject, named: "ProfileCategoriesScreen_1", device: .phone6_Portrait)
                 }
 
                 it("renders correctly with more2 categories") {
@@ -33,7 +33,7 @@ class ProfileCategoriesScreenSpec: QuickSpec {
 
                     let subject = ProfileCategoriesScreen(categories: categories)
                     showView(subject)
-                    expectValidSnapshot(subject, named: "ProfileCategoriesScreen_2", device: .Phone6_Portrait)
+                    expectValidSnapshot(subject, named: "ProfileCategoriesScreen_2", device: .phone6_Portrait)
                 }
 
                 it("renders correctly with 3 categories") {
@@ -45,7 +45,7 @@ class ProfileCategoriesScreenSpec: QuickSpec {
 
                     let subject = ProfileCategoriesScreen(categories: categories)
                     showView(subject)
-                    expectValidSnapshot(subject, named: "ProfileCategoriesScreen_3", device: .Phone6_Portrait)
+                    expectValidSnapshot(subject, named: "ProfileCategoriesScreen_3", device: .phone6_Portrait)
                 }
 
                 it("renders correctly with more than 3 categories") {
@@ -62,7 +62,7 @@ class ProfileCategoriesScreenSpec: QuickSpec {
 
                     let subject = ProfileCategoriesScreen(categories: categories)
                     showView(subject)
-                    expectValidSnapshot(subject, named: "ProfileCategoriesScreen_3_plus", device: .Phone6_Portrait)
+                    expectValidSnapshot(subject, named: "ProfileCategoriesScreen_3_plus", device: .phone6_Portrait)
                 }
             }
         }

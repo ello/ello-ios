@@ -2,7 +2,7 @@
 ///  StreamImageViewerSpec.swift
 //
 
-import Ello
+@testable import Ello
 import Quick
 import Nimble
 import Moya
@@ -26,7 +26,7 @@ class StreamImageViewerSpec: QuickSpec {
 
                 it("configures AppDelegate to allow rotation") {
                     let image = FLAnimatedImageView()
-                    subject.imageTapped(image, imageURL: NSURL(string: "http://www.example.com/image.jpg"))
+                    subject.imageTapped(image, imageURL: URL(string: "http://www.example.com/image.jpg"))
 
                     expect(AppDelegate.restrictRotation) == false
                 }
@@ -37,7 +37,7 @@ class StreamImageViewerSpec: QuickSpec {
                 describe("alphaForBackgroundDimmingOverlayInImageViewer(_:)") {
 
                     it("returns 1.0") {
-                        expect(subject.alphaForBackgroundDimmingOverlayInImageViewer(JTSImageViewController())) == 1.0
+                        expect(subject.alphaForBackgroundDimmingOverlay(inImageViewer: JTSImageViewController())) == 1.0
                     }
                 }
             }

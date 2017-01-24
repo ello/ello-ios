@@ -2,17 +2,17 @@
 ///  CategoryCardView.swift
 //
 
-public class CategoryCardView: UIView {
+class CategoryCardView: UIView {
 
     let info: CategoryCardListView.CategoryInfo
 
     let overlay = UIView()
-    public let button = UIButton()
+    let button = UIButton()
 
-    private static let selectedAlpha: CGFloat = 0.8
-    private static let normalAlpha: CGFloat = 0.6
+    fileprivate static let selectedAlpha: CGFloat = 0.8
+    fileprivate static let normalAlpha: CGFloat = 0.6
 
-    private var _selected = false
+    fileprivate var _selected = false
     var selected: Bool {
         set {
             _selected = newValue
@@ -23,7 +23,7 @@ public class CategoryCardView: UIView {
         get { return _selected }
     }
 
-    public init(frame: CGRect, info: CategoryCardListView.CategoryInfo) {
+    init(frame: CGRect, info: CategoryCardListView.CategoryInfo) {
         self.info = info
 
         super.init(frame: frame)
@@ -31,35 +31,35 @@ public class CategoryCardView: UIView {
         arrange()
     }
 
-    required public init?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    private func style() {
-        backgroundColor = .blackColor()
+    fileprivate func style() {
+        backgroundColor = .black
 
-        overlay.backgroundColor = .blackColor()
+        overlay.backgroundColor = .black
         overlay.alpha = CategoryCardView.normalAlpha
 
         button.titleLabel?.numberOfLines = 0
-        let attributedString = NSAttributedString(info.title, color: .whiteColor(), alignment: .Center)
-        button.setAttributedTitle(attributedString, forState: UIControlState.Normal)
+        let attributedString = NSAttributedString(info.title, color: .white, alignment: .center)
+        button.setAttributedTitle(attributedString, for: .normal)
     }
 
-    private func arrange() {
+    fileprivate func arrange() {
         if let url = info.imageURL {
             let imageView = UIImageView()
             imageView.clipsToBounds = true
-            imageView.contentMode = .ScaleAspectFill
-            imageView.pin_setImageFromURL(url)
+            imageView.contentMode = .scaleAspectFill
+            imageView.pin_setImage(from: url as URL!)
             addSubview(imageView)
-            imageView.snp_makeConstraints { $0.edges.equalTo(self) }
+            imageView.snp.makeConstraints { $0.edges.equalTo(self) }
         }
 
         addSubview(overlay)
         addSubview(button)
 
-        overlay.snp_makeConstraints { $0.edges.equalTo(self) }
-        button.snp_makeConstraints { $0.edges.equalTo(self).inset(5) }
+        overlay.snp.makeConstraints { $0.edges.equalTo(self) }
+        button.snp.makeConstraints { $0.edges.equalTo(self).inset(5) }
     }
 }

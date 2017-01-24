@@ -2,21 +2,21 @@
 ///  DrawerCellPresenter.swift
 //
 
-public struct DrawerCellPresenter {
+struct DrawerCellPresenter {
 
-    public static func configure(cell: DrawerCell, item: DrawerItem) {
+    static func configure(_ cell: DrawerCell, item: DrawerItem) {
         switch item.type {
-        case .Version:
+        case .version:
             cell.label.font = UIFont.defaultFont(12)
             cell.label.textColor = .greyA()
-            cell.line.hidden = true
+            cell.line.isHidden = true
         default:
             cell.label.font = UIFont.defaultFont()
-            cell.label.textColor = .whiteColor()
-            cell.line.hidden = false
+            cell.label.textColor = .white
+            cell.line.isHidden = false
         }
 
         cell.label.text = item.name
-        cell.selectionStyle = .None
+        cell.selectionStyle = .none
     }
 }

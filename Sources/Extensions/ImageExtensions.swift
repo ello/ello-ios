@@ -5,15 +5,15 @@
 import UIKit
 import CoreGraphics
 
-public extension UIImage {
+extension UIImage {
 
-    class func isGif(imageData: NSData) -> Bool {
-        let length = imageData.length
-        let buffer = UnsafeMutablePointer<UInt8>.alloc(length)
-        imageData.getBytes(buffer, length: imageData.length)
+    class func isGif(_ imageData: Data) -> Bool {
+        let length = imageData.count
+        let buffer = UnsafeMutablePointer<UInt8>.allocate(capacity: length)
+        (imageData as NSData).getBytes(buffer, length: imageData.count)
 
         defer {
-            buffer.dealloc(imageData.length)
+            buffer.deallocate(capacity: imageData.count)
         }
 
         if length >= 4 {
@@ -29,7 +29,7 @@ public extension UIImage {
         }
     }
 
-    class func imageWithColor(color: UIColor, size: CGSize = CGSize(width: 1, height: 1)) -> UIImage? {
+    class func imageWithColor(_ color: UIColor, size: CGSize = CGSize(width: 1, height: 1)) -> UIImage? {
         let rect = CGRect(origin: .zero, size: size)
         UIGraphicsBeginImageContextWithOptions(rect.size, false, 0)
         color.setFill()
@@ -39,7 +39,7 @@ public extension UIImage {
         return image
     }
 
-    class func imageWithHex(hex: Int) -> UIImage? {
+    class func imageWithHex(_ hex: Int) -> UIImage? {
         return imageWithColor(UIColor(hex: hex))
     }
 
@@ -59,16 +59,16 @@ public extension UIImage {
 
         let cropSquare = CGRect(x: posX, y: posY, width: edge, height: edge)
 
-        if let cgImage = self.CGImage,
-            imageRef = CGImageCreateWithImageInRect(cgImage, cropSquare)
+        if let cgImage = self.cgImage,
+            let imageRef = cgImage.cropping(to: cropSquare)
         {
-            return UIImage(CGImage: imageRef, scale: UIScreen.mainScreen().scale, orientation: self.imageOrientation)
+            return UIImage(cgImage: imageRef, scale: UIScreen.main.scale, orientation: self.imageOrientation)
         }
 
         return nil
     }
 
-    func resizeToSize(targetSize: CGSize) -> UIImage? {
+    func resizeToSize(_ targetSize: CGSize) -> UIImage? {
         let newSize = self.size.scaledSize(targetSize)
 
         // This is the rect that we've calculated out and this is what is actually used below
@@ -76,7 +76,7 @@ public extension UIImage {
 
         // Actually do the resizing to the rect using the ImageContext stuff
         UIGraphicsBeginImageContextWithOptions(newSize, false, self.scale)
-        self.drawInRect(rect)
+        self.draw(in: rect)
         let newImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
 
@@ -87,22 +87,22 @@ public extension UIImage {
         UIGraphicsBeginImageContextWithOptions(self.size, false, self.scale)
         let rect = CGRect(x: 0.0, y: 0.0, width: self.size.width, height: self.size.height)
         UIBezierPath(roundedRect: rect, cornerRadius: size.width / 2.0).addClip()
-        self.drawInRect(rect)
+        self.draw(in: rect)
         let newImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         return newImage
     }
 
-    func copyWithCorrectOrientationAndSize(completion:(image: UIImage?) -> Void) {
+    func copyWithCorrectOrientationAndSize(_ completion:@escaping (_ image: UIImage?) -> Void) {
         inBackground {
             var sourceImage: UIImage?
-            if self.imageOrientation == .Up && self.scale == 1.0 {
+            if self.imageOrientation == .up && self.scale == 1.0 {
                 sourceImage = self
             }
             else {
                 let newSize = CGSize(width: self.size.width * self.scale, height: self.size.height * self.scale)
                 UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)
-                self.drawInRect(CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height))
+                self.draw(in: CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height))
                 sourceImage = UIGraphicsGetImageFromCurrentImageContext()
                 UIGraphicsEndImageContext()
             }
@@ -110,7 +110,7 @@ public extension UIImage {
             let maxSize = CGSize(width: 1200.0, height: 3600.0)
             let resizedImage = sourceImage?.resizeToSize(maxSize)
             inForeground {
-                completion(image: resizedImage)
+                completion(resizedImage)
             }
         }
     }

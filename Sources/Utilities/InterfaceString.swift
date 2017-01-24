@@ -5,11 +5,11 @@
 import Foundation
 
 
-public struct InterfaceString {
+struct InterfaceString {
 
     // Adding type information to the strings reduced the overall compile time considerably
-    public struct Tab {
-        public struct PopupTitle {
+    struct Tab {
+        struct PopupTitle {
             static let Discover: String = NSLocalizedString("Discover", comment: "Discover pop up title")
             static let Notifications: String = NSLocalizedString("Notifications", comment: "Notifications pop up title")
             static let Stream: String = NSLocalizedString("Streams", comment: "Stream pop up title")
@@ -17,7 +17,7 @@ public struct InterfaceString {
             static let Omnibar: String = NSLocalizedString("Post (Omnibar)", comment: "Omnibar pop up title")
         }
 
-        public struct PopupText {
+        struct PopupText {
             static let Discover: String = NSLocalizedString("Explore creators, curated categories & communities.", comment: "Discover pop up text")
             static let Notifications: String = NSLocalizedString("Keep it fresh with real-time alerts.", comment: "Notifications pop up text")
             static let Stream: String = NSLocalizedString("Two streams: Following & Starred.\nUse them however you like.", comment: "Stream pop up text")
@@ -26,7 +26,7 @@ public struct InterfaceString {
         }
     }
 
-    public struct Followers {
+    struct Followers {
         static let CurrentUserNoResultsTitle: String = NSLocalizedString("You don't have any followers yet!", comment: "Current user no followers results title")
         static let CurrentUserNoResultsBody: String = NSLocalizedString("Here's some tips on how to get new followers: use Discover to find people you're interested in, and to find or invite your contacts. When you see things you like you can comment, repost, mention people and love the posts that you most enjoy. ", comment: "Current user no followers results body.")
         static let NoResultsTitle: String = NSLocalizedString("This person doesn't have any followers yet! ", comment: "Non-current user followers no results title")
@@ -34,7 +34,7 @@ public struct InterfaceString {
         static let Title: String = NSLocalizedString("Followers", comment: "Followers title")
     }
 
-    public struct Following {
+    struct Following {
         static let Title: String = NSLocalizedString("Following", comment: "Following title")
         static let CurrentUserNoResultsTitle: String = NSLocalizedString("You aren't following anyone yet!", comment: "Current user no following results title")
         static let CurrentUserNoResultsBody: String = NSLocalizedString("Ello is way more rad when you're following lots of people.\n\nUse Discover to find people you're interested in, and to find or invite your contacts.\nYou can also use Search (upper right) to look for new and excellent people!", comment: "Current user No following results body.")
@@ -42,22 +42,22 @@ public struct InterfaceString {
         static let NoResultsBody: String = NSLocalizedString("Follow, mention them, comment, repost or love one of their posts and maybe they'll follow you back ;)", comment: "Non-current user following no results body")
     }
 
-    public struct FollowingStream {
+    struct FollowingStream {
         static let Title: String = NSLocalizedString("Following", comment: "Following title")
     }
 
-    public struct StarredStream {
+    struct StarredStream {
         static let Title: String = NSLocalizedString("Starred", comment: "Starred title")
     }
 
-    public struct Notifications {
+    struct Notifications {
         static let Title: String = NSLocalizedString("Notifications", comment: "Notifications title")
         static let Reply: String = NSLocalizedString("Reply", comment: "Reply button title")
         static let NoResultsTitle: String = NSLocalizedString("Welcome to your Notifications Center!", comment: "No notification results title")
         static let NoResultsBody: String = NSLocalizedString("Whenever someone mentions you, follows you, accepts an invitation, comments, reposts or Loves one of your posts, you'll be notified here.", comment: "No notification results body.")
     }
 
-    public struct Discover {
+    struct Discover {
         static let Title: String = NSLocalizedString("Discover", comment: "Discover title")
         static let Categories: String = NSLocalizedString("Categories", comment: "some Categories title")
         static let AllCategories: String = NSLocalizedString("All", comment: "All Categories title")
@@ -66,7 +66,7 @@ public struct InterfaceString {
         static let Recent: String = NSLocalizedString("Recent", comment: "Discover tab titled Recent")
     }
 
-    public struct Search {
+    struct Search {
         static let Title: String = NSLocalizedString("Search", comment: "Search title")
         static let Prompt: String = NSLocalizedString("Search Ello", comment: "search ello prompt")
         static let Posts: String = NSLocalizedString("Posts", comment: "Posts search toggle")
@@ -76,7 +76,7 @@ public struct InterfaceString {
         static let TryAgain: String = NSLocalizedString("Try another search?", comment: "No search results found body")
     }
 
-    public struct Drawer {
+    struct Drawer {
         static let Store: String = NSLocalizedString("Store", comment: "Store")
         static let Invite: String = NSLocalizedString("Invite", comment: "Invite")
         static let Help: String = NSLocalizedString("Help", comment: "Help")
@@ -91,19 +91,19 @@ public struct InterfaceString {
                 buildVersion = "specs"
             }
             else {
-                marketingVersion = (NSBundle.mainBundle().infoDictionary?["CFBundleShortVersionString"] as? String) ?? "???"
-                buildVersion = (NSBundle.mainBundle().infoDictionary?["CFBundleVersion"] as? String) ?? "???"
+                marketingVersion = (Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String) ?? "???"
+                buildVersion = (Bundle.main.infoDictionary?["CFBundleVersion"] as? String) ?? "???"
              }
             return NSLocalizedString("Ello v\(marketingVersion) b\(buildVersion)", comment: "version number")
         }()
     }
 
-    public struct Category {
+    struct Category {
         static let SponsoredBy: String = NSLocalizedString("Sponsored by ", comment: "Sponsored by ")
         static let PostedBy: String = NSLocalizedString("Posted by ", comment: "Posted by ")
     }
 
-    public struct Settings {
+    struct Settings {
         static let EditProfile: String = NSLocalizedString("Edit Profile", comment: "Edit Profile Title")
         static let ProfileDescription: String = NSLocalizedString("Your name, username, bio and links appear on your public profile. Your email address remains private.", comment: "Profile Privacy Description")
         static let Name: String = NSLocalizedString("Name", comment: "name setting")
@@ -121,7 +121,7 @@ public struct InterfaceString {
         static let RedirectedCountdownTemplate: String = NSLocalizedString("You will be redirected in %lu...", comment: "You will be redirected in ...")
     }
 
-    public struct Profile {
+    struct Profile {
         static let Title: String = NSLocalizedString("Profile", comment: "Profile Title")
         static let Mention: String = NSLocalizedString("@ Mention", comment: "Mention button title")
         static let Collaborate: String = NSLocalizedString("Collab", comment: "Collaborate button title")
@@ -140,7 +140,7 @@ public struct InterfaceString {
         static let TotalViews: String = NSLocalizedString("Total Views", comment: "")
     }
 
-    public struct Post {
+    struct Post {
         static let DefaultTitle: String = NSLocalizedString("Post Detail", comment: "Default post title")
         static let LovedByList: String = NSLocalizedString("Loved by", comment: "Loved by list title")
         static let RepostedByList: String = NSLocalizedString("Reposted by", comment: "Reposted by list title")
@@ -157,7 +157,7 @@ public struct InterfaceString {
         static let CannotEditComment: String = NSLocalizedString("Looks like this comment was created on the web!\n\nThe videos and embedded content it contains are not YET editable on our iOS app.  We’ll add this feature soon!", comment: "Uneditable comment error message")
     }
 
-    public struct Omnibar {
+    struct Omnibar {
         static let SayEllo: String = NSLocalizedString("Say Ello...", comment: "Say Ello prompt")
         static let AddMoreText: String = NSLocalizedString("Add more text...", comment: "Add more text prompt")
         static let EnterURL: String = NSLocalizedString("Enter the URL", comment: "Enter the URL")
@@ -176,13 +176,13 @@ public struct InterfaceString {
         static let ProductLinkPlaceholder: String = NSLocalizedString("Product detail URL", comment: "Product detail URL prompt")
     }
 
-    public struct Hire {
+    struct Hire {
         static let Send: String = NSLocalizedString("Send", comment: "Send Button title")
         static let HireTitleTemplate = NSLocalizedString("Hire %@", comment: "Hire (username) title")
         static let CollaborateTitleTemplate = NSLocalizedString("Collaborate with %@", comment: "Collaborate (username) title")
     }
 
-    public struct Loves {
+    struct Loves {
         static let CurrentUserNoResultsTitle: String = NSLocalizedString("You haven't Loved any posts yet!", comment: "Current user no loves results title")
         static let CurrentUserNoResultsBody: String = NSLocalizedString("You can use Ello Loves as a way to bookmark the things you care about most. Go Love someone's post, and it will be added to this stream.", comment: "Current user no loves results body.")
         static let NoResultsTitle: String = NSLocalizedString("This person hasn’t Loved any posts yet!", comment: "Non-current user no loves results title")
@@ -190,7 +190,7 @@ public struct InterfaceString {
         static let Title: String = NSLocalizedString("Loves", comment: "love stream")
     }
 
-    public struct Relationship {
+    struct Relationship {
         static let Follow: String = NSLocalizedString("Follow", comment: "Follow relationship")
         static let Following: String = NSLocalizedString("Following", comment: "Following relationship")
         static let Starred: String = NSLocalizedString("Starred", comment: "Starred relationship")
@@ -213,13 +213,13 @@ public struct InterfaceString {
         static let FlagWarningTemplate: String = NSLocalizedString("%@ will be investigated by our staff.", comment: "flagging explanation")
     }
 
-    public struct PushNotifications {
+    struct PushNotifications {
         static let PermissionPrompt: String = NSLocalizedString("Ello would like to send you push notifications.\n\nWe will let you know when you have new notifications. You can makes changes in your settings.\n", comment: "Turn on Push Notifications prompt")
         static let PermissionYes: String = NSLocalizedString("Yes please", comment: "Allow")
         static let PermissionNo: String = NSLocalizedString("No thanks", comment: "Disallow")
     }
 
-    public struct Friends {
+    struct Friends {
         static let ImportPermissionPrompt: String = NSLocalizedString("Import your contacts to invite cool people to Ello.\n\nEllo does not sell user data, and never contacts anyone without your permission.", comment: "Use address book permission prompt")
         static let ImportAllow: String = NSLocalizedString("Import my contacts", comment: "Import my contacts action")
         static let ImportNotNow: String = NSLocalizedString("Not now", comment: "Not now action")
@@ -235,12 +235,12 @@ public struct InterfaceString {
         static let Invite: String = NSLocalizedString("Invite", comment: "invite friends cell invite")
     }
 
-    public struct NSFW {
+    struct NSFW {
         static let Show: String = NSLocalizedString("Tap to View.", comment: "Tap to View.")
         static let Hide: String = NSLocalizedString("Tap to Hide.", comment: "Tap to Hide.")
     }
 
-    public struct ImagePicker {
+    struct ImagePicker {
         static let ChooseSource: String = NSLocalizedString("Choose a photo source", comment: "choose photo source (camera or library)")
         static let Camera: String = NSLocalizedString("Camera", comment: "camera button")
         static let Library: String = NSLocalizedString("Library", comment: "library button")
@@ -251,16 +251,16 @@ public struct InterfaceString {
         static let ChooseImage: String = NSLocalizedString("Choose Image", comment: "Choose Image")
     }
 
-    public struct WebBrowser {
+    struct WebBrowser {
         static let TermsAndConditions: String = NSLocalizedString("Terms and Conditions", comment: "terms and conditions title")
     }
 
-    public struct Startup {
+    struct Startup {
         static let SignUp: String = NSLocalizedString("Sign Up", comment: "sign up button")
         static let Login: String = NSLocalizedString("Login", comment: "login button")
     }
 
-    public struct Login {
+    struct Login {
         static let Continue: String = NSLocalizedString("Continue", comment: "continue button")
         static let LoadUserError: String = NSLocalizedString("Unable to load user.", comment: "Unable to load user message")
         static let ForgotPassword: String = NSLocalizedString("Forgot Password", comment: "forgot password title")
@@ -268,7 +268,7 @@ public struct InterfaceString {
         static let PasswordPlaceholder: String = NSLocalizedString("Password", comment: "password field")
     }
 
-    public struct Join {
+    struct Join {
         static let Discover: String = NSLocalizedString("Discover Ello", comment: "discover ello button")
         static let LoginAfterJoinError: String = NSLocalizedString("Your account has been created, but there was an error logging in, please try again", comment: "After successfully joining, there was an error signing in")
         static let Email: String = NSLocalizedString("Email", comment: "email key")
@@ -282,7 +282,7 @@ public struct InterfaceString {
         static let Password: String = NSLocalizedString("Password", comment: "password key")
     }
 
-    public struct Validator {
+    struct Validator {
         static let EmailRequired: String = NSLocalizedString("Email is required.", comment: "email is required message")
         static let UsernameRequired: String = NSLocalizedString("Username is required.", comment: "username is required message")
         static let PasswordRequired: String = NSLocalizedString("Password is required.", comment: "password is required message")
@@ -294,13 +294,13 @@ public struct InterfaceString {
         static let PasswordInvalid: String = NSLocalizedString("Password must be at least 8\ncharacters long.", comment: "password length error message")
     }
 
-    public struct Rate {
+    struct Rate {
         static let Title: String = NSLocalizedString("Love Ello?", comment: "rate app prompt title")
         static let Continue: String = NSLocalizedString("Rate us: ⭐️⭐️⭐️⭐️⭐️", comment: "rate app button title")
         static let Cancel: String = NSLocalizedString("No Thanks", comment: "do not rate app button title")
     }
 
-    public struct Onboard {
+    struct Onboard {
         static let PickCategoriesPrimary: String = NSLocalizedString("Pick what you’re into.", comment: "pick what you're into")
         static let PickCategoriesSecondary: String = NSLocalizedString("Slow down & check out some cool ass shit.", comment: "slow down & check out some cool ass shit")
         static let CreateProfilePrimary: String = NSLocalizedString("Grow your creative influence.", comment: "grow your creative influence")
@@ -328,12 +328,12 @@ public struct InterfaceString {
         static let RelationshipFailed: String = NSLocalizedString("Oh no! Something went wrong.\n\nTry that again maybe?", comment: "relationship status update failed during onboarding message")
     }
 
-    public struct Share {
+    struct Share {
         static let FailedToPost: String = NSLocalizedString("Uh oh, failed to post to Ello.", comment: "Failed to post to Ello")
         static let PleaseLogin: String = NSLocalizedString("Please login to the Ello app first to use this feature.", comment: "Not logged in message.")
     }
 
-    public struct App {
+    struct App {
         static let OpenInSafari: String = NSLocalizedString("Open in Safari", comment: "Open in Safari")
         static let LoggedOut: String = NSLocalizedString("You have been automatically logged out", comment: "Automatically logged out message")
         static let LoginAndView: String = NSLocalizedString("Login and view", comment: "Login and view prompt")
@@ -341,7 +341,7 @@ public struct InterfaceString {
         static let LoggedOutError: String = NSLocalizedString("You must be logged in", comment: "You must be logged in")
     }
 
-    public struct Error {
+    struct Error {
         static let JPEGCompress: String = NSLocalizedString("Could not compress image as JPEG", comment: "Could not compress image as JPEG")
     }
 

@@ -5,20 +5,20 @@
 import UIKit
 
 
-public enum ValidationState {
-    case Loading
-    case Error
-    case OK
-    case OKSmall
-    case None
+enum ValidationState {
+    case loading
+    case error
+    case ok
+    case okSmall
+    case none
 
     var imageRepresentation: UIImage? {
         switch self {
-        case .Loading: return InterfaceImage.ValidationLoading.normalImage
-        case .Error: return InterfaceImage.ValidationError.normalImage
-        case .OK: return InterfaceImage.ValidationOK.normalImage
-        case .OKSmall: return InterfaceImage.SmallCheck.normalImage
-        case .None: return nil
+        case .loading: return InterfaceImage.validationLoading.normalImage
+        case .error: return InterfaceImage.validationError.normalImage
+        case .ok: return InterfaceImage.validationOK.normalImage
+        case .okSmall: return InterfaceImage.smallCheck.normalImage
+        case .none: return nil
         }
     }
 }

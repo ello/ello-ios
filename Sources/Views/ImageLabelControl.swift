@@ -7,14 +7,14 @@
 //
 import ElloUIFonts
 
-public class ImageLabelControl: UIControl {
+class ImageLabelControl: UIControl {
 
-    public var title: String? {
+    var title: String? {
         get { return self.attributedNormalTitle?.string }
         set {
-            if let value = newValue where label.text != value {
+            if let value = newValue, label.text != value {
                 attributedNormalTitle = attributedText(value, color: .greyA())
-                attributedSelectedTitle = attributedText(value, color: .blackColor())
+                attributedSelectedTitle = attributedText(value, color: .black)
                 attributedDisabledTitle = attributedText(value, color: .greyC())
                 updateLayout()
                 updateTextColor()
@@ -22,24 +22,24 @@ public class ImageLabelControl: UIControl {
         }
     }
 
-    override public var selected: Bool {
+    override var isSelected: Bool {
         didSet {
-            icon.selected = selected
+            icon.selected = isSelected
             updateTextColor()
 
         }
     }
 
-    override public var highlighted: Bool {
+    override var isHighlighted: Bool {
         didSet {
-            icon.highlighted = highlighted
+            icon.highlighted = isHighlighted
             updateTextColor()
         }
     }
 
-    override public var enabled: Bool {
+    override var isEnabled: Bool {
         didSet {
-            icon.enabled = enabled
+            icon.enabled = isEnabled
         }
     }
 
@@ -58,7 +58,7 @@ public class ImageLabelControl: UIControl {
 
     // MARK: Initializers
 
-    public init(icon: ImageLabelAnimatable, title: String) {
+    init(icon: ImageLabelAnimatable, title: String) {
         self.icon = icon
         super.init(frame: .zero)
         addSubviews()
@@ -66,57 +66,57 @@ public class ImageLabelControl: UIControl {
         self.title = title
     }
 
-    required public init?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
     // MARK: Public
 
-    public func animate() {
+    func animate() {
         self.icon.animate?()
     }
 
-    public func finishAnimation() {
+    func finishAnimation() {
         self.icon.finishAnimation?()
     }
 
     // MARK: IBActions
 
-    @IBAction func buttonTouchUpInside(sender: ImageLabelControl) {
-        sendActionsForControlEvents(.TouchUpInside)
-        highlighted = false
+    @IBAction func buttonTouchUpInside(_ sender: ImageLabelControl) {
+        sendActions(for: .touchUpInside)
+        isHighlighted = false
     }
 
-    @IBAction func buttonTouchUpOutside(sender: ImageLabelControl) {
-        sendActionsForControlEvents(.TouchUpOutside)
-        highlighted = false
+    @IBAction func buttonTouchUpOutside(_ sender: ImageLabelControl) {
+        sendActions(for: .touchUpOutside)
+        isHighlighted = false
     }
 
-    @IBAction func buttonTouchDown(sender: ImageLabelControl) {
-        sendActionsForControlEvents(.TouchDown)
-        highlighted = true
+    @IBAction func buttonTouchDown(_ sender: ImageLabelControl) {
+        sendActions(for: .touchDown)
+        isHighlighted = true
     }
 
     // MARK: Private
 
-    private func addSubviews() {
+    fileprivate func addSubviews() {
         addSubview(contentContainer)
         addSubview(button)
         contentContainer.addSubview(icon.view)
         contentContainer.addSubview(label)
     }
 
-    private func addTargets() {
-        button.addTarget(self, action: #selector(ImageLabelControl.buttonTouchUpInside(_:)), forControlEvents: .TouchUpInside)
-        button.addTarget(self, action: #selector(ImageLabelControl.buttonTouchDown(_:)), forControlEvents: [.TouchDown, .TouchDragEnter])
-        button.addTarget(self, action: #selector(ImageLabelControl.buttonTouchUpOutside(_:)), forControlEvents: [.TouchCancel, .TouchDragExit])
+    fileprivate func addTargets() {
+        button.addTarget(self, action: #selector(ImageLabelControl.buttonTouchUpInside(_:)), for: .touchUpInside)
+        button.addTarget(self, action: #selector(ImageLabelControl.buttonTouchDown(_:)), for: [.touchDown, .touchDragEnter])
+        button.addTarget(self, action: #selector(ImageLabelControl.buttonTouchUpOutside(_:)), for: [.touchCancel, .touchDragExit])
     }
 
-    private func updateTextColor() {
-        if !enabled {
+    fileprivate func updateTextColor() {
+        if !isEnabled {
             label.attributedText = attributedDisabledTitle
         }
-        else if highlighted || selected {
+        else if isHighlighted || isSelected {
             label.attributedText = attributedSelectedTitle
         }
         else {
@@ -124,7 +124,7 @@ public class ImageLabelControl: UIControl {
         }
     }
 
-    private func updateLayout() {
+    fileprivate func updateLayout() {
         label.attributedText = attributedNormalTitle
         label.sizeToFit()
 
@@ -160,11 +160,11 @@ public class ImageLabelControl: UIControl {
         label.frame.origin.y = height / 2 - label.frame.size.height / 2
     }
 
-    private func attributedText(title: String, color: UIColor) -> NSAttributedString {
+    fileprivate func attributedText(_ title: String, color: UIColor) -> NSAttributedString {
         let attributed = NSMutableAttributedString(string: title)
         let range = NSRange(location: 0, length: title.characters.count)
         let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.alignment = .Left
+        paragraphStyle.alignment = .left
 
         let attributes = [
             NSFontAttributeName : titleFont,

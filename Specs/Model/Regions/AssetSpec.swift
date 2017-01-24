@@ -2,7 +2,7 @@
 ///  AssetSpec.swift
 //
 
-import Ello
+@testable import Ello
 import Quick
 import Nimble
 
@@ -98,13 +98,13 @@ class AssetSpec: QuickSpec {
         context("NSCoding") {
 
             var filePath = ""
-            if let url = NSURL(string: NSFileManager.ElloDocumentsDir()) {
-                filePath = url.URLByAppendingPathComponent("AssetSpec")!.absoluteString!
-            }
+            if let url = URL(string: FileManager.ElloDocumentsDir()) {
+                filePath = url.appendingPathComponent("AssetSpec").absoluteString
+           }
 
             afterEach {
                 do {
-                    try NSFileManager.defaultManager().removeItemAtPath(filePath)
+                    try FileManager.default.removeItem(atPath: filePath)
                 }
                 catch {
 
@@ -127,7 +127,7 @@ class AssetSpec: QuickSpec {
                 it("decodes successfully") {
 
                     let optimized: Attachment = stub([
-                        "url" : NSURL(string: "http://www.example1.com")!,
+                        "url" : URL(string: "http://www.example1.com")!,
                         "height" : 10,
                         "width" : 20,
                         "type" : "jpeg",
@@ -135,7 +135,7 @@ class AssetSpec: QuickSpec {
                     ])
 
                     let smallScreen: Attachment = stub([
-                        "url" : NSURL(string: "http://www.example2.com")!,
+                        "url" : URL(string: "http://www.example2.com")!,
                         "height" : 20,
                         "width" : 30,
                         "type" : "jpeg",
@@ -143,7 +143,7 @@ class AssetSpec: QuickSpec {
                     ])
 
                     let ldpi: Attachment = stub([
-                        "url" : NSURL(string: "http://www.example3.com")!,
+                        "url" : URL(string: "http://www.example3.com")!,
                         "height" : 30,
                         "width" : 40,
                         "type" : "jpeg",
@@ -151,7 +151,7 @@ class AssetSpec: QuickSpec {
                     ])
 
                     let mdpi: Attachment = stub([
-                        "url" : NSURL(string: "http://www.example4.com")!,
+                        "url" : URL(string: "http://www.example4.com")!,
                         "height" : 40,
                         "width" : 50,
                         "type" : "jpeg",
@@ -159,7 +159,7 @@ class AssetSpec: QuickSpec {
                     ])
 
                     let hdpi: Attachment = stub([
-                        "url" : NSURL(string: "http://www.example5.com")!,
+                        "url" : URL(string: "http://www.example5.com")!,
                         "height" : 50,
                         "width" : 60,
                         "type" : "jpeg",
@@ -167,7 +167,7 @@ class AssetSpec: QuickSpec {
                     ])
 
                     let xhdpi: Attachment = stub([
-                        "url" : NSURL(string: "http://www.example6.com")!,
+                        "url" : URL(string: "http://www.example6.com")!,
                         "height" : 60,
                         "width" : 70,
                         "type" : "jpeg",
@@ -175,7 +175,7 @@ class AssetSpec: QuickSpec {
                     ])
 
                     let original: Attachment = stub([
-                        "url" : NSURL(string: "http://www.example8.com")!,
+                        "url" : URL(string: "http://www.example8.com")!,
                         "height" : 80,
                         "width" : 90,
                         "type" : "jpeg",
@@ -194,7 +194,7 @@ class AssetSpec: QuickSpec {
                     ])
 
                     NSKeyedArchiver.archiveRootObject(asset, toFile: filePath)
-                    let unArchivedAsset = NSKeyedUnarchiver.unarchiveObjectWithFile(filePath) as! Asset
+                    let unArchivedAsset = NSKeyedUnarchiver.unarchiveObject(withFile: filePath) as! Asset
 
                     expect(unArchivedAsset).toNot(beNil())
                     expect(unArchivedAsset.version) == 1

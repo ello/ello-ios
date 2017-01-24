@@ -2,23 +2,23 @@
 ///  DrawerCell.swift
 //
 
-public class DrawerCell: UITableViewCell {
-    public static let reuseIdentifier = "DrawerCell"
-    @IBOutlet weak public var label: UILabel!
-    @IBOutlet weak public var line: UIView!
+class DrawerCell: UITableViewCell {
+    static let reuseIdentifier = "DrawerCell"
+    @IBOutlet weak var label: UILabel!
+    @IBOutlet weak var line: UIView!
 
-    override public func awakeFromNib() {
+    override func awakeFromNib() {
         super.awakeFromNib()
 
         backgroundColor = .grey6()
         line.backgroundColor = .grey5()
         label.font = UIFont.defaultFont()
-        label.textColor = .whiteColor()
+        label.textColor = .white
     }
 }
 
-public extension DrawerCell {
+extension DrawerCell {
     class func nib() -> UINib {
-        return UINib(nibName: "DrawerCell", bundle: .None)
+        return UINib(nibName: "DrawerCell", bundle: .none)
     }
 }

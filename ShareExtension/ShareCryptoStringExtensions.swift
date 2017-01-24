@@ -2,7 +2,7 @@
 ///  ShareCryptoStringExtensions.swift
 //
 
-public extension String {
+extension String {
 
     // no need to include common crypto in
     // an app extension so we return an
@@ -15,4 +15,3 @@ public extension String {
         return self
     }
 }
-

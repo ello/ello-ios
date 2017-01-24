@@ -14,7 +14,7 @@ class CategoryListCellSpec: QuickSpec {
         var slug: String?
         var name: String?
 
-        func categoryListCellTapped(slug slug: String, name: String) {
+        func categoryListCellTapped(slug: String, name: String) {
             categoryTapped = true
             self.slug = slug
             self.name = name
@@ -44,7 +44,7 @@ class CategoryListCellSpec: QuickSpec {
                     let categoryButton: UIButton? = subviewThatMatches(subject) { view in
                         (view as? UIButton)?.currentAttributedTitle?.string == "Featured"
                     }
-                    categoryButton?.sendActionsForControlEvents(.TouchUpInside)
+                    categoryButton?.sendActions(for: .touchUpInside)
                     expect(delegate.categoryTapped) == true
                     expect(delegate.slug) == "featured"
                 }

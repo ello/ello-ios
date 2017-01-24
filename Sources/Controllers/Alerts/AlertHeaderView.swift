@@ -4,6 +4,6 @@
 
 import UIKit
 
-public class AlertHeaderView: UIView {
-    public weak var label: StyledLabel!
+class AlertHeaderView: UIView {
+    weak var label: StyledLabel!
 }

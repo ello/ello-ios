@@ -2,21 +2,21 @@
 ///  UserAvatarsCellPresenter.swift
 //
 
-public struct UserAvatarsCellPresenter {
+struct UserAvatarsCellPresenter {
 
-    public static func configure(
-        cell: UICollectionViewCell,
+    static func configure(
+        _ cell: UICollectionViewCell,
         streamCellItem: StreamCellItem,
         streamKind: StreamKind,
-        indexPath: NSIndexPath,
+        indexPath: IndexPath,
         currentUser: User?)
     {
-        guard let
-            cell = cell as? UserAvatarsCell,
-            model = streamCellItem.jsonable as? UserAvatarCellModel
+        guard
+            let cell = cell as? UserAvatarsCell,
+            let model = streamCellItem.jsonable as? UserAvatarCellModel
         else { return }
         cell.imageView.image = model.icon.normalImage
         cell.userAvatarCellModel = model
-        cell.loadingLabel.hidden = model.hasUsers
+        cell.loadingLabel.isHidden = model.hasUsers
     }
 }

@@ -4,35 +4,35 @@
 
 import OnePasswordExtension
 
-public class JoinViewController: BaseElloViewController, HasAppController {
+class JoinViewController: BaseElloViewController, HasAppController {
     var mockScreen: JoinScreenProtocol?
     var screen: JoinScreenProtocol { return mockScreen ?? (self.view as! JoinScreenProtocol) }
 
     var parentAppController: AppViewController?
     var invitationCode: String?
 
-    override public func loadView() {
+    override func loadView() {
         let screen = JoinScreen()
         screen.delegate = self
-        screen.onePasswordAvailable = OnePasswordExtension.sharedExtension().isAppExtensionAvailable()
+        screen.onePasswordAvailable = OnePasswordExtension.shared().isAppExtensionAvailable()
         self.view = screen
     }
 
-    private func showOnboardingScreen(user: User) {
+    fileprivate func showOnboardingScreen(_ user: User) {
         parentAppController?.showOnboardingScreen(user)
     }
 
-    private func showLoginScreen(email: String, _ password: String) {
+    fileprivate func showLoginScreen(_ email: String, _ password: String) {
         parentAppController?.showLoginScreen(animated: true)
     }
 }
 
 extension JoinViewController: JoinDelegate {
     func backAction() {
-        navigationController?.popViewControllerAnimated(true)
+        _ = navigationController?.popViewController(animated: true)
     }
 
-    func validate(email email: String, username: String, password: String) {
+    func validate(email: String, username: String, password: String) {
         if Validator.invalidSignUpEmailReason(email) == nil {
             screen.emailValid = true
         }
@@ -55,11 +55,11 @@ extension JoinViewController: JoinDelegate {
         }
     }
 
-    func submit(email email: String, username: String, password: String) {
-        Tracker.sharedTracker.tappedJoin()
+    func submit(email: String, username: String, password: String) {
+        Tracker.shared.tappedJoin()
 
         screen.hideMessage()
-        screen.resignFirstResponder()
+        _ = screen.resignFirstResponder()
 
         if Validator.hasValidSignUpCredentials(email: email, username: username, password: password) {
             screen.hideEmailError()
@@ -77,7 +77,7 @@ extension JoinViewController: JoinDelegate {
                     return
                 }
 
-                Tracker.sharedTracker.joinValid()
+                Tracker.shared.joinValid()
 
                 UserService().join(
                     email: email,
@@ -89,11 +89,11 @@ extension JoinViewController: JoinDelegate {
                         authService.authenticate(email: email,
                             password: password,
                             success: {
-                                Tracker.sharedTracker.joinSuccessful()
+                                Tracker.shared.joinSuccessful()
                                 self.showOnboardingScreen(user)
                             },
                             failure: { _, _ in
-                                Tracker.sharedTracker.joinFailed()
+                                Tracker.shared.joinFailed()
                                 self.showLoginScreen(email, password)
                             })
                     }
@@ -115,7 +115,7 @@ extension JoinViewController: JoinDelegate {
             }
         }
         else {
-            Tracker.sharedTracker.joinInvalid()
+            Tracker.shared.joinInvalid()
             if let msg = Validator.invalidSignUpEmailReason(email) {
                 screen.showEmailError(msg)
             }
@@ -143,25 +143,25 @@ extension JoinViewController: JoinDelegate {
         let nav = ElloWebBrowserViewController.navigationControllerWithWebBrowser()
         let browser = nav.rootWebBrowser()
         let url = "\(ElloURI.baseURL)/wtf/post/terms-of-use"
-        Tracker.sharedTracker.webViewAppeared(url)
-        browser.loadURLString(url)
-        browser.tintColor = UIColor.greyA()
-        browser.showsURLInNavigationBar = false
-        browser.showsPageTitleInNavigationBar = false
-        browser.title = InterfaceString.WebBrowser.TermsAndConditions
+        Tracker.shared.webViewAppeared(url)
+        browser?.loadURLString(url)
+        browser?.tintColor = UIColor.greyA()
+        browser?.showsURLInNavigationBar = false
+        browser?.showsPageTitleInNavigationBar = false
+        browser?.title = InterfaceString.WebBrowser.TermsAndConditions
 
-        presentViewController(nav, animated: true, completion: nil)
+        present(nav, animated: true, completion: nil)
     }
 
-    func onePasswordAction(sender: UIView) {
-        OnePasswordExtension.sharedExtension().storeLoginForURLString(
-            ElloURI.baseURL,
+    func onePasswordAction(_ sender: UIView) {
+        OnePasswordExtension.shared().storeLogin(
+            forURLString: ElloURI.baseURL,
             loginDetails: [
                 AppExtensionTitleKey: InterfaceString.Ello,
             ], passwordGenerationOptions: [
                 AppExtensionGeneratedPasswordMinLengthKey: 8,
             ],
-            forViewController: self,
+            for: self,
             sender: sender) { loginDict, error in
                 guard let loginDict = loginDict else { return }
 
@@ -181,7 +181,7 @@ extension JoinViewController: JoinDelegate {
 // MARK: Text field validation
 extension JoinViewController {
 
-    private func emailAvailability(text: String, completion: (Bool) -> Void) {
+    fileprivate func emailAvailability(_ text: String, completion: @escaping (Bool) -> Void) {
         AvailabilityService().emailAvailability(text, success: { availability in
             if text != self.screen.email {
                 completion(false)
@@ -202,7 +202,7 @@ extension JoinViewController {
         })
     }
 
-    private func usernameAvailability(text: String, completion: (Bool) -> Void) {
+    fileprivate func usernameAvailability(_ text: String, completion: @escaping (Bool) -> Void) {
         AvailabilityService().usernameAvailability(text, success: { availability in
             if text != self.screen.username {
                 completion(false)

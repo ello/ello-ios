@@ -18,8 +18,8 @@ class StreamHeaderCellPresenterSpec: QuickSpec {
             var item: StreamCellItem!
 
             beforeEach {
-                StreamKind.Starred.setIsGridView(true)
-                StreamKind.Following.setIsGridView(false)
+                StreamKind.starred.setIsGridView(true)
+                StreamKind.following.setIsGridView(false)
             }
 
             context("when item is a Post Header") {
@@ -31,72 +31,72 @@ class StreamHeaderCellPresenterSpec: QuickSpec {
                         "repostsCount" : 4,
                         "commentsCount" : 6,
                         "lovesCount" : 14,
-                        "createdAt": NSDate(timeIntervalSinceNow: -1000),
+                        "createdAt": Date(timeIntervalSinceNow: -1000),
                     ])
 
                     cell = StreamHeaderCell.loadFromNib() as StreamHeaderCell
-                    item = StreamCellItem(jsonable: post, type: .Header)
+                    item = StreamCellItem(jsonable: post, type: .header)
                 }
 
                 it("starts out closed") {
                     cell.scrollView.contentOffset = CGPoint(x: 20, y: 0)
-                    StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: currentUser)
-                    expect(cell.scrollView.contentOffset) == CGPointZero
+                    StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: currentUser)
+                    expect(cell.scrollView.contentOffset) == CGPoint.zero
                 }
                 it("ownPost should be false") {
-                    StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: currentUser)
+                    StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: currentUser)
                     expect(cell.ownPost) == false
                 }
                 it("ownComment should be false") {
-                    StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: currentUser)
+                    StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: currentUser)
                     expect(cell.ownComment) == false
                 }
                 it("sets scrollView.scrollEnabled") {
-                    cell.scrollView.scrollEnabled = true
-                    StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: currentUser)
-                    expect(cell.scrollView.scrollEnabled) == false
+                    cell.scrollView.isScrollEnabled = true
+                    StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: currentUser)
+                    expect(cell.scrollView.isScrollEnabled) == false
                 }
                 it("sets chevronHidden") {
                     cell.chevronHidden = false
-                    StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: currentUser)
+                    StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: currentUser)
                     expect(cell.chevronHidden) == true
                 }
-                it("sets goToPostView.hidden") {
-                    cell.goToPostView.hidden = true
-                    StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: currentUser)
-                    expect(cell.goToPostView.hidden) == false
+                it("sets goToPostView.isHidden") {
+                    cell.goToPostView.isHidden = true
+                    StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: currentUser)
+                    expect(cell.goToPostView.isHidden) == false
                 }
                 it("sets canReply") {
                     cell.canReply = true
-                    StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: currentUser)
+                    StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: currentUser)
                     expect(cell.canReply) == false
                 }
                 it("sets timeStamp") {
                     cell.timeStamp = ""
-                    StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: currentUser)
+                    StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: currentUser)
                     expect(cell.timeStamp) == "17m"
                 }
                 it("sets usernameButton title") {
-                    cell.usernameButton.setTitle("", forState: .Normal)
-                    StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: currentUser)
+                    cell.usernameButton.setTitle("", for: .normal)
+                    StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: currentUser)
                     expect(cell.usernameButton.currentTitle) == "@ello"
                 }
                 it("hides repostAuthor") {
-                    StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: currentUser)
-                    expect(cell.repostedByButton.hidden) == true
-                    expect(cell.repostIconView.hidden) == true
+                    StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: currentUser)
+                    expect(cell.repostedByButton.isHidden) == true
+                    expect(cell.repostIconView.isHidden) == true
                 }
 
                 context("gridLayout streamKind") {
                     it("sets isGridLayout") {
                         cell.isGridLayout = false
-                        StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .Starred, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: currentUser)
+                        StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .starred, indexPath: IndexPath(item: 0, section: 0), currentUser: currentUser)
                         expect(cell.isGridLayout) == true
                     }
 
                     it("sets avatarHeight") {
                         cell.avatarHeight = 0
-                        StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .Starred, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: currentUser)
+                        StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .starred, indexPath: IndexPath(item: 0, section: 0), currentUser: currentUser)
                         expect(cell.avatarHeight) == 30.0
                     }
                 }
@@ -104,13 +104,13 @@ class StreamHeaderCellPresenterSpec: QuickSpec {
                 context("not-gridLayout streamKind") {
                     it("sets isGridLayout") {
                         cell.isGridLayout = true
-                        StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: currentUser)
+                        StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: currentUser)
                         expect(cell.isGridLayout) == false
                     }
 
                     it("sets avatarHeight") {
                         cell.avatarHeight = 0
-                        StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: currentUser)
+                        StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: currentUser)
                         expect(cell.avatarHeight) == 40
                     }
                 }
@@ -121,7 +121,7 @@ class StreamHeaderCellPresenterSpec: QuickSpec {
                     let repostAuthor: User = stub([
                         "id": "reposterId",
                         "username": "reposter",
-                        "relationshipPriority": RelationshipPriority.Starred.rawValue,
+                        "relationshipPriority": RelationshipPriority.starred.rawValue,
                     ])
                     let post: Post = stub([
                         "id" : "768",
@@ -134,37 +134,37 @@ class StreamHeaderCellPresenterSpec: QuickSpec {
                     ])
 
                     cell = StreamHeaderCell.loadFromNib() as StreamHeaderCell
-                    item = StreamCellItem(jsonable: post, type: .Header)
+                    item = StreamCellItem(jsonable: post, type: .header)
                 }
                 it("sets relationshipControl properties") {
                     cell.relationshipControl.userId = ""
                     cell.relationshipControl.userAtName = ""
-                    cell.relationshipControl.relationshipPriority = RelationshipPriority.Null
-                    StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: currentUser)
+                    cell.relationshipControl.relationshipPriority = RelationshipPriority.null
+                    StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: currentUser)
                     expect(cell.relationshipControl.userId) == "reposterId"
                     expect(cell.relationshipControl.userAtName) == "@reposter"
-                    expect(cell.relationshipControl.relationshipPriority) == RelationshipPriority.Starred
+                    expect(cell.relationshipControl.relationshipPriority) == RelationshipPriority.starred
                 }
                 it("sets followButtonVisible") {
                     cell.followButtonVisible = true
-                    StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: currentUser)
+                    StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: currentUser)
                     expect(cell.followButtonVisible) == false
                 }
 
                 context("gridLayout streamKind") {
                     it("shows reposter and author") {
-                        StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .Starred, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: currentUser)
-                        expect(cell.repostedByButton.hidden) == false
-                        expect(cell.repostIconView.hidden) == false
+                        StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .starred, indexPath: IndexPath(item: 0, section: 0), currentUser: currentUser)
+                        expect(cell.repostedByButton.isHidden) == false
+                        expect(cell.repostIconView.isHidden) == false
                     }
                 }
 
                 context("not-gridLayout streamKind") {
                     it("shows author and repostAuthor") {
-                        StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: currentUser)
+                        StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: currentUser)
                         expect(cell.repostedByButton.currentTitle) == "by @ello"
-                        expect(cell.repostedByButton.hidden) == false
-                        expect(cell.repostIconView.hidden) == false
+                        expect(cell.repostedByButton.isHidden) == false
+                        expect(cell.repostIconView.isHidden) == false
                     }
                 }
             }
@@ -174,7 +174,7 @@ class StreamHeaderCellPresenterSpec: QuickSpec {
                     let author: User = stub([
                         "id": "authorId",
                         "username": "author",
-                        "relationshipPriority": RelationshipPriority.Following.rawValue,
+                        "relationshipPriority": RelationshipPriority.following.rawValue,
                     ])
                     let post: Post = stub([
                         "id" : "768",
@@ -186,15 +186,15 @@ class StreamHeaderCellPresenterSpec: QuickSpec {
                     ])
 
                     cell = StreamHeaderCell.loadFromNib() as StreamHeaderCell
-                    item = StreamCellItem(jsonable: post, type: .Header)
+                    item = StreamCellItem(jsonable: post, type: .header)
                 }
                 it("sets followButtonVisible") {
                     cell.followButtonVisible = false
-                    StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .PostDetail(postParam: "768"), indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: currentUser)
+                    StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .postDetail(postParam: "768"), indexPath: IndexPath(item: 0, section: 0), currentUser: currentUser)
                     expect(cell.followButtonVisible) == true
                     expect(cell.relationshipControl.userId) == "authorId"
                     expect(cell.relationshipControl.userAtName) == "@author"
-                    expect(cell.relationshipControl.relationshipPriority) == RelationshipPriority.Following
+                    expect(cell.relationshipControl.relationshipPriority) == RelationshipPriority.following
                 }
             }
 
@@ -203,7 +203,7 @@ class StreamHeaderCellPresenterSpec: QuickSpec {
                     let repostAuthor: User = stub([
                         "id": "reposterId",
                         "username": "reposter",
-                        "relationshipPriority": RelationshipPriority.Starred.rawValue,
+                        "relationshipPriority": RelationshipPriority.starred.rawValue,
                     ])
                     let post: Post = stub([
                         "id" : "768",
@@ -216,15 +216,15 @@ class StreamHeaderCellPresenterSpec: QuickSpec {
                     ])
 
                     cell = StreamHeaderCell.loadFromNib() as StreamHeaderCell
-                    item = StreamCellItem(jsonable: post, type: .Header)
+                    item = StreamCellItem(jsonable: post, type: .header)
                 }
                 it("sets followButtonVisible") {
                     cell.followButtonVisible = false
-                    StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .PostDetail(postParam: "768"), indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: currentUser)
+                    StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .postDetail(postParam: "768"), indexPath: IndexPath(item: 0, section: 0), currentUser: currentUser)
                     expect(cell.followButtonVisible) == true
                     expect(cell.relationshipControl.userId) == "reposterId"
                     expect(cell.relationshipControl.userAtName) == "@reposter"
-                    expect(cell.relationshipControl.relationshipPriority) == RelationshipPriority.Starred
+                    expect(cell.relationshipControl.relationshipPriority) == RelationshipPriority.starred
                 }
             }
 
@@ -242,22 +242,22 @@ class StreamHeaderCellPresenterSpec: QuickSpec {
                     ])
 
                     cell = StreamHeaderCell.loadFromNib() as StreamHeaderCell
-                    item = StreamCellItem(jsonable: post, type: .Header)
+                    item = StreamCellItem(jsonable: post, type: .header)
                 }
                 it("sets categoryButton in .Featured stream") {
                     cell.followButtonVisible = false
-                    StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .Discover(type: .Featured), indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: currentUser)
+                    StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .discover(type: .featured), indexPath: IndexPath(item: 0, section: 0), currentUser: currentUser)
                     expect(cell.followButtonVisible) == false
-                    expect(cell.relationshipControl.hidden) == true
+                    expect(cell.relationshipControl.isHidden) == true
                     expect(cell.categoryButton.currentTitle) == "in Art"
-                    expect(cell.categoryButton.hidden) == false
+                    expect(cell.categoryButton.isHidden) == false
                 }
                 it("hides categoryButton if not in .Featured stream") {
                     cell.followButtonVisible = false
-                    StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .PostDetail(postParam: "768"), indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: currentUser)
+                    StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .postDetail(postParam: "768"), indexPath: IndexPath(item: 0, section: 0), currentUser: currentUser)
                     expect(cell.followButtonVisible) == false
-                    expect(cell.relationshipControl.hidden) == true
-                    expect(cell.categoryButton.hidden) == true
+                    expect(cell.relationshipControl.isHidden) == true
+                    expect(cell.categoryButton.isHidden) == true
                 }
             }
 
@@ -273,11 +273,11 @@ class StreamHeaderCellPresenterSpec: QuickSpec {
                         ])
 
                     cell = StreamHeaderCell.loadFromNib() as StreamHeaderCell
-                    item = StreamCellItem(jsonable: post, type: .Header)
+                    item = StreamCellItem(jsonable: post, type: .header)
                 }
                 it("sets followButtonVisible") {
                     cell.followButtonVisible = true
-                    StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .PostDetail(postParam: "768"), indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: currentUser)
+                    StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .postDetail(postParam: "768"), indexPath: IndexPath(item: 0, section: 0), currentUser: currentUser)
                     expect(cell.followButtonVisible) == false
                 }
             }
@@ -299,39 +299,39 @@ class StreamHeaderCellPresenterSpec: QuickSpec {
                         ])
 
                         cell = StreamHeaderCell.loadFromNib() as StreamHeaderCell
-                        item = StreamCellItem(jsonable: comment, type: .CommentHeader)
+                        item = StreamCellItem(jsonable: comment, type: .commentHeader)
                     }
                     it("sets avatarHeight") {
                         cell.avatarHeight = 0
-                        StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: currentUser)
+                        StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: currentUser)
                         expect(cell.avatarHeight) == 30.0
                     }
                     it("sets scrollView.scrollEnabled") {
-                        cell.scrollView.scrollEnabled = false
-                        StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: currentUser)
-                        expect(cell.scrollView.scrollEnabled) == true
+                        cell.scrollView.isScrollEnabled = false
+                        StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: currentUser)
+                        expect(cell.scrollView.isScrollEnabled) == true
                     }
                     it("sets chevronHidden") {
                         cell.chevronHidden = true
-                        StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: currentUser)
+                        StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: currentUser)
                         expect(cell.chevronHidden) == false
                     }
-                    it("sets goToPostView.hidden") {
-                        cell.goToPostView.hidden = false
-                        StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: currentUser)
-                        expect(cell.goToPostView.hidden) == true
+                    it("sets goToPostView.isHidden") {
+                        cell.goToPostView.isHidden = false
+                        StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: currentUser)
+                        expect(cell.goToPostView.isHidden) == true
                     }
                     it("sets canReply") {
                         cell.canReply = false
-                        StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: currentUser)
+                        StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: currentUser)
                         expect(cell.canReply) == true
                     }
                     it("ownPost should be false") {
-                        StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: currentUser)
+                        StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: currentUser)
                         expect(cell.ownPost) == false
                     }
                     it("ownComment should be false") {
-                        StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: currentUser)
+                        StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: currentUser)
                         expect(cell.ownComment) == false
                     }
                 }
@@ -352,14 +352,14 @@ class StreamHeaderCellPresenterSpec: QuickSpec {
                             ])
 
                         cell = StreamHeaderCell.loadFromNib() as StreamHeaderCell
-                        item = StreamCellItem(jsonable: comment, type: .CommentHeader)
+                        item = StreamCellItem(jsonable: comment, type: .commentHeader)
                     }
                     it("ownPost should be true") {
-                        StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: currentUser)
+                        StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: currentUser)
                         expect(cell.ownPost) == true
                     }
                     it("ownComment should be false") {
-                        StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: currentUser)
+                        StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: currentUser)
                         expect(cell.ownComment) == false
                     }
                 }
@@ -383,14 +383,14 @@ class StreamHeaderCellPresenterSpec: QuickSpec {
                             ])
 
                         cell = StreamHeaderCell.loadFromNib() as StreamHeaderCell
-                        item = StreamCellItem(jsonable: comment, type: .CommentHeader)
+                        item = StreamCellItem(jsonable: comment, type: .commentHeader)
                     }
                     it("ownPost should be true") {
-                        StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: currentUser)
+                        StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: currentUser)
                         expect(cell.ownPost) == true
                     }
                     it("ownComment should be false") {
-                        StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: currentUser)
+                        StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: currentUser)
                         expect(cell.ownComment) == false
                     }
                 }
@@ -411,14 +411,14 @@ class StreamHeaderCellPresenterSpec: QuickSpec {
                             ])
 
                         cell = StreamHeaderCell.loadFromNib() as StreamHeaderCell
-                        item = StreamCellItem(jsonable: comment, type: .CommentHeader)
+                        item = StreamCellItem(jsonable: comment, type: .commentHeader)
                     }
                     it("ownPost should be false") {
-                        StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: currentUser)
+                        StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: currentUser)
                         expect(cell.ownPost) == false
                     }
                     it("ownComment should be true") {
-                        StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: currentUser)
+                        StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: currentUser)
                         expect(cell.ownComment) == true
                     }
                 }

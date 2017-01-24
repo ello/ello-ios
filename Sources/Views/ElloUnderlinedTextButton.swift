@@ -2,33 +2,33 @@
 ///  ElloUnderlinedTextButton.swift
 //
 
-public class ElloUnderlinedTextButton: UIButton {
+class ElloUnderlinedTextButton: UIButton {
 
-    required override public init(frame: CGRect) {
+    required override init(frame: CGRect) {
         super.init(frame: frame)
         sharedSetup()
     }
 
-    required public init?(coder: NSCoder) {
+    required init?(coder: NSCoder) {
         super.init(coder: coder)
         sharedSetup()
     }
 
-    private func sharedSetup() {
-        self.backgroundColor = UIColor.clearColor()
-        let lineBreakMode = self.titleLabel?.lineBreakMode ?? .ByWordWrapping
-        if lineBreakMode != .ByWordWrapping {
+    fileprivate func sharedSetup() {
+        self.backgroundColor = UIColor.clear
+        let lineBreakMode = self.titleLabel?.lineBreakMode ?? .byWordWrapping
+        if lineBreakMode != .byWordWrapping {
             self.titleLabel?.numberOfLines = 1
         }
-        self.setTitleColor(UIColor.greyA(), forState: UIControlState.Normal)
+        self.setTitleColor(UIColor.greyA(), for: .normal)
         self.titleLabel?.font = UIFont.defaultFont()
 
         if let title = self.titleLabel?.text {
             let attributedString = NSAttributedString(string: title, attributes: [
                 NSFontAttributeName: UIFont.defaultFont(),
-                NSUnderlineStyleAttributeName: NSUnderlineStyle.StyleSingle.rawValue,
+                NSUnderlineStyleAttributeName: NSUnderlineStyle.styleSingle.rawValue as AnyObject,
                 ])
-            self.setAttributedTitle(attributedString, forState: UIControlState.Normal)
+            self.setAttributedTitle(attributedString, for: .normal)
         }
     }
 }

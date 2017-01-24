@@ -2,8 +2,7 @@
 ///  PostbarControllerSpec.swift
 //
 
-@testable
-import Ello
+@testable import Ello
 import Quick
 import Nimble
 import Moya
@@ -11,21 +10,22 @@ import Moya
 
 class PostbarControllerSpec: QuickSpec {
     class ReplyAllCreatePostDelegate: CreatePostDelegate {
+        var postId: String?
         var post: Post?
         var comment: ElloComment?
         var text: String?
 
-        func createPost(text text: String?, fromController: UIViewController) {
+        func createPost(text: String?, fromController: UIViewController) {
             self.text = text
         }
-        func createComment(post: Post, text: String?, fromController: UIViewController) {
-            self.post = post
+        func createComment(_ postId: String, text: String?, fromController: UIViewController) {
+            self.postId = postId
             self.text = text
         }
-        func editComment(comment: ElloComment, fromController: UIViewController) {
+        func editComment(_ comment: ElloComment, fromController: UIViewController) {
             self.comment = comment
         }
-        func editPost(post: Post, fromController: UIViewController) {
+        func editPost(_ post: Post, fromController: UIViewController) {
             self.post = post
         }
     }
@@ -37,7 +37,7 @@ class PostbarControllerSpec: QuickSpec {
             "lovesCount": 5,
             ])
         var controller: StreamViewController!
-        let streamKind: StreamKind = .PostDetail(postParam: "post")
+        let streamKind: StreamKind = .postDetail(postParam: "post")
 
         beforeEach {
             let textSizeCalculator = FakeStreamTextCellSizeCalculator(webView: UIWebView())
@@ -71,7 +71,7 @@ class PostbarControllerSpec: QuickSpec {
         describe("PostbarController") {
             describe("replyToAllButtonTapped(_:)") {
                 var delegate: ReplyAllCreatePostDelegate!
-                var indexPath: NSIndexPath!
+                var indexPath: IndexPath!
 
                 beforeEach {
                     let post: Post = stub([
@@ -81,8 +81,8 @@ class PostbarControllerSpec: QuickSpec {
                     let parser = StreamCellItemParser()
                     var postCellItems = parser.parse([post], streamKind: streamKind)
                     let newComment = ElloComment.newCommentForPost(post, currentUser: currentUser)
-                    postCellItems += [StreamCellItem(jsonable: newComment, type: .CreateComment)]
-                    indexPath = NSIndexPath(forItem: postCellItems.count - 1, inSection: 0)
+                    postCellItems += [StreamCellItem(jsonable: newComment, type: .createComment)]
+                    indexPath = IndexPath(item: postCellItems.count - 1, section: 0)
                     delegate = ReplyAllCreatePostDelegate()
                     controller.createPostDelegate = delegate
                     controller.dataSource.appendUnsizedCellItems(postCellItems, withWidth: 320.0) { cellCount in
@@ -99,7 +99,7 @@ class PostbarControllerSpec: QuickSpec {
 
             describe("watchPostTapped(_:cell:)") {
                 var cell: StreamCreateCommentCell!
-                var indexPath: NSIndexPath!
+                var indexPath: IndexPath!
 
                 beforeEach {
                     let post: Post = stub([
@@ -109,8 +109,8 @@ class PostbarControllerSpec: QuickSpec {
                     let parser = StreamCellItemParser()
                     var postCellItems = parser.parse([post], streamKind: streamKind)
                     let newComment = ElloComment.newCommentForPost(post, currentUser: currentUser)
-                    postCellItems += [StreamCellItem(jsonable: newComment, type: .CreateComment)]
-                    indexPath = NSIndexPath(forItem: postCellItems.count - 1, inSection: 0)
+                    postCellItems += [StreamCellItem(jsonable: newComment, type: .createComment)]
+                    indexPath = IndexPath(item: postCellItems.count - 1, section: 0)
                     cell = StreamCreateCommentCell()
                     controller.dataSource.appendUnsizedCellItems(postCellItems, withWidth: 320.0) { cellCount in
                         controller.collectionView.reloadData()
@@ -119,9 +119,9 @@ class PostbarControllerSpec: QuickSpec {
 
                 it("should disable the cell during submission") {
                     ElloProvider.sharedProvider = ElloProvider.DelayedStubbingProvider()
-                    cell.userInteractionEnabled = true
+                    cell.isUserInteractionEnabled = true
                     subject.watchPostTapped(true, cell: cell, indexPath: indexPath)
-                    expect(cell.userInteractionEnabled) == false
+                    expect(cell.isUserInteractionEnabled) == false
                 }
                 it("should set the cell.watching property") {
                     ElloProvider.sharedProvider = ElloProvider.DelayedStubbingProvider()
@@ -131,9 +131,9 @@ class PostbarControllerSpec: QuickSpec {
                 }
                 it("should enable the cell after failure") {
                     ElloProvider.sharedProvider = ElloProvider.ErrorStubbingProvider()
-                    cell.userInteractionEnabled = false
+                    cell.isUserInteractionEnabled = false
                     subject.watchPostTapped(true, cell: cell, indexPath: indexPath)
-                    expect(cell.userInteractionEnabled) == true
+                    expect(cell.isUserInteractionEnabled) == true
                 }
                 it("should restore the cell.watching property after failure") {
                     ElloProvider.sharedProvider = ElloProvider.ErrorStubbingProvider()
@@ -142,9 +142,9 @@ class PostbarControllerSpec: QuickSpec {
                     expect(cell.watching) == false
                 }
                 it("should enable the cell after success") {
-                    cell.userInteractionEnabled = false
+                    cell.isUserInteractionEnabled = false
                     subject.watchPostTapped(true, cell: cell, indexPath: indexPath)
-                    expect(cell.userInteractionEnabled) == true
+                    expect(cell.isUserInteractionEnabled) == true
                 }
                 it("should post a notification after success") {
                     var postedNotification = false
@@ -159,7 +159,7 @@ class PostbarControllerSpec: QuickSpec {
 
             describe("loveButtonTapped(_:)") {
 
-                let stubCellItems: (loved: Bool) -> Void = { loved in
+                let stubCellItems: (_ loved: Bool) -> Void = { loved in
                     let post: Post = stub([
                         "id": "post1",
                         "authorId" : "user1",
@@ -175,8 +175,8 @@ class PostbarControllerSpec: QuickSpec {
 
                 context("post has not been loved") {
                     it("loves the post") {
-                        stubCellItems(loved: false)
-                        let indexPath = NSIndexPath(forItem: 2, inSection: 0)
+                        stubCellItems(false)
+                        let indexPath = IndexPath(item: 2, section: 0)
                         let cell = StreamFooterCell.loadFromNib() as StreamFooterCell
 
                         var lovesCount = 0
@@ -189,12 +189,12 @@ class PostbarControllerSpec: QuickSpec {
                         observer.removeObserver()
 
                         expect(lovesCount) == 6
-                        expect(contentChange) == .Loved
+                        expect(contentChange) == .loved
                     }
 
                     it("increases currentUser lovesCount") {
-                        stubCellItems(loved: false)
-                        let indexPath = NSIndexPath(forItem: 2, inSection: 0)
+                        stubCellItems(false)
+                        let indexPath = IndexPath(item: 2, section: 0)
                         let cell = StreamFooterCell.loadFromNib() as StreamFooterCell
 
                         let prevLovesCount = currentUser.lovesCount!
@@ -211,8 +211,8 @@ class PostbarControllerSpec: QuickSpec {
 
                 context("post has already been loved") {
                     it("unloves the post") {
-                        stubCellItems(loved: true)
-                        let indexPath = NSIndexPath(forItem: 2, inSection: 0)
+                        stubCellItems(true)
+                        let indexPath = IndexPath(item: 2, section: 0)
                         let cell = StreamFooterCell.loadFromNib() as StreamFooterCell
 
                         var lovesCount = 0
@@ -225,12 +225,12 @@ class PostbarControllerSpec: QuickSpec {
                         observer.removeObserver()
 
                         expect(lovesCount) == 4
-                        expect(contentChange) == .Loved
+                        expect(contentChange) == .loved
                     }
 
                     it("decreases currentUser lovesCount") {
-                        stubCellItems(loved: true)
-                        let indexPath = NSIndexPath(forItem: 2, inSection: 0)
+                        stubCellItems(true)
+                        let indexPath = IndexPath(item: 2, section: 0)
                         let cell = StreamFooterCell.loadFromNib() as StreamFooterCell
 
                         let prevLovesCount = currentUser.lovesCount!

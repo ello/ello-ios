@@ -2,8 +2,7 @@
 ///  AuthTokenSpec.swift
 //
 
-@testable
-import Ello
+@testable import Ello
 import Quick
 import Nimble
 
@@ -18,12 +17,15 @@ class AuthTokenSpec: QuickSpec {
                 keychain.authTokenType = "fake-refresh-token"
                 keychain.refreshAuthToken = "FakeType"
                 keychain.isPasswordBased = true
+                keychain.isStaff = true
                 var token = AuthToken()
                 token.keychain = keychain
 
                 expect(token.token).to(equal(keychain.authToken))
                 expect(token.type).to(equal(keychain.authTokenType))
                 expect(token.refreshToken).to(equal(keychain.refreshAuthToken))
+                expect(token.isPasswordBased).to(equal(keychain.isPasswordBased))
+                expect(token.isStaff).to(equal(keychain.isStaff))
             }
 
             it("correctly calculates presence of tokens") {
@@ -32,10 +34,11 @@ class AuthTokenSpec: QuickSpec {
                 keychain.authTokenType = "fake-refresh-token"
                 keychain.refreshAuthToken = "FakeType"
                 keychain.isPasswordBased = true
+                keychain.isStaff = false
                 var token = AuthToken()
                 token.keychain = keychain
 
-                expect(token.isPresent).to(beTrue())
+                expect(token.isPresent) == true
             }
 
             it("correctly calculates absence of tokens (token: nil)") {
@@ -44,10 +47,11 @@ class AuthTokenSpec: QuickSpec {
                 keychain.authTokenType = "fake-refresh-token"
                 keychain.refreshAuthToken = "FakeType"
                 keychain.isPasswordBased = true
+                keychain.isStaff = false
                 var token = AuthToken()
                 token.keychain = keychain
 
-                expect(token.isPresent).to(beFalse())
+                expect(token.isPresent) == false
             }
 
             it("correctly calculates absence of tokens (token: \"\")") {
@@ -56,14 +60,15 @@ class AuthTokenSpec: QuickSpec {
                 keychain.authTokenType = "fake-refresh-token"
                 keychain.refreshAuthToken = "FakeType"
                 keychain.isPasswordBased = true
+                keychain.isStaff = false
                 var token = AuthToken()
                 token.keychain = keychain
 
-                expect(token.isPresent).to(beFalse())
+                expect(token.isPresent) == false
             }
 
             context("storeToken(_:isPasswordBased:email:password:)") {
-                let data = ElloAPI.AnonymousCredentials.sampleData
+                let data = ElloAPI.anonymousCredentials.sampleData
                 var token: AuthToken!
 
                 beforeEach {
@@ -77,6 +82,7 @@ class AuthTokenSpec: QuickSpec {
                     expect(token.refreshToken).to(beNil())
                     expect(token.isPresent) == false
                     expect(token.isPasswordBased) == false
+                    expect(token.isStaff) == false
                     expect(token.isAnonymous) == false
                     expect(token.username).to(beNil())
                     expect(token.password).to(beNil())
@@ -91,6 +97,7 @@ class AuthTokenSpec: QuickSpec {
                     expect(token.isPresent) == true
                     expect(token.isPasswordBased) == true
                     expect(token.isAnonymous) == false
+                    expect(token.isStaff) == false
                     expect(token.username).to(beNil())
                     expect(token.password).to(beNil())
                 }
@@ -104,6 +111,7 @@ class AuthTokenSpec: QuickSpec {
                     expect(token.isPresent) == true
                     expect(token.isPasswordBased) == true
                     expect(token.isAnonymous) == false
+                    expect(token.isStaff) == false
                     expect(token.username) == "email"
                     expect(token.password) == "password"
                 }
@@ -117,10 +125,61 @@ class AuthTokenSpec: QuickSpec {
                     expect(token.isPresent) == true
                     expect(token.isPasswordBased) == false
                     expect(token.isAnonymous) == true
+                    expect(token.isStaff) == false
                     expect(token.username).to(beNil())
                     expect(token.password).to(beNil())
                 }
             }
+
+
+            context("staff credentials") {
+                let data = stubbedData("jwt-auth-is-staff")
+                var token: AuthToken!
+
+                beforeEach {
+                    AuthToken.reset()
+                    token = AuthToken()
+                }
+
+                it("is staff") {
+                    AuthToken.storeToken(data, isPasswordBased: true)
+
+                    expect(token.token).notTo(beNil())
+                    expect(token.type).notTo(beNil())
+                    expect(token.refreshToken).notTo(beNil())
+                    expect(token.isPresent) == true
+                    expect(token.isPasswordBased) == true
+                    expect(token.isAnonymous) == false
+                    expect(token.isStaff) == true
+                    expect(token.username).to(beNil())
+                    expect(token.password).to(beNil())
+                }
+            }
+
+            context("NON staff credentials") {
+                let data = stubbedData("jwt-auth-no-staff")
+                var token: AuthToken!
+
+                beforeEach {
+                    AuthToken.reset()
+                    token = AuthToken()
+                }
+
+                it("is staff") {
+                    AuthToken.storeToken(data, isPasswordBased: true)
+
+                    expect(token.token).notTo(beNil())
+                    expect(token.type).notTo(beNil())
+                    expect(token.refreshToken).notTo(beNil())
+                    expect(token.isPresent) == true
+                    expect(token.isPasswordBased) == true
+                    expect(token.isAnonymous) == false
+                    expect(token.isStaff) == false
+                    expect(token.username).to(beNil())
+                    expect(token.password).to(beNil())
+                }
+            }
+
         }
     }
 }

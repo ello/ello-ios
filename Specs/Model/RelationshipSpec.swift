@@ -1,4 +1,4 @@
-import Ello
+@testable import Ello
 import Quick
 import Nimble
 
@@ -10,15 +10,15 @@ class RelationshipPrioritySpec: QuickSpec {
                 it("returns a Relationship created from the raw value"){
                     let relationship = RelationshipPriority(stringValue: "friend")
 
-                    expect(relationship).to(equal(RelationshipPriority.Following))
+                    expect(relationship).to(equal(RelationshipPriority.following))
                 }
             }
 
             context("when the string doesn't match a raw value") {
-                it("returns Relationship.None"){
+                it("returns Relationship.none"){
                     let relationship = RelationshipPriority(stringValue: "bad_string")
 
-                    expect(relationship).to(equal(RelationshipPriority.None))
+                    expect(relationship).to(equal(RelationshipPriority.none))
                 }
             }
         }
@@ -34,7 +34,7 @@ class RelationshipSpec: QuickSpec {
                 it("parses correctly") {
                     let parsedRelationship = stubbedJSONData("relationships_following_a_user_as_friend", "relationships")
                     let relationship = Relationship.fromJSON(parsedRelationship) as! Relationship
-                    expect(relationship.createdAt).to(beAKindOf(NSDate.self))
+                    expect(relationship.createdAt).notTo(beNil())
                     expect(relationship.owner!.relationshipPriority.rawValue) == "self"
                     expect(relationship.subject!.relationshipPriority.rawValue) == "friend"
                 }
@@ -44,7 +44,7 @@ class RelationshipSpec: QuickSpec {
                 it("parses correctly") {
                     let parsedRelationship = stubbedJSONData("relationships_blocking_an_abusive_user", "relationships")
                     let relationship = Relationship.fromJSON(parsedRelationship) as! Relationship
-                    expect(relationship.createdAt).to(beAKindOf(NSDate.self))
+                    expect(relationship.createdAt).notTo(beNil())
                     expect(relationship.owner!.relationshipPriority.rawValue) == "self"
                     expect(relationship.subject!.relationshipPriority.rawValue) == "block"
                 }
@@ -54,7 +54,7 @@ class RelationshipSpec: QuickSpec {
                 it("parses correctly") {
                     let parsedRelationship = stubbedJSONData("relationships_making_a_relationship_inactive", "relationships")
                     let relationship = Relationship.fromJSON(parsedRelationship) as! Relationship
-                    expect(relationship.createdAt).to(beAKindOf(NSDate.self))
+                    expect(relationship.createdAt).notTo(beNil())
                     expect(relationship.owner!.relationshipPriority.rawValue) == "self"
                     expect(relationship.subject!.relationshipPriority.rawValue) == "inactive"
                 }
@@ -64,13 +64,13 @@ class RelationshipSpec: QuickSpec {
         describe("NSCoding") {
 
             var filePath = ""
-            if let url = NSURL(string: NSFileManager.ElloDocumentsDir()) {
-                filePath = url.URLByAppendingPathComponent("UserSpec")!.absoluteString!
+            if let url = URL(string: FileManager.ElloDocumentsDir()) {
+                filePath = url.appendingPathComponent("UserSpec").absoluteString
             }
 
             afterEach {
                 do {
-                     try NSFileManager.defaultManager().removeItemAtPath(filePath)
+                     try FileManager.default.removeItem(atPath: filePath)
                 }
                 catch {
 
@@ -88,7 +88,7 @@ class RelationshipSpec: QuickSpec {
             context("decoding") {
 
                 it("decodes successfully") {
-                    let expectedCreatedAt = NSDate()
+                    let expectedCreatedAt = Date()
                     let relationship: Relationship = stub([
                         "id": "relationship",
                         "createdAt": expectedCreatedAt,
@@ -97,9 +97,9 @@ class RelationshipSpec: QuickSpec {
                     ])
 
                     NSKeyedArchiver.archiveRootObject(relationship, toFile: filePath)
-                    let unArchivedRelationship = NSKeyedUnarchiver.unarchiveObjectWithFile(filePath) as! Relationship
+                    let unArchivedRelationship = NSKeyedUnarchiver.unarchiveObject(withFile: filePath) as! Relationship
                     expect(unArchivedRelationship.id) == "relationship"
-                    expect(unArchivedRelationship.createdAt) == expectedCreatedAt
+                    expect(unArchivedRelationship.createdAt) == expectedCreatedAt as Date
                     expect(unArchivedRelationship.owner!.id) == "123"
                     expect(unArchivedRelationship.subject!.id) == "456"
                 }

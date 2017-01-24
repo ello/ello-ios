@@ -22,45 +22,45 @@ def ello_app_pods
   pod 'KINWebBrowser', git: 'https://github.com/ello/KINWebBrowser'
   pod 'PINRemoteImage', git: 'https://github.com/pinterest/PINRemoteImage.git', commit: 'af312667f0ce830264198366f481f1b222675a31'
   pod 'SSPullToRefresh', '~> 1.2'
-  pod 'ImagePickerSheetController', git: 'https://github.com/lbrndnr/ImagePickerSheetController', commit: '92bcc3fde8def54c1947771247d5d677377a2f39'
+  pod 'ImagePickerSheetController', git: 'https://github.com/ello/ImagePickerSheetController', branch: 'swift3'
   pod 'iRate', '~> 1.11'
   # swift pods
-  pod 'TimeAgoInWords', git: 'https://github.com/ello/TimeAgoInWords', commit: '3cf3e8b3b8d76168a2324294db70790fade54925'
-  pod 'WebLinking', '~> 1.0'
-  pod 'SnapKit', git: 'https://github.com/SnapKit/SnapKit', commit: '307d03ec433d61fbb25c9c4a6bb32689537db4d6'
-  pod 'FutureKit', '~> 2.0'
-  pod 'DeltaCalculator', '~> 1.0'
+  pod 'TimeAgoInWords', git: 'https://github.com/ello/TimeAgoInWords'
+  pod 'WebLinking', git: 'https://github.com/kylef/WebLinking.swift'
+  pod 'SnapKit', git: 'https://github.com/ello/SnapKit'
+  pod 'FutureKit', git: 'https://github.com/FutureKit/FutureKit', branch: 'v3'
+  pod 'DeltaCalculator', git: 'https://github.com/ello/DeltaCalculator'
 end
 
 def common_pods
   if ENV['ELLO_STAFF']
-    pod 'ElloUIFonts', '~> 1.2.0'
-    pod 'ElloCerts', '~> 1.2'
+    pod 'ElloUIFonts', git: 'git@github.com:ello/ElloUIFonts'
+    pod 'ElloCerts', git: 'git@github.com:ello/Ello-iOS-Certs'
   elsif ENV['ELLO_UI_FONTS_URL']
     pod 'ElloUIFonts', git: ENV['ELLO_UI_FONTS_URL']
-    pod 'ElloOSSCerts', '~> 1.1'
+    pod 'ElloOSSCerts', '~> 2.0'
   else
-    pod 'ElloOSSUIFonts', '~> 1.0.1'
-    pod 'ElloOSSCerts', '~> 1.1'
+    pod 'ElloOSSUIFonts', '~> 2.0'
+    pod 'ElloOSSCerts', '~> 2.0'
   end
   pod 'MBProgressHUD', '~> 0.9.0'
-  pod 'SVGKit', git: 'https://github.com/ello/SVGKit', commit: '6160bbdfd0a8924b5e57b13c462db6a0944c8966'
+  pod 'SVGKit', git: 'https://github.com/ello/SVGKit'
   pod 'FLAnimatedImage', '~> 1.0'
   pod 'YapDatabase', '2.8.1'
-  pod 'Alamofire', '~> 3.0'
-  pod 'Moya', '~> 7.0'
-  pod 'KeychainAccess', '~> 2.4.0'
-  pod 'SwiftyUserDefaults', '~> 1.3.0'
-  pod 'SwiftyJSON', git: 'https://github.com/ello/SwiftyJSON', branch: 'Swift-2.0'
+  pod 'Alamofire', '~> 4.0'
+  pod 'Moya', '~> 8.0.0-beta.6'
+  pod 'KeychainAccess', '~> 3.0'
+  pod 'SwiftyUserDefaults', '~> 3.0'
+  pod 'SwiftyJSON', '~> 3.1'
+  pod 'JWTDecode', '~> 2.0'
   pod 'Crashlytics', '~> 3.4'
 end
 
 def spec_pods
-  pod 'FBSnapshotTestCase', git: 'https://github.com/ello/ios-snapshot-test-case'
-  pod 'Quick', '~> 0.9.3'
-  pod 'Nimble', '4.1.0'
-  pod 'Nimble-Snapshots', git: 'https://github.com/ashfurrow/Nimble-Snapshots'
-  pod 'OHHTTPStubs', '~> 4.3'
+  pod 'FBSnapshotTestCase'
+  pod 'Quick', '~> 1.0'
+  pod 'Nimble', '5.1.1'
+  pod 'Nimble-Snapshots', '~> 4.4'
 end
 
 target 'Ello' do
@@ -97,7 +97,7 @@ post_install do |installer|
     target.build_configurations.each do |config|
       config.build_settings['WARNING_CFLAGS'] = '$(inherited) -Wno-error=private-header' if target.name == 'FBSnapshotTestCase'
       # cocoapods 1.1.0-rc2 *should* handle this but isn't for some reason
-      config.build_settings['SWIFT_VERSION'] = '2.3'
+      config.build_settings['SWIFT_VERSION'] = '3.0'
       # cocoapods does not propogate the platform from above
       config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '9.0'
     end

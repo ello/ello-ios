@@ -5,14 +5,14 @@
 import SnapKit
 
 
-public class AppScreen: EmptyScreen {
-    private var logoImage = ElloLogoView()
+class AppScreen: EmptyScreen {
+    fileprivate var logoImage = ElloLogoView()
 
     override func arrange() {
         super.arrange()
         addSubview(logoImage)
 
-        logoImage.snp_makeConstraints { make in
+        logoImage.snp.makeConstraints { make in
             make.centerX.equalTo(self)
             make.centerY.equalTo(self)
         }

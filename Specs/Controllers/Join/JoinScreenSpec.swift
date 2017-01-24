@@ -13,11 +13,11 @@ class JoinScreenSpec: QuickSpec {
             var didValidate = false
 
             func backAction() {}
-            func validate(email email: String, username: String, password: String) {
+            func validate(email: String, username: String, password: String) {
                 didValidate = true
             }
-            func onePasswordAction(sender: UIView) {}
-            func submit(email email: String, username: String, password: String) {}
+            func onePasswordAction(_ sender: UIView) {}
+            func submit(email: String, username: String, password: String) {}
             func termsAction() {}
         }
 
@@ -39,7 +39,7 @@ class JoinScreenSpec: QuickSpec {
                     subject.onePasswordAvailable = true
                 }
                 it("should have a valid snapshot") {
-                    expectValidSnapshot(subject, device: .Phone6_Portrait)
+                    expectValidSnapshot(subject, device: .phone6_Portrait)
                 }
             }
 
@@ -54,7 +54,7 @@ class JoinScreenSpec: QuickSpec {
                     Keyboard.shared.bottomInset = 0
                 }
                 it("should have a valid snapshot") {
-                    expectValidSnapshot(subject, device: .Phone6_Portrait)
+                    expectValidSnapshot(subject, device: .phone6_Portrait)
                 }
             }
 
@@ -63,7 +63,7 @@ class JoinScreenSpec: QuickSpec {
                     subject.showEmailError("error")
                 }
                 it("should have a valid snapshot") {
-                    expectValidSnapshot(subject, device: .Phone6_Portrait)
+                    expectValidSnapshot(subject, device: .phone6_Portrait)
                 }
             }
 
@@ -72,7 +72,7 @@ class JoinScreenSpec: QuickSpec {
                     subject.showUsernameError("error")
                 }
                 it("should have a valid snapshot") {
-                    expectValidSnapshot(subject, device: .Phone6_Portrait)
+                    expectValidSnapshot(subject, device: .phone6_Portrait)
                 }
             }
 
@@ -82,7 +82,7 @@ class JoinScreenSpec: QuickSpec {
                     subject.showMessage("message")
                 }
                 it("should have a valid snapshot") {
-                    expectValidSnapshot(subject, device: .Phone6_Portrait)
+                    expectValidSnapshot(subject, device: .phone6_Portrait)
                 }
             }
 
@@ -91,7 +91,7 @@ class JoinScreenSpec: QuickSpec {
                     subject.showPasswordError("error")
                 }
                 it("should have a valid snapshot") {
-                    expectValidSnapshot(subject, device: .Phone6_Portrait)
+                    expectValidSnapshot(subject, device: .phone6_Portrait)
                 }
             }
 
@@ -100,7 +100,7 @@ class JoinScreenSpec: QuickSpec {
                     subject.showMessage("message")
                 }
                 it("should have a valid snapshot") {
-                    expectValidSnapshot(subject, device: .Phone6_Portrait)
+                    expectValidSnapshot(subject, device: .phone6_Portrait)
                 }
             }
 
@@ -109,7 +109,7 @@ class JoinScreenSpec: QuickSpec {
                     subject.emailValid = true
                 }
                 it("should have a valid snapshot") {
-                    expectValidSnapshot(subject, device: .Phone6_Portrait)
+                    expectValidSnapshot(subject, device: .phone6_Portrait)
                 }
             }
             describe("snapshot, email invalid") {
@@ -117,7 +117,7 @@ class JoinScreenSpec: QuickSpec {
                     subject.emailValid = false
                 }
                 it("should have a valid snapshot") {
-                    expectValidSnapshot(subject, device: .Phone6_Portrait)
+                    expectValidSnapshot(subject, device: .phone6_Portrait)
                 }
             }
 
@@ -126,7 +126,7 @@ class JoinScreenSpec: QuickSpec {
                     subject.usernameValid = true
                 }
                 it("should have a valid snapshot") {
-                    expectValidSnapshot(subject, device: .Phone6_Portrait)
+                    expectValidSnapshot(subject, device: .phone6_Portrait)
                 }
             }
             describe("snapshot, username invalid") {
@@ -134,7 +134,7 @@ class JoinScreenSpec: QuickSpec {
                     subject.usernameValid = false
                 }
                 it("should have a valid snapshot") {
-                    expectValidSnapshot(subject, device: .Phone6_Portrait)
+                    expectValidSnapshot(subject, device: .phone6_Portrait)
                 }
             }
 
@@ -143,7 +143,7 @@ class JoinScreenSpec: QuickSpec {
                     subject.passwordValid = true
                 }
                 it("should have a valid snapshot") {
-                    expectValidSnapshot(subject, device: .Phone6_Portrait)
+                    expectValidSnapshot(subject, device: .phone6_Portrait)
                 }
             }
             describe("snapshot, password invalid") {
@@ -151,7 +151,7 @@ class JoinScreenSpec: QuickSpec {
                     subject.passwordValid = false
                 }
                 it("should have a valid snapshot") {
-                    expectValidSnapshot(subject, device: .Phone6_Portrait)
+                    expectValidSnapshot(subject, device: .phone6_Portrait)
                 }
             }
 
@@ -162,7 +162,7 @@ class JoinScreenSpec: QuickSpec {
                     subject.passwordValid = true
                 }
                 it("should have a valid snapshot") {
-                    expectValidSnapshot(subject, device: .Phone6_Portrait)
+                    expectValidSnapshot(subject, device: .phone6_Portrait)
                 }
             }
             describe("snapshot, all invalid") {
@@ -172,7 +172,7 @@ class JoinScreenSpec: QuickSpec {
                     subject.passwordValid = false
                 }
                 it("should have a valid snapshot") {
-                    expectValidSnapshot(subject, device: .Phone6_Portrait)
+                    expectValidSnapshot(subject, device: .phone6_Portrait)
                 }
             }
 
@@ -181,13 +181,13 @@ class JoinScreenSpec: QuickSpec {
                     subject.showUsernameSuggestions(["aaa", "bbb", "ccc"])
                 }
                 it("should have a valid snapshot") {
-                    expectValidSnapshot(subject, device: .Phone6_Portrait)
+                    expectValidSnapshot(subject, device: .phone6_Portrait)
                 }
             }
 
             describe("changing text") {
                 beforeEach {
-                    subject.textField(UITextField(), shouldChangeCharactersInRange: NSRange(location: 0, length: 0), replacementString: "")
+                    _ = subject.textField(UITextField(), shouldChangeCharactersIn: NSRange(location: 0, length: 0), replacementString: "")
                 }
                 it("should call 'validate' on the delegate") {
                     expect(delegate.didValidate) == true

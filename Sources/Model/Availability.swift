@@ -2,20 +2,20 @@
 ///  Availability.swift
 //
 
-import Crashlytics
 import SwiftyJSON
+
 
 let AvailabilityVersion = 1
 
 @objc(Availability)
-public final class Availability: JSONAble {
-    public let isUsernameAvailable: Bool
-    public let isEmailAvailable: Bool
-    public let isInvitationCodeAvailable: Bool
-    public let usernameSuggestions: [String]
-    public let emailSuggestion: String
+final class Availability: JSONAble {
+    let isUsernameAvailable: Bool
+    let isEmailAvailable: Bool
+    let isInvitationCodeAvailable: Bool
+    let usernameSuggestions: [String]
+    let emailSuggestion: String
 
-    public init(isUsernameAvailable: Bool, isEmailAvailable: Bool, isInvitationCodeAvailable: Bool, usernameSuggestions: [String], emailSuggestion: String) {
+    init(isUsernameAvailable: Bool, isEmailAvailable: Bool, isInvitationCodeAvailable: Bool, usernameSuggestions: [String], emailSuggestion: String) {
         self.isUsernameAvailable = isUsernameAvailable
         self.isEmailAvailable = isEmailAvailable
         self.isInvitationCodeAvailable = isInvitationCodeAvailable
@@ -24,7 +24,7 @@ public final class Availability: JSONAble {
         super.init(version: AvailabilityVersion)
     }
 
-    public required init(coder aDecoder: NSCoder) {
+    required init(coder aDecoder: NSCoder) {
         let decoder = Coder(aDecoder)
         self.isUsernameAvailable = decoder.decodeKey("isUsernameAvailable")
         self.isEmailAvailable = decoder.decodeKey("isEmailAvailable")
@@ -36,9 +36,8 @@ public final class Availability: JSONAble {
 }
 
 extension Availability {
-    override public class func fromJSON(data: [String: AnyObject]) -> JSONAble {
+    override class func fromJSON(_ data: [String: AnyObject]) -> JSONAble {
         let json = JSON(data)
-        Crashlytics.sharedInstance().setObjectValue(json.rawString(), forKey: CrashlyticsKey.AvailabilityFromJSON.rawValue)
         let username = json["username"].boolValue
         let email = json["email"].boolValue
         let invitationCode = json["invitation_code"].boolValue

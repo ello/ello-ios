@@ -2,13 +2,13 @@
 ///  FakeAnnouncementCellSizeCalculator.swift
 //
 
-import Ello
+@testable import Ello
 import Foundation
 
 
-public class FakeAnnouncementCellSizeCalculator: AnnouncementCellSizeCalculator {
+class FakeAnnouncementCellSizeCalculator: AnnouncementCellSizeCalculator {
 
-    override public func processCells(cellItems: [StreamCellItem], withWidth: CGFloat, completion: ElloEmptyCompletion) {
+    override func processCells(_ cellItems: [StreamCellItem], withWidth: CGFloat, completion: @escaping ElloEmptyCompletion) {
         for item in cellItems {
             item.calculatedCellHeights.oneColumn = AppSetup.Size.calculatorHeight
             item.calculatedCellHeights.multiColumn = AppSetup.Size.calculatorHeight

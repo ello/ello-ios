@@ -5,18 +5,18 @@
 import Foundation
 
 
-public struct ProfileStatsPresenter {
+struct ProfileStatsPresenter {
 
-    public static func configure(
-        view: ProfileStatsView,
+    static func configure(
+        _ view: ProfileStatsView,
         user: User,
         currentUser: User?)
     {
         view.postsCount = (user.postsCount ?? 0).numberToHuman(rounding: 2, showZero: true)
         view.followingCount = (user.followingCount ?? 0).numberToHuman(rounding: 2, showZero: true)
-        if let
-            string = user.followersCount,
-            followersCount = Int(string)
+        if
+            let string = user.followersCount,
+            let followersCount = Int(string)
         {
             view.followersCount = followersCount.numberToHuman(rounding: 2, showZero: true)
         }

@@ -5,17 +5,17 @@
 import Foundation
 import TimeAgoInWords
 
-public struct StreamHeaderCellPresenter {
+struct StreamHeaderCellPresenter {
 
     static func configure(
-        cell: UICollectionViewCell,
+        _ cell: UICollectionViewCell,
         streamCellItem: StreamCellItem,
         streamKind: StreamKind,
-        indexPath: NSIndexPath,
+        indexPath: IndexPath,
         currentUser: User?)
     {
         if let cell = cell as? StreamHeaderCell,
-            authorable = streamCellItem.jsonable as? Authorable
+            let authorable = streamCellItem.jsonable as? Authorable
         {
             let post = streamCellItem.jsonable as? Post
 
@@ -25,19 +25,19 @@ public struct StreamHeaderCellPresenter {
             cell.isGridLayout = streamKind.isGridView
 
             switch streamKind {
-            case .PostDetail:
+            case .postDetail:
                 cell.showUsername = false
             default:
                 cell.showUsername = true
             }
 
             if let currentUser = currentUser,
-                comment = streamCellItem.jsonable as? ElloComment
+                let comment = streamCellItem.jsonable as? ElloComment
             {
-                if currentUser.isOwnComment(comment) {
+                if currentUser.isOwn(comment: comment) {
                     cell.ownComment = true
                 }
-                else if currentUser.isOwnParentPost(comment) {
+                else if currentUser.isOwnParentPost(comment: comment) {
                     cell.ownPost = true
                 }
             }
@@ -45,11 +45,11 @@ public struct StreamHeaderCellPresenter {
             var author = authorable.author
             var repostedBy: User? = nil
             var followButtonVisible = false
-            if streamCellItem.type == .Header {
+            if streamCellItem.type == .header {
                 cell.avatarHeight = streamKind.avatarHeight
-                cell.scrollView.scrollEnabled = false
+                cell.scrollView.isScrollEnabled = false
                 cell.chevronHidden = true
-                cell.goToPostView.hidden = false
+                cell.goToPostView.isHidden = false
 
                 if let repostAuthor = post?.repostAuthor {
                     repostedBy = author
@@ -64,9 +64,9 @@ public struct StreamHeaderCellPresenter {
             else {
                 cell.showUsername = true
                 cell.avatarHeight = 30.0
-                cell.scrollView.scrollEnabled = true
+                cell.scrollView.isScrollEnabled = true
                 cell.chevronHidden = false
-                cell.goToPostView.hidden = true
+                cell.goToPostView.isHidden = true
                 cell.canReply = true
             }
 

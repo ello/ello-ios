@@ -4,19 +4,19 @@
 
 private let DynamicSettingsCellHeight: CGFloat = 50
 
-public protocol DynamicSettingsDelegate: class {
-    func dynamicSettingsUserChanged(user: User)
+protocol DynamicSettingsDelegate: class {
+    func dynamicSettingsUserChanged(_ user: User)
 }
 
 private enum DynamicSettingsSection: Int {
-    case DynamicSettings
-    case Blocked
-    case Muted
-    case AccountDeletion
-    case Unknown
+    case dynamicSettings
+    case blocked
+    case muted
+    case accountDeletion
+    case unknown
 
     static var count: Int {
-        return DynamicSettingsSection.Unknown.rawValue
+        return DynamicSettingsSection.unknown.rawValue
     }
 }
 
@@ -42,13 +42,13 @@ class DynamicSettingsViewController: UITableViewController {
     var height: CGFloat {
         var totalRows = 0
         for section in 0..<tableView.numberOfSections {
-            totalRows += tableView.numberOfRowsInSection(section)
+            totalRows += tableView.numberOfRows(inSection: section)
         }
         return DynamicSettingsCellHeight * CGFloat(totalRows)
     }
 
-    private var blockedCountChangedNotification: NotificationObserver?
-    private var mutedCountChangedNotification: NotificationObserver?
+    fileprivate var blockedCountChangedNotification: NotificationObserver?
+    fileprivate var mutedCountChangedNotification: NotificationObserver?
 
     deinit {
         blockedCountChangedNotification?.removeObserver()
@@ -71,13 +71,13 @@ class DynamicSettingsViewController: UITableViewController {
         tableView.rowHeight = DynamicSettingsCellHeight
 
         StreamService().loadStream(
-            endpoint: .ProfileToggles,
+            endpoint: .profileToggles,
             streamKind: nil,
             success: { (data, responseConfig) in
                 if let categories = data as? [DynamicSettingCategory] {
                     self.dynamicCategories = categories.reduce([]) { categoryArr, category in
                         category.settings = category.settings.reduce([]) { settingsArr, setting in
-                            if self.currentUser?.hasProperty(setting.key) == true {
+                            if self.currentUser?.hasProperty(key: setting.key) == true {
                                 return settingsArr + [setting]
                             }
                             return settingsArr
@@ -100,95 +100,95 @@ class DynamicSettingsViewController: UITableViewController {
             })
     }
 
-    private func reloadTables() {
+    fileprivate func reloadTables() {
         self.tableView.reloadData()
-        (self.parentViewController as? SettingsViewController)?.tableView.reloadData()
+        (self.parent as? SettingsViewController)?.tableView.reloadData()
     }
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return DynamicSettingsSection.count
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch DynamicSettingsSection(rawValue: section) ?? .Unknown {
-        case .DynamicSettings: return dynamicCategories.count
-        case .Blocked: return hasBlocked ? 1 : 0
-        case .Muted: return hasMuted ? 1 : 0
-        case .AccountDeletion: return 1
-        case .Unknown: return 0
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        switch DynamicSettingsSection(rawValue: section) ?? .unknown {
+        case .dynamicSettings: return dynamicCategories.count
+        case .blocked: return hasBlocked ? 1 : 0
+        case .muted: return hasMuted ? 1 : 0
+        case .accountDeletion: return 1
+        case .unknown: return 0
         }
     }
 
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("PreferenceCell", forIndexPath: indexPath)
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "PreferenceCell", for: indexPath)
 
-        switch DynamicSettingsSection(rawValue: indexPath.section) ?? .Unknown {
-        case .DynamicSettings:
+        switch DynamicSettingsSection(rawValue: indexPath.section) ?? .unknown {
+        case .dynamicSettings:
             let category = dynamicCategories[indexPath.row]
             cell.textLabel?.text = category.label
 
-        case .Blocked:
+        case .blocked:
             cell.textLabel?.text = DynamicSettingCategory.blockedCategory.label
 
-        case .Muted:
+        case .muted:
             cell.textLabel?.text = DynamicSettingCategory.mutedCategory.label
 
-        case .AccountDeletion:
+        case .accountDeletion:
             cell.textLabel?.text = DynamicSettingCategory.accountDeletionCategory.label
 
-        case .Unknown: break
+        case .unknown: break
         }
 
         return cell
     }
 
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        switch DynamicSettingsSection(rawValue: indexPath.section) ?? .Unknown {
-        case .DynamicSettings, .AccountDeletion:
-            performSegueWithIdentifier("DynamicSettingCategorySegue", sender: nil)
-        case .Blocked:
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        switch DynamicSettingsSection(rawValue: indexPath.section) ?? .unknown {
+        case .dynamicSettings, .accountDeletion:
+            performSegue(withIdentifier: "DynamicSettingCategorySegue", sender: nil)
+        case .blocked:
             if let currentUser = currentUser {
-                let controller = SimpleStreamViewController(endpoint: .CurrentUserBlockedList, title: InterfaceString.Settings.BlockedTitle)
+                let controller = SimpleStreamViewController(endpoint: .currentUserBlockedList, title: InterfaceString.Settings.BlockedTitle)
                 let noResultsTitle = InterfaceString.Relationship.BlockedNoResultsTitle
                 let noResultsBody = InterfaceString.Relationship.BlockedNoResultsBody
                 controller.streamViewController.noResultsMessages = (title: noResultsTitle, body: noResultsBody)
                 controller.currentUser = currentUser
                 navigationController?.pushViewController(controller, animated: true)
             }
-        case .Muted:
+        case .muted:
             if let currentUser = currentUser {
-                let controller = SimpleStreamViewController(endpoint: .CurrentUserMutedList, title: InterfaceString.Settings.MutedTitle)
+                let controller = SimpleStreamViewController(endpoint: .currentUserMutedList, title: InterfaceString.Settings.MutedTitle)
                 let noResultsTitle = InterfaceString.Relationship.MutedNoResultsTitle
                 let noResultsBody = InterfaceString.Relationship.MutedNoResultsBody
                 controller.streamViewController.noResultsMessages = (title: noResultsTitle, body: noResultsBody)
                 controller.currentUser = currentUser
                 navigationController?.pushViewController(controller, animated: true)
             }
-        case .Unknown: break
+        case .unknown: break
         }
     }
 
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "DynamicSettingCategorySegue" {
-            let controller = segue.destinationViewController as! DynamicSettingCategoryViewController
+            let controller = segue.destination as! DynamicSettingCategoryViewController
             controller.delegate = delegate
             let selectedIndexPath = tableView.indexPathForSelectedRow
 
-            switch DynamicSettingsSection(rawValue: selectedIndexPath?.section ?? 0) ?? .Unknown {
-            case .DynamicSettings:
+            switch DynamicSettingsSection(rawValue: selectedIndexPath?.section ?? 0) ?? .unknown {
+            case .dynamicSettings:
                 let index = tableView.indexPathForSelectedRow?.row ?? 0
                 controller.category = dynamicCategories[index]
 
-            case .Blocked:
+            case .blocked:
                 controller.category = DynamicSettingCategory.blockedCategory
 
-            case .Muted:
+            case .muted:
                 controller.category = DynamicSettingCategory.mutedCategory
 
-            case .AccountDeletion:
+            case .accountDeletion:
                 controller.category = DynamicSettingCategory.accountDeletionCategory
 
-            case .Unknown: break
+            case .unknown: break
             }
             controller.currentUser = currentUser
         }

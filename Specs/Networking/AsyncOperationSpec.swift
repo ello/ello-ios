@@ -2,7 +2,7 @@
 ///  AsyncOperationSpec.swift
 //
 
-import Ello
+@testable import Ello
 import Quick
 import Nimble
 import Moya
@@ -11,11 +11,11 @@ class AsyncOperationSpec: QuickSpec {
     override func spec() {
         describe("AsyncOperation") {
 
-            var queue: NSOperationQueue!
+            var queue: OperationQueue!
             var subject: AsyncOperation!
 
             beforeEach {
-                queue = NSOperationQueue()
+                queue = OperationQueue()
             }
 
             context("created WITH a block") {
@@ -74,13 +74,13 @@ class AsyncOperationSpec: QuickSpec {
                 }
 
                 xit("does not run when cancelled") {
-                    let queue = NSOperationQueue()
+                    let queue = OperationQueue()
                     var executed = false
                     let subject = AsyncOperation()
                     queue.addOperation(subject)
                     waitUntil { done in
                         delay(0.1, background: true) {
-                            expect(subject.executing) == true
+                            expect(subject.isExecuting) == true
                             queue.cancelAllOperations()
                             subject.run {
                                 executed = true

@@ -2,7 +2,7 @@
 ///  ElloAttributedStringSpec.swift
 //
 
-import Ello
+@testable import Ello
 import Quick
 import Nimble
 
@@ -13,18 +13,18 @@ class ElloAttributedStringSpec: QuickSpec {
             it("returns an attributed string") {
                 let text = "text"
                 let attrd = ElloAttributedString.style(text)
-                expect(attrd).to(beAKindOf(NSAttributedString))
+                expect(attrd).to(beAKindOf(NSAttributedString.self))
             }
             it("accepts additional options") {
                 let text = "text"
-                let c = UIColor.grayColor()
+                let c = UIColor.gray
                 let attrd = ElloAttributedString.style(text, [NSForegroundColorAttributeName: c])
-                expect(attrd).to(beAKindOf(NSAttributedString))
-                expect(attrd.attributesAtIndex(0, effectiveRange: nil)[NSForegroundColorAttributeName] as? UIColor) == c
+                expect(attrd).to(beAKindOf(NSAttributedString.self))
+                expect(attrd.attributes(at: 0, effectiveRange: nil)[NSForegroundColorAttributeName] as? UIColor) == c
             }
             it("ElloAttributedString.attrs() accepts many additional options") {
-                let c1 = UIColor.lightGrayColor()
-                let c2 = UIColor.darkGrayColor()
+                let c1 = UIColor.lightGray
+                let c2 = UIColor.darkGray
                 let attrs1: [String: AnyObject] = [NSForegroundColorAttributeName: c1]
                 let attrs2: [String: AnyObject] = [NSBackgroundColorAttributeName: c2]
                 let attrs = ElloAttributedString.attrs(attrs1, attrs2)
@@ -38,65 +38,65 @@ class ElloAttributedStringSpec: QuickSpec {
                 let attrd = ElloAttributedString.style("text")
                 let splits = ElloAttributedString.split(attrd)
                 expect(splits.count) == 1
-                expect((splits.safeValue(0) ?? NSAttributedString(string: "")).string) == "text"
+                expect(splits.safeValue(0)?.string) == "text"
             }
             it("preserves a string with emoji") {
                 let attrd = ElloAttributedString.style("text😄")
                 let splits = ElloAttributedString.split(attrd)
                 expect(splits.count) == 1
-                expect((splits.safeValue(0) ?? NSAttributedString(string: "")).string) == "text😄"
+                expect(splits.safeValue(0)?.string) == "text😄"
             }
             it("splits a string") {
                 let attrd = ElloAttributedString.style("test1\ntest2")
                 let splits = ElloAttributedString.split(attrd)
                 expect(splits.count) == 2
-                expect((splits.safeValue(0) ?? NSAttributedString(string: "")).string) == "test1\n"
-                expect((splits.safeValue(1) ?? NSAttributedString(string: "")).string) == "test2"
+                expect(splits.safeValue(0)?.string) == "test1\n"
+                expect(splits.safeValue(1)?.string) == "test2"
             }
             it("splits a string with emoji") {
                 let attrd = ElloAttributedString.style("test1😄\ntest2")
                 let splits = ElloAttributedString.split(attrd)
                 expect(splits.count) == 2
-                expect((splits.safeValue(0) ?? NSAttributedString(string: "")).string) == "test1😄\n"
-                expect((splits.safeValue(1) ?? NSAttributedString(string: "")).string) == "test2"
+                expect(splits.safeValue(0)?.string) == "test1😄\n"
+                expect(splits.safeValue(1)?.string) == "test2"
             }
             it("preserves trailing newlines") {
                 let attrd = ElloAttributedString.style("test1\ntest2\n\n")
                 let splits = ElloAttributedString.split(attrd)
                 expect(splits.count) == 2
-                expect((splits.safeValue(0) ?? NSAttributedString(string: "")).string) == "test1\n"
-                expect((splits.safeValue(1) ?? NSAttributedString(string: "")).string) == "test2\n\n"
+                expect(splits.safeValue(0)?.string) == "test1\n"
+                expect(splits.safeValue(1)?.string) == "test2\n\n"
             }
             it("preserves trailing newlines with emoji") {
                 let attrd = ElloAttributedString.style("test1\n😄test2\n\n")
                 let splits = ElloAttributedString.split(attrd)
                 expect(splits.count) == 2
-                expect((splits.safeValue(0) ?? NSAttributedString(string: "")).string) == "test1\n"
-                expect((splits.safeValue(1) ?? NSAttributedString(string: "")).string) == "😄test2\n\n"
+                expect(splits.safeValue(0)?.string) == "test1\n"
+                expect(splits.safeValue(1)?.string) == "😄test2\n\n"
             }
             it("preserves preceding newlines") {
                 let attrd = ElloAttributedString.style("\n\ntest1\ntest2")
                 let splits = ElloAttributedString.split(attrd)
                 expect(splits.count) == 2
-                expect((splits.safeValue(0) ?? NSAttributedString(string: "")).string) == "\n\ntest1\n"
-                expect((splits.safeValue(1) ?? NSAttributedString(string: "")).string) == "test2"
+                expect(splits.safeValue(0)?.string) == "\n\ntest1\n"
+                expect(splits.safeValue(1)?.string) == "test2"
             }
             it("preserves many regions") {
                 let attrd = ElloAttributedString.style("\n\ntest1\n\ntest2\ntest3\n\n\n")
                 let splits = ElloAttributedString.split(attrd)
                 expect(splits.count) == 3
-                expect((splits.safeValue(0) ?? NSAttributedString(string: "")).string) == "\n\ntest1\n\n"
-                expect((splits.safeValue(1) ?? NSAttributedString(string: "")).string) == "test2\n"
-                expect((splits.safeValue(2) ?? NSAttributedString(string: "")).string) == "test3\n\n\n"
+                expect(splits.safeValue(0)?.string) == "\n\ntest1\n\n"
+                expect(splits.safeValue(1)?.string) == "test2\n"
+                expect(splits.safeValue(2)?.string) == "test3\n\n\n"
             }
             it("preserves many regions with emoji") {
                 let attrd = ElloAttributedString.style("\n\n😄test1\n\nte😄st2\ntest3😄\n😄\n\n")
                 let splits = ElloAttributedString.split(attrd)
                 expect(splits.count) == 4
-                expect((splits.safeValue(0) ?? NSAttributedString(string: "")).string) == "\n\n😄test1\n\n"
-                expect((splits.safeValue(1) ?? NSAttributedString(string: "")).string) == "te😄st2\n"
-                expect((splits.safeValue(2) ?? NSAttributedString(string: "")).string) == "test3😄\n"
-                expect((splits.safeValue(3) ?? NSAttributedString(string: "")).string) == "😄\n\n"
+                expect(splits.safeValue(0)?.string) == "\n\n😄test1\n\n"
+                expect(splits.safeValue(1)?.string) == "te😄st2\n"
+                expect(splits.safeValue(2)?.string) == "test3😄\n"
+                expect(splits.safeValue(3)?.string) == "😄\n\n"
             }
         }
 

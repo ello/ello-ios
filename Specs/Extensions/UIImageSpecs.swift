@@ -2,7 +2,7 @@
 ///  UIImageSpecs.swift
 //
 
-import Ello
+@testable import Ello
 import Quick
 import Nimble
 
@@ -13,8 +13,8 @@ class UIImageSpecs: QuickSpec {
         var oriented: UIImage!
 
         describe("isGif") {
-            let isGif = NSData(base64EncodedString: "R0lGODdhCg==", options: NSDataBase64DecodingOptions())!
-            let notGif = NSData(base64EncodedString: "dGVzdA==", options: NSDataBase64DecodingOptions())!
+            let isGif = Data(base64Encoded: "R0lGODdhCg==")!
+            let notGif = Data(base64Encoded: "dGVzdA==")!
             it("is a gif") {
                 expect(UIImage.isGif(isGif)) == true
             }
@@ -27,7 +27,7 @@ class UIImageSpecs: QuickSpec {
 
             context("no scaling") {
                 beforeEach {
-                    image = UIImage(named: "specs-avatar", inBundle: NSBundle(forClass: self.dynamicType), compatibleWithTraitCollection: nil)
+                    image = UIImage(named: "specs-avatar", in: Bundle(for: type(of: self)), compatibleWith: nil)
                     image.copyWithCorrectOrientationAndSize() { image in
                         oriented = image
                     }
@@ -48,7 +48,7 @@ class UIImageSpecs: QuickSpec {
 
             context("scaling when width is greater than max") {
                 beforeEach {
-                    image = UIImage(named: "specs-4000x1000", inBundle: NSBundle(forClass: self.dynamicType), compatibleWithTraitCollection: nil)
+                    image = UIImage(named: "specs-4000x1000", in: Bundle(for: type(of: self)), compatibleWith: nil)
                     image.copyWithCorrectOrientationAndSize() { image in
                         oriented = image
                     }
@@ -64,7 +64,7 @@ class UIImageSpecs: QuickSpec {
 
             context("scaling when height is greater than max") {
                 beforeEach {
-                    image = UIImage(named: "specs-1000x4000", inBundle: NSBundle(forClass: self.dynamicType), compatibleWithTraitCollection: nil)
+                    image = UIImage(named: "specs-1000x4000", in: Bundle(for: type(of: self)), compatibleWith: nil)
                     image.copyWithCorrectOrientationAndSize() { image in
                         oriented = image
                     }

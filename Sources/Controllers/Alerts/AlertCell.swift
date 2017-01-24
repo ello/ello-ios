@@ -7,12 +7,12 @@ import Foundation
 import ElloUIFonts
 import CoreGraphics
 
-public protocol AlertCellDelegate: class {
+protocol AlertCellDelegate: class {
     func tappedOkButton()
     func tappedCancelButton()
 }
 
-public class AlertCell: UITableViewCell {
+class AlertCell: UITableViewCell {
     static let reuseIdentifier = "AlertCell"
 
     weak var delegate: AlertCellDelegate?
@@ -26,36 +26,36 @@ public class AlertCell: UITableViewCell {
 
     var onInputChanged: ((String) -> Void)?
 
-    override public func awakeFromNib() {
+    override func awakeFromNib() {
         super.awakeFromNib()
 
         label.font = .defaultFont()
-        label.textColor = .blackColor()
-        label.textAlignment = .Left
+        label.textColor = .black
+        label.textAlignment = .left
 
-        input.backgroundColor = UIColor.whiteColor()
+        input.backgroundColor = UIColor.white
         input.font = UIFont.defaultFont()
-        input.textColor = UIColor.blackColor()
-        input.tintColor = UIColor.blackColor()
+        input.textColor = UIColor.black
+        input.tintColor = UIColor.black
         input.clipsToBounds = false
 
-        inputBorder.backgroundColor = UIColor.blackColor()
+        inputBorder.backgroundColor = UIColor.black
         input.addSubview(inputBorder)
     }
 
-    override public func layoutSubviews() {
+    override func layoutSubviews() {
         super.layoutSubviews()
         inputBorder.frame = input.bounds.fromBottom().grow(top: 1, sides: 10, bottom: 0)
     }
 
-    override public func prepareForReuse() {
+    override func prepareForReuse() {
         super.prepareForReuse()
 
         label.text = ""
-        label.textColor = .blackColor()
-        label.textAlignment = .Left
+        label.textColor = .black
+        label.textAlignment = .left
         input.text = ""
-        input.resignFirstResponder()
+        _ = input.resignFirstResponder()
     }
 }
 
@@ -76,6 +76,6 @@ extension AlertCell {
 
 extension AlertCell {
     class func nib() -> UINib {
-        return UINib(nibName: "AlertCell", bundle: .None)
+        return UINib(nibName: "AlertCell", bundle: .none)
     }
 }

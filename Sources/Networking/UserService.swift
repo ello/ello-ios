@@ -7,18 +7,18 @@ import SwiftyJSON
 import FutureKit
 
 
-public struct UserService {
+struct UserService {
 
-    public init(){}
+    init(){}
 
-    public func join(
-        email email: String,
+    func join(
+        email: String,
         username: String,
         password: String,
         invitationCode: String?) -> Future<User>
     {
         let promise = Promise<User>()
-        ElloProvider.shared.elloRequest(ElloAPI.Join(email: email, username: username, password: password, invitationCode: invitationCode),
+        ElloProvider.shared.elloRequest(ElloAPI.join(email: email, username: username, password: password, invitationCode: invitationCode),
             success: { data, _ in
                 if let user = data as? User {
                     promise.completeWithSuccess(user)
@@ -35,10 +35,10 @@ public struct UserService {
         return promise.future
     }
 
-    public func setUserCategories(categories: [Category]) -> Future<Void> {
+    func setUser(categories: [Category]) -> Future<Void> {
         let promise = Promise<Void>()
         let categoryIds = categories.map { $0.id }
-        ElloProvider.shared.elloRequest(ElloAPI.UserCategories(categoryIds: categoryIds),
+        ElloProvider.shared.elloRequest(ElloAPI.userCategories(categoryIds: categoryIds),
             success: { _ in
                 promise.completeWithSuccess(Void())
             },

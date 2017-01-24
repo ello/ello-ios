@@ -19,11 +19,11 @@ class LoginViewControllerSpec: QuickSpec {
         var error: String?
         var resignedFirstResponder = false
 
-        func loadingHUD(visible visible: Bool) {
+        func loadingHUD(visible: Bool) {
             inputsEnabled = !visible
         }
 
-        func showError(text: String) {
+        func showError(_ text: String) {
             error = text
         }
 

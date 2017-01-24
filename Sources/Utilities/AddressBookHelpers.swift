@@ -2,8 +2,8 @@
 ///  AddressBookHelpers.swift
 //
 
-public struct AddressBookHelpers {
-    static public func searchFilter(text: String) -> ((StreamCellItem) -> Bool)? {
+struct AddressBookHelpers {
+    static func searchFilter(_ text: String) -> ((StreamCellItem) -> Bool)? {
         if text.characters.count < 2 { return nil }
         return { item in
             if let user = item.jsonable as? User {
@@ -16,23 +16,23 @@ public struct AddressBookHelpers {
         }
     }
 
-    static public func process(contacts: [(LocalPerson, User?)], currentUser: User?) -> [StreamCellItem] {
+    static func process(_ contacts: [(LocalPerson, User?)], currentUser: User?) -> [StreamCellItem] {
         var foundItems = [StreamCellItem]()
         var inviteItems = [StreamCellItem]()
         let currentUserEmail = currentUser?.profile?.email
         for contact in contacts {
             let (person, user): (LocalPerson, User?) = contact
             if let user = user {
-                foundItems.append(StreamCellItem(jsonable: user, type: .UserListItem))
+                foundItems.append(StreamCellItem(jsonable: user, type: .userListItem))
             }
             else {
                 if currentUserEmail == nil || !person.emails.contains(currentUserEmail!) {
-                    inviteItems.append(StreamCellItem(jsonable: person, type: .InviteFriends))
+                    inviteItems.append(StreamCellItem(jsonable: person, type: .inviteFriends))
                 }
             }
         }
-        foundItems.sortInPlace { ($0.jsonable as! User).username.lowercaseString < ($1.jsonable as! User).username.lowercaseString }
-        inviteItems.sortInPlace { ($0.jsonable as! LocalPerson).name.lowercaseString < ($1.jsonable as! LocalPerson).name.lowercaseString }
+        foundItems.sort { ($0.jsonable as! User).username.lowercased() < ($1.jsonable as! User).username.lowercased() }
+        inviteItems.sort { ($0.jsonable as! LocalPerson).name.lowercased() < ($1.jsonable as! LocalPerson).name.lowercased() }
         return foundItems + inviteItems
     }
 }

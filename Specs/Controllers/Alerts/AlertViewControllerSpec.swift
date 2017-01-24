@@ -9,17 +9,17 @@ import Nimble
 
 class AlertViewControllerSpec: QuickSpec {
 
-    func presentAlert(controller: AlertViewController) {
+    func presentAlert(_ controller: AlertViewController) {
         let holder = UIViewController()
         showController(holder)
-        holder.presentViewController(controller, animated: false, completion: nil)
+        holder.present(controller, animated: false, completion: nil)
     }
 
     override func spec() {
         describe("AlertViewController") {
             describe("nib") {
                 it("outlets are set") {
-                    let controller = AlertViewController(message: .None)
+                    let controller = AlertViewController(message: .none)
                     self.presentAlert(controller)
 
                     expect(controller.tableView).toNot(beNil())
@@ -31,7 +31,7 @@ class AlertViewControllerSpec: QuickSpec {
             describe("snapshots") {
                 validateAllSnapshots {
                     let subject = AlertViewController(message: "hey there!")
-                    let action = AlertAction(title: InterfaceString.OK, style: .Dark, handler: nil)
+                    let action = AlertAction(title: InterfaceString.OK, style: .dark, handler: nil)
                     subject.addAction(action)
                     showController(subject)
                     return subject
@@ -41,7 +41,7 @@ class AlertViewControllerSpec: QuickSpec {
             describe("contentView") {
 
                 it("accepts a contentView") {
-                    let controller = AlertViewController(message: .None)
+                    let controller = AlertViewController(message: .none)
                     self.presentAlert(controller)
 
                     let view = UIView()
@@ -51,16 +51,16 @@ class AlertViewControllerSpec: QuickSpec {
                 }
 
                 it("hides its tableView") {
-                    let controller = AlertViewController(message: .None)
+                    let controller = AlertViewController(message: .none)
                     self.presentAlert(controller)
                     let view = UIView()
                     controller.contentView = view
 
-                    expect(controller.tableView.hidden).to(beTrue())
+                    expect(controller.tableView.isHidden).to(beTrue())
                 }
 
                 it("resizes") {
-                    let controller = AlertViewController(message: .None)
+                    let controller = AlertViewController(message: .none)
                     self.presentAlert(controller)
                     let view = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
                     controller.contentView = view
@@ -70,7 +70,7 @@ class AlertViewControllerSpec: QuickSpec {
                 }
 
                 it("centers") {
-                    let controller = AlertViewController(message: .None)
+                    let controller = AlertViewController(message: .none)
                     self.presentAlert(controller)
                     let superview = UIView(frame: CGRect(x: 0, y: 0, width: 102, height: 102))
                     let view = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))

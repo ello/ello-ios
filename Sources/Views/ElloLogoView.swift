@@ -6,16 +6,16 @@ import QuartzCore
 import FLAnimatedImage
 import CoreGraphics
 
-public class ElloLogoView: UIImageView {
+class ElloLogoView: UIImageView {
 
-    public enum Config {
-        case Normal
-        case Grey
+    enum Config {
+        case normal
+        case grey
 
         var image: UIImage {
             switch self {
-            case .Normal: return InterfaceImage.ElloLogo.normalImage
-            case .Grey: return InterfaceImage.ElloLogoGrey.normalImage
+            case .normal: return InterfaceImage.elloLogo.normalImage
+            case .grey: return InterfaceImage.elloLogoGrey.normalImage
             }
         }
     }
@@ -24,30 +24,30 @@ public class ElloLogoView: UIImageView {
         static let Natural = CGSize(width: 60, height: 60)
     }
 
-    private var wasAnimating = false
-    private var config: ElloLogoView.Config = .Normal
+    fileprivate var wasAnimating = false
+    fileprivate var config: ElloLogoView.Config = .normal
 
-    required public init?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
 
-    convenience public init() {
+    convenience init() {
         self.init(frame: .zero)
     }
 
-    convenience public init(config: ElloLogoView.Config) {
+    convenience init(config: ElloLogoView.Config) {
         self.init(frame: .zero)
         self.config = config
         self.image = self.config.image
     }
 
-    override public init(frame: CGRect) {
+    override init(frame: CGRect) {
         super.init(frame: frame)
         self.image = self.config.image
-        self.contentMode = .ScaleAspectFit
+        self.contentMode = .scaleAspectFit
     }
 
-    override public func didMoveToWindow() {
+    override func didMoveToWindow() {
         super.didMoveToWindow()
         if window != nil && wasAnimating {
             animateLogo()
@@ -57,14 +57,14 @@ public class ElloLogoView: UIImageView {
     func animateLogo() {
         wasAnimating = true
 
-        self.layer.removeAnimationForKey("logo-spin")
+        self.layer.removeAnimation(forKey: "logo-spin")
         let rotate = CABasicAnimation(keyPath: "transform.rotation.z")
-        let angle = layer.valueForKeyPath("transform.rotation.z") as! NSNumber
+        let angle = layer.value(forKeyPath: "transform.rotation.z") as! NSNumber
         rotate.fromValue = angle
         rotate.toValue = 2 * M_PI
         rotate.duration = 0.35
         rotate.repeatCount = 1_000_000
-        self.layer.addAnimation(rotate, forKey: "logo-spin")
+        self.layer.add(rotate, forKey: "logo-spin")
     }
 
     func stopAnimatingLogo() {
@@ -73,13 +73,13 @@ public class ElloLogoView: UIImageView {
         self.layer.removeAllAnimations()
 
         let endAnimation = CABasicAnimation(keyPath: "transform.rotation.z")
-        if let layer = self.layer.presentationLayer() {
-            let angle = layer.valueForKeyPath("transform.rotation.z") as! NSNumber
+        if let layer = self.layer.presentation() {
+            let angle = layer.value(forKeyPath: "transform.rotation.z") as! NSNumber
             endAnimation.fromValue = angle.floatValue
             endAnimation.toValue = 0
             endAnimation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseIn)
             endAnimation.duration = 0.25
         }
-        self.layer.addAnimation(endAnimation, forKey: "logo-spin")
+        self.layer.add(endAnimation, forKey: "logo-spin")
     }
 }

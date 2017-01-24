@@ -2,7 +2,7 @@
 ///  AutoCompleteResultSpec.swift
 //
 
-import Ello
+@testable import Ello
 import Quick
 import Nimble
 
@@ -24,13 +24,13 @@ class AutoCompleteResultSpec: QuickSpec {
         context("NSCoding") {
 
             var filePath = ""
-            if let url = NSURL(string: NSFileManager.ElloDocumentsDir()) {
-                filePath = url.URLByAppendingPathComponent("AutoCompleteResultSpec")!.absoluteString!
+            if let url = URL(string: FileManager.ElloDocumentsDir()) {
+                filePath = url.appendingPathComponent("AutoCompleteResultSpec").absoluteString
             }
 
             afterEach {
                 do {
-                    try NSFileManager.defaultManager().removeItemAtPath(filePath)
+                    try FileManager.default.removeItem(atPath: filePath)
                 }
                 catch {
 
@@ -53,14 +53,14 @@ class AutoCompleteResultSpec: QuickSpec {
                 it("decodes successfully") {
                     let result: AutoCompleteResult = stub([
                         "name" : "777",
-                        "url" : NSURL(string:"http://www.example.com/meow")!
+                        "url" : URL(string:"http://www.example.com/meow")!
                     ])
 
                     NSKeyedArchiver.archiveRootObject(result, toFile: filePath)
-                    let unArchivedAutoCompleteResult = NSKeyedUnarchiver.unarchiveObjectWithFile(filePath) as! AutoCompleteResult
+                    let unArchivedAutoCompleteResult = NSKeyedUnarchiver.unarchiveObject(withFile: filePath) as! AutoCompleteResult
 
                     expect(unArchivedAutoCompleteResult).toNot(beNil())
-                    expect(unArchivedAutoCompleteResult.version) == 1
+                    expect(unArchivedAutoCompleteResult.version) == AutoCompleteResultVersion
 
                     expect(unArchivedAutoCompleteResult.name) == "777"
                     expect(unArchivedAutoCompleteResult.url?.absoluteString) == "http://www.example.com/meow"

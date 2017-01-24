@@ -2,8 +2,7 @@
 ///  PreloaderSpec.swift
 //
 
-@testable
-import Ello
+@testable import Ello
 import Quick
 import Nimble
 
@@ -36,17 +35,17 @@ class PreloaderSpec: QuickSpec {
             subject.manager = fakeManager
 
             mdpi = Attachment.stub([
-                "url" : NSURL(string: "http://www.example.com/mdpi.jpg")!,
+                "url" : URL(string: "http://www.example.com/mdpi.jpg")!,
                 "height" : 2, "width" : 5, "type" : "jpeg", "size" : 45644
             ])
 
             hdpi = Attachment.stub([
-                "url" : NSURL(string: "http://www.example.com/hdpi.jpg")!,
+                "url" : URL(string: "http://www.example.com/hdpi.jpg")!,
                 "height" : 2, "width" : 5, "type" : "jpeg", "size" : 45644
             ])
 
             regular = Attachment.stub([
-                "url" : NSURL(string: "http://www.example.com/regular.jpg")!,
+                "url" : URL(string: "http://www.example.com/regular.jpg")!,
                 "height" : 60, "width" : 60, "type" : "jpeg", "size" : 45644
             ])
 
@@ -57,7 +56,7 @@ class PreloaderSpec: QuickSpec {
             imageRegion = ImageRegion.stub([
                 "asset" : asset,
                 "alt" : "some-altness",
-                "url" : NSURL(string: "http://www.example.com/url.jpg")!
+                "url" : URL(string: "http://www.example.com/url.jpg")!
             ])
 
             avatarAsset1 = Asset.stub([
@@ -169,7 +168,7 @@ class PreloaderSpec: QuickSpec {
             }
 
             it("loads hdpi for single column StreamKinds") {
-                StreamKind.Following.setIsGridView(false)
+                StreamKind.following.setIsGridView(false)
                 subject.preloadImages([oneImagePost])
 
                 // grab the second image, first is the avatar of post's author
@@ -177,7 +176,7 @@ class PreloaderSpec: QuickSpec {
             }
 
             it("loads hpdi for grid layout StreamKinds") {
-                StreamKind.Starred.setIsGridView(true)
+                StreamKind.starred.setIsGridView(true)
                 subject.preloadImages([imagePostWithSummary])
 
                 // grab the second image, first is the avatar of post's author

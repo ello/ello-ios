@@ -2,7 +2,7 @@
 ///  NotificationsFilterBar.swift
 //
 
-import Ello
+@testable import Ello
 import Quick
 import Nimble
 
@@ -22,7 +22,7 @@ class NotificationsFilterBarSpec: QuickSpec {
             }
 
             it("is a UIView") {
-                expect(NotificationsFilterBar()).to(beAKindOf(UIView))
+                expect(NotificationsFilterBar()).to(beAKindOf(UIView.self))
             }
         }
 
@@ -110,9 +110,9 @@ class NotificationsFilterBarSpec: QuickSpec {
 
             it("selectButton") {
                 subject.selectButton(button1)
-                expect(button1.selected).to(equal(true))
-                expect(button2.selected).to(equal(false))
-                expect(button3.selected).to(equal(false))
+                expect(button1.isSelected).to(equal(true))
+                expect(button2.isSelected).to(equal(false))
+                expect(button3.isSelected).to(equal(false))
             }
         }
     }

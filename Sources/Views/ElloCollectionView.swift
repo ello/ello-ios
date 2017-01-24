@@ -5,5 +5,5 @@
 import UIKit
 
 
-public class ElloCollectionView: UICollectionView {
+class ElloCollectionView: UICollectionView {
 }

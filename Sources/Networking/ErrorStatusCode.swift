@@ -4,25 +4,25 @@
 
 import Foundation
 
-public enum ErrorStatusCode: Int {
-    case Status401_Unauthorized = 401
-    case Status403 = 403
-    case Status404 = 404
-    case Status410 = 410
-    case Status420 = 420
-    case Status422 = 422
-    case Status500 = 500
-    case Status502 = 502
-    case Status503 = 503
-    case StatusUnknown = 1_000_000
+enum ErrorStatusCode: Int {
+    case status401_Unauthorized = 401
+    case status403 = 403
+    case status404 = 404
+    case status410 = 410
+    case status420 = 420
+    case status422 = 422
+    case status500 = 500
+    case status502 = 502
+    case status503 = 503
+    case statusUnknown = 1_000_000
 
-    var defaultData: NSData {
+    var defaultData: Data {
         return stubbedData(String(self.rawValue))
     }
 
-    public var notification: TypedNotification<NSError> {
+    var notification: TypedNotification<NSError> {
         switch self {
-        case .StatusUnknown:
+        case .statusUnknown:
             return TypedNotification(name: "ElloProviderNotificationUnknown")
         default:
             return TypedNotification(name: "ElloProviderNotification\(self.rawValue)")

@@ -4,13 +4,13 @@
 
 import SnapKit
 
-public protocol BuyButtonLinkDelegate: class {
+protocol BuyButtonLinkDelegate: class {
     func closeModal()
-    func submitLink(url: NSURL)
+    func submitLink(_ url: URL)
     func clearLink()
 }
 
-public class BuyButtonLinkScreen: UIView {
+class BuyButtonLinkScreen: UIView {
     struct Size {
         static let topMargin: CGFloat = 120
         static let sideMargin: CGFloat = 10
@@ -32,26 +32,26 @@ public class BuyButtonLinkScreen: UIView {
 
     weak var delegate: BuyButtonLinkDelegate?
 
-    var buyButtonURL: NSURL? {
-        get { return NSURL(string: productLinkField.text ?? "") }
+    var buyButtonURL: URL? {
+        get { return URL(string: productLinkField.text ?? "") }
         set {
             if let buyButtonURL = newValue {
                 productLinkField.text = buyButtonURL.absoluteString
                 submitButtonTrailingRight.deactivate()
                 submitButtonTrailingRemove.activate()
-                removeButton.hidden = false
+                removeButton.isHidden = false
             }
             else {
                 productLinkField.text = ""
                 submitButtonTrailingRight.activate()
                 submitButtonTrailingRemove.deactivate()
-                removeButton.hidden = true
+                removeButton.isHidden = true
             }
             productLinkDidChange()
         }
     }
 
-    public required override init(frame: CGRect) {
+    required override init(frame: CGRect) {
         super.init(frame: frame)
 
         style()
@@ -60,48 +60,48 @@ public class BuyButtonLinkScreen: UIView {
         arrange()
     }
 
-    required public init?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    private func style() {
+    fileprivate func style() {
         backgroundButton.backgroundColor = .modalBackground()
 
         titleLabel.font = .defaultFont(18)
-        titleLabel.textColor = .whiteColor()
+        titleLabel.textColor = .white
 
         cancelLabel.font = .defaultFont()
         cancelLabel.textColor = .greyA()
 
-        productLinkField.backgroundColor = .whiteColor()
+        productLinkField.backgroundColor = .white
         productLinkField.keyboardType = .URL
-        productLinkField.autocapitalizationType = .None
-        productLinkField.autocorrectionType = .No
-        productLinkField.spellCheckingType = .No
-        productLinkField.keyboardAppearance = .Dark
+        productLinkField.autocapitalizationType = .none
+        productLinkField.autocorrectionType = .no
+        productLinkField.spellCheckingType = .no
+        productLinkField.keyboardAppearance = .dark
         productLinkField.enablesReturnKeyAutomatically = true
-        productLinkField.returnKeyType = .Default
+        productLinkField.returnKeyType = .default
 
-        submitButton.enabled = false
-        removeButton.hidden = true
+        submitButton.isEnabled = false
+        removeButton.isHidden = true
     }
 
-    private func bindActions() {
-        backgroundButton.addTarget(self, action: #selector(closeModal), forControlEvents: .TouchUpInside)
-        submitButton.addTarget(self, action: #selector(submitLink), forControlEvents: .TouchUpInside)
-        removeButton.addTarget(self, action: #selector(removeLink), forControlEvents: .TouchUpInside)
-        productLinkField.addTarget(self, action: #selector(productLinkDidChange), forControlEvents: .EditingChanged)
+    fileprivate func bindActions() {
+        backgroundButton.addTarget(self, action: #selector(closeModal), for: .touchUpInside)
+        submitButton.addTarget(self, action: #selector(submitLink), for: .touchUpInside)
+        removeButton.addTarget(self, action: #selector(removeLink), for: .touchUpInside)
+        productLinkField.addTarget(self, action: #selector(productLinkDidChange), for: .editingChanged)
     }
 
-    private func setText() {
+    fileprivate func setText() {
         titleLabel.text = InterfaceString.Omnibar.SellYourWorkTitle
         productLinkField.placeholder = InterfaceString.Omnibar.ProductLinkPlaceholder
-        submitButton.setTitle(InterfaceString.Submit, forState: .Normal)
-        removeButton.setTitle(InterfaceString.Remove, forState: .Normal)
+        submitButton.setTitle(InterfaceString.Submit, for: .normal)
+        removeButton.setTitle(InterfaceString.Remove, for: .normal)
         cancelLabel.text = InterfaceString.Cancel
     }
 
-    private func arrange() {
+    fileprivate func arrange() {
         addSubview(backgroundButton)
         addSubview(titleLabel)
         addSubview(productLinkField)
@@ -109,50 +109,50 @@ public class BuyButtonLinkScreen: UIView {
         addSubview(removeButton)
         addSubview(cancelLabel)
 
-        backgroundButton.snp_makeConstraints { make in
+        backgroundButton.snp.makeConstraints { make in
             make.edges.equalTo(self)
         }
 
-        titleLabel.snp_makeConstraints { make in
+        titleLabel.snp.makeConstraints { make in
             make.top.equalTo(self).offset(Size.topMargin)
             make.leading.equalTo(self).offset(Size.sideMargin)
         }
 
-        productLinkField.snp_makeConstraints { make in
-            make.top.equalTo(titleLabel.snp_bottom).offset(Size.textFieldOffset)
+        productLinkField.snp.makeConstraints { make in
+            make.top.equalTo(titleLabel.snp.bottom).offset(Size.textFieldOffset)
             make.leading.equalTo(self).offset(Size.sideMargin)
             make.trailing.equalTo(self).offset(-Size.sideMargin)
             make.height.equalTo(Size.textFieldHeight)
         }
 
-        submitButton.snp_makeConstraints { make in
-            make.top.equalTo(productLinkField.snp_bottom).offset(Size.sideMargin)
+        submitButton.snp.makeConstraints { make in
+            make.top.equalTo(productLinkField.snp.bottom).offset(Size.sideMargin)
             make.leading.equalTo(self).offset(Size.sideMargin)
             submitButtonTrailingRight = make.trailing.equalTo(self).offset(-Size.sideMargin).constraint
-            submitButtonTrailingRemove = make.trailing.equalTo(removeButton.snp_leading).offset(-Size.sideMargin).constraint
+            submitButtonTrailingRemove = make.trailing.equalTo(removeButton.snp.leading).offset(-Size.sideMargin).constraint
             make.height.equalTo(Size.buttonHeight)
         }
         submitButtonTrailingRemove.deactivate()
 
-        removeButton.snp_makeConstraints { make in
-            make.top.equalTo(productLinkField.snp_bottom).offset(Size.sideMargin)
+        removeButton.snp.makeConstraints { make in
+            make.top.equalTo(productLinkField.snp.bottom).offset(Size.sideMargin)
             make.width.equalTo(self).dividedBy(2).offset(-2 * Size.sideMargin)
-            make.trailing.equalTo(self).offset(-Size.sideMargin).constraint
+            make.trailing.equalTo(self).offset(-Size.sideMargin)
             make.height.equalTo(Size.buttonHeight)
         }
 
-        cancelLabel.snp_makeConstraints { make in
-            make.top.equalTo(submitButton.snp_bottom).offset(Size.cancelOffset)
+        cancelLabel.snp.makeConstraints { make in
+            make.top.equalTo(submitButton.snp.bottom).offset(Size.cancelOffset)
             make.leading.equalTo(self).offset(Size.sideMargin)
         }
     }
 
     func productLinkDidChange() {
         if let url = productLinkField.text {
-            submitButton.enabled = NSURL.isValidShorthand(url)
+            submitButton.isEnabled = URL.isValidShorthand(url)
         }
         else {
-            submitButton.enabled = false
+            submitButton.isEnabled = false
         }
     }
 
@@ -165,7 +165,7 @@ public class BuyButtonLinkScreen: UIView {
             return
         }
 
-        if let url = NSURL.shorthand(urlString) {
+        if let url = URL.shorthand(urlString) {
             delegate?.submitLink(url)
         }
         closeModal()

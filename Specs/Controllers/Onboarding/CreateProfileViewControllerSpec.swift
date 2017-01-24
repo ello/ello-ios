@@ -60,7 +60,7 @@ class CreateProfileViewControllerSpec: QuickSpec {
                         onboardingData.name = "my name"
                         onboardingData.links = "http://my.links"
                         onboardingData.bio = "my bio"
-                        let image = ImageRegionData(image: UIImage.imageWithColor(.blueColor())!)
+                        let image = ImageRegionData(image: UIImage.imageWithColor(.blue)!)
                         onboardingData.coverImage = image
                         onboardingData.avatarImage = image
                         subject.onboardingStepBegin()
@@ -74,7 +74,7 @@ class CreateProfileViewControllerSpec: QuickSpec {
                 describe("prepares the screen according to onboardingData") {
                     var image: ImageRegionData!
                     beforeEach {
-                        image = ImageRegionData(image: UIImage.imageWithColor(.blueColor())!)
+                        image = ImageRegionData(image: UIImage.imageWithColor(.blue)!)
                         onboardingData.name = "my name"
                         onboardingData.links = "http://my.links"
                         onboardingData.bio = "my bio"
@@ -109,7 +109,7 @@ class CreateProfileViewControllerSpec: QuickSpec {
                     it("if name is set, 'canGoNext' is true") {
                         onboardingData.name = "my name"
                         onboardingData.bio = nil
-                        let image = ImageRegionData(image: UIImage.imageWithColor(.blueColor())!)
+                        let image = ImageRegionData(image: UIImage.imageWithColor(.blue)!)
                         onboardingData.coverImage = image
                         onboardingData.avatarImage = image
                         subject.onboardingStepBegin()
@@ -119,7 +119,7 @@ class CreateProfileViewControllerSpec: QuickSpec {
                         onboardingData.name = "my name"
                         onboardingData.links = "http://my.links"
                         onboardingData.bio = "my bio"
-                        let image = ImageRegionData(image: UIImage.imageWithColor(.blueColor())!)
+                        let image = ImageRegionData(image: UIImage.imageWithColor(.blue)!)
                         onboardingData.coverImage = image
                         onboardingData.avatarImage = image
                         subject.onboardingStepBegin()
@@ -132,37 +132,37 @@ class CreateProfileViewControllerSpec: QuickSpec {
                     onboardingViewController.canGoNext = false
                 }
                 it("forwards name") {
-                    subject.assignName("my name")
+                    _ = subject.assign(name: "my name")
                     expect(onboardingData.name) == "my name"
                     expect(subject.didSetName) == true
                     expect(subject.didSetBio) == false
                     expect(onboardingViewController.canGoNext) == true
                 }
                 it("forwards links") {
-                    subject.assignLinks("http://my.links")
+                    _ = subject.assign(links: "http://my.links")
                     expect(onboardingData.links) == "http://my.links"
                     expect(subject.didSetLinks) == true
                     expect(subject.didSetBio) == false
                     expect(onboardingViewController.canGoNext) == true
                 }
                 it("forwards bio") {
-                    subject.assignBio("my bio")
+                    _ = subject.assign(bio: "my bio")
                     expect(onboardingData.bio) == "my bio"
                     expect(subject.didSetBio) == true
                     expect(subject.didUploadCoverImage) == false
                     expect(onboardingViewController.canGoNext) == true
                 }
                 it("forwards coverImage") {
-                    let image = ImageRegionData(image: UIImage.imageWithColor(.blueColor())!)
-                    subject.assignCoverImage(image)
+                    let image = ImageRegionData(image: UIImage.imageWithColor(.blue)!)
+                    subject.assign(coverImage: image)
                     expect(onboardingData.coverImage) == image
                     expect(subject.didUploadCoverImage) == true
                     expect(subject.didUploadAvatarImage) == false
                     expect(onboardingViewController.canGoNext) == true
                 }
                 it("forwards avatar") {
-                    let image = ImageRegionData(image: UIImage.imageWithColor(.blueColor())!)
-                    subject.assignAvatar(image)
+                    let image = ImageRegionData(image: UIImage.imageWithColor(.blue)!)
+                    subject.assign(avatarImage: image)
                     expect(onboardingData.avatarImage) == image
                     expect(subject.didUploadAvatarImage) == true
                     expect(subject.didSetName) == false
@@ -173,25 +173,25 @@ class CreateProfileViewControllerSpec: QuickSpec {
                 var props: [String: AnyObject] = [:]
                 beforeEach {
                     ElloProvider.sharedProvider = ElloProvider.RecordedStubbingProvider([
-                        RecordedResponse(endpoint: .ProfileUpdate(body: [:]), responseClosure: { target in
-                                if case let .ProfileUpdate(body) = target {
+                        RecordedResponse(endpoint: .profileUpdate(body: [:]), responseClosure: { target in
+                                if case let .profileUpdate(body) = target {
                                     props = body
                                 }
-                                return .NetworkResponse(401, NSData())
+                                return .networkResponse(401, Data())
                             }),
                     ])
                 }
 
                 it("changed name") {
-                    subject.assignName("my name")
-                    subject.onboardingWillProceed(false, proceedClosure: { _ in })
+                    _ = subject.assign(name: "my name")
+                    subject.onboardingWillProceed(abort: false, proceedClosure: { _ in })
                     expect(props["name"] as? String) == "my name"
                 }
                 it("changed name,links,bio") {
-                    subject.assignName("my name")
-                    subject.assignLinks("http://my.links")
-                    subject.assignBio("my bio")
-                    subject.onboardingWillProceed(false, proceedClosure: { _ in })
+                    _ = subject.assign(name: "my name")
+                    _ = subject.assign(links: "http://my.links")
+                    _ = subject.assign(bio: "my bio")
+                    subject.onboardingWillProceed(abort: false, proceedClosure: { _ in })
                     expect(props["name"] as? String) == "my name"
                     expect(props["external_links"] as? String) == "http://my.links"
                     expect(props["unsanitized_short_bio"] as? String) == "my bio"

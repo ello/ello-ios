@@ -1,12 +1,12 @@
 ////
-///  NSURLSpec.swift
+///  URLSpec.swift
 //
 
-import Ello
+@testable import Ello
 import Quick
 import Nimble
 
-class NSURLExtensionSpec: QuickSpec {
+class URLExtensionSpec: QuickSpec {
     override func spec() {
         describe("hasGifExtension") {
             let expectations: [(String, Bool)] = [
@@ -18,7 +18,7 @@ class NSURLExtensionSpec: QuickSpec {
             ]
             for (url, expected) in expectations {
                 it("should be \(expected) for \(url)") {
-                    expect(NSURL(string: url)?.hasGifExtension) == expected
+                    expect(URL(string: url)?.hasGifExtension) == expected
                 }
             }
         }
@@ -41,7 +41,7 @@ class NSURLExtensionSpec: QuickSpec {
             ]
             for (url, expected) in expectations {
                 it("\(url) should\(expected ? "" : " not") be valid") {
-                    expect(NSURL.isValidShorthand(url)) == expected
+                    expect(URL.isValidShorthand(url)) == expected
                 }
             }
         }
@@ -50,7 +50,7 @@ class NSURLExtensionSpec: QuickSpec {
             it("returns the path of the url without the protocol") {
                 let expectedPath = "stream/foo/bar"
                 let path = "ello://" + expectedPath
-                let url = NSURL(string: path)
+                let url = URL(string: path)
 
                 expect(url?.absoluteStringWithoutProtocol).to(equal(expectedPath))
             }

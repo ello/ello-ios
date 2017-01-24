@@ -22,7 +22,7 @@ class EmptyStreamCellSpec: QuickSpec {
                 it("\(desc) should match snapshot"){
                     let subject = EmptyStreamCell()
                     subject.title = "Nothing To See Here"
-                    expectValidSnapshot(subject, device: .Custom(size))
+                    expectValidSnapshot(subject, device: .custom(size))
                 }
             }
         }

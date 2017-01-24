@@ -4,31 +4,31 @@
 
 import Foundation
 
-public struct StreamEmbedCellPresenter {
+struct StreamEmbedCellPresenter {
 
-    public static func configure(
-        cell: UICollectionViewCell,
+    static func configure(
+        _ cell: UICollectionViewCell,
         streamCellItem: StreamCellItem,
         streamKind: StreamKind,
-        indexPath: NSIndexPath,
+        indexPath: IndexPath,
         currentUser: User?)
     {
         if let cell = cell as? StreamEmbedCell,
-            embedData = streamCellItem.type.data as? EmbedRegion
+            let embedData = streamCellItem.type.data as? EmbedRegion
         {
-            var photoToLoad: NSURL?
+            var photoToLoad: URL?
             if streamKind.isGridView {
-                photoToLoad = embedData.thumbnailSmallUrl
+                photoToLoad = embedData.thumbnailSmallUrl as URL
             }
             else {
-                photoToLoad = embedData.thumbnailLargeUrl
+                photoToLoad = embedData.thumbnailLargeUrl as URL
             }
             cell.embedUrl = embedData.url
             if embedData.isAudioEmbed {
-                cell.setPlayImageIcon(.AudioPlay)
+                cell.setPlayImageIcon(.audioPlay)
             }
             else {
-                cell.setPlayImageIcon(.VideoPlay)
+                cell.setPlayImageIcon(.videoPlay)
             }
 
             if let photoURL = photoToLoad {

@@ -2,24 +2,24 @@
 ///  AutoCompleteCell.swift
 //
 
-public class AutoCompleteCell: UITableViewCell {
-    public static let reuseIdentifier = "AutoCompleteCell"
+class AutoCompleteCell: UITableViewCell {
+    static let reuseIdentifier = "AutoCompleteCell"
 
-    @IBOutlet weak public var name: UILabel!
-    weak public var avatar: AvatarButton!
-    @IBOutlet weak public var line: UIView!
+    @IBOutlet weak var name: UILabel!
+    weak var avatar: AvatarButton!
+    @IBOutlet weak var line: UIView!
 
-    public struct Size {
+    struct Size {
         static let height: CGFloat = 49
     }
 }
 
-public extension AutoCompleteCell {
+extension AutoCompleteCell {
     class func nib() -> UINib {
-        return UINib(nibName: "AutoCompleteCell", bundle: .None)
+        return UINib(nibName: "AutoCompleteCell", bundle: .none)
     }
 
-    override public func prepareForReuse() {
+    override func prepareForReuse() {
         super.prepareForReuse()
         avatar.setDefaultImage()
     }

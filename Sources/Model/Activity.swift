@@ -2,75 +2,75 @@
 ///  Activity.swift
 //
 
-import Crashlytics
 import SwiftyJSON
+
 
 let ActivityVersion = 1
 
 @objc(Activity)
-public final class Activity: JSONAble {
+final class Activity: JSONAble {
 
     // active record
-    public let id: String
-    public let createdAt: NSDate
+    let id: String
+    let createdAt: Date
     // required
-    public let kind: Kind
-    public let subjectType: SubjectType
+    let kind: Kind
+    let subjectType: SubjectType
     // links
-    public var subject: JSONAble? { return getLinkObject("subject") }
+    var subject: JSONAble? { return getLinkObject("subject") }
 
-    public enum Kind: String {
+    enum Kind: String {
         // Posts
-        case FriendPost = "friend_post" // main feed
-        case OwnPost = "own_post" // main feed
-        case WelcomePost = "welcome_post" // main feed
-        case NoisePost = "noise_post" // main feed
+        case friendPost = "friend_post" // main feed
+        case ownPost = "own_post" // main feed
+        case welcomePost = "welcome_post" // main feed
+        case noisePost = "noise_post" // main feed
 
         // Comments
 
-        case FriendComment = "friend_comment"
+        case friendComment = "friend_comment"
 
         // Notifications
-        case NewFollowerPost = "new_follower_post" // someone started following you
-        case NewFollowedUserPost = "new_followed_user_post" // you started following someone
-        case InvitationAcceptedPost = "invitation_accepted_post" // someone accepted your invitation
+        case newFollowerPost = "new_follower_post" // someone started following you
+        case newFollowedUserPost = "new_followed_user_post" // you started following someone
+        case invitationAcceptedPost = "invitation_accepted_post" // someone accepted your invitation
 
-        case PostMentionNotification = "post_mention_notification" // you were mentioned in a post
-        case CommentMentionNotification = "comment_mention_notification" // you were mentioned in a comment
-        case CommentNotification = "comment_notification" // someone commented on your post
-        case CommentOnOriginalPostNotification = "comment_on_original_post_notification" // someone commented on your repost
-        case CommentOnRepostNotification = "comment_on_repost_notification" // someone commented on other's repost of your post
+        case postMentionNotification = "post_mention_notification" // you were mentioned in a post
+        case commentMentionNotification = "comment_mention_notification" // you were mentioned in a comment
+        case commentNotification = "comment_notification" // someone commented on your post
+        case commentOnOriginalPostNotification = "comment_on_original_post_notification" // someone commented on your repost
+        case commentOnRepostNotification = "comment_on_repost_notification" // someone commented on other's repost of your post
 
-        case WelcomeNotification = "welcome_notification" // welcome to Ello
-        case RepostNotification = "repost_notification" // someone reposted your post
+        case welcomeNotification = "welcome_notification" // welcome to Ello
+        case repostNotification = "repost_notification" // someone reposted your post
 
-        case WatchNotification = "watch_notification" // someone watched your post on ello
-        case WatchCommentNotification = "watch_comment_notification" // someone commented on a post you're watching
-        case WatchOnRepostNotification = "watch_on_repost_notification" // someone watched your repost
-        case WatchOnOriginalPostNotification = "watch_on_original_post_notification" // someone watched other's repost of your post
+        case watchNotification = "watch_notification" // someone watched your post on ello
+        case watchCommentNotification = "watch_comment_notification" // someone commented on a post you're watching
+        case watchOnRepostNotification = "watch_on_repost_notification" // someone watched your repost
+        case watchOnOriginalPostNotification = "watch_on_original_post_notification" // someone watched other's repost of your post
 
-        case LoveNotification = "love_notification" // someone loved your post
-        case LoveOnRepostNotification = "love_on_repost_notification" // someone loved your repost
-        case LoveOnOriginalPostNotification = "love_on_original_post_notification" // someone loved other's repost of your post
+        case loveNotification = "love_notification" // someone loved your post
+        case loveOnRepostNotification = "love_on_repost_notification" // someone loved your repost
+        case loveOnOriginalPostNotification = "love_on_original_post_notification" // someone loved other's repost of your post
 
         // Deprecated posts
-        case CommentMention = "comment_mention"
+        case commentMention = "comment_mention"
 
         // Fallback for not defined types
-        case Unknown = "Unknown"
+        case unknown = "Unknown"
     }
 
-    public enum SubjectType: String {
-        case User = "User"
-        case Post = "Post"
-        case Comment = "Comment"
-        case Unknown = "Unknown"
+    enum SubjectType: String {
+        case user = "User"
+        case post = "Post"
+        case comment = "Comment"
+        case unknown = "Unknown"
     }
 
 // MARK: Initialization
 
-    public init(id: String,
-        createdAt: NSDate,
+    init(id: String,
+        createdAt: Date,
         kind: Kind,
         subjectType: SubjectType)
     {
@@ -83,20 +83,20 @@ public final class Activity: JSONAble {
 
 // MARK: NSCoding
 
-    public required init(coder aDecoder: NSCoder) {
+    required init(coder aDecoder: NSCoder) {
         let decoder = Coder(aDecoder)
         // active record
         self.id = decoder.decodeKey("id")
         self.createdAt = decoder.decodeKey("createdAt")
         // required
         let rawKind: String = decoder.decodeKey("rawKind")
-        self.kind = Kind(rawValue: rawKind) ?? Kind.Unknown
+        self.kind = Kind(rawValue: rawKind) ?? Kind.unknown
         let rawSubjectType: String = decoder.decodeKey("rawSubjectType")
-        self.subjectType = SubjectType(rawValue: rawSubjectType) ?? SubjectType.Unknown
+        self.subjectType = SubjectType(rawValue: rawSubjectType) ?? SubjectType.unknown
         super.init(coder: decoder.coder)
     }
 
-    public override func encodeWithCoder(encoder: NSCoder) {
+    override func encode(with encoder: NSCoder) {
         let coder = Coder(encoder)
         // active record
         coder.encodeObject(id, forKey: "id")
@@ -104,33 +104,30 @@ public final class Activity: JSONAble {
         // required
         coder.encodeObject(kind.rawValue, forKey: "rawKind")
         coder.encodeObject(subjectType.rawValue, forKey: "rawSubjectType")
-        super.encodeWithCoder(coder.coder)
+        super.encode(with: coder.coder)
     }
 
 // MARK: JSONAble
 
-    override public class func fromJSON(data: [String: AnyObject]) -> JSONAble {
+    override class func fromJSON(_ data: [String: AnyObject]) -> JSONAble {
         let json = JSON(data)
-        Crashlytics.sharedInstance().setObjectValue(json.rawString(), forKey: CrashlyticsKey.ActivityFromJSON.rawValue)
         // active record
         let id = json["created_at"].stringValue
-        var createdAt: NSDate
-        if let date = id.toNSDate() {
+        var createdAt: Date
+        if let date = id.toDate() {
             // good to go
             createdAt = date
         }
         else {
-            createdAt = NSDate()
-            // send data to segment to try to get more data about this
-            Tracker.sharedTracker.createdAtCrash("Activity", json: json.rawString())
+            createdAt = Date()
         }
 
         // create activity
         let activity = Activity(
             id: id,
             createdAt: createdAt,
-            kind: Kind(rawValue: json["kind"].stringValue) ?? Kind.Unknown,
-            subjectType: SubjectType(rawValue: json["subject_type"].stringValue) ?? SubjectType.Unknown
+            kind: Kind(rawValue: json["kind"].stringValue) ?? Kind.unknown,
+            subjectType: SubjectType(rawValue: json["subject_type"].stringValue) ?? SubjectType.unknown
         )
         // links
         activity.links = data["links"] as? [String: AnyObject]

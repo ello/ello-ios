@@ -2,14 +2,14 @@
 ///  OmnibarImageDownloadCell.swift
 //
 
-public class OmnibarImageDownloadCell: UITableViewCell {
+class OmnibarImageDownloadCell: UITableViewCell {
     static let reuseIdentifier = "OmnibarImageDownloadCell"
 
     struct Size {
         static let height = CGFloat(100)
     }
 
-    public let logoView = PulsingCircle()
+    let logoView = PulsingCircle()
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -17,16 +17,16 @@ public class OmnibarImageDownloadCell: UITableViewCell {
         contentView.addSubview(logoView)
     }
 
-    required public init(coder aDecoder: NSCoder) {
+    required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override public func layoutSubviews() {
+    override func layoutSubviews() {
         super.layoutSubviews()
         logoView.frame = contentView.bounds
     }
 
-    override public func didMoveToSuperview() {
+    override func didMoveToSuperview() {
         logoView.pulse()
     }
 

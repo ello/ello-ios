@@ -4,19 +4,19 @@
 
 import Foundation
 
-public class BasicIcon: UIView {
+class BasicIcon: UIView {
 
-    private var _enabled = false
-    private var _selected = false
-    private var _highlighted = false
+    fileprivate var _enabled = false
+    fileprivate var _selected = false
+    fileprivate var _highlighted = false
 
-    private let normalIconView: UIView
-    private let selectedIconView: UIView
-    private let disabledIconView: UIView?
+    fileprivate let normalIconView: UIView
+    fileprivate let selectedIconView: UIView
+    fileprivate let disabledIconView: UIView?
 
     // MARK: Initializers
 
-    public init(normalIconView: UIView, selectedIconView: UIView, disabledIconView: UIView? = nil) {
+    init(normalIconView: UIView, selectedIconView: UIView, disabledIconView: UIView? = nil) {
         self.normalIconView = normalIconView
         self.selectedIconView = selectedIconView
         self.disabledIconView = disabledIconView
@@ -30,35 +30,35 @@ public class BasicIcon: UIView {
         super.init(frame: frame)
         addSubview(self.normalIconView)
         addSubview(self.selectedIconView)
-        self.selectedIconView.hidden = true
+        self.selectedIconView.isHidden = true
 
         if let view = disabledIconView {
             addSubview(view)
-            view.hidden = true
+            view.isHidden = true
         }
     }
 
-    required public init(coder aDecoder: NSCoder) {
+    required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
     // MARK: Private
-    func updateIcon(selected selected: Bool, enabled: Bool) {
+    func updateIcon(selected: Bool, enabled: Bool) {
         if let disabledIconView = disabledIconView {
-            normalIconView.hidden = !(enabled && !selected)
-            selectedIconView.hidden = !(enabled && selected)
-            disabledIconView.hidden = enabled
+            normalIconView.isHidden = !(enabled && !selected)
+            selectedIconView.isHidden = !(enabled && selected)
+            disabledIconView.isHidden = enabled
         }
         else {
-            normalIconView.hidden = selected
-            selectedIconView.hidden = !selected
+            normalIconView.isHidden = selected
+            selectedIconView.isHidden = !selected
         }
     }
 }
 
 extension BasicIcon: ImageLabelAnimatable {
 
-    public var enabled: Bool {
+    var enabled: Bool {
         get { return _enabled }
         set {
             _enabled = newValue
@@ -66,7 +66,7 @@ extension BasicIcon: ImageLabelAnimatable {
         }
     }
 
-    public var selected: Bool {
+    var selected: Bool {
         get { return _selected }
         set {
             _selected = newValue
@@ -74,7 +74,7 @@ extension BasicIcon: ImageLabelAnimatable {
         }
     }
 
-    public var highlighted: Bool {
+    var highlighted: Bool {
         get { return _highlighted }
         set {
             _highlighted = newValue
@@ -83,5 +83,5 @@ extension BasicIcon: ImageLabelAnimatable {
         }
     }
 
-    public var view: UIView { return self }
+    var view: UIView { return self }
 }

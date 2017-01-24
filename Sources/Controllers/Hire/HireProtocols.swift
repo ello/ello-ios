@@ -3,11 +3,11 @@
 //
 
 protocol HireDelegate: class {
-    func submit(body body: String)
+    func submit(body: String)
 }
 
 protocol HireScreenProtocol: class {
-    func toggleKeyboard(visible visible: Bool)
+    func toggleKeyboard(visible: Bool)
     func showSuccess()
     func hideSuccess()
 }

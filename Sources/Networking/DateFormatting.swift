@@ -4,18 +4,18 @@
 
 import Foundation
 
-public let ServerDateFormatter: NSDateFormatter = {
-    let formatter = NSDateFormatter()
-    formatter.locale = NSLocale(localeIdentifier: "en_US")
+let ServerDateFormatter: DateFormatter = {
+    let formatter = DateFormatter()
+    formatter.locale = Locale(identifier: "en_US")
     formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
-    formatter.timeZone = NSTimeZone(abbreviation: "UTC")
+    formatter.timeZone = TimeZone(abbreviation: "UTC")
     return formatter
 }()
 
-public let HTTPDateFormatter: NSDateFormatter = {
-    let formatter = NSDateFormatter()
-    formatter.locale = NSLocale(localeIdentifier: "en_US")
+let HTTPDateFormatter: DateFormatter = {
+    let formatter = DateFormatter()
+    formatter.locale = Locale(identifier: "en_US")
     formatter.dateFormat = "eee, dd MMM yyyy HH:mm:ss zzz"
-    formatter.timeZone = NSTimeZone(abbreviation: "UTC")
+    formatter.timeZone = TimeZone(abbreviation: "UTC")
     return formatter
 }()

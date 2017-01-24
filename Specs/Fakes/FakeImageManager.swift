@@ -4,15 +4,15 @@
 
 import PINRemoteImage
 
-public class FakeImageManager: PINRemoteImageManager {
+class FakeImageManager: PINRemoteImageManager {
 
-    public var downloads = [NSURL]()
+    var downloads = [URL]()
 
-    public func reset() {
-        downloads = [NSURL]()
+    func reset() {
+        downloads = [URL]()
     }
 
-    override public func prefetchImageWithURL(url: NSURL!, options: PINRemoteImageManagerDownloadOptions) {
+    override func prefetchImage(with url: URL!, options: PINRemoteImageManagerDownloadOptions) {
         downloads.append(url)
     }
 

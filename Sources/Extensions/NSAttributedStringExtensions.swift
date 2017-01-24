@@ -4,14 +4,21 @@
 
 import Foundation
 
+extension NSMutableAttributedString {
+    override func appending(_ str: NSAttributedString) -> NSAttributedString {
+        self.append(str)
+        return self
+    }
+}
+
 extension NSAttributedString {
-    func append(str: NSAttributedString) -> NSAttributedString {
+    func appending(_ str: NSAttributedString) -> NSAttributedString {
         let retval: NSMutableAttributedString = NSMutableAttributedString(attributedString: self)
-        retval.appendAttributedString(str)
+        retval.append(str)
         return NSAttributedString(attributedString: retval)
     }
 
-    public convenience init(_ string: String, color: UIColor = .blackColor(), underlineStyle: NSUnderlineStyle? = nil, font: UIFont = .defaultFont(), alignment: NSTextAlignment = .Left) {
+    convenience init(_ string: String, color: UIColor = .black, underlineStyle: NSUnderlineStyle? = nil, font: UIFont = .defaultFont(), alignment: NSTextAlignment = .left) {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 6
         paragraphStyle.alignment = alignment
@@ -20,39 +27,39 @@ extension NSAttributedString {
             NSForegroundColorAttributeName: color,
             NSFontAttributeName: font,
             NSParagraphStyleAttributeName: paragraphStyle,
-            NSUnderlineStyleAttributeName: underlineValue
+            NSUnderlineStyleAttributeName: underlineValue as AnyObject
         ]
         self.init(string: string, attributes: attrs)
     }
 
-    public convenience init(label string: String, style: StyledLabel.Style) {
+    convenience init(label string: String, style: StyledLabel.Style) {
         self.init(string, color: style.textColor, font: style.font)
     }
 
-    public convenience init(button string: String, style: StyledButton.Style, state: UIControlState = .Normal) {
+    convenience init(button string: String, style: StyledButton.Style, state: UIControlState = .normal) {
         let stateColor: UIColor?
-        if state == .Disabled {
+        if state == .disabled {
             stateColor = style.disabledTitleColor
         }
-        else if state == .Highlighted {
+        else if state == .highlighted {
             stateColor = style.highlightedTitleColor
         }
-        else if state == .Selected {
+        else if state == .selected {
             stateColor = style.selectedTitleColor
         }
         else {
             stateColor = style.titleColor
         }
 
-        let color = stateColor ?? style.titleColor ?? .blackColor()
-        self.init(string, color: color, underlineStyle: style.underline ? .StyleSingle : .StyleNone, font: style.font)
+        let color = stateColor ?? style.titleColor ?? .black
+        self.init(string, color: color, underlineStyle: style.underline ? .styleSingle : .styleNone, font: style.font)
     }
 
-    public convenience init(primaryHeader: String, secondaryHeader: String) {
+    convenience init(primaryHeader: String, secondaryHeader: String) {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 6
         let bold: [String: AnyObject] = [
-            NSForegroundColorAttributeName: UIColor.blackColor(),
+            NSForegroundColorAttributeName: UIColor.black,
             NSFontAttributeName: UIFont.defaultFont(16),
             NSParagraphStyleAttributeName: paragraphStyle,
             ]
@@ -66,31 +73,32 @@ extension NSAttributedString {
         self.init(attributedString: header)
     }
 
-    func heightForWidth(width: CGFloat) -> CGFloat {
-        return ceil(boundingRectWithSize(CGSize(width: width, height: CGFloat.max),
-            options: [.UsesLineFragmentOrigin, .UsesFontLeading],
+    func heightForWidth(_ width: CGFloat) -> CGFloat {
+        return ceil(boundingRect(with: CGSize(width: width, height: CGFloat.greatestFiniteMagnitude),
+            options: [.usesLineFragmentOrigin, .usesFontLeading],
             context: nil).size.height)
     }
 
-    func widthForHeight(height: CGFloat) -> CGFloat {
-        return ceil(boundingRectWithSize(CGSize(width: CGFloat.max, height: height),
-            options: [.UsesLineFragmentOrigin, .UsesFontLeading],
+    func widthForHeight(_ height: CGFloat) -> CGFloat {
+        return ceil(boundingRect(with: CGSize(width: CGFloat.greatestFiniteMagnitude, height: height),
+            options: [.usesLineFragmentOrigin, .usesFontLeading],
             context: nil).size.width)
     }
 
-    func joinWithNewlines(other: NSAttributedString) -> NSAttributedString {
-        let retVal = NSMutableAttributedString(attributedString: self)
+    func joinWithNewlines(_ other: NSAttributedString) -> NSAttributedString {
+
+        let retVal: NSMutableAttributedString = NSMutableAttributedString(attributedString: self)
         if other.string.characters.count > 0 {
             if self.string.characters.count > 0 {
-                if !self.string.endsWith("\n") {
-                    retVal.appendAttributedString(NSAttributedString("\n\n"))
+                if !self.string.hasSuffix("\n") {
+                    retVal.append(NSAttributedString("\n\n"))
                 }
-                else if !self.string.endsWith("\n\n") {
-                    retVal.appendAttributedString(NSAttributedString("\n"))
+                else if !self.string.hasSuffix("\n\n") {
+                    retVal.append(NSAttributedString("\n"))
                 }
             }
 
-            retVal.appendAttributedString(other)
+            retVal.append(other)
         }
 
         return retVal
@@ -98,5 +106,7 @@ extension NSAttributedString {
 }
 
 func + (left: NSAttributedString, right: NSAttributedString) -> NSAttributedString {
-    return left.append(right)
+    let retval = NSMutableAttributedString(attributedString: left)
+    retval.append(right)
+    return NSAttributedString(attributedString: retval)
 }

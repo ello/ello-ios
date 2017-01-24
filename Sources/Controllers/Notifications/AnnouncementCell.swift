@@ -17,52 +17,60 @@ class AnnouncementCell: UICollectionViewCell {
         static let closeButtonSize: CGFloat = 50
     }
 
-    public struct Config {
+    struct Config {
         var title: String?
         var body: String?
-        var imageURL: NSURL?
+        var imageURL: URL?
         var image: UIImage? // for testing
         var callToAction: String?
 
-        public init() {}
+        init() {}
     }
 
     weak var delegate: AnnouncementCellDelegate?
 
-    public var config = Config() {
+    var config = Config() {
         didSet {
             titleLabel.text = config.title
             bodyLabel.text = config.body
             callToActionButton.title = config.callToAction
 
             if let url = config.imageURL {
-                imageView.pin_setImageFromURL(url) { result in
+                imageView.pin_setImage(from: url) { result in
                     let height: CGFloat
-                    if let image = result.image {
+                    if let image = result?.image {
                         let size = image.size
-                        height = size.height * self.imageView.frame.width / size.width
+                        height = size.height * Size.imageSize / size.width
                     }
                     else {
                         height = 0
                     }
-                    self.imageHeightConstraint.updateOffset(height)
+                    self.imageHeightConstraint.update(offset: height)
                 }
             }
             else {
-                imageHeightConstraint.updateOffset(0)
                 imageView.pin_cancelImageDownload()
-                imageView.image = config.image // for testing, nice to be able to assign an image sync'ly
+                let height: CGFloat
+                if let image = config.image {
+                    imageView.image = image // for testing, nice to be able to assign an image sync'ly
+                    let size = image.size
+                    height = size.height * Size.imageSize / size.width
+                }
+                else {
+                    height = 0
+                }
+                imageHeightConstraint.update(offset: height)
             }
         }
     }
 
-    private let blackView = UIView()
-    private let imageView = FLAnimatedImageView()
-    private let closeButton = UIButton()
-    private let titleLabel = StyledLabel(style: .BoldWhite)
-    private let bodyLabel = StyledLabel(style: .White)
-    private let callToActionButton = StyledButton(style: .WhiteUnderlined)
-    private var imageHeightConstraint: Constraint!
+    fileprivate let blackView = UIView()
+    fileprivate let imageView = FLAnimatedImageView()
+    fileprivate let closeButton = UIButton()
+    fileprivate let titleLabel = StyledLabel(style: .BoldWhite)
+    fileprivate let bodyLabel = StyledLabel(style: .White)
+    fileprivate let callToActionButton = StyledButton(style: .WhiteUnderlined)
+    fileprivate var imageHeightConstraint: Constraint!
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -71,26 +79,26 @@ class AnnouncementCell: UICollectionViewCell {
         arrange()
     }
 
-    required public init?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
     func style() {
-        contentView.backgroundColor = .whiteColor()
-        blackView.backgroundColor = .blackColor()
-        closeButton.setImages(.X, white: true)
+        closeButton.setImages(.x, white: true)
+        contentView.backgroundColor = .white
+        blackView.backgroundColor = .black
 
         imageView.clipsToBounds = true
-        imageView.contentMode = .ScaleAspectFill
-        imageView.setContentCompressionResistancePriority(UILayoutPriorityDefaultLow, forAxis: .Vertical)
+        imageView.contentMode = .scaleAspectFill
+        imageView.setContentCompressionResistancePriority(UILayoutPriorityDefaultLow, for: .vertical)
         titleLabel.numberOfLines = 0
         bodyLabel.numberOfLines = 0
-        callToActionButton.contentHorizontalAlignment = .Left
-        callToActionButton.userInteractionEnabled = false
+        callToActionButton.contentHorizontalAlignment = .left
+        callToActionButton.isUserInteractionEnabled = false
     }
 
     func bindActions() {
-        closeButton.addTarget(self, action: #selector(markAsRead), forControlEvents: .TouchUpInside)
+        closeButton.addTarget(self, action: #selector(markAsRead), for: .touchUpInside)
     }
 
     func arrange() {
@@ -101,30 +109,30 @@ class AnnouncementCell: UICollectionViewCell {
         contentView.addSubview(bodyLabel)
         contentView.addSubview(callToActionButton)
 
-        blackView.snp_makeConstraints { make in
+        blackView.snp.makeConstraints { make in
             make.edges.equalTo(contentView).inset(UIEdgeInsets(top: 1))
         }
-        imageView.snp_makeConstraints { make in
+        imageView.snp.makeConstraints { make in
             make.top.leading.equalTo(contentView).inset(Size.margins)
             make.width.equalTo(Size.imageSize)
-            make.bottom.lessThanOrEqualTo(contentView.snp_bottom).inset(Size.margins).priorityHigh()
-            imageHeightConstraint = make.height.equalTo(0).priorityMedium().constraint
+            make.bottom.lessThanOrEqualTo(contentView.snp.bottom).inset(Size.margins).priority(Priority.high)
+            imageHeightConstraint = make.height.equalTo(0).priority(Priority.medium).constraint
         }
-        closeButton.snp_makeConstraints { make in
+        closeButton.snp.makeConstraints { make in
             make.top.trailing.equalTo(contentView)
             make.width.height.equalTo(Size.closeButtonSize)
         }
-        titleLabel.snp_makeConstraints { make in
-            make.leading.equalTo(imageView.snp_trailing).offset(Size.textLeadingMargin)
+        titleLabel.snp.makeConstraints { make in
+            make.leading.equalTo(imageView.snp.trailing).offset(Size.textLeadingMargin)
             make.top.equalTo(imageView)
-            make.trailing.equalTo(closeButton.snp_leading)
+            make.trailing.equalTo(closeButton.snp.leading)
         }
-        bodyLabel.snp_makeConstraints { make in
-            make.top.equalTo(titleLabel.snp_bottom).offset(Size.textVerticalMargin)
+        bodyLabel.snp.makeConstraints { make in
+            make.top.equalTo(titleLabel.snp.bottom).offset(Size.textVerticalMargin)
             make.leading.trailing.equalTo(titleLabel)
         }
-        callToActionButton.snp_makeConstraints { make in
-            make.top.equalTo(bodyLabel.snp_bottom).offset(Size.textVerticalMargin)
+        callToActionButton.snp.makeConstraints { make in
+            make.top.equalTo(bodyLabel.snp.bottom).offset(Size.textVerticalMargin)
             make.leading.trailing.equalTo(titleLabel)
         }
     }
@@ -132,7 +140,7 @@ class AnnouncementCell: UICollectionViewCell {
 }
 
 extension AnnouncementCell {
-    override public func prepareForReuse() {
+    override func prepareForReuse() {
         config = Config()
     }
 }

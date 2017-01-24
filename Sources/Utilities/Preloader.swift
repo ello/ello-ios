@@ -4,54 +4,53 @@
 
 import PINRemoteImage
 
-public struct Preloader {
+struct Preloader {
 
-    // public so that we can swap out a fake in specs
-    public var manager = PINRemoteImageManager.sharedImageManager()
+    // exposed so that we can swap out a fake in specs
+    var manager = PINRemoteImageManager.shared()
 
-    public init(){}
+    init(){}
 
-    public func preloadImages(jsonables: [JSONAble]) {
-        
+    func preloadImages(_ jsonables: [JSONAble]) {
         for jsonable in jsonables {
 
             // activities avatar
             if let activity = jsonable as? Activity,
-                authorable = activity.subject as? Authorable,
-                author = authorable.author,
-                avatarURL = author.avatarURL()
+                let authorable = activity.subject as? Authorable,
+                let author = authorable.author,
+                let avatarURL = author.avatarURL()
             {
-                preloadUrl(avatarURL)
+                preloadUrl(avatarURL as URL)
             }
 
             // post / comment avatars
             else if let authorable = jsonable as? Authorable,
-                author = authorable.author,
-                avatarURL = author.avatarURL()
+                let author = authorable.author,
+                let avatarURL = author.avatarURL()
             {
-                preloadUrl(avatarURL)
+                preloadUrl(avatarURL as URL)
             }
 
             // user's posts avatars
             else if let user = jsonable as? User,
-                posts = user.posts
+                let posts = user.posts
             {
                 if let userAvatarURL = user.avatarURL() {
-                    preloadUrl(userAvatarURL)
+                    preloadUrl(userAvatarURL as URL)
                 }
 
                 for post in posts {
                     if let author = post.author,
-                        avatarURL = author.avatarURL()
+                        let avatarURL = author.avatarURL()
                     {
-                        preloadUrl(avatarURL)
+                        preloadUrl(avatarURL as URL)
                     }
                 }
             }
 
             // activity image regions
             if let activity = jsonable as? Activity,
-                post = activity.subject as? Post
+                let post = activity.subject as? Post
             {
                 preloadImagesinPost(post)
             }
@@ -68,7 +67,7 @@ public struct Preloader {
 
             // user's posts image regions
             else if let user = jsonable as? User,
-                posts = user.posts
+                let posts = user.posts
             {
                 for post in posts {
                     preloadImagesinPost(post)
@@ -77,16 +76,16 @@ public struct Preloader {
 
             // categories
             else if let category = jsonable as? Category,
-                url = category.tileURL
+                let url = category.tileURL
             {
-                preloadUrl(url)
+                preloadUrl(url as URL)
             }
 
             // promotionals
             else if let promotional = jsonable as? PagePromotional,
-                url = promotional.tileURL
+                let url = promotional.tileURL
             {
-                preloadUrl(url)
+                preloadUrl(url as URL)
             }
 
             // TODO: account for discovery when the api includes assets in the discovery
@@ -94,39 +93,39 @@ public struct Preloader {
         }
     }
 
-    private func preloadUserAvatar(post: Post, streamKind: StreamKind) {
+    fileprivate func preloadUserAvatar(_ post: Post, streamKind: StreamKind) {
         if let content = post.content {
             for region in content {
                 if let imageRegion = region as? ImageRegion,
-                    asset = imageRegion.asset,
-                    attachment = asset.oneColumnAttachment
+                    let asset = imageRegion.asset,
+                    let attachment = asset.oneColumnAttachment
                 {
-                    preloadUrl(attachment.url)
+                    preloadUrl(attachment.url as URL)
                 }
             }
         }
     }
 
-    private func preloadImagesinPost(post: Post) {
+    fileprivate func preloadImagesinPost(_ post: Post) {
         if let content = post.content {
             preloadImagesInRegions(content)
         }
     }
 
-    private func preloadImagesInRegions(regions: [Regionable]) {
+    fileprivate func preloadImagesInRegions(_ regions: [Regionable]) {
         for region in regions {
             if let imageRegion = region as? ImageRegion,
-                asset = imageRegion.asset,
-                attachment = asset.oneColumnAttachment
+                let asset = imageRegion.asset,
+                let attachment = asset.oneColumnAttachment
             {
-                preloadUrl(attachment.url)
+                preloadUrl(attachment.url as URL)
             }
         }
     }
 
-    private func preloadUrl(url: NSURL) {
+    fileprivate func preloadUrl(_ url: URL) {
         if !url.hasGifExtension {
-            manager.prefetchImageWithURL(url, options: PINRemoteImageManagerDownloadOptions.DownloadOptionsNone)
+            manager?.prefetchImage(with: url, options: PINRemoteImageManagerDownloadOptions())
         }
     }
 }

@@ -17,7 +17,7 @@ class ProfileNamesSizeCalculatorSpec: QuickSpec {
                 ])
                 let calc = ProfileNamesSizeCalculator()
                 var height: CGFloat!
-                calc.calculate(StreamCellItem(jsonable: user, type: .Header), maxWidth: 320)
+                calc.calculate(StreamCellItem(jsonable: user, type: .header), maxWidth: 320)
                     .onSuccess { h in height = h }
                     .onFail { _ in }
                 expect(height) == 57
@@ -29,7 +29,7 @@ class ProfileNamesSizeCalculatorSpec: QuickSpec {
                 ])
                 let calc = ProfileNamesSizeCalculator()
                 var height: CGFloat!
-                calc.calculate(StreamCellItem(jsonable: user, type: .Header), maxWidth: 320)
+                calc.calculate(StreamCellItem(jsonable: user, type: .header), maxWidth: 320)
                     .onSuccess { h in height = h }
                     .onFail { _ in }
                 expect(height) == 76

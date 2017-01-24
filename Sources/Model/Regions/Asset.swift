@@ -2,27 +2,39 @@
 ///  Asset.swift
 //
 
-import Crashlytics
 import Foundation
 import SwiftyJSON
+
 
 let AssetVersion = 1
 
 @objc(Asset)
-public final class Asset: JSONAble {
+final class Asset: JSONAble {
+    enum AttachmentType {
+        case optimized
+        case smallScreen
+        case ldpi
+        case mdpi
+        case hdpi
+        case xhdpi
+        case original
+        case large
+        case regular
+        case small
+    }
 
     // active record
-    public let id: String
+    let id: String
     // optional
-    public var optimized: Attachment?
-    public var smallScreen: Attachment?
-    public var ldpi: Attachment?
-    public var mdpi: Attachment?
-    public var hdpi: Attachment?
-    public var xhdpi: Attachment?
-    public var original: Attachment?
+    var optimized: Attachment?
+    var smallScreen: Attachment?
+    var ldpi: Attachment?
+    var mdpi: Attachment?
+    var hdpi: Attachment?
+    var xhdpi: Attachment?
+    var original: Attachment?
     // optional avatar
-    public var largeOrBest: Attachment? {
+    var largeOrBest: Attachment? {
         // we originally had this expressed via
         // return large ?? optimized ?? xhdpi ?? hdpi ?? regular
         //
@@ -36,14 +48,22 @@ public final class Asset: JSONAble {
         return nil
 
     }
-    public var large: Attachment?
-    public var regular: Attachment?
-    public var small: Attachment?
+    var large: Attachment?
+    var regular: Attachment?
+    var small: Attachment?
+    var allAttachments: [(AttachmentType, Attachment)] {
+        let possibles: [(AttachmentType, Attachment?)] = [(.optimized, optimized), (.smallScreen, smallScreen), (.ldpi, ldpi), (.mdpi, mdpi), (.hdpi, hdpi), (.xhdpi, xhdpi), (.original, original), (.large, large), (.regular, regular), (.small, small)]
+        return possibles.flatMap() { type, attachment in
+            guard  let attachment = attachment else { return nil }
+            return (type, attachment)
+        }
+    }
+
     // computed
-    public var isGif: Bool {
+    var isGif: Bool {
         return self.optimized?.type == "image/gif"
     }
-    public var isLargeGif: Bool {
+    var isLargeGif: Bool {
         if isGif {
             if let size = self.optimized?.size {
                 return size >= 3_145_728
@@ -52,11 +72,11 @@ public final class Asset: JSONAble {
         return false
     }
 
-	public var oneColumnAttachment: Attachment? {
+	var oneColumnAttachment: Attachment? {
         return self.hdpi
     }
 
-    public var gridLayoutAttachment: Attachment? {
+    var gridLayoutAttachment: Attachment? {
         let isWide = Window.isWide(Window.width)
         if isWide {
             return self.hdpi
@@ -68,19 +88,28 @@ public final class Asset: JSONAble {
 
 // MARK: Initialization
 
-    public convenience init(url: NSURL) {
-        self.init(id: NSUUID().UUIDString)
+    convenience init(url: URL) {
+        self.init(id: UUID().uuidString)
 
         let attachment = Attachment(url: url)
         self.optimized = attachment
+        self.smallScreen = attachment
+        self.ldpi = attachment
+        self.mdpi = attachment
+        self.hdpi = attachment
+        self.xhdpi = attachment
+        self.original = attachment
+        self.large = attachment
+        self.regular = attachment
+        self.small = attachment
     }
 
-    public convenience init(url: NSURL, gifData: NSData, posterImage: UIImage) {
-        self.init(id: NSUUID().UUIDString)
+    convenience init(url: URL, gifData: Data, posterImage: UIImage) {
+        self.init(id: UUID().uuidString)
 
         let optimized = Attachment(url: url)
         optimized.type = "image/gif"
-        optimized.size = gifData.length
+        optimized.size = gifData.count
         optimized.width = Int(posterImage.size.width)
         optimized.height = Int(posterImage.size.height)
         self.optimized = optimized
@@ -92,8 +121,8 @@ public final class Asset: JSONAble {
         self.hdpi = hdpi
     }
 
-    public convenience init(url: NSURL, image: UIImage) {
-        self.init(id: NSUUID().UUIDString)
+    convenience init(url: URL, image: UIImage) {
+        self.init(id: UUID().uuidString)
 
         let optimized = Attachment(url: url)
         optimized.width = Int(image.size.width)
@@ -103,7 +132,7 @@ public final class Asset: JSONAble {
         self.optimized = optimized
     }
 
-    public init(id: String)
+    init(id: String)
     {
         self.id = id
         super.init(version: AssetVersion)
@@ -111,7 +140,7 @@ public final class Asset: JSONAble {
 
 // MARK: NSCoding
 
-    public required init(coder aDecoder: NSCoder) {
+    required init(coder aDecoder: NSCoder) {
         let decoder = Coder(aDecoder)
         // required
         self.id = decoder.decodeKey("id")
@@ -130,7 +159,7 @@ public final class Asset: JSONAble {
         super.init(coder: decoder.coder)
     }
 
-    public override func encodeWithCoder(encoder: NSCoder) {
+    override func encode(with encoder: NSCoder) {
         let coder = Coder(encoder)
         // required
         coder.encodeObject(id, forKey: "id")
@@ -146,18 +175,17 @@ public final class Asset: JSONAble {
         coder.encodeObject(large, forKey: "large")
         coder.encodeObject(regular, forKey: "regular")
         coder.encodeObject(small, forKey: "small")
-        super.encodeWithCoder(coder.coder)
+        super.encode(with: coder.coder)
     }
 
 // MARK: JSONAble
 
-    override class public func fromJSON(data: [String: AnyObject]) -> JSONAble {
+    override class func fromJSON(_ data: [String: AnyObject]) -> JSONAble {
         let json = JSON(data)
-        Crashlytics.sharedInstance().setObjectValue(json.rawString(), forKey: CrashlyticsKey.AssetFromJSON.rawValue)
         return parseAsset(json["id"].stringValue, node: data["attachment"] as? [String: AnyObject])
     }
 
-    class public func parseAsset(id: String, node: [String: AnyObject]?) -> Asset {
+    class func parseAsset(_ id: String, node: [String: AnyObject]?) -> Asset {
         let asset = Asset(id: id)
         // optional
         if let optimized = node?["optimized"] as? [String: AnyObject] {
@@ -192,6 +220,33 @@ public final class Asset: JSONAble {
             asset.small = Attachment.fromJSON(small) as? Attachment
         }
         return asset
+    }
+}
+
+extension Asset {
+    func replace(attachmentType: AttachmentType, with attachment: Attachment?) {
+        switch attachmentType {
+        case .optimized:
+            optimized = attachment
+        case .smallScreen:
+            smallScreen = attachment
+        case .ldpi:
+            ldpi = attachment
+        case .mdpi:
+            mdpi = attachment
+        case .hdpi:
+            hdpi = attachment
+        case .xhdpi:
+            xhdpi = attachment
+        case .original:
+            original = attachment
+        case .large:
+            large = attachment
+        case .regular:
+            regular = attachment
+        case .small:
+            small = attachment
+        }
     }
 }
 

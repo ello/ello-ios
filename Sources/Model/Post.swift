@@ -2,67 +2,66 @@
 ///  Post.swift
 //
 
-import Crashlytics
 import SwiftyJSON
-import YapDatabase
+
 
 // version 1: initial
 // version 2: added "watching"
 let PostVersion = 2
 
 @objc(Post)
-public final class Post: JSONAble, Authorable, Groupable {
+final class Post: JSONAble, Authorable, Groupable {
 
     // active record
-    public let id: String
-    public let createdAt: NSDate
+    let id: String
+    let createdAt: Date
     // required
-    public let authorId: String
-    public let href: String
-    public let token: String
-    public let isAdultContent: Bool
-    public let contentWarning: String
-    public let allowComments: Bool
-    public var reposted: Bool
-    public var loved: Bool
-    public var watching: Bool
-    public let summary: [Regionable]
+    let authorId: String
+    let href: String
+    let token: String
+    let isAdultContent: Bool
+    let contentWarning: String
+    let allowComments: Bool
+    var reposted: Bool
+    var loved: Bool
+    var watching: Bool
+    let summary: [Regionable]
     // optional
-    public var content: [Regionable]?
-    public var body: [Regionable]?
-    public var repostContent: [Regionable]?
-    public var repostId: String?
-    public var repostPath: String?
-    public var repostViaId: String?
-    public var repostViaPath: String?
-    public var viewsCount: Int?
-    public var commentsCount: Int?
-    public var repostsCount: Int?
-    public var lovesCount: Int?
+    var content: [Regionable]?
+    var body: [Regionable]?
+    var repostContent: [Regionable]?
+    var repostId: String?
+    var repostPath: String?
+    var repostViaId: String?
+    var repostViaPath: String?
+    var viewsCount: Int?
+    var commentsCount: Int?
+    var repostsCount: Int?
+    var lovesCount: Int?
     // links
-    public var assets: [Asset]? {
+    var assets: [Asset]? {
         return getLinkArray("assets") as? [Asset]
     }
-    public var author: User? {
-        return ElloLinkedStore.sharedInstance.getObject(self.authorId, type: .UsersType) as? User
+    var author: User? {
+        return ElloLinkedStore.sharedInstance.getObject(self.authorId, type: .usersType) as? User
     }
-    public var categories: [Category] {
+    var categories: [Category] {
         guard let categories = getLinkArray("categories") as? [Category] else {
             return []
         }
         return categories
     }
-    public var category: Category? {
+    var category: Category? {
         return categories.first
     }
-    public var repostAuthor: User? {
+    var repostAuthor: User? {
         return getLinkObject("repost_author") as? User
     }
-    public var repostSource: Post? {
+    var repostSource: Post? {
         return getLinkObject("reposted_source") as? Post
     }
     // nested resources
-    public var comments: [ElloComment]? {
+    var comments: [ElloComment]? {
         if let nestedComments = getLinkArray("comments") as? [ElloComment] {
             for comment in nestedComments {
                 comment.loadedFromPostId = self.id
@@ -72,9 +71,9 @@ public final class Post: JSONAble, Authorable, Groupable {
         return nil
     }
     // links post with comments
-    public var groupId: String { return "Post-\(id)" }
+    var groupId: String { return "Post-\(id)" }
     // computed properties
-    public var shareLink: String? {
+    var shareLink: String? {
         get {
             if let author = self.author {
                 return "\(ElloURI.baseURL)/\(author.username)/post/\(self.token)"
@@ -84,16 +83,16 @@ public final class Post: JSONAble, Authorable, Groupable {
             }
         }
     }
-    public var collapsed: Bool { return !contentWarning.isEmpty }
-    public var isRepost: Bool {
+    var collapsed: Bool { return !contentWarning.isEmpty }
+    var isRepost: Bool {
         return (repostContent?.count ?? 0) > 0
     }
-    private var commentsCountChangedNotification: NotificationObserver?
+    fileprivate var commentsCountChangedNotification: NotificationObserver?
 
 // MARK: Initialization
 
-    public init(id: String,
-        createdAt: NSDate,
+    init(id: String,
+        createdAt: Date,
         authorId: String,
         href: String,
         token: String,
@@ -135,7 +134,7 @@ public final class Post: JSONAble, Authorable, Groupable {
 
 // MARK: NSCoding
 
-    public required init(coder aDecoder: NSCoder) {
+    required init(coder aDecoder: NSCoder) {
         let decoder = Coder(aDecoder)
         // active record
         self.id = decoder.decodeKey("id")
@@ -178,7 +177,7 @@ public final class Post: JSONAble, Authorable, Groupable {
         }
     }
 
-    public override func encodeWithCoder(encoder: NSCoder) {
+    override func encode(with encoder: NSCoder) {
         let coder = Coder(encoder)
         // active record
         coder.encodeObject(id, forKey: "id")
@@ -206,24 +205,20 @@ public final class Post: JSONAble, Authorable, Groupable {
         coder.encodeObject(commentsCount, forKey: "commentsCount")
         coder.encodeObject(repostsCount, forKey: "repostsCount")
         coder.encodeObject(lovesCount, forKey: "lovesCount")
-        super.encodeWithCoder(coder.coder)
+        super.encode(with: coder.coder)
     }
 
 // MARK: JSONAble
 
-    override public class func fromJSON(data: [String: AnyObject]) -> JSONAble {
+    override class func fromJSON(_ data: [String: AnyObject]) -> JSONAble {
         let json = JSON(data)
-        Crashlytics.sharedInstance().setObjectValue(json.rawString(), forKey: CrashlyticsKey.PostFromJSON.rawValue)
         let repostContent = RegionParser.regions("repost_content", json: json)
-        var createdAt: NSDate
-        if let date = json["created_at"].stringValue.toNSDate() {
-            // good to go
+        var createdAt: Date
+        if let date = json["created_at"].stringValue.toDate() {
             createdAt = date
         }
         else {
-            createdAt = NSDate()
-            // send data to segment to try to get more data about this
-            Tracker.sharedTracker.createdAtCrash("Post", json: json.rawString())
+            createdAt = Date()
         }
         // create post
         let post = Post(

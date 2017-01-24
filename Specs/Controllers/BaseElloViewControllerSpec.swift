@@ -2,7 +2,7 @@
 ///  BaseElloViewControllerSpec.swift
 //
 
-import Ello
+@testable import Ello
 import Quick
 import Nimble
 

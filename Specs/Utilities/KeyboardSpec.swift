@@ -2,7 +2,7 @@
 ///  KeyboardSpec.swift
 //
 
-import Ello
+@testable import Ello
 import Quick
 import Nimble
 
@@ -15,19 +15,19 @@ class KeyboardSpec: QuickSpec {
 
         xdescribe("Responds to keyboard being shown") {
             beforeEach() {
-                let view = UIView(frame: UIScreen.mainScreen().bounds)
-                window = UIWindow(frame: UIScreen.mainScreen().bounds)
+                let view = UIView(frame: UIScreen.main.bounds)
+                window = UIWindow(frame: UIScreen.main.bounds)
                 window.makeKeyAndVisible()
                 window.addSubview(view)
 
                 textView = UITextView(frame: window.bounds)
                 view.addSubview(textView)
 
-                insetScrollView = UIScrollView(frame: window.bounds.growUp(20))
+                insetScrollView = UIScrollView(frame: window.bounds.grow(up: 20))
                 view.addSubview(insetScrollView)
 
-                textView.becomeFirstResponder()
-                insetScrollView.becomeFirstResponder()
+                _ = textView.becomeFirstResponder()
+                _ = insetScrollView.becomeFirstResponder()
             }
 
             it("sets the 'visible' property") {
@@ -51,7 +51,7 @@ class KeyboardSpec: QuickSpec {
             }
 
             it("sets the 'endFrame' property") {
-                expect(keyboard.endFrame).toNot(equal(CGRectZero))
+                expect(keyboard.endFrame).toNot(equal(CGRect.zero))
             }
 
             it("can calculate insets of the scrollview") {

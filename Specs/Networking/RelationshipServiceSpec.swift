@@ -2,7 +2,7 @@
 ///  RelationshipServiceSpec.swift
 //
 
-import Ello
+@testable import Ello
 import Quick
 import Nimble
 import Moya
@@ -16,7 +16,7 @@ class RelationshipServiceSpec: QuickSpec {
 
             it("succeeds") {
                 var loadedSuccessfully = false
-                subject.updateRelationship(currentUserId: "", userId: "42", relationshipPriority: RelationshipPriority.Following,
+                subject.updateRelationship(currentUserId: "", userId: "42", relationshipPriority: RelationshipPriority.following,
                     success: {
                         (data, responseConfig) in
                         loadedSuccessfully = true
@@ -29,7 +29,7 @@ class RelationshipServiceSpec: QuickSpec {
             it("fails") {
                 ElloProvider.sharedProvider = ElloProvider.ErrorStubbingProvider()
                 var loadedSuccessfully = true
-                subject.updateRelationship(currentUserId: "", userId: "42", relationshipPriority: RelationshipPriority.Following,
+                subject.updateRelationship(currentUserId: "", userId: "42", relationshipPriority: RelationshipPriority.following,
                     success: {
                         (data, responseConfig) in
                         loadedSuccessfully = true

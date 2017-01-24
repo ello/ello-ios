@@ -5,13 +5,13 @@
 import FutureKit
 
 
-public class HireService {
+class HireService {
 
-    public init() {}
+    init() {}
 
-    public func hire(user user: User, body: String) -> Future<Void> {
+    func hire(user: User, body: String) -> Future<Void> {
         let promise = Promise<Void>()
-        ElloProvider.shared.elloRequest(.Hire(userId: user.id, body: body),
+        ElloProvider.shared.elloRequest(.hire(userId: user.id, body: body),
             success: { _ in
                 promise.completeWithSuccess(Void())
             },
@@ -22,9 +22,9 @@ public class HireService {
         return promise.future
     }
 
-    public func collaborate(user user: User, body: String) -> Future<Void> {
+    func collaborate(user: User, body: String) -> Future<Void> {
         let promise = Promise<Void>()
-        ElloProvider.shared.elloRequest(.Collaborate(userId: user.id, body: body),
+        ElloProvider.shared.elloRequest(.collaborate(userId: user.id, body: body),
             success: { _ in
                 promise.completeWithSuccess(Void())
             },

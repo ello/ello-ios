@@ -2,21 +2,21 @@
 ///  Validator.swift
 //
 
-public struct Validator {
+struct Validator {
 
-    public static func hasValidLinks(links: String) -> Bool {
-        let splitLinks = links.split(char: ",").map { $0.trimmed() }
+    static func hasValidLinks(_ links: String) -> Bool {
+        let splitLinks = links.split(",").map { $0.trimmed() }
         return splitLinks.count > 0 && splitLinks.all {
             return Validator.isValidLink($0)
         }
     }
 
-    public static func isValidLink(link: String) -> Bool {
-        guard let url = NSURL(string: link) else {
+    static func isValidLink(_ link: String) -> Bool {
+        guard let url = URL(string: link) else {
             return false
         }
 
-        if url.scheme?.lowercaseString == "http" || url.scheme?.lowercaseString == "https" {
+        if url.scheme?.lowercased() == "http" || url.scheme?.lowercased() == "https" {
             return isValidHost(url.host)
         }
         else {
@@ -24,16 +24,16 @@ public struct Validator {
         }
     }
 
-    private static func isValidHost(host: String?) -> Bool {
+    fileprivate static func isValidHost(_ host: String?) -> Bool {
         guard let host = host else { return false }
-        return host.contains(".") && !host.beginsWith(".") && !host.endsWith(".")
+        return host.contains(".") && !host.hasPrefix(".") && !host.hasSuffix(".")
     }
 
-    public static func hasValidSignUpCredentials(email email: String, username: String, password: String) -> Bool {
+    static func hasValidSignUpCredentials(email: String, username: String, password: String) -> Bool {
         return isValidEmail(email) && isValidUsername(username) && isValidPassword(password)
     }
 
-    public static func invalidSignUpUsernameReason(username: String) -> String? {
+    static func invalidSignUpUsernameReason(_ username: String) -> String? {
         if username.isEmpty {
             return InterfaceString.Validator.UsernameRequired
         }
@@ -43,7 +43,7 @@ public struct Validator {
         return nil
     }
 
-    public static func invalidSignUpEmailReason(email: String) -> String? {
+    static func invalidSignUpEmailReason(_ email: String) -> String? {
         if email.isEmpty {
             return InterfaceString.Validator.EmailRequired
         }
@@ -53,7 +53,7 @@ public struct Validator {
         return nil
     }
 
-    public static func invalidSignUpPasswordReason(password: String) -> String? {
+    static func invalidSignUpPasswordReason(_ password: String) -> String? {
         if password.isEmpty {
             return InterfaceString.Validator.PasswordRequired
         }
@@ -63,11 +63,11 @@ public struct Validator {
         return nil
     }
 
-    public static func hasValidLoginCredentials(username username: String, password: String) -> Bool {
+    static func hasValidLoginCredentials(username: String, password: String) -> Bool {
         return (isValidEmail(username) || isValidUsername(username)) && isValidPassword(password)
     }
 
-    public static func invalidLoginCredentialsReason(username username: String, password: String) -> String? {
+    static func invalidLoginCredentialsReason(username: String, password: String) -> String? {
         if username.isEmpty {
             return InterfaceString.Validator.UsernameRequired
         }
@@ -83,21 +83,21 @@ public struct Validator {
         return nil
     }
 
-    public static func isValidEmail(string: String) -> Bool {
+    static func isValidEmail(_ string: String) -> Bool {
         let emailRegEx = "^[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,20}$"
         let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
-        let result = emailTest.evaluateWithObject(string)
-        return result ?? false
+        let result = emailTest.evaluate(with: string)
+        return result
     }
 
-    public static func isValidUsername(string: String) -> Bool {
+    static func isValidUsername(_ string: String) -> Bool {
         let usernameRegEx = "^[_-]|[\\w-]{2,}$"
         let usernameTest = NSPredicate(format:"SELF MATCHES %@", usernameRegEx)
-        let result = usernameTest.evaluateWithObject(string)
-        return result ?? false
+        let result = usernameTest.evaluate(with: string)
+        return result
     }
 
-    public static func isValidPassword(string: String) -> Bool {
+    static func isValidPassword(_ string: String) -> Bool {
         return string.characters.count >= 8
     }
 

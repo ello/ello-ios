@@ -4,7 +4,7 @@
 
 import UIKit
 
-public class ProfileCategoriesPresentationController: UIPresentationController {
+class ProfileCategoriesPresentationController: UIPresentationController {
 
     let background: UIView = {
         let background = UIView(frame: .zero)
@@ -12,37 +12,37 @@ public class ProfileCategoriesPresentationController: UIPresentationController {
         return background
     }()
 
-    public init(presentedViewController: UIViewController, presentingViewController: UIViewController?, backgroundColor: UIColor) {
-        super.init(presentedViewController: presentedViewController, presentingViewController: presentingViewController)
+    init(presentedViewController: UIViewController, presentingViewController: UIViewController?, backgroundColor: UIColor) {
+        super.init(presentedViewController: presentedViewController, presenting: presentingViewController)
         self.background.backgroundColor = backgroundColor
     }
 }
 
 // MARK: Presentation
-public extension ProfileCategoriesPresentationController {
-    override public func presentationTransitionWillBegin() {
+extension ProfileCategoriesPresentationController {
+    override func presentationTransitionWillBegin() {
         guard let containerView = containerView else { return }
         background.alpha = 0
         background.frame = containerView.bounds
         containerView.addSubview(background)
 
-        let transitionCoordinator = presentingViewController.transitionCoordinator()
-        transitionCoordinator?.animateAlongsideTransition({ _ in
+        let transitionCoordinator = presentingViewController.transitionCoordinator
+        transitionCoordinator?.animate(alongsideTransition: { _ in
                 self.background.alpha = 1
-            }, completion: .None)
-        if let presentedView = presentedView() {
+            }, completion: .none)
+        if let presentedView = presentedView {
             containerView.addSubview(presentedView)
         }
     }
 
-    override public func dismissalTransitionWillBegin() {
-        let transitionCoordinator = presentingViewController.transitionCoordinator()
-        transitionCoordinator?.animateAlongsideTransition({ _ in
+    override func dismissalTransitionWillBegin() {
+        let transitionCoordinator = presentingViewController.transitionCoordinator
+        transitionCoordinator?.animate(alongsideTransition: { _ in
             self.background.alpha = 0
-            }, completion: .None)
+            }, completion: .none)
     }
 
-    override public func dismissalTransitionDidEnd(completed: Bool) {
+    override func dismissalTransitionDidEnd(_ completed: Bool) {
         if completed {
             background.removeFromSuperview()
         }

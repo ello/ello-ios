@@ -3,14 +3,14 @@
 //
 
 protocol CreateProfileDelegate: class {
-    func presentController(controller: UIViewController)
+    func present(controller: UIViewController)
     func dismissController()
 
-    func assignName(name: String?) -> ValidationState
-    func assignBio(bio: String?) -> ValidationState
-    func assignLinks(links: String?) -> ValidationState
-    func assignCoverImage(image: ImageRegionData)
-    func assignAvatar(image: ImageRegionData)
+    func assign(name: String?) -> ValidationState
+    func assign(bio: String?) -> ValidationState
+    func assign(links: String?) -> ValidationState
+    func assign(coverImage: ImageRegionData)
+    func assign(avatarImage: ImageRegionData)
 }
 
 protocol CreateProfileScreenProtocol: class {

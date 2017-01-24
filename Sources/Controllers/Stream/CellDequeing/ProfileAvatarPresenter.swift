@@ -5,16 +5,15 @@
 import Foundation
 
 
-public struct ProfileAvatarPresenter {
+struct ProfileAvatarPresenter {
 
-    public static func configure(
-        view: ProfileAvatarView,
+    static func configure(
+        _ view: ProfileAvatarView,
         user: User,
         currentUser: User?)
     {
         let isCurrentUser = (user.id == currentUser?.id)
-        if let cachedImage = TemporaryCache.load(.Avatar)
-            where isCurrentUser
+        if let cachedImage = TemporaryCache.load(.avatar), isCurrentUser
         {
             view.avatarImage = cachedImage
         }
@@ -22,6 +21,6 @@ public struct ProfileAvatarPresenter {
             view.avatarURL = url
         }
 
-        view.badgeVisible = user.totalViewsCount == nil && user.categories?.count > 0
+        view.badgeVisible = user.totalViewsCount == nil && (user.categories?.count ?? 0) > 0
     }
 }

@@ -4,11 +4,11 @@
 
 import Foundation
 
-public struct StreamCellItemParser {
+struct StreamCellItemParser {
 
-    public init(){}
+    init(){}
 
-    public func parse(items: [JSONAble], streamKind: StreamKind, currentUser: User? = nil) -> [StreamCellItem] {
+    func parse(_ items: [JSONAble], streamKind: StreamKind, currentUser: User? = nil) -> [StreamCellItem] {
         let viewsAdultContent = currentUser?.viewsAdultContent ?? false
         let filteredItems = streamKind.filter(items, viewsAdultContent: viewsAdultContent)
         if let posts = filteredItems as? [Post] {
@@ -31,26 +31,26 @@ public struct StreamCellItemParser {
 
 // MARK: - Private
 
-    private func notificationCellItems(notifications: [Notification]) -> [StreamCellItem] {
+    fileprivate func notificationCellItems(_ notifications: [Notification]) -> [StreamCellItem] {
         return notifications.map { notification in
-            return StreamCellItem(jsonable: notification, type: .Notification)
+            return StreamCellItem(jsonable: notification, type: .notification)
         }
     }
 
-    private func announcementCellItems(announcements: [Announcement]) -> [StreamCellItem] {
+    fileprivate func announcementCellItems(_ announcements: [Announcement]) -> [StreamCellItem] {
         return announcements.map { announcement in
-            return StreamCellItem(jsonable: announcement, type: .Announcement)
+            return StreamCellItem(jsonable: announcement, type: .announcement)
         }
     }
 
-    private func postCellItems(posts: [Post], streamKind: StreamKind) -> [StreamCellItem] {
+    fileprivate func postCellItems(_ posts: [Post], streamKind: StreamKind) -> [StreamCellItem] {
         var cellItems: [StreamCellItem] = []
         for post in posts {
             if !streamKind.isProfileStream || post.isRepost {
-                cellItems.append(StreamCellItem(jsonable: post, type: .Header))
+                cellItems.append(StreamCellItem(jsonable: post, type: .header))
             }
             else {
-                cellItems.append(StreamCellItem(jsonable: post, type: .Spacer(height: 30)))
+                cellItems.append(StreamCellItem(jsonable: post, type: .spacer(height: 30)))
             }
             cellItems += postToggleItems(post)
             if post.isRepost {
@@ -73,42 +73,42 @@ public struct StreamCellItemParser {
                 }
             }
             cellItems += footerStreamCellItems(post)
-            cellItems += [StreamCellItem(jsonable: post, type: .Spacer(height: 10))]
+            cellItems += [StreamCellItem(jsonable: post, type: .spacer(height: 10))]
         }
         // set initial state on the items, but don't toggle the footer's state, it is used by comment open/closed
         for item in cellItems {
-            if let post = item.jsonable as? Post where item.type != StreamCellType.Footer {
-                item.state = post.collapsed ? .Collapsed : .Expanded
+            if let post = item.jsonable as? Post, item.type != StreamCellType.footer {
+                item.state = post.collapsed ? .collapsed : .expanded
             }
         }
         return cellItems
     }
 
-    private func commentCellItems(comments: [ElloComment]) -> [StreamCellItem] {
+    fileprivate func commentCellItems(_ comments: [ElloComment]) -> [StreamCellItem] {
         var cellItems: [StreamCellItem] = []
         for comment in comments {
-            cellItems.append(StreamCellItem(jsonable: comment, type: .CommentHeader))
+            cellItems.append(StreamCellItem(jsonable: comment, type: .commentHeader))
             cellItems += regionItems(comment, content: comment.content)
         }
         return cellItems
     }
 
-    private func postToggleItems(post: Post) -> [StreamCellItem] {
+    fileprivate func postToggleItems(_ post: Post) -> [StreamCellItem] {
         if post.collapsed {
-            return [StreamCellItem(jsonable: post, type: .Toggle)]
+            return [StreamCellItem(jsonable: post, type: .toggle)]
         }
         else {
             return []
         }
     }
 
-    private func regionItems(jsonable: JSONAble, content: [Regionable]) -> [StreamCellItem] {
+    fileprivate func regionItems(_ jsonable: JSONAble, content: [Regionable]) -> [StreamCellItem] {
         var cellArray: [StreamCellItem] = []
         for region in content {
-            let kind = RegionKind(rawValue: region.kind) ?? .Unknown
+            let kind = RegionKind(rawValue: region.kind) ?? .unknown
             let types = kind.streamCellTypes(region)
             for type in types {
-                if type != .Unknown {
+                if type != .unknown {
                     let item: StreamCellItem = StreamCellItem(jsonable: jsonable, type: type)
                     cellArray.append(item)
                 }
@@ -117,39 +117,39 @@ public struct StreamCellItemParser {
         return cellArray
     }
 
-    private func userCellItems(users: [User]) -> [StreamCellItem] {
+    fileprivate func userCellItems(_ users: [User]) -> [StreamCellItem] {
         return users.map { user in
-            return StreamCellItem(jsonable: user, type: .UserListItem)
+            return StreamCellItem(jsonable: user, type: .userListItem)
         }
     }
 
-    private func footerStreamCellItems(post: Post) -> [StreamCellItem] {
-        return [StreamCellItem(jsonable: post, type: .Footer)]
+    fileprivate func footerStreamCellItems(_ post: Post) -> [StreamCellItem] {
+        return [StreamCellItem(jsonable: post, type: .footer)]
     }
 }
 
 
 // MARK: For Testing
-public extension StreamCellItemParser {
-    public func testingNotificationCellItems(notifications: [Notification]) -> [StreamCellItem] {
+extension StreamCellItemParser {
+    func testingNotificationCellItems(_ notifications: [Notification]) -> [StreamCellItem] {
         return notificationCellItems(notifications)
     }
-    public func testingPostCellItems(posts: [Post], streamKind: StreamKind) -> [StreamCellItem] {
+    func testingPostCellItems(_ posts: [Post], streamKind: StreamKind) -> [StreamCellItem] {
         return postCellItems(posts, streamKind: streamKind)
     }
-    public func testingCommentCellItems(comments: [ElloComment]) -> [StreamCellItem] {
+    func testingCommentCellItems(_ comments: [ElloComment]) -> [StreamCellItem] {
         return commentCellItems(comments)
     }
-    public func testingPostToggleItems(post: Post) -> [StreamCellItem] {
+    func testingPostToggleItems(_ post: Post) -> [StreamCellItem] {
         return postToggleItems(post)
     }
-    public func testingRegionItems(jsonable: JSONAble, content: [Regionable]) -> [StreamCellItem] {
+    func testingRegionItems(_ jsonable: JSONAble, content: [Regionable]) -> [StreamCellItem] {
         return regionItems(jsonable, content: content)
     }
-    public func testingUserCellItems(users: [User]) -> [StreamCellItem] {
+    func testingUserCellItems(_ users: [User]) -> [StreamCellItem] {
         return userCellItems(users)
     }
-    public func testingFooterStreamCellItems(post: Post) -> [StreamCellItem] {
+    func testingFooterStreamCellItems(_ post: Post) -> [StreamCellItem] {
         return footerStreamCellItems(post)
     }
 }

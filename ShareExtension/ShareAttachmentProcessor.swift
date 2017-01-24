@@ -5,21 +5,22 @@
 import Foundation
 import UIKit
 
-public typealias ExtensionItemProcessor = ExtensionItemPreview? -> Void
-public typealias ShareAttachmentFilter = (ExtensionItemPreview) -> Bool
 
-public class ShareAttachmentProcessor {
+typealias ExtensionItemProcessor = (ExtensionItemPreview?) -> Void
+typealias ShareAttachmentFilter = (ExtensionItemPreview) -> Bool
 
-    public init(){}
+class ShareAttachmentProcessor {
 
-    static public func preview(extensionItem: NSExtensionItem, callback: [ExtensionItemPreview] -> Void) {
-        var previews: [ExtensionItemPreview] = []
-        processAttachments(0, attachments: extensionItem.attachments as? [NSItemProvider] , previews: &previews, callback: callback)
+    init(){}
+
+    static func preview(_ extensionItem: NSExtensionItem, callback: @escaping ([ExtensionItemPreview]) -> Void) {
+        let previews: [ExtensionItemPreview] = []
+        processAttachments(0, attachments: extensionItem.attachments as? [NSItemProvider] , previews: previews, callback: callback)
     }
 
-    static public func hasContent(contentText: String?, extensionItem: NSExtensionItem?) -> Bool {
-        let cleanedText = contentText?.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
-        if cleanedText?.characters.count > 0 {
+    static func hasContent(_ contentText: String?, extensionItem: NSExtensionItem?) -> Bool {
+        let cleanedText = contentText?.trimmingCharacters(in: CharacterSet.whitespaces)
+        if let count = cleanedText?.characters.count, count > 0 {
             return true
         }
 
@@ -44,23 +45,24 @@ public class ShareAttachmentProcessor {
 private extension ShareAttachmentProcessor {
 
     static func processAttachments(
-        index: Int,
+        _ index: Int,
         attachments: [NSItemProvider]?,
-        inout previews: [ExtensionItemPreview],
-        callback: [ExtensionItemPreview] -> Void)
+        previews: [ExtensionItemPreview],
+        callback: @escaping ([ExtensionItemPreview]) -> Void)
     {
         if let attachment = attachments?.safeValue(index) {
             processAttachment(attachment) { preview in
+                var previewsCopy = previews
                 if let preview = preview {
                     let exists = previews.any {$0 == preview}
                     if !exists {
-                        previews.append(preview)
+                        previewsCopy.append(preview)
                     }
                 }
                 self.processAttachments(
                     index + 1,
                     attachments: attachments,
-                    previews: &previews,
+                    previews: previewsCopy,
                     callback: callback
                 )
             }
@@ -70,7 +72,7 @@ private extension ShareAttachmentProcessor {
         }
     }
 
-    static func processAttachment( attachment: NSItemProvider, callback: ExtensionItemProcessor) {
+    static func processAttachment( _ attachment: NSItemProvider, callback: @escaping ExtensionItemProcessor) {
         if attachment.isText() {
             self.processText(attachment, callback: callback)
         }
@@ -85,7 +87,7 @@ private extension ShareAttachmentProcessor {
         }
     }
 
-    static func processText(attachment: NSItemProvider, callback: ExtensionItemProcessor) {
+    static func processText(_ attachment: NSItemProvider, callback: @escaping ExtensionItemProcessor) {
         attachment.loadText(nil) { (item, error) in
             var preview: ExtensionItemPreview?
             if let item = item as? String {
@@ -95,11 +97,11 @@ private extension ShareAttachmentProcessor {
         }
     }
 
-    static func processURL(attachment: NSItemProvider, callback: ExtensionItemProcessor) {
+    static func processURL(_ attachment: NSItemProvider, callback: @escaping ExtensionItemProcessor) {
         attachment.loadURL(nil) {
             (item, error) in
             var link: String?
-            if let item = item as? NSURL {
+            if let item = item as? URL {
                 link = item.absoluteString
             }
             let item = ExtensionItemPreview(text: link)
@@ -107,21 +109,19 @@ private extension ShareAttachmentProcessor {
         }
     }
 
-    static func processImage(attachment: NSItemProvider, callback: ExtensionItemProcessor) {
+    static func processImage(_ attachment: NSItemProvider, callback: @escaping ExtensionItemProcessor) {
         attachment.loadImage(nil) {
             (imageItem, error) in
-            if let imageURL = imageItem as? NSURL {
-                var data: NSData? = NSData(contentsOfURL: imageURL)
+            if let imageURL = imageItem as? URL {
+                var data: Data? = try? Data(contentsOf: imageURL)
                 if data == nil {
-                    if let imageString = imageURL.absoluteString {
-                        data = NSData(contentsOfFile: imageString)
-                    }
+                    data = try? Data(contentsOf: URL(fileURLWithPath: imageURL.absoluteString))
                 }
                 if let imageData = data {
                     processData(imageData, callback)
                 }
             }
-            else if let imageData = imageItem as? NSData {
+            else if let imageData = imageItem as? Data {
                 processData(imageData, callback)
             }
             else if let image = imageItem as? UIImage {
@@ -133,7 +133,7 @@ private extension ShareAttachmentProcessor {
         }
     }
 
-    static func processData(data: NSData, _ callback: ExtensionItemProcessor) {
+    static func processData(_ data: Data, _ callback: @escaping ExtensionItemProcessor) {
         if let image = UIImage(data: data) {
             if UIImage.isGif(data) {
                 image.copyWithCorrectOrientationAndSize() { image in
@@ -150,7 +150,7 @@ private extension ShareAttachmentProcessor {
         }
     }
 
-    static func processImage(image: UIImage, _ callback: ExtensionItemProcessor) {
+    static func processImage(_ image: UIImage, _ callback: @escaping ExtensionItemProcessor) {
         image.copyWithCorrectOrientationAndSize() { image in
             let item = ExtensionItemPreview(image: image)
             callback(item)

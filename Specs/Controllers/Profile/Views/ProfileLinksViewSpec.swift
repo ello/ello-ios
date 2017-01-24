@@ -17,11 +17,11 @@ class ProfileLinksViewSpec: QuickSpec {
                         size: CGSize(width: 375, height: 114)
                         ))
                     subject.externalLinks = [
-                        ExternalLink(url: NSURL(string: "http://ello.co")!, text: "link1"),
-                        ExternalLink(url: NSURL(string: "http://ello.co")!, text: "link2"),
-                        ExternalLink(url: NSURL(string: "http://ello.co")!, text: "link3"),
+                        ExternalLink(url: URL(string: "http://ello.co")!, text: "link1"),
+                        ExternalLink(url: URL(string: "http://ello.co")!, text: "link2"),
+                        ExternalLink(url: URL(string: "http://ello.co")!, text: "link3"),
                     ]
-                    expectValidSnapshot(subject, named: "ProfileLinksView-links", device: .Custom(subject.frame.size))
+                    expectValidSnapshot(subject, named: "ProfileLinksView-links", device: .custom(subject.frame.size))
                 }
                 it("links and icons") {
                     let subject = ProfileLinksView(frame: CGRect(
@@ -29,11 +29,11 @@ class ProfileLinksViewSpec: QuickSpec {
                         size: CGSize(width: 375, height: 85)
                         ))
                     subject.externalLinks = [
-                        ExternalLink(url: NSURL(string: "http://ello.co")!, text: "link1"),
-                        ExternalLink(url: NSURL(string: "http://ello.co")!, text: "link2"),
-                        ExternalLink(url: NSURL(string: "http://ello.co")!, text: "link3", iconURL: NSURL(string: "http://social-icons.ello.co/noimagehere")),
+                        ExternalLink(url: URL(string: "http://ello.co")!, text: "link1"),
+                        ExternalLink(url: URL(string: "http://ello.co")!, text: "link2"),
+                        ExternalLink(url: URL(string: "http://ello.co")!, text: "link3", iconURL: URL(string: "http://social-icons.ello.co/noimagehere")),
                     ]
-                    expectValidSnapshot(subject, named: "ProfileLinksView-links-icons", device: .Custom(subject.frame.size))
+                    expectValidSnapshot(subject, named: "ProfileLinksView-links-icons", device: .custom(subject.frame.size))
                 }
                 it("icons") {
                     let subject = ProfileLinksView(frame: CGRect(
@@ -41,11 +41,11 @@ class ProfileLinksViewSpec: QuickSpec {
                         size: CGSize(width: 375, height: 52)
                         ))
                     subject.externalLinks = [
-                        ExternalLink(url: NSURL(string: "http://ello.co")!, text: "link1", iconURL: NSURL(string: "http://social-icons.ello.co/noimagehere")),
-                        ExternalLink(url: NSURL(string: "http://ello.co")!, text: "link2", iconURL: NSURL(string: "http://social-icons.ello.co/noimagehere")),
-                        ExternalLink(url: NSURL(string: "http://ello.co")!, text: "link3", iconURL: NSURL(string: "http://social-icons.ello.co/noimagehere")),
+                        ExternalLink(url: URL(string: "http://ello.co")!, text: "link1", iconURL: URL(string: "http://social-icons.ello.co/noimagehere")),
+                        ExternalLink(url: URL(string: "http://ello.co")!, text: "link2", iconURL: URL(string: "http://social-icons.ello.co/noimagehere")),
+                        ExternalLink(url: URL(string: "http://ello.co")!, text: "link3", iconURL: URL(string: "http://social-icons.ello.co/noimagehere")),
                     ]
-                    expectValidSnapshot(subject, named: "ProfileLinksView-icons", device: .Custom(subject.frame.size))
+                    expectValidSnapshot(subject, named: "ProfileLinksView-icons", device: .custom(subject.frame.size))
                 }
             }
         }

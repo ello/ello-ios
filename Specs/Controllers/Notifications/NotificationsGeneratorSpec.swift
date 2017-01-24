@@ -21,18 +21,18 @@ class NotificationsGeneratorSpec: QuickSpec {
             placeholderItems = items
         }
 
-        func replacePlaceholder(type: StreamCellType.PlaceholderType, items: [StreamCellItem], completion: ElloEmptyCompletion) {
+        func replacePlaceholder(type: StreamCellType.PlaceholderType, items: [StreamCellItem], completion: @escaping ElloEmptyCompletion) {
             switch type {
-            case .Announcements:
+            case .announcements:
                 announcementItems = items
-            case .Notifications:
+            case .notifications:
                 notificationItems = items
             default:
                 otherPlaceholderLoaded = true
             }
         }
 
-        func setPrimaryJSONAble(jsonable: JSONAble) {
+        func setPrimary(jsonable: JSONAble) {
         }
 
         func primaryJSONAbleNotFound() {
@@ -53,7 +53,7 @@ class NotificationsGeneratorSpec: QuickSpec {
             beforeEach {
                 destination = MockNotificationsDestination()
                 currentUser = User.stub(["id": "42"])
-                streamKind = .Notifications(category: nil)
+                streamKind = .notifications(category: nil)
                 subject = NotificationsGenerator(
                     currentUser: currentUser,
                     streamKind: streamKind,

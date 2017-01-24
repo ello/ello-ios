@@ -2,7 +2,7 @@
 ///  PushPayload.swift
 //
 
-public struct PushPayload {
+struct PushPayload {
     let info: [String: AnyObject]
 
     var applicationTarget: String {

@@ -5,7 +5,7 @@
 import SnapKit
 
 
-public class HireScreen: StreamableScreen {
+class HireScreen: StreamableScreen {
     struct Size {
         static let keyboardButtonHeight: CGFloat = 44
         static let textViewTopMargin: CGFloat = 40
@@ -22,13 +22,13 @@ public class HireScreen: StreamableScreen {
     }
     weak var delegate: HireDelegate?
 
-    private let successView = UIView()
-    private let successLabel = UILabel()
-    private let successImage = UIImageView()
-    private let textView = UITextView()
-    private let placeholder = UILabel()
-    private let keyboardSubmitButton = UIButton()
-    private var keyboardBottomConstraint: Constraint!
+    fileprivate let successView = UIView()
+    fileprivate let successLabel = UILabel()
+    fileprivate let successImage = UIImageView()
+    fileprivate let textView = UITextView()
+    fileprivate let placeholder = UILabel()
+    fileprivate let keyboardSubmitButton = UIButton()
+    fileprivate var keyboardBottomConstraint: Constraint!
 
     override func arrange() {
         super.arrange()
@@ -37,37 +37,37 @@ public class HireScreen: StreamableScreen {
         addSubview(placeholder)
         addSubview(keyboardSubmitButton)
 
-        textView.snp_makeConstraints { make in
+        textView.snp.makeConstraints { make in
             make.leading.trailing.equalTo(self).inset(Size.textViewSideMargins)
-            make.top.equalTo(navigationBar.snp_bottom).offset(Size.textViewTopMargin)
-            make.bottom.equalTo(keyboardSubmitButton.snp_top)
+            make.top.equalTo(navigationBar.snp.bottom).offset(Size.textViewTopMargin)
+            make.bottom.equalTo(keyboardSubmitButton.snp.top)
         }
 
-        placeholder.snp_makeConstraints { make in
+        placeholder.snp.makeConstraints { make in
             make.top.equalTo(textView).offset(Size.placeholderTopMargin)
             make.leading.equalTo(textView)
         }
 
-        keyboardSubmitButton.snp_makeConstraints { make in
+        keyboardSubmitButton.snp.makeConstraints { make in
             make.leading.trailing.equalTo(self)
             make.height.equalTo(Size.keyboardButtonHeight)
-            make.bottom.lessThanOrEqualTo(self).offset(-ElloTabBar.Size.height).priorityRequired()
-            keyboardBottomConstraint = make.bottom.equalTo(self).priorityHigh().constraint
+            make.bottom.lessThanOrEqualTo(self).offset(-ElloTabBar.Size.height).priority(Priority.required)
+            keyboardBottomConstraint = make.bottom.equalTo(self).priority(Priority.high).constraint
         }
 
-        let window = UIApplication.sharedApplication().keyWindow!
+        let window = UIApplication.shared.keyWindow!
         window.addSubview(successView)
         successView.addSubview(successLabel)
         successView.addSubview(successImage)
 
-        successView.snp_makeConstraints { make in
+        successView.snp.makeConstraints { make in
             make.edges.equalTo(window)
         }
-        successLabel.snp_makeConstraints { make in
+        successLabel.snp.makeConstraints { make in
             make.leading.equalTo(successView).offset(Size.successLabelLeading)
             make.centerY.equalTo(successView)
         }
-        successImage.snp_makeConstraints { make in
+        successImage.snp.makeConstraints { make in
             make.leading.equalTo(successView).offset(Size.successImageLeading)
             make.centerY.equalTo(successView)
         }
@@ -77,69 +77,69 @@ public class HireScreen: StreamableScreen {
         super.style()
 
         textView.delegate = self
-        textView.backgroundColor = .clearColor()
-        textView.tintColor = .blackColor()
-        textView.textColor = .blackColor()
+        textView.backgroundColor = .clear
+        textView.tintColor = .black
+        textView.textColor = .black
         textView.font = UIFont.editorFont()
         textView.textContainer.lineFragmentPadding = 0
         textView.showsHorizontalScrollIndicator = false
-        textView.keyboardAppearance = .Dark
+        textView.keyboardAppearance = .dark
 
         placeholder.text = InterfaceString.Omnibar.SayEllo
         placeholder.textColor = .greyC()
         placeholder.font = UIFont.editorFont()
 
-        keyboardSubmitButton.enabled = false
-        keyboardSubmitButton.backgroundColor = .blackColor()
-        keyboardSubmitButton.setTitleColor(.whiteColor(), forState: .Normal)
-        keyboardSubmitButton.setTitleColor(.grey6(), forState: .Disabled)
+        keyboardSubmitButton.isEnabled = false
+        keyboardSubmitButton.backgroundColor = .black
+        keyboardSubmitButton.setTitleColor(.white, for: .normal)
+        keyboardSubmitButton.setTitleColor(.grey6(), for: .disabled)
         keyboardSubmitButton.titleLabel?.font = UIFont.defaultFont()
         keyboardSubmitButton.contentEdgeInsets.left = 10
         keyboardSubmitButton.imageEdgeInsets.right = 20
 
-        successView.backgroundColor = .whiteColor()
+        successView.backgroundColor = .white
         successView.alpha = 0
-        successLabel.textColor = .blackColor()
+        successLabel.textColor = .black
         successLabel.font = UIFont.defaultFont(18)
-        successImage.image = InterfaceImage.ValidationOK.normalImage
+        successImage.image = InterfaceImage.validationOK.normalImage
     }
 
     override func setText() {
         super.setText()
 
-        keyboardSubmitButton.setImages(.Mail, white: true)
-        keyboardSubmitButton.setTitle(InterfaceString.Hire.Send, forState: .Normal)
+        keyboardSubmitButton.setImages(.mail, white: true)
+        keyboardSubmitButton.setTitle(InterfaceString.Hire.Send, for: .normal)
     }
 
     override func bindActions() {
         super.bindActions()
-        keyboardSubmitButton.addTarget(self, action: #selector(submitAction), forControlEvents: .TouchUpInside)
+        keyboardSubmitButton.addTarget(self, action: #selector(submitAction), for: .touchUpInside)
     }
 
-    public func toggleKeyboard(visible visible: Bool) {
+    func toggleKeyboard(visible: Bool) {
         self.layoutIfNeeded()
 
         let bottomInset = Keyboard.shared.keyboardBottomInset(inView: self)
-        keyboardBottomConstraint.updateOffset(-bottomInset)
+        keyboardBottomConstraint.update(offset: -bottomInset)
         animateWithKeyboard {
             self.keyboardSubmitButton.frame.origin.y = self.frame.size.height - bottomInset - Size.keyboardButtonHeight
         }
     }
 
-    public func submitAction() {
+    func submitAction() {
         guard let text = textView.text else { return }
 
-        textView.resignFirstResponder()
+        _ = textView.resignFirstResponder()
         self.delegate?.submit(body: text)
     }
 
-    public func showSuccess() {
+    func showSuccess() {
         animate {
             self.successView.alpha = 1
         }
     }
 
-    public func hideSuccess() {
+    func hideSuccess() {
         animate {
             self.successView.alpha = 0
         }
@@ -148,11 +148,11 @@ public class HireScreen: StreamableScreen {
 }
 
 extension HireScreen: UITextViewDelegate {
-    public func textViewDidChange(textView: UITextView) {
+    func textViewDidChange(_ textView: UITextView) {
         let hasText = textView.text?.isEmpty != true
-        placeholder.hidden = hasText
-        keyboardSubmitButton.enabled = hasText
-        keyboardSubmitButton.backgroundColor = hasText ? .greenD1() : .blackColor()
+        placeholder.isHidden = hasText
+        keyboardSubmitButton.isEnabled = hasText
+        keyboardSubmitButton.backgroundColor = hasText ? .greenD1() : .black
     }
 }
 

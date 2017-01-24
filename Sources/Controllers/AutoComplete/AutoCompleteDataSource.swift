@@ -2,34 +2,34 @@
 ///  AutoCompleteDataSource.swift
 //
 
-public struct AutoCompleteItem {
-    public let result: AutoCompleteResult
-    public let type: AutoCompleteType
-    public let match: AutoCompleteMatch
+struct AutoCompleteItem {
+    let result: AutoCompleteResult
+    let type: AutoCompleteType
+    let match: AutoCompleteMatch
 
-    public init(result: AutoCompleteResult, type: AutoCompleteType, match: AutoCompleteMatch) {
+    init(result: AutoCompleteResult, type: AutoCompleteType, match: AutoCompleteMatch) {
         self.result = result
         self.type = type
         self.match = match
     }
 }
 
-public class AutoCompleteDataSource: NSObject {
-    public var items: [AutoCompleteItem] = []
+class AutoCompleteDataSource: NSObject {
+    var items: [AutoCompleteItem] = []
 
-    public func itemForIndexPath(indexPath: NSIndexPath) -> AutoCompleteItem? {
+    func itemForIndexPath(_ indexPath: IndexPath) -> AutoCompleteItem? {
         return items.safeValue(indexPath.row)
     }
 }
 
 // MARK: UITableViewDataSource
 extension AutoCompleteDataSource: UITableViewDataSource {
-    public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return items.count
     }
 
-    public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(AutoCompleteCell.reuseIdentifier, forIndexPath: indexPath) as! AutoCompleteCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: AutoCompleteCell.reuseIdentifier, for: indexPath) as! AutoCompleteCell
         if let item = items.safeValue(indexPath.row) {
             AutoCompleteCellPresenter.configure(cell, item: item)
         }

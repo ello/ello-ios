@@ -2,19 +2,19 @@
 ///  DynamicSettingCellPresenter.swift
 //
 
-public struct DynamicSettingCellPresenter {
-    public static func isVisible(setting setting: DynamicSetting, currentUser: User) -> Bool {
+struct DynamicSettingCellPresenter {
+    static func isVisible(setting: DynamicSetting, currentUser: User) -> Bool {
         if setting.key == DynamicSetting.accountDeletionSetting.key {
             return true
         }
         else {
             for dependentKey in setting.dependentOn {
-                if currentUser.propertyForSettingsKey(dependentKey) == false {
+                if currentUser.propertyForSettingsKey(key: dependentKey) == false {
                     return false
                 }
             }
             for conflictKey in setting.conflictsWith {
-                if currentUser.propertyForSettingsKey(conflictKey) == true {
+                if currentUser.propertyForSettingsKey(key: conflictKey) == true {
                     return false
                 }
             }
@@ -23,22 +23,22 @@ public struct DynamicSettingCellPresenter {
         }
     }
 
-    public static func configure(cell: DynamicSettingCell, setting: DynamicSetting, currentUser: User) {
+    static func configure(_ cell: DynamicSettingCell, setting: DynamicSetting, currentUser: User) {
         cell.titleLabel.text = setting.label
         cell.descriptionLabel.text = setting.info
 
         if setting.key == DynamicSetting.accountDeletionSetting.key {
-            cell.toggleButton.hidden = true
-            cell.deleteButton.hidden = false
+            cell.toggleButton.isHidden = true
+            cell.deleteButton.isHidden = false
             cell.deleteButton.text = InterfaceString.Delete
-            cell.contentView.hidden = false
+            cell.contentView.isHidden = false
         } else {
-            cell.toggleButton.hidden = false
-            cell.deleteButton.hidden = true
-            cell.toggleButton.value = currentUser.propertyForSettingsKey(setting.key) ?? false
+            cell.toggleButton.isHidden = false
+            cell.deleteButton.isHidden = true
+            cell.toggleButton.value = currentUser.propertyForSettingsKey(key: setting.key)
 
             let visible = isVisible(setting: setting, currentUser: currentUser)
-            cell.contentView.hidden = !visible
+            cell.contentView.isHidden = !visible
         }
     }
 }

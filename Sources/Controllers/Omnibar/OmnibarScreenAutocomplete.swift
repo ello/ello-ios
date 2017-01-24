@@ -4,140 +4,141 @@
 
 // MARK: UITextViewDelegate
 extension OmnibarScreen: UITextViewDelegate {
-    private func throttleAutoComplete(textView: UITextView, text: String, range: NSRange) {
+    fileprivate func throttleAutoComplete(_ textView: UITextView, text: String, location: Int) {
         let autoComplete = AutoComplete()
-        let location = range.length > 0 && range.location > 0 ? range.location - 1 : range.location
         let mightMatch = autoComplete.eagerCheck(text, location: location)
-        if mightMatch && textView.autocorrectionType == .Yes {
-            textView.spellCheckingType = .No
-            textView.autocorrectionType = .No
-            textView.resignFirstResponder()
-            textView.becomeFirstResponder()
+        if mightMatch && textView.autocorrectionType == .yes {
+            textView.spellCheckingType = .no
+            textView.autocorrectionType = .no
+            _ = textView.resignFirstResponder()
+            _ = textView.becomeFirstResponder()
         }
-        else if !mightMatch && textView.autocorrectionType == .No {
-            textView.spellCheckingType = .Yes
-            textView.autocorrectionType = .Yes
-            textView.resignFirstResponder()
-            textView.becomeFirstResponder()
+        else if !mightMatch && textView.autocorrectionType == .no {
+            textView.spellCheckingType = .yes
+            textView.autocorrectionType = .yes
+            _ = textView.resignFirstResponder()
+            _ = textView.becomeFirstResponder()
         }
 
         self.autoCompleteThrottle { [weak self] in
-            guard let wSelf = self else { return }
+            guard let `self` = self else { return }
 
             // deleting characters yields a range.length > 0, go back 1 character for deletes
             if let match = autoComplete.check(text, location: location) {
-                wSelf.autoCompleteVC.load(match) { [weak self] count in
-                    guard let wSelf = self else { return }
+                self.autoCompleteVC.load(match) { [weak self] count in
+                    guard let `self` = self else { return }
                     guard text == textView.text else { return }
 
                     if count > 0 {
-                        wSelf.showAutoComplete(textView, count: count)
+                        self.showAutoComplete(textView, count: count)
                     }
                     else if count == 0 {
-                        wSelf.hideAutoComplete(textView)
+                        self.hideAutoComplete(textView)
                     }
                 }
             } else {
-                wSelf.hideAutoComplete(textView)
+                self.hideAutoComplete(textView)
             }
         }
     }
 
-    public func textView(textView: UITextView, shouldChangeTextInRange nsrange: NSRange, replacementText: String) -> Bool {
+    func textView(_ textView: UITextView, shouldChangeTextIn nsrange: NSRange, replacementText: String) -> Bool {
         if autoCompleteShowing && emojiKeyboardShowing() {
             return false
         }
 
-        var text = textView.text
-        if let range = text.rangeFromNSRange(nsrange) {
-            text.replaceRange(range, with: replacementText)
+        if var text = textView.text {
+            if let range = text.rangeFromNSRange(nsrange) {
+                text = text.replacingCharacters(in: range, with: replacementText)
+            }
+
+            var cursorLocation = nsrange.location
+            cursorLocation += replacementText.characters.count
+            throttleAutoComplete(textView, text: text, location: cursorLocation)
         }
-        self.throttleAutoComplete(textView, text: text, range: nsrange)
         return true
     }
 
-    public func textViewDidChange(textView: UITextView) {
-        if let path = currentTextPath
-            where regionsTableView.cellForRowAtIndexPath(path) != nil
+    func textViewDidChange(_ textView: UITextView) {
+        if let path = currentTextPath, regionsTableView.cellForRow(at: path as IndexPath) != nil
         {
             var currentText = textView.attributedText
-            if currentText.string.characters.count == 0 {
+            if currentText?.string.characters.count == 0 {
                 currentText = ElloAttributedString.style("")
                 textView.typingAttributes = ElloAttributedString.attrs()
-                boldButton.selected = false
-                italicButton.selected = false
+                boldButton.isSelected = false
+                italicButton.isSelected = false
             }
 
-            updateText(currentText, atPath: path)
+            updateText(currentText!, atPath: path)
         }
         updateButtons()
     }
 
-    public func textViewDidChangeSelection(textView: UITextView) {
+    func textViewDidChangeSelection(_ textView: UITextView) {
         let font = textView.typingAttributes[NSFontAttributeName] as? UIFont
         let fontName = font?.fontName ?? "AtlasGrotesk-Regular"
 
         switch fontName {
         case UIFont.editorItalicFont().fontName:
-            boldButton.selected = false
-            italicButton.selected = true
+            boldButton.isSelected = false
+            italicButton.isSelected = true
         case UIFont.editorBoldFont().fontName:
-            boldButton.selected = true
-            italicButton.selected = false
+            boldButton.isSelected = true
+            italicButton.isSelected = false
         case UIFont.editorBoldItalicFont().fontName:
-            boldButton.selected = true
-            italicButton.selected = true
+            boldButton.isSelected = true
+            italicButton.isSelected = true
         default:
-            boldButton.selected = false
-            italicButton.selected = false
+            boldButton.isSelected = false
+            italicButton.isSelected = false
         }
 
-        if textView.typingAttributes[NSLinkAttributeName] is NSURL {
-            linkButton.selected = true
-            linkButton.enabled = true
+        if textView.typingAttributes[NSLinkAttributeName] is URL {
+            linkButton.isSelected = true
+            linkButton.isEnabled = true
         }
-        else if let selection = textView.selectedTextRange
-        where selection.empty {
-            linkButton.selected = false
-            linkButton.enabled = false
+        else if let selection = textView.selectedTextRange, selection.isEmpty {
+            linkButton.isSelected = false
+            linkButton.isEnabled = false
         }
         else {
-            linkButton.selected = false
-            linkButton.enabled = true
+            linkButton.isSelected = false
+            linkButton.isEnabled = true
         }
     }
 
-    private func emojiKeyboardShowing() -> Bool {
+    fileprivate func emojiKeyboardShowing() -> Bool {
         return textView.textInputMode?.primaryLanguage == nil || textView.textInputMode?.primaryLanguage == "emoji"
     }
 
-    func hideAutoComplete(textView: UITextView) {
+    func hideAutoComplete(_ textView: UITextView) {
         if autoCompleteShowing {
             autoCompleteShowing = false
-            textView.spellCheckingType = .Yes
+            textView.spellCheckingType = .yes
             textView.inputAccessoryView = keyboardButtonView
-            textView.resignFirstResponder()
-            textView.becomeFirstResponder()
+            _ = textView.resignFirstResponder()
+            _ = textView.becomeFirstResponder()
         }
     }
 
-    private func showAutoComplete(textView: UITextView, count: Int) {
+    fileprivate func showAutoComplete(_ textView: UITextView, count: Int) {
         if !autoCompleteShowing {
             autoCompleteShowing = true
-            textView.spellCheckingType = .No
-            textView.autocorrectionType = .No
+            textView.spellCheckingType = .no
+            textView.autocorrectionType = .no
             let container = UIView(frame: CGRect(x: 0, y: 0, width: self.frame.width, height: 1))
             container.addSubview(autoCompleteContainer)
             textView.inputAccessoryView = container
-            textView.resignFirstResponder()
-            textView.becomeFirstResponder()
+            _ = textView.resignFirstResponder()
+            _ = textView.becomeFirstResponder()
         }
 
         let height = AutoCompleteCell.Size.height * min(CGFloat(3.5), CGFloat(count))
-        let constraintIndex = textView.inputAccessoryView?.constraints.indexOf { $0.firstAttribute == .Height }
+        let constraintIndex = textView.inputAccessoryView?.constraints.index { $0.firstAttribute == .height }
         if let index = constraintIndex,
-            inputAccessoryView = textView.inputAccessoryView,
-            constraint = inputAccessoryView.constraints.safeValue(index)
+            let inputAccessoryView = textView.inputAccessoryView,
+            let constraint = inputAccessoryView.constraints.safeValue(index)
         {
             constraint.constant = height
             inputAccessoryView.setNeedsUpdateConstraints()
@@ -151,11 +152,11 @@ extension OmnibarScreen: UITextViewDelegate {
 
 
 extension OmnibarScreen: AutoCompleteDelegate {
-    public func autoComplete(controller: AutoCompleteViewController, itemSelected item: AutoCompleteItem) {
+    func autoComplete(_ controller: AutoCompleteViewController, itemSelected item: AutoCompleteItem) {
         if let name = item.result.name {
             let prefix: String
             let suffix: String
-            if item.type == .Username {
+            if item.type == .username {
                 prefix = "@"
                 suffix = ""
             }
@@ -164,7 +165,7 @@ extension OmnibarScreen: AutoCompleteDelegate {
                 suffix = ":"
             }
 
-            let newText = textView.text.stringByReplacingCharactersInRange(item.match.range, withString: "\(prefix)\(name)\(suffix) ")
+            let newText = textView.text.replacingCharacters(in: item.match.range, with: "\(prefix)\(name)\(suffix) ")
             let currentText = ElloAttributedString.style(newText)
             textView.attributedText = currentText
             textViewDidChange(textView)

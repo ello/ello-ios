@@ -4,47 +4,47 @@
 
 class ElloSegmentedControl: UISegmentedControl {
     enum ElloSegmentedControlStyle {
-        case Compact
-        case Normal
+        case compact
+        case normal
 
         var fontSize: CGFloat {
             switch self {
-            case .Compact: return 11
-            case .Normal: return 14
+            case .compact: return 11
+            case .normal: return 14
             }
         }
 
         var height: CGFloat {
             switch self {
-            case .Compact: return 19
-            case .Normal: return 30
+            case .compact: return 19
+            case .normal: return 30
             }
         }
     }
 
-    var style: ElloSegmentedControlStyle = .Normal { didSet { updateStyle() }}
+    var style: ElloSegmentedControlStyle = .normal { didSet { updateStyle() }}
 
     override func awakeFromNib() {
         super.awakeFromNib()
         layer.borderWidth = 1
-        tintColor = .blackColor()
+        tintColor = .black
         updateStyle()
     }
 
-    private func updateStyle() {
+    fileprivate func updateStyle() {
         let fontSize = style.fontSize
         let normalTitleTextAttributes = [
-            NSForegroundColorAttributeName: UIColor.blackColor(),
+            NSForegroundColorAttributeName: UIColor.black,
             NSFontAttributeName: UIFont.defaultFont(fontSize)
         ]
         let selectedTitleTextAttributes = [
-            NSForegroundColorAttributeName: UIColor.whiteColor(),
+            NSForegroundColorAttributeName: UIColor.white,
             NSFontAttributeName: UIFont.defaultFont(fontSize)
         ]
-        setTitleTextAttributes(normalTitleTextAttributes, forState: .Normal)
-        setTitleTextAttributes(selectedTitleTextAttributes, forState: .Selected)
-        setBackgroundImage(UIImage.imageWithColor(UIColor.whiteColor()), forState: .Normal, barMetrics: .Default)
-        setBackgroundImage(UIImage.imageWithColor(UIColor.blackColor()), forState: .Selected, barMetrics: .Default)
+        setTitleTextAttributes(normalTitleTextAttributes, for: .normal)
+        setTitleTextAttributes(selectedTitleTextAttributes, for: .selected)
+        setBackgroundImage(UIImage.imageWithColor(UIColor.white), for: .normal, barMetrics: .default)
+        setBackgroundImage(UIImage.imageWithColor(UIColor.black), for: .selected, barMetrics: .default)
     }
 
     override func layoutSubviews() {
@@ -52,8 +52,8 @@ class ElloSegmentedControl: UISegmentedControl {
         frame.size.height = style.height
     }
 
-    override func intrinsicContentSize() -> CGSize {
-        return CGSize(width: super.intrinsicContentSize().width, height: style.height)
+    override var intrinsicContentSize: CGSize {
+        return CGSize(width: super.intrinsicContentSize.width, height: style.height)
     }
 
 }

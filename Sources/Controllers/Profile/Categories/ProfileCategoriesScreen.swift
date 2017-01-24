@@ -5,7 +5,7 @@
 import SnapKit
 
 
-public class ProfileCategoriesScreen: Screen, ProfileCategoriesProtocol {
+class ProfileCategoriesScreen: Screen, ProfileCategoriesProtocol {
 
     struct Size {
         static let textInset: CGFloat = 15
@@ -13,32 +13,32 @@ public class ProfileCategoriesScreen: Screen, ProfileCategoriesProtocol {
 
     weak var delegate: ProfileCategoriesDelegate?
 
-    public let background = UIView()
+    let background = UIView()
     let textView = ElloTextView()
     var categories: [Category]
 
-    public init(categories: [Category]) {
+    init(categories: [Category]) {
         self.categories = categories
         super.init(frame: .zero)
     }
 
-    public required init?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    public required init(frame: CGRect) {
+    required init(frame: CGRect) {
         self.categories = []
         super.init(frame: frame)
     }
 
     override func style() {
-        backgroundColor = .clearColor()
+        backgroundColor = .clear
         background.backgroundColor = .modalBackground()
-        textView.backgroundColor = .clearColor()
-        textView.editable = false
+        textView.backgroundColor = .clear
+        textView.isEditable = false
         textView.allowsEditingTextAttributes = false
-        textView.selectable = false
-        textView.textColor = .whiteColor()
+        textView.isSelectable = false
+        textView.textColor = .white
     }
 
     override func bindActions() {
@@ -49,14 +49,14 @@ public class ProfileCategoriesScreen: Screen, ProfileCategoriesProtocol {
 
     override func setText() {
         let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.alignment = .Center
+        paragraphStyle.alignment = .center
 
         var featuredIn = NSAttributedString(string: InterfaceString.Profile.FeaturedIn, attributes: attrs([
                 NSParagraphStyleAttributeName: paragraphStyle
             ]))
 
         let count = categories.count
-        for (index, category) in categories.enumerate() {
+        for (index, category) in categories.enumerated() {
             let prefix: NSAttributedString
             if index == count - 1 && count > 1 {
                 prefix = NSAttributedString(string: " & ", attributes: attrs())
@@ -67,8 +67,8 @@ public class ProfileCategoriesScreen: Screen, ProfileCategoriesProtocol {
             else {
                 prefix = NSAttributedString(string: " ", attributes: attrs())
             }
-            featuredIn = featuredIn.append(prefix)
-            featuredIn = featuredIn.append(styleCategory(category))
+            featuredIn = featuredIn.appending(prefix)
+                .appending(styleCategory(category))
         }
 
         textView.attributedText = featuredIn
@@ -81,11 +81,11 @@ public class ProfileCategoriesScreen: Screen, ProfileCategoriesProtocol {
         addSubview(background)
         addSubview(textView)
 
-        background.snp_makeConstraints { make in
+        background.snp.makeConstraints { make in
             make.edges.equalTo(self)
         }
 
-        textView.snp_makeConstraints { make in
+        textView.snp.makeConstraints { make in
             make.leading.trailing.equalTo(self).inset(Size.textInset)
             make.centerX.centerY.equalTo(self)
         }
@@ -98,9 +98,9 @@ public class ProfileCategoriesScreen: Screen, ProfileCategoriesProtocol {
 
 extension ProfileCategoriesScreen: ElloTextViewDelegate {
 
-    func textViewTapped(link: String, object: ElloAttributedObject) {
+    func textViewTapped(_ link: String, object: ElloAttributedObject) {
         switch object {
-        case let .AttributedCategory(category):
+        case let .attributedCategory(category):
             delegate?.categoryTapped(category)
         default: break
         }
@@ -113,18 +113,18 @@ extension ProfileCategoriesScreen: ElloTextViewDelegate {
 
 private extension ProfileCategoriesScreen {
 
-    func styleCategory(category: Category) -> NSAttributedString {
+    func styleCategory(_ category: Category) -> NSAttributedString {
         return NSAttributedString(string: category.name, attributes: attrs([
-            ElloAttributedText.Link: "category",
+            ElloAttributedText.Link: "category" as AnyObject,
             ElloAttributedText.Object: category,
-            NSUnderlineStyleAttributeName: NSUnderlineStyle.StyleSingle.rawValue,
+            NSUnderlineStyleAttributeName: NSUnderlineStyle.styleSingle.rawValue as AnyObject,
         ]))
     }
 
-    func attrs(addlAttrs: [String : AnyObject] = [:]) -> [String : AnyObject] {
+    func attrs(_ addlAttrs: [String : AnyObject] = [:]) -> [String : AnyObject] {
         let attrs: [String: AnyObject] = [
             NSFontAttributeName: UIFont.defaultFont(18),
-            NSForegroundColorAttributeName: UIColor.whiteColor(),
+            NSForegroundColorAttributeName: UIColor.white,
         ]
         return attrs + addlAttrs
     }

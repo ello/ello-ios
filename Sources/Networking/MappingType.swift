@@ -4,78 +4,78 @@
 
 import Foundation
 
-public enum MappingType: String {
+enum MappingType: String {
     // these keys define the place in the JSON response where the ElloProvider
     // should look for the response data.
-    case AnnouncementsType = "announcements"
-    case ActivitiesType = "activities"
-    case AmazonCredentialsType = "credentials"
-    case AssetsType = "assets"
-    case AutoCompleteResultType = "autocomplete_results"
-    case AvailabilityType = "availability"
-    case CategoriesType = "categories"
-    case CommentsType = "comments"
-    case DynamicSettingsType = "settings"
-    case ErrorType = "error"
-    case ErrorsType = "errors"
-    case LovesType = "loves"
-    case NoContentType = "204"
-    case PostsType = "posts"
-    case PromotionalsType = "promotionals"
-    case PagePromotionalsType = "page_promotionals"
-    case RelationshipsType = "relationships"
-    case UsersType = "users"
-    case UsernamesType = "usernames"
-    case WatchesType = "watches"
+    case announcementsType = "announcements"
+    case activitiesType = "activities"
+    case amazonCredentialsType = "credentials"
+    case assetsType = "assets"
+    case autoCompleteResultType = "autocomplete_results"
+    case availabilityType = "availability"
+    case categoriesType = "categories"
+    case commentsType = "comments"
+    case dynamicSettingsType = "settings"
+    case errorType = "error"
+    case errorsType = "errors"
+    case lovesType = "loves"
+    case noContentType = "204"
+    case postsType = "posts"
+    case promotionalsType = "promotionals"
+    case pagePromotionalsType = "page_promotionals"
+    case relationshipsType = "relationships"
+    case usersType = "users"
+    case usernamesType = "usernames"
+    case watchesType = "watches"
 
     var fromJSON: FromJSONClosure {
         switch self {
-        case AnnouncementsType:
+        case .announcementsType:
             return Announcement.fromJSON
-        case ActivitiesType:
+        case .activitiesType:
             return Activity.fromJSON
-        case AmazonCredentialsType:
+        case .amazonCredentialsType:
             return AmazonCredentials.fromJSON
-        case AssetsType:
+        case .assetsType:
             return Asset.fromJSON
-        case AutoCompleteResultType:
+        case .autoCompleteResultType:
             return AutoCompleteResult.fromJSON
-        case AvailabilityType:
+        case .availabilityType:
             return Availability.fromJSON
-        case CategoriesType:
+        case .categoriesType:
             return Category.fromJSON
-        case CommentsType:
+        case .commentsType:
             return ElloComment.fromJSON
-        case DynamicSettingsType:
+        case .dynamicSettingsType:
             return DynamicSettingCategory.fromJSON
-        case ErrorType:
+        case .errorType:
             return ElloNetworkError.fromJSON
-        case ErrorsType:
+        case .errorsType:
             return ElloNetworkError.fromJSON
-        case LovesType:
+        case .lovesType:
             return Love.fromJSON
-        case PostsType:
+        case .postsType:
             return Post.fromJSON
-        case PagePromotionalsType:
+        case .pagePromotionalsType:
             return PagePromotional.fromJSON
-        case PromotionalsType:
+        case .promotionalsType:
             return Promotional.fromJSON
-        case RelationshipsType:
+        case .relationshipsType:
             return Relationship.fromJSON
-        case UsersType:
+        case .usersType:
             return User.fromJSON
-        case UsernamesType:
+        case .usernamesType:
             return Username.fromJSON
-        case NoContentType:
+        case .noContentType:
             return UnknownJSONAble.fromJSON
-        case WatchesType:
+        case .watchesType:
             return Watch.fromJSON
         }
     }
 
     var isOrdered: Bool {
         switch self {
-        case AssetsType: return false
+        case .assetsType: return false
         default: return true
         }
     }
@@ -85,12 +85,12 @@ public enum MappingType: String {
 let UnknownJSONAbleVersion = 1
 
 @objc(UnknownJSONAble)
-public class UnknownJSONAble: JSONAble {
-    public convenience init() {
+class UnknownJSONAble: JSONAble {
+    convenience init() {
         self.init(version: UnknownJSONAbleVersion)
     }
 
-    override class public func fromJSON(data: [String : AnyObject]) -> JSONAble {
+    override class func fromJSON(_ data: [String : AnyObject]) -> JSONAble {
         return UnknownJSONAble()
     }
 }

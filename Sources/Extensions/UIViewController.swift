@@ -8,22 +8,22 @@
 }
 
 extension UIViewController: GestureNavigation {
-    var backGestureEdges: UIRectEdge { return .Left }
+    var backGestureEdges: UIRectEdge { return .left }
 
     func backGestureAction() {
-        if navigationController?.viewControllers.count > 1 {
-            navigationController?.popViewControllerAnimated(true)
+        if (navigationController?.viewControllers.count)! > 1 {
+            _ = navigationController?.popViewController(animated: true)
         }
     }
 
-    public func findViewController(find: (UIViewController) -> Bool) -> UIViewController? {
+    func findViewController(_ find: (UIViewController) -> Bool) -> UIViewController? {
         var controller: UIViewController?
         controller = self
         while controller != nil {
             if find(controller!) {
                 return controller
             }
-            controller = controller!.parentViewController
+            controller = controller!.parent
         }
         return nil
     }
@@ -32,17 +32,17 @@ extension UIViewController: GestureNavigation {
 
 extension UIViewController {
 
-    func transition(
+    func transitionControllers(
         from fromViewController: UIViewController,
         to toViewController: UIViewController,
-        duration: NSTimeInterval = 0,
+        duration: TimeInterval = 0,
         options: UIViewAnimationOptions = [],
         animations: (() -> Void)? = nil, completion: ((Bool) -> Void)? = nil) -> Void
     {
         if AppSetup.sharedState.isTesting {
             animations?()
-            transitionFromViewController(fromViewController,
-                toViewController: toViewController,
+            self.transition(from: fromViewController,
+                to: toViewController,
                 duration: duration,
                 options: options,
                 animations: nil,
@@ -50,8 +50,8 @@ extension UIViewController {
             completion?(true)
         }
         else {
-            transitionFromViewController(fromViewController,
-                toViewController: toViewController,
+            self.transition(from: fromViewController,
+                to: toViewController,
                 duration: duration,
                 options: options,
                 animations: animations,

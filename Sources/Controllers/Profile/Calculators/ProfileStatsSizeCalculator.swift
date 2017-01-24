@@ -5,9 +5,9 @@
 import FutureKit
 
 
-public struct ProfileStatsSizeCalculator {
+struct ProfileStatsSizeCalculator {
 
-    public func calculate(item: StreamCellItem) -> Future<CGFloat> {
+    func calculate(_ item: StreamCellItem) -> Future<CGFloat> {
         let promise = Promise<CGFloat>()
         promise.completeWithSuccess(ProfileStatsView.Size.height)
         return promise.future

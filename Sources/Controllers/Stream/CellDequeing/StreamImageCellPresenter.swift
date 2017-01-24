@@ -4,9 +4,9 @@
 
 import Foundation
 
-public struct StreamImageCellPresenter {
+struct StreamImageCellPresenter {
 
-    static func preventImageStretching(cell: StreamImageCell, attachmentWidth: Int, columnWidth: CGFloat, leftMargin: CGFloat) {
+    static func preventImageStretching(_ cell: StreamImageCell, attachmentWidth: Int, columnWidth: CGFloat, leftMargin: CGFloat) {
         let width = CGFloat(attachmentWidth)
         if width < columnWidth - leftMargin {
             cell.imageRightConstraint.constant = columnWidth - width - leftMargin
@@ -17,43 +17,43 @@ public struct StreamImageCellPresenter {
     }
 
     static func calculateStreamImageMargin(
-        cell: StreamImageCell,
+        _ cell: StreamImageCell,
         imageRegion: ImageRegion,
         streamCellItem: StreamCellItem) -> StreamImageCell.StreamImageMargin
     {
         // Repost specifics
         if imageRegion.isRepost == true {
-            return .Repost
+            return .repost
         }
         else if streamCellItem.jsonable is ElloComment {
-            return .Comment
+            return .comment
         }
         else {
-            return .Post
+            return .post
         }
     }
 
-    public static func configure(
-        cell: UICollectionViewCell,
+    static func configure(
+        _ cell: UICollectionViewCell,
         streamCellItem: StreamCellItem,
         streamKind: StreamKind,
-        indexPath: NSIndexPath,
+        indexPath: IndexPath,
         currentUser: User?)
     {
-        guard let
-            cell = cell as? StreamImageCell,
-            imageRegion = streamCellItem.type.data as? ImageRegion
+        guard
+            let cell = cell as? StreamImageCell,
+            let imageRegion = streamCellItem.type.data as? ImageRegion
         else {
             return
         }
 
         var attachmentToLoad: Attachment?
-        var imageToLoad: NSURL?
+        var imageToLoad: URL?
         var showGifInThisCell = false
-        if let asset = imageRegion.asset where asset.isGif {
+        if let asset = imageRegion.asset, asset.isGif {
             if streamKind.supportsLargeImages || !asset.isLargeGif {
                 attachmentToLoad = asset.optimized
-                imageToLoad = asset.optimized?.url
+                imageToLoad = asset.optimized?.url as URL?
                 showGifInThisCell = true
             }
             else {
@@ -72,7 +72,7 @@ public struct StreamImageCellPresenter {
         }
 
         let imageToShow = attachmentToLoad?.image
-        imageToLoad = imageToLoad ?? attachmentToLoad?.url
+        imageToLoad = imageToLoad ?? attachmentToLoad?.url as URL?
 
         let cellMargin = calculateStreamImageMargin(cell, imageRegion: imageRegion, streamCellItem: streamCellItem)
         cell.marginType = cellMargin
@@ -89,7 +89,7 @@ public struct StreamImageCellPresenter {
             postNotification(StreamNotification.UpdateCellHeightNotification, value: cell)
         }
 
-        if let image = imageToShow where !showGifInThisCell {
+        if let image = imageToShow, !showGifInThisCell {
             cell.setImage(image)
         }
         else if let imageURL = imageToLoad {

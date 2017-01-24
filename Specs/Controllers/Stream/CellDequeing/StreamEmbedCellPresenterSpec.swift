@@ -1,4 +1,4 @@
-import Ello
+@testable import Ello
 import Quick
 import Nimble
 
@@ -21,9 +21,9 @@ class StreamEmbedCellPresenterSpec: QuickSpec {
                     ])
 
                     let cell: StreamEmbedCell = StreamEmbedCell.loadFromNib()
-                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Embed(data: embedRegion))
+                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .embed(data: embedRegion))
 
-                    StreamEmbedCellPresenter.configure(cell, streamCellItem: item, streamKind: .Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
+                    StreamEmbedCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: nil)
 
                     expect(cell.leadingConstraint.constant) == 30
                     expect(cell.leftBorder.superlayer).notTo(beNil())
@@ -41,13 +41,13 @@ class StreamEmbedCellPresenterSpec: QuickSpec {
                     ])
 
                     let embedRegion: EmbedRegion = stub([
-                        "url" : NSURL(string: "http://www.example.com/image.jpg")!
+                        "url" : URL(string: "http://www.example.com/image.jpg")!
                     ])
 
                     let cell: StreamEmbedCell = StreamEmbedCell.loadFromNib()
-                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Embed(data: embedRegion))
+                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .embed(data: embedRegion))
 
-                    StreamEmbedCellPresenter.configure(cell, streamCellItem: item, streamKind: .Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
+                    StreamEmbedCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: nil)
 
                     expect(cell.leadingConstraint.constant) == 0
                     expect(cell.leftBorder.superlayer).to(beNil())

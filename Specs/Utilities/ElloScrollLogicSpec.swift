@@ -2,19 +2,17 @@
 ///  ElloScrollLogicSpec.swift
 //
 
-import Ello
+@testable import Ello
 import Quick
 import Nimble
 
 
 class ElloScrollLogicSpec: QuickSpec {
     var didShow : Bool?
-    var didScrollToBottom : Bool?
     var didHide : Bool?
 
-    private func resetShowHide() {
+    fileprivate func resetShowHide() {
         didShow = nil
-        didScrollToBottom = nil
         didHide = nil
     }
 
@@ -27,8 +25,7 @@ class ElloScrollLogicSpec: QuickSpec {
 
             beforeEach() {
                 logic = ElloScrollLogic(
-                    onShow: { [unowned self] scrollToBottom in
-                        self.didScrollToBottom = scrollToBottom
+                    onShow: { [unowned self] in
                         self.didShow = true
                     },
                     onHide: { [unowned self] in
@@ -47,7 +44,6 @@ class ElloScrollLogicSpec: QuickSpec {
                 scrollView.contentOffset = CGPoint(x: 0, y: scrollStart + CGFloat(2))
                 logic.scrollViewDidScroll(scrollView)
                 expect(self.didShow).to(beNil())
-                expect(self.didScrollToBottom).to(beNil())
                 expect(self.didHide).to(equal(true))
             }
 
@@ -55,7 +51,6 @@ class ElloScrollLogicSpec: QuickSpec {
                 scrollView.contentOffset = CGPoint(x: 0, y: scrollStart - CGFloat(8))
                 logic.scrollViewDidScroll(scrollView)
                 expect(self.didShow).to(equal(true))
-                expect(self.didScrollToBottom).to(equal(false))
                 expect(self.didHide).to(beNil())
             }
 
@@ -63,7 +58,6 @@ class ElloScrollLogicSpec: QuickSpec {
                 scrollView.contentOffset = CGPoint(x: 0, y: scrollStart - CGFloat(2))
                 logic.scrollViewDidScroll(scrollView)
                 expect(self.didShow).to(beNil())
-                expect(self.didScrollToBottom).to(beNil())
                 expect(self.didHide).to(beNil())
             }
 
@@ -71,7 +65,6 @@ class ElloScrollLogicSpec: QuickSpec {
                 scrollView.contentOffset = CGPoint(x: 0, y: scrollStart - CGFloat(20))
                 logic.scrollViewDidScroll(scrollView)
                 expect(self.didShow).to(beNil())
-                expect(self.didScrollToBottom).to(beNil())
                 expect(self.didHide).to(beNil())
             }
 
@@ -79,7 +72,6 @@ class ElloScrollLogicSpec: QuickSpec {
                 scrollView.contentOffset = CGPoint(x: 0, y: -10)
                 logic.scrollViewDidScroll(scrollView)
                 expect(self.didShow).to(equal(true))
-                expect(self.didScrollToBottom).to(equal(false))
                 expect(self.didHide).to(beNil())
             }
 
@@ -91,14 +83,12 @@ class ElloScrollLogicSpec: QuickSpec {
                     scrollView.contentOffset = CGPoint(x: 0, y: scrollHeight - CGFloat(25))
                     logic.scrollViewDidScroll(scrollView)
                     expect(self.didShow).to(beNil())
-                    expect(self.didScrollToBottom).to(beNil())
                     expect(self.didHide).to(beNil())
                 }
                 it("should ignore scrolling down") {
                     scrollView.contentOffset = CGPoint(x: 0, y: scrollHeight + CGFloat(25))
                     logic.scrollViewDidScroll(scrollView)
                     expect(self.didShow).to(beNil())
-                    expect(self.didScrollToBottom).to(beNil())
                     expect(self.didHide).to(beNil())
                 }
             }
@@ -112,28 +102,24 @@ class ElloScrollLogicSpec: QuickSpec {
                     scrollView.contentOffset = CGPoint(x: 0, y: scrollStart - 30)
                     logic.scrollViewDidScroll(scrollView)
                     expect(self.didShow).to(beNil())
-                    expect(self.didScrollToBottom).to(beNil())
                     expect(self.didHide).to(beNil())
                 }
                 it("should ignore -10") {
                     scrollView.contentOffset = CGPoint(x: 0, y: scrollStart - 10)
                     logic.scrollViewDidScroll(scrollView)
                     expect(self.didShow).to(beNil())
-                    expect(self.didScrollToBottom).to(beNil())
                     expect(self.didHide).to(beNil())
                 }
                 it("should ignore 10") {
                     scrollView.contentOffset = CGPoint(x: 0, y: scrollStart + 10)
                     logic.scrollViewDidScroll(scrollView)
                     expect(self.didShow).to(beNil())
-                    expect(self.didScrollToBottom).to(beNil())
                     expect(self.didHide).to(beNil())
                 }
                 it("should ignore 30") {
                     scrollView.contentOffset = CGPoint(x: 0, y: scrollStart + 30)
                     logic.scrollViewDidScroll(scrollView)
                     expect(self.didShow).to(beNil())
-                    expect(self.didScrollToBottom).to(beNil())
                     expect(self.didHide).to(beNil())
                 }
             }
@@ -147,28 +133,24 @@ class ElloScrollLogicSpec: QuickSpec {
                     scrollView.contentOffset = CGPoint(x: 0, y: scrollStart - 30)
                     logic.scrollViewDidScroll(scrollView)
                     expect(self.didShow).to(beNil())
-                    expect(self.didScrollToBottom).to(beNil())
                     expect(self.didHide).to(beNil())
                 }
                 it("should ignore -10") {
                     scrollView.contentOffset = CGPoint(x: 0, y: scrollStart - 10)
                     logic.scrollViewDidScroll(scrollView)
                     expect(self.didShow).to(beNil())
-                    expect(self.didScrollToBottom).to(beNil())
                     expect(self.didHide).to(beNil())
                 }
                 it("should ignore 10") {
                     scrollView.contentOffset = CGPoint(x: 0, y: scrollStart + 10)
                     logic.scrollViewDidScroll(scrollView)
                     expect(self.didShow).to(beNil())
-                    expect(self.didScrollToBottom).to(beNil())
                     expect(self.didHide).to(beNil())
                 }
                 it("should ignore 30") {
                     scrollView.contentOffset = CGPoint(x: 0, y: scrollStart + 30)
                     logic.scrollViewDidScroll(scrollView)
                     expect(self.didShow).to(beNil())
-                    expect(self.didScrollToBottom).to(beNil())
                     expect(self.didHide).to(beNil())
                 }
             }
@@ -178,7 +160,6 @@ class ElloScrollLogicSpec: QuickSpec {
                 scrollView.contentOffset = CGPoint(x: 0, y: scrollStart + 10)
                 logic.scrollViewDidScroll(scrollView)
                 expect(self.didShow).to(beNil())
-                expect(self.didScrollToBottom).to(beNil())
                 expect(self.didHide).to(beNil())
             }
 
@@ -186,7 +167,6 @@ class ElloScrollLogicSpec: QuickSpec {
                 scrollView.contentOffset = CGPoint(x: 0, y: scrollStart)
                 logic.scrollViewDidScroll(scrollView)
                 expect(self.didShow).to(beNil())
-                expect(self.didScrollToBottom).to(beNil())
                 expect(self.didHide).to(beNil())
 
                 self.resetShowHide()
@@ -194,7 +174,6 @@ class ElloScrollLogicSpec: QuickSpec {
                 scrollView.contentOffset = CGPoint(x: 0, y: -10)
                 logic.scrollViewDidEndDragging(scrollView, willDecelerate: true)
                 expect(self.didShow).to(equal(true))
-                expect(self.didScrollToBottom).to(equal(false))
                 expect(self.didHide).to(beNil())
             }
 
@@ -202,7 +181,6 @@ class ElloScrollLogicSpec: QuickSpec {
                 scrollView.contentOffset = CGPoint(x: 0, y: scrollStart)
                 logic.scrollViewDidScroll(scrollView)
                 expect(self.didShow).to(beNil())
-                expect(self.didScrollToBottom).to(beNil())
                 expect(self.didHide).to(beNil())
 
                 self.resetShowHide()
@@ -210,7 +188,6 @@ class ElloScrollLogicSpec: QuickSpec {
                 scrollView.contentOffset = CGPoint(x: 0, y: scrollStart + 20)
                 logic.scrollViewDidScroll(scrollView)
                 expect(self.didShow).to(beNil())
-                expect(self.didScrollToBottom).to(beNil())
                 expect(self.didHide).to(equal(true))
 
                 self.resetShowHide()
@@ -218,7 +195,6 @@ class ElloScrollLogicSpec: QuickSpec {
                 scrollView.contentOffset = CGPoint(x: 0, y: scrollView.contentSize.height + 10)
                 logic.scrollViewDidEndDragging(scrollView, willDecelerate: true)
                 expect(self.didShow).to(beNil())
-                expect(self.didScrollToBottom).to(beNil())
                 expect(self.didHide).to(beNil())
             }
         }

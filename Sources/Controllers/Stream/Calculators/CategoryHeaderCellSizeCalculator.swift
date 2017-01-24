@@ -5,18 +5,18 @@
 import FutureKit
 
 
-public class CategoryHeaderCellSizeCalculator {
+class CategoryHeaderCellSizeCalculator {
     static let ratio: CGFloat = 320 / 192
 
-    private typealias CellJob = (cellItems: [StreamCellItem], width: CGFloat, completion: ElloEmptyCompletion)
-    private var cellJobs: [CellJob] = []
-    private var cellWidth: CGFloat = 0.0
-    private var cellItems: [StreamCellItem] = []
-    private var completion: ElloEmptyCompletion = {}
+    fileprivate typealias CellJob = (cellItems: [StreamCellItem], width: CGFloat, completion: ElloEmptyCompletion)
+    fileprivate var cellJobs: [CellJob] = []
+    fileprivate var cellWidth: CGFloat = 0.0
+    fileprivate var cellItems: [StreamCellItem] = []
+    fileprivate var completion: ElloEmptyCompletion = {}
 
     // MARK: Public
 
-    public func processCells(cellItems: [StreamCellItem], withWidth width: CGFloat, completion: ElloEmptyCompletion) {
+    func processCells(_ cellItems: [StreamCellItem], withWidth width: CGFloat, completion: @escaping ElloEmptyCompletion) {
         let job: CellJob = (cellItems: cellItems, width: width, completion: completion)
         cellJobs.append(job)
         if cellJobs.count == 1 {
@@ -24,20 +24,20 @@ public class CategoryHeaderCellSizeCalculator {
         }
     }
 
-    public static func calculateCategoryHeight(category: Category, cellWidth: CGFloat) -> CGFloat {
+    static func calculateCategoryHeight(_ category: Category, cellWidth: CGFloat) -> CGFloat {
         let config = CategoryHeaderCell.Config(category: category)
         return CategoryHeaderCellSizeCalculator.calculateHeight(config, cellWidth: cellWidth)
     }
 
-    public static func calculatePagePromotionalHeight(pagePromotional: PagePromotional, cellWidth: CGFloat) -> CGFloat {
+    static func calculatePagePromotionalHeight(_ pagePromotional: PagePromotional, cellWidth: CGFloat) -> CGFloat {
         let config = CategoryHeaderCell.Config(pagePromotional: pagePromotional)
         return CategoryHeaderCellSizeCalculator.calculateHeight(config, cellWidth: cellWidth)
     }
 
-    public static func calculateHeight(config: CategoryHeaderCell.Config, cellWidth: CGFloat) -> CGFloat {
+    static func calculateHeight(_ config: CategoryHeaderCell.Config, cellWidth: CGFloat) -> CGFloat {
         var calcHeight: CGFloat = 0
         let textWidth = cellWidth - 2 * CategoryHeaderCell.Size.defaultMargin
-        let boundingSize = CGSize(width: textWidth, height: CGFloat.max)
+        let boundingSize = CGSize(width: textWidth, height: CGFloat.greatestFiniteMagnitude)
 
         let attributedTitle = config.attributedTitle
         calcHeight += CategoryHeaderCell.Size.topMargin
@@ -51,11 +51,11 @@ public class CategoryHeaderCellSizeCalculator {
         var ctaSize: CGSize = .zero
         var postedBySize: CGSize = .zero
         if let attributedCallToAction = config.attributedCallToAction {
-            ctaSize = attributedCallToAction.boundingRectWithSize(boundingSize, options: [], context: nil).size.integral
+            ctaSize = attributedCallToAction.boundingRect(with: boundingSize, options: [], context: nil).size.integral
         }
 
         if let attributedPostedBy = config.attributedPostedBy {
-            postedBySize = attributedPostedBy.boundingRectWithSize(boundingSize, options: [], context: nil).size.integral
+            postedBySize = attributedPostedBy.boundingRect(with: boundingSize, options: [], context: nil).size.integral
         }
 
         calcHeight += CategoryHeaderCell.Size.bodyMargin
@@ -72,10 +72,10 @@ public class CategoryHeaderCellSizeCalculator {
 
     // MARK: Private
 
-    private func processJob(job: CellJob) {
+    fileprivate func processJob(_ job: CellJob) {
         self.completion = {
             if self.cellJobs.count > 0 {
-                self.cellJobs.removeAtIndex(0)
+                self.cellJobs.remove(at: 0)
             }
             job.completion()
             if let nextJob = self.cellJobs.safeValue(0) {
@@ -87,13 +87,13 @@ public class CategoryHeaderCellSizeCalculator {
         loadNext()
     }
 
-    private func loadNext() {
+    fileprivate func loadNext() {
         guard !self.cellItems.isEmpty else {
             completion()
             return
         }
 
-        let item = cellItems.removeAtIndex(0)
+        let item = cellItems.remove(at: 0)
         let minHeight = ceil(cellWidth / CategoryHeaderCellSizeCalculator.ratio)
         var calcHeight: CGFloat = 0
         if let category = item.jsonable as? Category {

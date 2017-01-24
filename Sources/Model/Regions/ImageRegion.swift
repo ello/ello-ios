@@ -2,28 +2,28 @@
 ///  ImageRegion.swift
 //
 
-import Crashlytics
 import Foundation
 import SwiftyJSON
+
 
 let ImageRegionVersion = 1
 
 @objc(ImageRegion)
-public final class ImageRegion: JSONAble, Regionable {
-    public var isRepost: Bool  = false
+final class ImageRegion: JSONAble, Regionable {
+    var isRepost: Bool  = false
 
     // required
-    public let alt: String?
+    let alt: String?
     // optional
-    public var url: NSURL?
-    public var buyButtonURL: NSURL?
+    var url: URL?
+    var buyButtonURL: URL?
 
     // links
-    public var asset: Asset? { return getLinkObject("assets") as? Asset }
+    var asset: Asset? { return getLinkObject("assets") as? Asset }
 
 // MARK: Initialization
 
-    public init(alt: String?)
+    init(alt: String?)
     {
         self.alt = alt
         super.init(version: ImageRegionVersion)
@@ -31,7 +31,7 @@ public final class ImageRegion: JSONAble, Regionable {
 
 // MARK: NSCoding
 
-    public required init(coder aDecoder: NSCoder) {
+    required init(coder aDecoder: NSCoder) {
         let decoder = Coder(aDecoder)
         // required
         self.isRepost = decoder.decodeKey("isRepost")
@@ -42,7 +42,7 @@ public final class ImageRegion: JSONAble, Regionable {
         super.init(coder: decoder.coder)
     }
 
-    public override func encodeWithCoder(encoder: NSCoder) {
+    override func encode(with encoder: NSCoder) {
         let coder = Coder(encoder)
         // required
         coder.encodeObject(alt, forKey: "alt")
@@ -50,14 +50,13 @@ public final class ImageRegion: JSONAble, Regionable {
         // optional
         coder.encodeObject(url, forKey: "url")
         coder.encodeObject(buyButtonURL, forKey: "buyButtonURL")
-        super.encodeWithCoder(coder.coder)
+        super.encode(with: coder.coder)
     }
 
 // MARK: JSONAble
 
-    override public class func fromJSON(data: [String: AnyObject]) -> JSONAble {
+    override class func fromJSON(_ data: [String: AnyObject]) -> JSONAble {
         let json = JSON(data)
-        Crashlytics.sharedInstance().setObjectValue(json.rawString(), forKey: CrashlyticsKey.ImageRegionFromJSON.rawValue)
         // create region
         let imageRegion = ImageRegion(
             alt: json["data"]["alt"].string
@@ -67,10 +66,10 @@ public final class ImageRegion: JSONAble, Regionable {
             if urlStr.hasPrefix("//") {
                 urlStr = "https:\(urlStr)"
             }
-            imageRegion.url = NSURL(string: urlStr)
+            imageRegion.url = URL(string: urlStr)
         }
         if let urlStr = json["link_url"].string {
-            imageRegion.buyButtonURL = NSURL(string: urlStr)
+            imageRegion.buyButtonURL = URL(string: urlStr)
         }
         // links
         imageRegion.links = data["links"] as? [String: AnyObject]
@@ -79,32 +78,32 @@ public final class ImageRegion: JSONAble, Regionable {
 
 // MARK: Regionable
 
-    public var kind: String { return RegionKind.Image.rawValue }
+    var kind: String { return RegionKind.image.rawValue }
 
-    public func coding() -> NSCoding {
+    func coding() -> NSCoding {
         return self
     }
 
-    public func toJSON() -> [String: AnyObject] {
+    func toJSON() -> [String: AnyObject] {
         var json: [String: AnyObject]
         if let url = self.url?.absoluteString {
             json = [
-                "kind": self.kind,
+                "kind": self.kind as AnyObject,
                 "data": [
                     "alt": alt ?? "",
                     "url": url
-                ],
+                ] as AnyObject,
             ]
         }
         else {
             json = [
-                "kind": self.kind,
-                "data": [:]
+                "kind": self.kind as AnyObject,
+                "data": [:] as AnyObject
             ]
         }
 
         if let buyButtonURL = buyButtonURL {
-            json["link_url"] = buyButtonURL.absoluteString
+            json["link_url"] = buyButtonURL.absoluteString as AnyObject?
         }
         return json
     }

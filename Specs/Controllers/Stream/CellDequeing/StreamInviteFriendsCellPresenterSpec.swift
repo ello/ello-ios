@@ -2,7 +2,7 @@
 ///  StreamInviteFriendsCellPresenterSpec.swift
 //
 
-import Ello
+@testable import Ello
 import Quick
 import Nimble
 
@@ -19,11 +19,11 @@ class StreamInviteFriendsCellPresenterSpec: QuickSpec {
                 cell = StreamInviteFriendsCell.loadFromNib()
                 cell.inviteCache = InviteCache()
                 person = stub(["name": "The Devil", "id": 666, "emails": ["666@gmail.com"]])
-                item = StreamCellItem(jsonable: person, type: StreamCellType.InviteFriends)
+                item = StreamCellItem(jsonable: person, type: StreamCellType.inviteFriends)
             }
 
             it("sets the person and name label correctly") {
-                StreamInviteFriendsCellPresenter.configure(cell, streamCellItem: item, streamKind: StreamKind.Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
+                StreamInviteFriendsCellPresenter.configure(cell, streamCellItem: item, streamKind: StreamKind.following, indexPath: IndexPath(item: 0, section: 0), currentUser: nil)
                 expect(cell.nameLabel.text) == "The Devil"
                 expect(cell.person) == person
             }
@@ -35,7 +35,7 @@ class StreamInviteFriendsCellPresenterSpec: QuickSpec {
             // not 100% sure why this isn't doing what I expect it to
             xit("sets the button text to Re-send if in the cache") {
                 cell.inviteCache?.saveInvite(person.identifier)
-                StreamInviteFriendsCellPresenter.configure(cell, streamCellItem: item, streamKind: StreamKind.Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
+                StreamInviteFriendsCellPresenter.configure(cell, streamCellItem: item, streamKind: StreamKind.following, indexPath: IndexPath(item: 0, section: 0), currentUser: nil)
                 expect(cell.inviteButton.titleLabel?.text) == "Re-send"
             }
         }

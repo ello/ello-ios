@@ -6,19 +6,19 @@ import Foundation
 import SwiftyJSON
 
 
-public struct AuthToken {
+struct AuthToken {
     static var sharedKeychain: KeychainType = ElloKeychain()
     var keychain: KeychainType
 
     // MARK: - Initializers
 
-    public init() {
+    init() {
         keychain = AuthToken.sharedKeychain
     }
 
     // MARK: - Properties
 
-    public var tokenWithBearer: String? {
+    var tokenWithBearer: String? {
         get {
             if let key = keychain.authToken {
                 return "Bearer \(key)"
@@ -27,63 +27,65 @@ public struct AuthToken {
         }
     }
 
-    public var token: String? {
+    var token: String? {
         get { return keychain.authToken }
         set(newToken) { keychain.authToken = newToken }
     }
 
-    public var type: String? {
+    var type: String? {
         get { return keychain.authTokenType }
         set(newType) { keychain.authTokenType = newType }
     }
 
-    public var refreshToken: String? {
+    var refreshToken: String? {
         get { return keychain.refreshAuthToken }
         set(newRefreshToken) { keychain.refreshAuthToken = newRefreshToken }
     }
 
-    public var isPresent: Bool {
+    var isPresent: Bool {
         return (token ?? "").characters.count > 0
     }
 
-    public var isPasswordBased: Bool {
+    var isPasswordBased: Bool {
         get { return isPresent && keychain.isPasswordBased ?? false }
         set { keychain.isPasswordBased = newValue }
     }
 
-    public var isAnonymous: Bool {
+    var isAnonymous: Bool {
         return isPresent && !isPasswordBased
     }
 
-    public var username: String? {
+    var username: String? {
         get { return keychain.username }
         set { keychain.username = newValue }
     }
 
-    public var password: String? {
+    var password: String? {
         get { return keychain.password }
         set { keychain.password = newValue }
     }
 
-    public static func storeToken(data: NSData, isPasswordBased: Bool, email: String? = nil, password: String? = nil) {
+    var isStaff: Bool {
+        get { return keychain.isStaff ?? false }
+        set { keychain.isStaff = newValue }
+    }
+
+    static func storeToken(_ data: Data, isPasswordBased: Bool, email: String? = nil, password: String? = nil) {
         var authToken = AuthToken()
         authToken.isPasswordBased = isPasswordBased
 
-        do {
-            let json = try JSON(data: data)
-            if let email = email {
-                authToken.username = email
-            }
-            if let password = password {
-                authToken.password = password
-            }
-            authToken.token = json["access_token"].stringValue
-            authToken.type = json["token_type"].stringValue
-            authToken.refreshToken = json["refresh_token"].stringValue
+        let json = JSON(data: data)
+        if let email = email {
+            authToken.username = email
         }
-        catch {
-            log("token JSON failure", object: "failed to create JSON and store authToken")
+        if let password = password {
+            authToken.password = password
         }
+        authToken.token = json["access_token"].stringValue
+        authToken.type = json["token_type"].stringValue
+        authToken.refreshToken = json["refresh_token"].stringValue
+
+        JWT.refresh()
     }
 
     static func reset() {
@@ -94,5 +96,6 @@ public struct AuthToken {
         keychain.isPasswordBased = false
         keychain.username = nil
         keychain.password = nil
+        keychain.isStaff = nil
     }
 }

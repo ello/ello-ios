@@ -2,7 +2,7 @@
 ///  AddFriendsContainerViewControllerSpec.swift
 //
 
-import Ello
+@testable import Ello
 import Quick
 import Nimble
 
@@ -36,7 +36,7 @@ class AddFriendsViewControllerSpec: QuickSpec {
 
         describe("setContacts") {
             xit("sets the given array of contacts to the datasource") {
-                let localPeople: [(LocalPerson, User?)] = [(LocalPerson(name: "name", emails: ["test@testing.com"], id: 123), .None)]
+                let localPeople: [(LocalPerson, User?)] = [(LocalPerson(name: "name", emails: ["test@testing.com"], id: "123"), .none)]
 
                 subject.setContacts(localPeople)
                 expect(subject.streamViewController.dataSource.streamCellItems.count).toEventually(equal(1))
@@ -49,8 +49,8 @@ class AddFriendsViewControllerSpec: QuickSpec {
             context("empty filter field") {
                 it("sets the full list of contacts to the dataSource") {
                     let localPeople: [(LocalPerson, User?)] = [
-                        (LocalPerson(name: "name", emails: ["test@testing.com"], id: 123), .None),
-                        (LocalPerson(name: "that guy", emails: ["another@email.com"], id: 124), .None)
+                        (LocalPerson(name: "name", emails: ["test@testing.com"], id: "123"), .none),
+                        (LocalPerson(name: "that guy", emails: ["another@email.com"], id: "123"), .none)
                     ]
                     subject.setContacts(localPeople)
                     subject.searchFieldChanged("", isPostSearch: false)
@@ -62,8 +62,8 @@ class AddFriendsViewControllerSpec: QuickSpec {
                 context("name matching") {
                     it("sets the filtered list of contacts to the dataSource") {
                         let localPeople: [(LocalPerson, User?)] = [
-                            (LocalPerson(name: "name", emails: ["test@testing.com"], id: 123), .None),
-                            (LocalPerson(name: "that guy", emails: ["another@email.com"], id: 124), .None)
+                            (LocalPerson(name: "name", emails: ["test@testing.com"], id: "123"), .none),
+                            (LocalPerson(name: "that guy", emails: ["another@email.com"], id: "124"), .none)
                         ]
                         subject.setContacts(localPeople)
                         subject.searchFieldChanged("at", isPostSearch: false)
@@ -75,8 +75,8 @@ class AddFriendsViewControllerSpec: QuickSpec {
                 context("email matching") {
                     it("sets the filtered list of contacts to the dataSource") {
                         let localPeople: [(LocalPerson, User?)] = [
-                            (LocalPerson(name: "name", emails: ["test@testing.com"], id: 123), .None),
-                            (LocalPerson(name: "that guy", emails: ["another@email.com"], id: 124), .None)
+                            (LocalPerson(name: "name", emails: ["test@testing.com"], id: "123"), .none),
+                            (LocalPerson(name: "that guy", emails: ["another@email.com"], id: "124"), .none)
                         ]
                         subject.setContacts(localPeople)
                         subject.searchFieldChanged("test", isPostSearch: false)

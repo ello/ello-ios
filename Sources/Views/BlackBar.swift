@@ -6,15 +6,15 @@ class BlackBar: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        autoresizingMask = [.FlexibleWidth, .FlexibleBottomMargin]
-        backgroundColor = .blackColor()
+        autoresizingMask = [.flexibleWidth, .flexibleBottomMargin]
+        backgroundColor = .black
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func intrinsicContentSize() -> CGSize {
+    override var intrinsicContentSize: CGSize {
         return CGSize(width: UIViewNoIntrinsicMetric, height: 20)
     }
 

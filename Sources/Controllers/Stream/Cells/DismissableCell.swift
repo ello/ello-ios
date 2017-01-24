@@ -2,6 +2,6 @@
 ///  DismissableCell.swift
 //
 
-public protocol DismissableCell: class {
+protocol DismissableCell: class {
     func didEndDisplay()
 }

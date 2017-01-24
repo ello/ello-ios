@@ -2,7 +2,7 @@
 ///  AttachmentSpec.swift
 //
 
-import Ello
+@testable import Ello
 import Quick
 import Nimble
 
@@ -13,14 +13,14 @@ class AttachmentSpec: QuickSpec {
         context("NSCoding") {
 
             var filePath = ""
-            if let url = NSURL(string: NSFileManager.ElloDocumentsDir()) {
-                filePath = url.URLByAppendingPathComponent("ImageAttachmentSpec")!.absoluteString!
+            if let url = URL(string: FileManager.ElloDocumentsDir()) {
+                filePath = url.appendingPathComponent("ImageAttachmentSpec").absoluteString
             }
             ElloURI.httpProtocol = "https"
 
             afterEach {
                 do {
-                    try NSFileManager.defaultManager().removeItemAtPath(filePath)
+                    try FileManager.default.removeItem(atPath: filePath)
                 }
                 catch {
 
@@ -42,7 +42,7 @@ class AttachmentSpec: QuickSpec {
 
                 it("decodes successfully") {
                     let imageAttachment: Attachment = stub([
-                        "url" : NSURL(string: "https://www.example12.com")!,
+                        "url" : URL(string: "https://www.example12.com")!,
                         "height" : 456,
                         "width" : 110,
                         "type" : "png",
@@ -50,7 +50,7 @@ class AttachmentSpec: QuickSpec {
                     ])
 
                     NSKeyedArchiver.archiveRootObject(imageAttachment, toFile: filePath)
-                    let unArchivedAttachment = NSKeyedUnarchiver.unarchiveObjectWithFile(filePath) as! Attachment
+                    let unArchivedAttachment = NSKeyedUnarchiver.unarchiveObject(withFile: filePath) as! Attachment
 
                     expect(unArchivedAttachment).toNot(beNil())
                     expect(unArchivedAttachment.version) == 1

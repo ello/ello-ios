@@ -62,7 +62,7 @@ class ProfileScreenSpec: QuickSpec {
                         subject.relationshipControl.relationshipPriority = user.relationshipPriority
                         subject.showNavBars()
 
-                        expectValidSnapshot(subject, named: "ProfileScreen_not_current_user_is_hireable", device: .Phone6_Portrait)
+                        expectValidSnapshot(subject, named: "ProfileScreen_not_current_user_is_hireable", device: .phone6_Portrait)
                     }
 
                     it("is collaborateable not hireable") {
@@ -73,7 +73,7 @@ class ProfileScreenSpec: QuickSpec {
                         subject.relationshipControl.relationshipPriority = user.relationshipPriority
                         subject.showNavBars()
 
-                        expectValidSnapshot(subject, named: "ProfileScreen_not_current_user_is_collaborateable", device: .Phone6_Portrait)
+                        expectValidSnapshot(subject, named: "ProfileScreen_not_current_user_is_collaborateable", device: .phone6_Portrait)
                     }
 
                     context("is hireable and collaborateable") {

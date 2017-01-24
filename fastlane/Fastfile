@@ -77,7 +77,14 @@ lane :store do
 end
 
 desc 'Downloads dSyms from Apple, and uploads them to Crashlytics'
-lane :refresh_dsyms do
+desc '  Options:'
+desc '      version:x.y.z (defaults to ENV[VERSION_NUMBER])'
+desc '      build:1234 (defaults to latest build number)'
+lane :refresh_dsyms do |opts|
+  download_version = opts[:version] || version_number
+  download_build = opts[:build] || build_number
+  UI.message("Uploading version #{download_version} (#{download_build})")
+
   extract_from_env(
     required: {
       "CRASHLYTICS_API_TOKEN" =>    "Your Crashlytics Api Token",
@@ -85,7 +92,7 @@ lane :refresh_dsyms do
     },
   )
 
-  download_dsyms(version: version_number, build_number: build_number)
+  download_dsyms(version: download_version, build_number: download_build)
   upload_symbols_to_crashlytics
   clean_build_artifacts
 end
@@ -94,6 +101,10 @@ end
 
 private_lane :switch_to_prod do
   `bundle exec rake generate:prod_keys`
+end
+
+private_lane :switch_to_staging do
+  `bundle exec rake generate:staging_keys`
 end
 
 private_lane :compile do

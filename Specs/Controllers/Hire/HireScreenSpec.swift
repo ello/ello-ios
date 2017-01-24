@@ -30,7 +30,7 @@ class HireScreenSpec: QuickSpec {
                     Keyboard.shared.bottomInset = 0
                 }
                 it("should have a valid snapshot") {
-                    expectValidSnapshot(subject, device: .Phone6_Portrait)
+                    expectValidSnapshot(subject, device: .phone6_Portrait)
                 }
 
                 describe("submit button enabled") {
@@ -40,7 +40,7 @@ class HireScreenSpec: QuickSpec {
                         subject.textViewDidChange(textView)
                     }
                     it("should have a valid snapshot") {
-                        expectValidSnapshot(subject, device: .Phone6_Portrait)
+                        expectValidSnapshot(subject, device: .phone6_Portrait)
                     }
                 }
             }
@@ -55,7 +55,7 @@ class HireScreenSpec: QuickSpec {
                     subject.textViewDidChange(textView)
                 }
                 it("submitButton is disabled") {
-                    expect(submitButton?.enabled) == false
+                    expect(submitButton?.isEnabled) == false
                 }
             }
             context("text set") {
@@ -69,7 +69,7 @@ class HireScreenSpec: QuickSpec {
                     subject.textViewDidChange(textView)
                 }
                 it("submitButton is enabled") {
-                    expect(submitButton?.enabled) == true
+                    expect(submitButton?.isEnabled) == true
                 }
             }
         }

@@ -4,59 +4,59 @@
 
 import UIKit
 
-public typealias AlertHandler = ((AlertAction) -> Void)?
-public typealias AlertCellConfigClosure = (
-    cell: AlertCell,
-    type: AlertType,
-    action: AlertAction,
-    textAlignment: NSTextAlignment
+typealias AlertHandler = ((AlertAction) -> Void)?
+typealias AlertCellConfigClosure = (
+    _ cell: AlertCell,
+    _ type: AlertType,
+    _ action: AlertAction,
+    _ textAlignment: NSTextAlignment
 ) -> Void
 
-public enum ActionStyle {
-    case White
-    case Light
-    case Dark
-    case Green
-    case RoundedGrayFill
-    case OKCancel
-    case URLInput
+enum ActionStyle {
+    case white
+    case light
+    case dark
+    case green
+    case roundedGrayFill
+    case okCancel
+    case urlInput
 }
 
-public struct AlertAction {
-    public let title: String
-    public let style: ActionStyle
-    public let handler: AlertHandler
+struct AlertAction {
+    let title: String
+    let style: ActionStyle
+    let handler: AlertHandler
 
-    public var isInput: Bool {
+    var isInput: Bool {
         switch style {
-        case .URLInput, .OKCancel:
+        case .urlInput, .okCancel:
             return true
         default:
             return false
         }
     }
 
-    public init(title: String, style: ActionStyle, handler: AlertHandler = nil) {
+    init(title: String, style: ActionStyle, handler: AlertHandler = nil) {
         self.title = title
         self.style = style
         self.handler = handler
     }
 
-    public var configure: AlertCellConfigClosure {
+    var configure: AlertCellConfigClosure {
         switch style {
-        case .White:
+        case .white:
             return AlertCellPresenter.configureForWhiteAction
-        case .Light:
+        case .light:
             return AlertCellPresenter.configureForLightAction
-        case .Dark:
+        case .dark:
             return AlertCellPresenter.configureForDarkAction
-        case .Green:
+        case .green:
             return AlertCellPresenter.configureForGreenAction
-        case .RoundedGrayFill:
+        case .roundedGrayFill:
             return AlertCellPresenter.configureForRoundedGrayFillAction
-        case .OKCancel:
+        case .okCancel:
             return AlertCellPresenter.configureForOKCancelAction
-        case .URLInput:
+        case .urlInput:
             return AlertCellPresenter.configureForURLAction
         }
     }

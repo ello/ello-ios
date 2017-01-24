@@ -5,14 +5,14 @@
 import FutureKit
 
 
-public class ProfileHeaderCellSizeCalculator {
+class ProfileHeaderCellSizeCalculator {
     static let ratio: CGFloat = 320 / 211
 
-    private var maxWidth: CGFloat = 0.0
-    private typealias CellJob = (cellItems: [StreamCellItem], width: CGFloat, columnCount: Int, completion: ElloEmptyCompletion)
-    private var cellJobs: [CellJob] = []
-    private var cellItems: [StreamCellItem] = []
-    private var completion: ElloEmptyCompletion = {}
+    fileprivate var maxWidth: CGFloat = 0.0
+    fileprivate typealias CellJob = (cellItems: [StreamCellItem], width: CGFloat, columnCount: Int, completion: ElloEmptyCompletion)
+    fileprivate var cellJobs: [CellJob] = []
+    fileprivate var cellItems: [StreamCellItem] = []
+    fileprivate var completion: ElloEmptyCompletion = {}
 
     let statsSizeCalculator = ProfileStatsSizeCalculator()
     let avatarSizeCalculator = ProfileAvatarSizeCalculator()
@@ -23,9 +23,9 @@ public class ProfileHeaderCellSizeCalculator {
     let totalCountSizeCalculator = ProfileTotalCountSizeCalculator()
 
 // MARK: Public
-    public init() {}
+    init() {}
 
-    public func processCells(cellItems: [StreamCellItem], withWidth width: CGFloat, columnCount: Int, completion: ElloEmptyCompletion) {
+    func processCells(_ cellItems: [StreamCellItem], withWidth width: CGFloat, columnCount: Int, completion: @escaping ElloEmptyCompletion) {
         let job: CellJob = (cellItems: cellItems, width: width, columnCount: columnCount, completion: completion)
         cellJobs.append(job)
         if cellJobs.count == 1 {
@@ -33,15 +33,15 @@ public class ProfileHeaderCellSizeCalculator {
         }
     }
 
-    static func calculateHeightFromCellHeights(calculatedCellHeights: CalculatedCellHeights) -> CGFloat? {
-        guard let
-            profileAvatar = calculatedCellHeights.profileAvatar,
-            profileNames = calculatedCellHeights.profileNames,
-            profileTotalCount = calculatedCellHeights.profileTotalCount,
-            profileStats = calculatedCellHeights.profileStats,
-            profileBio = calculatedCellHeights.profileBio,
-            profileLocation = calculatedCellHeights.profileLocation,
-            profileLinks = calculatedCellHeights.profileLinks
+    static func calculateHeightFromCellHeights(_ calculatedCellHeights: CalculatedCellHeights) -> CGFloat? {
+        guard
+            let profileAvatar = calculatedCellHeights.profileAvatar,
+            let profileNames = calculatedCellHeights.profileNames,
+            let profileTotalCount = calculatedCellHeights.profileTotalCount,
+            let profileStats = calculatedCellHeights.profileStats,
+            let profileBio = calculatedCellHeights.profileBio,
+            let profileLocation = calculatedCellHeights.profileLocation,
+            let profileLinks = calculatedCellHeights.profileLinks
         else { return nil }
 
         return profileAvatar + profileNames + profileTotalCount + profileStats + profileBio + profileLocation + profileLinks
@@ -51,11 +51,11 @@ public class ProfileHeaderCellSizeCalculator {
 
 private extension ProfileHeaderCellSizeCalculator {
 
-    func processJob(job: CellJob) {
+    func processJob(_ job: CellJob) {
 
         self.completion = {
             if self.cellJobs.count > 0 {
-                self.cellJobs.removeAtIndex(0)
+                self.cellJobs.remove(at: 0)
             }
             job.completion()
             if let nextJob = self.cellJobs.safeValue(0) {
@@ -82,9 +82,9 @@ private extension ProfileHeaderCellSizeCalculator {
         }
     }
 
-    func assignCellHeight(height: CGFloat) {
+    func assignCellHeight(_ height: CGFloat) {
         if let cellItem = cellItems.safeValue(0) {
-            self.cellItems.removeAtIndex(0)
+            self.cellItems.remove(at: 0)
             cellItem.calculatedCellHeights.webContent = height
             cellItem.calculatedCellHeights.oneColumn = height
             cellItem.calculatedCellHeights.multiColumn = height
@@ -92,15 +92,15 @@ private extension ProfileHeaderCellSizeCalculator {
         loadNext()
     }
 
-    func calculateAggregateHeights(item: StreamCellItem) {
+    func calculateAggregateHeights(_ item: StreamCellItem) {
         let futures: [(CalculatedCellHeights.Prop, Future<CGFloat>)] = [
-            (.ProfileAvatar, avatarSizeCalculator.calculate(item, maxWidth: maxWidth)),
-            (.ProfileNames, namesSizeCalculator.calculate(item, maxWidth: maxWidth)),
-            (.ProfileTotalCount, totalCountSizeCalculator.calculate(item)),
-            (.ProfileStats, statsSizeCalculator.calculate(item)),
-            (.ProfileBio, bioSizeCalculator.calculate(item, maxWidth: maxWidth)),
-            (.ProfileLocation, locationSizeCalculator.calculate(item, maxWidth: maxWidth)),
-            (.ProfileLinks, linksSizeCalculator.calculate(item, maxWidth: maxWidth)),
+            (.profileAvatar, avatarSizeCalculator.calculate(item, maxWidth: maxWidth)),
+            (.profileNames, namesSizeCalculator.calculate(item, maxWidth: maxWidth)),
+            (.profileTotalCount, totalCountSizeCalculator.calculate(item)),
+            (.profileStats, statsSizeCalculator.calculate(item)),
+            (.profileBio, bioSizeCalculator.calculate(item, maxWidth: maxWidth)),
+            (.profileLocation, locationSizeCalculator.calculate(item, maxWidth: maxWidth)),
+            (.profileLinks, linksSizeCalculator.calculate(item, maxWidth: maxWidth)),
         ]
 
         let done = after(futures.count) {

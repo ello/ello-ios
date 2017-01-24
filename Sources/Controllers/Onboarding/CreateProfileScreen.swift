@@ -7,10 +7,10 @@ import SnapKit
 import ImagePickerSheetController
 
 
-public class CreateProfileScreen: Screen, CreateProfileScreenProtocol {
-    public enum ImageTarget {
-        case CoverImage
-        case Avatar
+class CreateProfileScreen: Screen, CreateProfileScreenProtocol {
+    enum ImageTarget {
+        case coverImage
+        case avatar
     }
 
     struct Size {
@@ -29,111 +29,111 @@ public class CreateProfileScreen: Screen, CreateProfileScreenProtocol {
         get { return nameTextView.text }
         set {
             nameTextView.text = newValue
-            nameTextView.validationState = (newValue?.isEmpty == false) ? .OKSmall : .None
+            nameTextView.validationState = (newValue?.isEmpty == false) ? .okSmall : .none
         }
     }
     var bio: String? {
         get { return bioTextView.text }
         set {
             bioTextView.text = newValue
-            bioTextView.validationState = (newValue?.isEmpty == false) ? .OKSmall : .None
+            bioTextView.validationState = (newValue?.isEmpty == false) ? .okSmall : .none
         }
     }
     var links: String? {
         get { return linksTextView.text }
         set {
             linksTextView.text = newValue
-            linksTextView.validationState = (newValue?.isEmpty == false) ? .OKSmall : .None
+            linksTextView.validationState = (newValue?.isEmpty == false) ? .okSmall : .none
         }
     }
     var linksValid: Bool? = nil {
         didSet {
             let newState: ValidationState
             switch linksValid {
-            case .None: newState = .None
-            case .Some(true): newState = .OKSmall
-            case .Some(false): newState = .Error
+            case .none: newState = .none
+            case .some(true): newState = .okSmall
+            case .some(false): newState = .error
             }
             linksTextView.validationState = newState
         }
     }
     var coverImage: ImageRegionData? {
         didSet {
-            setImage(coverImage, target: .CoverImage, updateDelegate: false)
+            setImage(coverImage, target: .coverImage, updateDelegate: false)
         }
     }
     var avatarImage: ImageRegionData? {
         didSet {
-            setImage(avatarImage, target: .Avatar, updateDelegate: false)
+            setImage(avatarImage, target: .avatar, updateDelegate: false)
         }
     }
 
-    private var uploading: ImageTarget?
+    fileprivate var uploading: ImageTarget?
 
-    private let scrollView = UIScrollView()
-    private var prevOffset: CGPoint = .zero
-    private var scrollViewWidthConstraint: Constraint!
-    private let headerLabel = UILabel()
+    fileprivate let scrollView = UIScrollView()
+    fileprivate var prevOffset: CGPoint = .zero
+    fileprivate var scrollViewWidthConstraint: Constraint!
+    fileprivate let headerLabel = UILabel()
 
-    private let coverImageView = FLAnimatedImageView()
-    private let uploadCoverImageButton = StyledButton(style: .Green)
-    private let uploadCoverImagePrompt = UILabel()
+    fileprivate let coverImageView = FLAnimatedImageView()
+    fileprivate let uploadCoverImageButton = StyledButton(style: .Green)
+    fileprivate let uploadCoverImagePrompt = UILabel()
 
-    private let avatarImageView = FLAnimatedImageView()
-    private let uploadAvatarButton = StyledButton(style: .Green)
-    private let uploadAvatarPrompt = UILabel()
+    fileprivate let avatarImageView = FLAnimatedImageView()
+    fileprivate let uploadAvatarButton = StyledButton(style: .Green)
+    fileprivate let uploadAvatarPrompt = UILabel()
 
-    private let nameTextView = ClearTextView()
-    private let bioTextView = ClearTextView()
-    private let linksTextView = ClearTextView()
+    fileprivate let nameTextView = ClearTextView()
+    fileprivate let bioTextView = ClearTextView()
+    fileprivate let linksTextView = ClearTextView()
 
     override func style() {
         headerLabel.numberOfLines = 0
 
         coverImageView.backgroundColor = .greyE5()
-        coverImageView.contentMode = .ScaleAspectFill
+        coverImageView.contentMode = .scaleAspectFill
         coverImageView.clipsToBounds = true
-        uploadCoverImagePrompt.textAlignment = .Center
+        uploadCoverImagePrompt.textAlignment = .center
         uploadCoverImagePrompt.textColor = .greyA()
         uploadCoverImagePrompt.font = UIFont.defaultFont(12)
         uploadCoverImagePrompt.numberOfLines = 2
 
         avatarImageView.backgroundColor = .greyE5()
         avatarImageView.clipsToBounds = true
-        avatarImageView.contentMode = .Center
-        avatarImageView.image = InterfaceImage.ElloGrayLineLogo.normalImage
-        uploadAvatarPrompt.textAlignment = .Center
+        avatarImageView.contentMode = .center
+        avatarImageView.image = InterfaceImage.elloGrayLineLogo.normalImage
+        uploadAvatarPrompt.textAlignment = .center
         uploadAvatarPrompt.textColor = .greyA()
         uploadAvatarPrompt.font = UIFont.defaultFont(12)
         uploadAvatarPrompt.numberOfLines = 2
 
-        nameTextView.textColor = .blackColor()
-        nameTextView.scrollEnabled = false
+        nameTextView.textColor = .black
+        nameTextView.isScrollEnabled = false
         nameTextView.lineColor = .greyE5()
-        nameTextView.selectedLineColor = .blackColor()
-        nameTextView.keyboardAppearance = .Dark
+        nameTextView.selectedLineColor = .black
+        nameTextView.keyboardAppearance = .dark
 
-        nameTextView.autocapitalizationType = .Words
-        nameTextView.autocorrectionType = .No
-        nameTextView.spellCheckingType = .No
+        nameTextView.autocapitalizationType = .words
+        nameTextView.autocorrectionType = .no
+        nameTextView.spellCheckingType = .no
 
-        bioTextView.textColor = .blackColor()
-        bioTextView.scrollEnabled = false
+        bioTextView.textColor = .black
+        bioTextView.isScrollEnabled = false
         bioTextView.lineColor = .greyE5()
-        bioTextView.selectedLineColor = .blackColor()
-        bioTextView.keyboardAppearance = .Dark
+        bioTextView.selectedLineColor = .black
+        bioTextView.keyboardAppearance = .dark
 
-        linksTextView.textColor = .blackColor()
-        linksTextView.scrollEnabled = false
+        linksTextView.textColor = .black
+        linksTextView.isScrollEnabled = false
         linksTextView.lineColor = .greyE5()
-        linksTextView.selectedLineColor = .blackColor()
+        linksTextView.selectedLineColor = .black
 
-        linksTextView.autocapitalizationType = .None
-        linksTextView.autocorrectionType = .No
+        linksTextView.autocapitalizationType = .none
+        linksTextView.autocorrectionType = .no
         linksTextView.enablesReturnKeyAutomatically = true
-        linksTextView.keyboardAppearance = .Dark
+        linksTextView.keyboardAppearance = .dark
         linksTextView.keyboardType = .URL
-        linksTextView.spellCheckingType = .No
+        linksTextView.spellCheckingType = .no
     }
 
     override func bindActions() {
@@ -141,13 +141,13 @@ public class CreateProfileScreen: Screen, CreateProfileScreenProtocol {
         nameTextView.delegate = self
         bioTextView.delegate = self
         linksTextView.delegate = self
-        uploadCoverImageButton.addTarget(self, action: #selector(uploadCoverImageAction), forControlEvents: .TouchUpInside)
-        uploadAvatarButton.addTarget(self, action: #selector(uploadAvatarAction), forControlEvents: .TouchUpInside)
+        uploadCoverImageButton.addTarget(self, action: #selector(uploadCoverImageAction), for: .touchUpInside)
+        uploadAvatarButton.addTarget(self, action: #selector(uploadAvatarAction), for: .touchUpInside)
     }
 
     override func setText() {
-        uploadCoverImageButton.setTitle(InterfaceString.Onboard.UploadCoverButton, forState: .Normal)
-        uploadAvatarButton.setTitle(InterfaceString.Onboard.UploadAvatarButton, forState: .Normal)
+        uploadCoverImageButton.setTitle(InterfaceString.Onboard.UploadCoverButton, for: .normal)
+        uploadAvatarButton.setTitle(InterfaceString.Onboard.UploadAvatarButton, for: .normal)
         headerLabel.attributedText = NSAttributedString(
             primaryHeader: InterfaceString.Onboard.CreateProfilePrimary,
             secondaryHeader: InterfaceString.Onboard.CreateProfileSecondary
@@ -176,76 +176,76 @@ public class CreateProfileScreen: Screen, CreateProfileScreenProtocol {
         scrollView.addSubview(bioTextView)
         scrollView.addSubview(linksTextView)
 
-        scrollView.snp_makeConstraints { make in
+        scrollView.snp.makeConstraints { make in
             make.edges.equalTo(self)
         }
 
-        widthAnchor.snp_makeConstraints { make in
+        widthAnchor.snp.makeConstraints { make in
             make.leading.trailing.equalTo(scrollView)
-            scrollViewWidthConstraint = make.width.equalTo(bounds.size.width).priorityRequired().constraint
+            scrollViewWidthConstraint = make.width.equalTo(bounds.size.width).priority(Priority.required).constraint
         }
 
-        headerLabel.setContentCompressionResistancePriority(UILayoutPriorityDefaultLow, forAxis: .Horizontal)
-        headerLabel.snp_makeConstraints { make in
+        headerLabel.setContentCompressionResistancePriority(UILayoutPriorityDefaultLow, for: .horizontal)
+        headerLabel.snp.makeConstraints { make in
             make.top.equalTo(scrollView)
             make.leading.trailing.equalTo(scrollView).inset(Size.insets)
             make.height.equalTo(Size.headerHeight)
         }
 
-        coverImageView.snp_makeConstraints { make in
-            make.top.equalTo(headerLabel.snp_bottom)
+        coverImageView.snp.makeConstraints { make in
+            make.top.equalTo(headerLabel.snp.bottom)
             make.leading.trailing.equalTo(scrollView)
-            make.height.equalTo(coverImageView.snp_width).multipliedBy(0.625)
+            make.height.equalTo(coverImageView.snp.width).multipliedBy(0.625)
         }
-        uploadCoverImageButton.snp_makeConstraints { make in
+        uploadCoverImageButton.snp.makeConstraints { make in
             make.centerX.centerY.equalTo(coverImageView)
             make.size.equalTo(Size.uploadSize)
         }
-        uploadCoverImagePrompt.snp_makeConstraints { make in
+        uploadCoverImagePrompt.snp.makeConstraints { make in
             make.centerX.equalTo(uploadCoverImageButton)
-            make.top.equalTo(uploadCoverImageButton.snp_bottom).offset(Size.promptOffset)
+            make.top.equalTo(uploadCoverImageButton.snp.bottom).offset(Size.promptOffset)
         }
 
-        avatarImageView.snp_makeConstraints { make in
+        avatarImageView.snp.makeConstraints { make in
             make.centerX.equalTo(scrollView)
-            make.top.equalTo(coverImageView.snp_bottom).offset(Size.avatarOffset)
+            make.top.equalTo(coverImageView.snp.bottom).offset(Size.avatarOffset)
             make.width.height.equalTo(Size.avatarHeight)
         }
-        uploadAvatarButton.snp_makeConstraints { make in
-            make.top.equalTo(avatarImageView.snp_bottom).offset(Size.avatarOffset)
+        uploadAvatarButton.snp.makeConstraints { make in
+            make.top.equalTo(avatarImageView.snp.bottom).offset(Size.avatarOffset)
             make.centerX.equalTo(scrollView)
             make.size.equalTo(Size.uploadSize)
         }
-        uploadAvatarPrompt.snp_makeConstraints { make in
+        uploadAvatarPrompt.snp.makeConstraints { make in
             make.centerX.equalTo(uploadAvatarButton)
-            make.top.equalTo(uploadAvatarButton.snp_bottom).offset(Size.promptOffset)
+            make.top.equalTo(uploadAvatarButton.snp.bottom).offset(Size.promptOffset)
         }
 
-        nameTextView.snp_makeConstraints { make in
-            make.top.equalTo(uploadAvatarPrompt.snp_bottom).offset(Size.fieldsTopOffset)
+        nameTextView.snp.makeConstraints { make in
+            make.top.equalTo(uploadAvatarPrompt.snp.bottom).offset(Size.fieldsTopOffset)
             make.leading.trailing.equalTo(scrollView).inset(Size.insets)
         }
-        bioTextView.snp_makeConstraints { make in
-            make.top.equalTo(nameTextView.snp_bottom).offset(Size.fieldsInnerOffset)
+        bioTextView.snp.makeConstraints { make in
+            make.top.equalTo(nameTextView.snp.bottom).offset(Size.fieldsInnerOffset)
             make.leading.trailing.equalTo(scrollView).inset(Size.insets)
         }
-        linksTextView.snp_makeConstraints { make in
-            make.top.equalTo(bioTextView.snp_bottom).offset(Size.fieldsInnerOffset)
+        linksTextView.snp.makeConstraints { make in
+            make.top.equalTo(bioTextView.snp.bottom).offset(Size.fieldsInnerOffset)
             make.leading.trailing.equalTo(scrollView).inset(Size.insets)
-            make.bottom.equalTo(scrollView.snp_bottom).inset(Size.insets)
+            make.bottom.equalTo(scrollView.snp.bottom).inset(Size.insets)
         }
     }
 
-    override public func layoutSubviews() {
+    override func layoutSubviews() {
         super.layoutSubviews()
         avatarImageView.layer.cornerRadius = avatarImageView.frame.size.width / 2
-        scrollViewWidthConstraint.updateOffset(bounds.size.width)
+        scrollViewWidthConstraint.update(offset: bounds.size.width)
     }
 
-    override public func resignFirstResponder() -> Bool {
-        nameTextView.resignFirstResponder()
-        bioTextView.resignFirstResponder()
-        linksTextView.resignFirstResponder()
+    override func resignFirstResponder() -> Bool {
+        _ = nameTextView.resignFirstResponder()
+        _ = bioTextView.resignFirstResponder()
+        _ = linksTextView.resignFirstResponder()
         return true
     }
 
@@ -253,42 +253,43 @@ public class CreateProfileScreen: Screen, CreateProfileScreenProtocol {
 
 extension CreateProfileScreen {
     func uploadCoverImageAction() {
-        resignFirstResponder()
-        uploading = .CoverImage
+
+        _ = resignFirstResponder()
+        uploading = .coverImage
         var config = ImagePickerSheetConfig()
         config.addImage = { _ in return InterfaceString.ImagePicker.ChooseImage }
         let pickerSheet = UIImagePickerController.imagePickerSheetForImagePicker(
             config: config,
             callback: openImageSheet)
         pickerSheet.maximumSelection = 1
-        delegate?.presentController(pickerSheet)
+        delegate?.present(controller: pickerSheet)
     }
 
     func uploadAvatarAction() {
-        resignFirstResponder()
-        uploading = .Avatar
+        _ = resignFirstResponder()
+        uploading = .avatar
         var config = ImagePickerSheetConfig()
         config.addImage = { _ in return InterfaceString.ImagePicker.ChooseImage }
         let pickerSheet = UIImagePickerController.imagePickerSheetForImagePicker(
             config: config,
             callback: openImageSheet)
         pickerSheet.maximumSelection = 1
-        delegate?.presentController(pickerSheet)
+        delegate?.present(controller: pickerSheet)
     }
 }
 
 extension CreateProfileScreen: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
-    public func imagePickerController(controller: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: AnyObject]) {
-        guard let
-            uploading = uploading,
-            image = info[UIImagePickerControllerOriginalImage] as? UIImage
+    func imagePickerController(_ controller: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: Any]) {
+        guard
+            let uploading = uploading,
+            let image = info[UIImagePickerControllerOriginalImage] as? UIImage
         else {
             delegate?.dismissController()
             return
         }
 
-        if let url = info[UIImagePickerControllerReferenceURL] as? NSURL,
-            asset = PHAsset.fetchAssetsWithALAssetURLs([url], options: nil).firstObject as? PHAsset
+        if let url = info[UIImagePickerControllerReferenceURL] as? URL,
+            let asset = PHAsset.fetchAssets(withALAssetURLs: [url], options: nil).firstObject
         {
             processPHAssets([asset])
             delegate?.dismissController()
@@ -304,11 +305,11 @@ extension CreateProfileScreen: UINavigationControllerDelegate, UIImagePickerCont
         }
     }
 
-    public func imagePickerControllerDidCancel(controller: UIImagePickerController) {
+    func imagePickerControllerDidCancel(_ controller: UIImagePickerController) {
         delegate?.dismissController()
     }
 
-    func processPHAssets(assets: [PHAsset]) {
+    func processPHAssets(_ assets: [PHAsset]) {
         guard let uploading = uploading else { return }
 
         AssetsToRegions.processPHAssets(assets) { (images: [ImageRegionData]) in
@@ -319,45 +320,43 @@ extension CreateProfileScreen: UINavigationControllerDelegate, UIImagePickerCont
         }
     }
 
-    func setImage(imageRegion: ImageRegionData?, target uploading: ImageTarget, updateDelegate: Bool) {
+    func setImage(_ imageRegion: ImageRegionData?, target uploading: ImageTarget, updateDelegate: Bool) {
         let imageView: FLAnimatedImageView
         switch uploading {
-        case .CoverImage:
+        case .coverImage:
             imageView = coverImageView
             uploadCoverImageButton.style = (imageRegion == nil) ? .Green : .RoundedGray
-            if let imageRegion = imageRegion
-                where updateDelegate { delegate?.assignCoverImage(imageRegion) }
-        case .Avatar:
+            if let imageRegion = imageRegion, updateDelegate { delegate?.assign(coverImage: imageRegion) }
+        case .avatar:
             imageView = avatarImageView
             uploadAvatarButton.style = (imageRegion == nil) ? .Green : .RoundedGray
-            if let imageRegion = imageRegion
-                where updateDelegate  { delegate?.assignAvatar(imageRegion) }
+            if let imageRegion = imageRegion, updateDelegate  { delegate?.assign(avatarImage: imageRegion) }
         }
 
         if let imageRegion = imageRegion {
-            imageView.contentMode = .ScaleAspectFill
-            if let data = imageRegion.data where imageRegion.contentType == "image/gif" {
-                imageView.animatedImage = FLAnimatedImage(animatedGIFData: data)
+            imageView.contentMode = .scaleAspectFill
+            if let data = imageRegion.data, imageRegion.contentType == "image/gif" {
+                imageView.animatedImage = FLAnimatedImage(animatedGIFData: data as Data!)
             }
             else {
                 imageView.image = imageRegion.image
             }
         }
         else if imageView == avatarImageView {
-            imageView.contentMode = .Center
-            imageView.image = InterfaceImage.ElloGrayLineLogo.normalImage
+            imageView.contentMode = .center
+            imageView.image = InterfaceImage.elloGrayLineLogo.normalImage
         }
         else if imageView == coverImageView {
             imageView.image = nil
         }
     }
 
-    func openImageSheet(imageSheetResult: ImagePickerSheetResult) {
+    func openImageSheet(_ imageSheetResult: ImagePickerSheetResult) {
         switch imageSheetResult {
-        case let .Controller(imageController):
+        case let .controller(imageController):
             imageController.delegate = self
-            delegate?.presentController(imageController)
-        case let .Images(assets):
+            delegate?.present(controller: imageController)
+        case let .images(assets):
             processPHAssets(assets)
         }
     }
@@ -365,11 +364,11 @@ extension CreateProfileScreen: UINavigationControllerDelegate, UIImagePickerCont
 }
 
 extension CreateProfileScreen: UITextViewDelegate {
-    public func textView(textView: UITextView, shouldChangeTextInRange nsrange: NSRange, replacementText: String) -> Bool {
+    func textView(_ textView: UITextView, shouldChangeTextIn nsrange: NSRange, replacementText: String) -> Bool {
         var text = textView.text ?? ""
         let originalText = text
         if let range = text.rangeFromNSRange(nsrange) {
-            text.replaceRange(range, with: replacementText)
+            text.replaceSubrange(range, with: replacementText)
         }
 
         switch textView {
@@ -377,35 +376,35 @@ extension CreateProfileScreen: UITextViewDelegate {
             if replacementText == "\n" {
                 text = originalText
             }
-            nameTextView.validationState = delegate?.assignName(text) ?? .None
+            nameTextView.validationState = delegate?.assign(name: text) ?? .none
 
             if replacementText == "\n" {
-                nameTextView.resignFirstResponder()
-                bioTextView.becomeFirstResponder()
+                _ = nameTextView.resignFirstResponder()
+                _ = bioTextView.becomeFirstResponder()
                 return false
             }
         case bioTextView:
-            bioTextView.validationState = delegate?.assignBio(text) ?? .None
+            bioTextView.validationState = delegate?.assign(bio: text) ?? .none
         case linksTextView:
-            linksTextView.validationState = delegate?.assignLinks(text) ?? .None
+            linksTextView.validationState = delegate?.assign(links: text) ?? .none
         default: break
         }
 
         return true
     }
 
-    public func textViewDidChange(textView: UITextView) {
+    func textViewDidChange(_ textView: UITextView) {
         (textView as? ClearTextView)?.textDidChange()
     }
 
-    public func textViewDidChangeSelection(textView: UITextView) {
+    func textViewDidChangeSelection(_ textView: UITextView) {
         let range = textView.selectedRange
         textView.scrollRangeToVisible(range)
     }
 }
 
 extension CreateProfileScreen: UIScrollViewDelegate {
-    public func scrollViewDidScroll(scrollView: UIScrollView) {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
         guard scrollView == self.scrollView else { return }
 
         let delta = scrollView.contentOffset.y - prevOffset.y

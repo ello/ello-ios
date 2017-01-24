@@ -4,13 +4,13 @@
 
 import SwiftyJSON
 
-public let CategoryListVersion = 1
+let CategoryListVersion = 1
 
-public class CategoryList: JSONAble {
-    public let categories: [Category]
+class CategoryList: JSONAble {
+    let categories: [Category]
 
-    public init(categories: [Category]) {
-        self.categories = categories.sort { (catA, catB) in
+    init(categories: [Category]) {
+        self.categories = categories.sorted { (catA, catB) in
             if catA.level.order != catB.level.order {
                 return catA.level.order < catB.level.order
             }
@@ -19,32 +19,32 @@ public class CategoryList: JSONAble {
         super.init(version: CategoryListVersion)
     }
 
-    public required init(coder: NSCoder) {
+    required init(coder: NSCoder) {
         let decoder = Coder(coder)
         categories = decoder.decodeKey("categories")
         super.init(coder: coder)
     }
 
-    public override func encodeWithCoder(coder: NSCoder) {
+    override func encode(with coder: NSCoder) {
         let encoder = Coder(coder)
         encoder.encodeObject(categories, forKey: "categories")
-        super.encodeWithCoder(coder)
+        super.encode(with: coder)
     }
 
-    override public class func fromJSON(data: [String: AnyObject]) -> JSONAble {
+    override class func fromJSON(_ data: [String: AnyObject]) -> JSONAble {
         let json = JSON(data)
         let categories: [Category]
         if let jsonCategories = json["categories"].array {
             let unsorted: [(order: Int, category: Category)] = jsonCategories.flatMap { json in
                 if let val = json.object as? [String: AnyObject],
-                    category = Category.fromJSON(val) as? Category
+                    let category = Category.fromJSON(val) as? Category
                 {
                     return (order: json["order"].intValue, category: category)
                 }
                 return nil
             }
 
-            categories = unsorted.sort { entryA, entryB in
+            categories = unsorted.sorted { entryA, entryB in
                 return entryA.order < entryB.order
             }.map { $0.category }
         }

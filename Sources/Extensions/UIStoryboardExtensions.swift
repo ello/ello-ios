@@ -2,9 +2,9 @@
 ///  UIStoryboardExtensions.swift
 //
 
-public extension UIStoryboard {
+extension UIStoryboard {
 
-    class func storyboardWithId(identifier: StoryboardIdentifier, storyboardName: String = "Main") -> UIViewController {
-        return UIStoryboard(name: storyboardName, bundle: NSBundle(forClass: AppDelegate.self)).instantiateViewControllerWithIdentifier(identifier.rawValue)
+    class func storyboardWithId(_ identifier: StoryboardIdentifier, storyboardName: String = "Main") -> UIViewController {
+        return UIStoryboard(name: storyboardName, bundle: Bundle(for: AppDelegate.self)).instantiateViewController(withIdentifier: identifier.rawValue)
     }
 }

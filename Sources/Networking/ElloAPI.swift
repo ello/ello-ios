@@ -5,87 +5,88 @@
 import Moya
 import Result
 
-public typealias MoyaResult = Result<Moya.Response, Moya.Error>
 
-public enum ElloAPI {
-    case AmazonCredentials
-    case Announcements
-    case AnnouncementsNewContent(createdAt: NSDate?)
-    case MarkAnnouncementAsRead
-    case AnonymousCredentials
-    case Auth(email: String, password: String)
-    case Availability(content: [String: String])
-    case Categories
-    case Category(slug: String)
-    case CategoryPosts(slug: String)
-    case CommentDetail(postId: String, commentId: String)
-    case CreateComment(parentPostId: String, body: [String: AnyObject])
-    case CreateLove(postId: String)
-    case CreatePost(body: [String: AnyObject])
-    case CreateWatchPost(postId: String)
-    case DeleteComment(postId: String, commentId: String)
-    case DeleteLove(postId: String)
-    case DeletePost(postId: String)
-    case DeleteSubscriptions(token: NSData)
-    case DeleteWatchPost(postId: String)
-    case Discover(type: DiscoverType)
-    case EmojiAutoComplete(terms: String)
-    case FindFriends(contacts: [String: [String]])
-    case FlagComment(postId: String, commentId: String, kind: String)
-    case FlagPost(postId: String, kind: String)
-    case FlagUser(userId: String, kind: String)
-    case FriendStream
-    case FriendNewContent(createdAt: NSDate?)
-    case Hire(userId: String, body: String)
-    case Collaborate(userId: String, body: String)
-    case InfiniteScroll(queryItems: [AnyObject], elloApi: () -> ElloAPI)
-    case InviteFriends(contact: String)
-    case Join(email: String, username: String, password: String, invitationCode: String?)
-    case Loves(userId: String)
-    case LocationAutoComplete(terms: String)
-    case NoiseStream
-    case NoiseNewContent(createdAt: NSDate?)
-    case NotificationsNewContent(createdAt: NSDate?)
-    case NotificationsStream(category: String?)
-    case PagePromotionals
-    case PostComments(postId: String)
-    case PostDetail(postParam: String, commentCount: Int)
-    case PostLovers(postId: String)
-    case PostReplyAll(postId: String)
-    case PostReposters(postId: String)
-    case CurrentUserBlockedList
-    case CurrentUserMutedList
-    case CurrentUserProfile
-    case CurrentUserStream
-    case ProfileDelete
-    case ProfileToggles
-    case ProfileUpdate(body: [String: AnyObject])
-    case PushSubscriptions(token: NSData)
-    case ReAuth(token: String)
-    case RePost(postId: String)
-    case Relationship(userId: String, relationship: String)
-    case RelationshipBatch(userIds: [String], relationship: String)
-    case SearchForUsers(terms: String)
-    case SearchForPosts(terms: String)
-    case UpdatePost(postId: String, body: [String: AnyObject])
-    case UpdateComment(postId: String, commentId: String, body: [String: AnyObject])
-    case UserCategories(categoryIds: [String])
-    case UserStream(userParam: String)
-    case UserStreamFollowers(userId: String)
-    case UserStreamFollowing(userId: String)
-    case UserStreamPosts(userId: String)
-    case UserNameAutoComplete(terms: String)
+typealias MoyaResult = Result<Moya.Response, Moya.Error>
 
-    public static let apiVersion = "v2"
+enum ElloAPI {
+    case amazonCredentials
+    case announcements
+    case announcementsNewContent(createdAt: Date?)
+    case markAnnouncementAsRead
+    case anonymousCredentials
+    case auth(email: String, password: String)
+    case availability(content: [String: String])
+    case categories
+    case category(slug: String)
+    case categoryPosts(slug: String)
+    case commentDetail(postId: String, commentId: String)
+    case createComment(parentPostId: String, body: [String: AnyObject])
+    case createLove(postId: String)
+    case createPost(body: [String: AnyObject])
+    case createWatchPost(postId: String)
+    case deleteComment(postId: String, commentId: String)
+    case deleteLove(postId: String)
+    case deletePost(postId: String)
+    case deleteSubscriptions(token: Data)
+    case deleteWatchPost(postId: String)
+    case discover(type: DiscoverType)
+    case emojiAutoComplete(terms: String)
+    case findFriends(contacts: [String: [String]])
+    case flagComment(postId: String, commentId: String, kind: String)
+    case flagPost(postId: String, kind: String)
+    case flagUser(userId: String, kind: String)
+    case friendStream
+    case friendNewContent(createdAt: Date?)
+    case hire(userId: String, body: String)
+    case collaborate(userId: String, body: String)
+    case infiniteScroll(queryItems: [AnyObject], elloApi: () -> ElloAPI)
+    case inviteFriends(contact: String)
+    case join(email: String, username: String, password: String, invitationCode: String?)
+    case loves(userId: String)
+    case locationAutoComplete(terms: String)
+    case noiseStream
+    case noiseNewContent(createdAt: Date?)
+    case notificationsNewContent(createdAt: Date?)
+    case notificationsStream(category: String?)
+    case pagePromotionals
+    case postComments(postId: String)
+    case postDetail(postParam: String, commentCount: Int)
+    case postLovers(postId: String)
+    case postReplyAll(postId: String)
+    case postReposters(postId: String)
+    case currentUserBlockedList
+    case currentUserMutedList
+    case currentUserProfile
+    case currentUserStream
+    case profileDelete
+    case profileToggles
+    case profileUpdate(body: [String: AnyObject])
+    case pushSubscriptions(token: Data)
+    case reAuth(token: String)
+    case rePost(postId: String)
+    case relationship(userId: String, relationship: String)
+    case relationshipBatch(userIds: [String], relationship: String)
+    case searchForUsers(terms: String)
+    case searchForPosts(terms: String)
+    case updatePost(postId: String, body: [String: AnyObject])
+    case updateComment(postId: String, commentId: String, body: [String: AnyObject])
+    case userCategories(categoryIds: [String])
+    case userStream(userParam: String)
+    case userStreamFollowers(userId: String)
+    case userStreamFollowing(userId: String)
+    case userStreamPosts(userId: String)
+    case userNameAutoComplete(terms: String)
 
-    public var pagingPath: String? {
+    static let apiVersion = "v2"
+
+    var pagingPath: String? {
         switch self {
-        case .PostDetail:
+        case .postDetail:
             return "\(path)/comments"
-        case .CurrentUserStream,
-             .UserStream:
+        case .currentUserStream,
+             .userStream:
             return "\(path)/posts"
-        case .Category:
+        case .category:
             return "\(path)/posts/recent"
         default:
             return nil
@@ -94,134 +95,134 @@ public enum ElloAPI {
 
     var pagingMappingType: MappingType? {
         switch self {
-        case .PostDetail:
-            return .CommentsType
-        case .CurrentUserStream,
-             .UserStream,
-             .Category:
-            return .PostsType
+        case .postDetail:
+            return .commentsType
+        case .currentUserStream,
+             .userStream,
+             .category:
+            return .postsType
         default:
             return nil
         }
     }
 
-    public var mappingType: MappingType {
+    var mappingType: MappingType {
         switch self {
-        case .AnonymousCredentials,
-             .Auth,
-             .ReAuth:
-            return .NoContentType  // We do not current have a "Credentials" model, we interact directly with the keychain
-        case .Announcements:
-            return .AnnouncementsType
-        case .AmazonCredentials:
-            return .AmazonCredentialsType
-        case .Availability:
-            return .AvailabilityType
-        case .Categories,
-             .Category:
-            return .CategoriesType
-        case .PagePromotionals:
-            return .PagePromotionalsType
-        case .PostReplyAll:
-            return .UsernamesType
-        case .CurrentUserBlockedList,
-             .CurrentUserMutedList,
-             .CurrentUserProfile,
-             .CurrentUserStream,
-             .FindFriends,
-             .Join,
-             .PostLovers,
-             .PostReposters,
-             .ProfileUpdate,
-             .SearchForUsers,
-             .UserStream,
-             .UserStreamFollowers,
-             .UserStreamFollowing:
-            return .UsersType
-        case let .Discover(type):
+        case .anonymousCredentials,
+             .auth,
+             .reAuth:
+            return .noContentType  // We do not current have a "Credentials" model, we interact directly with the keychain
+        case .announcements:
+            return .announcementsType
+        case .amazonCredentials:
+            return .amazonCredentialsType
+        case .availability:
+            return .availabilityType
+        case .categories,
+             .category:
+            return .categoriesType
+        case .pagePromotionals:
+            return .pagePromotionalsType
+        case .postReplyAll:
+            return .usernamesType
+        case .currentUserBlockedList,
+             .currentUserMutedList,
+             .currentUserProfile,
+             .currentUserStream,
+             .findFriends,
+             .join,
+             .postLovers,
+             .postReposters,
+             .profileUpdate,
+             .searchForUsers,
+             .userStream,
+             .userStreamFollowers,
+             .userStreamFollowing:
+            return .usersType
+        case let .discover(type):
             switch type {
-            case .Trending:
-                return .UsersType
+            case .trending:
+                return .usersType
             default:
-                return .PostsType
+                return .postsType
             }
-        case .CommentDetail,
-             .CreateComment,
-             .PostComments,
-             .UpdateComment:
-            return .CommentsType
-        case .CreateLove,
-             .Loves:
-            return .LovesType
-        case .CategoryPosts,
-             .CreatePost,
-             .PostDetail,
-             .RePost,
-             .SearchForPosts,
-             .UpdatePost,
-             .UserStreamPosts:
-            return .PostsType
-        case .CreateWatchPost,
-             .DeleteWatchPost:
-            return .WatchesType
-        case .EmojiAutoComplete,
-             .UserNameAutoComplete,
-             .LocationAutoComplete:
-            return .AutoCompleteResultType
-        case .AnnouncementsNewContent,
-             .Collaborate,
-             .DeleteComment,
-             .DeleteLove,
-             .DeletePost,
-             .DeleteSubscriptions,
-             .FlagComment,
-             .FlagPost,
-             .FlagUser,
-             .FriendNewContent,
-             .Hire,
-             .InviteFriends,
-             .MarkAnnouncementAsRead,
-             .NoiseNewContent,
-             .NotificationsNewContent,
-             .ProfileDelete,
-             .PushSubscriptions,
-             .RelationshipBatch,
-             .UserCategories:
-            return .NoContentType
-        case .FriendStream,
-             .NoiseStream,
-             .NotificationsStream:
-            return .ActivitiesType
-        case let .InfiniteScroll(_, elloApi):
+        case .commentDetail,
+             .createComment,
+             .postComments,
+             .updateComment:
+            return .commentsType
+        case .createLove,
+             .loves:
+            return .lovesType
+        case .categoryPosts,
+             .createPost,
+             .postDetail,
+             .rePost,
+             .searchForPosts,
+             .updatePost,
+             .userStreamPosts:
+            return .postsType
+        case .createWatchPost,
+             .deleteWatchPost:
+            return .watchesType
+        case .emojiAutoComplete,
+             .userNameAutoComplete,
+             .locationAutoComplete:
+            return .autoCompleteResultType
+        case .announcementsNewContent,
+             .collaborate,
+             .deleteComment,
+             .deleteLove,
+             .deletePost,
+             .deleteSubscriptions,
+             .flagComment,
+             .flagPost,
+             .flagUser,
+             .friendNewContent,
+             .hire,
+             .inviteFriends,
+             .markAnnouncementAsRead,
+             .noiseNewContent,
+             .notificationsNewContent,
+             .profileDelete,
+             .pushSubscriptions,
+             .relationshipBatch,
+             .userCategories:
+            return .noContentType
+        case .friendStream,
+             .noiseStream,
+             .notificationsStream:
+            return .activitiesType
+        case let .infiniteScroll(_, elloApi):
             let api = elloApi()
             if let pagingMappingType = api.pagingMappingType {
                 return pagingMappingType
             }
             return api.mappingType
-        case .ProfileToggles:
-            return .DynamicSettingsType
-        case .Relationship:
-            return .RelationshipsType
+        case .profileToggles:
+            return .dynamicSettingsType
+        case .relationship:
+            return .relationshipsType
         }
     }
 }
 
 extension ElloAPI {
-    public var supportsAnonymousToken: Bool {
+    var supportsAnonymousToken: Bool {
         switch self {
-        case .Availability,
-             .Join, .DeleteSubscriptions:
+        case .availability,
+             .join, .deleteSubscriptions:
             return true
         default:
             return false
         }
     }
 
-    public var requiresAnyToken: Bool {
+    var requiresAnyToken: Bool {
         switch self {
-        case .AnonymousCredentials,
-             .Auth,
-             .ReAuth:
+        case .anonymousCredentials,
+             .auth,
+             .reAuth:
             return false
         default:
             return true
@@ -229,341 +230,349 @@ extension ElloAPI {
     }
 }
 
-public protocol ElloTarget: Moya.TargetType {
-    var sampleResponse: NSHTTPURLResponse { get }
+protocol ElloTarget: Moya.TargetType {
+    var sampleResponse: HTTPURLResponse { get }
 }
 
 extension ElloAPI: Moya.TargetType {
-    public var baseURL: NSURL { return NSURL(string: ElloURI.baseURL)! }
-    public var method: Moya.Method {
+    var baseURL: URL { return URL(string: ElloURI.baseURL)! }
+    var method: Moya.Method {
         switch self {
-        case .AnonymousCredentials,
-             .Auth,
-             .Availability,
-             .CreateComment,
-             .CreateLove,
-             .CreatePost,
-             .FindFriends,
-             .FlagComment,
-             .FlagPost,
-             .FlagUser,
-             .Hire,
-             .Collaborate,
-             .InviteFriends,
-             .Join,
-             .PushSubscriptions,
-             .ReAuth,
-             .Relationship,
-             .RelationshipBatch,
-             .RePost,
-             .CreateWatchPost:
-            return .POST
-        case .UserCategories:
-            return .PUT
-        case .DeleteComment,
-             .DeleteLove,
-             .DeletePost,
-             .DeleteSubscriptions,
-             .ProfileDelete,
-             .DeleteWatchPost:
-            return .DELETE
-        case .FriendNewContent,
-             .NoiseNewContent,
-             .AnnouncementsNewContent,
-             .NotificationsNewContent:
-            return .HEAD
-        case .MarkAnnouncementAsRead,
-             .ProfileUpdate,
-             .UpdateComment,
-             .UpdatePost:
-            return .PATCH
-        case let .InfiniteScroll(_, elloApi):
+        case .anonymousCredentials,
+             .auth,
+             .availability,
+             .createComment,
+             .createLove,
+             .createPost,
+             .findFriends,
+             .flagComment,
+             .flagPost,
+             .flagUser,
+             .hire,
+             .collaborate,
+             .inviteFriends,
+             .join,
+             .pushSubscriptions,
+             .reAuth,
+             .relationship,
+             .relationshipBatch,
+             .rePost,
+             .createWatchPost:
+            return .post
+        case .userCategories:
+            return .put
+        case .deleteComment,
+             .deleteLove,
+             .deletePost,
+             .deleteSubscriptions,
+             .profileDelete,
+             .deleteWatchPost:
+            return .delete
+        case .friendNewContent,
+             .noiseNewContent,
+             .announcementsNewContent,
+             .notificationsNewContent:
+            return .head
+        case .markAnnouncementAsRead,
+             .profileUpdate,
+             .updateComment,
+             .updatePost:
+            return .patch
+        case let .infiniteScroll(_, elloApi):
             return elloApi().method
         default:
-            return .GET
+            return .get
         }
     }
 
-    public var path: String {
+    var path: String {
         switch self {
-        case .AmazonCredentials:
+        case .amazonCredentials:
             return "/api/\(ElloAPI.apiVersion)/assets/credentials"
-        case .Announcements,
-             .AnnouncementsNewContent:
+        case .announcements,
+             .announcementsNewContent:
             return "/api/\(ElloAPI.apiVersion)/most_recent_announcements"
-        case .MarkAnnouncementAsRead:
-            return "\(ElloAPI.Announcements.path)/mark_last_read_announcement"
-        case .AnonymousCredentials,
-             .Auth,
-             .ReAuth:
+        case .markAnnouncementAsRead:
+            return "\(ElloAPI.announcements.path)/mark_last_read_announcement"
+        case .anonymousCredentials,
+             .auth,
+             .reAuth:
             return "/api/oauth/token"
-        case .Availability:
+        case .availability:
             return "/api/\(ElloAPI.apiVersion)/availability"
-        case let .CommentDetail(postId, commentId):
+        case let .commentDetail(postId, commentId):
             return "/api/\(ElloAPI.apiVersion)/posts/\(postId)/comments/\(commentId)"
-        case .Categories:
+        case .categories:
             return "/api/\(ElloAPI.apiVersion)/categories"
-        case let .Category(slug):
+        case let .category(slug):
             return "/api/\(ElloAPI.apiVersion)/categories/\(slug)"
-        case let .CategoryPosts(slug):
+        case let .categoryPosts(slug):
             return "/api/\(ElloAPI.apiVersion)/categories/\(slug)/posts/recent"
-        case let .CreateComment(parentPostId, _):
+        case let .createComment(parentPostId, _):
             return "/api/\(ElloAPI.apiVersion)/posts/\(parentPostId)/comments"
-        case let .CreateLove(postId):
+        case let .createLove(postId):
             return "/api/\(ElloAPI.apiVersion)/posts/\(postId)/loves"
-        case .CreatePost,
-             .RePost:
+        case .createPost,
+             .rePost:
             return "/api/\(ElloAPI.apiVersion)/posts"
-        case let .CreateWatchPost(postId):
+        case let .createWatchPost(postId):
             return "/api/\(ElloAPI.apiVersion)/posts/\(postId)/watches"
-        case let .DeleteComment(postId, commentId):
+        case let .deleteComment(postId, commentId):
             return "/api/\(ElloAPI.apiVersion)/posts/\(postId)/comments/\(commentId)"
-        case let .DeleteLove(postId):
+        case let .deleteLove(postId):
             return "/api/\(ElloAPI.apiVersion)/posts/\(postId)/love"
-        case let .DeletePost(postId):
+        case let .deletePost(postId):
             return "/api/\(ElloAPI.apiVersion)/posts/\(postId)"
-        case let .DeleteSubscriptions(tokenData):
-            return "\(ElloAPI.CurrentUserStream.path)/push_subscriptions/apns/\(tokenStringFromData(tokenData))"
-        case let .DeleteWatchPost(postId):
+        case let .deleteSubscriptions(tokenData):
+            return "\(ElloAPI.currentUserStream.path)/push_subscriptions/apns/\(tokenStringFromData(tokenData))"
+        case let .deleteWatchPost(postId):
             return "/api/\(ElloAPI.apiVersion)/posts/\(postId)/watch"
-        case let .Discover(type):
+        case let .discover(type):
             switch type {
-            case .Trending:
+            case .trending:
                 return "/api/\(ElloAPI.apiVersion)/discover/users/trending"
-            case .Featured:
+            case .featured:
                 return "/api/\(ElloAPI.apiVersion)/categories/posts/recent"
             default:
                 return "/api/\(ElloAPI.apiVersion)/discover/posts/\(type.slug)"
             }
-        case .EmojiAutoComplete(_):
+        case .emojiAutoComplete(_):
             return "/api/\(ElloAPI.apiVersion)/emoji/autocomplete"
-        case .FindFriends:
+        case .findFriends:
             return "/api/\(ElloAPI.apiVersion)/profile/find_friends"
-        case let .FlagComment(postId, commentId, kind):
+        case let .flagComment(postId, commentId, kind):
             return "/api/\(ElloAPI.apiVersion)/posts/\(postId)/comments/\(commentId)/flag/\(kind)"
-        case let .FlagPost(postId, kind):
+        case let .flagPost(postId, kind):
             return "/api/\(ElloAPI.apiVersion)/posts/\(postId)/flag/\(kind)"
-        case let .FlagUser(userId, kind):
+        case let .flagUser(userId, kind):
             return "/api/\(ElloAPI.apiVersion)/users/\(userId)/flag/\(kind)"
-        case .FriendNewContent,
-             .FriendStream:
+        case .friendNewContent,
+             .friendStream:
             return "/api/\(ElloAPI.apiVersion)/streams/friend"
-        case let .Hire(userId, _):
+        case let .hire(userId, _):
             return "/api/\(ElloAPI.apiVersion)/users/\(userId)/hire_me"
-        case let .Collaborate(userId, _):
+        case let .collaborate(userId, _):
             return "/api/\(ElloAPI.apiVersion)/users/\(userId)/collaborate"
-        case let .InfiniteScroll(_, elloApi):
+        case let .infiniteScroll(_, elloApi):
             let api = elloApi()
             if let pagingPath = api.pagingPath {
                 return pagingPath
             }
             return api.path
-        case .InviteFriends:
+        case .inviteFriends:
             return "/api/\(ElloAPI.apiVersion)/invitations"
-        case .Join:
+        case .join:
             return "/api/\(ElloAPI.apiVersion)/join"
-        case let .Loves(userId):
+        case let .loves(userId):
             return "/api/\(ElloAPI.apiVersion)/users/\(userId)/loves"
-        case .LocationAutoComplete(_):
+        case .locationAutoComplete(_):
             return "/api/\(ElloAPI.apiVersion)/profile/location_autocomplete"
-        case .NoiseNewContent,
-             .NoiseStream:
+        case .noiseNewContent,
+             .noiseStream:
             return "/api/\(ElloAPI.apiVersion)/streams/noise"
-        case .NotificationsNewContent,
-             .NotificationsStream:
+        case .notificationsNewContent,
+             .notificationsStream:
             return "/api/\(ElloAPI.apiVersion)/notifications"
-        case .PagePromotionals:
+        case .pagePromotionals:
             return "/api/\(ElloAPI.apiVersion)/page_promotionals"
-        case let .PostComments(postId):
+        case let .postComments(postId):
             return "/api/\(ElloAPI.apiVersion)/posts/\(postId)/comments"
-        case let .PostDetail(postParam, _):
+        case let .postDetail(postParam, _):
             return "/api/\(ElloAPI.apiVersion)/posts/\(postParam)"
-        case let .PostLovers(postId):
+        case let .postLovers(postId):
             return "/api/\(ElloAPI.apiVersion)/posts/\(postId)/lovers"
-        case let .PostReplyAll(postId):
+        case let .postReplyAll(postId):
             return "/api/\(ElloAPI.apiVersion)/posts/\(postId)/commenters_usernames"
-        case let .PostReposters(postId):
+        case let .postReposters(postId):
             return "/api/\(ElloAPI.apiVersion)/posts/\(postId)/reposters"
-        case .CurrentUserProfile,
-             .CurrentUserStream,
-             .ProfileUpdate,
-             .ProfileDelete:
+        case .currentUserProfile,
+             .currentUserStream,
+             .profileUpdate,
+             .profileDelete:
             return "/api/\(ElloAPI.apiVersion)/profile"
-        case .CurrentUserBlockedList:
+        case .currentUserBlockedList:
             return "/api/\(ElloAPI.apiVersion)/profile/blocked"
-        case .CurrentUserMutedList:
+        case .currentUserMutedList:
             return "/api/\(ElloAPI.apiVersion)/profile/muted"
-        case .ProfileToggles:
-            return "\(ElloAPI.CurrentUserStream.path)/settings"
-        case let .PushSubscriptions(tokenData):
-            return "\(ElloAPI.CurrentUserStream.path)/push_subscriptions/apns/\(tokenStringFromData(tokenData))"
-        case let .Relationship(userId, relationship):
+        case .profileToggles:
+            return "\(ElloAPI.currentUserStream.path)/settings"
+        case let .pushSubscriptions(tokenData):
+            return "\(ElloAPI.currentUserStream.path)/push_subscriptions/apns/\(tokenStringFromData(tokenData))"
+        case let .relationship(userId, relationship):
             return "/api/\(ElloAPI.apiVersion)/users/\(userId)/add/\(relationship)"
-        case .RelationshipBatch(_, _):
+        case .relationshipBatch(_, _):
             return "/api/\(ElloAPI.apiVersion)/relationships/batches"
-        case .SearchForPosts:
+        case .searchForPosts:
             return "/api/\(ElloAPI.apiVersion)/posts"
-        case .SearchForUsers:
+        case .searchForUsers:
             return "/api/\(ElloAPI.apiVersion)/users"
-        case let .UpdatePost(postId, _):
+        case let .updatePost(postId, _):
             return "/api/\(ElloAPI.apiVersion)/posts/\(postId)"
-        case let .UpdateComment(postId, commentId, _):
+        case let .updateComment(postId, commentId, _):
             return "/api/\(ElloAPI.apiVersion)/posts/\(postId)/comments/\(commentId)"
-        case .UserCategories:
-            return "\(ElloAPI.CurrentUserStream.path)/followed_categories"
-        case let .UserStream(userParam):
+        case .userCategories:
+            return "\(ElloAPI.currentUserStream.path)/followed_categories"
+        case let .userStream(userParam):
             return "/api/\(ElloAPI.apiVersion)/users/\(userParam)"
-        case let .UserStreamFollowers(userId):
-            return "\(ElloAPI.UserStream(userParam: userId).path)/followers"
-        case let .UserStreamFollowing(userId):
-            return "\(ElloAPI.UserStream(userParam: userId).path)/following"
-        case let .UserStreamPosts(userId):
-            return "\(ElloAPI.UserStream(userParam: userId).path)/posts"
-        case .UserNameAutoComplete(_):
+        case let .userStreamFollowers(userId):
+            return "\(ElloAPI.userStream(userParam: userId).path)/followers"
+        case let .userStreamFollowing(userId):
+            return "\(ElloAPI.userStream(userParam: userId).path)/following"
+        case let .userStreamPosts(userId):
+            return "\(ElloAPI.userStream(userParam: userId).path)/posts"
+        case .userNameAutoComplete(_):
             return "/api/\(ElloAPI.apiVersion)/users/autocomplete"
         }
     }
 
-    public var sampleData: NSData {
+    var sampleData: Data {
         switch self {
-        case .Announcements:
+        case .announcements:
             return stubbedData("announcements")
-        case .AmazonCredentials:
+        case .amazonCredentials:
             return stubbedData("amazon-credentials")
-        case .AnonymousCredentials,
-             .Auth,
-             .ReAuth:
+        case .anonymousCredentials,
+             .auth,
+             .reAuth:
             return stubbedData("auth")
-        case .Availability:
+        case .availability:
             return stubbedData("availability")
-        case .CreateComment, .CommentDetail:
+        case .createComment, .commentDetail:
             return stubbedData("create-comment")
-        case .CreateLove:
+        case .createLove:
             return stubbedData("loves_creating_a_love")
-        case .CreatePost,
-             .RePost:
+        case .createPost,
+             .rePost:
             return stubbedData("create-post")
-        case .CreateWatchPost:
+        case .createWatchPost:
             return stubbedData("watches_creating_a_watch")
-        case .Categories:
+        case .categories:
             return stubbedData("categories")
-        case .Category:
+        case .category:
             return stubbedData("category")
-        case .AnnouncementsNewContent,
-             .MarkAnnouncementAsRead,
-             .DeleteComment,
-             .DeleteLove,
-             .DeletePost,
-             .DeleteSubscriptions,
-             .DeleteWatchPost,
-             .FriendNewContent,
-             .Hire,
-             .Collaborate,
-             .InviteFriends,
-             .NoiseNewContent,
-             .NotificationsNewContent,
-             .ProfileDelete,
-             .PushSubscriptions,
-             .FlagComment,
-             .FlagPost,
-             .FlagUser,
-             .UserCategories:
+        case .announcementsNewContent,
+             .markAnnouncementAsRead,
+             .deleteComment,
+             .deleteLove,
+             .deletePost,
+             .deleteSubscriptions,
+             .deleteWatchPost,
+             .friendNewContent,
+             .hire,
+             .collaborate,
+             .inviteFriends,
+             .noiseNewContent,
+             .notificationsNewContent,
+             .profileDelete,
+             .pushSubscriptions,
+             .flagComment,
+             .flagPost,
+             .flagUser,
+             .userCategories:
             return stubbedData("empty")
-        case .CategoryPosts:
+        case .categoryPosts:
             return stubbedData("users_posts")
-        case .Discover:
+        case .discover:
             return stubbedData("posts_searching_for_posts")
-        case .EmojiAutoComplete:
+        case .emojiAutoComplete:
             return stubbedData("users_getting_a_list_for_autocompleted_usernames")
-        case .FindFriends:
+        case .findFriends:
             return stubbedData("find-friends")
-        case .FriendStream,
-             .InfiniteScroll:
+        case .friendStream,
+             .infiniteScroll:
             return stubbedData("activity_streams_friend_stream")
-        case .Join:
+        case .join:
             return stubbedData("users_registering_an_account")
-        case .Loves:
+        case .loves:
             return stubbedData("loves_listing_loves_for_a_user")
-        case .LocationAutoComplete:
+        case .locationAutoComplete:
             return stubbedData("users_getting_a_list_for_autocompleted_locations")
-        case .NoiseStream:
+        case .noiseStream:
             return stubbedData("activity_streams_noise_stream")
-        case .NotificationsStream:
+        case .notificationsStream:
             return stubbedData("activity_streams_notifications")
-        case .PagePromotionals:
+        case .pagePromotionals:
             return stubbedData("page_promotionals")
-        case .PostComments:
+        case .postComments:
             return stubbedData("posts_loading_more_post_comments")
-        case .PostDetail,
-            .UpdatePost:
+        case .postDetail,
+            .updatePost:
             return stubbedData("posts_post_details")
-        case .UpdateComment:
+        case .updateComment:
             return stubbedData("create-comment")
-        case .SearchForUsers,
-             .UserStream,
-             .UserStreamFollowers,
-             .UserStreamFollowing:
+        case .searchForUsers,
+             .userStream,
+             .userStreamFollowers,
+             .userStreamFollowing:
             return stubbedData("users_user_details")
-        case .PostLovers:
+        case .postLovers:
             return stubbedData("posts_listing_users_who_have_loved_a_post")
-        case .PostReposters:
+        case .postReposters:
             return stubbedData("posts_listing_users_who_have_reposted_a_post")
-        case .PostReplyAll:
+        case .postReplyAll:
             return stubbedData("usernames")
-        case .CurrentUserBlockedList:
+        case .currentUserBlockedList:
             return stubbedData("profile_listing_blocked_users")
-        case .CurrentUserMutedList:
+        case .currentUserMutedList:
             return stubbedData("profile_listing_muted_users")
-        case .CurrentUserProfile,
-             .CurrentUserStream:
+        case .currentUserProfile,
+             .currentUserStream:
             return stubbedData("profile")
-        case .ProfileToggles:
+        case .profileToggles:
             return stubbedData("profile_available_user_profile_toggles")
-        case .ProfileUpdate:
+        case .profileUpdate:
             return stubbedData("profile_updating_user_profile_and_settings")
-        case let .Relationship(_, relationship):
+        case let .relationship(_, relationship):
             switch RelationshipPriority(rawValue: relationship)! {
-            case .Following:
+            case .following:
                 return stubbedData("relationship_following")
-            case .Starred:
+            case .starred:
                 return stubbedData("relationship_starred")
             default:
                 return stubbedData("relationship_inactive")
             }
-        case .RelationshipBatch:
+        case .relationshipBatch:
             return stubbedData("relationship_batches")
-        case .SearchForPosts:
+        case .searchForPosts:
             return stubbedData("posts_searching_for_posts")
-        case .UserNameAutoComplete:
+        case .userNameAutoComplete:
             return stubbedData("users_getting_a_list_for_autocompleted_usernames")
-        case .UserStreamPosts:
+        case .userStreamPosts:
             //TODO: get post data to test
             return stubbedData("users_posts")
         }
     }
 
-    public var multipartBody: [MultipartFormData]? {
+    var multipartBody: [Moya.MultipartFormData]? {
         return nil
     }
 
-    public var encoding: Moya.ParameterEncoding {
-        if self.method == .GET || self.method == .HEAD {
-            return Moya.ParameterEncoding.URL
+    var parameterEncoding: Moya.ParameterEncoding {
+        if self.method == .get || self.method == .head {
+            return URLEncoding.default
         }
         else {
-            return Moya.ParameterEncoding.JSON
+            return JSONEncoding.default
         }
     }
 
-    public func headers() -> [String: String] {
+    var validate: Bool {
+        return false
+    }
+
+    var task: Task {
+        return .request
+    }
+
+    func headers() -> [String: String] {
         var assigned: [String: String] = [
             "Accept": "application/json",
             "Accept-Language": "",
             "Content-Type": "application/json",
         ]
 
-        if let info = NSBundle.mainBundle().infoDictionary,
-            buildNumber = info[kCFBundleVersionKey as String] as? String
+        if let info = Bundle.main.infoDictionary,
+            let buildNumber = info[kCFBundleVersionKey as String] as? String
         {
             assigned["X-iOS-Build-Number"] = buildNumber
         }
@@ -580,13 +589,13 @@ extension ElloAPI: Moya.TargetType {
 
         let createdAtHeader: String?
         switch self {
-        case let .AnnouncementsNewContent(createdAt):
+        case let .announcementsNewContent(createdAt):
             createdAtHeader = createdAt?.toHTTPDateString()
-        case let .FriendNewContent(createdAt):
+        case let .friendNewContent(createdAt):
             createdAtHeader = createdAt?.toHTTPDateString()
-        case let .NoiseNewContent(createdAt):
+        case let .noiseNewContent(createdAt):
             createdAtHeader = createdAt?.toHTTPDateString()
-        case let .NotificationsNewContent(createdAt):
+        case let .notificationsNewContent(createdAt):
             createdAtHeader = createdAt?.toHTTPDateString()
         default:
             createdAtHeader = nil
@@ -600,82 +609,82 @@ extension ElloAPI: Moya.TargetType {
         return assigned
     }
 
-    public var parameters: [String: AnyObject]? {
+    var parameters: [String: Any]? {
         switch self {
-        case .AnonymousCredentials:
+        case .anonymousCredentials:
             return [
-                "client_id": APIKeys.sharedKeys.key,
-                "client_secret": APIKeys.sharedKeys.secret,
-                "grant_type": "client_credentials"
+                "client_id": APIKeys.sharedKeys.key as AnyObject,
+                "client_secret": APIKeys.sharedKeys.secret as AnyObject,
+                "grant_type": "client_credentials" as AnyObject
             ]
-        case let .Auth(email, password):
+        case let .auth(email, password):
             return [
-                "client_id": APIKeys.sharedKeys.key,
-                "client_secret": APIKeys.sharedKeys.secret,
-                "email": email,
-                "password":  password,
-                "grant_type": "password"
+                "client_id": APIKeys.sharedKeys.key as AnyObject,
+                "client_secret": APIKeys.sharedKeys.secret as AnyObject,
+                "email": email as AnyObject,
+                "password":  password as AnyObject,
+                "grant_type": "password" as AnyObject
             ]
-        case let .Availability(content):
-            return content
-        case .CurrentUserProfile:
+        case let .availability(content):
+            return content as [String : AnyObject]?
+        case .currentUserProfile:
             return [
-                "post_count": 0
+                "post_count": 0 as AnyObject
             ]
-        case let .CreateComment(_, body):
+        case let .createComment(_, body):
             return body
-        case let .CreatePost(body):
+        case let .createPost(body):
             return body
-        case .Categories:
+        case .categories:
             return [
-                "meta": true,
+                "meta": true as AnyObject,
             ]
-        case .CategoryPosts:
+        case .categoryPosts:
             return [
-                "per_page": 10,
+                "per_page": 10 as AnyObject,
             ]
-        case .Discover:
+        case .discover:
             return [
-                "per_page": 10,
-                "include_recent_posts": true,
-                "seed": ElloAPI.generateSeed()
+                "per_page": 10 as AnyObject,
+                "include_recent_posts": true as AnyObject,
+                "seed": ElloAPI.generateSeed() as AnyObject
             ]
-        case let .FindFriends(contacts):
+        case let .findFriends(contacts):
             var hashedContacts = [String: [String]]()
             for (key, emails) in contacts {
                 hashedContacts[key] = emails.map { $0.saltedSHA1String }.reduce([String]()) { (accum, hash) in
-                    if let hash = hash, accum = accum {
+                    if let hash = hash, let accum = accum {
                         return accum + [hash]
                     }
                     return accum
                 }
             }
-            return ["contacts": hashedContacts]
-        case .FriendStream:
+            return ["contacts": hashedContacts as AnyObject]
+        case .friendStream:
             return [
-                "per_page": 10
+                "per_page": 10 as AnyObject
             ]
-        case let .Hire(_, body):
+        case let .hire(_, body):
             return [
-                "body": body
+                "body": body as AnyObject
             ]
-        case let .Collaborate(_, body):
+        case let .collaborate(_, body):
             return [
-                "body": body
+                "body": body as AnyObject
             ]
-        case let .InfiniteScroll(queryItems, elloApi):
+        case let .infiniteScroll(queryItems, elloApi):
             var queryDict = [String: AnyObject]()
             for item in queryItems {
-                if let item = item as? NSURLQueryItem {
-                    queryDict[item.name] = item.value
+                if let item = item as? URLQueryItem {
+                    queryDict[item.name] = item.value as AnyObject?
                 }
             }
             var origDict = elloApi().parameters ?? [String:AnyObject]()
             origDict.merge(queryDict)
             return origDict
-        case let .InviteFriends(contact):
-            return ["email": contact]
-        case let .Join(email, username, password, invitationCode):
+        case let .inviteFriends(contact):
+            return ["email": contact as AnyObject]
+        case let .join(email, username, password, invitationCode):
             var params = [
                 "email": email,
                 "username": username,
@@ -685,101 +694,101 @@ extension ElloAPI: Moya.TargetType {
             if let invitationCode = invitationCode {
                 params["invitation_code"] = invitationCode
             }
-            return params
-        case let .LocationAutoComplete(terms):
+            return params as [String : AnyObject]?
+        case let .locationAutoComplete(terms):
             return [
-                "location": terms
+                "location": terms as AnyObject
             ]
-        case .NoiseStream:
+        case .noiseStream:
             return [
-                "per_page": 10
+                "per_page": 10 as AnyObject
             ]
-        case let .NotificationsStream(category):
-            var params: [String: AnyObject] = ["per_page": 10]
+        case let .notificationsStream(category):
+            var params: [String: AnyObject] = ["per_page": 10 as AnyObject]
             if let category = category {
-                params["category"] = category
+                params["category"] = category as AnyObject?
             }
             return params
-        case .PostComments:
+        case .postComments:
             return [
-                "per_page": 10
+                "per_page": 10 as AnyObject
             ]
-        case let .PostDetail(_, commentCount):
+        case let .postDetail(_, commentCount):
             return [
-                "comment_count": commentCount
+                "comment_count": commentCount as AnyObject
             ]
-        case .CurrentUserStream:
+        case .currentUserStream:
             return [
-                "post_count": 10
+                "post_count": 10 as AnyObject
             ]
-        case let .ProfileUpdate(body):
+        case let .profileUpdate(body):
             return body
-        case .PushSubscriptions,
-             .DeleteSubscriptions:
+        case .pushSubscriptions,
+             .deleteSubscriptions:
             var bundleIdentifier = "co.ello.ElloDev"
             var bundleShortVersionString = "unknown"
             var bundleVersion = "unknown"
 
-            if let bundleId = NSBundle.mainBundle().bundleIdentifier {
+            if let bundleId = Bundle.main.bundleIdentifier {
                 bundleIdentifier = bundleId
             }
 
-            if let shortVersionString = NSBundle.mainBundle().infoDictionary?["CFBundleShortVersionString"] as? String {
+            if let shortVersionString = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
                 bundleShortVersionString = shortVersionString
             }
 
-            if let version = NSBundle.mainBundle().infoDictionary?["CFBundleVersion"] as? String {
+            if let version = Bundle.main.infoDictionary?["CFBundleVersion"] as? String {
                 bundleVersion = version
             }
 
             return [
-                "bundle_identifier": bundleIdentifier,
-                "marketing_version": bundleShortVersionString,
-                "build_version": bundleVersion
+                "bundle_identifier": bundleIdentifier as AnyObject,
+                "marketing_version": bundleShortVersionString as AnyObject,
+                "build_version": bundleVersion as AnyObject
             ]
-        case let .ReAuth(refreshToken):
+        case let .reAuth(refreshToken):
             return [
-                "client_id": APIKeys.sharedKeys.key,
-                "client_secret": APIKeys.sharedKeys.secret,
-                "grant_type": "refresh_token",
-                "refresh_token": refreshToken
+                "client_id": APIKeys.sharedKeys.key as AnyObject,
+                "client_secret": APIKeys.sharedKeys.secret as AnyObject,
+                "grant_type": "refresh_token" as AnyObject,
+                "refresh_token": refreshToken as AnyObject
             ]
-        case let .RelationshipBatch(userIds, relationship):
+        case let .relationshipBatch(userIds, relationship):
             return [
-                "user_ids": userIds,
-                "priority": relationship
+                "user_ids": userIds as AnyObject,
+                "priority": relationship as AnyObject
             ]
-        case let .RePost(postId):
-            return [ "repost_id": Int(postId) ?? -1 ]
-        case let .SearchForPosts(terms):
+        case let .rePost(postId):
+            return [ "repost_id": Int(postId) as AnyObject? ?? -1 as AnyObject ]
+        case let .searchForPosts(terms):
             return [
-                "terms": terms,
-                "per_page": 10
+                "terms": terms as AnyObject,
+                "per_page": 10 as AnyObject
             ]
-        case let .SearchForUsers(terms):
+        case let .searchForUsers(terms):
             return [
-                "terms": terms,
-                "per_page": 10
+                "terms": terms as AnyObject,
+                "per_page": 10 as AnyObject
             ]
-        case let .UpdatePost(_, body):
+        case let .updatePost(_, body):
             return body
-        case let .UpdateComment(_, _, body):
+        case let .updateComment(_, _, body):
             return body
-        case let .UserCategories(categoryIds):
+        case let .userCategories(categoryIds):
             return [
-                "followed_category_ids": categoryIds,
+                "followed_category_ids": categoryIds as AnyObject,
             ]
-        case let .UserNameAutoComplete(terms):
+        case let .userNameAutoComplete(terms):
             return [
-                "terms": terms
+                "terms": terms as AnyObject
             ]
-        case .UserStream:
+        case .userStream:
             return [
-                "post_count": "false"
+                "post_count": "false" as AnyObject
             ]
-        case .UserStreamPosts:
+        case .userStreamPosts:
             return [
-                "per_page": 10
+                "per_page": 10 as AnyObject
             ]
         default:
             return nil
@@ -787,40 +796,40 @@ extension ElloAPI: Moya.TargetType {
     }
 }
 
-public func stubbedData(filename: String) -> NSData! {
-    let bundle = NSBundle.mainBundle()
-    let path = bundle.pathForResource(filename, ofType: "json")
-    return NSData(contentsOfFile: path!)
+func stubbedData(_ filename: String) -> Data {
+    let bundle = Bundle.main
+    let path = bundle.path(forResource: filename, ofType: "json")
+    return (try! Data(contentsOf: URL(fileURLWithPath: path!)))
 }
 
-public func url(route: Moya.TargetType) -> String {
-    return route.baseURL.URLByAppendingPathComponent(route.path)?.absoluteString ?? ""
+func url(_ route: Moya.TargetType) -> String {
+    return route.baseURL.appendingPathComponent(route.path).absoluteString
 }
 
-private func tokenStringFromData(data: NSData) -> String {
-    return String(data.description.characters.filter { !"<> ".characters.contains($0) })
+private func tokenStringFromData(_ data: Data) -> String {
+    return String((data as NSData).description.characters.filter { !"<> ".characters.contains($0) })
 }
 
-public extension ElloAPI {
-    static func generateSeed() -> Int { return Int(NSDate().timeIntervalSince1970) }
+extension ElloAPI {
+    static func generateSeed() -> Int { return Int(Date().timeIntervalSince1970) }
 }
 
-func += <KeyType, ValueType> (inout left: Dictionary<KeyType, ValueType>, right: Dictionary<KeyType, ValueType>) {
+func += <KeyType, ValueType> (left: inout Dictionary<KeyType, ValueType>, right: Dictionary<KeyType, ValueType>) {
     for (k, v) in right {
         left.updateValue(v, forKey: k)
     }
 }
 
-extension Moya.ParameterEncoding: Equatable {}
-
-public func == (lhs: Moya.ParameterEncoding, rhs: Moya.ParameterEncoding) -> Bool {
-    switch (lhs, rhs) {
-    case (.URL, .URL),
-         (.JSON, .JSON),
-         (.PropertyList, .PropertyList),
-         (.Custom, .Custom):
-        return true
-    default:
-        return false
-    }
-}
+//extension Moya.ParameterEncoding: Equatable {}
+//
+//func == (lhs: Moya.ParameterEncoding, rhs: Moya.ParameterEncoding) -> Bool {
+//    switch (lhs, rhs) {
+//    case (.url, .url),
+//         (.json, .json),
+//         (.PropertyList, .PropertyList),
+//         (.Custom, .Custom):
+//        return true
+//    default:
+//        return false
+//    }
+//}

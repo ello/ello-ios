@@ -6,53 +6,51 @@ import Analytics
 import Keys
 import Crashlytics
 
-func logPresentingAlert(name: String) {
-    Crashlytics.sharedInstance().setObjectValue(name, forKey: CrashlyticsKey.AlertPresenter.rawValue)
+func logPresentingAlert(_ name: String) {
+    Crashlytics.sharedInstance().setObjectValue(name, forKey: CrashlyticsKey.alertPresenter.rawValue)
 }
 
 
-public enum ContentType: String {
-    case Post = "Post"
-    case Comment = "Comment"
-    case User = "User"
+enum ContentType: String {
+    case post = "Post"
+    case comment = "Comment"
+    case user = "User"
 }
 
-public protocol AnalyticsAgent {
-    func identify(userId: String!, traits: [NSObject: AnyObject]!)
-    func track(event: String!)
-    func track(event: String!, properties: [NSObject: AnyObject]!)
-    func screen(screenTitle: String!)
-    func screen(screenTitle: String!, properties: [NSObject: AnyObject]!)
-    func reset()
+protocol AnalyticsAgent {
+    func identify(_ userId: String!, traits: [AnyHashable: Any]!)
+    func track(_ event: String!)
+    func track(_ event: String!, properties: [AnyHashable: Any]!)
+    func screen(_ screenTitle: String!)
+    func screen(_ screenTitle: String!, properties: [AnyHashable: Any]!)
 }
 
-public struct NullAgent: AnalyticsAgent {
-    public func identify(userId: String!, traits: [NSObject: AnyObject]!) { }
-    public func track(event: String!) { }
-    public func track(event: String!, properties: [NSObject: AnyObject]!) { }
-    public func screen(screenTitle: String!) { }
-    public func screen(screenTitle: String!, properties: [NSObject: AnyObject]!) { }
-    public func reset() { }
+struct NullAgent: AnalyticsAgent {
+    func identify(_ userId: String!, traits: [AnyHashable: Any]!) { }
+    func track(_ event: String!) { }
+    func track(_ event: String!, properties: [AnyHashable: Any]!) { }
+    func screen(_ screenTitle: String!) { }
+    func screen(_ screenTitle: String!, properties: [AnyHashable: Any]!) { }
 }
 
 extension SEGAnalytics: AnalyticsAgent { }
 
-public class Tracker {
-    public static var responseHeaders: NSString = ""
-    public static var responseJSON: NSString = ""
+class Tracker {
+    static var responseHeaders: NSString = ""
+    static var responseJSON: NSString = ""
 
-    public var overrideAgent: AnalyticsAgent?
-    public static let sharedTracker = Tracker()
+    var overrideAgent: AnalyticsAgent?
+    static let shared = Tracker()
     var settingChangedNotification: NotificationObserver?
-    private var shouldTrackUser = true
-    private var currentUser: User?
-    private var agent: AnalyticsAgent {
-        return overrideAgent ?? (shouldTrackUser ? SEGAnalytics.sharedAnalytics() : NullAgent())
+    fileprivate var shouldTrackUser = true
+    fileprivate var currentUser: User?
+    fileprivate var agent: AnalyticsAgent {
+        return overrideAgent ?? (shouldTrackUser ? SEGAnalytics.shared() : NullAgent())
     }
 
-    public init() {
+    init() {
         let configuration = SEGAnalyticsConfiguration(writeKey: ElloKeys().segmentKey())
-         SEGAnalytics.setupWithConfiguration(configuration)
+         SEGAnalytics.setup(with: configuration)
 
         settingChangedNotification = NotificationObserver(notification: SettingChangedNotification) { user in
             self.shouldTrackUser = user.profile?.allowsAnalytics ?? true
@@ -62,9 +60,9 @@ public class Tracker {
 }
 
 // MARK: Session Info
-public extension Tracker {
+extension Tracker {
 
-    func identify(user: User) {
+    func identify(_ user: User) {
         currentUser = user
         shouldTrackUser = user.profile?.allowsAnalytics ?? true
         Crashlytics.sharedInstance().setUserIdentifier(shouldTrackUser ? user.id : "")
@@ -81,17 +79,17 @@ public extension Tracker {
         agent.track("Session Ended")
     }
 
-    static func trackRequest(headers headers: String, statusCode: Int, responseJSON: String) {
-        Tracker.responseHeaders = headers
-        Crashlytics.sharedInstance().setObjectValue(headers, forKey: CrashlyticsKey.ResponseHeaders.rawValue)
-        Crashlytics.sharedInstance().setObjectValue("\(statusCode)", forKey: CrashlyticsKey.ResponseStatusCode.rawValue)
-        Tracker.responseJSON = responseJSON
-        Crashlytics.sharedInstance().setObjectValue(Tracker.responseJSON, forKey: CrashlyticsKey.ResponseJSON.rawValue)
+    static func trackRequest(headers: String, statusCode: Int, responseJSON: String) {
+        Tracker.responseHeaders = headers as NSString
+        Crashlytics.sharedInstance().setObjectValue(headers, forKey: CrashlyticsKey.responseHeaders.rawValue)
+        Crashlytics.sharedInstance().setObjectValue("\(statusCode)", forKey: CrashlyticsKey.responseStatusCode.rawValue)
+        Tracker.responseJSON = responseJSON as NSString
+        Crashlytics.sharedInstance().setObjectValue(Tracker.responseJSON, forKey: CrashlyticsKey.responseJSON.rawValue)
     }
 }
 
 // MARK: Signup and Login
-public extension Tracker {
+extension Tracker {
 
     func tappedJoinFromStartup() {
         agent.track("tapped join from startup")
@@ -180,7 +178,7 @@ public extension Tracker {
 }
 
 // MARK: iRate
-public extension Tracker {
+extension Tracker {
     func ratePromptShown() {
         agent.track("rate prompt shown")
     }
@@ -207,23 +205,23 @@ public extension Tracker {
 }
 
 // MARK: Hire Me
-public extension Tracker {
-    func tappedCollaborate(user: User) {
+extension Tracker {
+    func tappedCollaborate(_ user: User) {
         agent.track("open collaborate dialog profile", properties: ["id": user.id])
     }
-    func collaboratedUser(user: User) {
+    func collaboratedUser(_ user: User) {
         agent.track("send collaborate dialog profile", properties: ["id": user.id])
     }
-    func tappedHire(user: User) {
+    func tappedHire(_ user: User) {
         agent.track("open hire dialog profile", properties: ["id": user.id])
     }
-    func hiredUser(user: User) {
+    func hiredUser(_ user: User) {
         agent.track("send hire dialog profile", properties: ["id": user.id])
     }
 }
 
 // MARK: Share Extension
-public extension Tracker {
+extension Tracker {
     func shareSuccessful() {
         agent.track("successfully shared from the share extension")
     }
@@ -234,12 +232,12 @@ public extension Tracker {
 }
 
 // MARK: Onboarding
-public extension Tracker {
+extension Tracker {
     func completedCategories() {
         agent.track("completed categories in onboarding")
     }
 
-    func onboardingCategorySelected(category: Category) {
+    func onboardingCategorySelected(_ category: Category) {
         agent.track("onboarding category chosen", properties: ["category": category.name])
     }
 
@@ -284,64 +282,51 @@ public extension Tracker {
     }
 }
 
-public extension UIViewController {
-    func trackerName() -> String { return readableClassName() }
+extension UIViewController {
+    // return 'nil' to disable tracking, e.g. in StreamViewController
+    func trackerName() -> String? { return readableClassName() }
     func trackerProps() -> [String: AnyObject]? { return nil }
-
-    func trackerData() -> (String, [String: AnyObject]?) {
-        return (trackerName(), trackerProps())
-    }
 }
 
 // MARK: View Appearance
-public extension Tracker {
-    func screenAppeared(viewController: UIViewController) {
-        let (name, props) = viewController.trackerData()
-        screenAppeared(name, properties: props)
+extension Tracker {
+    func screenAppeared(_ viewController: UIViewController) {
+        if let name = viewController.trackerName() {
+            let props = viewController.trackerProps()
+            screenAppeared(name, properties: props)
+        }
     }
 
-    func screenAppeared(name: String, properties: [String: AnyObject]? = nil) {
-        agent.screen(name, properties: properties)
+    func screenAppeared(_ name: String, properties: [String: AnyObject]? = nil) {
+        agent.screen("Screen \(name)", properties: properties)
     }
 
-    func streamAppeared(kind: String) {
-        agent.screen("Stream", properties: ["kind": kind])
-    }
-
-    func webViewAppeared(url: String) {
+    func webViewAppeared(_ url: String) {
         agent.screen("Web View", properties: ["url": url])
     }
 
-    func profileLoaded(handle: String) {
-        agent.track("Profile Loaded", properties: ["handle": handle])
-    }
-
-    func postLoaded(id: String) {
-        agent.track("Post Loaded", properties: ["id": id])
-    }
-
-    func categoryOpened(categorySlug: String) {
+    func categoryOpened(_ categorySlug: String) {
         agent.track("category opened", properties: ["category": categorySlug])
     }
 
-    func categoryHeaderPostedBy(categoryTitle: String) {
+    func categoryHeaderPostedBy(_ categoryTitle: String) {
         agent.track("promoByline clicked", properties: ["category": categoryTitle])
     }
 
-    func categoryHeaderCallToAction(categoryTitle: String) {
+    func categoryHeaderCallToAction(_ categoryTitle: String) {
         agent.track("promoCTA clicked", properties: ["category": categoryTitle])
     }
 
-    func viewedImage(asset: Asset, post: Post) {
+    func viewedImage(_ asset: Asset, post: Post) {
         agent.track("Viewed Image", properties: ["asset_id": asset.id, "post_id": post.id])
     }
 
-    func postBarVisibilityChanged(visible: Bool) {
+    func postBarVisibilityChanged(_ visible: Bool) {
         let visibility = visible ? "shown" : "hidden"
         agent.track("Post bar \(visibility)")
     }
 
-    func commentBarVisibilityChanged(visible: Bool) {
+    func commentBarVisibilityChanged(_ visible: Bool) {
         let visibility = visible ? "shown" : "hidden"
         agent.track("Comment bar \(visibility)")
     }
@@ -350,23 +335,23 @@ public extension Tracker {
         agent.track("Drawer closed")
     }
 
-    func viewsButtonTapped(post post: Post) {
+    func viewsButtonTapped(post: Post) {
         agent.track("Views button tapped", properties: ["post_id": post.id])
     }
 
-    func deepLinkVisited(path: String) {
+    func deepLinkVisited(_ path: String) {
         agent.track("Deep Link Visited", properties: ["path": path])
     }
 
-    func buyButtonLinkVisited(path: String) {
+    func buyButtonLinkVisited(_ path: String) {
         agent.track("Buy Button Link Visited", properties: ["link": path])
     }
 
 }
 
 // MARK: Content Actions
-public extension Tracker {
-    private func regionDetails(regions: [Regionable]?) -> [String: AnyObject] {
+extension Tracker {
+    fileprivate func regionDetails(_ regions: [Regionable]?) -> [String: AnyObject] {
         guard let regions = regions else {
             return [:]
         }
@@ -374,7 +359,7 @@ public extension Tracker {
         var imageCount = 0
         var textLength = 0
         for region in regions {
-            if region.kind == RegionKind.Image.rawValue {
+            if region.kind == RegionKind.image.rawValue {
                 imageCount += 1
             }
             else if let region = region as? TextRegion {
@@ -383,120 +368,118 @@ public extension Tracker {
         }
 
         return [
-            "total_regions": regions.count,
-            "image_regions": imageCount,
-            "text_length": textLength
+            "total_regions": regions.count as AnyObject,
+            "image_regions": imageCount as AnyObject,
+            "text_length": textLength as AnyObject
         ]
     }
 
-    func postCreated(post: Post) {
-        let type: ContentType = .Post
+    func postCreated(_ post: Post) {
         let properties = regionDetails(post.content)
-        agent.track("\(type.rawValue) created", properties: properties)
+        agent.track("Post created", properties: properties)
     }
 
-    func postEdited(post: Post) {
-        let type: ContentType = .Post
+    func postEdited(_ post: Post) {
         let properties = regionDetails(post.content)
-        agent.track("\(type.rawValue) edited", properties: properties)
+        agent.track("Post edited", properties: properties)
     }
 
-    func commentCreated(comment: ElloComment) {
-        let type: ContentType = .Comment
+    func postDeleted(_ post: Post) {
+        let properties = regionDetails(post.content)
+        agent.track("Post deleted", properties: properties)
+    }
+
+    func commentCreated(_ comment: ElloComment) {
         let properties = regionDetails(comment.content)
-        agent.track("\(type.rawValue) created", properties: properties)
+        agent.track("Comment created", properties: properties)
     }
 
-    func commentEdited(comment: ElloComment) {
-        let type: ContentType = .Comment
+    func commentEdited(_ comment: ElloComment) {
         let properties = regionDetails(comment.content)
-        agent.track("\(type.rawValue) edited", properties: properties)
+        agent.track("Comment edited", properties: properties)
     }
 
-    func contentCreated(type: ContentType) {
-        agent.track("\(type.rawValue) created")
+    func commentDeleted(_ comment: ElloComment) {
+        let properties = regionDetails(comment.content)
+        agent.track("Comment deleted", properties: properties)
     }
 
-    func contentEdited(type: ContentType) {
-        agent.track("\(type.rawValue) edited")
-    }
-
-    func contentCreationCanceled(type: ContentType) {
+    func contentCreationCanceled(_ type: ContentType) {
         agent.track("\(type.rawValue) creation canceled")
     }
 
-    func contentEditingCanceled(type: ContentType) {
+    func contentEditingCanceled(_ type: ContentType) {
         agent.track("\(type.rawValue) editing canceled")
     }
 
-    func contentCreationFailed(type: ContentType, message: String) {
+    func contentCreationFailed(_ type: ContentType, message: String) {
         agent.track("\(type.rawValue) creation failed", properties: ["message": message])
     }
 
-    func contentFlagged(type: ContentType, flag: ContentFlagger.AlertOption, contentId: String) {
+    func contentFlagged(_ type: ContentType, flag: ContentFlagger.AlertOption, contentId: String) {
         agent.track("\(type.rawValue) flagged", properties: ["content_id": contentId, "flag": flag.rawValue])
     }
 
-    func contentFlaggingCanceled(type: ContentType, contentId: String) {
+    func contentFlaggingCanceled(_ type: ContentType, contentId: String) {
         agent.track("\(type.rawValue) flagging canceled", properties: ["content_id": contentId])
     }
 
-    func contentFlaggingFailed(type: ContentType, message: String, contentId: String) {
+    func contentFlaggingFailed(_ type: ContentType, message: String, contentId: String) {
         agent.track("\(type.rawValue) flagging failed", properties: ["content_id": contentId, "message": message])
     }
 
-    func userShared(user: User) {
+    func userShared(_ user: User) {
         agent.track("User shared", properties: ["user_id": user.id])
     }
 
-    func postReposted(post: Post) {
+    func postReposted(_ post: Post) {
         agent.track("Post reposted", properties: ["post_id": post.id])
     }
 
-    func postShared(post: Post) {
+    func postShared(_ post: Post) {
         agent.track("Post shared", properties: ["post_id": post.id])
     }
 
-    func postLoved(post: Post) {
+    func postLoved(_ post: Post) {
         agent.track("Post loved", properties: ["post_id": post.id])
     }
 
-    func postUnloved(post: Post) {
+    func postUnloved(_ post: Post) {
         agent.track("Post unloved", properties: ["post_id": post.id])
     }
 }
 
 // MARK: User Actions
-public extension Tracker {
-    func userBlocked(userId: String) {
+extension Tracker {
+    func userBlocked(_ userId: String) {
         agent.track("User blocked", properties: ["blocked_user_id": userId])
     }
 
-    func userMuted(userId: String) {
+    func userMuted(_ userId: String) {
         agent.track("User muted", properties: ["muted_user_id": userId])
     }
 
-    func userUnblocked(userId: String) {
+    func userUnblocked(_ userId: String) {
         agent.track("User UN-blocked", properties: ["blocked_user_id": userId])
     }
 
-    func userUnmuted(userId: String) {
+    func userUnmuted(_ userId: String) {
         agent.track("User UN-muted", properties: ["muted_user_id": userId])
     }
 
-    func userBlockCanceled(userId: String) {
+    func userBlockCanceled(_ userId: String) {
         agent.track("User block canceled", properties: ["blocked_user_id": userId])
     }
 
-    func relationshipStatusUpdated(relationshipPriority: RelationshipPriority, userId: String) {
+    func relationshipStatusUpdated(_ relationshipPriority: RelationshipPriority, userId: String) {
         agent.track("Relationship Priority changed", properties: ["new_value": relationshipPriority.rawValue, "user_id": userId])
     }
 
-    func relationshipStatusUpdateFailed(relationshipPriority: RelationshipPriority, userId: String) {
+    func relationshipStatusUpdateFailed(_ relationshipPriority: RelationshipPriority, userId: String) {
         agent.track("Relationship Priority failed", properties: ["new_value": relationshipPriority.rawValue, "user_id": userId])
     }
 
-    func relationshipButtonTapped(relationshipPriority: RelationshipPriority, userId: String) {
+    func relationshipButtonTapped(_ relationshipPriority: RelationshipPriority, userId: String) {
         agent.track("Relationship button tapped", properties: ["button": relationshipPriority.buttonName, "user_id": userId])
     }
 
@@ -514,7 +497,7 @@ public extension Tracker {
 }
 
 // MARK: Image Actions
-public extension Tracker {
+extension Tracker {
     func imageAddedFromCamera() {
         agent.track("Image added from camera")
     }
@@ -529,7 +512,7 @@ public extension Tracker {
 }
 
 // MARK: Import Friend Actions
-public extension Tracker {
+extension Tracker {
     func inviteFriendsTapped() {
         agent.track("Invite Friends tapped")
     }
@@ -548,39 +531,34 @@ public extension Tracker {
 }
 
 // MARK:  Preferences
-public extension Tracker {
-    func pushNotificationPreferenceChanged(granted: Bool) {
+extension Tracker {
+    func pushNotificationPreferenceChanged(_ granted: Bool) {
         let accessLevel = granted ? "granted" : "denied"
         agent.track("Push notification access \(accessLevel)")
     }
 
-    func contactAccessPreferenceChanged(granted: Bool) {
+    func contactAccessPreferenceChanged(_ granted: Bool) {
         let accessLevel = granted ? "granted" : "denied"
         agent.track("Address book access \(accessLevel)")
     }
 }
 
 // MARK: Errors
-public extension Tracker {
-    func encounteredNetworkError(path: String, error: NSError, statusCode: Int?) {
+extension Tracker {
+    func encounteredNetworkError(_ path: String, error: NSError, statusCode: Int?) {
         agent.track("Encountered network error", properties: ["path": path, "message": error.description, "statusCode": statusCode ?? 0])
-    }
-
-    func createdAtCrash(identifier: String, json: String?) {
-        let jsonText: NSString = json ?? Tracker.responseJSON
-        agent.track("\(identifier) Created At Crash", properties: ["responseHeaders": Tracker.responseHeaders, "responseJSON": jsonText, "currentUserId": currentUser?.id ?? "no id"])
     }
 }
 
 // MARK: Search
-public extension Tracker {
-    func searchFor(type: String) {
-        agent.track("Search for \(type)")
+extension Tracker {
+    func searchFor(_ searchType: String, _ text: String) {
+        agent.track("Search", properties: ["for": searchType, "text": text])
     }
 }
 
 // MARK: Announcements
-public extension Tracker {
+extension Tracker {
 
     func announcementViewed(_ announcement: Announcement) {
         agent.track("Announcement Viewed", properties: ["announcement": announcement.id])

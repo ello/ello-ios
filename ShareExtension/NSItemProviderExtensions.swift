@@ -5,32 +5,32 @@
 import Foundation
 import MobileCoreServices
 
-public extension NSItemProvider {
+extension NSItemProvider {
 
-    public func isURL() -> Bool {
+    func isURL() -> Bool {
         return self.hasItemConformingToTypeIdentifier(String(kUTTypeURL))
     }
-    public func isImage() -> Bool {
+    func isImage() -> Bool {
         return self.hasItemConformingToTypeIdentifier(String(kUTTypeImage))
     }
 
-    public func isText() -> Bool {
+    func isText() -> Bool {
         return self.hasItemConformingToTypeIdentifier(String(kUTTypeText))
     }
 
-    public func loadText(options: [NSObject : AnyObject]?, completion: NSItemProviderCompletionHandler?) {
-        self.loadItemForTypeIdentifier(String(kUTTypeText), options: options, completionHandler: completion)
+    func loadText(_ options: [AnyHashable: Any]?, completion: NSItemProvider.CompletionHandler?) {
+        self.loadItem(forTypeIdentifier: String(kUTTypeText), options: options, completionHandler: completion)
     }
 
-    public func loadURL(options: [NSObject : AnyObject]?, completion: NSItemProviderCompletionHandler?) {
-        self.loadItemForTypeIdentifier(String(kUTTypeURL), options: options, completionHandler: completion)
+    func loadURL(_ options: [AnyHashable: Any]?, completion: NSItemProvider.CompletionHandler?) {
+        self.loadItem(forTypeIdentifier: String(kUTTypeURL), options: options, completionHandler: completion)
     }
 
-    public func loadPreview(options: [NSObject : AnyObject]!, completion: NSItemProviderCompletionHandler!) {
-        self.loadPreviewImageWithOptions(options, completionHandler: completion)
+    func loadPreview(_ options: [AnyHashable: Any]!, completion: NSItemProvider.CompletionHandler!) {
+        self.loadPreviewImage(options: options, completionHandler: completion)
     }
 
-    public func loadImage(options: [NSObject : AnyObject]!, completion: NSItemProviderCompletionHandler!) {
-        self.loadItemForTypeIdentifier(String(kUTTypeImage), options: options, completionHandler: completion)
+    func loadImage(_ options: [AnyHashable: Any]!, completion: NSItemProvider.CompletionHandler!) {
+        self.loadItem(forTypeIdentifier: String(kUTTypeImage), options: options, completionHandler: completion)
     }
 }

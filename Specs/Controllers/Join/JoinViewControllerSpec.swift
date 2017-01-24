@@ -2,8 +2,7 @@
 ///  JoinViewControllerSpec.swift
 //
 
-@testable
-import Ello
+@testable import Ello
 import Quick
 import Nimble
 
@@ -27,42 +26,42 @@ class JoinViewControllerSpec: QuickSpec {
         var passwordValid: Bool?
         var resignedFirstResponder = false
 
-        func loadingHUD(visible visible: Bool) {
+        func loadingHUD(visible: Bool) {
             loadingHUDVisible = visible
         }
 
-        func showMessage(text: String) {
+        func showMessage(_ text: String) {
             message = text
         }
         func hideMessage() {
             message = ""
         }
 
-        func showUsernameSuggestions(usernames: [String]) {
+        func showUsernameSuggestions(_ usernames: [String]) {
             self.usernames = usernames
         }
-        func showUsernameError(text: String) {
+        func showUsernameError(_ text: String) {
             usernameError = text
         }
         func hideUsernameError() {
             usernameError = ""
         }
 
-        func showEmailError(text: String) {
+        func showEmailError(_ text: String) {
             emailError = text
         }
         func hideEmailError() {
             emailError = ""
         }
 
-        func showPasswordError(text: String) {
+        func showPasswordError(_ text: String) {
             passwordError = text
         }
         func hidePasswordError() {
             passwordError = ""
         }
 
-        func showError(text: String) {
+        func showError(_ text: String) {
             error = text
         }
 
@@ -71,7 +70,7 @@ class JoinViewControllerSpec: QuickSpec {
             return true
         }
 
-        func applyValidation(emailValid emailValid: Bool, usernameValid: Bool, passwordValid: Bool) {
+        func applyValidation(emailValid: Bool, usernameValid: Bool, passwordValid: Bool) {
             self.emailValid = emailValid
             self.usernameValid = usernameValid
             self.passwordValid = passwordValid

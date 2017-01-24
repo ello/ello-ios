@@ -2,118 +2,118 @@
 ///  OmnibarRegion.swift
 //
 
-public enum OmnibarRegion {
-    case Image(UIImage)
-    case ImageData(UIImage, NSData, String)
-    case ImageURL(NSURL)
-    case AttributedText(NSAttributedString)
-    case Spacer
-    case Error(NSURL)
+enum OmnibarRegion {
+    case image(UIImage)
+    case imageData(UIImage, Data, String)
+    case imageURL(URL)
+    case attributedText(NSAttributedString)
+    case spacer
+    case error(URL)
 
-    public static func Text(str: String) -> OmnibarRegion {
-        return AttributedText(ElloAttributedString.style(str))
+    static func text(_ str: String) -> OmnibarRegion {
+        return attributedText(ElloAttributedString.style(str))
     }
 }
 
-public extension OmnibarRegion {
+extension OmnibarRegion {
     var editable: Bool {
         switch self {
-        case .ImageData, .Image: return true
-        case let .AttributedText(text): return text.string.characters.count > 0
+        case .imageData, .image: return true
+        case let .attributedText(text): return text.string.characters.count > 0
         default: return false
         }
     }
 
     var text: NSAttributedString? {
         switch self {
-        case let .AttributedText(text): return text
+        case let .attributedText(text): return text
         default: return nil
         }
     }
 
     var image: UIImage? {
         switch self {
-        case let .Image(image): return image
-        case let .ImageData(image, _, _): return image
+        case let .image(image): return image
+        case let .imageData(image, _, _): return image
         default: return nil
         }
     }
 
     var isText: Bool {
         switch self {
-        case .AttributedText: return true
+        case .attributedText: return true
         default: return false
         }
     }
 
     var isImage: Bool {
         switch self {
-        case .ImageData, .Image, .ImageURL: return true
+        case .imageData, .image, .imageURL: return true
         default: return false
         }
     }
 
     var empty: Bool {
         switch self {
-        case let .AttributedText(text): return text.string.characters.count == 0
-        case .Spacer: return true
+        case let .attributedText(text): return text.string.characters.count == 0
+        case .spacer: return true
         default: return false
         }
     }
 
     var isSpacer: Bool {
         switch self {
-        case .Spacer: return true
+        case .spacer: return true
         default: return false
         }
     }
 
     var reuseIdentifier: String {
         switch self {
-        case .ImageData, .Image: return OmnibarImageCell.reuseIdentifier
-        case .ImageURL: return OmnibarImageDownloadCell.reuseIdentifier
-        case .AttributedText: return OmnibarTextCell.reuseIdentifier
-        case .Spacer: return OmnibarRegion.OmnibarSpacerCell
-        case .Error: return OmnibarErrorCell.reuseIdentifier
+        case .imageData, .image: return OmnibarImageCell.reuseIdentifier
+        case .imageURL: return OmnibarImageDownloadCell.reuseIdentifier
+        case .attributedText: return OmnibarTextCell.reuseIdentifier
+        case .spacer: return OmnibarRegion.OmnibarSpacerCell
+        case .error: return OmnibarErrorCell.reuseIdentifier
         }
     }
 
     static let OmnibarSpacerCell = "OmnibarSpacerCell"
 }
 
-public extension OmnibarRegion {
+extension OmnibarRegion {
     var rawRegion: NSObject? {
         switch self {
-        case let .Image(image): return image
-        case let .ImageData(image, _, _): return image
-        case let .AttributedText(text): return text
+        case let .image(image): return image
+        case let .imageData(image, _, _): return image
+        case let .attributedText(text): return text
         default: return nil
         }
     }
-    static func fromRaw(obj: NSObject) -> OmnibarRegion? {
+    static func fromRaw(_ obj: NSObject) -> OmnibarRegion? {
         if let text = obj as? NSAttributedString {
-            return .AttributedText(text)
+            return .attributedText(text)
         }
         else if let image = obj as? UIImage {
-            return .Image(image)
+            return .image(image)
         }
         return nil
     }
 }
 
 extension OmnibarRegion: CustomStringConvertible, CustomDebugStringConvertible {
-    public var description: String {
+    var description: String {
         switch self {
-        case let .Image(image): return "Image(size: \(image.size))"
-        case let .ImageData(image, _, _): return "ImageData(size: \(image.size))"
-        case let .ImageURL(url): return "ImageURL(url: \(url))"
-        case let .AttributedText(text): return "AttributedText(text: \(text.string))"
-        case .Spacer: return "Spacer()"
-        case .Error: return "Error()"
+        case let .image(image): return "Image(size: \(image.size))"
+        case let .imageData(image, _, _): return "ImageData(size: \(image.size))"
+        case let .imageURL(url): return "ImageURL(url: \(url))"
+        case let .attributedText(text): return "AttributedText(text: \(text.string))"
+        case .spacer: return "Spacer()"
+        case .error: return "Error()"
         }
     }
 
-    public var debugDescription: String {
+    var debugDescription: String {
         return description
     }
 

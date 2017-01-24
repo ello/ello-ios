@@ -5,7 +5,7 @@
 import Foundation
 
 class LovesPageController: IntroPageController {
-    @IBAction func didTouchGetStarted(sender: AnyObject) {
-        parentViewController?.dismissViewControllerAnimated(false, completion: nil)
+    @IBAction func didTouchGetStarted(_ sender: AnyObject) {
+        parent?.dismiss(animated: false, completion: nil)
     }
 }

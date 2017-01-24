@@ -3,17 +3,17 @@
 //
 
 
-public class StreamNotificationCellSizeCalculator: NSObject, UIWebViewDelegate {
-    private static let textViewForSizing = ElloTextView(frame: CGRectZero, textContainer: nil)
+class StreamNotificationCellSizeCalculator: NSObject, UIWebViewDelegate {
+    fileprivate static let textViewForSizing = ElloTextView(frame: CGRect.zero, textContainer: nil)
     let webView: UIWebView
     var originalWidth: CGFloat = 0
 
-    private typealias CellJob = (cellItems: [StreamCellItem], width: CGFloat, completion: ElloEmptyCompletion)
-    private var cellJobs: [CellJob] = []
-    private var cellItems: [StreamCellItem] = []
-    private var completion: ElloEmptyCompletion = {}
+    fileprivate typealias CellJob = (cellItems: [StreamCellItem], width: CGFloat, completion: ElloEmptyCompletion)
+    fileprivate var cellJobs: [CellJob] = []
+    fileprivate var cellItems: [StreamCellItem] = []
+    fileprivate var completion: ElloEmptyCompletion = {}
 
-    public init(webView: UIWebView) {
+    init(webView: UIWebView) {
         self.webView = webView
         super.init()
         self.webView.delegate = self
@@ -21,7 +21,7 @@ public class StreamNotificationCellSizeCalculator: NSObject, UIWebViewDelegate {
 
 // MARK: Public
 
-    public func processCells(cellItems: [StreamCellItem], withWidth width: CGFloat, completion: ElloEmptyCompletion) {
+    func processCells(_ cellItems: [StreamCellItem], withWidth width: CGFloat, completion: @escaping ElloEmptyCompletion) {
         let job: CellJob = (cellItems: cellItems, width: width, completion: completion)
         cellJobs.append(job)
         if cellJobs.count == 1 {
@@ -31,10 +31,10 @@ public class StreamNotificationCellSizeCalculator: NSObject, UIWebViewDelegate {
 
 // MARK: Private
 
-    private func processJob(job: CellJob) {
+    fileprivate func processJob(_ job: CellJob) {
         self.completion = {
             if self.cellJobs.count > 0 {
-                self.cellJobs.removeAtIndex(0)
+                self.cellJobs.remove(at: 0)
             }
             job.completion()
             if let nextJob = self.cellJobs.safeValue(0) {
@@ -43,14 +43,14 @@ public class StreamNotificationCellSizeCalculator: NSObject, UIWebViewDelegate {
         }
         self.cellItems = job.cellItems
         self.originalWidth = job.width
-        self.webView.frame = self.webView.frame.withWidth(job.width)
+        self.webView.frame = self.webView.frame.with(width: job.width)
         loadNext()
     }
 
-    private func loadNext() {
+    fileprivate func loadNext() {
         if let item = self.cellItems.safeValue(0) {
             if let notification = item.jsonable as? Notification,
-                textRegion = notification.textRegion
+                let textRegion = notification.textRegion
             {
                 let content = textRegion.content
                 let strippedContent = content.stripHtmlImgSrc()
@@ -58,7 +58,7 @@ public class StreamNotificationCellSizeCalculator: NSObject, UIWebViewDelegate {
                 var f = self.webView.frame
                 f.size.width = NotificationCell.Size.messageHtmlWidth(forCellWidth: originalWidth, hasImage: notification.hasImage)
                 self.webView.frame = f
-                self.webView.loadHTMLString(html, baseURL: NSURL(string: "/"))
+                self.webView.loadHTMLString(html, baseURL: URL(string: "/"))
             }
             else {
                 assignCellHeight(0)
@@ -69,7 +69,7 @@ public class StreamNotificationCellSizeCalculator: NSObject, UIWebViewDelegate {
         }
     }
 
-    public func webViewDidFinishLoad(webView: UIWebView) {
+    func webViewDidFinishLoad(_ webView: UIWebView) {
         if let webContentHeight = self.webView.windowContentSize()?.height {
             assignCellHeight(webContentHeight)
         }
@@ -78,24 +78,24 @@ public class StreamNotificationCellSizeCalculator: NSObject, UIWebViewDelegate {
         }
     }
 
-    private func assignCellHeight(webContentHeight: CGFloat) {
+    fileprivate func assignCellHeight(_ webContentHeight: CGFloat) {
         if let cellItem = self.cellItems.safeValue(0) {
-            self.cellItems.removeAtIndex(0)
+            self.cellItems.remove(at: 0)
             StreamNotificationCellSizeCalculator.assignTotalHeight(webContentHeight, cellItem: cellItem, cellWidth: originalWidth)
         }
         loadNext()
     }
 
-    class func assignTotalHeight(webContentHeight: CGFloat?, cellItem: StreamCellItem, cellWidth: CGFloat) {
+    class func assignTotalHeight(_ webContentHeight: CGFloat?, cellItem: StreamCellItem, cellWidth: CGFloat) {
         let notification = cellItem.jsonable as! Notification
 
         textViewForSizing.attributedText = notification.attributedTitle
         let titleWidth = NotificationCell.Size.messageHtmlWidth(forCellWidth: cellWidth, hasImage: notification.hasImage)
-        let titleSize = textViewForSizing.sizeThatFits(CGSize(width: titleWidth, height: .max))
+        let titleSize = textViewForSizing.sizeThatFits(CGSize(width: titleWidth, height: .greatestFiniteMagnitude))
         var totalTextHeight = ceil(titleSize.height)
         totalTextHeight += NotificationCell.Size.CreatedAtFixedHeight
 
-        if let webContentHeight = webContentHeight where webContentHeight > 0 {
+        if let webContentHeight = webContentHeight, webContentHeight > 0 {
             totalTextHeight += webContentHeight + NotificationCell.Size.WebHeightCorrection + NotificationCell.Size.InnerMargin
         }
 

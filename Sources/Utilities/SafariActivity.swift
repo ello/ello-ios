@@ -3,42 +3,42 @@
 //
 
 class SafariActivity: UIActivity {
-    var url: NSURL?
+    var url: URL?
 
-    override func activityType() -> String {
-        return "SafariActivity"
+    override var activityType: UIActivityType {
+        return UIActivityType("SafariActivity")
     }
 
-    override func activityTitle() -> String {
+    override var activityTitle: String {
         return InterfaceString.App.OpenInSafari
     }
 
-    override func activityImage() -> UIImage? {
+    override var activityImage: UIImage? {
         return UIImage(named: "openInSafari")
     }
 
-    override func canPerformWithActivityItems(activityItems: [AnyObject]) -> Bool {
+    override func canPerform(withActivityItems activityItems: [Any]) -> Bool {
         for item in activityItems {
-            if let url = item as? NSURL where UIApplication.sharedApplication().canOpenURL(url) {
+            if let url = item as? URL, UIApplication.shared.canOpenURL(url) {
                 return true
             }
         }
         return false
     }
 
-    override func prepareWithActivityItems(activityItems: [AnyObject]) {
+    override func prepare(withActivityItems activityItems: [Any]) {
         for item in activityItems {
-            if let url = item as? NSURL {
+            if let url = item as? URL {
                 self.url = url
                 break
             }
         }
     }
 
-    override func performActivity() {
+    override func perform() {
         var completed = false
         if let url = url {
-            completed = UIApplication.sharedApplication().openURL(url)
+            completed = UIApplication.shared.openURL(url)
         }
         activityDidFinish(completed)
     }

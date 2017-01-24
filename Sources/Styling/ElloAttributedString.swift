@@ -2,8 +2,8 @@
 ///  ElloAttributedString.swift
 //
 
-public struct ElloAttributedString {
-    private struct HtmlTagTuple {
+struct ElloAttributedString {
+    fileprivate struct HtmlTagTuple {
         let tag: String
         let attributes: String?
 
@@ -13,14 +13,14 @@ public struct ElloAttributedString {
         }
     }
 
-    public static func attrs(allAddlAttrs: [String: AnyObject]...) -> [String: AnyObject] {
+    static func attrs(_ allAddlAttrs: [String: AnyObject]...) -> [String: AnyObject] {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 6
 
         var attrs: [String: AnyObject] = [
             NSParagraphStyleAttributeName: paragraphStyle,
             NSFontAttributeName: UIFont.defaultFont(),
-            NSForegroundColorAttributeName: UIColor.blackColor(),
+            NSForegroundColorAttributeName: UIColor.black,
         ]
         for addlAttrs in allAddlAttrs {
             attrs += addlAttrs
@@ -28,13 +28,13 @@ public struct ElloAttributedString {
         return attrs
     }
 
-    public static func linkAttrs() -> [String: AnyObject] {
+    static func linkAttrs() -> [String: AnyObject] {
         return attrs([
-            NSUnderlineStyleAttributeName: NSUnderlineStyle.StyleSingle.rawValue,
+            NSUnderlineStyleAttributeName: NSUnderlineStyle.styleSingle.rawValue as AnyObject,
         ])
     }
 
-    public static func split(text: NSAttributedString, split: String = "\n") -> [NSAttributedString] {
+    static func split(_ text: NSAttributedString, split: String = "\n") -> [NSAttributedString] {
         var strings = [NSAttributedString]()
         var current = NSMutableAttributedString()
         var hasLetters = false
@@ -43,14 +43,14 @@ public struct ElloAttributedString {
         for i in 0..<nsCount {
             let letter = NSMutableAttributedString(attributedString: text)
             if i < nsCount - 1 {
-                letter.deleteCharactersInRange(NSRange(location: i + 1, length: nsCount - i - 1))
+                letter.deleteCharacters(in: NSRange(location: i + 1, length: nsCount - i - 1))
             }
             if i > 0 {
-                letter.deleteCharactersInRange(NSRange(location: 0, length: i))
+                letter.deleteCharacters(in: NSRange(location: 0, length: i))
             }
 
             if letter.string == "\n" {
-                current.appendAttributedString(letter)
+                current.append(letter)
                 startNewString = true
             }
             else {
@@ -61,7 +61,7 @@ public struct ElloAttributedString {
                     strings.append(current)
                     current = NSMutableAttributedString()
                 }
-                current.appendAttributedString(letter)
+                current.append(letter)
                 startNewString = false
             }
         }
@@ -71,24 +71,23 @@ public struct ElloAttributedString {
         return strings
     }
 
-    public static func style(text: String, _ addlAttrs: [String: AnyObject] = [:]) -> NSAttributedString {
+    static func style(_ text: String, _ addlAttrs: [String: AnyObject] = [:]) -> NSAttributedString {
         return NSAttributedString(string: text, attributes: attrs(addlAttrs))
     }
 
-    public static func parse(input: String) -> NSAttributedString? {
+    static func parse(_ input: String) -> NSAttributedString? {
         if let tag = Tag(input: input) {
             return tag.makeEditable(attrs())
         }
         return nil
     }
 
-    public static func render(input: NSAttributedString) -> String {
+    static func render(_ input: NSAttributedString) -> String {
         var output = ""
-        input.enumerateAttributesInRange(NSRange(location: 0, length: input.length), options: .LongestEffectiveRangeNotRequired) { (attrs, range, stopPtr) in
+        input.enumerateAttributes(in: NSRange(location: 0, length: input.length), options: .longestEffectiveRangeNotRequired) { (attrs, range, stopPtr) in
             // (tagName, attributes?)
             var tags = [HtmlTagTuple]()
-            if let underlineStyle = attrs[NSUnderlineStyleAttributeName] as? Int
-            where underlineStyle == NSUnderlineStyle.StyleSingle.rawValue {
+            if let underlineStyle = attrs[NSUnderlineStyleAttributeName] as? Int, underlineStyle == NSUnderlineStyle.styleSingle.rawValue {
                 tags.append(HtmlTagTuple("u"))
             }
 
@@ -105,10 +104,8 @@ public struct ElloAttributedString {
                 }
             }
 
-            if let link = attrs[NSLinkAttributeName] as? NSURL,
-                linkString = link.absoluteString
-            {
-                tags.append(HtmlTagTuple("a", attributes: "href=\"\(linkString.entitiesEncoded())\""))
+            if let link = attrs[NSLinkAttributeName] as? URL {
+                tags.append(HtmlTagTuple("a", attributes: "href=\"\(link.absoluteString.entitiesEncoded())\""))
             }
 
             for htmlTag in tags {
@@ -119,8 +116,8 @@ public struct ElloAttributedString {
                 }
                 output += ">"
             }
-            output += (input.string as NSString).substringWithRange(range).entitiesEncoded()
-            for htmlTag in tags.reverse() {
+            output += (input.string as NSString).substring(with: range).entitiesEncoded()
+            for htmlTag in tags.reversed() {
                 output += "</\(htmlTag.tag)>"
             }
         }

@@ -5,17 +5,17 @@
 import KINWebBrowser
 import Crashlytics
 
-public class ElloWebBrowserViewController: KINWebBrowserViewController {
+class ElloWebBrowserViewController: KINWebBrowserViewController {
     var toolbarHidden = false
-    var prevRequestURL: NSURL?
+    var prevRequestURL: URL?
     static var currentUser: User?
     static var elloTabBarController: ElloTabBarController?
 
-    public class func navigationControllerWithBrowser(webBrowser: ElloWebBrowserViewController) -> ElloNavigationController {
+    class func navigationControllerWithBrowser(_ webBrowser: ElloWebBrowserViewController) -> ElloNavigationController {
         // tell AppDelegate to allow rotation
         AppDelegate.restrictRotation = false
         let xButton = UIBarButtonItem.closeButton(target: webBrowser, action: #selector(ElloWebBrowserViewController.doneButtonPressed(_:)))
-        let shareButton = UIBarButtonItem(image: InterfaceImage.Share.normalImage, style: UIBarButtonItemStyle.Plain, target: webBrowser, action: #selector(ElloWebBrowserViewController.shareButtonPressed(_:)))
+        let shareButton = UIBarButtonItem(image: InterfaceImage.share.normalImage, style: UIBarButtonItemStyle.plain, target: webBrowser, action: #selector(ElloWebBrowserViewController.shareButtonPressed(_:)))
 
         webBrowser.navigationItem.leftBarButtonItem = xButton
         webBrowser.navigationItem.rightBarButtonItem = shareButton
@@ -24,51 +24,51 @@ public class ElloWebBrowserViewController: KINWebBrowserViewController {
         return ElloNavigationController(rootViewController: webBrowser)
     }
 
-    override public class func navigationControllerWithWebBrowser() -> ElloNavigationController {
+    override class func navigationControllerWithWebBrowser() -> ElloNavigationController {
         let browser = self.init()
         return navigationControllerWithBrowser(browser)
     }
 
-    override public func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.setToolbarHidden(toolbarHidden, animated: false)
     }
 
-    override public func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        UIApplication.sharedApplication().statusBarStyle = .Default
-        Crashlytics.sharedInstance().setObjectValue("ElloWebBrowser", forKey: CrashlyticsKey.StreamName.rawValue)
+        UIApplication.shared.statusBarStyle = .default
+        Crashlytics.sharedInstance().setObjectValue("ElloWebBrowser", forKey: CrashlyticsKey.streamName.rawValue)
         delegate = self
     }
 
-    override public func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        UIApplication.sharedApplication().statusBarStyle = .LightContent
+        UIApplication.shared.statusBarStyle = .lightContent
     }
 
-    public func shareButtonPressed(sender: AnyObject) {
-        var webViewUrl: NSURL?
+    func shareButtonPressed(_ barButtonItem: UIBarButtonItem) {
+        var webViewUrl: URL?
         if let wkWebView = wkWebView {
-            webViewUrl = wkWebView.URL
+            webViewUrl = wkWebView.url
         }
         else if let uiWebView = uiWebView {
-            webViewUrl = uiWebView.request?.URL
+            webViewUrl = uiWebView.request?.url
         }
 
-        guard let urlForActivityItem = webViewUrl else {
-            return
-        }
+        guard let urlForActivityItem = webViewUrl
+        else { return }
 
-        dispatch_async(dispatch_get_main_queue()) {
-            let controller = UIActivityViewController(activityItems: [urlForActivityItem], applicationActivities: [SafariActivity()])
-            let actionButton = sender as? UIBarButtonItem
-            if let actionButton = actionButton where UI_USER_INTERFACE_IDIOM() == .Pad {
-                let actionPopoverController = UIPopoverController(contentViewController: controller)
-                actionPopoverController.presentPopoverFromBarButtonItem(actionButton, permittedArrowDirections: .Any, animated: true)
-            }
-            else {
-                self.presentViewController(controller, animated: true, completion: nil)
-            }
+        let activityVC = UIActivityViewController(activityItems: [urlForActivityItem], applicationActivities: [SafariActivity()])
+        if UI_USER_INTERFACE_IDIOM() == .phone {
+            activityVC.modalPresentationStyle = .fullScreen
+            logPresentingAlert(readableClassName())
+            present(activityVC, animated: true) { }
+        }
+        else {
+            activityVC.modalPresentationStyle = .popover
+            activityVC.popoverPresentationController?.barButtonItem = barButtonItem
+            logPresentingAlert(readableClassName())
+            present(activityVC, animated: true) { }
         }
     }
 
@@ -77,19 +77,19 @@ public class ElloWebBrowserViewController: KINWebBrowserViewController {
 // MARK: ElloWebBrowserViewConteroller: KINWebBrowserDelegate
 extension ElloWebBrowserViewController: KINWebBrowserDelegate {
 
-    public func webBrowser(webBrowser: KINWebBrowserViewController!, didFailToLoadURL url: NSURL?, error: NSError!) {
+    func webBrowser(_ webBrowser: KINWebBrowserViewController!, didFailToLoad url: URL?, error: Error!) {
         if let url = url ?? prevRequestURL {
-            UIApplication.sharedApplication().openURL(url)
+            UIApplication.shared.openURL(url)
         }
-        self.navigationController?.dismissViewControllerAnimated(true, completion: nil)
+        self.navigationController?.dismiss(animated: true, completion: nil)
     }
 
-    public func webBrowser(webBrowser: KINWebBrowserViewController!, shouldStartLoadWithRequest request: NSURLRequest!) -> Bool {
-        prevRequestURL = request.URL
-        return ElloWebViewHelper.handleRequest(request, webLinkDelegate: self, fromWebView: true)
+    func webBrowser(_ webBrowser: KINWebBrowserViewController!, shouldStartLoadWith request: URLRequest!) -> Bool {
+        prevRequestURL = request.url
+        return ElloWebViewHelper.handle(request: request, webLinkDelegate: self, fromWebView: true)
     }
 
-    public func willDismissWebBrowser(webView: KINWebBrowserViewController) {
+    func willDismissWebBrowser(_ webView: KINWebBrowserViewController) {
         AppDelegate.restrictRotation = true
     }
 
@@ -97,75 +97,75 @@ extension ElloWebBrowserViewController: KINWebBrowserDelegate {
 
 // MARK: ElloWebBrowserViewController : WebLinkDelegate
 extension ElloWebBrowserViewController : WebLinkDelegate {
-    public func webLinkTapped(type: ElloURI, data: String) {
+    func webLinkTapped(type: ElloURI, data: String) {
         switch type {
-        case .Confirm,
-             .Downloads,
-             .Email,
-             .External,
-             .ForgotMyPassword,
-             .FreedomOfSpeech,
-             .FaceMaker,
-             .Invitations,
-             .Invite,
-             .Join,
-             .Login,
-             .Manifesto,
-             .NativeRedirect,
-             .Onboarding,
-             .PasswordResetError,
-             .ProfileFollowers,
-             .ProfileFollowing,
-             .ProfileLoves,
-             .RandomSearch,
-             .RequestInvite,
-             .RequestInvitation,
-             .RequestInvitations,
-             .ResetMyPassword,
-             .SearchPeople,
-             .SearchPosts,
-             .Subdomain,
-             .Unblock,
-             .WhoMadeThis,
-             .WTF:
+        case .confirm,
+             .downloads,
+             .email,
+             .external,
+             .forgotMyPassword,
+             .freedomOfSpeech,
+             .faceMaker,
+             .invitations,
+             .invite,
+             .join,
+             .login,
+             .manifesto,
+             .nativeRedirect,
+             .onboarding,
+             .passwordResetError,
+             .profileFollowers,
+             .profileFollowing,
+             .profileLoves,
+             .randomSearch,
+             .requestInvite,
+             .requestInvitation,
+             .requestInvitations,
+             .resetMyPassword,
+             .searchPeople,
+             .searchPosts,
+             .subdomain,
+             .unblock,
+             .whoMadeThis,
+             .wtf:
             break // this is handled in ElloWebViewHelper/KINWebBrowserViewController
-        case .Discover:
+        case .discover:
             DeepLinking.showDiscover(navVC: navigationController, currentUser: ElloWebBrowserViewController.currentUser)
-        case .Category,
-             .DiscoverRandom,
-             .DiscoverRecent,
-             .DiscoverRelated,
-             .DiscoverTrending,
-             .ExploreRecommended,
-             .ExploreRecent,
-             .ExploreTrending:
+        case .category,
+             .discoverRandom,
+             .discoverRecent,
+             .discoverRelated,
+             .discoverTrending,
+             .exploreRecommended,
+             .exploreRecent,
+             .exploreTrending:
             DeepLinking.showCategory(navVC: navigationController, currentUser: ElloWebBrowserViewController.currentUser, slug: data)
-        case .BetaPublicProfiles,
-             .Enter,
-             .Exit,
-             .Root,
-             .Explore:
-            self.navigationController?.dismissViewControllerAnimated(true, completion: nil)
-        case .Friends,
-             .Following,
-             .Noise,
-             .Starred:
-            self.selectTab(.Stream)
-        case .Notifications: self.selectTab(.Notifications)
-        case .Post,
-             .PushNotificationPost,
-             .PushNotificationComment:
-            DeepLinking.showPostDetail(navVC: navigationController, currentUser: ElloWebBrowserViewController.currentUser,token: data)
-        case .Profile,
-             .PushNotificationUser:
+        case .betaPublicProfiles,
+             .enter,
+             .exit,
+             .root,
+             .explore:
+            self.navigationController?.dismiss(animated: true, completion: nil)
+        case .friends,
+             .following,
+             .noise,
+             .starred:
+            self.selectTab(.stream)
+        case .notifications: self.selectTab(.notifications)
+        case .post,
+             .pushNotificationPost,
+             .pushNotificationComment:
+            DeepLinking.showPostDetail(navVC: navigationController, currentUser: ElloWebBrowserViewController.currentUser, token: data)
+        case .profile,
+             .pushNotificationUser:
             DeepLinking.showProfile(navVC: navigationController, currentUser: ElloWebBrowserViewController.currentUser, username: data)
-        case .Search: DeepLinking.showSearch(navVC: navigationController, currentUser: ElloWebBrowserViewController.currentUser, terms: data)
-        case .Settings: DeepLinking.showSettings(navVC: navigationController, currentUser: ElloWebBrowserViewController.currentUser)
+        case .search: DeepLinking.showSearch(navVC: navigationController, currentUser: ElloWebBrowserViewController.currentUser, terms: data)
+        case .settings: DeepLinking.showSettings(navVC: navigationController, currentUser: ElloWebBrowserViewController.currentUser)
         }
     }
 
-    private func selectTab(tab: ElloTab) {
-        navigationController?.dismissViewControllerAnimated(true) {
+    fileprivate func selectTab(_ tab: ElloTab) {
+        navigationController?.dismiss(animated: true) {
             ElloWebBrowserViewController.elloTabBarController?.selectedTab = tab
         }
     }

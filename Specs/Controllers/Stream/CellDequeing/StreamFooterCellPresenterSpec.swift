@@ -1,4 +1,4 @@
-import Ello
+@testable import Ello
 import Quick
 import Nimble
 
@@ -19,11 +19,11 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         "lovesCount" : 14
                     ])
                     let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
-                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer)
+                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .footer)
 
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
+                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: nil)
 
-                    expect(cell.commentsControl.selected).to(beFalse())
+                    expect(cell.commentsControl.isSelected).to(beFalse())
                     expect(cell.commentsOpened).to(beFalse())
                     expect(cell.views) == "9"
                     expect(cell.reposts) == "4"
@@ -44,12 +44,12 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                     ])
                     let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
                     cell.frame = CGRect(origin: .zero, size: CGSize(width: 150, height: 60))
-                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer)
+                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .footer)
 
                     GroupDefaults["StarredIsGridView"] = true
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Starred, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
+                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .starred, indexPath: IndexPath(item: 0, section: 0), currentUser: nil)
 
-                    expect(cell.commentsControl.selected).to(beFalse())
+                    expect(cell.commentsControl.isSelected).to(beFalse())
                     expect(cell.commentsOpened).to(beFalse())
                     expect(cell.views) == ""
                     expect(cell.reposts) == ""
@@ -67,12 +67,12 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                     ])
                     let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
                     cell.frame = CGRect(origin: .zero, size: CGSize(width: 180, height: 60))
-                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer)
+                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .footer)
 
                     GroupDefaults["StarredIsGridView"] = true
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Starred, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
+                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .starred, indexPath: IndexPath(item: 0, section: 0), currentUser: nil)
 
-                    expect(cell.commentsControl.selected).to(beFalse())
+                    expect(cell.commentsControl.isSelected).to(beFalse())
                     expect(cell.commentsOpened).to(beFalse())
                     expect(cell.views) == "9"
                     expect(cell.reposts) == "4"
@@ -92,11 +92,11 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         "lovesCount" : 22
                     ])
                     let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
-                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer)
+                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .footer)
 
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .PostDetail(postParam: "768"), indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
+                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .postDetail(postParam: "768"), indexPath: IndexPath(item: 0, section: 0), currentUser: nil)
 
-                    expect(cell.commentsControl.selected).to(beTrue())
+                    expect(cell.commentsControl.isSelected).to(beTrue())
                     expect(cell.views) == "9"
                     expect(cell.reposts) == "4"
                     expect(cell.comments) == "6"
@@ -118,9 +118,9 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         "lovesCount" : 22
                     ])
                     let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
-                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer)
+                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .footer)
 
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
+                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: nil)
 
                     expect(cell.commentsItem.customView).to(beVisibleIn(cell))
                 }
@@ -136,9 +136,9 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         "lovesCount" : 55
                     ])
                     let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
-                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer)
+                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .footer)
 
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
+                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: nil)
 
                     expect(cell.commentsItem.customView).to(beVisibleIn(cell))
                 }
@@ -154,9 +154,9 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         "lovesCount" : 55
                     ])
                     let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
-                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer)
+                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .footer)
 
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Starred, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
+                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .starred, indexPath: IndexPath(item: 0, section: 0), currentUser: nil)
 
                     expect(cell.commentsItem.customView).to(beVisibleIn(cell))
                 }
@@ -172,9 +172,9 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         "lovesCount" : 55
                     ])
                     let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
-                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer)
+                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .footer)
 
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
+                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: nil)
 
                     expect(cell.commentsItem.customView).toNot(beVisibleIn(cell))
                 }
@@ -190,9 +190,9 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         "lovesCount" : 55
                     ])
                     let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
-                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer)
+                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .footer)
 
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Starred, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
+                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .starred, indexPath: IndexPath(item: 0, section: 0), currentUser: nil)
 
                     expect(cell.commentsItem.customView).toNot(beVisibleIn(cell))
                 }
@@ -209,9 +209,9 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         "lovesCount" : 22
                     ])
                     let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
-                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer)
+                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .footer)
 
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
+                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: nil)
 
                     expect(cell.shareItem.customView).to(beVisibleIn(cell))
                 }
@@ -227,9 +227,9 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         "lovesCount" : 55
                     ])
                     let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
-                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer)
+                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .footer)
 
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
+                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: nil)
 
                     expect(cell.shareItem.customView).to(beVisibleIn(cell))
                 }
@@ -245,9 +245,9 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         "lovesCount" : 55
                     ])
                     let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
-                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer)
+                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .footer)
 
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Starred, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
+                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .starred, indexPath: IndexPath(item: 0, section: 0), currentUser: nil)
 
                     expect(cell.shareItem.customView).notTo(beVisibleIn(cell))
                 }
@@ -263,9 +263,9 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         "lovesCount" : 55
                     ])
                     let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
-                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer)
+                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .footer)
 
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
+                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: nil)
 
                     expect(cell.shareItem.customView).toNot(beVisibleIn(cell))
                 }
@@ -281,9 +281,9 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         "lovesCount" : 55
                     ])
                     let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
-                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer)
+                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .footer)
 
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Starred, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
+                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .starred, indexPath: IndexPath(item: 0, section: 0), currentUser: nil)
 
                     expect(cell.shareItem.customView).toNot(beVisibleIn(cell))
                 }
@@ -301,11 +301,11 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         "lovesCount" : 55
                     ])
                     let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
-                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer)
+                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .footer)
 
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: user)
+                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: user)
 
-                    expect(cell.repostControl.enabled).to(beTrue())
+                    expect(cell.repostControl.isEnabled).to(beTrue())
                     expect(cell.repostItem.customView).to(beVisibleIn(cell))
                 }
 
@@ -318,11 +318,11 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         "lovesCount" : 55
                         ])
                     let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
-                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer)
+                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .footer)
 
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
+                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: nil)
 
-                    expect(cell.repostControl.enabled).to(beTrue())
+                    expect(cell.repostControl.isEnabled).to(beTrue())
                     expect(cell.repostItem.customView).to(beVisibleIn(cell))
                 }
 
@@ -337,9 +337,9 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         "lovesCount" : 55
                     ])
                     let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
-                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer)
+                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .footer)
 
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
+                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: nil)
 
                     expect(cell.repostItem.customView).to(beVisibleIn(cell))
                 }
@@ -355,9 +355,9 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         "lovesCount" : 55
                     ])
                     let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
-                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer)
+                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .footer)
 
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Starred, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
+                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .starred, indexPath: IndexPath(item: 0, section: 0), currentUser: nil)
 
                     expect(cell.repostItem.customView).to(beVisibleIn(cell))
                 }
@@ -375,11 +375,11 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         "lovesCount" : 55
                     ])
                     let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
-                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer)
+                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .footer)
 
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Starred, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: currentUser)
+                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .starred, indexPath: IndexPath(item: 0, section: 0), currentUser: currentUser)
 
-                    expect(cell.repostControl.enabled).to(beFalse())
+                    expect(cell.repostControl.isEnabled).to(beFalse())
                     expect(cell.repostItem.customView).to(beVisibleIn(cell))
                 }
 
@@ -394,9 +394,9 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         "lovesCount" : 55
                     ])
                     let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
-                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer)
+                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .footer)
 
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
+                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: nil)
 
                     expect(cell.repostItem.customView).toNot(beVisibleIn(cell))
                 }
@@ -412,9 +412,9 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         "lovesCount" : 55
                     ])
                     let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
-                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer)
+                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .footer)
 
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Starred, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
+                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .starred, indexPath: IndexPath(item: 0, section: 0), currentUser: nil)
 
                     expect(cell.repostItem.customView).toNot(beVisibleIn(cell))
                 }
@@ -430,11 +430,11 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         "lovesCount" : 55
                     ])
                     let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
-                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer)
+                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .footer)
 
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: author)
+                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: author)
 
-                    expect(cell.repostControl.enabled).to(beFalse())
+                    expect(cell.repostControl.isEnabled).to(beFalse())
                     expect(cell.repostItem.customView).to(beVisibleIn(cell))
                 }
 
@@ -451,11 +451,11 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         "lovesCount" : 55
                     ])
                     let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
-                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer)
+                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .footer)
 
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: repostAuthor)
+                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: repostAuthor)
 
-                    expect(cell.repostControl.enabled).to(beFalse())
+                    expect(cell.repostControl.isEnabled).to(beFalse())
                     expect(cell.repostItem.customView).to(beVisibleIn(cell))
                 }
 
@@ -470,11 +470,11 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         "lovesCount" : 55
                     ])
                     let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
-                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer)
+                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .footer)
 
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Starred, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: author)
+                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .starred, indexPath: IndexPath(item: 0, section: 0), currentUser: author)
 
-                    expect(cell.repostControl.enabled).to(beFalse())
+                    expect(cell.repostControl.isEnabled).to(beFalse())
                     expect(cell.repostItem.customView).to(beVisibleIn(cell))
                 }
 
@@ -489,9 +489,9 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         "lovesCount" : 55
                     ])
                     let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
-                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer)
+                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .footer)
 
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: author)
+                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: author)
 
                     expect(cell.repostItem.customView).toNot(beVisibleIn(cell))
                 }
@@ -507,9 +507,9 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         "lovesCount" : 55
                     ])
                     let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
-                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer)
+                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .footer)
 
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Starred, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: author)
+                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .starred, indexPath: IndexPath(item: 0, section: 0), currentUser: author)
 
                     expect(cell.repostItem.customView).toNot(beVisibleIn(cell))
                 }
@@ -526,11 +526,11 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         "lovesCount" : 55
                     ])
                     let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
-                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer)
+                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .footer)
 
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
+                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: nil)
 
-                    expect(cell.lovesControl.enabled).to(beTrue())
+                    expect(cell.lovesControl.isEnabled).to(beTrue())
                     expect(cell.lovesItem.customView).to(beVisibleIn(cell))
                 }
 
@@ -545,9 +545,9 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         "lovesCount" : 55
                     ])
                     let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
-                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer)
+                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .footer)
 
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
+                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: nil)
 
                     expect(cell.lovesItem.customView).to(beVisibleIn(cell))
                 }
@@ -563,9 +563,9 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         "lovesCount" : 55
                     ])
                     let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
-                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer)
+                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .footer)
 
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Starred, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
+                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .starred, indexPath: IndexPath(item: 0, section: 0), currentUser: nil)
 
                     expect(cell.lovesItem.customView).to(beVisibleIn(cell))
                 }
@@ -581,9 +581,9 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         "lovesCount" : 55
                     ])
                     let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
-                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer)
+                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .footer)
 
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
+                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: nil)
 
                     expect(cell.lovesItem.customView).toNot(beVisibleIn(cell))
                 }
@@ -599,9 +599,9 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         "lovesCount" : 55
                     ])
                     let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
-                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer)
+                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .footer)
 
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Starred, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
+                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .starred, indexPath: IndexPath(item: 0, section: 0), currentUser: nil)
 
                     expect(cell.lovesItem.customView).toNot(beVisibleIn(cell))
                 }
@@ -617,11 +617,11 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         "lovesCount" : 55
                     ])
                     let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
-                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer)
+                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .footer)
 
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: author)
+                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: author)
 
-                    expect(cell.lovesControl.enabled) == true
+                    expect(cell.lovesControl.isEnabled) == true
                     expect(cell.lovesItem.customView).to(beVisibleIn(cell))
                 }
 
@@ -636,11 +636,11 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         "lovesCount" : 55
                     ])
                     let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
-                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer)
+                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .footer)
 
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Starred, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: author)
+                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .starred, indexPath: IndexPath(item: 0, section: 0), currentUser: author)
 
-                    expect(cell.lovesControl.enabled) == true
+                    expect(cell.lovesControl.isEnabled) == true
                     expect(cell.lovesItem.customView).to(beVisibleIn(cell))
                 }
 
@@ -655,9 +655,9 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         "lovesCount" : 55
                     ])
                     let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
-                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer)
+                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .footer)
 
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: author)
+                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: author)
 
                     expect(cell.lovesItem.customView).toNot(beVisibleIn(cell))
                 }
@@ -673,9 +673,9 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         "lovesCount" : 55
                     ])
                     let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
-                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer)
+                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .footer)
 
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Starred, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: author)
+                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .starred, indexPath: IndexPath(item: 0, section: 0), currentUser: author)
 
                     expect(cell.lovesItem.customView).toNot(beVisibleIn(cell))
                 }
@@ -692,12 +692,12 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         "lovesCount" : 55
                     ])
                     let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
-                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer)
+                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .footer)
 
                     // set the state to loading
-                    item.state = .Loading
+                    item.state = .loading
 
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
+                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: nil)
 
                     expect(cell.commentsOpened).to(beFalse())
                     expect(cell.views) == "9"
@@ -705,7 +705,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                     expect(cell.comments) == "6"
 
                     // commentsButton should be selected when the state is loading
-                    expect(cell.commentsControl.selected).to(beTrue())
+                    expect(cell.commentsControl.isSelected).to(beTrue())
                 }
             }
 
@@ -722,12 +722,12 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                             "lovesCount" : 55
                         ])
                         let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
-                        let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer)
+                        let item: StreamCellItem = StreamCellItem(jsonable: post, type: .footer)
 
                         // set the state to expanded
-                        item.state = .Expanded
+                        item.state = .expanded
 
-                        StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
+                        StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: nil)
 
                         expect(cell.commentsOpened).to(beTrue())
                         expect(cell.views) == "9"
@@ -735,7 +735,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         expect(cell.comments) == "6"
 
                         // commentsButton should be selected when expanded
-                        expect(cell.commentsControl.selected).to(beTrue())
+                        expect(cell.commentsControl.isSelected).to(beTrue())
                     }
 
                 }
@@ -751,19 +751,19 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                             "lovesCount" : 55
                         ])
                         let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
-                        let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer)
+                        let item: StreamCellItem = StreamCellItem(jsonable: post, type: .footer)
 
                         // set the state to none
-                        item.state = .None
+                        item.state = .none
 
-                        StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
+                        StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: nil)
 
                         expect(cell.commentsOpened).to(beFalse())
-                        expect(item.state) == StreamCellState.Collapsed
+                        expect(item.state) == StreamCellState.collapsed
                         expect(cell.views) == "9"
                         expect(cell.reposts) == "4"
                         expect(cell.comments) == "6"
-                        expect(cell.commentsControl.selected).to(beFalse())
+                        expect(cell.commentsControl.isSelected).to(beFalse())
                     }
                 }
             }

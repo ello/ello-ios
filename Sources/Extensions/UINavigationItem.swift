@@ -8,7 +8,7 @@ extension UINavigationItem {
 
     func fixNavBarItemPadding() {
         if let rightBarButtonItems = self.rightBarButtonItems {
-            let negativeSpacer = UIBarButtonItem(barButtonSystemItem: .FixedSpace, target: nil, action: nil)
+            let negativeSpacer = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
             negativeSpacer.width = -22
 
             self.rightBarButtonItems = [negativeSpacer] + rightBarButtonItems
@@ -20,10 +20,12 @@ extension UINavigationItem {
         }
     }
 
-    public func areRightButtonsTheSame(newItems: [UIBarButtonItem]) -> Bool {
+    func areRightButtonsTheSame(_ newItems: [UIBarButtonItem]) -> Bool {
         guard let rightItems = self.rightBarButtonItems else { return false }
         guard newItems.count == rightItems.count else { return false }
-        return newItems.map({ $0.action }) == rightItems.map({ $0.action })
+        return newItems.enumerated().all { (index, item) in
+            return item.action =?= rightItems[index].action
+        }
     }
 
 }

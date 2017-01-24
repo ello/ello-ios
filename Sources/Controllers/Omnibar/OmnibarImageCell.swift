@@ -2,7 +2,7 @@
 ///  OmnibarImageCell.swift
 //
 
-public class OmnibarImageCell: UITableViewCell {
+class OmnibarImageCell: UITableViewCell {
     static let reuseIdentifier = "OmnibarImageCell"
 
     struct Size {
@@ -11,17 +11,17 @@ public class OmnibarImageCell: UITableViewCell {
         static let editingHeight = CGFloat(80)
     }
 
-    public let flImageView = FLAnimatedImageView()
-    public let buyButton = UIButton()
-    public var reordering = false
-    public var hasBuyButtonURL = false
+    let flImageView = FLAnimatedImageView()
+    let buyButton = UIButton()
+    var reordering = false
+    var hasBuyButtonURL = false
 
-    public var omnibarImage: UIImage? {
+    var omnibarImage: UIImage? {
         get { return flImageView.image }
         set { flImageView.image = newValue }
     }
 
-    public var omnibarAnimagedImage: FLAnimatedImage? {
+    var omnibarAnimagedImage: FLAnimatedImage? {
         get { return flImageView.animatedImage }
         set { flImageView.animatedImage = newValue }
     }
@@ -33,54 +33,54 @@ public class OmnibarImageCell: UITableViewCell {
         self.style()
     }
 
-    required public init(coder: NSCoder) {
+    required init(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    private func style() {
+    fileprivate func style() {
         flImageView.clipsToBounds = true
-        flImageView.contentMode = .ScaleAspectFit
+        flImageView.contentMode = .scaleAspectFit
         buyButton.backgroundColor = .greenD1()
         buyButton.adjustsImageWhenDisabled = false
         buyButton.adjustsImageWhenHighlighted = false
-        buyButton.setImage(.BuyButton, imageStyle: .Normal, forState: .Normal)
-        buyButton.setImage(.BuyButton, imageStyle: .Normal, forState: .Disabled)
+        buyButton.setImage(.buyButton, imageStyle: .normal, for: .normal)
+        buyButton.setImage(.buyButton, imageStyle: .normal, for: .disabled)
         buyButton.layer.cornerRadius = buyButton.frame.size.width / 2
-        buyButton.hidden = true
-        buyButton.enabled = false
+        buyButton.isHidden = true
+        buyButton.isEnabled = false
     }
 
-    private func arrange() {
+    fileprivate func arrange() {
         buyButton.frame.size = CGSize(width: 35, height: 35)
         contentView.addSubview(flImageView)
         contentView.addSubview(buyButton)
     }
 
-    override public func layoutSubviews() {
+    override func layoutSubviews() {
         super.layoutSubviews()
 
         let margins: UIEdgeInsets
         if reordering {
             margins = Size.editingMargins
 
-            flImageView.contentMode = .ScaleAspectFill
-            buyButton.hidden = true
+            flImageView.contentMode = .scaleAspectFill
+            buyButton.isHidden = true
         }
         else {
             margins = UIEdgeInsets(all: 0)
 
-            flImageView.contentMode = .ScaleAspectFit
-            buyButton.hidden = !hasBuyButtonURL
+            flImageView.contentMode = .scaleAspectFit
+            buyButton.isHidden = !hasBuyButtonURL
         }
 
         let innerFrame = contentView.bounds
-        let intrinsicSize = flImageView.intrinsicContentSize()
+        let intrinsicSize = flImageView.intrinsicContentSize
         flImageView.frame = CGRect(
             origin: .zero,
             size: CGSize(
                 width: min(intrinsicSize.width, innerFrame.size.width),
                 height: min(intrinsicSize.height, innerFrame.size.height)
-            )).inset(margins)
+        )).inset(margins)
 
         buyButton.frame.origin = CGPoint(
             x: flImageView.frame.maxX - 10 - buyButton.frame.size.width,
@@ -88,7 +88,7 @@ public class OmnibarImageCell: UITableViewCell {
             )
     }
 
-    public class func heightForImage(image: UIImage, tableWidth: CGFloat, editing: Bool) -> CGFloat {
+    class func heightForImage(_ image: UIImage, tableWidth: CGFloat, editing: Bool) -> CGFloat {
         if editing {
             return Size.editingHeight
         }

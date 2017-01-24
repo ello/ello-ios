@@ -3,7 +3,7 @@
 //
 
 import Foundation
-import Ello
+@testable import Ello
 import Quick
 import Nimble
 
@@ -46,9 +46,9 @@ class ImageRegionSpec: QuickSpec {
                     return
                 }
 
-                data["url"] = urlString.stringByReplacingOccurrencesOfString("https://", withString: "//")
+                data["url"] = urlString.replacingOccurrences(of: "https://", with: "//")
                 expect(data["url"]) == "//example.com/test.jpg"
-                imageRegionData["data"] = data
+                imageRegionData["data"] = data as AnyObject
                 let region = ImageRegion.fromJSON(imageRegionData) as! ImageRegion
 
                 expect(region.url!.absoluteString) == "https://example.com/test.jpg"
@@ -86,13 +86,13 @@ class ImageRegionSpec: QuickSpec {
         context("NSCoding") {
 
             var filePath = ""
-            if let url = NSURL(string: NSFileManager.ElloDocumentsDir()) {
-                filePath = url.URLByAppendingPathComponent("ImageRegionSpec")!.absoluteString!
+            if let url = URL(string: FileManager.ElloDocumentsDir()) {
+                filePath = url.appendingPathComponent("ImageRegionSpec").absoluteString
             }
 
             afterEach {
                 do {
-                    try NSFileManager.defaultManager().removeItemAtPath(filePath)
+                    try FileManager.default.removeItem(atPath: filePath)
                 }
                 catch {
 
@@ -114,7 +114,7 @@ class ImageRegionSpec: QuickSpec {
 
                 it("decodes successfully") {
                     let hdpi: Attachment = stub([
-                        "url": NSURL(string: "http://www.example.com")!,
+                        "url": URL(string: "http://www.example.com")!,
                         "height": 2,
                         "width": 5,
                         "type": "jpeg",
@@ -122,7 +122,7 @@ class ImageRegionSpec: QuickSpec {
                     ])
 
                     let xhdpi: Attachment = stub([
-                        "url": NSURL(string: "http://www.example2.com")!,
+                        "url": URL(string: "http://www.example2.com")!,
                         "height": 67,
                         "width": 999,
                         "type": "png",
@@ -138,11 +138,11 @@ class ImageRegionSpec: QuickSpec {
                     let imageRegion: ImageRegion = stub([
                         "asset": asset,
                         "alt": "some-altness",
-                        "url": NSURL(string: "http://www.example5.com")!
+                        "url": URL(string: "http://www.example5.com")!
                     ])
 
                     NSKeyedArchiver.archiveRootObject(imageRegion, toFile: filePath)
-                    let unArchivedRegion = NSKeyedUnarchiver.unarchiveObjectWithFile(filePath) as! ImageRegion
+                    let unArchivedRegion = NSKeyedUnarchiver.unarchiveObject(withFile: filePath) as! ImageRegion
 
                     expect(unArchivedRegion).toNot(beNil())
                     expect(unArchivedRegion.version) == 1

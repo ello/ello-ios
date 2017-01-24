@@ -2,45 +2,41 @@
 ///  AddressBook.swift
 //
 
-import AddressBook
+import Contacts
 import Result
 
-public protocol AddressBookProtocol {
+protocol AddressBookProtocol {
     var localPeople: [LocalPerson] { get }
 }
 
-public struct AddressBook: AddressBookProtocol {
-    private let addressBook: ABAddressBook
-    public let localPeople: [LocalPerson]
+struct AddressBook: AddressBookProtocol {
+    let localPeople: [LocalPerson]
 
-    public init(addressBook: ABAddressBook) {
-        self.addressBook = addressBook
-        localPeople = getAllPeopleWithEmailAddresses(addressBook)
+    init(store: CNContactStore) {
+        localPeople = getAllPeopleWithEmailAddresses(store)
     }
 }
 
-private func getAllPeopleWithEmailAddresses(addressBook: ABAddressBook) -> [LocalPerson] {
-    return records(addressBook)?.map { person in
-        let emails = getEmails(person)
-        let name = ABRecordCopyCompositeName(person)?.takeUnretainedValue() as String? ?? emails.first ?? "NO NAME"
-        let id = ABRecordGetRecordID(person)
-        return LocalPerson(name: name, emails: emails, id: id)
-        }.filter { $0.emails.count > 0 } ?? []
-}
+private func getAllPeopleWithEmailAddresses(_ store: CNContactStore) -> [LocalPerson] {
+    var persons: [LocalPerson] = []
 
-private func getEmails(record: ABRecordRef) -> [String] {
-    let multiEmails: ABMultiValue? = ABRecordCopyValue(record, kABPersonEmailProperty)?.takeUnretainedValue()
+    let fetchRequest = CNContactFetchRequest(keysToFetch: [
+        CNContactEmailAddressesKey as CNKeyDescriptor,
+        CNContactIdentifierKey as CNKeyDescriptor,
+        CNContactFormatter.descriptorForRequiredKeys(for: .fullName)
+        ])
+    do {
+        try store.enumerateContacts(with: fetchRequest) { contact, _ in
+            let emails = contact.emailAddresses.flatMap { $0.value as String }
+            let name = CNContactFormatter.string(from: contact, style: .fullName) ?? emails.first ?? "NO NAME"
+            let id = contact.identifier
 
-    var emails = [String]()
-    for i in 0..<(ABMultiValueGetCount(multiEmails)) {
-        if let value = ABMultiValueCopyValueAtIndex(multiEmails, i).takeRetainedValue() as? String {
-            emails.append(value)
+            persons.append(LocalPerson(name: name, emails: emails, id: id))
         }
     }
+    catch {
+        persons = []
+    }
 
-    return emails
-}
-
-private func records(addressBook: ABAddressBook) -> [ABRecordRef]? {
-    return ABAddressBookCopyArrayOfAllPeople(addressBook)?.takeUnretainedValue() as [ABRecordRef]?
+    return persons.filter { $0.emails.count > 0 }
 }

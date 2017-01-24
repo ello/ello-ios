@@ -13,9 +13,9 @@ class CategoryListCellPresenterSpec: QuickSpec {
             it("sets the categoriesInfo on a cell") {
                 let categoryList: CategoryList = CategoryList.metaCategories()
                 let cell: CategoryListCell = CategoryListCell()
-                let item: StreamCellItem = StreamCellItem(jsonable: categoryList, type: .CategoryList)
+                let item: StreamCellItem = StreamCellItem(jsonable: categoryList, type: .categoryList)
 
-                CategoryListCellPresenter.configure(cell, streamCellItem: item, streamKind: .CategoryPosts(slug: "art"), indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
+                CategoryListCellPresenter.configure(cell, streamCellItem: item, streamKind: .categoryPosts(slug: "art"), indexPath: IndexPath(item: 0, section: 0), currentUser: nil)
 
                 expect(cell.categoriesInfo.count) == categoryList.categories.count
 

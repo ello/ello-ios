@@ -4,6 +4,7 @@
 
   },
   "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "81B80757B952CD09B96E04F606EF5F58B23F2659" : 9223372036854775807,
     "DAAB2C887EFA8AB12BAB622BBAFD20531F9A3784" : 0,
     "6EF27432E59DB6DC9338F620CB9DF52A2652C009" : 0,
     "15ADDC96148D8EC7ABACA3AFDED5D958C5D22840" : 0,
@@ -14,6 +15,7 @@
   },
   "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "853D77DA-71D4-4134-B36F-CF8EAEA5EF94",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "81B80757B952CD09B96E04F606EF5F58B23F2659" : "ImagePickerSheetController\/",
     "DAAB2C887EFA8AB12BAB622BBAFD20531F9A3784" : "Libraries\/YapDatabase\/",
     "6EF27432E59DB6DC9338F620CB9DF52A2652C009" : "Libraries\/TimeAgoInWords\/",
     "15ADDC96148D8EC7ABACA3AFDED5D958C5D22840" : "Libraries\/Moya\/",
@@ -50,6 +52,11 @@
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:ello\/JTSImageViewController.git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "80DA628EAE81E418FCA5040B6FD2F14B521C07CB"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/lbrndnr\/ImagePickerSheetController.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "81B80757B952CD09B96E04F606EF5F58B23F2659"
     },
     {
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:yapstudios\/YapDatabase.git",

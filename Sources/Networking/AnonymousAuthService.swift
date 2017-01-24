@@ -4,13 +4,13 @@
 
 import Moya
 
-public class AnonymousAuthService {
+class AnonymousAuthService {
 
-    public func authenticateAnonymously(success success: AuthSuccessCompletion, failure: ElloFailureCompletion, noNetwork: ElloEmptyCompletion) {
-        let endpoint: ElloAPI = .AnonymousCredentials
+    func authenticateAnonymously(success: @escaping AuthSuccessCompletion, failure: @escaping ElloFailureCompletion, noNetwork: ElloEmptyCompletion) {
+        let endpoint: ElloAPI = .anonymousCredentials
         ElloProvider.sharedProvider.request(endpoint) { (result) in
             switch result {
-            case let .Success(moyaResponse):
+            case let .success(moyaResponse):
                 switch moyaResponse.statusCode {
                 case 200...299:
                     ElloProvider.shared.authenticated(isPasswordBased: false)
@@ -18,10 +18,10 @@ public class AnonymousAuthService {
                     success()
                 default:
                     let elloError = ElloProvider.generateElloError(moyaResponse.data, statusCode: moyaResponse.statusCode)
-                    failure(error: elloError, statusCode: moyaResponse.statusCode)
+                    failure(elloError, moyaResponse.statusCode)
                 }
-            case let .Failure(error):
-                failure(error: error as NSError, statusCode: nil)
+            case let .failure(error):
+                failure(error as NSError, nil)
             }
         }
     }

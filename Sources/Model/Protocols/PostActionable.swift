@@ -3,7 +3,7 @@
 //
 
 
-public protocol PostActionable: class {
+protocol PostActionable: class {
     var postId: String { get }
     var user: User? { get }
 }

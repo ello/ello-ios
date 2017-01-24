@@ -2,8 +2,7 @@
 ///  OmnibarViewControllerSpec.swift
 //
 
-@testable
-import Ello
+@testable import Ello
 import Quick
 import Nimble
 
@@ -15,8 +14,8 @@ class OmnibarMockScreen: OmnibarScreenProtocol {
     var interactionEnabled: Bool = true
     var title: String = ""
     var submitTitle: String = ""
-    var avatarURL: NSURL?
-    var buyButtonURL: NSURL?
+    var avatarURL: URL?
+    var buyButtonURL: URL?
     var avatarImage: UIImage?
     var currentUser: User?
     var regions = [OmnibarRegion]()
@@ -27,11 +26,11 @@ class OmnibarMockScreen: OmnibarScreenProtocol {
     var didKeyboardWillShow = false
     var didKeyboardWillHide = false
 
-    func reportError(title: String, error: NSError) {
+    func reportError(_ title: String, error: NSError) {
         didReportError = true
     }
 
-    func reportError(title: String, errorMessage: String) {
+    func reportError(_ title: String, errorMessage: String) {
         didReportError = true
     }
 
@@ -81,7 +80,7 @@ class OmnibarViewControllerSpec: QuickSpec {
                     let post = Post.stub([
                         "author": User.stub(["username": "colinta"])
                         ])
-                    subject = OmnibarViewController(parentPost: post)
+                    subject = OmnibarViewController(parentPostId: post.id)
                     expect(subject).notTo(beNil())
                 }
 
@@ -106,7 +105,7 @@ class OmnibarViewControllerSpec: QuickSpec {
                     expect(subject.screen.isComment) == false
                 }
                 it("should be true for a new comment") {
-                    subject = OmnibarViewController(parentPost: stub([:]))
+                    subject = OmnibarViewController(parentPostId: "123")
                     showController(subject)
                     expect(subject.screen.isComment) == true
                 }
@@ -151,37 +150,37 @@ class OmnibarViewControllerSpec: QuickSpec {
 
             context("submitting a post") {
                 it("should generate PostEditingService.PostContentRegion") {
-                    let image = UIImage.imageWithColor(UIColor.blackColor())!
-                    let data = NSData()
+                    let image = UIImage.imageWithColor(UIColor.black)!
+                    let data = Data()
                     let contentType = "image/gif"
                     let text = NSAttributedString(string: "test")
 
                     let regions = [
-                        OmnibarRegion.Image(image),
-                        OmnibarRegion.ImageData(image, data, contentType),
-                        OmnibarRegion.AttributedText(text),
-                        OmnibarRegion.Spacer,
-                        OmnibarRegion.ImageURL(NSURL(string: "http://example.com")!),
+                        OmnibarRegion.image(image),
+                        OmnibarRegion.imageData(image, data, contentType),
+                        OmnibarRegion.attributedText(text),
+                        OmnibarRegion.spacer,
+                        OmnibarRegion.imageURL(URL(string: "http://example.com")!),
                     ]
 
                     subject = OmnibarViewController()
                     let content = subject.generatePostContent(regions)
                     expect(content.count) == 3
 
-                    guard case let PostEditingService.PostContentRegion.Image(outImage) = content[0] else {
+                    guard case let PostEditingService.PostContentRegion.image(outImage) = content[0] else {
                         fail("content[0] is not PostEditingService.PostContentRegion.Image")
                         return
                     }
                     expect(outImage) == image
 
-                    guard case let PostEditingService.PostContentRegion.ImageData(_, outData, outType) = content[1] else {
+                    guard case let PostEditingService.PostContentRegion.imageData(_, outData, outType) = content[1] else {
                         fail("content[1] is not PostEditingService.PostContentRegion.ImageData")
                         return
                     }
                     expect(outData) == data
                     expect(outType) == contentType
 
-                    guard case let PostEditingService.PostContentRegion.Text(outText) = content[2] else {
+                    guard case let PostEditingService.PostContentRegion.text(outText) = content[2] else {
                         fail("content[2] is not PostEditingService.PostContentRegion.Text")
                         return
                     }
@@ -192,7 +191,7 @@ class OmnibarViewControllerSpec: QuickSpec {
                     it("disables interaction while submitting the post") {
                         ElloProvider.sharedProvider = ElloProvider.DelayedStubbingProvider()
                         let text = NSAttributedString(string: "test")
-                        let regions = [OmnibarRegion.AttributedText(text)]
+                        let regions = [OmnibarRegion.attributedText(text)]
 
                         subject = OmnibarViewController()
                         subject.currentUser = User.stub([:])
@@ -206,7 +205,7 @@ class OmnibarViewControllerSpec: QuickSpec {
 
                     it("enables interaction after submitting the post") {
                         let text = NSAttributedString(string: "test")
-                        let regions = [OmnibarRegion.AttributedText(text)]
+                        let regions = [OmnibarRegion.attributedText(text)]
 
                         subject = OmnibarViewController()
                         subject.currentUser = User.stub([:])
@@ -223,28 +222,28 @@ class OmnibarViewControllerSpec: QuickSpec {
                 var post: Post!
                 beforeEach {
                     // need to pull the parent post id out of the create-comment sample json
-                    let commentData = ElloAPI.CreateComment(parentPostId: "-", body: [:]).sampleData
-                    let commentJSON = try! NSJSONSerialization.JSONObjectWithData(commentData, options: []) as! [String: AnyObject]
+                    let commentData = ElloAPI.createComment(parentPostId: "-", body: [:]).sampleData
+                    let commentJSON = try! JSONSerialization.jsonObject(with: commentData, options: []) as! [String: AnyObject]
                     let postId = (commentJSON["comments"] as! [String: AnyObject])["post_id"] as! String
                     post = Post.stub(["id": postId, "watching": false])
 
                     ElloProvider.sharedProvider = ElloProvider.RecordedStubbingProvider([
-                        RecordedResponse(endpoint: .PostDetail(postParam: postId, commentCount: 0), response: .NetworkResponse(200,
+                        RecordedResponse(endpoint: .postDetail(postParam: postId, commentCount: 0), response: .networkResponse(200,
                             // the id of this stubbed post must match the postId above ("52" last time I checked)
                             stubbedData("post_detail__watching"))
                         ),
                     ])
 
-                    subject = OmnibarViewController(parentPost: post)
+                    subject = OmnibarViewController(parentPostId: post.id)
                     subject.currentUser = User.stub([:])
                     showController(subject)
                     let text = NSAttributedString(string: "test")
-                    let regions = [OmnibarRegion.AttributedText(text)]
+                    let regions = [OmnibarRegion.attributedText(text)]
                     subject.omnibarSubmitted(regions, buyButtonURL: nil)
                 }
 
                 it("sets the watching property of the parent post to true after submitting the post") {
-                    let parentPost = ElloLinkedStore.sharedInstance.getObject(post.id, type: .PostsType) as! Post
+                    let parentPost = ElloLinkedStore.sharedInstance.getObject(post.id, type: .postsType) as! Post
                     expect(parentPost.watching) == true
                 }
             }
@@ -257,14 +256,14 @@ class OmnibarViewControllerSpec: QuickSpec {
                     ])
 
                     let attributedString = ElloAttributedString.style("text")
-                    let image = UIImage.imageWithColor(.blackColor())!
+                    let image = UIImage.imageWithColor(.black)!
                     let omnibarData = OmnibarCacheData()
                     omnibarData.regions = [attributedString, image]
-                    let data = NSKeyedArchiver.archivedDataWithRootObject(omnibarData)
+                    let data = NSKeyedArchiver.archivedData(withRootObject: omnibarData)
 
-                    subject = OmnibarViewController(parentPost: post)
+                    subject = OmnibarViewController(parentPostId: post.id)
                     if let fileName = subject.omnibarDataName() {
-                        Tmp.write(data, to: fileName)
+                        _ = Tmp.write(data, to: fileName)
                     }
 
                     screen = OmnibarMockScreen()
@@ -274,7 +273,7 @@ class OmnibarViewControllerSpec: QuickSpec {
 
                 afterEach {
                     if let fileName = subject.omnibarDataName() {
-                        Tmp.remove(fileName)
+                        _ = Tmp.remove(fileName)
                     }
                 }
 
@@ -294,21 +293,21 @@ class OmnibarViewControllerSpec: QuickSpec {
                         "author": User.stub(["username": "colinta"])
                     ])
 
-                    subject = OmnibarViewController(parentPost: post)
+                    subject = OmnibarViewController(parentPostId: post.id)
                     screen = OmnibarMockScreen()
                     subject.screen = screen
                     subject.beginAppearanceTransition(true, animated: false)
                     subject.endAppearanceTransition()
 
-                    let image = UIImage.imageWithColor(.blackColor())!
+                    let image = UIImage.imageWithColor(.black)!
                     screen.regions = [
-                        .Text("text"), .Image(image)
+                        .text("text"), .image(image)
                     ]
                 }
 
                 afterEach {
                     if let fileName = subject.omnibarDataName() {
-                        Tmp.remove(fileName)
+                        _ = Tmp.remove(fileName)
                     }
                 }
 
@@ -323,13 +322,13 @@ class OmnibarViewControllerSpec: QuickSpec {
                 let post = Post.stub([:])
 
                 beforeEach {
-                    subject = OmnibarViewController(parentPost: post, defaultText: "@666 ")
+                    subject = OmnibarViewController(parentPostId: post.id, defaultText: "@666 ")
                     showController(subject)
                 }
 
                 afterEach {
                     if let fileName = subject.omnibarDataName() {
-                        Tmp.remove(fileName)
+                        _ = Tmp.remove(fileName)
                     }
                 }
 
@@ -339,36 +338,36 @@ class OmnibarViewControllerSpec: QuickSpec {
 
                 it("ignores the saved text when defaultText is given") {
                     if let fileName = subject.omnibarDataName() {
-                        Tmp.remove(fileName)
+                        _ = Tmp.remove(fileName)
                     }
 
                     let text = ElloAttributedString.style("testing!")
                     let omnibarData = OmnibarCacheData()
                     omnibarData.regions = [text]
-                    let data = NSKeyedArchiver.archivedDataWithRootObject(omnibarData)
+                    let data = NSKeyedArchiver.archivedData(withRootObject: omnibarData)
                     if let fileName = subject.omnibarDataName() {
-                        Tmp.write(data, to: fileName)
+                        _ = Tmp.write(data, to: fileName)
                     }
 
-                    subject = OmnibarViewController(parentPost: post, defaultText: "@666 ")
+                    subject = OmnibarViewController(parentPostId: post.id, defaultText: "@666 ")
                     checkRegions(subject.screen.regions, contain: "@666 ")
                     checkRegions(subject.screen.regions, notToContain: "testing!")
                 }
 
                 it("does not have the text if the tmp text was on another post") {
                     if let fileName = subject.omnibarDataName() {
-                        Tmp.remove(fileName)
+                        _ = Tmp.remove(fileName)
                     }
 
                     let text = ElloAttributedString.style("testing!")
                     let omnibarData = OmnibarCacheData()
                     omnibarData.regions = [text]
-                    let data = NSData()
+                    let data = Data()
                     if let fileName = subject.omnibarDataName() {
-                        Tmp.write(data, to: fileName)
+                        _ = Tmp.write(data, to: fileName)
                     }
 
-                    subject = OmnibarViewController(parentPost: Post.stub([:]), defaultText: "@666 ")
+                    subject = OmnibarViewController(parentPostId: "123", defaultText: "@666 ")
                     checkRegions(subject.screen.regions, contain: "@666 ")
                     checkRegions(subject.screen.regions, notToContain: "testing!")
                 }
@@ -397,15 +396,15 @@ class OmnibarViewControllerSpec: QuickSpec {
 
                 it("has the text if there was tmp text available") {
                     if let fileName = subject.omnibarDataName() {
-                        Tmp.remove(fileName)
+                        _ = Tmp.remove(fileName)
                     }
 
                     let text = ElloAttributedString.style("testing!")
                     let omnibarData = OmnibarCacheData()
                     omnibarData.regions = [text]
-                    let data = NSKeyedArchiver.archivedDataWithRootObject(omnibarData)
+                    let data = NSKeyedArchiver.archivedData(withRootObject: omnibarData)
                     if let fileName = subject.omnibarDataName() {
-                        Tmp.write(data, to: fileName)
+                        _ = Tmp.write(data, to: fileName)
                     }
 
                     subject = OmnibarViewController(editPost: post)

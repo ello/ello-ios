@@ -2,7 +2,7 @@
 ///  StreamViewControllerSpec.swift
 //
 
-import Ello
+@testable import Ello
 import Quick
 import Nimble
 import SSPullToRefresh
@@ -14,16 +14,12 @@ class StreamViewControllerSpec: QuickSpec {
         var controller: StreamViewController!
         beforeEach {
             controller = StreamViewController.instantiateFromStoryboard()
+            showController(controller)
         }
 
         describe("initialization") {
 
             describe("storyboard") {
-
-                beforeEach {
-                    showController(controller)
-                }
-
                 it("IBOutlets are  not nil") {
                     expect(controller.collectionView).notTo(beNil())
                 }
@@ -45,22 +41,22 @@ class StreamViewControllerSpec: QuickSpec {
 
         describe("hasCellItems(for:)") {
             it("returns 'false' if 0 items") {
-                expect(controller.hasCellItems(for: .ProfilePosts)) == false
+                expect(controller.hasCellItems(for: .profilePosts)) == false
             }
             it("returns 'false' if 1 placeholder item") {
-                controller.appendStreamCellItems([StreamCellItem(type: .Placeholder, placeholderType: .ProfilePosts)])
-                expect(controller.hasCellItems(for: .ProfilePosts)) == false
+                controller.appendStreamCellItems([StreamCellItem(type: .placeholder, placeholderType: .profilePosts)])
+                expect(controller.hasCellItems(for: .profilePosts)) == false
             }
             it("returns 'true' if 1 jsonable item") {
-                controller.appendStreamCellItems([StreamCellItem(type: .StreamLoading, placeholderType: .ProfilePosts)])
-                expect(controller.hasCellItems(for: .ProfilePosts)) == true
+                controller.appendStreamCellItems([StreamCellItem(type: .streamLoading, placeholderType: .profilePosts)])
+                expect(controller.hasCellItems(for: .profilePosts)) == true
             }
             it("returns 'true' if more than 1 jsonable item") {
                 controller.appendStreamCellItems([
-                    StreamCellItem(type: .StreamLoading, placeholderType: .ProfilePosts),
-                    StreamCellItem(type: .StreamLoading, placeholderType: .ProfilePosts),
+                    StreamCellItem(type: .streamLoading, placeholderType: .profilePosts),
+                    StreamCellItem(type: .streamLoading, placeholderType: .profilePosts),
                 ])
-                expect(controller.hasCellItems(for: .ProfilePosts)) == true
+                expect(controller.hasCellItems(for: .profilePosts)) == true
             }
         }
 
@@ -94,12 +90,6 @@ class StreamViewControllerSpec: QuickSpec {
         }
 
         describe("viewDidLoad()") {
-
-            beforeEach {
-                controller = StreamViewController.instantiateFromStoryboard()
-                showController(controller)
-            }
-
             it("properly configures dataSource") {
                 expect(controller.dataSource).to(beAnInstanceOf(StreamDataSource.self))
 
@@ -131,9 +121,7 @@ class StreamViewControllerSpec: QuickSpec {
         xdescribe("loading more posts on scrolling") {
 
             beforeEach {
-                controller = StreamViewController.instantiateFromStoryboard()
-                controller.streamKind = StreamKind.Following
-                showController(controller)
+                controller.streamKind = StreamKind.following
                 controller.streamService.loadStream(endpoint: controller.streamKind.endpoint, streamKind: nil,
                     success: { (jsonables, responseConfig) in
                         controller.appendUnsizedCellItems(StreamCellItemParser().parse(jsonables, streamKind: controller.streamKind))
@@ -146,24 +134,19 @@ class StreamViewControllerSpec: QuickSpec {
             }
 
             it("loads the next page of results when scrolled within 300 of the bottom") {
-                expect(controller.collectionView.numberOfItemsInSection(0)).toEventually(equal(3))
+                expect(controller.collectionView.numberOfItems(inSection: 0)).toEventually(equal(3))
                 // controller.collectionView.contentOffset = CGPoint(x: 0, y: 0)
                 // expect(controller.collectionView.numberOfItemsInSection(0)) == 6
             }
 
             it("does not load the next page of results when not scrolled within 300 of the bottom") {
-                expect(controller.collectionView.numberOfItemsInSection(0)).toEventually(equal(3))
+                expect(controller.collectionView.numberOfItems(inSection: 0)).toEventually(equal(3))
             }
         }
 
         context("protocol conformance") {
 
             var externalWebObserver: NotificationObserver?
-
-            beforeEach {
-                controller = StreamViewController.instantiateFromStoryboard()
-                showController(controller)
-            }
 
             afterEach {
                 externalWebObserver?.removeObserver()
@@ -184,7 +167,7 @@ class StreamViewControllerSpec: QuickSpec {
                             link = url
                         }
 
-                        controller.webLinkTapped(ElloURI.External, data: "http://www.example.com")
+                        controller.webLinkTapped(type: ElloURI.external, data: "http://www.example.com")
                         expect(link) == "http://www.example.com"
                     }
 
@@ -208,8 +191,7 @@ class StreamViewControllerSpec: QuickSpec {
                 describe("pullToRefreshViewShouldStartLoading(_:)") {
 
                     it("returns true") {
-                        let shouldStartLoading = controller.pullToRefreshViewShouldStartLoading(controller.pullToRefreshView)
-
+                        let shouldStartLoading = controller.pull(toRefreshViewShouldStartLoading: controller.pullToRefreshView)
                         expect(shouldStartLoading).to(beTrue())
                     }
                 }
@@ -226,10 +208,10 @@ class StreamViewControllerSpec: QuickSpec {
 
                 beforeEach {
                     let service = StreamService()
-                    service.loadUser(ElloAPI.FriendStream,
+                    service.loadUser(ElloAPI.friendStream,
                         streamKind: nil,
                         success: { (user, responseConfig) in
-                        controller.appendUnsizedCellItems(StreamCellItemParser().parse(user.posts!, streamKind: .Following))
+                        controller.appendUnsizedCellItems(StreamCellItemParser().parse(user.posts!, streamKind: .following))
                     }, failure: { _ in })
                 }
 
@@ -240,8 +222,8 @@ class StreamViewControllerSpec: QuickSpec {
                 describe("userTappedAuthor(_:)") {
 
                     xit("presents a ProfileViewController") {
-                        let cell = controller.collectionView.cellForItemAtIndexPath(NSIndexPath(forItem: 0, inSection: 0))
-                        controller.userTappedAuthor(cell!)
+                        let cell = controller.collectionView.cellForItem(at: IndexPath(item: 0, section: 0))
+                        controller.userTappedAuthor(cell: cell!)
 
                         expect(controller.navigationController?.topViewController).to(beAKindOf(ProfileViewController.self))
                     }

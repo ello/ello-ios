@@ -2,14 +2,14 @@
 ///  ElloTabBar.swift
 //
 
-public class ElloTabBar: UITabBar {
+class ElloTabBar: UITabBar {
     struct Size {
         static let height = CGFloat(49)
     }
 
-    private var redDotViews = [(Int, UIView)]()
+    fileprivate var redDotViews = [(Int, UIView)]()
 
-    required public init?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         privateInit()
     }
@@ -24,25 +24,25 @@ public class ElloTabBar: UITabBar {
         privateInit()
     }
 
-    private func privateInit() {
-        self.backgroundColor = UIColor.whiteColor()
-        self.translucent = false
-        self.opaque = true
-        self.barTintColor = UIColor.whiteColor()
-        self.tintColor = UIColor.blackColor()
+    fileprivate func privateInit() {
+        self.backgroundColor = UIColor.white
+        self.isTranslucent = false
+        self.isOpaque = true
+        self.barTintColor = UIColor.white
+        self.tintColor = UIColor.black
         self.clipsToBounds = true
-        self.shadowImage = UIImage.imageWithColor(UIColor.whiteColor())
+        self.shadowImage = UIImage.imageWithColor(UIColor.white)
     }
 
-    public func addRedDotAtIndex(index: Int) -> UIView {
+    func addRedDotAtIndex(_ index: Int) -> UIView {
         let redDot: UIView
-        if let entryIndex = (redDotViews.indexOf { $0.0 == index }) {
+        if let entryIndex = (redDotViews.index { $0.0 == index }) {
             redDot = redDotViews[entryIndex].1
         }
         else {
             redDot = UIView()
-            redDot.backgroundColor = UIColor.redColor()
-            redDot.hidden = true
+            redDot.backgroundColor = UIColor.red
+            redDot.isHidden = true
             let redDotEntry = (index, redDot)
             redDotViews.append(redDotEntry)
             addSubview(redDot)
@@ -52,16 +52,16 @@ public class ElloTabBar: UITabBar {
         return redDot
     }
 
-    private func tabBarFrameAtIndex(index: Int) -> CGRect {
+    fileprivate func tabBarFrameAtIndex(_ index: Int) -> CGRect {
         let tabBarButtons = subviews.filter {
             $0 is UIControl
-        }.sort {
+        }.sorted {
             $0.frame.minX < $1.frame.minX
         }
         return tabBarButtons.safeValue(index)?.frame ?? .zero
     }
 
-    private func positionRedDot(redDot: UIView, atIndex index: Int) {
+    fileprivate func positionRedDot(_ redDot: UIView, atIndex index: Int) {
         let radius: CGFloat = 3
         let diameter = radius * 2
         let margins = CGPoint(x: 0, y: 10)
@@ -75,7 +75,7 @@ public class ElloTabBar: UITabBar {
         redDot.frame = frame
     }
 
-    public override func layoutSubviews() {
+    override func layoutSubviews() {
         super.layoutSubviews()
         for (index, redDot) in redDotViews {
             positionRedDot(redDot, atIndex: index)

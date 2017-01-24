@@ -2,7 +2,8 @@
 ///  RelationshipControllerSpec.swift
 //
 
-import Ello
+
+@testable import Ello
 import Quick
 import Nimble
 import Moya
@@ -28,32 +29,32 @@ class RelationshipControllerSpec: QuickSpec {
             describe("-updateRelationship:relationship:complete:") {
 
                 it("succeeds") {
-                    var expectedStatus = RelationshipRequestStatus.Failure
+                    var expectedStatus = RelationshipRequestStatus.failure
 
-                    subject.updateRelationship("", userId: "test-user-id", prev: .None, relationshipPriority: RelationshipPriority.Following) {
+                    subject.updateRelationship("", userId: "test-user-id", prev: .none, relationshipPriority: RelationshipPriority.following) {
                         (status, _, _) in
                         expectedStatus = status
                     }
-                    expect(expectedStatus).to(equal(RelationshipRequestStatus.Success))
+                    expect(expectedStatus).to(equal(RelationshipRequestStatus.success))
                 }
 
                 it("fails") {
                     ElloProvider.sharedProvider = ElloProvider.ErrorStubbingProvider()
 
-                    var expectedStatus = RelationshipRequestStatus.Success
+                    var expectedStatus = RelationshipRequestStatus.success
 
-                    subject.updateRelationship("", userId: "test-user-id", prev: .None, relationshipPriority: RelationshipPriority.Following) {
+                    subject.updateRelationship("", userId: "test-user-id", prev: .none, relationshipPriority: RelationshipPriority.following) {
                         (status, _, _) in
                         expectedStatus = status
                     }
-                    expect(expectedStatus).to(equal(RelationshipRequestStatus.Failure))
+                    expect(expectedStatus).to(equal(RelationshipRequestStatus.failure))
                 }
             }
 
             describe("-launchBlockModal:userAtName:relationship:changeClosure:") {
 
                 it("launches the block user modal view controller") {
-                    subject.launchBlockModal("user-id", userAtName: "@666", relationshipPriority: RelationshipPriority.Following) {
+                    subject.launchBlockModal("user-id", userAtName: "@666", relationshipPriority: RelationshipPriority.following) {
                         _ in
                     }
                     let presentedVC = subject.presentingController?.presentedViewController as? BlockUserModalViewController

@@ -5,36 +5,36 @@
 import Foundation
 import SwiftyUserDefaults
 
-public struct NewContentNotifications {
-    public static let newAnnouncements = TypedNotification<Void?>(name: "NewAnnouncementsNotification")
-    public static let newNotifications = TypedNotification<Void?>(name: "NewNotificationsNotification")
-    public static let newStreamContent = TypedNotification<Void?>(name: "NewStreamContentNotification")
-    public static let reloadStreamContent = TypedNotification<Void?>(name: "ReloadStreamContentNotification")
-    public static let reloadNotifications = TypedNotification<Void?>(name: "ReloadNotificationsNotification")
+struct NewContentNotifications {
+    static let newAnnouncements = TypedNotification<Void?>(name: "NewAnnouncementsNotification")
+    static let newNotifications = TypedNotification<Void?>(name: "NewNotificationsNotification")
+    static let newStreamContent = TypedNotification<Void?>(name: "NewStreamContentNotification")
+    static let reloadStreamContent = TypedNotification<Void?>(name: "ReloadStreamContentNotification")
+    static let reloadNotifications = TypedNotification<Void?>(name: "ReloadNotificationsNotification")
 }
 
-public class NewContentService {
-    var timer: NSTimer?
-    public init(){}
+class NewContentService {
+    var timer: Timer?
+    init(){}
 }
 
-public extension NewContentService {
+extension NewContentService {
 
-    public func startPolling() {
+    func startPolling() {
         checkForNewNotifications()
-        timer = NSTimer.scheduledTimerWithTimeInterval(NSTimeInterval(10), target: self, selector: #selector(NewContentService.checkForNewContent), userInfo: nil, repeats: false)
+        timer = Timer.scheduledTimer(timeInterval: TimeInterval(10), target: self, selector: #selector(NewContentService.checkForNewContent), userInfo: nil, repeats: false)
     }
 
-    public func restartPolling() {
-        timer = NSTimer.scheduledTimerWithTimeInterval(NSTimeInterval(10), target: self, selector: #selector(NewContentService.checkForNewContent), userInfo: nil, repeats: false)
+    func restartPolling() {
+        timer = Timer.scheduledTimer(timeInterval: TimeInterval(10), target: self, selector: #selector(NewContentService.checkForNewContent), userInfo: nil, repeats: false)
     }
 
-    public func stopPolling() {
+    func stopPolling() {
         timer?.invalidate()
     }
 
     @objc
-    public func checkForNewContent() {
+    func checkForNewContent() {
         stopPolling()
         let (restart, done) = afterN(restartPolling)
         checkForNewNotifications(restart())
@@ -42,8 +42,8 @@ public extension NewContentService {
         done()
     }
 
-    public func updateCreatedAt(jsonables: [JSONAble], streamKind: StreamKind) {
-        let old = NSDate(timeIntervalSince1970: 0)
+    func updateCreatedAt(_ jsonables: [JSONAble], streamKind: StreamKind) {
+        let old = Date(timeIntervalSince1970: 0)
         let new = newestDate(jsonables)
         let storedKey = streamKind.lastViewedCreatedAtKey
         let storedDate = GroupDefaults[storedKey].date ?? old
@@ -55,31 +55,31 @@ public extension NewContentService {
 
 private extension NewContentService {
 
-    func newestDate(jsonables: [JSONAble]) -> NSDate {
-        let old = NSDate(timeIntervalSince1970: 0)
+    func newestDate(_ jsonables: [JSONAble]) -> Date {
+        let old = Date(timeIntervalSince1970: 0)
         return jsonables.reduce(old) {
-            (date, jsonable) -> NSDate in
+            (date, jsonable) -> Date in
             if let post = jsonable as? Post {
-                return post.createdAt > date ? post.createdAt : date
+                return post.createdAt as Date > date ? post.createdAt as Date : date
             }
             else if let notification = jsonable as? Notification {
-                return notification.createdAt > date ? notification.createdAt : date
+                return notification.createdAt as Date > date ? notification.createdAt as Date : date
             }
             else if let activity = jsonable as? Activity {
-                return activity.createdAt > date ? activity.createdAt : date
+                return activity.createdAt as Date > date ? activity.createdAt as Date : date
             }
             return date
         }
     }
 
-    func checkForNewNotifications(done: BasicBlock = {}) {
-        let storedKey = StreamKind.Notifications(category: nil).lastViewedCreatedAtKey
+    func checkForNewNotifications(_ done: @escaping BasicBlock = {}) {
+        let storedKey = StreamKind.notifications(category: nil).lastViewedCreatedAtKey
         let storedDate = GroupDefaults[storedKey].date
 
         ElloProvider.shared.elloRequest(
-            ElloAPI.NotificationsNewContent(createdAt: storedDate),
+            ElloAPI.notificationsNewContent(createdAt: storedDate),
             success: { (_, responseConfig) in
-                if let statusCode = responseConfig.statusCode where statusCode == 204 {
+                if let statusCode = responseConfig.statusCode, statusCode == 204 {
                     postNotification(NewContentNotifications.newNotifications, value: nil)
                 }
 
@@ -88,14 +88,14 @@ private extension NewContentService {
             failure: { _ in done() })
     }
 
-    func checkForNewAnnouncements(done: BasicBlock = {}) {
-        let storedKey = StreamKind.Announcements.lastViewedCreatedAtKey
+    func checkForNewAnnouncements(_ done: @escaping BasicBlock = {}) {
+        let storedKey = StreamKind.announcements.lastViewedCreatedAtKey
         let storedDate = GroupDefaults[storedKey].date
 
          ElloProvider.shared.elloRequest(
-             ElloAPI.AnnouncementsNewContent(createdAt: storedDate),
+             ElloAPI.announcementsNewContent(createdAt: storedDate),
              success: { (_, responseConfig) in
-                 if let statusCode = responseConfig.statusCode where statusCode == 204 {
+                 if let statusCode = responseConfig.statusCode, statusCode == 204 {
                      postNotification(NewContentNotifications.newAnnouncements, value: nil)
                  }
 
@@ -104,18 +104,18 @@ private extension NewContentService {
              failure: { _ in done() })
     }
 
-    func checkForNewStreamContent(done: BasicBlock = {}) {
-        let storedKey = StreamKind.Following.lastViewedCreatedAtKey
+    func checkForNewStreamContent(_ done: @escaping BasicBlock = {}) {
+        let storedKey = StreamKind.following.lastViewedCreatedAtKey
         let storedDate = GroupDefaults[storedKey].date
 
         ElloProvider.shared.elloRequest(
-            ElloAPI.FriendNewContent(createdAt: storedDate),
+            ElloAPI.friendNewContent(createdAt: storedDate),
             success: { (_, responseConfig) in
                 if let lastModified = responseConfig.lastModified {
-                    GroupDefaults[StreamKind.Following.lastViewedCreatedAtKey] = lastModified.toNSDate(HTTPDateFormatter)
+                    GroupDefaults[StreamKind.following.lastViewedCreatedAtKey] = lastModified.toDate(HTTPDateFormatter)
                 }
 
-                if let statusCode = responseConfig.statusCode where statusCode == 204 {
+                if let statusCode = responseConfig.statusCode, statusCode == 204 {
                     postNotification(NewContentNotifications.newStreamContent, value: nil)
                 }
 

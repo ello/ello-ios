@@ -5,13 +5,13 @@
 import FLAnimatedImage
 import JTSImageViewController
 
-public class StreamImageViewer: NSObject {
+class StreamImageViewer: NSObject {
     var prevWindowSize: CGSize?
 
     weak var presentingController: StreamViewController?
     weak var imageView: UIImageView?
 
-    public init(presentingController: StreamViewController) {
+    init(presentingController: StreamViewController) {
         self.presentingController = presentingController
     }
 }
@@ -19,7 +19,7 @@ public class StreamImageViewer: NSObject {
 
 // MARK: Public
 extension StreamImageViewer {
-    public func imageTapped(imageView: FLAnimatedImageView, imageURL: NSURL?) {
+    func imageTapped(_ imageView: FLAnimatedImageView, imageURL: URL?) {
         guard let presentingController = presentingController else { return }
 
         // tell AppDelegate to allow rotation
@@ -27,7 +27,7 @@ extension StreamImageViewer {
         prevWindowSize = UIWindow.windowSize()
 
         self.imageView = imageView
-        imageView.hidden = true
+        imageView.isHidden = true
         let imageInfo = JTSImageInfo()
         if let imageURL = imageURL {
             imageInfo.imageURL = imageURL
@@ -37,18 +37,18 @@ extension StreamImageViewer {
         }
         imageInfo.referenceRect = imageView.frame
         imageInfo.referenceView = imageView.superview
-        let imageViewer = JTSImageViewController(imageInfo: imageInfo, mode: JTSImageViewControllerMode.Image, backgroundStyle: JTSImageViewControllerBackgroundOptions.None)
-        let transition: JTSImageViewControllerTransition = .FromOriginalPosition
-        imageViewer.showFromViewController(presentingController, transition: transition)
-        imageViewer.optionsDelegate = self
-        imageViewer.dismissalDelegate = self
+        let imageViewer = JTSImageViewController(imageInfo: imageInfo, mode: JTSImageViewControllerMode.image, backgroundStyle: JTSImageViewControllerBackgroundOptions())
+        let transition: JTSImageViewControllerTransition = .fromOriginalPosition
+        imageViewer?.show(from: presentingController, transition: transition)
+        imageViewer?.optionsDelegate = self
+        imageViewer?.dismissalDelegate = self
     }
 }
 
 
 // MARK: JTSImageViewControllerOptionsDelegate
 extension StreamImageViewer: JTSImageViewControllerOptionsDelegate {
-    public func alphaForBackgroundDimmingOverlayInImageViewer(imageViewer: JTSImageViewController) -> CGFloat {
+    func alphaForBackgroundDimmingOverlay(inImageViewer imageViewer: JTSImageViewController) -> CGFloat {
         return 1.0
     }
 }
@@ -56,16 +56,16 @@ extension StreamImageViewer: JTSImageViewControllerOptionsDelegate {
 
 // MARK: JTSImageViewControllerDismissalDelegate
 extension StreamImageViewer: JTSImageViewControllerDismissalDelegate {
-    public func imageViewerDidDismiss(imageViewer: JTSImageViewController) {
-        if let prevSize = prevWindowSize where prevSize != UIWindow.windowSize() {
+    func imageViewerDidDismiss(_ imageViewer: JTSImageViewController) {
+        if let prevSize = prevWindowSize, prevSize != UIWindow.windowSize() {
             postNotification(Application.Notifications.ViewSizeWillChange, value: UIWindow.windowSize())
         }
     }
 
-    public func imageViewerWillDismiss(imageViewer: JTSImageViewController) {
-        self.imageView?.hidden = false
+    func imageViewerWillDismiss(_ imageViewer: JTSImageViewController) {
+        self.imageView?.isHidden = false
         AppDelegate.restrictRotation = true
     }
 
-    public func imageViewerWillAnimateDismissal(imageViewer: JTSImageViewController, withContainerView containerView: UIView, duration: CGFloat) {}
+    func imageViewerWillAnimateDismissal(_ imageViewer: JTSImageViewController, withContainerView containerView: UIView, duration: CGFloat) {}
 }

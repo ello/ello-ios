@@ -11,17 +11,17 @@ class IntroPageController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        if self.isKindOfClass(WelcomePageController) {
-            Crashlytics.sharedInstance().setObjectValue("IntroWelcome", forKey: CrashlyticsKey.StreamName.rawValue)
+        if self.isKind(of: WelcomePageController.self) {
+            Crashlytics.sharedInstance().setObjectValue("IntroWelcome", forKey: CrashlyticsKey.streamName.rawValue)
         }
-        else if self.isKindOfClass(InspiredPageController) {
-            Crashlytics.sharedInstance().setObjectValue("IntroInspired", forKey: CrashlyticsKey.StreamName.rawValue)
+        else if self.isKind(of: InspiredPageController.self) {
+            Crashlytics.sharedInstance().setObjectValue("IntroInspired", forKey: CrashlyticsKey.streamName.rawValue)
         }
-        else if self.isKindOfClass(FriendsPageController) {
-            Crashlytics.sharedInstance().setObjectValue("IntroFriends", forKey: CrashlyticsKey.StreamName.rawValue)
+        else if self.isKind(of: FriendsPageController.self) {
+            Crashlytics.sharedInstance().setObjectValue("IntroFriends", forKey: CrashlyticsKey.streamName.rawValue)
         }
-        else if self.isKindOfClass(LovesPageController) {
-            Crashlytics.sharedInstance().setObjectValue("IntroLoves", forKey: CrashlyticsKey.StreamName.rawValue)
+        else if self.isKind(of: LovesPageController.self) {
+            Crashlytics.sharedInstance().setObjectValue("IntroLoves", forKey: CrashlyticsKey.streamName.rawValue)
         }
     }
 }

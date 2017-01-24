@@ -2,7 +2,6 @@
 ///  DebugViewsController.swift
 //
 
-#if DEBUG
 
 class DebugViewsController: UIViewController {
 
@@ -10,17 +9,17 @@ class DebugViewsController: UIViewController {
         super.viewDidLoad()
 
         let relationships: [RelationshipPriority] = [
-            .None,
-            .Following,
-            .Starred,
-            .Mute,
+            .none,
+            .following,
+            .starred,
+            .mute,
         ]
         let controls: [RelationshipControl] = relationships.map { priority in
             let control = RelationshipControl()
             control.translatesAutoresizingMaskIntoConstraints = false
             control.relationshipPriority = priority
             self.view.addSubview(control)
-            self.view.backgroundColor = .whiteColor()
+            self.view.backgroundColor = .white
 
             return control
         }
@@ -28,13 +27,13 @@ class DebugViewsController: UIViewController {
 
         if #available(iOS 9.0, *) {
             for control in controls {
-                control.centerXAnchor.constraintEqualToAnchor(view.centerXAnchor, constant: 0).active = true
+                control.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
 
                 if let prevControl = prevControl {
-                    control.topAnchor.constraintEqualToAnchor(prevControl.bottomAnchor, constant: 8).active = true
+                    control.topAnchor.constraint(equalTo: prevControl.bottomAnchor, constant: 8).isActive = true
                 }
                 else {
-                    control.centerYAnchor.constraintEqualToAnchor(view.centerYAnchor, constant: 0).active = true
+                    control.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 0).isActive = true
                 }
 
                 prevControl = control
@@ -43,5 +42,3 @@ class DebugViewsController: UIViewController {
     }
 
 }
-
-#endif

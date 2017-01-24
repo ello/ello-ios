@@ -17,34 +17,34 @@ class DynamicSettingCategoryViewController: UIViewController, UITableViewDataSou
         setupNavigationBar()
     }
 
-    private func setupTableView() {
+    fileprivate func setupTableView() {
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 50
-        tableView.registerNib(UINib(nibName: "DynamicSettingCell", bundle: .None), forCellReuseIdentifier: "DynamicSettingCell")
+        tableView.register(UINib(nibName: "DynamicSettingCell", bundle: .none), forCellReuseIdentifier: "DynamicSettingCell")
     }
 
-    private func setupNavigationBar() {
+    fileprivate func setupNavigationBar() {
         let backItem = UIBarButtonItem.backChevronWithTarget(self, action: #selector(DynamicSettingCategoryViewController.backAction))
         navigationItem.leftBarButtonItem = backItem
         navigationItem.title = category?.label
         navigationItem.fixNavBarItemPadding()
         navBar.items = [navigationItem]
-        UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: .Slide)
+        postNotification(StatusBarNotifications.statusBarShouldHide, value: false)
     }
 
     func backAction() {
-        navigationController?.popViewControllerAnimated(true)
+        _ = navigationController?.popViewController(animated: true)
     }
 
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return category?.settings.count ?? 0
     }
 
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("DynamicSettingCell", forIndexPath: indexPath) as! DynamicSettingCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "DynamicSettingCell", for: indexPath) as! DynamicSettingCell
 
         if let setting = category?.settings.safeValue(indexPath.row),
-            user = currentUser
+            let user = currentUser
         {
             DynamicSettingCellPresenter.configure(cell, setting: setting, currentUser: user)
             cell.setting = setting
@@ -53,9 +53,9 @@ class DynamicSettingCategoryViewController: UIViewController, UITableViewDataSou
         return cell
     }
 
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if let setting = category?.settings.safeValue(indexPath.row),
-            user = currentUser
+            let user = currentUser
         {
             let isVisible = DynamicSettingCellPresenter.isVisible(setting: setting, currentUser: user)
             if !isVisible {
@@ -66,37 +66,37 @@ class DynamicSettingCategoryViewController: UIViewController, UITableViewDataSou
         return UITableViewAutomaticDimension
     }
 
-    func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return 90
     }
 }
 
 extension DynamicSettingCategoryViewController: DynamicSettingCellDelegate {
 
-    typealias SettingConfig = (setting: DynamicSetting, indexPath: NSIndexPath, value: Bool, isVisible: Bool)
+    typealias SettingConfig = (setting: DynamicSetting, indexPath: IndexPath, value: Bool, isVisible: Bool)
 
-    func toggleSetting(setting: DynamicSetting, value: Bool) {
-        guard let
-            currentUser = currentUser,
-            category = self.category else { return }
+    func toggleSetting(_ setting: DynamicSetting, value: Bool) {
+        guard
+            let currentUser = currentUser,
+            let category = self.category else { return }
         let settings = category.settings
 
-        let visibility = settings.enumerate().map { (index, setting) in
+        let visibility = settings.enumerated().map { (index, setting) in
             return (
                 setting: setting,
-                indexPath: NSIndexPath(forRow: index, inSection: 0),
-                value: currentUser.propertyForSettingsKey(setting.key),
+                indexPath: IndexPath(row: index, section: 0),
+                value: currentUser.propertyForSettingsKey(key: setting.key),
                 isVisible: DynamicSettingCellPresenter.isVisible(setting: setting, currentUser: currentUser)
             )
         }
 
         var updatedValues: [String: AnyObject] = [
-            setting.key: value,
+            setting.key: value as AnyObject,
         ]
 
         for anotherSetting in category.settings {
             if let anotherValue = setting.sets(anotherSetting, when: value) {
-                updatedValues[anotherSetting.key] = anotherValue
+                updatedValues[anotherSetting.key] = anotherValue as AnyObject
             }
         }
 
@@ -110,22 +110,22 @@ extension DynamicSettingCategoryViewController: DynamicSettingCellDelegate {
                     return config.indexPath
                 }
 
-                self.tableView.reloadRowsAtIndexPaths(changedPaths, withRowAnimation: .Automatic)
+                self.tableView.reloadRows(at: changedPaths, with: .automatic)
             },
             failure: { (_, _) in
                 self.tableView.reloadData()
             })
     }
 
-    private func settingChanged(config: SettingConfig, user: User) -> Bool {
+    fileprivate func settingChanged(_ config: SettingConfig, user: User) -> Bool {
         let setting = config.setting
         let currVisibility = DynamicSettingCellPresenter.isVisible(setting: setting, currentUser: user)
-        let currValue = user.propertyForSettingsKey(setting.key)
+        let currValue = user.propertyForSettingsKey(key: setting.key)
         return config.isVisible != currVisibility || config.value != currValue
     }
 
     func deleteAccount() {
         let vc = DeleteAccountConfirmationViewController()
-        presentViewController(vc, animated: true, completion: .None)
+        present(vc, animated: true, completion: .none)
     }
 }

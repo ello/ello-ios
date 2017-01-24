@@ -14,11 +14,11 @@ class InterfaceSpec: QuickSpec {
             describe("Image") {
                 describe("image(style:)") {
                     let styles: [(InterfaceImage, InterfaceImage.Style)] = [
-                        (.ElloLogo, .Normal),
-                        (.Eye, .Selected),
-                        (.BreakLink, .White),
-                        (.AngleBracket, .Disabled),
-                        (.X, .Red),
+                        (.elloLogo, .normal),
+                        (.eye, .selected),
+                        (.breakLink, .white),
+                        (.angleBracket, .disabled),
+                        (.x, .red),
                     ]
                     for (interfaceImage, style) in styles {
                         it("\(interfaceImage) should have style \(style)") {
@@ -29,49 +29,49 @@ class InterfaceSpec: QuickSpec {
 
                 describe("normalImage") {
                     let normalImages: [InterfaceImage] = [
-                        .ElloLogo,
-                        .Eye,
-                        .Heart,
-                        .Repost,
-                        .Share,
-                        .XBox,
-                        .Pencil,
-                        .Reply,
-                        .Flag,
-                        .Comments,
-                        .Invite,
-                        .Sparkles,
-                        .Bolt,
-                        .Omni,
-                        .Person,
-                        .CircBig,
-                        .NarrationPointer,
-                        .Search,
-                        .Burger,
-                        .GridView,
-                        .ListView,
-                        .Reorder,
-                        .Camera,
-                        .Check,
-                        .Arrow,
-                        .Link,
-                        .BreakLink,
-                        .ReplyAll,
-                        .BubbleBody,
-                        .BubbleTail,
-                        .WhiteStar,
-                        .BlackStar,
-                        .Question,
-                        .X,
-                        .Dots,
-                        .PlusSmall,
-                        .CheckSmall,
-                        .AngleBracket,
-                        .AudioPlay,
-                        .VideoPlay,
-                        .ValidationLoading,
-                        .ValidationError,
-                        .ValidationOK,
+                        .elloLogo,
+                        .eye,
+                        .heart,
+                        .repost,
+                        .share,
+                        .xBox,
+                        .pencil,
+                        .reply,
+                        .flag,
+                        .comments,
+                        .invite,
+                        .sparkles,
+                        .bolt,
+                        .omni,
+                        .person,
+                        .circBig,
+                        .narrationPointer,
+                        .search,
+                        .burger,
+                        .gridView,
+                        .listView,
+                        .reorder,
+                        .camera,
+                        .check,
+                        .arrow,
+                        .link,
+                        .breakLink,
+                        .replyAll,
+                        .bubbleBody,
+                        .bubbleTail,
+                        .whiteStar,
+                        .blackStar,
+                        .question,
+                        .x,
+                        .dots,
+                        .plusSmall,
+                        .checkSmall,
+                        .angleBracket,
+                        .audioPlay,
+                        .videoPlay,
+                        .validationLoading,
+                        .validationError,
+                        .validationOK,
                     ]
                     for image in normalImages {
                         it("\(image) should have a normalImage") {
@@ -81,86 +81,86 @@ class InterfaceSpec: QuickSpec {
                 }
                 describe("selectedImage") {
                     let selectedImages: [InterfaceImage] = [
-                        .Eye,
-                        .Heart,
-                        .Repost,
-                        .Share,
-                        .XBox,
-                        .Pencil,
-                        .Reply,
-                        .Flag,
-                        .Comments,
-                        .Invite,
-                        .Sparkles,
-                        .Bolt,
-                        .Omni,
-                        .Person,
-                        .CircBig,
-                        .Search,
-                        .Burger,
-                        .Reorder,
-                        .Camera,
-                        .Check,
-                        .Arrow,
-                        .Link,
-                        .ReplyAll,
-                        .BubbleBody,
-                        .WhiteStar,
-                        .BlackStar,
-                        .X,
-                        .Dots,
-                        .PlusSmall,
-                        .CheckSmall,
-                        .AngleBracket,
-                        .ValidationLoading,
+                        .eye,
+                        .heart,
+                        .repost,
+                        .share,
+                        .xBox,
+                        .pencil,
+                        .reply,
+                        .flag,
+                        .comments,
+                        .invite,
+                        .sparkles,
+                        .bolt,
+                        .omni,
+                        .person,
+                        .circBig,
+                        .search,
+                        .burger,
+                        .reorder,
+                        .camera,
+                        .check,
+                        .arrow,
+                        .link,
+                        .replyAll,
+                        .bubbleBody,
+                        .whiteStar,
+                        .blackStar,
+                        .x,
+                        .dots,
+                        .plusSmall,
+                        .checkSmall,
+                        .angleBracket,
+                        .validationLoading,
                     ]
                     for image in selectedImages {
                         it("\(image) should have a selectedImage") {
-                            expect(SVGKSourceLocalFile.internalSourceAnywhereInBundleUsingName("\(image.rawValue)_selected.svg")).toNot(beNil())
-                            expect(SVGKImage(named: "\(image.rawValue)_selected.svg").UIImage).toNot(beNil())
+                            expect(SVGKSourceLocalFile.internalSourceAnywhereInBundle(usingName: "\(image.rawValue)_selected.svg")).toNot(beNil())
+                            expect(SVGKImage(named: "\(image.rawValue)_selected.svg").uiImage).toNot(beNil())
                         }
                     }
                 }
                 describe("whiteImage") {
                     let whiteImages: [InterfaceImage] = [
-                        .BreakLink,
-                        .BubbleBody,
-                        .Camera,
-                        .Link,
-                        .Pencil,
-                        .Arrow,
-                        .Comments,
-                        .Heart,
-                        .PlusSmall,
-                        .Invite,
-                        .Repost
+                        .breakLink,
+                        .bubbleBody,
+                        .camera,
+                        .link,
+                        .pencil,
+                        .arrow,
+                        .comments,
+                        .heart,
+                        .plusSmall,
+                        .invite,
+                        .repost
                     ]
                     for image in whiteImages {
                         it("\(image) should have a whiteImage") {
-                            expect(SVGKSourceLocalFile.internalSourceAnywhereInBundleUsingName("\(image.rawValue)_white.svg")).toNot(beNil())
-                            expect(SVGKImage(named: "\(image.rawValue)_white.svg").UIImage).toNot(beNil())
+                            expect(SVGKSourceLocalFile.internalSourceAnywhereInBundle(usingName: "\(image.rawValue)_white.svg")).toNot(beNil())
+                            expect(SVGKImage(named: "\(image.rawValue)_white.svg").uiImage).toNot(beNil())
                         }
                     }
                 }
                 describe("disabledImage") {
                     let disabledImages: [InterfaceImage] = [
-                        .AngleBracket,
+                        .angleBracket,
                     ]
                     for image in disabledImages {
                         it("\(image) should have a disabledImage") {
-                            expect(SVGKSourceLocalFile.internalSourceAnywhereInBundleUsingName("\(image.rawValue)_disabled.svg")).toNot(beNil())
-                            expect(SVGKImage(named: "\(image.rawValue)_disabled.svg").UIImage).toNot(beNil())
+                            expect(SVGKSourceLocalFile.internalSourceAnywhereInBundle(usingName: "\(image.rawValue)_disabled.svg")).toNot(beNil())
+                            expect(SVGKImage(named: "\(image.rawValue)_disabled.svg").uiImage).toNot(beNil())
                         }
                     }
                 }
                 describe("redImage") {
                     let redImages: [InterfaceImage] = [
-                        .X,
+                        .x,
                     ]
                     for image in redImages {
                         it("\(image) should have a redImage") {
-                            expect(SVGKSourceLocalFile.internalSourceAnywhereInBundleUsingName("\(image.rawValue)_red.svg")).toNot(beNil())
-                            expect(SVGKImage(named: "\(image.rawValue)_red.svg").UIImage).toNot(beNil())
+                            expect(SVGKSourceLocalFile.internalSourceAnywhereInBundle(usingName: "\(image.rawValue)_red.svg")).toNot(beNil())
+                            expect(SVGKImage(named: "\(image.rawValue)_red.svg").uiImage).toNot(beNil())
                         }
                     }
                 }

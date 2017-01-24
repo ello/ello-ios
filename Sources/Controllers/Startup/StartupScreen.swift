@@ -5,7 +5,7 @@
 import SnapKit
 
 
-public class StartupScreen: EmptyScreen {
+class StartupScreen: EmptyScreen {
     struct Size {
         static let topLogoOffset: CGFloat = 100
         static let bottomLogoOffset: CGFloat = 90
@@ -22,18 +22,18 @@ public class StartupScreen: EmptyScreen {
     let loginButton = StyledButton(style: .RoundedGray)
 
     override func setText() {
-        if let resource = NSBundle.mainBundle().pathForResource("ello-crazy-logo", ofType: "gif") {
-            let data = NSData(contentsOfFile: resource)
+        if let resource = Bundle.main.path(forResource: "ello-crazy-logo", ofType: "gif") {
+            let data = try? Data(contentsOf: URL(fileURLWithPath: resource))
             let image = FLAnimatedImage(animatedGIFData: data)
             logoImage.animatedImage = image
         }
-        signUpButton.setTitle(InterfaceString.Startup.SignUp, forState: .Normal)
-        loginButton.setTitle(InterfaceString.Startup.Login, forState: .Normal)
+        signUpButton.setTitle(InterfaceString.Startup.SignUp, for: .normal)
+        loginButton.setTitle(InterfaceString.Startup.Login, for: .normal)
     }
 
     override func bindActions() {
-        signUpButton.addTarget(self, action: #selector(signUpAction), forControlEvents: .TouchUpInside)
-        loginButton.addTarget(self, action: #selector(loginAction), forControlEvents: .TouchUpInside)
+        signUpButton.addTarget(self, action: #selector(signUpAction), for: .touchUpInside)
+        loginButton.addTarget(self, action: #selector(loginAction), for: .touchUpInside)
     }
 
     override func arrange() {
@@ -43,25 +43,25 @@ public class StartupScreen: EmptyScreen {
         addSubview(signUpButton)
         addSubview(loginButton)
 
-        logoImage.snp_makeConstraints { make in
+        logoImage.snp.makeConstraints { make in
             make.centerX.equalTo(self)
-            make.top.equalTo(blackBar.snp_bottom).offset(Size.topLogoOffset).priorityMedium()
+            make.top.equalTo(blackBar.snp.bottom).offset(Size.topLogoOffset).priority(Priority.medium)
             make.size.equalTo(CGSize(width: Size.logoSize, height: Size.logoSize))
-            make.top.greaterThanOrEqualTo(blackBar.snp_bottom).priorityRequired()
-            make.bottom.lessThanOrEqualTo(signUpButton.snp_top).offset(-Size.bottomLogoOffset).priorityRequired()
+            make.top.greaterThanOrEqualTo(blackBar.snp.bottom).priority(Priority.required)
+            make.bottom.lessThanOrEqualTo(signUpButton.snp.top).offset(-Size.bottomLogoOffset).priority(Priority.required)
         }
 
-        loginButton.snp_makeConstraints { make in
+        loginButton.snp.makeConstraints { make in
             make.bottom.equalTo(self).offset(-Size.buttonInset)
             make.centerX.equalTo(self)
             make.height.equalTo(Size.buttonHeight)
-            make.width.equalTo(self).offset(-2 * Size.buttonInset).priorityMedium()
-            make.width.lessThanOrEqualTo(Size.maxButtonWidth).priorityRequired()
+            make.width.equalTo(self).offset(-2 * Size.buttonInset).priority(Priority.medium)
+            make.width.lessThanOrEqualTo(Size.maxButtonWidth).priority(Priority.required)
         }
 
-        signUpButton.snp_makeConstraints { make in
+        signUpButton.snp.makeConstraints { make in
             make.centerX.width.height.equalTo(loginButton)
-            make.bottom.equalTo(loginButton.snp_top).offset(-Size.buttonInset)
+            make.bottom.equalTo(loginButton.snp.top).offset(-Size.buttonInset)
         }
     }
 }

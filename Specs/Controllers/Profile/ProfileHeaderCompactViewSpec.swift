@@ -36,10 +36,10 @@ class ProfileHeaderCompactViewSpec: QuickSpec {
                 it("\(desc) profile header renders correctly") {
                     let totalViewsCount: AnyObject
                     if countHeight == 0 {
-                        totalViewsCount = "" // stubs will turn this into nil
+                        totalViewsCount = "" as AnyObject // stubs will turn this into nil
                     }
                     else {
-                        totalViewsCount = 1
+                        totalViewsCount = 1 as AnyObject
                     }
 
                     let user: User = stub([
@@ -57,7 +57,7 @@ class ProfileHeaderCompactViewSpec: QuickSpec {
                     ])
 
                     let cell: ProfileHeaderCell = ProfileHeaderCell()
-                    let item: StreamCellItem = StreamCellItem(jsonable: user, type: .ProfileHeader)
+                    let item: StreamCellItem = StreamCellItem(jsonable: user, type: .profileHeader)
                     item.calculatedCellHeights.profileAvatar = avatarHeight
                     item.calculatedCellHeights.profileNames = namesHeight
                     item.calculatedCellHeights.profileStats = statsHeight
@@ -71,12 +71,12 @@ class ProfileHeaderCompactViewSpec: QuickSpec {
 
                     ProfileHeaderCellPresenter.configure(cell,
                         streamCellItem: item,
-                        streamKind: .CurrentUserStream,
-                        indexPath: NSIndexPath(forItem: 0, inSection: 0),
+                        streamKind: .currentUserStream,
+                        indexPath: IndexPath(item: 0, section: 0),
                         currentUser: nil
                         )
 
-                    expectValidSnapshot(cell, named: "ProfileHeaderCompactView-\(desc)", device: .Custom(size))
+                    expectValidSnapshot(cell, named: "ProfileHeaderCompactView-\(desc)", device: .custom(size))
                 }
             }
         }

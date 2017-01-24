@@ -1,4 +1,4 @@
-import Ello
+@testable import Ello
 import Quick
 import Nimble
 
@@ -7,13 +7,13 @@ class CoderSpec: QuickSpec {
     override func spec() {
 
         var filePath = ""
-        if let url = NSURL(string: NSFileManager.ElloDocumentsDir()) {
-            filePath = url.URLByAppendingPathComponent("DecoderSpec")!.absoluteString!
+        if let url = URL(string: FileManager.ElloDocumentsDir()) {
+            filePath = url.appendingPathComponent("DecoderSpec").absoluteString
         }
 
         afterEach {
             do {
-                try NSFileManager.defaultManager().removeItemAtPath(filePath)
+                try FileManager.default.removeItem(atPath: filePath)
             }
             catch {
 
@@ -23,7 +23,7 @@ class CoderSpec: QuickSpec {
         it("encodes and decodes required properties") {
             let obj = CoderSpecFake(stringProperty: "prop1", intProperty: 123, boolProperty: true)
             NSKeyedArchiver.archiveRootObject(obj, toFile: filePath)
-            let unArchivedObject = NSKeyedUnarchiver.unarchiveObjectWithFile(filePath) as! CoderSpecFake
+            let unArchivedObject = NSKeyedUnarchiver.unarchiveObject(withFile: filePath) as! CoderSpecFake
             expect(unArchivedObject.stringProperty) == "prop1"
             expect(unArchivedObject.intProperty) == 123
             expect(unArchivedObject.boolProperty) == true
@@ -38,7 +38,7 @@ class CoderSpec: QuickSpec {
             obj.optionalIntProperty = 666
             obj.optionalBoolProperty = true
             NSKeyedArchiver.archiveRootObject(obj, toFile: filePath)
-            let unArchivedObject = NSKeyedUnarchiver.unarchiveObjectWithFile(filePath) as! CoderSpecFake
+            let unArchivedObject = NSKeyedUnarchiver.unarchiveObject(withFile: filePath) as! CoderSpecFake
             expect(unArchivedObject.stringProperty) == "prop1"
             expect(unArchivedObject.intProperty) == 123
             expect(unArchivedObject.boolProperty) == true
@@ -64,7 +64,7 @@ class CoderSpecFake: NSObject {
         self.boolProperty = boolProperty
     }
 
-    func encodeWithCoder(encoder: NSCoder) {
+    func encodeWithCoder(_ encoder: NSCoder) {
         let coder = Coder(encoder)
         coder.encodeObject(stringProperty, forKey: "stringProperty")
         coder.encodeObject(intProperty, forKey: "intProperty")

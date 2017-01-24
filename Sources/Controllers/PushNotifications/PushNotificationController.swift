@@ -9,28 +9,28 @@ import UserNotifications
 private let NeedsPermissionKey = "PushNotificationNeedsPermission"
 private let DeniedPermissionKey = "PushNotificationDeniedPermission"
 
-public struct PushNotificationNotifications {
+struct PushNotificationNotifications {
     static let interactedWithPushNotification = TypedNotification<PushPayload>(name: "com.Ello.PushNotification.Interaction")
     static let receivedPushNotification = TypedNotification<PushPayload>(name: "com.Ello.PushNotification.Received")
 }
 
-public class PushNotificationController: NSObject {
-    public static let sharedController = PushNotificationController(defaults: GroupDefaults, keychain: ElloKeychain())
+class PushNotificationController: NSObject {
+    static let sharedController = PushNotificationController(defaults: GroupDefaults, keychain: ElloKeychain())
 
-    private let defaults: NSUserDefaults
-    private var keychain: KeychainType
+    fileprivate let defaults: UserDefaults
+    fileprivate var keychain: KeychainType
 
-    public var needsPermission: Bool {
+    var needsPermission: Bool {
         get { return defaults[NeedsPermissionKey].bool ?? true }
         set { defaults[NeedsPermissionKey] = newValue }
     }
 
-    public var permissionDenied: Bool {
+    var permissionDenied: Bool {
         get { return defaults[DeniedPermissionKey].bool ?? false }
         set { defaults[DeniedPermissionKey] = newValue }
     }
 
-    public init(defaults: NSUserDefaults, keychain: KeychainType) {
+    init(defaults: UserDefaults, keychain: KeychainType) {
         self.defaults = defaults
         self.keychain = keychain
     }
@@ -40,41 +40,41 @@ extension PushNotificationController: UNUserNotificationCenterDelegate {
 
     // foreground - notification incoming while using the app
     @objc @available(iOS 10.0, *)
-    public func userNotificationCenter(center: UNUserNotificationCenter, willPresentNotification notification: UNNotification, withCompletionHandler completionHandler: (UNNotificationPresentationOptions) -> Void) {
-        receivedNotification(UIApplication.sharedApplication(), userInfo: notification.request.content.userInfo)
-        completionHandler(UNNotificationPresentationOptions.Sound)
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        receivedNotification(UIApplication.shared, userInfo: notification.request.content.userInfo)
+        completionHandler(UNNotificationPresentationOptions.sound)
     }
 
     // background - user interacted with notification outside of the app
     @objc @available(iOS 10.0, *)
-    public func userNotificationCenter(center: UNUserNotificationCenter, didReceiveNotificationResponse response: UNNotificationResponse, withCompletionHandler completionHandler: () -> Void) {
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
 
-        receivedNotification(UIApplication.sharedApplication(), userInfo: response.notification.request.content.userInfo)
+        receivedNotification(UIApplication.shared, userInfo: response.notification.request.content.userInfo)
 
         completionHandler()
     }
 }
 
-public extension PushNotificationController {
+extension PushNotificationController {
     func requestPushAccessIfNeeded() -> AlertViewController? {
-        guard AuthToken().isPasswordBased else { return .None }
-        guard !permissionDenied else { return .None }
+        guard AuthToken().isPasswordBased else { return .none }
+        guard !permissionDenied else { return .none }
 
         guard !needsPermission else { return alertViewController() }
 
         registerForRemoteNotifications()
-        return .None
+        return .none
     }
 
     func registerForRemoteNotifications() {
         self.needsPermission = false
         registerStoredToken()
-        let app = UIApplication.sharedApplication()
+        let app = UIApplication.shared
 
         if #available(iOS 10.0, *){
-            let userNC = UNUserNotificationCenter.currentNotificationCenter()
+            let userNC = UNUserNotificationCenter.current()
             userNC.delegate = self
-            userNC.requestAuthorizationWithOptions([.Badge, .Sound, .Alert]) {
+            userNC.requestAuthorization(options: [.badge, .sound, .alert]) {
                 (granted, _) in
                 if granted {
                     app.registerForRemoteNotifications()
@@ -83,13 +83,13 @@ public extension PushNotificationController {
         }
 
         else { //If user is not on iOS 10 use the old methods we've been using
-            let settings = UIUserNotificationSettings(forTypes: [.Alert, .Badge, .Sound], categories: .None)
+            let settings = UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: .none)
             app.registerUserNotificationSettings(settings)
             app.registerForRemoteNotifications()
         }
     }
 
-    func updateToken(token: NSData) {
+    func updateToken(_ token: Data) {
         keychain.pushToken = token
         ProfileService().updateUserDeviceToken(token)
     }
@@ -106,34 +106,33 @@ public extension PushNotificationController {
         }
     }
 
-    func receivedNotification(application: UIApplication, userInfo: [NSObject: AnyObject]) {
+    func receivedNotification(_ application: UIApplication, userInfo: [AnyHashable: Any]) {
         updateBadgeCount(userInfo)
         if !hasAlert(userInfo) { return }
 
         let payload = PushPayload(info: userInfo as! [String: AnyObject])
         switch application.applicationState {
-        case .Active:
-            NotificationBanner.displayAlertForPayload(payload)
+        case .active:
+            NotificationBanner.displayAlert(payload: payload)
         default:
             postNotification(PushNotificationNotifications.interactedWithPushNotification, value: payload)
         }
     }
 
-    func updateBadgeCount(userInfo: [NSObject: AnyObject]) {
-        if let aps = userInfo["aps"] as? [NSObject: AnyObject],
-            badges = aps["badge"] as? Int
+    func updateBadgeCount(_ userInfo: [AnyHashable: Any]) {
+        if let aps = userInfo["aps"] as? [AnyHashable: Any],
+            let badges = aps["badge"] as? Int
         {
             updateBadgeNumber(badges)
         }
     }
 
-    func updateBadgeNumber(badges: Int) {
-        UIApplication.sharedApplication().applicationIconBadgeNumber = badges
+    func updateBadgeNumber(_ badges: Int) {
+        UIApplication.shared.applicationIconBadgeNumber = badges
     }
 
-    func hasAlert(userInfo: [NSObject: AnyObject]) -> Bool {
-        if let aps = userInfo["aps"] as? [NSObject: AnyObject]
-            where aps["alert"] is [NSObject: AnyObject]
+    func hasAlert(_ userInfo: [AnyHashable: Any]) -> Bool {
+        if let aps = userInfo["aps"] as? [AnyHashable: Any], aps["alert"] is [NSObject: AnyObject]
         {
             return true
         }
@@ -148,12 +147,12 @@ private extension PushNotificationController {
         let alert = AlertViewController(message: InterfaceString.PushNotifications.PermissionPrompt)
         alert.dismissable = false
 
-        let allowAction = AlertAction(title: InterfaceString.PushNotifications.PermissionYes, style: .Dark) { _ in
+        let allowAction = AlertAction(title: InterfaceString.PushNotifications.PermissionYes, style: .dark) { _ in
             self.registerForRemoteNotifications()
         }
         alert.addAction(allowAction)
 
-        let disallowAction = AlertAction(title: InterfaceString.PushNotifications.PermissionNo, style: .Light) { _ in
+        let disallowAction = AlertAction(title: InterfaceString.PushNotifications.PermissionNo, style: .light) { _ in
             self.needsPermission = false
             self.permissionDenied = true
         }
