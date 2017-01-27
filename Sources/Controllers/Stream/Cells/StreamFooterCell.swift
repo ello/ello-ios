@@ -12,7 +12,6 @@ class StreamFooterCell: UICollectionViewCell {
     @IBOutlet weak var innerContentView: UIView!
 
     var commentsOpened = false
-    weak var streamEditingDelegate: StreamEditingDelegate?
 
     let viewsItem = ElloPostToolBarOption.views.barButtonItem()
     var viewsControl: ImageLabelControl {
@@ -223,6 +222,7 @@ class StreamFooterCell: UICollectionViewCell {
     @IBAction func longPressed(_ gesture: UIGestureRecognizer) {
         guard gesture.state == .began else { return }
 
-        streamEditingDelegate?.cellLongPressed(cell: self)
+        let responder = target(forAction: #selector(StreamEditingResponder.cellLongPressed(cell:)), withSender: self) as? StreamEditingResponder
+        responder?.cellLongPressed(cell: self)
     }
 }

@@ -69,7 +69,6 @@ class StreamHeaderCell: UICollectionViewCell {
 
     weak var userDelegate: UserDelegate?
     weak var categoryDelegate: CategoryDelegate?
-    weak var streamEditingDelegate: StreamEditingDelegate?
 
     var avatarHeight: CGFloat = 60.0 {
         didSet { setNeedsDisplay() }
@@ -472,9 +471,10 @@ class StreamHeaderCell: UICollectionViewCell {
     }
 
     @IBAction func longPressed(_ gesture: UIGestureRecognizer) {
-        if gesture.state == .began {
-            streamEditingDelegate?.cellLongPressed(cell: self)
-        }
+        guard gesture.state == .began else { return }
+
+        let responder = target(forAction: #selector(StreamEditingResponder.cellLongPressed(cell:)), withSender: self) as? StreamEditingResponder
+        responder?.cellLongPressed(cell: self)
     }
 }
 

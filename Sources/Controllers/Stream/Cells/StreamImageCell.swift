@@ -43,7 +43,6 @@ class StreamImageCell: StreamRegionableCell {
     @IBOutlet weak var imageRightConstraint: NSLayoutConstraint!
 
     weak var streamImageCellDelegate: StreamImageCellDelegate?
-    weak var streamEditingDelegate: StreamEditingDelegate?
     var isGif = false
     var onHeightMismatch: OnHeightMismatch?
     var tallEnoughForFailToShow = true
@@ -285,12 +284,15 @@ class StreamImageCell: StreamRegionableCell {
 
     @IBAction func imageDoubleTapped(_ gesture: UIGestureRecognizer) {
         let location = gesture.location(in: nil)
-        streamEditingDelegate?.cellDoubleTapped(cell: self, location: location)
+
+        let responder = target(forAction: #selector(StreamEditingResponder.cellDoubleTapped(cell:location:)), withSender: self) as? StreamEditingResponder
+        responder?.cellDoubleTapped(cell: self, location: location)
     }
 
     @IBAction func imageLongPressed(_ gesture: UIGestureRecognizer) {
-        if gesture.state == .began {
-            streamEditingDelegate?.cellLongPressed(cell: self)
-        }
+        guard gesture.state == .began else { return }
+
+        let responder = target(forAction: #selector(StreamEditingResponder.cellLongPressed(cell:)), withSender: self) as? StreamEditingResponder
+        responder?.cellLongPressed(cell: self)
     }
 }

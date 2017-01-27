@@ -42,7 +42,6 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
     weak var notificationDelegate: NotificationDelegate?
     weak var webLinkDelegate: WebLinkDelegate?
     weak var imageDelegate: StreamImageCellDelegate?
-    weak var editingDelegate: StreamEditingDelegate?
     weak var categoryDelegate: CategoryDelegate?
     weak var userDelegate: UserDelegate?
     weak var relationshipDelegate: RelationshipDelegate?
@@ -344,16 +343,12 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
             (cell as! CategoryHeaderCell).userDelegate = userDelegate
         case .categoryList:
             (cell as! CategoryListCell).delegate = categoryListCellDelegate
-        case .footer:
-            (cell as! StreamFooterCell).streamEditingDelegate = editingDelegate
         case .header, .commentHeader:
             (cell as! StreamHeaderCell).relationshipDelegate = relationshipDelegate
             (cell as! StreamHeaderCell).categoryDelegate = categoryDelegate
             (cell as! StreamHeaderCell).userDelegate = userDelegate
-            (cell as! StreamHeaderCell).streamEditingDelegate = editingDelegate
         case .image:
             (cell as! StreamImageCell).streamImageCellDelegate = imageDelegate
-            (cell as! StreamImageCell).streamEditingDelegate = editingDelegate
         case .inviteFriends, .onboardingInviteFriends:
             (cell as! StreamInviteFriendsCell).inviteDelegate = inviteDelegate
             (cell as! StreamInviteFriendsCell).inviteCache = inviteCache
@@ -369,7 +364,6 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
         case .text:
             (cell as! StreamTextCell).webLinkDelegate = webLinkDelegate
             (cell as! StreamTextCell).userDelegate = userDelegate
-            (cell as! StreamTextCell).streamEditingDelegate = editingDelegate
         case .userAvatars:
             (cell as! UserAvatarsCell).simpleStreamDelegate = simpleStreamDelegate
             (cell as! UserAvatarsCell).userDelegate = userDelegate
