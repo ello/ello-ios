@@ -38,7 +38,6 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
     let categoryHeaderSizeCalculator: CategoryHeaderCellSizeCalculator
     let imageSizeCalculator: StreamImageCellSizeCalculator
 
-    weak var postbarDelegate: PostbarDelegate?
     weak var createPostDelegate: CreatePostDelegate?
     weak var notificationDelegate: NotificationDelegate?
     weak var webLinkDelegate: WebLinkDelegate?
@@ -346,13 +345,9 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
         case .categoryList:
             (cell as! CategoryListCell).delegate = categoryListCellDelegate
         case .footer:
-            (cell as! StreamFooterCell).delegate = postbarDelegate
             (cell as! StreamFooterCell).streamEditingDelegate = editingDelegate
-        case .createComment:
-            (cell as! StreamCreateCommentCell).delegate = postbarDelegate
         case .header, .commentHeader:
             (cell as! StreamHeaderCell).relationshipDelegate = relationshipDelegate
-            (cell as! StreamHeaderCell).postbarDelegate = postbarDelegate
             (cell as! StreamHeaderCell).categoryDelegate = categoryDelegate
             (cell as! StreamHeaderCell).userDelegate = userDelegate
             (cell as! StreamHeaderCell).streamEditingDelegate = editingDelegate

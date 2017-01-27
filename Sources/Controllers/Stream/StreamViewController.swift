@@ -601,10 +601,13 @@ final class StreamViewController: BaseElloViewController {
         }
     }
 
+    override var next: UIResponder? {
+        return postbarController
+    }
+
     fileprivate func setupCollectionView() {
         let postbarController = PostbarController(collectionView: collectionView, dataSource: dataSource, presentingController: self)
         postbarController.currentUser = currentUser
-        dataSource.postbarDelegate = postbarController
         self.postbarController = postbarController
 
         let relationshipController = RelationshipController(presentingController: self)

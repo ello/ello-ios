@@ -100,10 +100,6 @@ class StreamViewControllerSpec: QuickSpec {
 
             it("sets up a postbar controller and assigns it to the datasource") {
                 expect(controller.postbarController).notTo(beNil())
-                expect(controller.dataSource.postbarDelegate).notTo(beNil())
-
-                let delegate = controller.dataSource.postbarDelegate! as! PostbarController
-                expect(delegate) === controller.postbarController
             }
 
             it("configures collectionView") {

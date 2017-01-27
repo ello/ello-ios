@@ -6,7 +6,9 @@ import Foundation
 
 
 // swiftlint:enable colon
-protocol PostbarDelegate: class {
+
+@objc
+protocol PostbarResponder: class {
     func viewsButtonTapped(_ indexPath: IndexPath)
     func commentsButtonTapped(_ cell: StreamFooterCell, imageLabelControl: ImageLabelControl)
     func deleteCommentButtonTapped(_ indexPath: IndexPath)
@@ -20,8 +22,11 @@ protocol PostbarDelegate: class {
     func watchPostTapped(_ watching: Bool, cell: StreamCreateCommentCell, indexPath: IndexPath)
 }
 
-class PostbarController: PostbarDelegate {
+class PostbarController: UIResponder, PostbarResponder {
 
+    override var canBecomeFirstResponder: Bool {
+        return true
+    }
     weak var presentingController: StreamViewController?
     var collectionView: UICollectionView
     let dataSource: StreamDataSource
@@ -39,12 +44,12 @@ class PostbarController: PostbarDelegate {
     // MARK:
 
     func viewsButtonTapped(_ indexPath: IndexPath) {
-        if let post = postForIndexPath(indexPath) {
-            Tracker.shared.viewsButtonTapped(post: post)
-            // This is a bit dirty, we should not call a method on a compositionally held
-            // controller's postTappedDelegate. Need to chat about this with the crew.
-            presentingController?.postTappedDelegate?.postTapped(post)
-        }
+        guard let post = postForIndexPath(indexPath) else { return }
+
+        Tracker.shared.viewsButtonTapped(post: post)
+        // This is a bit dirty, we should not call a method on a compositionally held
+        // controller's postTappedDelegate. Need to chat about this with the crew.
+        presentingController?.postTappedDelegate?.postTapped(post)
     }
 
     func commentsButtonTapped(_ cell: StreamFooterCell, imageLabelControl: ImageLabelControl) {
@@ -151,15 +156,17 @@ class PostbarController: PostbarDelegate {
         // This is a bit dirty, we should not call a method on a compositionally held
         // controller's createPostDelegate. Can this use the responder chain when we have
         // parameters to pass?
-        if let comment = self.commentForIndexPath(indexPath),
+        guard
+            let comment = self.commentForIndexPath(indexPath),
             let presentingController = presentingController
-        {
-            presentingController.createPostDelegate?.editComment(comment, fromController: presentingController)
-        }
+        else { return }
+
+        presentingController.createPostDelegate?.editComment(comment, fromController: presentingController)
     }
 
     func lovesButtonTapped(_ cell: StreamFooterCell?, indexPath: IndexPath) {
         guard let post = self.postForIndexPath(indexPath) else { return }
+
         cell?.lovesControl.isUserInteractionEnabled = false
 
         if post.loved { unlovePost(post, cell: cell) }
@@ -279,72 +286,76 @@ class PostbarController: PostbarDelegate {
     }
 
     func shareButtonTapped(_ indexPath: IndexPath, sourceView: UIView) {
-        if let post = dataSource.postForIndexPath(indexPath),
+        guard
+            let post = dataSource.postForIndexPath(indexPath),
             let shareLink = post.shareLink,
             let shareURL = URL(string: shareLink)
-        {
-            Tracker.shared.postShared(post)
-            let activityVC = UIActivityViewController(activityItems: [shareURL], applicationActivities: [SafariActivity()])
-            if UI_USER_INTERFACE_IDIOM() == .phone {
-                activityVC.modalPresentationStyle = .fullScreen
-                logPresentingAlert(presentingController?.readableClassName() ?? "PostbarController")
-                presentingController?.present(activityVC, animated: true) { }
-            }
-            else {
-                activityVC.modalPresentationStyle = .popover
-                activityVC.popoverPresentationController?.sourceView = sourceView
-                logPresentingAlert(presentingController?.readableClassName() ?? "PostbarController")
-                presentingController?.present(activityVC, animated: true) { }
-            }
+        else { return }
+
+        Tracker.shared.postShared(post)
+        let activityVC = UIActivityViewController(activityItems: [shareURL], applicationActivities: [SafariActivity()])
+        if UI_USER_INTERFACE_IDIOM() == .phone {
+            activityVC.modalPresentationStyle = .fullScreen
+            logPresentingAlert(presentingController?.readableClassName() ?? "PostbarController")
+            presentingController?.present(activityVC, animated: true) { }
+        }
+        else {
+            activityVC.modalPresentationStyle = .popover
+            activityVC.popoverPresentationController?.sourceView = sourceView
+            logPresentingAlert(presentingController?.readableClassName() ?? "PostbarController")
+            presentingController?.present(activityVC, animated: true) { }
         }
     }
 
     func flagCommentButtonTapped(_ indexPath: IndexPath) {
-        if let comment = commentForIndexPath(indexPath),
+        guard
+            let comment = commentForIndexPath(indexPath),
             let presentingController = presentingController
-        {
-            let flagger = ContentFlagger(
-                presentingController: presentingController,
-                flaggableId: comment.id,
-                contentType: .comment,
-                commentPostId: comment.postId
-            )
+        else { return }
 
-            flagger.displayFlaggingSheet()
-        }
+        let flagger = ContentFlagger(
+            presentingController: presentingController,
+            flaggableId: comment.id,
+            contentType: .comment,
+            commentPostId: comment.postId
+        )
+
+        flagger.displayFlaggingSheet()
     }
 
     func replyToCommentButtonTapped(_ indexPath: IndexPath) {
-        if let comment = commentForIndexPath(indexPath) {
-            // This is a bit dirty, we should not call a method on a compositionally held
-            // controller's createPostDelegate. Can this use the responder chain when we have
-            // parameters to pass?
-            if let presentingController = presentingController,
-                let atName = comment.author?.atName
-            {
-                let postId = comment.loadedFromPostId
-                presentingController.createPostDelegate?.createComment(postId, text: "\(atName) ", fromController: presentingController)
-            }
-        }
+        guard
+            let comment = commentForIndexPath(indexPath),
+            let presentingController = presentingController,
+            let atName = comment.author?.atName
+        else { return }
+
+        // This is a bit dirty, we should not call a method on a compositionally held
+        // controller's createPostDelegate. Can this use the responder chain when we have
+        // parameters to pass?
+
+        let postId = comment.loadedFromPostId
+        presentingController.createPostDelegate?.createComment(postId, text: "\(atName) ", fromController: presentingController)
     }
 
     func replyToAllButtonTapped(_ indexPath: IndexPath) {
         // This is a bit dirty, we should not call a method on a compositionally held
         // controller's createPostDelegate. Can this use the responder chain when we have
         // parameters to pass?
-        if let comment = commentForIndexPath(indexPath),
+        guard
+            let comment = commentForIndexPath(indexPath),
             let presentingController = presentingController
-        {
-            let postId = comment.loadedFromPostId
-            PostService().loadReplyAll(postId, success: { usernames in
-                let usernamesText = usernames.reduce("") { memo, username in
-                    return memo + "@\(username) "
-                }
-                presentingController.createPostDelegate?.createComment(postId, text: usernamesText, fromController: presentingController)
-            }, failure: {
-                presentingController.createCommentTapped(postId)
-            })
-        }
+        else { return }
+
+        let postId = comment.loadedFromPostId
+        PostService().loadReplyAll(postId, success: { usernames in
+            let usernamesText = usernames.reduce("") { memo, username in
+                return memo + "@\(username) "
+            }
+            presentingController.createPostDelegate?.createComment(postId, text: usernamesText, fromController: presentingController)
+        }, failure: {
+            presentingController.createCommentTapped(postId)
+        })
     }
 
     func watchPostTapped(_ watching: Bool, cell: StreamCreateCommentCell, indexPath: IndexPath) {
@@ -408,14 +419,14 @@ class PostbarController: PostbarDelegate {
     }
 
     fileprivate func appendCreateCommentItem(_ post: Post, at indexPath: IndexPath) {
-        if let currentUser = currentUser {
-            let comment = ElloComment.newCommentForPost(post, currentUser: currentUser)
-            let createCommentItem = StreamCellItem(jsonable: comment, type: .createComment)
+        guard let currentUser = currentUser else { return }
 
-            let items = [createCommentItem]
-            self.dataSource.insertStreamCellItems(items, startingIndexPath: indexPath)
-            self.collectionView.reloadData() // insertItemsAtIndexPaths([indexPath]) //
-        }
+        let comment = ElloComment.newCommentForPost(post, currentUser: currentUser)
+        let createCommentItem = StreamCellItem(jsonable: comment, type: .createComment)
+
+        let items = [createCommentItem]
+        self.dataSource.insertStreamCellItems(items, startingIndexPath: indexPath)
+        self.collectionView.reloadData() // insertItemsAtIndexPaths([indexPath]) //
     }
 
     fileprivate func commentLoadFailure(_ error: NSError, statusCode: Int?) {

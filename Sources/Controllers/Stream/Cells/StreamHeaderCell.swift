@@ -66,7 +66,7 @@ class StreamHeaderCell: UICollectionViewCell {
         get { return relationshipControl.relationshipDelegate }
         set { relationshipControl.relationshipDelegate = newValue }
     }
-    weak var postbarDelegate: PostbarDelegate?
+
     weak var userDelegate: UserDelegate?
     weak var categoryDelegate: CategoryDelegate?
     weak var streamEditingDelegate: StreamEditingDelegate?
@@ -356,7 +356,7 @@ class StreamHeaderCell: UICollectionViewCell {
             y: secondaryLabelY,
             width: categoryWidth,
             height: usernameButtonHeight
-            )
+        )
     }
 
     fileprivate func fixedItem(_ width: CGFloat) -> UIBarButtonItem {
@@ -413,7 +413,9 @@ class StreamHeaderCell: UICollectionViewCell {
 
     func postTapped(_ recognizer: UITapGestureRecognizer) {
         guard let indexPath = indexPath else { return }
-        postbarDelegate?.viewsButtonTapped(indexPath)
+
+        let responder = target(forAction: #selector(PostbarResponder.viewsButtonTapped(_:)), withSender: self) as? PostbarResponder
+        responder?.viewsButtonTapped(indexPath)
     }
 
     @IBAction func userTapped(_ sender: AvatarButton) {
@@ -434,22 +436,30 @@ class StreamHeaderCell: UICollectionViewCell {
 
     @IBAction func flagButtonTapped(_ sender: StreamFooterButton) {
         guard let indexPath = indexPath else { return }
-        postbarDelegate?.flagCommentButtonTapped(indexPath)
+
+        let responder = target(forAction: #selector(PostbarResponder.flagCommentButtonTapped(_:)), withSender: self) as? PostbarResponder
+        responder?.flagCommentButtonTapped(indexPath)
     }
 
     @IBAction func replyButtonTapped(_ sender: StreamFooterButton) {
         guard let indexPath = indexPath else { return }
-        postbarDelegate?.replyToCommentButtonTapped(indexPath)
+
+        let responder = target(forAction: #selector(PostbarResponder.replyToCommentButtonTapped(_:)), withSender: self) as? PostbarResponder
+        responder?.replyToCommentButtonTapped(indexPath)
     }
 
     @IBAction func deleteButtonTapped(_ sender: StreamFooterButton) {
         guard let indexPath = indexPath else { return }
-        postbarDelegate?.deleteCommentButtonTapped(indexPath)
+
+        let responder = target(forAction: #selector(PostbarResponder.deleteCommentButtonTapped(_:)), withSender: self) as? PostbarResponder
+        responder?.deleteCommentButtonTapped(indexPath)
     }
 
     @IBAction func editButtonTapped(_ sender: StreamFooterButton) {
         guard let indexPath = indexPath else { return }
-        postbarDelegate?.editCommentButtonTapped(indexPath)
+
+        let responder = target(forAction: #selector(PostbarResponder.editCommentButtonTapped(_:)), withSender: self) as? PostbarResponder
+        responder?.editCommentButtonTapped(indexPath)
     }
 
     @IBAction func chevronButtonTapped(_ sender: StreamFooterButton) {

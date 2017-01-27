@@ -20,7 +20,6 @@ class StreamCreateCommentCell: UICollectionViewCell {
         static let ReplyAllRightMargin: CGFloat = 5
     }
 
-    weak var delegate: PostbarDelegate?
     let avatarView = FLAnimatedImageView()
     let createCommentBackground = CreateCommentBackgroundView()
     var watchButtonHiddenConstraint: Constraint!
@@ -182,12 +181,16 @@ class StreamCreateCommentCell: UICollectionViewCell {
 
     func replyAllTapped() {
         guard let indexPath = indexPath else { return }
-        delegate?.replyToAllButtonTapped(indexPath)
+
+        let responder = target(forAction: #selector(PostbarResponder.replyToAllButtonTapped(_:)), withSender: self) as? PostbarResponder
+        responder?.replyToAllButtonTapped(indexPath)
     }
 
     func watchTapped() {
         guard let indexPath = indexPath else { return }
-        delegate?.watchPostTapped(!watching, cell: self, indexPath: indexPath)
+
+        let responder = target(forAction: #selector(PostbarResponder.watchPostTapped(_:cell:indexPath:)), withSender: self) as? PostbarResponder
+        responder?.watchPostTapped(!watching, cell: self, indexPath: indexPath)
     }
 
 }

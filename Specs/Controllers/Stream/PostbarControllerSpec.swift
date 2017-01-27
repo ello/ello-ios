@@ -63,7 +63,6 @@ class PostbarControllerSpec: QuickSpec {
 
             subject = PostbarController(collectionView: controller.collectionView, dataSource: dataSource, presentingController: controller)
             subject.currentUser = currentUser
-            dataSource.postbarDelegate = subject
 
             showController(controller)
         }

@@ -12,7 +12,6 @@ class StreamFooterCell: UICollectionViewCell {
     @IBOutlet weak var innerContentView: UIView!
 
     var commentsOpened = false
-    weak var delegate: PostbarDelegate?
     weak var streamEditingDelegate: StreamEditingDelegate?
 
     let viewsItem = ElloPostToolBarOption.views.barButtonItem()
@@ -179,12 +178,15 @@ class StreamFooterCell: UICollectionViewCell {
 
     @IBAction func viewsButtonTapped() {
         guard let indexPath = indexPath else { return }
-        delegate?.viewsButtonTapped(indexPath)
+
+        let responder = target(forAction: #selector(PostbarResponder.viewsButtonTapped(_:)), withSender: self) as? PostbarResponder
+        responder?.viewsButtonTapped(indexPath)
     }
 
     @IBAction func commentsButtonTapped() {
         commentsOpened = !commentsOpened
-        delegate?.commentsButtonTapped(self, imageLabelControl: commentsControl)
+        let responder = target(forAction: #selector(PostbarResponder.commentsButtonTapped(_:imageLabelControl:)), withSender: self) as? PostbarResponder
+        responder?.commentsButtonTapped(self, imageLabelControl: commentsControl)
     }
 
     func cancelCommentLoading() {
@@ -196,25 +198,31 @@ class StreamFooterCell: UICollectionViewCell {
 
     @IBAction func lovesButtonTapped() {
         guard let indexPath = indexPath else { return }
-        delegate?.lovesButtonTapped(self, indexPath: indexPath)
+
+        let responder = target(forAction: #selector(PostbarResponder.lovesButtonTapped(_:indexPath:)), withSender: self) as? PostbarResponder
+        responder?.lovesButtonTapped(self, indexPath: indexPath)
     }
 
     @IBAction func repostButtonTapped() {
         guard let indexPath = indexPath else { return }
-        delegate?.repostButtonTapped(indexPath)
+
+        let responder = target(forAction: #selector(PostbarResponder.repostButtonTapped(_:)), withSender: self) as? PostbarResponder
+        responder?.repostButtonTapped(indexPath)
     }
 
     @IBAction func shareButtonTapped() {
         guard let indexPath = indexPath else { return }
-        delegate?.shareButtonTapped(indexPath, sourceView: shareControl)
+
+        let responder = target(forAction: #selector(PostbarResponder.shareButtonTapped(_:sourceView:)), withSender: self) as? PostbarResponder
+        responder?.shareButtonTapped(indexPath, sourceView: shareControl)
     }
 
     @IBAction func replyButtonTapped() {
     }
 
     @IBAction func longPressed(_ gesture: UIGestureRecognizer) {
-        if gesture.state == .began {
-            streamEditingDelegate?.cellLongPressed(cell: self)
-        }
+        guard gesture.state == .began else { return }
+
+        streamEditingDelegate?.cellLongPressed(cell: self)
     }
 }
