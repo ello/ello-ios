@@ -39,7 +39,6 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
     let imageSizeCalculator: StreamImageCellSizeCalculator
 
     weak var createPostDelegate: CreatePostDelegate?
-    weak var notificationDelegate: NotificationDelegate?
     weak var webLinkDelegate: WebLinkDelegate?
     weak var imageDelegate: StreamImageCellDelegate?
     weak var categoryDelegate: CategoryDelegate?
@@ -356,7 +355,6 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
             (cell as! NotificationCell).relationshipControl.relationshipDelegate = relationshipDelegate
             (cell as! NotificationCell).webLinkDelegate = webLinkDelegate
             (cell as! NotificationCell).userDelegate = userDelegate
-            (cell as! NotificationCell).delegate = notificationDelegate
         case .profileHeader:
             (cell as! ProfileHeaderCell).webLinkDelegate = webLinkDelegate
         case .search:

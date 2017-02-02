@@ -177,10 +177,6 @@ final class StreamViewController: BaseElloViewController {
         get { return dataSource.searchStreamDelegate }
         set { dataSource.searchStreamDelegate = newValue }
     }
-    var notificationDelegate: NotificationDelegate? {
-        get { return dataSource.notificationDelegate }
-        set { dataSource.notificationDelegate = newValue }
-    }
 
     var streamFilter: StreamDataSource.StreamFilter {
         get { return dataSource.streamFilter }
@@ -604,6 +600,10 @@ final class StreamViewController: BaseElloViewController {
 
     override var next: UIResponder? {
         return postbarController
+    }
+
+    var nextAfterPostbar: UIResponder? {
+        return super.next
     }
 
     fileprivate func setupCollectionView() {
