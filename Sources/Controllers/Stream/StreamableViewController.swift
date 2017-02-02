@@ -21,8 +21,9 @@ protocol CreatePostDelegate: class {
 }
 
 @objc
-protocol InviteResponder: NSObjectProtocol {
+protocol InviteResponder: class {
     func onInviteFriends()
+    func sendInvite(person: LocalPerson, isOnboarding: Bool, didUpdate: @escaping ElloEmptyCompletion)
 }
 
 class StreamableViewController: BaseElloViewController, PostTappedDelegate {
@@ -309,4 +310,26 @@ extension StreamableViewController: InviteResponder {
         })
     }
 
+    func sendInvite(person: LocalPerson, isOnboarding: Bool, didUpdate: @escaping ElloEmptyCompletion) {
+        guard let email = person.emails.first else { return }
+
+        if isOnboarding {
+            Tracker.shared.onboardingFriendInvited()
+        }
+        else {
+            Tracker.shared.friendInvited()
+        }
+        ElloHUD.showLoadingHudInView(view)
+        InviteService().invite(email,
+            success: { [weak self] in
+                guard let `self` = self else { return }
+                ElloHUD.hideLoadingHudInView(self.view)
+                didUpdate()
+            },
+            failure: { [weak self] _ in
+                guard let `self` = self else { return }
+                ElloHUD.hideLoadingHudInView(self.view)
+                didUpdate()
+            })
+    }
 }

@@ -46,7 +46,6 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
     weak var relationshipDelegate: RelationshipDelegate?
     weak var simpleStreamDelegate: SimpleStreamDelegate?
     weak var searchStreamDelegate: SearchStreamDelegate?
-    weak var inviteDelegate: InviteDelegate?
     weak var categoryListCellDelegate: CategoryListCellDelegate?
     weak var announcementCellDelegate: AnnouncementCellDelegate?
     var inviteCache = InviteCache()
@@ -349,7 +348,6 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
         case .image:
             (cell as! StreamImageCell).streamImageCellDelegate = imageDelegate
         case .inviteFriends, .onboardingInviteFriends:
-            (cell as! StreamInviteFriendsCell).inviteDelegate = inviteDelegate
             (cell as! StreamInviteFriendsCell).inviteCache = inviteCache
         case .notification:
             (cell as! NotificationCell).relationshipControl.relationshipDelegate = relationshipDelegate
