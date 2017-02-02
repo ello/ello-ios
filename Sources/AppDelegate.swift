@@ -8,6 +8,7 @@ import TimeAgoInWords
 import PINRemoteImage
 import PINCache
 import ElloUIFonts
+import Proxeine
 
 
 @UIApplicationMain
@@ -18,6 +19,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        CaffeineHTTPProxy.allow("https://ello.ninja/*")
+        CaffeineHTTPProxy.allow("https://ello.co/*")
+        CaffeineHTTPProxy.deny(.HEAD)
+        CaffeineHTTPProxy.start()
+
         Keyboard.setup()
         Rate.sharedRate.setup()
         AutoCompleteService.loadEmojiJSON("emojis")
