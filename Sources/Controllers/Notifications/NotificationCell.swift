@@ -6,7 +6,8 @@ import FLAnimatedImage
 import TimeAgoInWords
 
 
-protocol NotificationDelegate: class {
+@objc
+protocol NotificationResponder: class {
     func userTapped(_ user: User)
     func commentTapped(_ comment: ElloComment)
     func postTapped(_ post: Post)
@@ -55,7 +56,6 @@ class NotificationCell: UICollectionViewCell, UIWebViewDelegate {
 
     weak var webLinkDelegate: WebLinkDelegate?
     weak var userDelegate: UserDelegate?
-    weak var delegate: NotificationDelegate?
     var webContentReady: WebContentReady?
     var onHeightMismatch: OnHeightMismatch?
 
@@ -343,11 +343,14 @@ extension NotificationCell: ElloTextViewDelegate {
     func textViewTapped(_ link: String, object: ElloAttributedObject) {
         switch object {
         case let .attributedPost(post):
-            delegate?.postTapped(post)
+            let responder = target(forAction: #selector(NotificationResponder.postTapped(_:)), withSender: self) as? NotificationResponder
+            responder?.postTapped(post)
         case let .attributedComment(comment):
-            delegate?.commentTapped(comment)
+            let responder = target(forAction: #selector(NotificationResponder.commentTapped(_:)), withSender: self) as? NotificationResponder
+            responder?.commentTapped(comment)
         case let .attributedUser(user):
-            delegate?.userTapped(user)
+            let responder = target(forAction: #selector(NotificationResponder.userTapped(_:)), withSender: self) as? NotificationResponder
+            responder?.userTapped(user)
         default: break
         }
     }
@@ -361,10 +364,12 @@ extension NotificationCell {
 
     func replyTapped() {
         if let post = post {
-            delegate?.postTapped(post)
+            let responder = target(forAction: #selector(NotificationResponder.postTapped(_:)), withSender: self) as? NotificationResponder
+            responder?.postTapped(post)
         }
         else if let comment = comment {
-            delegate?.commentTapped(comment)
+            let responder = target(forAction: #selector(NotificationResponder.commentTapped(_:)), withSender: self) as? NotificationResponder
+            responder?.commentTapped(comment)
         }
     }
 
