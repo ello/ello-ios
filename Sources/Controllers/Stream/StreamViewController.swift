@@ -15,7 +15,8 @@ protocol SimpleStreamDelegate: class {
     func showSimpleStream(endpoint: ElloAPI, title: String, noResultsMessages: (title: String, body: String)?)
 }
 
-protocol StreamImageCellDelegate: class {
+@objc
+protocol StreamImageCellResponder: class {
     func imageTapped(imageView: FLAnimatedImageView, cell: StreamImageCell)
 }
 
@@ -613,7 +614,7 @@ final class StreamViewController: BaseElloViewController {
         self.relationshipController = relationshipController
 
         // set delegates
-        dataSource.imageDelegate = self
+        dataSource.inviteDelegate = self
         dataSource.simpleStreamDelegate = self
         dataSource.categoryDelegate = self
         dataSource.userDelegate = self
@@ -849,8 +850,8 @@ extension StreamViewController: StreamEditingResponder {
     }
 }
 
-// MARK: StreamViewController: StreamImageCellDelegate
-extension StreamViewController: StreamImageCellDelegate {
+// MARK: StreamViewController: StreamImageCellResponder
+extension StreamViewController: StreamImageCellResponder {
     func imageTapped(imageView: FLAnimatedImageView, cell: StreamImageCell) {
         let indexPath = collectionView.indexPath(for: cell)
         let post = indexPath.flatMap(dataSource.postForIndexPath)
