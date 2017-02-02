@@ -27,6 +27,11 @@ class PostbarController: UIResponder, PostbarResponder {
     override var canBecomeFirstResponder: Bool {
         return true
     }
+
+    override var next: UIResponder? {
+        return presentingController?.nextAfterPostbar
+    }
+
     weak var presentingController: StreamViewController?
     var collectionView: UICollectionView
     let dataSource: StreamDataSource

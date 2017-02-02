@@ -601,6 +601,10 @@ final class StreamViewController: BaseElloViewController {
         return postbarController
     }
 
+    var nextAfterPostbar: UIResponder? {
+        return super.next
+    }
+
     fileprivate func setupCollectionView() {
         let postbarController = PostbarController(collectionView: collectionView, dataSource: dataSource, presentingController: self)
         postbarController.currentUser = currentUser
