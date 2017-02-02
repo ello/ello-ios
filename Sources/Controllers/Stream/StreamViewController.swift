@@ -22,7 +22,8 @@ protocol StreamImageCellDelegate: class {
     func imageTapped(imageView: FLAnimatedImageView, cell: StreamImageCell)
 }
 
-protocol StreamEditingDelegate: class {
+@objc
+protocol StreamEditingResponder: class {
     func cellDoubleTapped(cell: UICollectionViewCell, location: CGPoint)
     func cellLongPressed(cell: UICollectionViewCell)
 }
@@ -616,7 +617,6 @@ final class StreamViewController: BaseElloViewController {
 
         // set delegates
         dataSource.imageDelegate = self
-        dataSource.editingDelegate = self
         dataSource.inviteDelegate = self
         dataSource.simpleStreamDelegate = self
         dataSource.categoryDelegate = self
@@ -824,51 +824,53 @@ extension StreamViewController: StreamCollectionViewLayoutDelegate {
     }
 }
 
-// MARK: StreamViewController: StreamEditingDelegate
-extension StreamViewController: StreamEditingDelegate {
+// MARK: StreamViewController: StreamEditingResponder
+extension StreamViewController: StreamEditingResponder {
     func cellDoubleTapped(cell: UICollectionViewCell, location: CGPoint) {
-        if let path = collectionView.indexPath(for: cell),
+        guard let path = collectionView.indexPath(for: cell),
             let post = dataSource.postForIndexPath(path),
-            let footerPath = dataSource.footerIndexPathForPost(post)
-        {
-            guard post.author?.hasLovesEnabled == true else { return }
+            let footerPath = dataSource.footerIndexPathForPost(post),
+            post.author?.hasLovesEnabled == true
+        else { return }
 
-            if let window = cell.window {
-                let fullDuration: TimeInterval = 0.4
-                let halfDuration: TimeInterval = fullDuration / 2
+        if let window = cell.window {
+            let fullDuration: TimeInterval = 0.4
+            let halfDuration: TimeInterval = fullDuration / 2
 
-                let imageView = UIImageView(image: InterfaceImage.giantHeart.normalImage)
-                imageView.contentMode = .scaleAspectFit
-                imageView.frame = window.bounds
-                imageView.center = location
-                imageView.alpha = 0
-                imageView.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
-                let grow: () -> Void = { imageView.transform = CGAffineTransform(scaleX: 1, y: 1) }
-                let remove: (Bool) -> Void = { _ in imageView.removeFromSuperview() }
-                let fadeIn: () -> Void = { imageView.alpha = 0.5 }
-                let fadeOut: (Bool) -> Void = { _ in animate(duration: halfDuration, completion: remove) { imageView.alpha = 0 } }
-                animate(duration: halfDuration, completion: fadeOut, animations: fadeIn)
-                animate(duration: fullDuration, completion: remove, animations: grow)
-                window.addSubview(imageView)
-            }
+            let imageView = UIImageView(image: InterfaceImage.giantHeart.normalImage)
+            imageView.contentMode = .scaleAspectFit
+            imageView.frame = window.bounds
+            imageView.center = location
+            imageView.alpha = 0
+            imageView.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
+            let grow: () -> Void = { imageView.transform = CGAffineTransform(scaleX: 1, y: 1) }
+            let remove: (Bool) -> Void = { _ in imageView.removeFromSuperview() }
+            let fadeIn: () -> Void = { imageView.alpha = 0.5 }
+            let fadeOut: (Bool) -> Void = { _ in animate(duration: halfDuration, completion: remove) { imageView.alpha = 0 } }
+            animate(duration: halfDuration, completion: fadeOut, animations: fadeIn)
+            animate(duration: fullDuration, completion: remove, animations: grow)
+            window.addSubview(imageView)
+        }
 
-            if !post.loved {
-                let footerCell = collectionView.cellForItem(at: footerPath) as? StreamFooterCell
-                postbarController?.lovesButtonTapped(footerCell, indexPath: footerPath)
-            }
+        if !post.loved {
+            let footerCell = collectionView.cellForItem(at: footerPath) as? StreamFooterCell
+            postbarController?.lovesButtonTapped(footerCell, indexPath: footerPath)
         }
     }
 
     func cellLongPressed(cell: UICollectionViewCell) {
-        if let indexPath = collectionView.indexPath(for: cell),
-            let post = dataSource.postForIndexPath(indexPath),
-            let currentUser = currentUser, currentUser.isOwn(post: post)
+        guard
+            let indexPath = collectionView.indexPath(for: cell),
+            let currentUser = currentUser
+        else { return }
+
+        if let post = dataSource.postForIndexPath(indexPath),
+            currentUser.isOwn(post: post)
         {
             createPostDelegate?.editPost(post, fromController: self)
         }
-        else if let indexPath = collectionView.indexPath(for: cell),
-            let comment = dataSource.commentForIndexPath(indexPath),
-            let currentUser = currentUser, currentUser.isOwn(comment: comment)
+        else if let comment = dataSource.commentForIndexPath(indexPath),
+            currentUser.isOwn(comment: comment)
         {
             createPostDelegate?.editComment(comment, fromController: self)
         }
