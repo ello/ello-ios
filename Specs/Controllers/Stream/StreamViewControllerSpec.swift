@@ -482,6 +482,12 @@ class StreamViewControllerSpec: QuickSpec {
                     }
                 }
             }
+
+            context("responder chain") {
+                it("reassigns next responder to PostbarController") {
+                    expect(controller.next) === controller.postbarController
+                }
+            }
         }
     }
 }

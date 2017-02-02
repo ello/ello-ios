@@ -244,6 +244,12 @@ class PostbarControllerSpec: QuickSpec {
                     }
                 }
             }
+
+            context("responder chain") {
+                it("reassigns next responder to StreamViewController's super.next") {
+                    expect(subject.next).to(beAKindOf(UIView.self))
+                }
+            }
         }
     }
 }
