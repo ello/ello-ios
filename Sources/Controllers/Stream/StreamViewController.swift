@@ -88,9 +88,9 @@ struct StreamNotification {
 class NoResultsMessages: NSObject {
     let title: String
     let body: String
-    init(title: String?, body: String?) {
-        self.title = title ?? ""
-        self.body = body ?? ""
+    init(title: String, body: String) {
+        self.title = title
+        self.body = body
     }
 }
 
