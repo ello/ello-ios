@@ -9,10 +9,7 @@ import SwiftyUserDefaults
 import DeltaCalculator
 
 
-// MARK: Delegate Implementations
-protocol InviteDelegate: class {
-    func sendInvite(person: LocalPerson, isOnboarding: Bool, didUpdate: @escaping ElloEmptyCompletion)
-}
+// MARK: Responder Implementations
 
 protocol SimpleStreamDelegate: class {
     func showSimpleStream(endpoint: ElloAPI, title: String, noResultsMessages: (title: String, body: String)?)
@@ -617,7 +614,6 @@ final class StreamViewController: BaseElloViewController {
 
         // set delegates
         dataSource.imageDelegate = self
-        dataSource.inviteDelegate = self
         dataSource.simpleStreamDelegate = self
         dataSource.categoryDelegate = self
         dataSource.userDelegate = self
@@ -682,30 +678,6 @@ final class StreamViewController: BaseElloViewController {
 
 // MARK: DELEGATE EXTENSIONS
 
-// MARK: StreamViewController: InviteDelegate
-extension StreamViewController: InviteDelegate {
-
-    func sendInvite(person: LocalPerson, isOnboarding: Bool, didUpdate: @escaping ElloEmptyCompletion) {
-        guard let email = person.emails.first else { return }
-
-        if isOnboarding {
-            Tracker.shared.onboardingFriendInvited()
-        }
-        else {
-            Tracker.shared.friendInvited()
-        }
-        ElloHUD.showLoadingHudInView(view)
-        InviteService().invite(email,
-            success: {
-                ElloHUD.hideLoadingHudInView(self.view)
-                didUpdate()
-            },
-            failure: { _ in
-                ElloHUD.hideLoadingHudInView(self.view)
-                didUpdate()
-            })
-    }
-}
 
 // MARK: StreamViewController: GridListToggleDelegate
 extension StreamViewController: GridListToggleDelegate {
