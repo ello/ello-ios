@@ -11,8 +11,9 @@ import DeltaCalculator
 
 // MARK: Responder Implementations
 
-protocol SimpleStreamDelegate: class {
-    func showSimpleStream(endpoint: ElloAPI, title: String, noResultsMessages: (title: String, body: String)?)
+@objc
+protocol SimpleStreamResponder: class {
+    func showSimpleStream(boxedEndpoint: BoxedElloAPI, title: String, noResultsMessages: NoResultsMessages?)
 }
 
 @objc
@@ -82,6 +83,17 @@ struct StreamNotification {
     static let UpdateCellHeightNotification = TypedNotification<UICollectionViewCell>(name: "UpdateCellHeightNotification")
 }
 
+// This is an NSObject in order to pass it as an
+// objective-c argument to a responder chain call
+class NoResultsMessages: NSObject {
+    let title: String
+    let body: String
+    init(title: String?, body: String?) {
+        self.title = title ?? ""
+        self.body = body ?? ""
+    }
+}
+
 // MARK: StreamViewController
 final class StreamViewController: BaseElloViewController {
     override func trackerName() -> String? { return nil }
@@ -93,7 +105,7 @@ final class StreamViewController: BaseElloViewController {
 
     var currentJSONables = [JSONAble]()
 
-    var noResultsMessages = (title: "", body: "") {
+    var noResultsMessages: NoResultsMessages = NoResultsMessages(title: "", body: "") {
         didSet {
             let titleParagraphStyle = NSMutableParagraphStyle()
             titleParagraphStyle.lineSpacing = 17
@@ -614,7 +626,6 @@ final class StreamViewController: BaseElloViewController {
         self.relationshipController = relationshipController
 
         // set delegates
-        dataSource.simpleStreamDelegate = self
         dataSource.categoryDelegate = self
         dataSource.userDelegate = self
         dataSource.webLinkDelegate = self
@@ -736,10 +747,11 @@ extension StreamViewController: CategoryListCellDelegate {
 
 }
 
-// MARK: StreamViewController: SimpleStreamDelegate
-extension StreamViewController: SimpleStreamDelegate {
-    func showSimpleStream(endpoint: ElloAPI, title: String, noResultsMessages: (title: String, body: String)? = nil ) {
-        let vc = SimpleStreamViewController(endpoint: endpoint, title: title)
+// MARK: StreamViewController: SimpleStreamResponder
+extension StreamViewController: SimpleStreamResponder {
+
+    func showSimpleStream(boxedEndpoint: BoxedElloAPI, title: String, noResultsMessages: NoResultsMessages? = nil) {
+        let vc = SimpleStreamViewController(endpoint: boxedEndpoint.endpoint, title: title)
         vc.currentUser = currentUser
         if let messages = noResultsMessages {
             vc.streamViewController.noResultsMessages = messages
@@ -750,6 +762,7 @@ extension StreamViewController: SimpleStreamDelegate {
 
 // MARK: StreamViewController: SSPullToRefreshViewDelegate
 extension StreamViewController: SSPullToRefreshViewDelegate {
+
     func pull(toRefreshViewShouldStartLoading view: SSPullToRefreshView!) -> Bool {
         return pullToRefreshEnabled
     }

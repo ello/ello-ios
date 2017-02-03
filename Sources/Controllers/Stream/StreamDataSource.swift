@@ -43,7 +43,6 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
     weak var categoryDelegate: CategoryDelegate?
     weak var userDelegate: UserDelegate?
     weak var relationshipDelegate: RelationshipDelegate?
-    weak var simpleStreamDelegate: SimpleStreamDelegate?
     weak var searchStreamDelegate: SearchStreamDelegate?
     weak var categoryListCellDelegate: CategoryListCellDelegate?
     weak var announcementCellDelegate: AnnouncementCellDelegate?
@@ -358,7 +357,6 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
             (cell as! StreamTextCell).webLinkDelegate = webLinkDelegate
             (cell as! StreamTextCell).userDelegate = userDelegate
         case .userAvatars:
-            (cell as! UserAvatarsCell).simpleStreamDelegate = simpleStreamDelegate
             (cell as! UserAvatarsCell).userDelegate = userDelegate
         case .userListItem:
             (cell as! UserListItemCell).relationshipControl.relationshipDelegate = relationshipDelegate

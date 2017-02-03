@@ -384,7 +384,12 @@ extension ProfileViewController: ProfileHeaderResponder {
             noResultsTitle = InterfaceString.Loves.NoResultsTitle
             noResultsBody = InterfaceString.Loves.NoResultsBody
         }
-        streamViewController.showSimpleStream(endpoint: .loves(userId: user.id), title: InterfaceString.Loves.Title, noResultsMessages: (title: noResultsTitle, body: noResultsBody))
+
+        streamViewController.showSimpleStream(
+            boxedEndpoint: BoxedElloAPI(endpoint: .loves(userId: user.id)),
+            title: InterfaceString.Loves.Title,
+            noResultsMessages: NoResultsMessages(title: noResultsTitle, body: noResultsBody)
+        )
     }
 
     func onFollowersTapped(_ cell: UICollectionViewCell) {
@@ -400,7 +405,12 @@ extension ProfileViewController: ProfileHeaderResponder {
             noResultsTitle = InterfaceString.Followers.NoResultsTitle
             noResultsBody = InterfaceString.Followers.NoResultsBody
         }
-        streamViewController.showSimpleStream(endpoint: .userStreamFollowers(userId: user.id), title: InterfaceString.Followers.Title, noResultsMessages: (title: noResultsTitle, body: noResultsBody))
+
+        streamViewController.showSimpleStream(
+            boxedEndpoint: BoxedElloAPI(endpoint: .userStreamFollowers(userId: user.id)),
+            title: InterfaceString.Followers.Title,
+            noResultsMessages: NoResultsMessages(title: noResultsTitle, body: noResultsBody)
+        )
     }
 
     func onFollowingTapped(_ cell: UICollectionViewCell) {
@@ -416,7 +426,12 @@ extension ProfileViewController: ProfileHeaderResponder {
             noResultsTitle = InterfaceString.Following.NoResultsTitle
             noResultsBody = InterfaceString.Following.NoResultsBody
         }
-        streamViewController.showSimpleStream(endpoint: .userStreamFollowing(userId: user.id), title: InterfaceString.Following.Title, noResultsMessages: (title: noResultsTitle, body: noResultsBody))
+
+        streamViewController.showSimpleStream(
+            boxedEndpoint: BoxedElloAPI(endpoint: .userStreamFollowing(userId: user.id)),
+            title: InterfaceString.Following.Title,
+            noResultsMessages: NoResultsMessages(title: noResultsTitle, body: noResultsBody)
+        )
     }}
 
 

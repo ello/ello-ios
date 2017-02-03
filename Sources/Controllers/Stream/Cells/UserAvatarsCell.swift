@@ -25,7 +25,6 @@ class UserAvatarsCell: UICollectionViewCell {
         }
     }
     weak var userDelegate: UserDelegate?
-    weak var simpleStreamDelegate: SimpleStreamDelegate?
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -64,17 +63,22 @@ class UserAvatarsCell: UICollectionViewCell {
     }
 
     @IBAction func seeMoreTapped(_ sender: UIButton) {
-        if let model = userAvatarCellModel, let endpoint = model.endpoint {
-            simpleStreamDelegate?.showSimpleStream(endpoint: endpoint, title: model.seeMoreTitle, noResultsMessages: nil)
-        }
+        guard
+            let model = userAvatarCellModel,
+            let endpoint = model.endpoint
+        else { return }
+
+        let responder = target(forAction: #selector(SimpleStreamResponder.showSimpleStream(boxedEndpoint:title:noResultsMessages:)), withSender: self) as? SimpleStreamResponder
+        responder?.showSimpleStream(boxedEndpoint: BoxedElloAPI(endpoint: endpoint), title: model.seeMoreTitle, noResultsMessages: nil)
     }
 
     @IBAction func avatarTapped(_ sender: AvatarButton) {
-        if let index = avatarButtons.index(of: sender) {
-            if users.count > index {
-                let user = users[index]
-                userDelegate?.userTapped(user: user)
-            }
-        }
+        guard
+            let index = avatarButtons.index(of: sender),
+            users.count > index
+        else { return }
+
+        let user = users[index]
+        userDelegate?.userTapped(user: user)
     }
 }

@@ -151,7 +151,7 @@ class DynamicSettingsViewController: UITableViewController {
                 let controller = SimpleStreamViewController(endpoint: .currentUserBlockedList, title: InterfaceString.Settings.BlockedTitle)
                 let noResultsTitle = InterfaceString.Relationship.BlockedNoResultsTitle
                 let noResultsBody = InterfaceString.Relationship.BlockedNoResultsBody
-                controller.streamViewController.noResultsMessages = (title: noResultsTitle, body: noResultsBody)
+                controller.streamViewController.noResultsMessages = NoResultsMessages(title: noResultsTitle, body: noResultsBody)
                 controller.currentUser = currentUser
                 navigationController?.pushViewController(controller, animated: true)
             }
@@ -160,7 +160,7 @@ class DynamicSettingsViewController: UITableViewController {
                 let controller = SimpleStreamViewController(endpoint: .currentUserMutedList, title: InterfaceString.Settings.MutedTitle)
                 let noResultsTitle = InterfaceString.Relationship.MutedNoResultsTitle
                 let noResultsBody = InterfaceString.Relationship.MutedNoResultsBody
-                controller.streamViewController.noResultsMessages = (title: noResultsTitle, body: noResultsBody)
+                controller.streamViewController.noResultsMessages = NoResultsMessages(title: noResultsTitle, body: noResultsBody)
                 controller.currentUser = currentUser
                 navigationController?.pushViewController(controller, animated: true)
             }
