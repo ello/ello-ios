@@ -42,7 +42,6 @@ class StreamImageCell: StreamRegionableCell {
     @IBOutlet weak var largeImagePlayButton: UIImageView?
     @IBOutlet weak var imageRightConstraint: NSLayoutConstraint!
 
-    weak var streamImageCellDelegate: StreamImageCellDelegate?
     var isGif = false
     var onHeightMismatch: OnHeightMismatch?
     var tallEnoughForFailToShow = true
@@ -271,7 +270,9 @@ class StreamImageCell: StreamRegionableCell {
     }
 
     @IBAction func imageTapped() {
-        streamImageCellDelegate?.imageTapped(imageView: self.imageView, cell: self)
+        let responder = target(forAction: #selector(StreamImageCellResponder.imageTapped(imageView:cell:)), withSender: self) as? StreamImageCellResponder
+
+        responder?.imageTapped(imageView: imageView, cell: self)
     }
 
     @IBAction func buyButtonTapped() {
