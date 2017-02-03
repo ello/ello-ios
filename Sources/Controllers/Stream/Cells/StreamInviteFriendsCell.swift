@@ -43,7 +43,7 @@ class StreamInviteFriendsCell: UICollectionViewCell {
 
     @IBAction func invite() {
         guard let person = person else { return }
-        let responder = target(forAction: #selector(InviteResponder.sendInvite(person:isOnboarding:didUpdate:)), withSender: self) as? InviteResponder
+        let responder = target(forAction: #selector(InviteResponder.sendInvite(person:isOnboarding:completion:)), withSender: self) as? InviteResponder
         responder?.sendInvite(person: person, isOnboarding: isOnboarding) { [weak self] in
             guard let `self` = self else { return }
             self.inviteCache?.saveInvite(person.identifier)

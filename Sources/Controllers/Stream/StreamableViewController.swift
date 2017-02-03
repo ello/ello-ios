@@ -23,7 +23,7 @@ protocol CreatePostDelegate: class {
 @objc
 protocol InviteResponder: class {
     func onInviteFriends()
-    func sendInvite(person: LocalPerson, isOnboarding: Bool, didUpdate: @escaping ElloEmptyCompletion)
+    func sendInvite(person: LocalPerson, isOnboarding: Bool, completion: @escaping ElloEmptyCompletion)
 }
 
 class StreamableViewController: BaseElloViewController, PostTappedDelegate {
@@ -310,7 +310,7 @@ extension StreamableViewController: InviteResponder {
         })
     }
 
-    func sendInvite(person: LocalPerson, isOnboarding: Bool, didUpdate: @escaping ElloEmptyCompletion) {
+    func sendInvite(person: LocalPerson, isOnboarding: Bool, completion: @escaping ElloEmptyCompletion) {
         guard let email = person.emails.first else { return }
 
         if isOnboarding {
@@ -324,12 +324,12 @@ extension StreamableViewController: InviteResponder {
             success: { [weak self] in
                 guard let `self` = self else { return }
                 ElloHUD.hideLoadingHudInView(self.view)
-                didUpdate()
+                completion()
             },
             failure: { [weak self] _ in
                 guard let `self` = self else { return }
                 ElloHUD.hideLoadingHudInView(self.view)
-                didUpdate()
+                completion()
             })
     }
 }
