@@ -614,7 +614,6 @@ final class StreamViewController: BaseElloViewController {
         self.relationshipController = relationshipController
 
         // set delegates
-        dataSource.inviteDelegate = self
         dataSource.simpleStreamDelegate = self
         dataSource.categoryDelegate = self
         dataSource.userDelegate = self
