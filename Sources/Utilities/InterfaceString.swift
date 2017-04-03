@@ -80,7 +80,7 @@ struct InterfaceString {
         static let Version: String = {
             let marketingVersion: String
             let buildVersion: String
-            if AppSetup.sharedState.isSimulator {
+            if AppSetup.sharedState.isTesting {
                 marketingVersion = "SPECS"
                 buildVersion = "specs"
             }

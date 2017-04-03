@@ -43,21 +43,11 @@ class DebugController: UIViewController, UITableViewDataSource, UITableViewDeleg
         actions.append((name, block))
     }
 
-    var marketingVersion = ""
-    var buildVersion = ""
-
     override func viewDidLoad() {
-        if let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
-            marketingVersion = version.replacingOccurrences(of: ".", with: "-")
-        }
-
-        if let bundleVersion = Bundle.main.infoDictionary?["CFBundleVersion"] as? String {
-            buildVersion = bundleVersion.replacingOccurrences(of: ".", with: "-")
-        }
-
         let appController = UIApplication.shared.keyWindow!.rootViewController as! AppViewController
         let debugServer = DebugServer.fromDefaults
 
+        addAction(name: InterfaceString.Drawer.Version) {}
         addAction(name: "Server: using \(debugServer?.rawValue ?? "Production")") {
             let alertController = AlertViewController(message: "What server do you want to use:")
 
