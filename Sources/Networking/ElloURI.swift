@@ -168,6 +168,18 @@ enum ElloURI: String {
         if path.hasPrefix("ello://") {
             return path.replacingOccurrences(of: "ello://", with: "\(baseURL)/")
         }
+        if let url = NSURLComponents(string: path),
+            items = url.queryItems
+            where path.contains("native_redirect")
+        {
+            for item in items {
+                if let value = item.value
+                    where item.name == "target"
+                {
+                    return value
+                }
+            }
+        }
         return path
     }
 

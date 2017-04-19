@@ -274,6 +274,20 @@ class ElloURISpec: QuickSpec {
                     }
                 }
 
+                describe("with native_redirect urls") {
+                    it("matches with https://ello.co/native_redirect?target=https%3A%2F%2Fello.co%2Felloblog") {
+                        let (type, data) = ElloURI.match("https://ello.co/native_redirect?target=https%3A%2F%2Fello.co%2Felloblog")
+                        expect(type).to(equal(ElloURI.Profile))
+                        expect(data).to(equal("elloblog"))
+                    }
+
+                    it("matches with https://ello.co/native_redirect?target=https%3A%2F%2Fello.co%2Felloblog%2Fpost%2F123") {
+                        let (type, data) = ElloURI.match("https://ello.co/native_redirect?target=https%3A%2F%2Fello.co%2Felloblog%2Fpost%2F123")
+                        expect(type).to(equal(ElloURI.Post))
+                        expect(data).to(equal("123"))
+                    }
+                }
+
                 describe("known ello root routes") {
                     let tests: [String: (input: String, output: ElloURI)] = [
                         "with Confirm urls": (input: "confirm", output: .confirm),
