@@ -187,7 +187,8 @@ class OmnibarViewControllerSpec: QuickSpec {
                         expect(screen.interactionEnabled) == false
                     }
 
-                    it("enables interaction after submitting the post") {
+                    // Marked pending because this spec sometimes takes minutes to run
+                    xit("enables interaction after submitting the post") {
                         let text = NSAttributedString(string: "test")
                         let regions = [OmnibarRegion.attributedText(text)]
 
