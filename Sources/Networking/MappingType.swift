@@ -14,6 +14,7 @@ enum MappingType: String {
     case categoriesType = "categories"
     case commentsType = "comments"
     case dynamicSettingsType = "settings"
+    case editorials = "editorials"
     case errorType = "error"
     case errorsType = "errors"
     case lovesType = "loves"
@@ -46,6 +47,8 @@ enum MappingType: String {
             return ElloComment.fromJSON
         case .dynamicSettingsType:
             return DynamicSettingCategory.fromJSON
+        case .editorials:
+            return Editorial.fromJSON
         case .errorType:
             return ElloNetworkError.fromJSON
         case .errorsType:

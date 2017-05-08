@@ -37,6 +37,7 @@ enum ElloAPI {
     case deleteSubscriptions(token: Data)
     case deleteWatchPost(postId: String)
     case discover(type: DiscoverType)
+    case editorials
     case emojiAutoComplete(terms: String)
     case findFriends(contacts: [String: [String]])
     case flagComment(postId: String, commentId: String, kind: String)
@@ -132,6 +133,8 @@ enum ElloAPI {
         case .categories,
              .category:
             return .categoriesType
+        case .editorials:
+            return .editorials
         case .pagePromotionals:
             return .pagePromotionalsType
         case .postReplyAll:
@@ -308,10 +311,12 @@ extension ElloAPI: Moya.TargetType {
              .auth,
              .reAuth:
             return "/api/oauth/token"
+        case .editorials:
+            return "/api/\(ElloAPI.apiVersion)/editorials"
         case .resetPassword:
-            return "/api/v2/reset_password"
+            return "/api/\(ElloAPI.apiVersion)/reset_password"
         case .requestPasswordReset:
-            return "/api/v2/forgot-password"
+            return "/api/\(ElloAPI.apiVersion)/forgot-password"
         case .availability:
             return "/api/\(ElloAPI.apiVersion)/availability"
         case let .commentDetail(postId, commentId):
@@ -502,6 +507,8 @@ extension ElloAPI: Moya.TargetType {
             return stubbedData("users_posts")
         case .discover:
             return stubbedData("posts_searching_for_posts")
+        case .editorials:
+            return stubbedData("editorials")
         case .emojiAutoComplete:
             return stubbedData("users_getting_a_list_for_autocompleted_usernames")
         case .findFriends:

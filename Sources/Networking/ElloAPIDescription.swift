@@ -184,6 +184,8 @@ extension ElloAPI: CustomStringConvertible, CustomDebugStringConvertible {
             return "category"
         case .categoryPosts:
             return "categoryPosts"
+        case .editorials:
+            return "editorials"
         case .emojiAutoComplete:
             return "emojiAutoComplete"
         case .findFriends:

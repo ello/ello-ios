@@ -688,6 +688,8 @@
 		1D9309D31EC1093B0099FCF8 /* EditorialsProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D9309D01EC1093B0099FCF8 /* EditorialsProtocols.swift */; };
 		1D9309D41EC1093B0099FCF8 /* EditorialsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D9309D11EC1093B0099FCF8 /* EditorialsScreen.swift */; };
 		1D9309D51EC1093B0099FCF8 /* EditorialsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D9309D21EC1093B0099FCF8 /* EditorialsViewController.swift */; };
+		1D9309D71EC1133F0099FCF8 /* Editorial.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D9309D61EC1133F0099FCF8 /* Editorial.swift */; };
+		1D9309D81EC1134D0099FCF8 /* Editorial.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D9309D61EC1133F0099FCF8 /* Editorial.swift */; };
 		1D971CF11E1ECD3100A167A2 /* Tracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D971CF01E1ECD3100A167A2 /* Tracker.swift */; };
 		1D971CF31E1ED2BD00A167A2 /* DebugTrackingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D971CF21E1ED2BD00A167A2 /* DebugTrackingController.swift */; };
 		1D98563B1C6D7D3300C1BF78 /* DrawerAnimators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D98563A1C6D7D3300C1BF78 /* DrawerAnimators.swift */; };
@@ -1707,6 +1709,7 @@
 		1D9309D01EC1093B0099FCF8 /* EditorialsProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditorialsProtocols.swift; sourceTree = "<group>"; };
 		1D9309D11EC1093B0099FCF8 /* EditorialsScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditorialsScreen.swift; sourceTree = "<group>"; };
 		1D9309D21EC1093B0099FCF8 /* EditorialsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditorialsViewController.swift; sourceTree = "<group>"; };
+		1D9309D61EC1133F0099FCF8 /* Editorial.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Editorial.swift; sourceTree = "<group>"; };
 		1D971CF01E1ECD3100A167A2 /* Tracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tracker.swift; sourceTree = "<group>"; };
 		1D971CF21E1ED2BD00A167A2 /* DebugTrackingController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DebugTrackingController.swift; sourceTree = "<group>"; };
 		1D98563A1C6D7D3300C1BF78 /* DrawerAnimators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawerAnimators.swift; sourceTree = "<group>"; };
@@ -3077,6 +3080,7 @@
 				12C043651A609A2000E3051A /* Comment.swift */,
 				EA34DABF1AD83CA3002F566D /* DynamicSetting.swift */,
 				EA34DABD1AD83C8F002F566D /* DynamicSettingCategory.swift */,
+				1D9309D61EC1133F0099FCF8 /* Editorial.swift */,
 				F82B8B6D1AEFFA6E00A9FC97 /* ElloKeychain.swift */,
 				12C183A11A76DA6D00E7D72A /* ElloLinkedStore.swift */,
 				12F6AE361A43392D00493660 /* ElloNetworkError.swift */,
@@ -4599,6 +4603,7 @@
 				122B30B61C6A3FBB00C1B9D8 /* DynamicSetting.swift in Sources */,
 				1D2F65AA1D185B120099D036 /* DiscoverType.swift in Sources */,
 				122D1BA61C6134D5001386CE /* UIViewNibLoading.swift in Sources */,
+				1D9309D81EC1134D0099FCF8 /* Editorial.swift in Sources */,
 				1D5A901E1D3D749B00C2AEFF /* ElloAPISharingHeaders.swift in Sources */,
 				122B30B31C6A3FBB00C1B9D8 /* Availability.swift in Sources */,
 				12A1D83A1DAE7AE900A327D6 /* NumberExtensions.swift in Sources */,
@@ -5061,6 +5066,7 @@
 				127128261A77373300695F15 /* TypedNotifications.swift in Sources */,
 				F8006EE51AB9FE670008BB42 /* Animators.swift in Sources */,
 				1DF0B2F01E942BFA001B9F97 /* SearchProtocols.swift in Sources */,
+				1D9309D71EC1133F0099FCF8 /* Editorial.swift in Sources */,
 				12F9EB411DEE0F8200E127AE /* ProfileLocationSizeCalculator.swift in Sources */,
 				122D1BA81C61390F001386CE /* AlertViewControllerKeyboardExtension.swift in Sources */,
 				1D7152D31D74A189005998FE /* TextHeaderCell.swift in Sources */,

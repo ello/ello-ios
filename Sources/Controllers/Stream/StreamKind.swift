@@ -10,6 +10,7 @@ enum StreamKind {
     case allCategories
     case announcements
     case discover(type: DiscoverType)
+    case editorials
     case following
     case notifications(category: String?)
     case postDetail(postParam: String)
@@ -24,6 +25,7 @@ enum StreamKind {
         case .allCategories: return InterfaceString.Discover.AllCategories
         case .announcements: return ""
         case .discover: return InterfaceString.Discover.Title
+        case .editorials: return InterfaceString.Editorials.Title
         case .following: return InterfaceString.FollowingStream.Title
         case .notifications: return InterfaceString.Notifications.Title
         case .category: return ""
@@ -40,6 +42,7 @@ enum StreamKind {
         case .allCategories: return "AllCategories"
         case .announcements: return "Announcements"
         case .discover, .category: return "CategoryPosts"
+        case .editorials: return "Editorials"
         case .following: return "Following"
         case .notifications: return "Notifications"
         case .postDetail: return "PostDetail"
@@ -59,6 +62,7 @@ enum StreamKind {
     var lastViewedCreatedAtKey: String? {
         switch self {
         case .announcements: return "Announcements_createdAt"
+        case .editorials: return "Editorials_createdAt"
         case let .discover(type): return "Discover_\(type)_createdAt"
         case let .category(slug): return "Category_\(slug)_createdAt"
         case .following: return "Following_createdAt"
@@ -96,6 +100,7 @@ enum StreamKind {
         case .announcements: return .announcements
         case let .category(slug): return .category(slug: slug)
         case let .discover(type): return .discover(type: type)
+        case .editorials: return .editorials
         case .following: return .following
         case let .notifications(category): return .notificationsStream(category: category)
         case let .postDetail(postParam): return .postDetail(postParam: postParam, commentCount: 10)
@@ -131,7 +136,7 @@ enum StreamKind {
             default:
                 return jsonables
             }
-        case .announcements:
+        case .announcements, .editorials:
             return jsonables
         case .discover, .category:
             if let comments = jsonables as? [ElloComment]  {

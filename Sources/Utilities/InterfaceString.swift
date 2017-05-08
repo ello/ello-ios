@@ -40,6 +40,10 @@ struct InterfaceString {
         static let NoResultsBody: String = NSLocalizedString("Follow, mention them, comment, repost or love one of their posts and maybe they'll follow you back ;)", comment: "Non-current user following no results body")
     }
 
+    struct Editorials {
+        static let Title: String = NSLocalizedString("Editorials", comment: "")
+    }
+
     struct FollowingStream {
         static let Title: String = NSLocalizedString("Following", comment: "Following title")
     }
