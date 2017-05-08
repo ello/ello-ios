@@ -126,44 +126,6 @@ class DebugController: UIViewController, UITableViewDataSource, UITableViewDeleg
             }
         }
 
-        addAction(name: "ImagePickerSheetController") {
-            let controller = ImagePickerSheetController(mediaType: .imageAndVideo)
-            controller.addAction(ImagePickerAction(title: InterfaceString.ImagePicker.TakePhoto, handler: { _ in }))
-            controller.addAction(ImagePickerAction(title: InterfaceString.ImagePicker.PhotoLibrary, secondaryTitle: { NSString.localizedStringWithFormat(InterfaceString.ImagePicker.AddImagesTemplate as NSString, $0) as String}, handler: { _ in }, secondaryHandler: { _, _ in }))
-            controller.addAction(ImagePickerAction(title: InterfaceString.Cancel, style: .cancel, handler: { _ in }))
-
-            self.present(controller, animated: true, completion: nil)
-        }
-
-        addAction(name: "Invalidate refresh token (use user credentials)") {
-            var token = AuthToken()
-            token.token = "nil"
-            token.refreshToken = "nil"
-            appController.closeTodoController()
-
-            let profileService = ProfileService()
-            profileService.loadCurrentUser(success: { _ in }, failure: { _ in })
-            profileService.loadCurrentUser(success: { _ in }, failure: { _ in })
-            nextTick {
-                profileService.loadCurrentUser(success: { _ in }, failure: { _ in })
-            }
-        }
-
-        addAction(name: "Invalidate token completely (logout)") {
-            var token = AuthToken()
-            token.token = "nil"
-            token.refreshToken = "nil"
-            token.username = "ello@ello.co"
-            token.password = "this is definitely NOT my password"
-            appController.closeTodoController()
-
-            let profileService = ProfileService()
-            profileService.loadCurrentUser(success: { _ in print("success 1") }, failure: { _ in print("failure 1") })
-            profileService.loadCurrentUser(success: { _ in print("success 2") }, failure: { _ in print("failure 2") })
-            nextTick {
-                profileService.loadCurrentUser(success: { _ in print("success 3") }, failure: { _ in print("failure 3") })
-            }
-
         addAction(name: "Editorials preview") { [unowned self] in
             let vc = EditorialsViewController()
             self.navigationController?.pushViewController(vc, animated: true)
