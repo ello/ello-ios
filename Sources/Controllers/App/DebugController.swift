@@ -163,6 +163,10 @@ class DebugController: UIViewController, UITableViewDataSource, UITableViewDeleg
             nextTick {
                 profileService.loadCurrentUser(success: { _ in print("success 3") }, failure: { _ in print("failure 3") })
             }
+
+        addAction(name: "Editorials preview") { [unowned self] in
+            let vc = EditorialsViewController()
+            self.navigationController?.pushViewController(vc, animated: true)
         }
 
         addAction(name: "Show Following Dot") {
