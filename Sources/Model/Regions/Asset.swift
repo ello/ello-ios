@@ -267,7 +267,7 @@ extension Asset {
 }
 
 extension Asset: JSONSaveable {
-    var uniqueId: String? { if let id = tableId { return "Asset-\(id)" } ; return nil }
+    var uniqueId: String? { return "Asset-\(id)" }
     var tableId: String? { return id }
 
 }

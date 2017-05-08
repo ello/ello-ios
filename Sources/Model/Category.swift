@@ -4,9 +4,9 @@
 
 import SwiftyJSON
 
+// Version 3: isSponsored, body, header, ctaCaption, ctaURL, promotionals
 let CategoryVersion = 3
 
-// Version 3: isSponsored, body, header, ctaCaption, ctaURL, promotionals
 
 final class Category: JSONAble, Groupable {
     static let featured = Category(id: "meta1", name: InterfaceString.Discover.Featured, slug: "featured", order: 0, allowInOnboarding: false, usesPagePromo: true, level: .meta, tileImage: nil)
@@ -179,6 +179,6 @@ final class Category: JSONAble, Groupable {
 }
 
 extension Category: JSONSaveable {
-    var uniqueId: String? { if let id = tableId { return "Category-\(id)" } ; return nil }
+    var uniqueId: String? { return "Category-\(id)" }
     var tableId: String? { return id }
 }

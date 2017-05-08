@@ -422,7 +422,7 @@ extension User {
 }
 
 extension User: JSONSaveable {
-    var uniqueId: String? { if let id = tableId { return "User-\(id)" } ; return nil }
+    var uniqueId: String? { return "User-\(id)" }
     var tableId: String? { return id }
 
 }

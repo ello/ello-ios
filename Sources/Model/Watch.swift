@@ -106,7 +106,7 @@ final class Watch: JSONAble, PostActionable {
 }
 
 extension Watch: JSONSaveable {
-    var uniqueId: String? { if let id = tableId { return "Watch-\(id)" } ; return nil }
+    var uniqueId: String? { return "Watch-\(id)" }
     var tableId: String? { return id }
 
 }

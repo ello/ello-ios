@@ -63,7 +63,7 @@ class AmazonCredentials: JSONAble {
 }
 
 extension AmazonCredentials: JSONSaveable {
-    var uniqueId: String? { if let id = tableId { return "AmazonCredentials-\(id)" } ; return nil }
+    var uniqueId: String? { return "AmazonCredentials-\(accessKey)" }
     var tableId: String? { return accessKey }
 
 }

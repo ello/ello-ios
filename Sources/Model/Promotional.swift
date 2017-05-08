@@ -64,7 +64,7 @@ final class Promotional: JSONAble {
 }
 
 extension Promotional: JSONSaveable {
-    var uniqueId: String? { if let id = tableId { return "Promotional-\(id)" } ; return nil }
+    var uniqueId: String? { return "Promotional-\(id)" }
     var tableId: String? { return id }
 
 }

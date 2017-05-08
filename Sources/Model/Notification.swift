@@ -188,7 +188,7 @@ final class Notification: JSONAble, Authorable, Groupable {
 }
 
 extension Notification: JSONSaveable {
-    var uniqueId: String? { if let id = tableId { return "Notification-\(id)" } ; return nil }
+    var uniqueId: String? { return "Notification-\(activity.id)" }
     var tableId: String? { return activity.id }
 
 }

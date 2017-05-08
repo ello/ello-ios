@@ -112,7 +112,7 @@ final class Love: JSONAble, PostActionable {
 }
 
 extension Love: JSONSaveable {
-    var uniqueId: String? { if let id = tableId { return "Love-\(id)" } ; return nil }
+    var uniqueId: String? { return "Love-\(id)" }
     var tableId: String? { return id }
 
 }

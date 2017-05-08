@@ -96,7 +96,7 @@ final class Announcement: JSONAble, Groupable {
 }
 
 extension Announcement: JSONSaveable {
-    var uniqueId: String? { if let id = tableId { return "Announcement-\(id)" } ; return nil }
+    var uniqueId: String? { return "Announcement-\(id)" }
     var tableId: String? { return id }
 
 }

@@ -134,7 +134,7 @@ final class ElloComment: JSONAble, Authorable, Groupable {
 }
 
 extension ElloComment: JSONSaveable {
-    var uniqueId: String? { if let id = tableId { return "ElloComment-\(id)" } ; return nil }
+    var uniqueId: String? { return "ElloComment-\(id)" }
     var tableId: String? { return id }
 
 }
