@@ -658,3 +658,13 @@ extension Announcement: Stubbable {
         return announcement
     }
 }
+
+extension Editorial: Stubbable {
+
+    class func stub(_ values: [String: Any]) -> Editorial {
+        let editorial = Editorial(
+            id: (values["id"] as? String) ?? "666"
+        )
+        return editorial
+    }
+}

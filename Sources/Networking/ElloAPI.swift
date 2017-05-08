@@ -219,7 +219,7 @@ enum ElloAPI {
 extension ElloAPI {
     var supportsAnonymousToken: Bool {
         switch self {
-        case .availability,
+        case .availability, .editorials,
              .categories, .category, .categoryPosts, .discover, .pagePromotionals,
              .searchForPosts, .searchForUsers,
              .userStreamPosts, .userStreamFollowing, .userStreamFollowers, .loves,

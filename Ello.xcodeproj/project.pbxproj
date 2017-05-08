@@ -690,6 +690,10 @@
 		1D9309D51EC1093B0099FCF8 /* EditorialsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D9309D21EC1093B0099FCF8 /* EditorialsViewController.swift */; };
 		1D9309D71EC1133F0099FCF8 /* Editorial.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D9309D61EC1133F0099FCF8 /* Editorial.swift */; };
 		1D9309D81EC1134D0099FCF8 /* Editorial.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D9309D61EC1133F0099FCF8 /* Editorial.swift */; };
+		1D9309DA1EC1349C0099FCF8 /* EditorialCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D9309D91EC1349C0099FCF8 /* EditorialCell.swift */; };
+		1D9309DC1EC134A20099FCF8 /* EditorialCellPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D9309DB1EC134A20099FCF8 /* EditorialCellPresenter.swift */; };
+		1D9309DE1EC134B50099FCF8 /* EditorialCellPresenterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D9309DD1EC134B50099FCF8 /* EditorialCellPresenterSpec.swift */; };
+		1D9309E01EC134BC0099FCF8 /* EditorialCellSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D9309DF1EC134BC0099FCF8 /* EditorialCellSpec.swift */; };
 		1D971CF11E1ECD3100A167A2 /* Tracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D971CF01E1ECD3100A167A2 /* Tracker.swift */; };
 		1D971CF31E1ED2BD00A167A2 /* DebugTrackingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D971CF21E1ED2BD00A167A2 /* DebugTrackingController.swift */; };
 		1D98563B1C6D7D3300C1BF78 /* DrawerAnimators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D98563A1C6D7D3300C1BF78 /* DrawerAnimators.swift */; };
@@ -1710,6 +1714,10 @@
 		1D9309D11EC1093B0099FCF8 /* EditorialsScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditorialsScreen.swift; sourceTree = "<group>"; };
 		1D9309D21EC1093B0099FCF8 /* EditorialsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditorialsViewController.swift; sourceTree = "<group>"; };
 		1D9309D61EC1133F0099FCF8 /* Editorial.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Editorial.swift; sourceTree = "<group>"; };
+		1D9309D91EC1349C0099FCF8 /* EditorialCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditorialCell.swift; sourceTree = "<group>"; };
+		1D9309DB1EC134A20099FCF8 /* EditorialCellPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditorialCellPresenter.swift; sourceTree = "<group>"; };
+		1D9309DD1EC134B50099FCF8 /* EditorialCellPresenterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditorialCellPresenterSpec.swift; sourceTree = "<group>"; };
+		1D9309DF1EC134BC0099FCF8 /* EditorialCellSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditorialCellSpec.swift; sourceTree = "<group>"; };
 		1D971CF01E1ECD3100A167A2 /* Tracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tracker.swift; sourceTree = "<group>"; };
 		1D971CF21E1ED2BD00A167A2 /* DebugTrackingController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DebugTrackingController.swift; sourceTree = "<group>"; };
 		1D98563A1C6D7D3300C1BF78 /* DrawerAnimators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawerAnimators.swift; sourceTree = "<group>"; };
@@ -2275,6 +2283,7 @@
 				12431FF91DBAAF27006808D4 /* CategoryHeaderCell.swift */,
 				1D59336E1D10ADB800EAF03D /* CategoryListCell.swift */,
 				1DB8C6B01D7F1BE4007E1447 /* DismissableCell.swift */,
+				1D9309D91EC1349C0099FCF8 /* EditorialCell.swift */,
 				128D36BB1A952E3E00622833 /* ElloPostToolBarOption.swift */,
 				12B291391DE4ED090056C52E /* EmptyStreamCell.swift */,
 				1D7152951D6CBE0E005998FE /* NoPostsCell.swift */,
@@ -2570,6 +2579,7 @@
 				1D2F65AD1D186E7F0099D036 /* CategoryCardCellPresenter.swift */,
 				12431FFB1DBAB005006808D4 /* CategoryHeaderCellPresenter.swift */,
 				1D5933701D10ADC300EAF03D /* CategoryListCellPresenter.swift */,
+				1D9309DB1EC134A20099FCF8 /* EditorialCellPresenter.swift */,
 				12B2913B1DE4F7090056C52E /* EmptyStreamCellPresenter.swift */,
 				1D7152991D6CBFE2005998FE /* NoPostsCellPresenter.swift */,
 				128D36B51A951F4600622833 /* NotificationCellPresenter.swift */,
@@ -2909,6 +2919,7 @@
 				1DBFD9FA1DFF29540058843D /* AnnouncementCellSpec.swift */,
 				128FDF381DD0F5E300DBADD0 /* CategoryHeaderCellSpec.swift */,
 				1D59337A1D136E0500EAF03D /* CategoryListCellSpec.swift */,
+				1D9309DF1EC134BC0099FCF8 /* EditorialCellSpec.swift */,
 				122034781DEC8B8A0059E633 /* EmptyStreamCellSpec.swift */,
 				1D26E1671C52E26D0034448D /* NotificationCellSpec.swift */,
 				1D70E7261D5A526C008758D7 /* ProfileHeaderCellSpec.swift */,
@@ -2928,6 +2939,7 @@
 			children = (
 				1D2F65BE1D1D88DD0099D036 /* CategoryCardCellPresenterSpec.swift */,
 				1D2F65C01D1D88DD0099D036 /* CategoryListCellPresenterSpec.swift */,
+				1D9309DD1EC134B50099FCF8 /* EditorialCellPresenterSpec.swift */,
 				122034761DE9E7300059E633 /* EmptyStreamCellPresenterSpec.swift */,
 				12A1D82C1DAC378600A327D6 /* ProfileAvatarPresenterSpec.swift */,
 				1D6E431D1EA69C550029C9B1 /* ProfileBadgesPresenterSpec.swift */,
@@ -4780,6 +4792,7 @@
 				EA68A0E31AADF4AB003F0425 /* MapperSpec.swift in Sources */,
 				1DDA93B01DA6F8E60007EFDE /* StreamCreateCommentCellPresenterSpec.swift in Sources */,
 				1D5F97791A9699DA00AEEB5F /* StreamNotificationCellSizeCalculatorSpec.swift in Sources */,
+				1D9309E01EC134BC0099FCF8 /* EditorialCellSpec.swift in Sources */,
 				1DF9840C1D9B31690055EFC7 /* StreamCreateCommentCellSpec.swift in Sources */,
 				12D14C7D1A43763B00C6F8E8 /* ElloTabBarControllerSpec.swift in Sources */,
 				121D75A21AD84C800008F084 /* PostServiceSpec.swift in Sources */,
@@ -4880,6 +4893,7 @@
 				76FF805D1A96A87A00617A1E /* BlockUserModalViewControllerSpec.swift in Sources */,
 				762ABBA51A8ACB7700B19E34 /* JSONAbleSpec.swift in Sources */,
 				12A1D8391DAD78F100A327D6 /* ProfileTotalCountPresenterSpec.swift in Sources */,
+				1D9309DE1EC134B50099FCF8 /* EditorialCellPresenterSpec.swift in Sources */,
 				1DF50C8D1C61452D00C62D89 /* UIImagePickerControllerSpec.swift in Sources */,
 				1D06D6CE1E43BC50004FA878 /* RegionKindStreamCellTypeAdditionSpec.swift in Sources */,
 				12DB1CA71D9C6B9E007E3E4C /* UINavigationItemSpec.swift in Sources */,
@@ -5147,6 +5161,7 @@
 				1DF0B2EE1E942BE2001B9F97 /* SearchToggleButton.swift in Sources */,
 				F8A3B6451AC457CA00806224 /* Array.swift in Sources */,
 				12A3A46F1AB348FB00D2AFB0 /* ElloPullToRefreshView.swift in Sources */,
+				1D9309DC1EC134A20099FCF8 /* EditorialCellPresenter.swift in Sources */,
 				F8158C471ACDAF7F008C15A1 /* AlertCell.swift in Sources */,
 				1DF50C991C614E0700C62D89 /* OmnibarProtocols.swift in Sources */,
 				1D7750FA1ABB68E700D92191 /* ToData.swift in Sources */,
@@ -5355,6 +5370,7 @@
 				1D1AF6281A84437B00E06C93 /* StreamableViewController.swift in Sources */,
 				12F6AE1E1A43386300493660 /* AppViewController.swift in Sources */,
 				12F6ADFD1A43380C00493660 /* ElloTabBarController.swift in Sources */,
+				1D9309DA1EC1349C0099FCF8 /* EditorialCell.swift in Sources */,
 				1289F3921AF1468B008A938C /* ImageLabelControl.swift in Sources */,
 				123971521E4B626400481CB3 /* ResponderChainableController.swift in Sources */,
 				1DA18E521DCCF70E000231CC /* PagePromotionalService.swift in Sources */,

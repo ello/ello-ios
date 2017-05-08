@@ -16,6 +16,7 @@ func == (lhs: StreamCellType, rhs: StreamCellType) -> Bool {
 }
 
 enum StreamCellType: Equatable {
+    case announcement
     case badge
     case categoryCard
     case selectableCategoryCard
@@ -23,6 +24,7 @@ enum StreamCellType: Equatable {
     case categoryPromotionalHeader
     case commentHeader
     case createComment
+    case editorial
     case embed(data: Regionable?)
     case footer
     case header
@@ -34,7 +36,6 @@ enum StreamCellType: Equatable {
     case noPosts
     case notification
     case pagePromotionalHeader
-    case announcement
     case placeholder
     case profileHeader
     case profileHeaderGhost
@@ -58,6 +59,8 @@ enum StreamCellType: Equatable {
 
         case announcements
         case notifications
+
+        case editorial
 
         case profileHeader
         case profilePosts
@@ -94,6 +97,7 @@ enum StreamCellType: Equatable {
         notification,
         pagePromotionalHeader,
         announcement,
+        editorial,
         profileHeader,
         profileHeaderGhost,
         search(placeholder: ""),
@@ -144,6 +148,7 @@ enum StreamCellType: Equatable {
         case .notification: return NotificationCell.reuseIdentifier
         case .placeholder: return "Placeholder"
         case .announcement: return AnnouncementCell.reuseIdentifier
+        case .editorial: return EditorialCell.reuseIdentifier
         case .profileHeader: return ProfileHeaderCell.reuseIdentifier
         case .profileHeaderGhost: return ProfileHeaderGhostCell.reuseIdentifier
         case .search: return SearchStreamCell.reuseIdentifier
@@ -166,6 +171,7 @@ enum StreamCellType: Equatable {
              .badge,
              .categoryCard,
              .createComment,
+             .editorial,
              .header,
              .inviteFriends,
              .loadMoreComments,
@@ -198,6 +204,7 @@ enum StreamCellType: Equatable {
         case .notification: return NotificationCellPresenter.configure
         case .pagePromotionalHeader: return PagePromotionalHeaderCellPresenter.configure
         case .announcement: return AnnouncementCellPresenter.configure
+        case .editorial: return EditorialCellPresenter.configure
         case .profileHeader: return ProfileHeaderCellPresenter.configure
         case .search: return SearchStreamCellPresenter.configure
         case .spacer: return { (cell, _, _, _, _) in cell.backgroundColor = .white }
@@ -231,6 +238,7 @@ enum StreamCellType: Equatable {
         case .notification: return NotificationCell.self
         case .placeholder: return UICollectionViewCell.self
         case .announcement: return AnnouncementCell.self
+        case .editorial: return EditorialCell.self
         case .profileHeader: return ProfileHeaderCell.self
         case .profileHeaderGhost: return ProfileHeaderGhostCell.self
         case .search: return SearchStreamCell.self
@@ -276,6 +284,10 @@ enum StreamCellType: Equatable {
             return 215
         case .notification:
             return 117
+        case .editorial:
+            let width = UIWindow.windowWidth()
+            let aspect = EditorialCell.Size.aspect
+            return ceil(width / aspect)
         case .announcement:
             return 200
         case let .spacer(height):
@@ -329,6 +341,7 @@ enum StreamCellType: Equatable {
              .notification,
              .pagePromotionalHeader,
              .announcement,
+             .editorial,
              .profileHeader,
              .profileHeaderGhost,
              .search,
@@ -375,6 +388,7 @@ enum StreamCellType: Equatable {
             notification,
             pagePromotionalHeader,
             announcement,
+            editorial,
             placeholder,
             profileHeader,
             profileHeaderGhost,
