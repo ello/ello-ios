@@ -11,8 +11,7 @@ class EditorialCellSpec: QuickSpec {
     override func spec() {
         describe("EditorialCell") {
             context("snapshots") {
-                func config(
-                    ) -> EditorialCell.Config {
+                func config() -> EditorialCell.Config {
                     var config = EditorialCell.Config()
                     return config
                 }
