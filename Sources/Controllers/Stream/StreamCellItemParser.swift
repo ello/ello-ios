@@ -17,13 +17,16 @@ struct StreamCellItemParser {
             streamItems = commentCellItems(comments)
         }
         else if let notifications = filteredItems as? [Notification] {
-            streamItems = notificationCellItems(notifications)
+            streamItems = typicalCellItems(notifications, type: .notification)
         }
         else if let announcements = filteredItems as? [Announcement] {
-            streamItems = announcementCellItems(announcements)
+            streamItems = typicalCellItems(announcements, type: .announcement)
         }
         else if let users = filteredItems as? [User] {
-            streamItems = userCellItems(users)
+            streamItems = typicalCellItems(users, type: .userListItem)
+        }
+        else if let editorials = filteredItems as? [Editorial] {
+            streamItems = typicalCellItems(editorials, type: .editorial)
         }
         else {
             streamItems = []
@@ -34,15 +37,9 @@ struct StreamCellItemParser {
 
 // MARK: - Private
 
-    fileprivate func notificationCellItems(_ notifications: [Notification]) -> [StreamCellItem] {
-        return notifications.map { notification in
-            return StreamCellItem(jsonable: notification, type: .notification)
-        }
-    }
-
-    fileprivate func announcementCellItems(_ announcements: [Announcement]) -> [StreamCellItem] {
-        return announcements.map { announcement in
-            return StreamCellItem(jsonable: announcement, type: .announcement)
+    fileprivate func typicalCellItems(_ jsonables: [JSONAble], type: StreamCellType) -> [StreamCellItem] {
+        return jsonables.map { jsonable in
+            return StreamCellItem(jsonable: jsonable, type: type)
         }
     }
 
@@ -119,12 +116,6 @@ struct StreamCellItemParser {
         return cellArray
     }
 
-    fileprivate func userCellItems(_ users: [User]) -> [StreamCellItem] {
-        return users.map { user in
-            return StreamCellItem(jsonable: user, type: .userListItem)
-        }
-    }
-
     fileprivate func footerStreamCellItems(_ post: Post) -> [StreamCellItem] {
         return [StreamCellItem(jsonable: post, type: .footer)]
     }
@@ -133,25 +124,13 @@ struct StreamCellItemParser {
 
 // MARK: For Testing
 extension StreamCellItemParser {
-    func testingNotificationCellItems(_ notifications: [Notification]) -> [StreamCellItem] {
-        return notificationCellItems(notifications)
+    func testingTypicalCellItems(_ jsonables: [JSONAble], type: StreamCellType) -> [StreamCellItem] {
+        return typicalCellItems(jsonables, type: type)
     }
     func testingPostCellItems(_ posts: [Post], streamKind: StreamKind, forceGrid: Bool) -> [StreamCellItem] {
         return postCellItems(posts, streamKind: streamKind, forceGrid: forceGrid)
     }
     func testingCommentCellItems(_ comments: [ElloComment]) -> [StreamCellItem] {
         return commentCellItems(comments)
-    }
-    func testingPostToggleItems(_ post: Post) -> [StreamCellItem] {
-        return postToggleItems(post)
-    }
-    func testingRegionItems(_ jsonable: JSONAble, content: [Regionable]) -> [StreamCellItem] {
-        return regionItems(jsonable, content: content)
-    }
-    func testingUserCellItems(_ users: [User]) -> [StreamCellItem] {
-        return userCellItems(users)
-    }
-    func testingFooterStreamCellItems(_ post: Post) -> [StreamCellItem] {
-        return footerStreamCellItems(post)
     }
 }

@@ -13,14 +13,20 @@ extension StreamCellItemParser {
             if let post = item as? Post {
                 retItems += testingPostCellItems([post], streamKind: .following, forceGrid: false)
             }
-            if let comment = item as? ElloComment {
+            else if let comment = item as? ElloComment {
                 retItems += testingCommentCellItems([comment])
             }
-            if let notification = item as? Ello.Notification {
-                retItems += testingNotificationCellItems([notification])
+            else if item is Ello.Notification {
+                retItems += testingTypicalCellItems([item], type: .notification)
             }
-            if let user = item as? User {
-                retItems += testingUserCellItems([user])
+            else if item is Announcement {
+                retItems += testingTypicalCellItems([item], type: .announcement)
+            }
+            else if item is Editorial {
+                retItems += testingTypicalCellItems([item], type: .editorial)
+            }
+            else if item is User {
+                retItems += testingTypicalCellItems([item], type: .userListItem)
             }
         }
         return retItems
