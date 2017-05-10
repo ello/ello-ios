@@ -58,7 +58,7 @@ class StreamCellTypeSpec: QuickSpec {
 
                 it("\(desc) returns correct values"){
                     // TODO: figure out a way to test for confgure
-                    expect(type.name) == name
+                    expect(type.reuseIdentifier) == name
                     expect(type.selectable) == selectable
                     expect(type.classType) === classType
                     if let oneColumnHeight = oneColumnHeight {

@@ -1262,7 +1262,7 @@ class StreamDataSourceSpec: QuickSpec {
 
                 it("returns the correct stream cell item") {
                     let item = subject.visibleStreamCellItem(at: IndexPath(item: 0, section: 0))
-                    expect(item?.type.name) == "StreamCreateCommentCell"
+                    expect(item?.type.reuseIdentifier) == "StreamCreateCommentCell"
                 }
 
                 it("returns nil if indexpath does not exist") {
@@ -1273,7 +1273,7 @@ class StreamDataSourceSpec: QuickSpec {
                 it("returns nil if a filter (returns false) is active") {
                     subject.streamFilter = { _ in return false }
                     let itemExists = subject.streamCellItems[0]
-                    expect(itemExists.type.name) == "StreamCreateCommentCell"
+                    expect(itemExists.type.reuseIdentifier) == "StreamCreateCommentCell"
                     let itemHidden = subject.visibleStreamCellItem(at: IndexPath(item: 0, section: 0))
                     expect(itemHidden).to(beNil())
                 }
@@ -1281,9 +1281,9 @@ class StreamDataSourceSpec: QuickSpec {
                 it("returns item if a filter (returns true) is active") {
                     subject.streamFilter = { _ in return true }
                     let itemExists = subject.streamCellItems[0]
-                    expect(itemExists.type.name) == "StreamCreateCommentCell"
+                    expect(itemExists.type.reuseIdentifier) == "StreamCreateCommentCell"
                     let itemHidden = subject.visibleStreamCellItem(at: IndexPath(item: 0, section: 0))
-                    expect(itemHidden?.type.name) == "StreamCreateCommentCell"
+                    expect(itemHidden?.type.reuseIdentifier) == "StreamCreateCommentCell"
                 }
             }
 
@@ -1477,7 +1477,7 @@ class StreamDataSourceSpec: QuickSpec {
                     let insertedCellItem = subject.visibleCellItems[1]
 
                     expect(subject.visibleCellItems.count) == countWas + 1
-                    expect(insertedCellItem.type.name) == "StreamCreateCommentCell"
+                    expect(insertedCellItem.type.reuseIdentifier) == "StreamCreateCommentCell"
                 }
 
                 it("inserts the new cellitems in final position") {
@@ -1491,7 +1491,7 @@ class StreamDataSourceSpec: QuickSpec {
                     let insertedCellItem = subject.visibleCellItems[countWas]
 
                     expect(subject.visibleCellItems.count) == countWas + 1
-                    expect(insertedCellItem.type.name) == "StreamCreateCommentCell"
+                    expect(insertedCellItem.type.reuseIdentifier) == "StreamCreateCommentCell"
                 }
             }
 

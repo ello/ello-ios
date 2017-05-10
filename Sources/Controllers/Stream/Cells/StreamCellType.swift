@@ -12,7 +12,7 @@ typealias CellConfigClosure = (
 
 // MARK: Equatable
 func == (lhs: StreamCellType, rhs: StreamCellType) -> Bool {
-    return lhs.identifier == rhs.identifier
+    return lhs.equalityIdentifier == rhs.equalityIdentifier
 }
 
 enum StreamCellType: Equatable {
@@ -127,11 +127,11 @@ enum StreamCellType: Equatable {
     }
 
     // this is just stupid...
-    var identifier: String {
+    var equalityIdentifier: String {
         return "\(self)"
     }
 
-    var name: String {
+    var reuseIdentifier: String {
         switch self {
         case .badge: return BadgeCell.reuseIdentifier
         case .categoryCard: return CategoryCardCell.reuseIdentifier
@@ -405,10 +405,10 @@ enum StreamCellType: Equatable {
         ]
         for type in all {
             if noNibTypes.index(of: type) != nil {
-                collectionView.register(type.classType, forCellWithReuseIdentifier: type.name)
+                collectionView.register(type.classType, forCellWithReuseIdentifier: type.reuseIdentifier)
             } else {
-                let nib = UINib(nibName: type.name, bundle: Bundle(for: type.classType))
-                collectionView.register(nib, forCellWithReuseIdentifier: type.name)
+                let nib = UINib(nibName: type.reuseIdentifier, bundle: Bundle(for: type.classType))
+                collectionView.register(nib, forCellWithReuseIdentifier: type.reuseIdentifier)
             }
         }
     }

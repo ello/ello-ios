@@ -79,9 +79,9 @@ final class StreamCellItem: NSObject, NSCopying {
                 text = "unknown"
             }
 
-            return "StreamCellItem(type: \(type.name), jsonable: \(type(of: jsonable)), state: \(state), text: \(text))"
+            return "StreamCellItem(type: \(type.reuseIdentifier), jsonable: \(type(of: jsonable)), state: \(state), text: \(text))"
         default:
-            return "StreamCellItem(type: \(type.name), jsonable: \(type(of: jsonable)), state: \(state))"
+            return "StreamCellItem(type: \(type.reuseIdentifier), jsonable: \(type(of: jsonable)), state: \(state))"
         }
     }
 

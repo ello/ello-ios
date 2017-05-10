@@ -322,12 +322,12 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard indexPath.item < visibleCellItems.count else {
-            return collectionView.dequeueReusableCell(withReuseIdentifier: StreamCellType.unknown.name, for: indexPath)
+            return collectionView.dequeueReusableCell(withReuseIdentifier: StreamCellType.unknown.reuseIdentifier, for: indexPath)
         }
 
         let streamCellItem = visibleCellItems[indexPath.item]
 
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: streamCellItem.type.name, for: indexPath)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: streamCellItem.type.reuseIdentifier, for: indexPath)
 
         switch streamCellItem.type {
         case .inviteFriends, .onboardingInviteFriends:
