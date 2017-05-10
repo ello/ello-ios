@@ -100,7 +100,7 @@ enum StreamKind {
         case .announcements: return .announcements
         case let .category(slug): return .category(slug: slug)
         case let .discover(type): return .discover(type: type)
-        case .editorials: return .editorials
+        case .editorials: return .editorials(preview: false)
         case .following: return .following
         case let .notifications(category): return .notificationsStream(category: category)
         case let .postDetail(postParam): return .postDetail(postParam: postParam, commentCount: 10)

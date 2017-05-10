@@ -37,7 +37,7 @@ enum ElloAPI {
     case deleteSubscriptions(token: Data)
     case deleteWatchPost(postId: String)
     case discover(type: DiscoverType)
-    case editorials
+    case editorials(preview: Bool)
     case emojiAutoComplete(terms: String)
     case findFriends(contacts: [String: [String]])
     case flagComment(postId: String, commentId: String, kind: String)
@@ -658,6 +658,11 @@ extension ElloAPI: Moya.TargetType {
             ]
         case let .availability(content):
             return content as [String : Any]?
+        case let .editorials(preview):
+            if preview {
+                return ["preview": "1"]
+            }
+            return nil
         case .currentUserProfile:
             return [
                 "post_count": 0

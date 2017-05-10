@@ -11,13 +11,13 @@ class EditorialCellPresenterSpec: QuickSpec {
     override func spec() {
         describe("EditorialCellPresenter") {
             it("sets the card title") {
-                let category: Ello.Editorial = stub(["id": "123"]) as Ello.Editorial
+                let editorial: Ello.Editorial = stub(["id": "123", "title": "Editorial Title"]) as Ello.Editorial
                 let cell: EditorialCell = EditorialCell()
-                let item: StreamCellItem = StreamCellItem(jsonable: category, type: .editorial)
+                let item: StreamCellItem = StreamCellItem(jsonable: editorial, type: .editorial(.post))
 
                 EditorialCellPresenter.configure(cell, streamCellItem: item, streamKind: .editorials, indexPath: IndexPath(item: 0, section: 0), currentUser: nil)
 
-                expect(1) == 1
+                expect(cell.config.title) == editorial.title
             }
         }
     }

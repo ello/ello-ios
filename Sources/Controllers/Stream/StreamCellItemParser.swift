@@ -26,7 +26,7 @@ struct StreamCellItemParser {
             streamItems = typicalCellItems(users, type: .userListItem)
         }
         else if let editorials = filteredItems as? [Editorial] {
-            streamItems = typicalCellItems(editorials, type: .editorial)
+            streamItems = editorialCellItems(editorials)
         }
         else {
             streamItems = []
@@ -40,6 +40,12 @@ struct StreamCellItemParser {
     fileprivate func typicalCellItems(_ jsonables: [JSONAble], type: StreamCellType) -> [StreamCellItem] {
         return jsonables.map { jsonable in
             return StreamCellItem(jsonable: jsonable, type: type)
+        }
+    }
+
+    fileprivate func editorialCellItems(_ editorials: [Editorial]) -> [StreamCellItem] {
+        return editorials.map { editorial in
+            return StreamCellItem(jsonable: editorial, type: .editorial(editorial.kind))
         }
     }
 

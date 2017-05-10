@@ -17,9 +17,6 @@ class EditorialsViewController: StreamableViewController, EditorialsScreenDelega
         super.init(nibName: nil, bundle: nil)
 
         streamViewController.streamKind = .editorials
-        // streamViewController.initialLoadClosure = { [unowned self] in self.loadCategory() }
-        // streamViewController.reloadClosure = { [unowned self] in self.reloadCurrentCategory() }
-        // streamViewController.toggleClosure = { [unowned self] isGridView in self.toggleGrid(isGridView) }
     }
 
     required init?(coder aDecoder: NSCoder) {

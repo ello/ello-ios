@@ -22,6 +22,7 @@ enum InterfaceImage: String {
     // Postbar Icons
     case eye = "eye"
     case heart = "hearts"
+    case heartOutline = "hearts_outline"
     case giantHeart = "hearts_giant"
     case repost = "repost"
     case share = "share"
@@ -43,6 +44,7 @@ enum InterfaceImage: String {
 
     // Notification Icons
     case comments = "bubble"
+    case commentsOutline = "bubble_outline"
     case invite = "relationships"
     case watch = "watch"
 
@@ -175,13 +177,16 @@ enum InterfaceImage: String {
              .camera,
              .checkSmall,
              .comments,
+             .commentsOutline,
              .heart,
+             .heartOutline,
              .invite,
              .link,
              .mail,
              .onePassword,
              .pencil,
              .plusSmall,
+             .share,
              .repost,
              .x:
             return svgNamed("\(self.rawValue)_white")

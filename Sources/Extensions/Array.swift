@@ -39,6 +39,15 @@ extension Array {
         let index = Int(arc4random_uniform(UInt32(count)))
         return self[index]
     }
+
+    func eachPair(_ fn: (Element?, Element) -> Void) {
+        var current: Element!, prev: Element?
+        for el in self {
+            prev = current
+            current = el
+            fn(prev, current)
+        }
+    }
 }
 
 extension Sequence {

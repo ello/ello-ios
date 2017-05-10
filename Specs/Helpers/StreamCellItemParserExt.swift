@@ -22,8 +22,8 @@ extension StreamCellItemParser {
             else if item is Announcement {
                 retItems += testingTypicalCellItems([item], type: .announcement)
             }
-            else if item is Editorial {
-                retItems += testingTypicalCellItems([item], type: .editorial)
+            else if let item = item as? Editorial {
+                retItems += testingTypicalCellItems([item], type: .editorial(item.kind))
             }
             else if item is User {
                 retItems += testingTypicalCellItems([item], type: .userListItem)

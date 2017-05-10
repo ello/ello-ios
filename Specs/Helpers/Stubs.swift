@@ -662,8 +662,12 @@ extension Announcement: Stubbable {
 extension Editorial: Stubbable {
 
     class func stub(_ values: [String: Any]) -> Editorial {
+        let kind = Editorial.Kind(rawValue: values["kind"] as? String ?? "post")!
         let editorial = Editorial(
-            id: (values["id"] as? String) ?? "666"
+            id: (values["id"] as? String) ?? "666",
+            kind: kind,
+            title: (values["title"] as? String) ?? "Title",
+            subtitle: values["subtitle"] as? String
         )
         return editorial
     }

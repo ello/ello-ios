@@ -24,7 +24,7 @@ enum StreamCellType: Equatable {
     case categoryPromotionalHeader
     case commentHeader
     case createComment
-    case editorial
+    case editorial(Editorial.Kind)
     case embed(data: Regionable?)
     case footer
     case header
@@ -60,7 +60,7 @@ enum StreamCellType: Equatable {
         case announcements
         case notifications
 
-        case editorial
+        case editorials
 
         case profileHeader
         case profilePosts
@@ -77,41 +77,43 @@ enum StreamCellType: Equatable {
         case cellNotFound
     }
 
-    static let all = [
-        badge,
-        categoryCard,
-        categoryPromotionalHeader,
-        selectableCategoryCard,
-        categoryList,
-        commentHeader,
-        createComment,
-        embed(data: nil),
-        emptyStream(height: 282),
-        footer,
-        header,
-        image(data: nil),
-        inviteFriends,
-        onboardingInviteFriends,
-        loadMoreComments,
-        noPosts,
-        notification,
-        pagePromotionalHeader,
-        announcement,
-        editorial,
-        profileHeader,
-        profileHeaderGhost,
-        search(placeholder: ""),
-        seeMoreComments,
-        spacer(height: 0.0),
-        fullWidthSpacer(height: 0.0),
-        placeholder,
-        streamLoading,
-        text(data: nil),
-        textHeader(nil),
-        toggle,
-        unknown,
-        userAvatars,
-        userListItem
+    static let all: [StreamCellType] = [
+        .badge,
+        .categoryCard,
+        .categoryPromotionalHeader,
+        .selectableCategoryCard,
+        .categoryList,
+        .commentHeader,
+        .createComment,
+        .embed(data: nil),
+        .emptyStream(height: 282),
+        .footer,
+        .header,
+        .image(data: nil),
+        .inviteFriends,
+        .onboardingInviteFriends,
+        .loadMoreComments,
+        .noPosts,
+        .notification,
+        .pagePromotionalHeader,
+        .announcement,
+        .editorial(.external),
+        .editorial(.postStream),
+        .editorial(.post),
+        .profileHeader,
+        .profileHeaderGhost,
+        .search(placeholder: ""),
+        .seeMoreComments,
+        .spacer(height: 0.0),
+        .fullWidthSpacer(height: 0.0),
+        .placeholder,
+        .streamLoading,
+        .text(data: nil),
+        .textHeader(nil),
+        .toggle,
+        .unknown,
+        .userAvatars,
+        .userListItem
     ]
 
     var data: Any? {
@@ -148,7 +150,7 @@ enum StreamCellType: Equatable {
         case .notification: return NotificationCell.reuseIdentifier
         case .placeholder: return "Placeholder"
         case .announcement: return AnnouncementCell.reuseIdentifier
-        case .editorial: return EditorialCell.reuseIdentifier
+        case let .editorial(kind): return kind.reuseIdentifier
         case .profileHeader: return ProfileHeaderCell.reuseIdentifier
         case .profileHeaderGhost: return ProfileHeaderGhostCell.reuseIdentifier
         case .search: return SearchStreamCell.reuseIdentifier
@@ -238,7 +240,7 @@ enum StreamCellType: Equatable {
         case .notification: return NotificationCell.self
         case .placeholder: return UICollectionViewCell.self
         case .announcement: return AnnouncementCell.self
-        case .editorial: return EditorialCell.self
+        case let .editorial(kind): return kind.classType
         case .profileHeader: return ProfileHeaderCell.self
         case .profileHeaderGhost: return ProfileHeaderGhostCell.self
         case .search: return SearchStreamCell.self
@@ -375,29 +377,31 @@ enum StreamCellType: Equatable {
     }
 
     static func registerAll(_ collectionView: UICollectionView) {
-        let noNibTypes = [
-            badge,
-            categoryCard,
-            categoryPromotionalHeader,
-            selectableCategoryCard,
-            categoryList,
-            createComment,
-            emptyStream(height: 282),
-            fullWidthSpacer(height: 0.0),
-            loadMoreComments,
-            notification,
-            pagePromotionalHeader,
-            announcement,
-            editorial,
-            placeholder,
-            profileHeader,
-            profileHeaderGhost,
-            search(placeholder: ""),
-            spacer(height: 0.0),
-            text(data: nil),
-            streamLoading,
-            textHeader(nil),
-            unknown
+        let noNibTypes: [StreamCellType] = [
+            .badge,
+            .categoryCard,
+            .categoryPromotionalHeader,
+            .selectableCategoryCard,
+            .categoryList,
+            .createComment,
+            .emptyStream(height: 282),
+            .fullWidthSpacer(height: 0.0),
+            .loadMoreComments,
+            .notification,
+            .pagePromotionalHeader,
+            .announcement,
+            .editorial(.external),
+            .editorial(.postStream),
+            .editorial(.post),
+            .placeholder,
+            .profileHeader,
+            .profileHeaderGhost,
+            .search(placeholder: ""),
+            .spacer(height: 0.0),
+            .text(data: nil),
+            .streamLoading,
+            .textHeader(nil),
+            .unknown,
         ]
         for type in all {
             if noNibTypes.index(of: type) != nil {

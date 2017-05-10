@@ -17,6 +17,8 @@ struct EditorialCellPresenter {
         else { return }
 
         var config = EditorialCell.Config()
+        config.title = editorial.title
+        config.subtitle = editorial.subtitle
         cell.config = config
     }
 }
