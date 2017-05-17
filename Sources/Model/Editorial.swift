@@ -12,6 +12,8 @@ final class Editorial: JSONAble, Groupable {
         case post
         case postStream = "post_stream"
         case external
+        case invite
+        case join
     }
 
     let id: String
@@ -59,7 +61,7 @@ final class Editorial: JSONAble, Groupable {
     override class func fromJSON(_ data: [String: Any]) -> JSONAble {
         let json = JSON(data)
         let id = json["id"].stringValue
-        let kind = Kind(rawValue: json["kind"].stringValue) ?? .post
+        let kind = Kind.join//Kind(rawValue: json["kind"].stringValue) ?? .post
         let title = json["title"].stringValue
         let subtitle = json["subtitle"].string
         let url: URL? = json["url"].string.flatMap { URL(string: $0) }

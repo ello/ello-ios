@@ -8,6 +8,10 @@ extension UIButton {
         self.setImage(interfaceImage.image(imageStyle), for: state)
     }
 
+    func setImage(_ interfaceImage: InterfaceImage, imageStyle: InterfaceImage.Style, for state: UIControlState, degree: Double) {
+        self.setImage(interfaceImage.image(imageStyle), for: state, degree: degree)
+    }
+
     func setImages(_ interfaceImage: InterfaceImage, degree: Double = 0, white: Bool = false) {
         if white {
             self.setImage(interfaceImage.whiteImage, for: .normal, degree: degree)

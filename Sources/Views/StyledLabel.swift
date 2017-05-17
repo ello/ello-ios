@@ -7,6 +7,7 @@ class StyledLabel: UILabel {
         case small
         case normal
         case large
+        case larger
         case giant
         case largeBold
         case bold
@@ -16,6 +17,7 @@ class StyledLabel: UILabel {
             case .small: return UIFont.defaultFont(12)
             case .normal: return UIFont.defaultFont()
             case .large: return UIFont.defaultFont(18)
+            case .larger: return UIFont.defaultFont(24)
             case .giant: return UIFont.defaultFont(48)
             case .largeBold: return UIFont.defaultBoldFont(18)
             case .bold: return UIFont.defaultBoldFont()
@@ -121,6 +123,10 @@ extension StyledLabel.Style {
     static let largeWhite = StyledLabel.Style(
         textColor: .white,
         fontFamily: .large
+        )
+    static let largerWhite = StyledLabel.Style(
+        textColor: .white,
+        fontFamily: .larger
         )
     static let largeBoldWhite = StyledLabel.Style(
         textColor: .white,

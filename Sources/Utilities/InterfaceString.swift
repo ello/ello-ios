@@ -42,6 +42,11 @@ struct InterfaceString {
 
     struct Editorials {
         static let Title: String = NSLocalizedString("Editorials", comment: "")
+        static let Join: String = NSLocalizedString("Join The Creators Network.", comment: "")
+        static let Submit: String = NSLocalizedString("Create Account", comment: "")
+        static let EmailPlaceholder: String = NSLocalizedString("Email", comment: "")
+        static let UsernamePlaceholder: String = NSLocalizedString("Username", comment: "")
+        static let PasswordPlaceholder: String = NSLocalizedString("Password", comment: "")
     }
 
     struct FollowingStream {
@@ -270,7 +275,7 @@ struct InterfaceString {
     struct Startup {
         static let SignUp: String = NSLocalizedString("Sign Up", comment: "sign up button")
         static let Login: String = NSLocalizedString("Login", comment: "login button")
-        static let Join: String = NSLocalizedString("Join The Creators Network.", comment: "Join the creators network label")
+        static let Join: String = NSLocalizedString("Join The Creators Network.", comment: "")
         static let Reset: String = NSLocalizedString("Reset", comment: "Reset button label")
         static let ForgotPasswordEnter: String = NSLocalizedString("Enter your email", comment: "Enter your email label")
         static let ForgotPasswordEnterSuccess: String = NSLocalizedString("If your email address exists in our database, you will receive a password recovery link at your email address in a few minutes.", comment: "Enter your email success description")
