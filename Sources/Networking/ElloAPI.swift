@@ -48,7 +48,8 @@ enum ElloAPI {
     case hire(userId: String, body: String)
     case collaborate(userId: String, body: String)
     case infiniteScroll(queryItems: [Any], elloApi: () -> ElloAPI)
-    case inviteFriends(contact: String)
+    case invitations(emails: [String])
+    case inviteFriends(email: String)
     case join(email: String, username: String, password: String, invitationCode: String?)
     case loves(userId: String)
     case locationAutoComplete(terms: String)
@@ -192,6 +193,7 @@ enum ElloAPI {
              .flagUser,
              .followingNewContent,
              .hire,
+             .invitations,
              .inviteFriends,
              .markAnnouncementAsRead,
              .notificationsNewContent,
@@ -262,6 +264,7 @@ extension ElloAPI: Moya.TargetType {
              .flagUser,
              .hire,
              .collaborate,
+             .invitations,
              .inviteFriends,
              .join,
              .pushSubscriptions,
@@ -376,7 +379,8 @@ extension ElloAPI: Moya.TargetType {
                 return pagingPath
             }
             return api.path
-        case .inviteFriends:
+        case .invitations,
+             .inviteFriends:
             return "/api/\(ElloAPI.apiVersion)/invitations"
         case .join:
             return "/api/\(ElloAPI.apiVersion)/join"
@@ -491,6 +495,7 @@ extension ElloAPI: Moya.TargetType {
              .followingNewContent,
              .hire,
              .collaborate,
+             .invitations,
              .inviteFriends,
              .notificationsNewContent,
              .profileDelete,
@@ -715,8 +720,10 @@ extension ElloAPI: Moya.TargetType {
             var origDict = elloApi().parameters ?? [String: Any]()
             origDict.merge(queryDict)
             return origDict
-        case let .inviteFriends(contact):
-            return ["email": contact]
+        case let .invitations(emails):
+            return ["email": emails]
+        case let .inviteFriends(email):
+            return ["email": email]
         case let .join(email, username, password, invitationCode):
             var params = [
                 "email": email,

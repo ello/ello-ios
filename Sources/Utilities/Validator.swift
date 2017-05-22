@@ -16,11 +16,14 @@ struct Validator {
             return false
         }
 
-        if url.scheme?.lowercased() == "http" || url.scheme?.lowercased() == "https" {
+        if url.scheme == nil {
+            return isValidLink("http://\(link)")
+        }
+        else if url.scheme?.lowercased() == "http" || url.scheme?.lowercased() == "https" {
             return isValidHost(url.host)
         }
         else {
-            return isValidLink("http://\(link)")
+            return false
         }
     }
 

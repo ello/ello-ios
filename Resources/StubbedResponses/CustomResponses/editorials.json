@@ -1,0 +1,68 @@
+{
+  "editorials": [
+    {
+      "id": "1",
+      "kind": "join",
+      "title": "Join us!"
+    },
+    {
+      "id": "2",
+      "kind": "invite",
+      "title": "Invite!"
+    },
+    {
+      "id": "3",
+      "kind": "curated_posts",
+      "title": "Some posts",
+      "links": {
+        "post_stream": {
+          "href": "/api/v2/editorials/posts?tokens[]=abcde"
+        }
+      }
+    },
+    {
+      "id": "4",
+      "kind": "post",
+      "title": "One post",
+      "links": {
+        "post": {
+          "id": "666",
+          "href": "/api/v2/posts/666",
+          "type": "posts"
+        }
+      }
+    },
+    {
+      "id": "5",
+      "kind": "curated_posts",
+      "title": "Some posts",
+      "links": {
+        "post_stream": {
+          "href": "/api/v2/editorials/posts?tokens[]=abcde"
+        }
+      }
+    },
+    {
+      "id": "6",
+      "kind": "post",
+      "title": "One post",
+      "links": {
+        "post": {
+          "id": "666",
+          "href": "/api/v2/posts/666",
+          "type": "posts"
+        }
+      }
+    },
+    {
+      "id": "7",
+      "kind": "join",
+      "title": "Join us!"
+    },
+    {
+      "id": "8",
+      "kind": "invite",
+      "title": "Invite!"
+    }
+  ]
+}

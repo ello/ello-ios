@@ -19,6 +19,14 @@ struct EditorialCellPresenter {
         var config = EditorialCell.Config()
         config.title = editorial.title
         config.subtitle = editorial.subtitle
+        config.invite = editorial.invite.map {
+            EditorialCell.Config.Invite(emails: $0.emails, sent: $0.sent)
+        }
+        config.join = editorial.join.map {
+            EditorialCell.Config.Join(email: $0.email, username: $0.username, password: $0.password)
+        }
         cell.config = config
+        (cell as? EditorialJoinCell)?.onJoinChange = { editorial.join = $0 }
+        (cell as? EditorialInviteCell)?.onInviteChange = { editorial.invite = $0 }
     }
 }

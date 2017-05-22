@@ -351,16 +351,11 @@ extension StreamableViewController: InviteResponder {
             Tracker.shared.friendInvited()
         }
         ElloHUD.showLoadingHudInView(view)
-        InviteService().invite(email,
-            success: { [weak self] in
+        InviteService().invite(email)
+            .onComplete { [weak self] _ in
                 guard let `self` = self else { return }
                 ElloHUD.hideLoadingHudInView(self.view)
                 completion()
-            },
-            failure: { [weak self] _ in
-                guard let `self` = self else { return }
-                ElloHUD.hideLoadingHudInView(self.view)
-                completion()
-            })
+            }
     }
 }

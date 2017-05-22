@@ -157,6 +157,10 @@ extension StyledLabel.Style {
         textColor: UIColor.greyA(),
         fontFamily: .large
         )
+    static let placeholder = StyledLabel.Style(
+        textColor: .greyC(),
+        fontFamily: .normal
+        )
     static let largePlaceholder = StyledLabel.Style(
         textColor: .greyC(),
         fontFamily: .large

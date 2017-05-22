@@ -112,7 +112,6 @@ class CreateProfileScreen: Screen, CreateProfileScreenProtocol {
         nameTextView.lineColor = .greyE5()
         nameTextView.selectedLineColor = .black
         nameTextView.keyboardAppearance = .dark
-
         nameTextView.autocapitalizationType = .words
         nameTextView.autocorrectionType = .no
         nameTextView.spellCheckingType = .no

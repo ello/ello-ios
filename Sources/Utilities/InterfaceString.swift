@@ -43,7 +43,11 @@ struct InterfaceString {
     struct Editorials {
         static let Title: String = NSLocalizedString("Editorials", comment: "")
         static let Join: String = NSLocalizedString("Join The Creators Network.", comment: "")
-        static let Submit: String = NSLocalizedString("Create Account", comment: "")
+        static let SubmitJoin: String = NSLocalizedString("Create Account", comment: "")
+        static let Invite: String = NSLocalizedString("Invite some cool people.\nHelp Ello grow.", comment: "")
+        static let InvitePlaceholder: String = NSLocalizedString("Enter email addresses", comment: "")
+        static let Sent: String = NSLocalizedString("Invitations sent.", comment: "")
+        static let SubmitInvite: String = NSLocalizedString("Invite", comment: "")
         static let EmailPlaceholder: String = NSLocalizedString("Email", comment: "")
         static let UsernamePlaceholder: String = NSLocalizedString("Username", comment: "")
         static let PasswordPlaceholder: String = NSLocalizedString("Password", comment: "")

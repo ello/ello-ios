@@ -13,6 +13,14 @@ class JoinViewController: BaseElloViewController {
 
     var invitationCode: String?
 
+    convenience init(email: String, username: String, password: String) {
+        self.init(nibName: nil, bundle: nil)
+        screen.email = email
+        screen.username = username
+        screen.password = password
+        submit(email: email, username: username, password: password)
+    }
+
     override func loadView() {
         let screen = JoinScreen()
         screen.delegate = self

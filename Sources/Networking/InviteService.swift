@@ -4,44 +4,67 @@
 
 import Moya
 import SwiftyJSON
+import FutureKit
 
-typealias InviteFriendsSuccessCompletion = () -> Void
-typealias FindFriendsSuccessCompletion = ([(LocalPerson, User?)]) -> Void
 
 struct InviteService {
+    typealias FindSuccess = [(LocalPerson, User?)]
 
     init(){}
 
-    func invite(_ contact: String, success: @escaping InviteFriendsSuccessCompletion, failure: @escaping ElloFailureCompletion) {
-        ElloProvider.shared.elloRequest(ElloAPI.inviteFriends(contact: contact),
-            success: { _ in success() },
-            failure: failure)
+    func invitations(_ emails: [String]) -> Future<()> {
+        let promise = Promise<()>()
+        ElloProvider.shared.elloRequest(ElloAPI.invitations(emails: emails),
+            success: { _ in
+                promise.completeWithSuccess(())
+            },
+            failure: { error, _ in
+                promise.completeWithFail(error)
+            })
+        return promise.future
     }
 
-    func find(_ addressBook: AddressBookProtocol, currentUser: User?, success: @escaping FindFriendsSuccessCompletion, failure: @escaping ElloFailureCompletion) {
+    func invite(_ email: String) -> Future<()> {
+        let promise = Promise<()>()
+        ElloProvider.shared.elloRequest(ElloAPI.inviteFriends(email: email),
+            success: { _ in
+                promise.completeWithSuccess(())
+            },
+            failure: { error, _ in
+                promise.completeWithFail(error)
+            })
+        return promise.future
+    }
+
+    func find(_ addressBook: AddressBookProtocol, currentUser: User?) -> Future<FindSuccess> {
         var contacts = [String: [String]]()
         for person in addressBook.localPeople {
             contacts[person.identifier] = person.emails
         }
 
+        let promise = Promise<FindSuccess>()
         ElloProvider.shared.elloRequest(ElloAPI.findFriends(contacts: contacts),
             success: { (data, responseConfig) in
-                if let data = data as? [User] {
-                    let users = InviteService.filterUsers(data, currentUser: currentUser)
-                    let userIdentifiers = users.map { $0.identifiableBy ?? "" }
-                    let mixed: [(LocalPerson, User?)] = addressBook.localPeople.map {
-                        if let index = userIdentifiers.index(of: $0.identifier) {
-                            return ($0, users[index])
-                        }
-                        return ($0, .none)
-                    }
+                guard let data = data as? [User] else {
+                    let error = NSError.uncastableJSONAble()
+                    promise.completeWithFail(error)
+                    return
+                }
 
-                    success(mixed)
+                let users = InviteService.filterUsers(data, currentUser: currentUser)
+                let userIdentifiers = users.map { $0.identifiableBy ?? "" }
+                let mixed: [(LocalPerson, User?)] = addressBook.localPeople.map {
+                    if let index = userIdentifiers.index(of: $0.identifier) {
+                        return ($0, users[index])
+                    }
+                    return ($0, .none)
                 }
-                else {
-                    ElloProvider.unCastableJSONAble(failure)
-                }
-            }, failure: failure)
+
+                promise.completeWithSuccess(mixed)
+            }, failure: { error, _ in
+                promise.completeWithFail(error)
+            })
+        return promise.future
     }
 
     static func filterUsers(_ users: [User], currentUser: User?) -> [User] {

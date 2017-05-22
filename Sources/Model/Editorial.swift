@@ -8,6 +8,9 @@ import SwiftyJSON
 let EditorialVersion = 3
 
 final class Editorial: JSONAble, Groupable {
+    typealias JoinInfo = (email: String?, username: String?, password: String?)
+    typealias InviteInfo = (emails: String, sent: Bool)
+
     enum Kind: String {
         case post
         case postStream = "post_stream"
@@ -19,6 +22,8 @@ final class Editorial: JSONAble, Groupable {
     let id: String
     let title: String
     let subtitle: String?
+    var join: JoinInfo?
+    var invite: InviteInfo?
     let url: URL?
     let kind: Kind
     var groupId: String { return "Category-\(id)" }
@@ -61,7 +66,7 @@ final class Editorial: JSONAble, Groupable {
     override class func fromJSON(_ data: [String: Any]) -> JSONAble {
         let json = JSON(data)
         let id = json["id"].stringValue
-        let kind = Kind.join//Kind(rawValue: json["kind"].stringValue) ?? .post
+        let kind = Kind(rawValue: json["kind"].stringValue) ?? .post
         let title = json["title"].stringValue
         let subtitle = json["subtitle"].string
         let url: URL? = json["url"].string.flatMap { URL(string: $0) }

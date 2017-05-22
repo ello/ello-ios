@@ -35,6 +35,7 @@ class EditorialsViewController: StreamableViewController, EditorialsScreenDelega
         super.viewDidLoad()
 
         ElloHUD.showLoadingHudInView(streamViewController.view)
+        ElloProvider.oneTimeProvider = ElloProvider.StubbingProvider()
         streamViewController.loadInitialPage()
     }
 
@@ -52,5 +53,30 @@ class EditorialsViewController: StreamableViewController, EditorialsScreenDelega
         super.hideNavBars()
         positionNavBar(screen.navigationBar, visible: false, withConstraint: screen.navigationBarTopConstraint)
         updateInsets()
+    }
+}
+
+extension EditorialsViewController: EditorialResponder {
+    func submitInvite(cell: UICollectionViewCell, emails emailString: String) {
+        guard
+            let jsonable = streamViewController.jsonable(forCell: cell),
+            let editorial = jsonable as? Editorial
+        else { return }
+
+        editorial.invite = (emails: emailString, sent: true)
+        streamViewController.reloadCells(now: true)
+
+        let emails: [String] = emailString.replacingOccurrences(of: "\n", with: ",").split(",").map { $0.trimmed() }
+
+        InviteService().invitations(emails)
+            .onSuccess { _ in }
+            .onFail { _ in }
+    }
+
+    func submitJoin(cell: UICollectionViewCell, email: String, username: String, password: String) {
+        guard currentUser == nil else { return }
+
+        let vc = JoinViewController(email: email, username: username, password: password)
+        navigationController?.pushViewController(vc, animated: true)
     }
 }

@@ -64,7 +64,8 @@ class ElloAPISpec: QuickSpec {
                         (.following, "/api/v2/following/posts/recent"),
                         (.hire(userId: "666", body: "foo"), "/api/v2/users/666/hire_me"),
                         (ElloAPI.infiniteScroll(queryItems: []) { return ElloAPI.following }, "/api/v2/following/posts/recent"),
-                        (.inviteFriends(contact: "someContact"), "/api/v2/invitations"),
+                        (.invitations(emails: ["someContact"]), "/api/v2/invitations"),
+                        (.inviteFriends(email: "someContact"), "/api/v2/invitations"),
                         (.join(email: "", username: "", password: "", invitationCode: nil), "/api/v2/join"),
                         (.locationAutoComplete(terms: ""), "/api/v2/profile/location_autocomplete"),
                         (.loves(userId: "666"), "/api/v2/users/666/loves"),
@@ -136,7 +137,8 @@ class ElloAPISpec: QuickSpec {
                     (.following, .postsType),
                     (.followingNewContent(createdAt: nil), .noContentType),
                     (.infiniteScroll(queryItems: [""], elloApi: { return ElloAPI.amazonCredentials }), .amazonCredentialsType),
-                    (.inviteFriends(contact: ""), .noContentType),
+                    (.invitations(emails: [""]), .noContentType),
+                    (.inviteFriends(email: ""), .noContentType),
                     (.join(email: "", username: "", password: "", invitationCode: ""), .usersType),
                     (.loves(userId: ""), .lovesType),
                     (.loves(userId: currentUserId), .lovesType),
@@ -218,7 +220,8 @@ class ElloAPISpec: QuickSpec {
                         .infiniteScroll(queryItems: [""], elloApi: { () -> ElloAPI in
                             return ElloAPI.following
                         }),
-                        .inviteFriends(contact: ""),
+                        .invitations(emails: [""]),
+                        .inviteFriends(email: ""),
                         .join(email: "", username: "", password: "", invitationCode: ""),
                         .loves(userId: ""),
                         .notificationsNewContent(createdAt: nil),
@@ -296,7 +299,8 @@ class ElloAPISpec: QuickSpec {
                         .infiniteScroll(queryItems: [""], elloApi: { () -> ElloAPI in
                             return ElloAPI.following
                         }),
-                        .inviteFriends(contact: ""),
+                        .invitations(emails: [""]),
+                        .inviteFriends(email: ""),
                         .join(email: "", username: "", password: "", invitationCode: ""),
                         .loves(userId: ""),
                         .notificationsStream(category: ""),
@@ -330,14 +334,14 @@ class ElloAPISpec: QuickSpec {
 
             describe("parameter values") {
 
-                it("AnonymousCredentials") {
+                it("anonymousCredentials") {
                     let params = ElloAPI.anonymousCredentials.parameters!
                     expect(params["client_id"]).notTo(beNil())
                     expect(params["client_secret"]).notTo(beNil())
                     expect(params["grant_type"] as? String) == "client_credentials"
                 }
 
-                it("Auth") {
+                it("auth") {
                     let params = ElloAPI.auth(email: "me@me.me", password: "p455w0rd").parameters!
                     expect(params["client_id"]).notTo(beNil())
                     expect(params["client_secret"]).notTo(beNil())
@@ -346,41 +350,41 @@ class ElloAPISpec: QuickSpec {
                     expect(params["grant_type"] as? String) == "password"
                 }
 
-                it("Availability") {
+                it("availability") {
                     let content = ["username": "sterlingarcher"]
                     expect(ElloAPI.availability(content: content).parameters as? [String: String]) == content
                 }
 
-                it("CreateComment") {
+                it("createComment") {
                     let content = ["text": "my sweet comment content"]
                     expect(ElloAPI.createComment(parentPostId: "id", body: content as [String : Any]).parameters as? [String: String]) == content
                 }
 
-                it("CreatePost") {
+                it("createPost") {
                     let content = ["text": "my sweet post content"]
                     expect(ElloAPI.createPost(body: content as [String : Any]).parameters as? [String: String]) == content
                 }
 
-                it("Discover") {
+                it("discover") {
                     let params = ElloAPI.discover(type: .featured).parameters!
                     expect(params["per_page"] as? Int) == 10
                 }
 
-                it("CategoryPosts") {
+                it("categoryPosts") {
                     let params = ElloAPI.categoryPosts(slug: "art").parameters!
                     expect(params["per_page"] as? Int) == 10
                 }
 
-                xit("FindFriends") {
+                xit("findFriends") {
 
                 }
 
-                it("Following") {
+                it("following") {
                     let params = ElloAPI.following.parameters!
                     expect(params["per_page"] as? Int) == 10
                 }
 
-                it("InfiniteScroll") {
+                it("infiniteScroll") {
                     let queryItems = NSURLComponents(string: "ttp://ello.co/api/v2/posts/278/comments?after=2014-06-02T00%3A00%3A00.000000000%2B0000&per_page=2")!.queryItems
                     let infiniteScroll = ElloAPI.infiniteScroll(queryItems: queryItems! as [Any]) { return ElloAPI.discover(type: .featured) }
                     let params = infiniteScroll.parameters!
@@ -388,8 +392,13 @@ class ElloAPISpec: QuickSpec {
                     expect(params["after"]).notTo(beNil())
                 }
 
-                it("InviteFriends") {
-                    let params = ElloAPI.inviteFriends(contact: "me@me.me").parameters!
+                it("invitations") {
+                    let params = ElloAPI.invitations(emails: ["me@me.me"]).parameters!
+                    expect(params["email"] as? [String]) == ["me@me.me"]
+                }
+
+                it("inviteFriends") {
+                    let params = ElloAPI.inviteFriends(email: "me@me.me").parameters!
                     expect(params["email"] as? String) == "me@me.me"
                 }
 
@@ -427,7 +436,7 @@ class ElloAPISpec: QuickSpec {
                     }
                 }
 
-                it("PostComments") {
+                it("postComments") {
                     let params = ElloAPI.postComments(postId: "comments-id").parameters!
                     expect(params["per_page"] as? Int) == 10
                 }
@@ -474,16 +483,16 @@ class ElloAPISpec: QuickSpec {
                     }
                 }
 
-                it("Profile") {
+                it("profile") {
                     let params = ElloAPI.currentUserStream.parameters!
                     expect(params["post_count"] as? Int) == 10
                 }
 
-                xit("PushSubscriptions, DeleteSubscriptions") {
+                xit("pushSubscriptions, deleteSubscriptions") {
 
                 }
 
-                it("ReAuth") {
+                it("reAuth") {
                     let params = ElloAPI.reAuth(token: "refresh").parameters!
                     expect(params["client_id"]).notTo(beNil())
                     expect(params["client_secret"]).notTo(beNil())
@@ -491,35 +500,35 @@ class ElloAPISpec: QuickSpec {
                     expect(params["refresh_token"] as? String) == "refresh"
                 }
 
-                it("RelationshipBatch") {
+                it("relationshipBatch") {
                     let params = ElloAPI.relationshipBatch(userIds: ["1", "2", "8"], relationship: "friend").parameters!
                     expect(params["user_ids"] as? [String]) == ["1", "2", "8"]
                     expect(params["priority"] as? String) == "friend"
                 }
 
-                it("RePost") {
+                it("rePost") {
                     let params = ElloAPI.rePost(postId: "666").parameters!
                     expect(params["repost_id"] as? Int) == 666
                 }
 
-                it("SearchForPosts") {
+                it("searchForPosts") {
                     let params = ElloAPI.searchForPosts(terms: "blah").parameters!
                     expect(params["terms"] as? String) == "blah"
                     expect(params["per_page"] as? Int) == 10
                 }
 
-                it("SearchForUsers") {
+                it("searchForUsers") {
                     let params = ElloAPI.searchForUsers(terms: "blah").parameters!
                     expect(params["terms"] as? String) == "blah"
                     expect(params["per_page"] as? Int) == 10
                 }
 
-                it("UserNameAutoComplete") {
+                it("userNameAutoComplete") {
                     let params = ElloAPI.userNameAutoComplete(terms: "blah").parameters!
                     expect(params["terms"] as? String) == "blah"
                 }
 
-                it("UserCategories") {
+                it("userCategories") {
                     let params = ElloAPI.userCategories(categoryIds: ["456"]).parameters!
                     expect(params["followed_category_ids"] as? [String]) == ["456"]
                 }

@@ -4,6 +4,12 @@
 
 import SnapKit
 
+@objc
+protocol EditorialResponder: class {
+    func submitInvite(cell: UICollectionViewCell, emails: String)
+    func submitJoin(cell: UICollectionViewCell, email: String, username: String, password: String)
+}
+
 
 class EditorialCell: UICollectionViewCell {
 
@@ -17,11 +23,23 @@ class EditorialCell: UICollectionViewCell {
         static let subtitleButtonMargin: CGFloat = 36
         static let bgMargins = UIEdgeInsets(bottom: 1)
         static let buttonsMargin: CGFloat = 30
+        static let buttonHeight: CGFloat = 48
     }
 
     struct Config {
+        struct Join {
+            var email: String?
+            var username: String?
+            var password: String?
+        }
+        struct Invite {
+            var emails: String
+            var sent: Bool
+        }
         var title: String?
         var subtitle: String?
+        var join: Join?
+        var invite: Invite?
         init() {}
     }
 
@@ -69,7 +87,6 @@ extension EditorialCell {
         config = Config()
     }
 }
-
 
 extension Editorial.Kind {
     var reuseIdentifier: String {

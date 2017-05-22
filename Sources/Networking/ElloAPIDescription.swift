@@ -206,6 +206,8 @@ extension ElloAPI: CustomStringConvertible, CustomDebugStringConvertible {
             return "collaborate"
         case .infiniteScroll:
             return "infiniteScroll"
+        case .invitations:
+            return "invitations"
         case .inviteFriends:
             return "inviteFriends"
         case .join:

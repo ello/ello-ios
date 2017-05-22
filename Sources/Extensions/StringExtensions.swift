@@ -118,8 +118,12 @@ extension String {
         return entitiesDecoded
     }
 
-    func split(_ char: Character) -> [String] {
-        return characters.split { $0 == char }.map { String($0) }
+    func split(_ splitChars: Character...) -> [String] {
+        return characters.split(whereSeparator: { (c: Character) -> Bool in
+            return splitChars.any { s in
+                return s == c
+            }
+        }).map { String($0) }
     }
 
     func trimmed() -> String {

@@ -2,10 +2,12 @@
 ///  ClearTextView.swift
 //
 
+import SnapKit
+
+
 class ClearTextView: UITextView {
     struct Size {
         static let minTextViewHeight: CGFloat = 38
-        static let placeholderOffset: CGFloat = 3
     }
     var lineColor: UIColor? = .grey6() {
         didSet {
@@ -20,6 +22,9 @@ class ClearTextView: UITextView {
                 line.backgroundColor = selectedLineColor
             }
         }
+    }
+    var placeholderStyle: StyledLabel.Style = .largePlaceholder {
+        didSet { placeholderLabel.style = placeholderStyle }
     }
     var placeholder: String? {
         get { return placeholderLabel.text }
@@ -36,8 +41,15 @@ class ClearTextView: UITextView {
     override var font: UIFont? {
         didSet { updateTextStyle() }
     }
+    override var textContainerInset: UIEdgeInsets {
+        didSet {
+            placeholderTopConstraint?.update(offset: textContainerInset.top)
+        }
+    }
+
     fileprivate var line = UIView()
-    fileprivate let placeholderLabel = StyledLabel(style: .largePlaceholder)
+    fileprivate let placeholderLabel = StyledLabel()
+    fileprivate var placeholderTopConstraint: Constraint?
     fileprivate let rightView = UIImageView()
     var validationState = ValidationState.none {
         didSet {
@@ -62,11 +74,12 @@ class ClearTextView: UITextView {
         font = .defaultFont(18)
         textColor = .white
         textContainerInset = UIEdgeInsets(top: 2.5, left: -5, bottom: 0, right: 30)
+        placeholderLabel.style = placeholderStyle
         updateTextStyle()
 
         addSubview(placeholderLabel)
         placeholderLabel.snp.makeConstraints { make in
-            make.top.equalTo(self).offset(Size.placeholderOffset)
+            placeholderTopConstraint = make.top.equalTo(self).offset(textContainerInset.top).constraint
             make.leading.trailing.equalTo(self)
         }
 

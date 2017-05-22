@@ -20,6 +20,8 @@ class EditorialTitledCell: EditorialCell {
     }
 
     override func arrange() {
+        super.arrange()
+
         contentView.addSubview(titleLabel)
 
         titleLabel.snp.makeConstraints { make in

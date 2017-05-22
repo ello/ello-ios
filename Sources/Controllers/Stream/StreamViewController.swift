@@ -1075,6 +1075,16 @@ extension StreamViewController: AnnouncementCellResponder {
 // MARK: StreamViewController: UICollectionViewDelegate
 extension StreamViewController: UICollectionViewDelegate {
 
+    func jsonable(forPath indexPath: IndexPath) -> JSONAble? {
+        guard let item = dataSource.visibleStreamCellItem(at: indexPath) else { return nil }
+        return item.jsonable
+    }
+
+    func jsonable(forCell cell: UICollectionViewCell) -> JSONAble? {
+        guard let indexPath = collectionView.indexPath(for: cell) else { return nil}
+        return jsonable(forPath: indexPath)
+    }
+
     func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         guard let cell = cell as? DismissableCell else { return }
         cell.didEndDisplay()
