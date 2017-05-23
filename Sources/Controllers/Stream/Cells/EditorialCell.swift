@@ -4,6 +4,7 @@
 
 import SnapKit
 
+
 @objc
 protocol EditorialResponder: class {
     func submitInvite(cell: UICollectionViewCell, emails: String)
