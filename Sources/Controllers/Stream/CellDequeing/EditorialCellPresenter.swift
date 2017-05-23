@@ -25,6 +25,16 @@ struct EditorialCellPresenter {
         config.join = editorial.join.map {
             EditorialCell.Config.Join(email: $0.email, username: $0.username, password: $0.password)
         }
+
+        if let postImageURL = editorial.post?.firstImageURL {
+            config.imageURL = postImageURL
+        }
+        else if let asset = editorial.images[.size1x1],
+            let imageURL = asset.largeOrBest?.url
+        {
+            config.imageURL = imageURL
+        }
+
         cell.config = config
         (cell as? EditorialJoinCell)?.onJoinChange = { editorial.join = $0 }
         (cell as? EditorialInviteCell)?.onInviteChange = { editorial.invite = $0 }

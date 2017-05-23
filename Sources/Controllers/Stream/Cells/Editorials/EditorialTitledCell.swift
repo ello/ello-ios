@@ -28,8 +28,7 @@ class EditorialTitledCell: EditorialCell {
         editorialContentView.addSubview(subtitleLabel)
 
         titleLabel.snp.makeConstraints { make in
-            make.top.equalTo(editorialContentView).inset(Size.topMargin)
-            make.leading.trailing.equalTo(editorialContentView).inset(Size.defaultMargin)
+            make.top.leading.trailing.equalTo(editorialContentView).inset(Size.defaultMargin)
         }
     }
 

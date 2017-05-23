@@ -16,6 +16,7 @@ class EditorialCellSpec: QuickSpec {
                     config.title = title
                     config.subtitle = subtitle
                     config.invite = EditorialCell.Config.Invite(emails: "", sent: sent)
+                    config.specsImage = UIImage(named: "specs-avatar", in: Bundle(for: type(of: self)), compatibleWith: nil)!
 
                     if join {
                         config.join = EditorialCell.Config.Join(email: "email@email.com", username: "username", password: "password")

@@ -41,8 +41,8 @@ final class Asset: JSONAble {
         // this (much more verbose) code compiles very quickly
         if DeviceScreen.isRetina {
             if let large = large { return large }
-            if let optimized = optimized { return optimized }
             if let xhdpi = xhdpi { return xhdpi }
+            if let optimized = optimized { return optimized }
         }
         if let hdpi = hdpi { return hdpi }
         if let regular = regular { return regular }

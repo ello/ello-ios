@@ -16,9 +16,8 @@ class EditorialCell: UICollectionViewCell {
 
     struct Size {
         static let aspect: CGFloat = 1
-        static let topMargin: CGFloat = 54
-        static let smallTopMargin: CGFloat = 48
-        static let defaultMargin: CGFloat = 40
+        static let smallTopMargin: CGFloat = 28
+        static let defaultMargin: CGFloat = 20
         static let textFieldMargin: CGFloat = 10
         static let arrowMargin: CGFloat = 17
         static let subtitleButtonMargin: CGFloat = 36
@@ -39,6 +38,8 @@ class EditorialCell: UICollectionViewCell {
         }
         var title: String?
         var subtitle: String?
+        var imageURL: URL?
+        var specsImage: UIImage?
         var join: Join?
         var invite: Invite?
         init() {}
@@ -72,7 +73,7 @@ class EditorialCell: UICollectionViewCell {
         layer.locations = [0, 1]
         layer.colors = [
             UIColor(hex: 0x000000, alpha: 0.8).cgColor,
-            UIColor(hex: 0x000000, alpha: 0.66).cgColor,
+            UIColor(hex: 0x000000, alpha: 0.4).cgColor,
         ]
         layer.startPoint = CGPoint(x: 0.5, y: 1)
         layer.endPoint = CGPoint(x: 0.5, y: 0.43)
@@ -82,12 +83,19 @@ class EditorialCell: UICollectionViewCell {
     func style() {
         bg.backgroundColor = .black
         gradientView.layer.addSublayer(gradientLayer)
+        imageView.contentMode = .scaleAspectFill
     }
 
     func bindActions() {
     }
 
     func updateConfig() {
+        if let url = config.imageURL {
+            imageView.pin_setImage(from: url)
+        }
+        else {
+            imageView.image = config.specsImage
+        }
     }
 
     func arrange() {
@@ -106,9 +114,10 @@ class EditorialCell: UICollectionViewCell {
         }
     }
 
-}
+    override func layoutSubviews() {
+        gradientLayer.frame = CGRect(origin: .zero, size: gradientView.frame.size)
+    }
 
-extension EditorialCell {
     override func prepareForReuse() {
         config = Config()
     }

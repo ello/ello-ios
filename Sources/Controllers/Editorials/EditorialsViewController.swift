@@ -79,3 +79,15 @@ extension EditorialsViewController: EditorialResponder {
         navigationController?.pushViewController(vc, animated: true)
     }
 }
+
+extension EditorialsViewController {
+
+    override func streamViewStreamCellItems(jsonables: [JSONAble], defaultGenerator generator: StreamCellItemGenerator) -> [StreamCellItem]? {
+        let editorials = jsonables.flatMap { $0 as? Editorial }
+        for editorial in editorials {
+            print(editorial.post?.description ?? "no post")
+        }
+        return nil
+    }
+
+}

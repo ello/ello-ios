@@ -18,6 +18,15 @@ final class Editorial: JSONAble, Groupable {
         case invite
         case join
     }
+    enum Size: String {
+        case size1x1 = "one_by_one_image"
+        // case size2x1 = "two_by_one_image"
+        // case size1x2 = "one_by_two_image"
+        // case size2x2 = "two_by_two_image"
+
+        static let all: [Size] = [size1x1]
+        // static let all: [Size] = [size1x1, size2x1, size1x2, size2x2]
+    }
 
     let id: String
     let title: String
@@ -27,18 +36,26 @@ final class Editorial: JSONAble, Groupable {
     let url: URL?
     let kind: Kind
     var groupId: String { return "Category-\(id)" }
+    let postId: String?
+    var post: Post? {
+        guard let postId = postId else { return nil }
+        return ElloLinkedStore.sharedInstance.getObject(postId, type: .postsType) as? Post
+    }
+    var images: [Size: Asset] = [:]
 
     init(
         id: String,
         kind: Kind,
         title: String,
         subtitle: String? = nil,
+        postId: String? = nil,
         url: URL? = nil)
     {
         self.id = id
         self.kind = kind
         self.title = title
         self.subtitle = subtitle
+        self.postId = postId
         self.url = url
         super.init(version: EditorialVersion)
     }
@@ -49,6 +66,7 @@ final class Editorial: JSONAble, Groupable {
         kind = Kind(rawValue: decoder.decodeKey("kind")) ?? .post
         title = decoder.decodeKey("title")
         subtitle = decoder.decodeOptionalKey("subtitle")
+        postId = decoder.decodeOptionalKey("postId")
         url = decoder.decodeOptionalKey("url")
         super.init(coder: coder)
     }
@@ -59,6 +77,7 @@ final class Editorial: JSONAble, Groupable {
         encoder.encodeObject(kind.rawValue, forKey: "kind")
         encoder.encodeObject(title, forKey: "title")
         encoder.encodeObject(subtitle, forKey: "subtitle")
+        encoder.encodeObject(postId, forKey: "postId")
         encoder.encodeObject(url, forKey: "url")
         super.encode(with: coder)
     }
@@ -69,6 +88,7 @@ final class Editorial: JSONAble, Groupable {
         let kind = Kind(rawValue: json["kind"].stringValue) ?? .post
         let title = json["title"].stringValue
         let subtitle = json["subtitle"].string
+        let postId = json["links"]["post"]["id"].string
         let url: URL? = json["url"].string.flatMap { URL(string: $0) }
 
         let editorial = Editorial(
@@ -76,7 +96,16 @@ final class Editorial: JSONAble, Groupable {
             kind: kind,
             title: title,
             subtitle: subtitle,
+            postId: postId,
             url: url)
+        editorial.links = data["links"] as? [String: Any]
+
+        for size in Size.all {
+            if let assetData = data[size.rawValue] as? [String: Any] {
+                let asset = Asset.parseAsset("", node: assetData)
+                editorial.images[size] = asset
+            }
+        }
         return editorial
     }
 }
