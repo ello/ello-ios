@@ -24,12 +24,12 @@ class EditorialTitledCell: EditorialCell {
     override func arrange() {
         super.arrange()
 
-        contentView.addSubview(titleLabel)
-        contentView.addSubview(subtitleLabel)
+        editorialContentView.addSubview(titleLabel)
+        editorialContentView.addSubview(subtitleLabel)
 
         titleLabel.snp.makeConstraints { make in
-            make.top.equalTo(contentView).inset(Size.topMargin)
-            make.leading.trailing.equalTo(contentView).inset(Size.defaultMargin)
+            make.top.equalTo(editorialContentView).inset(Size.topMargin)
+            make.leading.trailing.equalTo(editorialContentView).inset(Size.defaultMargin)
         }
     }
 

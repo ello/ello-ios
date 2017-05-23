@@ -25,14 +25,14 @@ class EditorialPostStreamCell: EditorialPostCell {
     override func arrange() {
         super.arrange()
 
-        contentView.addSubview(nextButton)
-        contentView.addSubview(prevButton)
+        editorialContentView.addSubview(nextButton)
+        editorialContentView.addSubview(prevButton)
 
         nextButton.snp.makeConstraints { make in
-            make.top.trailing.equalTo(contentView).inset(Size.arrowMargin)
+            make.top.trailing.equalTo(editorialContentView).inset(Size.arrowMargin)
         }
         prevButton.snp.makeConstraints { make in
-            make.top.equalTo(contentView).inset(Size.arrowMargin)
+            make.top.equalTo(editorialContentView).inset(Size.arrowMargin)
             make.trailing.equalTo(nextButton.snp.leading).offset(-Size.arrowMargin)
         }
     }

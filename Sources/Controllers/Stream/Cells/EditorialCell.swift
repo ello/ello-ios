@@ -50,6 +50,7 @@ class EditorialCell: UICollectionViewCell {
     }
 
     fileprivate let bg = UIView()
+    var editorialContentView: UIView { return bg }
 
     override init(frame: CGRect) {
         super.init(frame: frame)

@@ -29,14 +29,14 @@ class EditorialPostCell: EditorialTitledCell {
     override func arrange() {
         super.arrange()
 
-        contentView.addSubview(buttonsContainer)
+        editorialContentView.addSubview(buttonsContainer)
         buttonsContainer.addSubview(heartButton)
         buttonsContainer.addSubview(commentButton)
         buttonsContainer.addSubview(repostButton)
         buttonsContainer.addSubview(shareButton)
 
         buttonsContainer.snp.makeConstraints { make in
-            make.leading.bottom.trailing.equalTo(contentView).inset(Size.defaultMargin)
+            make.leading.bottom.trailing.equalTo(editorialContentView).inset(Size.defaultMargin)
         }
 
         let buttons = [heartButton, commentButton, repostButton]
@@ -62,8 +62,8 @@ class EditorialPostCell: EditorialTitledCell {
         }
 
         subtitleLabel.snp.makeConstraints { make in
-            make.leading.equalTo(contentView).inset(Size.defaultMargin)
-            make.trailing.lessThanOrEqualTo(contentView).inset(Size.defaultMargin).priority(Priority.required)
+            make.leading.equalTo(editorialContentView).inset(Size.defaultMargin)
+            make.trailing.lessThanOrEqualTo(editorialContentView).inset(Size.defaultMargin).priority(Priority.required)
             make.bottom.equalTo(buttonsContainer.snp.top).offset(-Size.subtitleButtonMargin)
         }
     }

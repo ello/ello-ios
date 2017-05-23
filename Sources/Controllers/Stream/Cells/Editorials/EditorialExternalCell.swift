@@ -20,8 +20,8 @@ class EditorialExternalCell: EditorialTitledCell {
         super.arrange()
 
         subtitleLabel.snp.makeConstraints { make in
-            make.leading.bottom.equalTo(contentView).inset(Size.defaultMargin)
-            make.trailing.lessThanOrEqualTo(contentView).inset(Size.defaultMargin).priority(Priority.required)
+            make.leading.bottom.equalTo(editorialContentView).inset(Size.defaultMargin)
+            make.trailing.lessThanOrEqualTo(editorialContentView).inset(Size.defaultMargin).priority(Priority.required)
         }
     }
 }

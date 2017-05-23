@@ -68,22 +68,22 @@ class EditorialJoinCell: EditorialCell {
     override func arrange() {
         super.arrange()
 
-        contentView.addSubview(joinLabel)
-        contentView.addSubview(emailField)
-        contentView.addSubview(usernameField)
-        contentView.addSubview(passwordField)
-        contentView.addSubview(submitButton)
+        editorialContentView.addSubview(joinLabel)
+        editorialContentView.addSubview(emailField)
+        editorialContentView.addSubview(usernameField)
+        editorialContentView.addSubview(passwordField)
+        editorialContentView.addSubview(submitButton)
 
         joinLabel.snp.makeConstraints { make in
-            make.top.equalTo(contentView).inset(Size.smallTopMargin)
-            make.leading.equalTo(contentView).inset(Size.defaultMargin)
-            make.trailing.lessThanOrEqualTo(contentView).inset(Size.defaultMargin).priority(Priority.required)
+            make.top.equalTo(editorialContentView).inset(Size.smallTopMargin)
+            make.leading.equalTo(editorialContentView).inset(Size.defaultMargin)
+            make.trailing.lessThanOrEqualTo(editorialContentView).inset(Size.defaultMargin).priority(Priority.required)
         }
 
         let fields = [emailField, usernameField, passwordField]
         fields.eachPair { prevField, field in
             field.snp.makeConstraints { make in
-                make.leading.trailing.equalTo(contentView).inset(Size.defaultMargin)
+                make.leading.trailing.equalTo(editorialContentView).inset(Size.defaultMargin)
                 if let prevField = prevField {
                     make.height.equalTo(prevField)
                     make.top.equalTo(prevField.snp.bottom).offset(Size.textFieldMargin)
@@ -97,8 +97,8 @@ class EditorialJoinCell: EditorialCell {
         submitButton.snp.makeConstraints { make in
             make.height.equalTo(Size.buttonHeight)
             make.top.equalTo(fields.last!.snp.bottom).offset(Size.textFieldMargin)
-            make.bottom.equalTo(contentView).offset(-Size.defaultMargin)
-            make.leading.trailing.equalTo(contentView).inset(Size.defaultMargin)
+            make.bottom.equalTo(editorialContentView).offset(-Size.defaultMargin)
+            make.leading.trailing.equalTo(editorialContentView).inset(Size.defaultMargin)
         }
     }
 

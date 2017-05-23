@@ -66,25 +66,25 @@ class EditorialInviteCell: EditorialCell {
     override func arrange() {
         super.arrange()
 
-        contentView.addSubview(inviteLabel)
-        contentView.addSubview(sentLabel)
-        contentView.addSubview(textBg)
+        editorialContentView.addSubview(inviteLabel)
+        editorialContentView.addSubview(sentLabel)
+        editorialContentView.addSubview(textBg)
         textBg.addSubview(textView)
-        contentView.addSubview(submitButton)
+        editorialContentView.addSubview(submitButton)
 
         sentLabel.snp.makeConstraints { make in
             make.top.leading.equalTo(textBg)
         }
 
         inviteLabel.snp.makeConstraints { make in
-            make.top.equalTo(contentView).inset(Size.smallTopMargin)
-            make.leading.equalTo(contentView).inset(Size.defaultMargin)
-            make.trailing.lessThanOrEqualTo(contentView).inset(Size.defaultMargin).priority(Priority.required)
+            make.top.equalTo(editorialContentView).inset(Size.smallTopMargin)
+            make.leading.equalTo(editorialContentView).inset(Size.defaultMargin)
+            make.trailing.lessThanOrEqualTo(editorialContentView).inset(Size.defaultMargin).priority(Priority.required)
         }
         inviteLabel.setContentHuggingPriority(UILayoutPriorityRequired, for: .vertical)
 
         textBg.snp.makeConstraints { make in
-            make.leading.trailing.equalTo(contentView).inset(Size.defaultMargin)
+            make.leading.trailing.equalTo(editorialContentView).inset(Size.defaultMargin)
             make.top.equalTo(inviteLabel.snp.bottom).offset(Size.defaultMargin)
             make.bottom.equalTo(submitButton.snp.top).offset(-Size.textFieldMargin)
         }
@@ -95,8 +95,8 @@ class EditorialInviteCell: EditorialCell {
 
         submitButton.snp.makeConstraints { make in
             make.height.equalTo(Size.buttonHeight)
-            make.bottom.equalTo(contentView).offset(-Size.defaultMargin)
-            make.leading.trailing.equalTo(contentView).inset(Size.defaultMargin)
+            make.bottom.equalTo(editorialContentView).offset(-Size.defaultMargin)
+            make.leading.trailing.equalTo(editorialContentView).inset(Size.defaultMargin)
         }
     }
 
