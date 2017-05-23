@@ -50,6 +50,9 @@ class EditorialCell: UICollectionViewCell {
     }
 
     fileprivate let bg = UIView()
+    fileprivate let gradientView = UIView()
+    fileprivate var gradientLayer = EditorialCell.generateGradientLayer()
+    fileprivate let imageView = UIImageView()
     var editorialContentView: UIView { return bg }
 
     override init(frame: CGRect) {
@@ -63,8 +66,21 @@ class EditorialCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
+    private static func generateGradientLayer() -> CAGradientLayer {
+        let layer = CAGradientLayer()
+        layer.locations = [0, 1]
+        layer.colors = [
+            UIColor(hex: 0x000000, alpha: 0.8).cgColor,
+            UIColor(hex: 0x000000, alpha: 0.66).cgColor,
+        ]
+        layer.startPoint = CGPoint(x: 0.5, y: 1)
+        layer.endPoint = CGPoint(x: 0.5, y: 0.43)
+        return layer
+    }
+
     func style() {
         bg.backgroundColor = .black
+        gradientView.layer.addSublayer(gradientLayer)
     }
 
     func bindActions() {
@@ -75,9 +91,17 @@ class EditorialCell: UICollectionViewCell {
 
     func arrange() {
         contentView.addSubview(bg)
+        bg.addSubview(imageView)
+        imageView.addSubview(gradientView)
 
         bg.snp.makeConstraints { make in
             make.edges.equalTo(contentView).inset(Size.bgMargins)
+        }
+        imageView.snp.makeConstraints { make in
+            make.edges.equalTo(bg)
+        }
+        gradientView.snp.makeConstraints { make in
+            make.edges.equalTo(imageView)
         }
     }
 
