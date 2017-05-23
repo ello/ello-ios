@@ -25,7 +25,7 @@ func showController(_ viewController: UIViewController, window: UIWindow = UIWin
     let parentController = UITabBarController()
     parentController.tabBar.isHidden = true
     parentController.viewControllers = [viewController]
-    window.rootViewController = parentController
+    window.rootViewController = viewController
     window.frame = frame
     window.makeKeyAndVisible()
     viewController.view.layoutIfNeeded()
@@ -35,7 +35,10 @@ func showController(_ viewController: UIViewController, window: UIWindow = UIWin
 func showView(_ view: UIView, container: UIView = UIView()) {
     let controller = UIViewController()
     controller.view.frame.size = view.frame.size
+    container.frame.size = view.frame.size
     view.frame.origin = .zero
+    view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+    view.translatesAutoresizingMaskIntoConstraints = true
     container.addSubview(view)
     controller.view.addSubview(container)
 

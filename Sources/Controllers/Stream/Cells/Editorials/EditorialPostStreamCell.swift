@@ -9,6 +9,7 @@ class EditorialPostStreamCell: EditorialPostCell {
     override func style() {
         super.style()
 
+        subtitleLabel.isHidden = true
         nextButton.setImage(.arrow, imageStyle: .white, for: .normal, degree: 90)
         prevButton.setImage(.arrow, imageStyle: .white, for: .normal, degree: -90)
     }

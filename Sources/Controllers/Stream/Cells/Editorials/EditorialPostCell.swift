@@ -4,7 +4,6 @@
 
 class EditorialPostCell: EditorialTitledCell {
     fileprivate let buttonsContainer = UIView()
-    fileprivate let subtitleLabel = StyledLabel(style: .largeWhite)
     fileprivate let heartButton = UIButton()
     fileprivate let commentButton = UIButton()
     fileprivate let repostButton = UIButton()
@@ -13,7 +12,6 @@ class EditorialPostCell: EditorialTitledCell {
     override func style() {
         super.style()
 
-        subtitleLabel.numberOfLines = 0
         heartButton.setImage(.heartOutline, imageStyle: .white, for: .normal)
         commentButton.setImage(.commentsOutline, imageStyle: .white, for: .normal)
         repostButton.setImage(.repost, imageStyle: .white, for: .normal)
@@ -26,15 +24,12 @@ class EditorialPostCell: EditorialTitledCell {
 
     override func updateConfig() {
         super.updateConfig()
-
-        subtitleLabel.text = config.subtitle
     }
 
     override func arrange() {
         super.arrange()
 
         contentView.addSubview(buttonsContainer)
-        contentView.addSubview(subtitleLabel)
         buttonsContainer.addSubview(heartButton)
         buttonsContainer.addSubview(commentButton)
         buttonsContainer.addSubview(repostButton)
