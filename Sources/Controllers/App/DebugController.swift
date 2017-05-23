@@ -73,7 +73,7 @@ class DebugController: UIViewController, UITableViewDataSource, UITableViewDeleg
                 let action = AlertAction(title: option.rawValue, style: .dark) { _ in
                     GroupDefaults[DebugSettings.useStaging] = option.rawValue
                     postNotification(AuthenticationNotifications.userLoggedOut, value: ())
-                    Crashlytics.sharedInstance().crash()
+                    exit(0)
                 }
                 alertController.addAction(action)
             }
