@@ -35,7 +35,6 @@ class EditorialsViewController: StreamableViewController, EditorialsScreenDelega
         super.viewDidLoad()
 
         ElloHUD.showLoadingHudInView(streamViewController.view)
-        ElloProvider.oneTimeProvider = ElloProvider.StubbingProvider()
         streamViewController.loadInitialPage()
     }
 
