@@ -31,8 +31,8 @@ class CommentSpec: QuickSpec {
                 expect(comment.author).to(beAKindOf(User.self))
                 expect(comment.parentPost).to(beAKindOf(Post.self))
                 expect(comment.loadedFromPost).to(beAKindOf(Post.self))
-                expect(comment.assets!.count) == 1
-                expect(comment.assets![0]).to(beAKindOf(Asset.self))
+                expect(comment.assets.count) == 1
+                expect(comment.assets[0]).to(beAKindOf(Asset.self))
                 // computed
                 expect(comment.groupId) == "Post-\(comment.postId)"
             }

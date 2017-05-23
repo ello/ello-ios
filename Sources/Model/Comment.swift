@@ -21,8 +21,8 @@ final class ElloComment: JSONAble, Authorable, Groupable {
     // optional
     var summary: [Regionable]?
     // links
-    var assets: [Asset]? {
-        return getLinkArray("assets") as? [Asset]
+    var assets: [Asset] {
+        return getLinkArray("assets") as? [Asset] ?? []
     }
     var author: User? {
         return ElloLinkedStore.sharedInstance.getObject(self.authorId, type: .usersType) as? User

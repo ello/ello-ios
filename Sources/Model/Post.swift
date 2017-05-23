@@ -39,8 +39,11 @@ final class Post: JSONAble, Authorable, Groupable {
     var repostsCount: Int?
     var lovesCount: Int?
     // links
-    var assets: [Asset]? {
-        return getLinkArray("assets") as? [Asset]
+    var assets: [Asset] {
+        return getLinkArray("assets") as? [Asset] ?? []
+    }
+    var firstImageURL: URL? {
+        return assets.first?.largeOrBest?.url
     }
     var author: User? {
         return ElloLinkedStore.sharedInstance.getObject(self.authorId, type: .usersType) as? User

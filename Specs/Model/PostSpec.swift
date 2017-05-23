@@ -55,8 +55,8 @@ class PostSpec: QuickSpec {
                 expect(post.comments!.count) == 2
                 expect(post.comments![0]).to(beAKindOf(ElloComment.self))
                 expect(post.comments![1]).to(beAKindOf(ElloComment.self))
-                expect(post.assets!.count) == 1
-                expect(post.assets![0]).to(beAKindOf(Asset.self))
+                expect(post.assets.count) == 1
+                expect(post.assets[0]).to(beAKindOf(Asset.self))
                 // computed
                 expect(post.groupId) == "Post-\(post.id)"
                 expect(post.shareLink) == "https://ello.co/cfiggis/post/\(post.token)"
@@ -92,8 +92,8 @@ class PostSpec: QuickSpec {
                 // links
                 expect(post.repostAuthor!).to(beAKindOf(User.self))
                 expect(post.comments!.count) == 0
-                expect(post.assets!.count) == 1
-                expect(post.assets![0]).to(beAKindOf(Asset.self))
+                expect(post.assets.count) == 1
+                expect(post.assets[0]).to(beAKindOf(Asset.self))
                 // computed
                 expect(post.groupId) == "Post-\(post.id)"
                 expect(post.shareLink) == "https://ello.co/archer/post/\(post.token)"
@@ -281,7 +281,7 @@ class PostSpec: QuickSpec {
                     expect(unArchivedPost.loved) == true
                     // links
                     expect(unArchivedPost.author?.id) == "555"
-                    expect(unArchivedPost.assets?.count) == 1
+                    expect(unArchivedPost.assets.count) == 1
                     expect(unArchivedPost.comments!.count) == 1
                     expect(unArchivedPost.comments![0]).to(beAKindOf(ElloComment.self))
                     // computed
