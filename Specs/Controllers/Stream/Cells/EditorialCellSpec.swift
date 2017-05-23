@@ -35,7 +35,7 @@ class EditorialCellSpec: QuickSpec {
                 for (description, config, cellClass) in expectations {
                     it("should have valid snapshot for \(description)") {
                         let subject = cellClass.init()
-                        subject.frame.size = CGSize(width: 375, height: 375)
+                        subject.frame.size = CGSize(width: 375, height: 376)
                         subject.config = config
                         expectValidSnapshot(subject, record: true)
                     }

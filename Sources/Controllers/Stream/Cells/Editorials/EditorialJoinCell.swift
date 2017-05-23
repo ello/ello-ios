@@ -3,7 +3,7 @@
 //
 
 class EditorialJoinCell: EditorialCell {
-    fileprivate let joinLabel = StyledLabel(style: .largerWhite)
+    fileprivate let joinLabel = StyledLabel(style: .largeWhite)
     fileprivate let emailField = ElloTextField()
     fileprivate let usernameField = ElloTextField()
     fileprivate let passwordField = ElloTextField()
@@ -89,7 +89,7 @@ class EditorialJoinCell: EditorialCell {
                     make.top.equalTo(prevField.snp.bottom).offset(Size.textFieldMargin)
                 }
                 else {
-                    make.top.equalTo(joinLabel.snp.bottom).offset(Size.defaultMargin)
+                    make.top.equalTo(joinLabel.snp.bottom).offset(Size.defaultMargin.top)
                 }
             }
         }
@@ -97,7 +97,7 @@ class EditorialJoinCell: EditorialCell {
         submitButton.snp.makeConstraints { make in
             make.height.equalTo(Size.buttonHeight)
             make.top.equalTo(fields.last!.snp.bottom).offset(Size.textFieldMargin)
-            make.bottom.equalTo(editorialContentView).offset(-Size.defaultMargin)
+            make.bottom.equalTo(editorialContentView).offset(-Size.defaultMargin.bottom)
             make.leading.trailing.equalTo(editorialContentView).inset(Size.defaultMargin)
         }
     }

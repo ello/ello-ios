@@ -3,7 +3,7 @@
 //
 
 class EditorialInviteCell: EditorialCell {
-    fileprivate let inviteLabel = StyledLabel(style: .largerWhite)
+    fileprivate let inviteLabel = StyledLabel(style: .largeWhite)
     fileprivate let sentLabel = StyledLabel(style: .white)
     fileprivate let textBg = UIView()
     fileprivate let textView = ClearTextView()
@@ -85,7 +85,7 @@ class EditorialInviteCell: EditorialCell {
 
         textBg.snp.makeConstraints { make in
             make.leading.trailing.equalTo(editorialContentView).inset(Size.defaultMargin)
-            make.top.equalTo(inviteLabel.snp.bottom).offset(Size.defaultMargin)
+            make.top.equalTo(inviteLabel.snp.bottom).offset(Size.defaultMargin.top)
             make.bottom.equalTo(submitButton.snp.top).offset(-Size.textFieldMargin)
         }
 
@@ -95,7 +95,7 @@ class EditorialInviteCell: EditorialCell {
 
         submitButton.snp.makeConstraints { make in
             make.height.equalTo(Size.buttonHeight)
-            make.bottom.equalTo(editorialContentView).offset(-Size.defaultMargin)
+            make.bottom.equalTo(editorialContentView).offset(-Size.defaultMargin.bottom)
             make.leading.trailing.equalTo(editorialContentView).inset(Size.defaultMargin)
         }
     }

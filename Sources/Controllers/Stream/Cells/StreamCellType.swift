@@ -291,7 +291,7 @@ enum StreamCellType: Equatable {
         case .editorial:
             let width = UIWindow.windowWidth()
             let aspect = EditorialCell.Size.aspect
-            return ceil(width / aspect)
+            return ceil(width / aspect) + 1
         case .announcement:
             return 200
         case let .spacer(height):

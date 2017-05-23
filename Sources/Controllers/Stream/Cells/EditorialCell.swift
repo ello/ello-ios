@@ -17,7 +17,7 @@ class EditorialCell: UICollectionViewCell {
     struct Size {
         static let aspect: CGFloat = 1
         static let smallTopMargin: CGFloat = 28
-        static let defaultMargin: CGFloat = 20
+        static let defaultMargin = UIEdgeInsets(top: 18, left: 18, bottom: 17, right: 15)
         static let textFieldMargin: CGFloat = 10
         static let arrowMargin: CGFloat = 17
         static let subtitleButtonMargin: CGFloat = 36
@@ -81,6 +81,7 @@ class EditorialCell: UICollectionViewCell {
     }
 
     func style() {
+        bg.clipsToBounds = true
         bg.backgroundColor = .black
         gradientView.layer.addSublayer(gradientLayer)
         imageView.contentMode = .scaleAspectFill
