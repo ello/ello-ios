@@ -23,7 +23,6 @@ final class NotificationsGenerator: StreamGenerator {
         self.currentUser = currentUser
         self.streamKind = streamKind
         self.destination = destination
-        self.localToken = loadingToken.resetInitialPageLoadingToken()
     }
 
     func load(reload: Bool = false) {
@@ -98,44 +97,48 @@ final class NotificationsGenerator: StreamGenerator {
     }
 
     func loadNotifications() {
-        StreamService().loadStream(
-            streamKind: streamKind,
-            success: { [weak self] (jsonables, responseConfig) in
-                guard let `self` = self else { return }
-                guard self.loadingToken.isValidInitialPageLoadingToken(self.localToken) else { return }
-                guard let notifications = jsonables as? [Activity] else { return }
+        StreamService().loadStream(streamKind: streamKind)
+            .onSuccess { [weak self] response in
+                guard
+                    let `self` = self,
+                    self.loadingToken.isValidInitialPageLoadingToken(self.localToken)
+                else { return }
 
-                self.notifications = notifications
-                // setting primaryJSONAble also triggers the "done loading" code
-                self.destination?.setPrimary(jsonable: JSONAble(version: JSONAbleVersion))
-                self.destination?.setPagingConfig(responseConfig: responseConfig)
+                switch response {
+                case let .jsonables(jsonables, responseConfig):
+                    guard
+                        let notifications = jsonables as? [Activity]
+                    else { return }
 
-                let notificationItems = self.parse(jsonables: notifications)
-                if notificationItems.count == 0 {
+                    self.notifications = notifications
+                    // setting primaryJSONAble also triggers the "done loading" code
+                    self.destination?.setPrimary(jsonable: JSONAble(version: JSONAbleVersion))
+                    self.destination?.setPagingConfig(responseConfig: responseConfig)
+
+                    let notificationItems = self.parse(jsonables: notifications)
+                    if notificationItems.count == 0 {
+                        let noContentItem = StreamCellItem(type: .emptyStream(height: 282))
+                        self.hasNotifications = false
+                        self.destination?.replacePlaceholder(type: .notifications, items: [noContentItem]) {
+                            self.destination?.pagingEnabled = false
+                        }
+                    }
+                    else {
+                        self.hasNotifications = true
+                        self.destination?.replacePlaceholder(type: .notifications, items: notificationItems) {
+                            self.destination?.pagingEnabled = true
+                        }
+                    }
+                case .empty:
                     let noContentItem = StreamCellItem(type: .emptyStream(height: 282))
-                    self.hasNotifications = false
+                    self.destination?.setPrimary(jsonable: JSONAble(version: JSONAbleVersion))
                     self.destination?.replacePlaceholder(type: .notifications, items: [noContentItem]) {
                         self.destination?.pagingEnabled = false
                     }
                 }
-                else {
-                    self.hasNotifications = true
-                    self.destination?.replacePlaceholder(type: .notifications, items: notificationItems) {
-                        self.destination?.pagingEnabled = true
-                    }
-                }
-            },
-            failure: { [weak self] _ in
-                self?.destination?.primaryJSONAbleNotFound()
-            },
-            noContent: { [weak self] in
-                guard let `self` = self else { return }
-                let noContentItem = StreamCellItem(type: .emptyStream(height: 282))
-                self.destination?.setPrimary(jsonable: JSONAble(version: JSONAbleVersion))
-                self.destination?.replacePlaceholder(type: .notifications, items: [noContentItem]) {
-                    self.destination?.pagingEnabled = false
-                }
             }
-        )
+            .onFail { [weak self] _ in
+                self?.destination?.primaryJSONAbleNotFound()
+            }
     }
 }

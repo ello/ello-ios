@@ -3,34 +3,26 @@
 //
 
 import Moya
-
-typealias StreamSuccessCompletion = ([JSONAble], ResponseConfig) -> Void
-typealias UserSuccessCompletion = (User, ResponseConfig) -> Void
-typealias UserPostsSuccessCompletion = ([Post], ResponseConfig) -> Void
+import FutureKit
 
 struct StreamLoadedNotifications {
     static let streamLoaded = TypedNotification<StreamKind>(name: "StreamLoadedNotification")
 }
 
 class StreamService {
-    init() {}
-
-    func loadStream(
-        streamKind: StreamKind,
-        success: @escaping StreamSuccessCompletion,
-        failure: @escaping ElloFailureCompletion = { _ in },
-        noContent: @escaping ElloEmptyCompletion = {})
-    {
-        return loadStream(endpoint: streamKind.endpoint, streamKind: streamKind, success: success, failure: failure, noContent: noContent)
+    enum StreamResponse {
+        case jsonables([JSONAble], ResponseConfig)
+        case empty
     }
 
-    func loadStream(
-        endpoint: ElloAPI,
-        streamKind: StreamKind?,
-        success: @escaping StreamSuccessCompletion,
-        failure: @escaping ElloFailureCompletion = { _ in },
-        noContent: @escaping ElloEmptyCompletion = {})
-    {
+    init() {}
+
+    func loadStream(streamKind: StreamKind) -> Future<StreamResponse> {
+        return loadStream(endpoint: streamKind.endpoint, streamKind: streamKind)
+    }
+
+    func loadStream(endpoint: ElloAPI, streamKind: StreamKind? = nil) -> Future<StreamResponse> {
+        let promise = Promise<StreamResponse>()
         ElloProvider.shared.elloRequest(
             endpoint,
             success: { (data, responseConfig) in
@@ -39,10 +31,10 @@ class StreamService {
                         Preloader().preloadImages(jsonables)
                         NewContentService().updateCreatedAt(jsonables, streamKind: streamKind)
                     }
-                    success(jsonables, responseConfig)
+                    promise.completeWithSuccess(.jsonables(jsonables, responseConfig))
                 }
                 else {
-                    noContent()
+                    promise.completeWithSuccess(.empty)
                 }
 
                 // this must be the last thing, after success() or noContent() is called.
@@ -51,36 +43,34 @@ class StreamService {
                 }
             },
             failure: { (error, statusCode) in
-                failure(error, statusCode)
+                promise.completeWithFail(error)
             })
+        return promise.future
     }
 
-    func loadUser(
-        _ endpoint: ElloAPI,
-        streamKind: StreamKind?,
-        success: @escaping UserSuccessCompletion,
-        failure: @escaping ElloFailureCompletion)
-    {
+    func loadUser(_ endpoint: ElloAPI) -> Future<User> {
+        let promise = Promise<User>()
         ElloProvider.shared.elloRequest(
             endpoint,
             success: { (data, responseConfig) in
                 if let user = data as? User {
                     Preloader().preloadImages([user])
-                    success(user, responseConfig)
+                    promise.completeWithSuccess(user)
                 }
                 else {
-                    ElloProvider.unCastableJSONAble(failure)
+                    let error = NSError.uncastableJSONAble()
+                    promise.completeWithFail(error)
                 }
             },
-            failure: failure
+            failure: { error, _ in
+                promise.completeWithFail(error)
+            }
         )
+        return promise.future
     }
 
-    func loadUserPosts(
-        _ userId: String,
-        success: @escaping UserPostsSuccessCompletion,
-        failure: @escaping ElloFailureCompletion)
-    {
+    func loadUserPosts(_ userId: String) -> Future<([Post], ResponseConfig)> {
+        let promise = Promise<([Post], ResponseConfig)>()
         ElloProvider.shared.elloRequest(
             ElloAPI.userStreamPosts(userId: userId),
             success: { (data, responseConfig) in
@@ -97,23 +87,21 @@ class StreamService {
 
                 if let posts = posts {
                     Preloader().preloadImages(posts)
-                    success(posts, responseConfig)
+                    promise.completeWithSuccess((posts, responseConfig))
                 }
                 else {
-                    ElloProvider.unCastableJSONAble(failure)
+                    let error = NSError.uncastableJSONAble()
+                    promise.completeWithFail(error)
                 }
             },
-            failure: failure
-        )
+            failure: { error, _ in
+                promise.completeWithFail(error)
+            })
+        return promise.future
     }
 
-    func loadMoreCommentsForPost(
-        _ postId: String,
-        streamKind: StreamKind?,
-        success: @escaping StreamSuccessCompletion,
-        failure: @escaping ElloFailureCompletion,
-        noContent: @escaping ElloEmptyCompletion = {})
-    {
+    func loadMoreCommentsForPost(_ postId: String) -> Future<StreamResponse> {
+        let promise = Promise<StreamResponse>()
         ElloProvider.shared.elloRequest(
             .postComments(postId: postId),
             success: { (data, responseConfig) in
@@ -123,16 +111,20 @@ class StreamService {
                     }
 
                     Preloader().preloadImages(comments)
-                    success(comments, responseConfig)
+                    promise.completeWithSuccess(.jsonables(comments, responseConfig))
                 }
                 else if (data as? String) == "" {
-                    noContent()
+                    promise.completeWithSuccess(.empty)
                 }
                 else {
-                    ElloProvider.unCastableJSONAble(failure)
+                    let error = NSError.uncastableJSONAble()
+                    promise.completeWithFail(error)
                 }
             },
-            failure: failure
+            failure: { error, _ in
+                promise.completeWithFail(error)
+            }
         )
+        return promise.future
     }
 }

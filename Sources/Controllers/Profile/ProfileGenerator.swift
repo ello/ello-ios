@@ -42,7 +42,6 @@ final class ProfileGenerator: StreamGenerator {
         self.user = user
         self.userParam = userParam
         self.streamKind = streamKind
-        self.localToken = loadingToken.resetInitialPageLoadingToken()
         self.destination = destination
     }
 
@@ -99,10 +98,8 @@ private extension ProfileGenerator {
         guard !doneOperation.isFinished || reload else { return }
 
         // load the user with no posts
-        StreamService().loadUser(
-            streamKind.endpoint,
-            streamKind: streamKind,
-            success: { [weak self] (user, _) in
+        StreamService().loadUser(streamKind.endpoint)
+            .onSuccess { [weak self] user in
                 guard let `self` = self else { return }
                 guard self.loadingToken.isValidInitialPageLoadingToken(self.localToken) else { return }
 
@@ -110,12 +107,12 @@ private extension ProfileGenerator {
                 self.destination?.setPrimary(jsonable: user)
                 self.destination?.replacePlaceholder(type: .profileHeader, items: self.headerItems()) {}
                 doneOperation.run()
-            },
-            failure: { [weak self] _ in
+            }
+            .onFail { [weak self] _ in
                 guard let `self` = self else { return }
                 self.destination?.primaryJSONAbleNotFound()
                 self.queue.cancelAllOperations()
-        })
+            }
     }
 
     func loadUserPosts(_ doneOperation: AsyncOperation, reload: Bool) {
@@ -123,9 +120,8 @@ private extension ProfileGenerator {
         displayPostsOperation.addDependency(doneOperation)
         queue.addOperation(displayPostsOperation)
 
-        StreamService().loadUserPosts(
-            userParam,
-            success: { [weak self] (posts, responseConfig) in
+        StreamService().loadUserPosts(userParam)
+            .onSuccess { [weak self] (posts, responseConfig) in
                 guard let `self` = self else { return }
                 guard self.loadingToken.isValidInitialPageLoadingToken(self.localToken) else { return }
 
@@ -155,11 +151,11 @@ private extension ProfileGenerator {
                         }
                     }
                 }
-            },
-            failure: { [weak self] _ in
+            }
+            .onFail { [weak self] _ in
                 guard let `self` = self else { return }
                 self.destination?.primaryJSONAbleNotFound()
                 self.queue.cancelAllOperations()
-        })
+            }
     }
 }

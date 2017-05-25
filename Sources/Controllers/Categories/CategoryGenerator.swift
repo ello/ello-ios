@@ -24,7 +24,6 @@ final class CategoryGenerator: StreamGenerator {
     fileprivate var slug: String?
     fileprivate var pagePromotional: PagePromotional?
     fileprivate var posts: [Post]?
-    fileprivate var hasPosts: Bool?
     fileprivate var localToken: String = ""
     fileprivate var loadingToken = LoadingToken()
 
@@ -54,7 +53,6 @@ final class CategoryGenerator: StreamGenerator {
         self.slug = slug
         self.currentUser = currentUser
         self.streamKind = streamKind
-        self.localToken = loadingToken.resetInitialPageLoadingToken()
         self.destination = destination
     }
 
@@ -233,43 +231,46 @@ private extension CategoryGenerator {
 
         StreamService().loadStream(
             endpoint: endpoint,
-            streamKind: streamKind,
-            success: { [weak self] (jsonables, responseConfig) in
+            streamKind: streamKind
+            )
+            .onSuccess { [weak self] response in
                 guard
                     let `self` = self,
                     self.loadingToken.isValidInitialPageLoadingToken(self.localToken)
                 else { return }
 
-                self.destination?.setPagingConfig(responseConfig: responseConfig)
-                self.posts = jsonables as? [Post]
-                let items = self.parse(jsonables: jsonables)
-                displayPostsOperation.run {
-                    inForeground {
-                        if items.count == 0 {
-                            self.hasPosts = false
-                            let noItems = [StreamCellItem(type: .emptyStream(height: 182))]
-                            self.destination?.replacePlaceholder(type: .categoryPosts, items: noItems) {
-                                self.destination?.pagingEnabled = false
+                switch response {
+                case let .jsonables(jsonables, responseConfig):
+                    self.destination?.setPagingConfig(responseConfig: responseConfig)
+                    self.posts = jsonables as? [Post]
+                    let items = self.parse(jsonables: jsonables)
+                    displayPostsOperation.run {
+                        inForeground {
+                            if items.count == 0 {
+                                let noItems = [StreamCellItem(type: .emptyStream(height: 182))]
+                                self.destination?.replacePlaceholder(type: .categoryPosts, items: noItems) {
+                                    self.destination?.pagingEnabled = false
+                                }
+                                self.destination?.replacePlaceholder(type: .categoryHeader, items: self.headerItems()) {}
                             }
-                            self.destination?.replacePlaceholder(type: .categoryHeader, items: self.headerItems()) {}
-                        }
-                        else {
-                            self.destination?.replacePlaceholder(type: .categoryPosts, items: items) {
-                                self.destination?.pagingEnabled = true
+                            else {
+                                self.destination?.replacePlaceholder(type: .categoryPosts, items: items) {
+                                    self.destination?.pagingEnabled = true
+                                }
                             }
                         }
                     }
+                case .empty:
+                    let noContentItem = StreamCellItem(type: .emptyStream(height: 282))
+                    self.destination?.replacePlaceholder(type: .categoryPosts, items: [noContentItem]) {}
+                    self.destination?.primaryJSONAbleNotFound()
+                    self.queue.cancelAllOperations()
                 }
-            }, failure: { [weak self] _ in
-                guard let `self` = self else { return }
-                self.destination?.primaryJSONAbleNotFound()
-                self.queue.cancelAllOperations()
-            }, noContent: { [weak self] in
-                guard let `self` = self else { return }
-                let noContentItem = StreamCellItem(type: .emptyStream(height: 282))
-                self.destination?.replacePlaceholder(type: .categoryPosts, items: [noContentItem]) {}
-                self.destination?.primaryJSONAbleNotFound()
-                self.queue.cancelAllOperations()
-        })
+            }
+            .onFail { [weak self] _ in
+                    guard let `self` = self else { return }
+                    self.destination?.primaryJSONAbleNotFound()
+                    self.queue.cancelAllOperations()
+            }
     }
 }

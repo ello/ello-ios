@@ -70,11 +70,16 @@ class DynamicSettingsViewController: UITableViewController {
         tableView.scrollsToTop = false
         tableView.rowHeight = DynamicSettingsCellHeight
 
-        StreamService().loadStream(
-            endpoint: .profileToggles,
-            streamKind: nil,
-            success: { data, responseConfig in
-                if let categories = data as? [DynamicSettingCategory] {
+        StreamService().loadStream(endpoint: .profileToggles)
+            .onSuccess { [weak self] response in
+                guard let `self` = self else { return }
+
+                self.hideLoadingHud()
+
+                switch response {
+                case let .jsonables(jsonables, _):
+                    guard let categories = jsonables as? [DynamicSettingCategory] else { return }
+
                     self.dynamicCategories = categories.reduce([]) { categoryArr, category in
                         category.settings = category.settings.reduce([]) { settingsArr, setting in
                             if self.currentUser?.hasProperty(key: setting.key) == true {
@@ -89,15 +94,12 @@ class DynamicSettingsViewController: UITableViewController {
                     }
 
                     self.reloadTables()
+                case .empty: break
                 }
-                self.hideLoadingHud()
-            },
-            failure: { _, _ in
-                self.hideLoadingHud()
-            },
-            noContent: {
-                self.hideLoadingHud()
-            })
+            }
+            .onFail { [weak self] _ in
+                self?.hideLoadingHud()
+            }
     }
 
     fileprivate func reloadTables() {

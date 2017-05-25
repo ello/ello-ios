@@ -36,7 +36,6 @@ final class PostDetailGenerator: StreamGenerator {
         self.post = post
         self.postParam = postParam
         self.streamKind = streamKind
-        self.localToken = loadingToken.resetInitialPageLoadingToken()
         self.destination = destination
     }
 
@@ -68,26 +67,26 @@ final class PostDetailGenerator: StreamGenerator {
         self.destination?.replacePlaceholder(type: .postLoadingComments, items: loadingComments) {}
 
         let scrollAPI = ElloAPI.infiniteScroll(queryItems: nextQueryItems) { return ElloAPI.postComments(postId: postId) }
-        StreamService().loadStream(
-            endpoint: scrollAPI,
-            streamKind: .postDetail(postParam: postId),
-            success: { [weak self] (jsonables, responseConfig) in
+        StreamService().loadStream(endpoint: scrollAPI, streamKind: .postDetail(postParam: postId))
+            .onSuccess { [weak self] response in
                 guard let `self` = self else { return }
 
-                self.destination?.setPagingConfig(responseConfig: responseConfig)
+                switch response {
+                case let .jsonables(jsonables, responseConfig):
+                    self.destination?.setPagingConfig(responseConfig: responseConfig)
 
-                let commentItems = self.parse(jsonables: jsonables)
-                self.postDetailStreamDestination?.appendComments(commentItems)
+                    let commentItems = self.parse(jsonables: jsonables)
+                    self.postDetailStreamDestination?.appendComments(commentItems)
 
-                let loadMoreComments = self.loadMoreCommentItems(lastComment: jsonables.last as? ElloComment, responseConfig: responseConfig)
-                self.destination?.replacePlaceholder(type: .postLoadingComments, items: loadMoreComments) {}
-            },
-            failure: { _ in
+                    let loadMoreComments = self.loadMoreCommentItems(lastComment: jsonables.last as? ElloComment, responseConfig: responseConfig)
+                    self.destination?.replacePlaceholder(type: .postLoadingComments, items: loadMoreComments) {}
+                case .empty:
+                    self.destination?.replacePlaceholder(type: .postLoadingComments, items: []) {}
+                }
+            }
+            .onFail { _ in
                 self.destination?.replacePlaceholder(type: .postLoadingComments, items: []) {}
-        },
-            noContent: {
-                self.destination?.replacePlaceholder(type: .postLoadingComments, items: []) {}
-        })
+            }
     }
 
     static func socialPadding() -> [StreamCellItem] {

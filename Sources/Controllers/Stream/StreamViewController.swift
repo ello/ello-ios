@@ -414,19 +414,22 @@ final class StreamViewController: BaseElloViewController {
         else {
             let localToken = loadingToken.resetInitialPageLoadingToken()
 
-            streamService.loadStream(
-                streamKind: streamKind,
-                success: { (jsonables, responseConfig) in
+            streamService.loadStream(streamKind: streamKind)
+                .onSuccess { response in
                     guard self.loadingToken.isValidInitialPageLoadingToken(localToken) else { return }
 
-                    self.responseConfig = responseConfig
-                    self.showInitialJSONAbles(jsonables)
-                }, failure: { (error, statusCode) in
+                    switch response {
+                    case let .jsonables(jsonables, responseConfig):
+                        self.responseConfig = responseConfig
+                        self.showInitialJSONAbles(jsonables)
+                    case .empty:
+                        self.showInitialJSONAbles([])
+                    }
+                }
+                .onFail { error in
                     print("failed to load \(self.streamKind.cacheKey) stream (reason: \(error))")
                     self.initialLoadFailure()
-                }, noContent: {
-                    self.showInitialJSONAbles([])
-                })
+                }
         }
     }
 
@@ -1251,22 +1254,21 @@ extension StreamViewController: UIScrollViewDelegate {
         scrollToPaginateGuard = false
 
         let scrollAPI = ElloAPI.infiniteScroll(queryItems: nextQueryItems) { return self.streamKind.endpoint }
-        streamService.loadStream(
-            endpoint: scrollAPI,
-            streamKind: streamKind,
-            success: {
-                (jsonables, responseConfig) in
-                self.scrollLoaded(jsonables: jsonables, placeholderType: placeholderType)
-                self.responseConfig = responseConfig
-            },
-            failure: { (error, statusCode) in
+        streamService.loadStream(endpoint: scrollAPI, streamKind: streamKind)
+            .onSuccess { response in
+                switch response {
+                case let .jsonables(jsonables, responseConfig):
+                    self.scrollLoaded(jsonables: jsonables, placeholderType: placeholderType)
+                    self.responseConfig = responseConfig
+                case .empty:
+                    self.allOlderPagesLoaded = true
+                    self.scrollLoaded()
+                }
+            }
+            .onFail { error in
                 print("failed to load stream (reason: \(error))")
                 self.scrollLoaded()
-            },
-            noContent: {
-                self.allOlderPagesLoaded = true
-                self.scrollLoaded()
-            })
+            }
     }
 
     fileprivate func scrollLoaded(jsonables: [JSONAble] = [], placeholderType: StreamCellType.PlaceholderType? = nil) {

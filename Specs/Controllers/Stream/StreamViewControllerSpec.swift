@@ -122,15 +122,17 @@ class StreamViewControllerSpec: QuickSpec {
 
             beforeEach {
                 controller.streamKind = StreamKind.following
-                controller.streamService.loadStream(endpoint: controller.streamKind.endpoint, streamKind: nil,
-                    success: { (jsonables, responseConfig) in
-                        controller.appendUnsizedCellItems(StreamCellItemParser().parse(jsonables, streamKind: controller.streamKind))
-                        controller.responseConfig = responseConfig
-                        controller.doneLoading()
-                    }, failure: { (error, statusCode) in
+                controller.streamService.loadStream(endpoint: controller.streamKind.endpoint)
+                    .onSuccess { response in
+                        if case let .jsonables(jsonables, responseConfig) = response {
+                            controller.appendUnsizedCellItems(StreamCellItemParser().parse(jsonables, streamKind: controller.streamKind))
+                            controller.responseConfig = responseConfig
+                            controller.doneLoading()
+                        }
+                    }
+                    .onFail { _ in
                         controller.doneLoading()
                     }
-                )
             }
 
             it("loads the next page of results when scrolled within 300 of the bottom") {
@@ -205,32 +207,6 @@ class StreamViewControllerSpec: QuickSpec {
 
                     //TODO: verify data
                     xit("reloads the collectionview") {
-                    }
-                }
-            }
-
-            context("UserResponder") {
-
-                beforeEach {
-                    let service = StreamService()
-                    service.loadUser(ElloAPI.following,
-                        streamKind: nil,
-                        success: { (user, responseConfig) in
-                        controller.appendUnsizedCellItems(StreamCellItemParser().parse(user.posts!, streamKind: .following))
-                    }, failure: { _ in })
-                }
-
-                it("is a UserResponder") {
-                    expect(controller as UserResponder).notTo(beNil())
-                }
-
-                describe("userTappedAuthor(_:)") {
-
-                    xit("presents a ProfileViewController") {
-                        let cell = controller.collectionView.cellForItem(at: IndexPath(item: 0, section: 0))
-                        controller.userTappedAuthor(cell: cell!)
-
-                        expect(controller.navigationController?.topViewController).to(beAKindOf(ProfileViewController.self))
                     }
                 }
             }

@@ -110,34 +110,31 @@ class PostbarController: UIResponder, PostbarResponder {
             item.state = .loading
             imageLabelControl.isHighlighted = true
             imageLabelControl.animate()
-            let streamService = StreamService()
-            streamService.loadMoreCommentsForPost(
-                post.id,
-                streamKind: dataSource.streamKind,
-                success: { [weak self] (comments, responseConfig) in
-                    guard let `self` = self else { return }
-                    if let updatedIndexPath = self.dataSource.indexPathForItem(item) {
-                        item.state = .expanded
-                        imageLabelControl.finishAnimation()
-                        let nextIndexPath = IndexPath(item: updatedIndexPath.row + 1, section: updatedIndexPath.section)
+
+            StreamService().loadMoreCommentsForPost(post.id)
+                .onSuccess { [weak self] response in
+                    guard
+                        let `self` = self,
+                        let updatedIndexPath = self.dataSource.indexPathForItem(item)
+                    else { return }
+
+                    item.state = .expanded
+                    imageLabelControl.finishAnimation()
+                    let nextIndexPath = IndexPath(item: updatedIndexPath.row + 1, section: updatedIndexPath.section)
+
+                    switch response {
+                    case let .jsonables(comments, responseConfig):
                         self.commentLoadSuccess(post, comments: comments, indexPath: nextIndexPath, cell: cell)
+                    case .empty:
+                        self.commentLoadSuccess(post, comments: [], indexPath: nextIndexPath, cell: cell)
                     }
-                },
-                failure: { _ in
+                }
+                .onFail { _ in
                     item.state = .collapsed
                     imageLabelControl.finishAnimation()
                     cell.cancelCommentLoading()
                     print("comment load failure")
-                },
-                noContent: { [weak self] in
-                    guard let `self` = self else { return }
-                    item.state = .expanded
-                    imageLabelControl.finishAnimation()
-                    if let updatedIndexPath = self.dataSource.indexPathForItem(item) {
-                        let nextIndexPath = IndexPath(item: updatedIndexPath.row + 1, section: updatedIndexPath.section)
-                        self.commentLoadSuccess(post, comments: [], indexPath: nextIndexPath, cell: cell)
-                    }
-                })
+                }
         }
     }
 

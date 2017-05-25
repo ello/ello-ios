@@ -21,9 +21,8 @@ final class PostDetailViewController: StreamableViewController {
     var scrollToComment: ElloComment?
 
     var navigationBar: ElloNavigationBar!
-    var localToken: String = ""
     var deeplinkPath: String?
-    var generator: PostDetailGenerator?
+    var generator: PostDetailGenerator!
 
     required init(postParam: String) {
         self.postParam = postParam
@@ -33,7 +32,14 @@ final class PostDetailViewController: StreamableViewController {
                 self.post = post
             }
         }
-        self.localToken = streamViewController.loadingToken.resetInitialPageLoadingToken()
+
+        self.generator = PostDetailGenerator(
+            currentUser: self.currentUser,
+            postParam: postParam,
+            post: self.post,
+            streamKind: .postDetail(postParam: postParam),
+            destination: self
+        )
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -43,15 +49,8 @@ final class PostDetailViewController: StreamableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationBar()
-        streamViewController.streamKind = .postDetail(postParam: postParam)
+        streamViewController.streamKind = generator.streamKind
         view.backgroundColor = .white
-        self.generator = PostDetailGenerator(
-            currentUser: self.currentUser,
-            postParam: postParam,
-            post: self.post,
-            streamKind: self.streamViewController.streamKind,
-            destination: self
-        )
         ElloHUD.showLoadingHudInView(streamViewController.view)
         streamViewController.initialLoadClosure = { [weak self] in self?.loadEntirePostDetail() }
         streamViewController.reloadClosure = { [weak self] in self?.reloadEntirePostDetail() }
@@ -70,7 +69,7 @@ final class PostDetailViewController: StreamableViewController {
     }
 
     override func didSetCurrentUser() {
-        generator?.currentUser = currentUser
+        generator.currentUser = currentUser
         super.didSetCurrentUser()
     }
 
@@ -89,11 +88,11 @@ final class PostDetailViewController: StreamableViewController {
     // MARK : private
 
     fileprivate func loadEntirePostDetail() {
-        generator?.load()
+        generator.load()
     }
 
     fileprivate func reloadEntirePostDetail() {
-        generator?.load(reload: true)
+        generator.load(reload: true)
     }
 
     fileprivate func showPostLoadFailure() {
@@ -231,7 +230,7 @@ extension PostDetailViewController: PostCommentsResponder {
             let nextQueryItems = streamViewController.responseConfig?.nextQueryItems
         else { return }
 
-        generator?.loadMoreComments(nextQueryItems: nextQueryItems)
+        generator.loadMoreComments(nextQueryItems: nextQueryItems)
     }
 }
 
