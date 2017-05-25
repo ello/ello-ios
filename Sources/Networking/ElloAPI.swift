@@ -31,7 +31,7 @@ enum ElloAPI {
     case createLove(postId: String)
     case createPost(body: [String: Any])
     case createWatchPost(postId: String)
-    case custom(path: String, elloApi: () -> ElloAPI)
+    case custom(url: URL, mimics: () -> ElloAPI)
     case deleteComment(postId: String, commentId: String)
     case deleteLove(postId: String)
     case deletePost(postId: String)
@@ -340,8 +340,8 @@ extension ElloAPI: Moya.TargetType {
              .auth,
              .reAuth:
             return "/api/oauth/token"
-        case let .custom(path, _):
-            return path
+        case let .custom(url, _):
+            return url.path
         case .editorials:
             return "/api/\(ElloAPI.apiVersion)/editorials"
         case .resetPassword:
@@ -694,6 +694,16 @@ extension ElloAPI: Moya.TargetType {
             ]
         case let .availability(content):
             return content as [String : Any]?
+        case let .custom(url, _):
+            guard let query = url.query else { return nil }
+            var params: [String: Any] = [:]
+            for value in query.split("&") {
+                let kv = value.split("=")
+                guard kv.count == 2 else { continue }
+                let (key, value) = (kv[0], kv[1])
+                params[key.urlDecoded()] = value.urlDecoded()
+            }
+            return params
         case let .editorials(preview):
             if preview {
                 return ["preview": "1"]

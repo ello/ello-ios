@@ -2,11 +2,22 @@
 ///  EditorialsGenerator.swift
 //
 
+protocol EditorialsStreamDestination: StreamDestination {
+    func reloadEditorialCells()
+}
+
 final class EditorialsGenerator: StreamGenerator {
 
     var currentUser: User?
     let streamKind: StreamKind = .editorials
-    weak var destination: StreamDestination?
+    weak fileprivate var editorialStreamDestination: EditorialsStreamDestination?
+    weak var destination: StreamDestination? {
+        get { return editorialStreamDestination }
+        set {
+            if !(newValue is EditorialsStreamDestination) { fatalError("EditorialsGenerator.destination must conform to EditorialsStreamDestination") }
+            editorialStreamDestination = newValue as? EditorialsStreamDestination
+        }
+    }
 
     fileprivate var localToken: String = ""
     fileprivate var loadingToken = LoadingToken()
@@ -63,22 +74,29 @@ private extension EditorialsGenerator {
     }
 
     func loadPostStreamEditorials(_ postStreamEditorials: [Editorial]) {
+        let (afterAll, done) = afterN { [weak self] in
+            self?.editorialStreamDestination?.reloadEditorialCells()
+        }
+
         for editorial in postStreamEditorials {
             guard
                 editorial.kind == .postStream,
                 let path = editorial.postStreamURL
             else { continue }
 
-            let elloApi: ElloAPI = .custom(path: path, elloApi: { return .following })
-
+            let next = afterAll()
             ElloProvider.shared.elloRequest(
-                elloApi,
+                .custom(url: path, mimics: { return .following }),
                 success: { (data, responseConfig) in
+                    guard let posts = data as? [Post] else { next() ; return }
+                    editorial.posts = posts
+                    next()
                 },
                 failure: { (error, statusCode) in
-                    promise.completeWithFail(error)
+                    next()
                 })
-
         }
+
+        done()
     }
 }

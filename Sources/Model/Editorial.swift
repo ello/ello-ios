@@ -41,7 +41,8 @@ final class Editorial: JSONAble, Groupable {
         guard let postId = postId else { return nil }
         return ElloLinkedStore.sharedInstance.getObject(postId, type: .postsType) as? Post
     }
-    var postStreamURL: String?
+    var postStreamURL: URL?
+    var posts: [Post]?
     var images: [Size: Asset] = [:]
 
     init(
@@ -50,7 +51,7 @@ final class Editorial: JSONAble, Groupable {
         title: String,
         subtitle: String? = nil,
         postId: String? = nil,
-        postStreamURL: String? = nil,
+        postStreamURL: URL? = nil,
         externalURL: URL? = nil)
     {
         self.id = id
@@ -94,7 +95,7 @@ final class Editorial: JSONAble, Groupable {
         let title = json["title"].stringValue
         let subtitle = json["subtitle"].string
         let postId = json["links"]["post"]["id"].string
-        let postStreamURL = json["links"]["post_stream"]["href"].string
+        let postStreamURL = json["links"]["post_stream"]["href"].string.flatMap { URL(string: $0) }
         let externalURL: URL? = json["url"].string.flatMap { URL(string: $0) }
 
         let editorial = Editorial(

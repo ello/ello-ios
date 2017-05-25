@@ -20,6 +20,9 @@ class EditorialsViewController: StreamableViewController, EditorialsScreenDelega
         generator = EditorialsGenerator(
             currentUser: currentUser,
             destination: self)
+        streamViewController.streamKind = generator.streamKind
+        streamViewController.pagingEnabled = false
+        streamViewController.initialLoadClosure = { [weak self] in self?.loadEditorials() }
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -43,8 +46,6 @@ class EditorialsViewController: StreamableViewController, EditorialsScreenDelega
         super.viewDidLoad()
 
         ElloHUD.showLoadingHudInView(streamViewController.view)
-        streamViewController.streamKind = generator.streamKind
-        streamViewController.pagingEnabled = false
         streamViewController.loadInitialPage()
     }
 
@@ -90,15 +91,20 @@ extension EditorialsViewController: EditorialResponder {
     }
 }
 
-extension EditorialsViewController: StreamDestination {
+extension EditorialsViewController: EditorialsStreamDestination {
 
     var pagingEnabled: Bool {
         get { return streamViewController.pagingEnabled }
         set { streamViewController.pagingEnabled = newValue }
     }
 
+    func loadEditorials() {
+        generator.load()
+    }
+
     func replacePlaceholder(type: StreamCellType.PlaceholderType, items: [StreamCellItem], completion: @escaping ElloEmptyCompletion) {
         streamViewController.replacePlaceholder(type: type, items: items, completion: completion)
+        streamViewController.doneLoading()
     }
 
     func setPlaceholders(items: [StreamCellItem]) {
@@ -116,6 +122,10 @@ extension EditorialsViewController: StreamDestination {
     func primaryJSONAbleNotFound() {
         self.showGenericLoadFailure()
         self.streamViewController.doneLoading()
+    }
+
+    func reloadEditorialCells() {
+        self.streamViewController.reloadCells()
     }
 
 }

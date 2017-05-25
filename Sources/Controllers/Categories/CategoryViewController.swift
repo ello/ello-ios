@@ -92,9 +92,9 @@ final class CategoryViewController: StreamableViewController {
         )
 
         ElloHUD.showLoadingHudInView(streamViewController.view)
-        streamViewController.initialLoadClosure = { [unowned self] in self.loadCategory(initial: true) }
-        streamViewController.reloadClosure = { [unowned self] in self.reloadCurrentCategory() }
-        streamViewController.toggleClosure = { [unowned self] isGridView in self.toggleGrid(isGridView) }
+        streamViewController.initialLoadClosure = { [weak self] in self?.loadCategory(initial: true) }
+        streamViewController.reloadClosure = { [weak self] in self?.reloadCurrentCategory() }
+        streamViewController.toggleClosure = { [weak self] isGridView in self?.toggleGrid(isGridView) }
 
         self.loadCategory(initial: true)
     }

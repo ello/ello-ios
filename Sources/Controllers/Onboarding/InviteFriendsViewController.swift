@@ -17,7 +17,7 @@ class InviteFriendsViewController: StreamableViewController {
         super.init(nibName: nil, bundle: nil)
         title = InterfaceString.Drawer.Invite
 
-        streamViewController.initialLoadClosure = { [unowned self] in self.findFriendsFromContacts() }
+        streamViewController.initialLoadClosure = { [weak self] in self?.findFriendsFromContacts() }
         streamViewController.pullToRefreshEnabled = false
     }
 
