@@ -138,14 +138,14 @@ class StreamServiceSpec: QuickSpec {
                         var loadedError: NSError?
 
                         streamService.loadStream(endpoint: ElloAPI.following)
-                        .thenFinally { response in
-                            if case let .jsonables(jsonables, _) = response {
-                                loadedJsonables = jsonables
+                            .thenFinally { response in
+                                if case let .jsonables(jsonables, _) = response {
+                                    loadedJsonables = jsonables
+                                }
                             }
-                        }
-                        .catch { error in
-                            loadedError = error as NSError
-                        }
+                            .catch { error in
+                                loadedError = error as NSError
+                            }
 
                         expect(loadedJsonables).to(beNil())
                         expect(loadedError!).notTo(beNil())
