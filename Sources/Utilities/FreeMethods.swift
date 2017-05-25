@@ -58,6 +58,7 @@ func animate(options: AnimationOptions, animated: Bool = true, animations: @esca
 // MARK: Async, Timed, and Throttled closures
 
 typealias BasicBlock = () -> Void
+typealias AfterBlock = () -> BasicBlock
 typealias ThrottledBlock = (@escaping BasicBlock) -> Void
 typealias TakesIndexBlock = (Int) -> Void
 typealias OnHeightMismatch = (CGFloat) -> Void
@@ -122,7 +123,7 @@ private func times_(_ times: Int, block: TakesIndexBlock) {
 //
 // without this 'done' trick, there is a bug where if the first process is synchronous, the 'count'
 // is incremented (by calling 'afterAll') and then immediately decremented.
-func afterN(_ block: @escaping BasicBlock) -> (() -> BasicBlock, BasicBlock) {
+func afterN(_ block: @escaping BasicBlock) -> (AfterBlock, BasicBlock) {
     var count = 0
     var called = false
     let decrementCount: BasicBlock = {

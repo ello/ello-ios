@@ -42,6 +42,7 @@ class EditorialCell: UICollectionViewCell {
         var specsImage: UIImage?
         var join: Join?
         var invite: Invite?
+        var postConfigs: [Config] = []
         init() {}
     }
 
@@ -143,5 +144,47 @@ extension Editorial.Kind {
         case .invite: return EditorialInviteCell.self
         case .join: return EditorialJoinCell.self
         }
+    }
+}
+
+extension EditorialCell.Config {
+    static func fromEditorial(_ editorial: Editorial) -> EditorialCell.Config {
+        var config = EditorialCell.Config()
+        config.title = editorial.title
+        config.subtitle = editorial.subtitle
+        if let posts = editorial.posts {
+            config.postConfigs = posts.map { editorialPost in
+                return EditorialCell.Config.fromPost(editorialPost)
+            }
+        }
+        config.invite = editorial.invite.map {
+            EditorialCell.Config.Invite(emails: $0.emails, sent: $0.sent)
+        }
+        config.join = editorial.join.map {
+            EditorialCell.Config.Join(email: $0.email, username: $0.username, password: $0.password)
+        }
+
+        if let postImageURL = editorial.post?.firstImageURL {
+            config.imageURL = postImageURL
+        }
+        else if let asset = editorial.images[.size1x1],
+            let imageURL = asset.largeOrBest?.url
+        {
+            config.imageURL = imageURL
+        }
+
+        return config
+    }
+
+    static func fromPost(_ post: Post) -> EditorialCell.Config {
+        var config = EditorialCell.Config()
+        config.title = ""
+        config.subtitle = ""
+
+        if let postImageURL = post.firstImageURL {
+            config.imageURL = postImageURL
+        }
+
+        return config
     }
 }

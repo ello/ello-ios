@@ -91,7 +91,7 @@ extension EditorialsViewController: EditorialResponder {
     }
 }
 
-extension EditorialsViewController: EditorialsStreamDestination {
+extension EditorialsViewController: StreamDestination {
 
     var pagingEnabled: Bool {
         get { return streamViewController.pagingEnabled }
@@ -122,10 +122,6 @@ extension EditorialsViewController: EditorialsStreamDestination {
     func primaryJSONAbleNotFound() {
         self.showGenericLoadFailure()
         self.streamViewController.doneLoading()
-    }
-
-    func reloadEditorialCells() {
-        self.streamViewController.reloadCells()
     }
 
 }

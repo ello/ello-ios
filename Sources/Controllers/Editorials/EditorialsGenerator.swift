@@ -2,22 +2,11 @@
 ///  EditorialsGenerator.swift
 //
 
-protocol EditorialsStreamDestination: StreamDestination {
-    func reloadEditorialCells()
-}
-
 final class EditorialsGenerator: StreamGenerator {
 
     var currentUser: User?
     let streamKind: StreamKind = .editorials
-    weak fileprivate var editorialStreamDestination: EditorialsStreamDestination?
-    weak var destination: StreamDestination? {
-        get { return editorialStreamDestination }
-        set {
-            if !(newValue is EditorialsStreamDestination) { fatalError("EditorialsGenerator.destination must conform to EditorialsStreamDestination") }
-            editorialStreamDestination = newValue as? EditorialsStreamDestination
-        }
-    }
+    weak var destination: StreamDestination?
 
     fileprivate var localToken: String = ""
     fileprivate var loadingToken = LoadingToken()
@@ -48,6 +37,16 @@ private extension EditorialsGenerator {
     }
 
     func loadEditorials() {
+        var editorialItems: [StreamCellItem] = []
+        let (afterAll, done) = afterN { [weak self] in
+            guard let `self` = self else { return }
+
+            self.destination?.replacePlaceholder(type: .editorials, items: editorialItems) {
+                self.destination?.pagingEnabled = editorialItems.count > 0
+            }
+        }
+
+        let receivedEditorials = afterAll()
         StreamService().loadStream(streamKind: streamKind)
             .onSuccess { [weak self] response in
                 guard
@@ -57,27 +56,20 @@ private extension EditorialsGenerator {
                 else { return }
 
                 self.destination?.setPagingConfig(responseConfig: responseConfig)
+                editorialItems += self.parse(jsonables: editorials)
 
                 let postStreamEditorials = editorials.filter { $0.kind == .postStream }
-                self.loadPostStreamEditorials(postStreamEditorials)
-
-                let editorialItems = self.parse(jsonables: editorials)
-                self.destination?.replacePlaceholder(type: .editorials, items: editorialItems) {
-                    self.destination?.pagingEnabled = editorialItems.count > 0
-                }
-
+                self.loadPostStreamEditorials(postStreamEditorials, afterAll: afterAll)
+                receivedEditorials()
             }
             .onFail { [weak self] _ in
                 guard let `self` = self else { return }
                 self.destination?.primaryJSONAbleNotFound()
             }
+        done()
     }
 
-    func loadPostStreamEditorials(_ postStreamEditorials: [Editorial]) {
-        let (afterAll, done) = afterN { [weak self] in
-            self?.editorialStreamDestination?.reloadEditorialCells()
-        }
-
+    private func loadPostStreamEditorials(_ postStreamEditorials: [Editorial], afterAll: AfterBlock) {
         for editorial in postStreamEditorials {
             guard
                 editorial.kind == .postStream,
@@ -96,7 +88,5 @@ private extension EditorialsGenerator {
                     next()
                 })
         }
-
-        done()
     }
 }
