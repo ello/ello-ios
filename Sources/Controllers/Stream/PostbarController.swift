@@ -123,7 +123,7 @@ class PostbarController: UIResponder, PostbarResponder {
                     let nextIndexPath = IndexPath(item: updatedIndexPath.row + 1, section: updatedIndexPath.section)
 
                     switch response {
-                    case let .jsonables(comments, responseConfig):
+                    case let .jsonables(comments, _):
                         self.commentLoadSuccess(post, comments: comments, indexPath: nextIndexPath, cell: cell)
                     case .empty:
                         self.commentLoadSuccess(post, comments: [], indexPath: nextIndexPath, cell: cell)

@@ -33,7 +33,7 @@ final class Editorial: JSONAble, Groupable {
     let subtitle: String?
     var join: JoinInfo?
     var invite: InviteInfo?
-    let url: URL?
+    let externalURL: URL?
     let kind: Kind
     var groupId: String { return "Category-\(id)" }
     let postId: String?
@@ -41,6 +41,7 @@ final class Editorial: JSONAble, Groupable {
         guard let postId = postId else { return nil }
         return ElloLinkedStore.sharedInstance.getObject(postId, type: .postsType) as? Post
     }
+    var postStreamURL: String?
     var images: [Size: Asset] = [:]
 
     init(
@@ -49,14 +50,16 @@ final class Editorial: JSONAble, Groupable {
         title: String,
         subtitle: String? = nil,
         postId: String? = nil,
-        url: URL? = nil)
+        postStreamURL: String? = nil,
+        externalURL: URL? = nil)
     {
         self.id = id
         self.kind = kind
         self.title = title
         self.subtitle = subtitle
         self.postId = postId
-        self.url = url
+        self.postStreamURL = postStreamURL
+        self.externalURL = externalURL
         super.init(version: EditorialVersion)
     }
 
@@ -67,7 +70,8 @@ final class Editorial: JSONAble, Groupable {
         title = decoder.decodeKey("title")
         subtitle = decoder.decodeOptionalKey("subtitle")
         postId = decoder.decodeOptionalKey("postId")
-        url = decoder.decodeOptionalKey("url")
+        postStreamURL = decoder.decodeOptionalKey("postStreamURL")
+        externalURL = decoder.decodeOptionalKey("externalURL")
         super.init(coder: coder)
     }
 
@@ -78,7 +82,8 @@ final class Editorial: JSONAble, Groupable {
         encoder.encodeObject(title, forKey: "title")
         encoder.encodeObject(subtitle, forKey: "subtitle")
         encoder.encodeObject(postId, forKey: "postId")
-        encoder.encodeObject(url, forKey: "url")
+        encoder.encodeObject(postStreamURL, forKey: "postStreamURL")
+        encoder.encodeObject(externalURL, forKey: "externalURL")
         super.encode(with: coder)
     }
 
@@ -89,7 +94,8 @@ final class Editorial: JSONAble, Groupable {
         let title = json["title"].stringValue
         let subtitle = json["subtitle"].string
         let postId = json["links"]["post"]["id"].string
-        let url: URL? = json["url"].string.flatMap { URL(string: $0) }
+        let postStreamURL = json["links"]["post_stream"]["href"].string
+        let externalURL: URL? = json["url"].string.flatMap { URL(string: $0) }
 
         let editorial = Editorial(
             id: id,
@@ -97,7 +103,8 @@ final class Editorial: JSONAble, Groupable {
             title: title,
             subtitle: subtitle,
             postId: postId,
-            url: url)
+            postStreamURL: postStreamURL,
+            externalURL: externalURL)
         editorial.links = data["links"] as? [String: Any]
 
         for size in Size.all {

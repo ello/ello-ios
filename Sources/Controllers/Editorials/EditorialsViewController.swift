@@ -26,6 +26,11 @@ class EditorialsViewController: StreamableViewController, EditorialsScreenDelega
         fatalError("init(coder:) has not been implemented")
     }
 
+    override func didSetCurrentUser() {
+        generator.currentUser = currentUser
+        super.didSetCurrentUser()
+    }
+
     override func loadView() {
         let screen = EditorialsScreen()
         screen.delegate = self
@@ -39,6 +44,7 @@ class EditorialsViewController: StreamableViewController, EditorialsScreenDelega
 
         ElloHUD.showLoadingHudInView(streamViewController.view)
         streamViewController.streamKind = generator.streamKind
+        streamViewController.pagingEnabled = false
         streamViewController.loadInitialPage()
     }
 

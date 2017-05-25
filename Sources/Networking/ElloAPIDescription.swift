@@ -80,8 +80,10 @@ extension ElloAPI: CustomStringConvertible, CustomDebugStringConvertible {
             return "hire(userId: \(userId), body: \(body.characters.count))"
         case let .collaborate(userId, body):
             return "collaborate(userId: \(userId), body: \(body.characters.count))"
-        case let .infiniteScroll(_, elloApi):
-            return "infiniteScroll(elloApi: \(elloApi()))"
+        case let .custom(path, api):
+            return "custom(path: \(path), elloApi: \(api()))"
+        case let .infiniteScroll(_, api):
+            return "infiniteScroll(elloApi: \(api()))"
         case let .loves(userId):
             return "loves(userId: \(userId))"
         case let .locationAutoComplete(terms):
@@ -166,6 +168,8 @@ extension ElloAPI: CustomStringConvertible, CustomDebugStringConvertible {
             return "currentUserProfile"
         case .currentUserStream:
             return "currentUserStream"
+        case .custom:
+            return "custom"
         case .rePost:
             return "rePost"
         case .deleteComment:

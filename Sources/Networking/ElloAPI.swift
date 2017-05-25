@@ -31,6 +31,7 @@ enum ElloAPI {
     case createLove(postId: String)
     case createPost(body: [String: Any])
     case createWatchPost(postId: String)
+    case custom(path: String, elloApi: () -> ElloAPI)
     case deleteComment(postId: String, commentId: String)
     case deleteLove(postId: String)
     case deletePost(postId: String)
@@ -112,6 +113,8 @@ enum ElloAPI {
              .userStream,
              .category:
             return .postsType
+        case let .custom(_, api):
+            return api().pagingMappingType
         default:
             return nil
         }
@@ -155,6 +158,8 @@ enum ElloAPI {
              .userStreamFollowers,
              .userStreamFollowing:
             return .usersType
+        case let .custom(_, api):
+            return api().mappingType
         case .discover:
             return .postsType
         case .commentDetail,
@@ -221,16 +226,35 @@ enum ElloAPI {
 extension ElloAPI {
     var supportsAnonymousToken: Bool {
         switch self {
-        case .availability, .editorials,
-             .categories, .category, .categoryPosts, .discover, .pagePromotionals,
-             .searchForPosts, .searchForUsers,
-             .userStreamPosts, .userStreamFollowing, .userStreamFollowers, .loves,
-             .postComments, .postDetail, .postLovers, .postRelatedPosts, .postReposters, .postViews,
-             .join, .deleteSubscriptions, .userStream, .resetPassword, .requestPasswordReset:
+        case .availability,
+             .categories,
+             .category,
+             .categoryPosts,
+             .deleteSubscriptions,
+             .discover,
+             .editorials,
+             .join,
+             .loves,
+             .pagePromotionals,
+             .postComments,
+             .postDetail,
+             .postLovers,
+             .postRelatedPosts,
+             .postReposters,
+             .postViews,
+             .requestPasswordReset,
+             .resetPassword,
+             .searchForPosts,
+             .searchForUsers,
+             .userStream,
+             .userStreamFollowers,
+             .userStreamFollowing,
+             .userStreamPosts:
             return true
-        case let .infiniteScroll(_, elloApi):
-            let api = elloApi()
-            return api.supportsAnonymousToken
+        case let .custom(_, api):
+            return api().supportsAnonymousToken
+        case let .infiniteScroll(_, api):
+            return api().supportsAnonymousToken
         default:
             return false
         }
@@ -294,8 +318,10 @@ extension ElloAPI: Moya.TargetType {
              .updateComment,
              .updatePost:
             return .patch
-        case let .infiniteScroll(_, elloApi):
-            return elloApi().method
+        case let .custom(_, api):
+            return api().method
+        case let .infiniteScroll(_, api):
+            return api().method
         default:
             return .get
         }
@@ -314,6 +340,8 @@ extension ElloAPI: Moya.TargetType {
              .auth,
              .reAuth:
             return "/api/oauth/token"
+        case let .custom(path, _):
+            return path
         case .editorials:
             return "/api/\(ElloAPI.apiVersion)/editorials"
         case .resetPassword:
@@ -518,9 +546,12 @@ extension ElloAPI: Moya.TargetType {
             return stubbedData("users_getting_a_list_for_autocompleted_usernames")
         case .findFriends:
             return stubbedData("find-friends")
-        case .following,
-             .infiniteScroll:
+        case .following:
             return stubbedData("activity_streams_friend_stream")
+        case let .custom(_, api):
+            return api().sampleData
+        case let .infiniteScroll(_, api):
+            return api().sampleData
         case .join:
             return stubbedData("users_registering_an_account")
         case .loves:
