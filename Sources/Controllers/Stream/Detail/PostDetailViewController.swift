@@ -95,14 +95,6 @@ final class PostDetailViewController: StreamableViewController {
         generator.load(reload: true)
     }
 
-    fileprivate func showPostLoadFailure() {
-        let message = InterfaceString.GenericError
-        let alertController = AlertViewController(error: message) { _ in
-            _ = self.navigationController?.popViewController(animated: true)
-        }
-        self.present(alertController, animated: true, completion: nil)
-    }
-
     fileprivate func setupNavigationBar() {
         navigationBar = ElloNavigationBar(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: ElloNavigationBar.Size.height))
         navigationBar.autoresizingMask = [.flexibleBottomMargin, .flexibleWidth]
@@ -304,7 +296,7 @@ extension PostDetailViewController: PostDetailStreamDestination {
             _ = self.navigationController?.popViewController(animated: true)
         }
         else {
-            self.showPostLoadFailure()
+            self.showGenericLoadFailure()
         }
         self.streamViewController.doneLoading()
     }

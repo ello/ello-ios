@@ -63,12 +63,10 @@ extension AutoCompleteViewController {
 
     func showAutoCompleteLoadFailure(_ error: NSError, statusCode: Int?) {
         let message = InterfaceString.GenericError
-        let alertController = AlertViewController(message: message)
-        let action = AlertAction(title: InterfaceString.OK, style: .dark, handler: nil)
-        alertController.addAction(action)
-        present(alertController, animated: true) {
+        let alertController = AlertViewController(error: message) { _ in
             _ = self.navigationController?.popViewController(animated: true)
         }
+        present(alertController, animated: true)
     }
 }
 

@@ -191,16 +191,6 @@ final class ProfileViewController: StreamableViewController {
         generator?.load(reload: true)
     }
 
-    fileprivate func showUserLoadFailure() {
-        let message = InterfaceString.GenericError
-        let alertController = AlertViewController(message: message)
-        let action = AlertAction(title: InterfaceString.OK, style: .dark) { _ in
-            _ = self.navigationController?.popViewController(animated: true)
-        }
-        alertController.addAction(action)
-        present(alertController, animated: true, completion: nil)
-    }
-
     fileprivate func setupNavigationItems() {
         let backItem = UIBarButtonItem.backChevron(withController: self)
         let gridListItem = UIBarButtonItem.gridListItem(delegate: streamViewController, isGridView: streamViewController.streamKind.isGridView)
@@ -584,7 +574,7 @@ extension ProfileViewController:  StreamDestination {
             _ = self.navigationController?.popViewController(animated: true)
         }
         else {
-            self.showUserLoadFailure()
+            self.showGenericLoadFailure()
         }
         self.streamViewController.doneLoading()
     }

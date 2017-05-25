@@ -359,3 +359,15 @@ extension StreamableViewController: InviteResponder {
             }
     }
 }
+
+extension StreamableViewController {
+
+    func showGenericLoadFailure() {
+        let message = InterfaceString.GenericError
+        let alertController = AlertViewController(error: message) { _ in
+            _ = self.navigationController?.popViewController(animated: true)
+        }
+        self.present(alertController, animated: true, completion: nil)
+    }
+
+}
