@@ -12,11 +12,14 @@ class EditorialsViewController: StreamableViewController, EditorialsScreenDelega
         set(screen) { _mockScreen = screen }
         get { return _mockScreen ?? self.view as! EditorialsScreen }
     }
+    var generator: EditorialsGenerator!
 
     init() {
         super.init(nibName: nil, bundle: nil)
 
-        streamViewController.streamKind = .editorials
+        generator = EditorialsGenerator(
+            currentUser: currentUser,
+            destination: self)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -35,6 +38,7 @@ class EditorialsViewController: StreamableViewController, EditorialsScreenDelega
         super.viewDidLoad()
 
         ElloHUD.showLoadingHudInView(streamViewController.view)
+        streamViewController.streamKind = generator.streamKind
         streamViewController.loadInitialPage()
     }
 
@@ -80,14 +84,32 @@ extension EditorialsViewController: EditorialResponder {
     }
 }
 
-extension EditorialsViewController {
+extension EditorialsViewController: StreamDestination {
 
-    override func streamViewStreamCellItems(jsonables: [JSONAble], defaultGenerator generator: StreamCellItemGenerator) -> [StreamCellItem]? {
-        let editorials = jsonables.flatMap { $0 as? Editorial }
-        for editorial in editorials {
-            print(editorial.post?.description ?? "no post")
-        }
-        return nil
+    var pagingEnabled: Bool {
+        get { return streamViewController.pagingEnabled }
+        set { streamViewController.pagingEnabled = newValue }
+    }
+
+    func replacePlaceholder(type: StreamCellType.PlaceholderType, items: [StreamCellItem], completion: @escaping ElloEmptyCompletion) {
+        streamViewController.replacePlaceholder(type: type, items: items, completion: completion)
+    }
+
+    func setPlaceholders(items: [StreamCellItem]) {
+        streamViewController.clearForInitialLoad()
+        streamViewController.appendStreamCellItems(items)
+    }
+
+    func setPrimary(jsonable: JSONAble) {
+    }
+
+    func setPagingConfig(responseConfig: ResponseConfig) {
+        streamViewController.responseConfig = responseConfig
+    }
+
+    func primaryJSONAbleNotFound() {
+        self.showGenericLoadFailure()
+        self.streamViewController.doneLoading()
     }
 
 }
