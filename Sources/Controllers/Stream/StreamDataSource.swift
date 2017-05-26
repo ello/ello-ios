@@ -412,7 +412,9 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
             else if let love = jsonable as? Love {
                 indexPath = clientSideLoveInsertIndexPath()
 
-                if let post = love.post, let user = love.user {
+                if let post = love.post, let user = love.user,
+                    streamKind.isDetail(post: post)
+                {
                     if !hasCellItems(for: .postLovers) {
                         let items = PostDetailGenerator.userAvatarCellItems(
                             users: [user],
@@ -561,12 +563,16 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
     func mergeAndReloadElementsFor(jsonable: JSONAble, change: ContentChange, collectionView: ElloCollectionView) {
         let (_, items) = elementsFor(jsonable: jsonable, change: change)
         let T = type(of: jsonable)
+        var modified = false
         for item in items {
             if item.jsonable.isKind(of: T) {
                 item.jsonable = item.jsonable.merge(jsonable)
+                modified = true
             }
         }
-        collectionView.reloadData() // reload(indexPaths)
+        if modified {
+            collectionView.reloadData() // reload(indexPaths)
+        }
     }
 
     func modifyUserRelationshipItems(_ user: User, collectionView: ElloCollectionView) {

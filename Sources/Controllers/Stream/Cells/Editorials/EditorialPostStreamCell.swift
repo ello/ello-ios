@@ -36,9 +36,11 @@ class EditorialPostStreamCell: EditorialCell {
     override func updateConfig() {
         super.updateConfig()
         titleLabel.text = config.title
-        updatePostViews(configs: config.postConfigs)
-        nextButton.isHidden = config.postConfigs.count == 0
-        prevButton.isHidden = config.postConfigs.count == 0
+
+        let postStreamConfigs: [EditorialCell.Config] = config.postStream?.postConfigs ?? []
+        updatePostViews(configs: postStreamConfigs)
+        nextButton.isHidden = postStreamConfigs.count == 0
+        prevButton.isHidden = postStreamConfigs.count == 0
     }
 
     override func arrange() {

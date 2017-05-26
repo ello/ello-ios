@@ -9,6 +9,10 @@ import SnapKit
 protocol EditorialResponder: class {
     func submitInvite(cell: UICollectionViewCell, emails: String)
     func submitJoin(cell: UICollectionViewCell, email: String, username: String, password: String)
+    func lovesTapped(post: Post, cell: EditorialPostCell)
+    func commentTapped(post: Post, cell: EditorialPostCell)
+    func repostTapped(post: Post, cell: EditorialPostCell)
+    func shareTapped(post: Post, cell: EditorialPostCell)
 }
 
 
@@ -27,22 +31,20 @@ class EditorialCell: UICollectionViewCell {
     }
 
     struct Config {
-        struct Join {
-            var email: String?
-            var username: String?
-            var password: String?
+        struct PostStream {
+            let postConfigs: [Config]
         }
-        struct Invite {
-            var emails: String
-            var sent: Bool
-        }
+
         var title: String?
         var subtitle: String?
         var imageURL: URL?
         var specsImage: UIImage?
-        var join: Join?
-        var invite: Invite?
-        var postConfigs: [Config] = []
+
+        var join: Editorial.JoinInfo?
+        var invite: Editorial.InviteInfo?
+        var post: Post?
+        var postStream: PostStream?
+
         init() {}
     }
 
@@ -152,16 +154,15 @@ extension EditorialCell.Config {
         var config = EditorialCell.Config()
         config.title = editorial.title
         config.subtitle = editorial.subtitle
+        config.invite = editorial.invite
+        config.join = editorial.join
+        config.post = editorial.post
+
         if let posts = editorial.posts {
-            config.postConfigs = posts.map { editorialPost in
+            let postConfigs = posts.map { editorialPost in
                 return EditorialCell.Config.fromPost(editorialPost)
             }
-        }
-        config.invite = editorial.invite.map {
-            EditorialCell.Config.Invite(emails: $0.emails, sent: $0.sent)
-        }
-        config.join = editorial.join.map {
-            EditorialCell.Config.Join(email: $0.email, username: $0.username, password: $0.password)
+            config.postStream = EditorialCell.Config.PostStream(postConfigs: postConfigs)
         }
 
         if let postImageURL = editorial.post?.firstImageURL {
@@ -176,10 +177,11 @@ extension EditorialCell.Config {
         return config
     }
 
-    static func fromPost(_ post: Post) -> EditorialCell.Config {
+    static func fromPost(_ post: Ello.Post) -> EditorialCell.Config {
         var config = EditorialCell.Config()
         config.title = ""
         config.subtitle = ""
+        config.post = post
 
         if let postImageURL = post.firstImageURL {
             config.imageURL = postImageURL

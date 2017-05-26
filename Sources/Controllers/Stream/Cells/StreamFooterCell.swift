@@ -218,3 +218,14 @@ class StreamFooterCell: UICollectionViewCell {
         responder?.cellLongPressed(cell: self)
     }
 }
+
+extension StreamFooterCell: LoveableCell {
+
+    func toggleLoveControl(enabled: Bool) {
+        lovesControl.isUserInteractionEnabled = enabled
+    }
+
+    func toggleLoveState(loved: Bool) {
+    }
+
+}

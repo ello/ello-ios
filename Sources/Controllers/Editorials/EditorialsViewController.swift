@@ -89,6 +89,22 @@ extension EditorialsViewController: EditorialResponder {
         let vc = JoinViewController(email: email, username: username, password: password)
         navigationController?.pushViewController(vc, animated: true)
     }
+
+    func lovesTapped(post: Post, cell: EditorialPostCell) {
+        streamViewController.postbarController?.toggleLove(cell, post: post, via: "editorial")
+    }
+
+    func commentTapped(post: Post, cell: EditorialPostCell) {
+        postTapped(post)
+    }
+
+    func repostTapped(post: Post, cell: EditorialPostCell) {
+        postTapped(post)
+    }
+
+    func shareTapped(post: Post, cell: EditorialPostCell) {
+        streamViewController.postbarController?.sharePost(post, sourceView: cell)
+    }
 }
 
 extension EditorialsViewController: StreamDestination {

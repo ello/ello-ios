@@ -17,6 +17,12 @@ protocol PostbarResponder: class {
     func watchPostTapped(_ watching: Bool, cell: StreamCreateCommentCell)
 }
 
+@objc
+protocol LoveableCell: class {
+    func toggleLoveControl(enabled: Bool)
+    func toggleLoveState(loved: Bool)
+}
+
 class PostbarController: UIResponder, PostbarResponder {
 
     override var canBecomeFirstResponder: Bool {
@@ -203,14 +209,14 @@ class PostbarController: UIResponder, PostbarResponder {
         toggleLove(cell, post: post, via: "button")
     }
 
-    func toggleLove(_ cell: StreamFooterCell?, post: Post, via: String) {
-        cell?.lovesControl.isUserInteractionEnabled = false
+    func toggleLove(_ cell: LoveableCell?, post: Post, via: String) {
+        cell?.toggleLoveControl(enabled: false)
 
         if post.loved { unlovePost(post, cell: cell) }
         else { lovePost(post, cell: cell, via: via) }
     }
 
-    fileprivate func unlovePost(_ post: Post, cell: StreamFooterCell?) {
+    fileprivate func unlovePost(_ post: Post, cell: LoveableCell?) {
         Tracker.shared.postUnloved(post)
         if let count = post.lovesCount {
             post.lovesCount = count - 1
@@ -234,15 +240,16 @@ class PostbarController: UIResponder, PostbarResponder {
                         )
                     postNotification(JSONAbleChangedNotification, value: (love, .delete))
                 }
-                cell?.lovesControl.isUserInteractionEnabled = true
+                cell?.toggleLoveState(loved: false)
+                cell?.toggleLoveControl(enabled: true)
             },
             failure: { error, statusCode in
-                cell?.lovesControl.isUserInteractionEnabled = true
+                cell?.toggleLoveControl(enabled: true)
                 print("failed to unlove post \(post.id), error: \(error.elloErrorMessage ?? error.localizedDescription)")
             })
     }
 
-    fileprivate func lovePost(_ post: Post, cell: StreamFooterCell?, via: String) {
+    fileprivate func lovePost(_ post: Post, cell: LoveableCell?, via: String) {
         Tracker.shared.postLoved(post, via: via)
         if let count = post.lovesCount {
             post.lovesCount = count + 1
@@ -257,10 +264,11 @@ class PostbarController: UIResponder, PostbarResponder {
             postId: post.id,
             success: { (love, responseConfig) in
                 postNotification(JSONAbleChangedNotification, value: (love, .create))
-                cell?.lovesControl.isUserInteractionEnabled = true
+                cell?.toggleLoveState(loved: true)
+                cell?.toggleLoveControl(enabled: true)
             },
             failure: { error, statusCode in
-                cell?.lovesControl.isUserInteractionEnabled = true
+                cell?.toggleLoveControl(enabled: true)
                 print("failed to love post \(post.id), error: \(error.elloErrorMessage ?? error.localizedDescription)")
             })
     }
@@ -340,7 +348,14 @@ class PostbarController: UIResponder, PostbarResponder {
     func shareButtonTapped(_ cell: UICollectionViewCell, sourceView: UIView) {
         guard
             let indexPath = collectionView.indexPath(for: cell),
-            let post = dataSource.postForIndexPath(indexPath),
+            let post = dataSource.postForIndexPath(indexPath)
+        else { return }
+
+        sharePost(post, sourceView: sourceView)
+    }
+
+    func sharePost(_ post: Post, sourceView: UIView) {
+        guard
             let shareLink = post.shareLink,
             let shareURL = URL(string: shareLink),
             let presentingController = responderChainable?.controller
