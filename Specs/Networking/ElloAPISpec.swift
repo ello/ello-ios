@@ -23,6 +23,21 @@ class ElloAPISpec: QuickSpec {
             provider = ElloProvider.DefaultProvider()
         }
 
+        describe("convertQueryParams") {
+            it("should convert simple query strings") {
+                let params = convertQueryParams("a=b")
+                expect(params["a"] as? String) == "b"
+            }
+            it("should convert encoded query strings") {
+                let params = convertQueryParams("a%2Ba=b%26b")
+                expect(params["a+a"] as? String) == "b&b"
+            }
+            it("should convert arrays") {
+                let params = convertQueryParams("a%5B%5D=1&a%5B%5D=2")
+                expect(params["a"] as? [String]) == ["1", "2"]
+            }
+        }
+
         describe("ElloAPI") {
             describe("paths") {
 

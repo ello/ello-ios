@@ -25,7 +25,7 @@ func showController(_ viewController: UIViewController, window: UIWindow = UIWin
     let parentController = UITabBarController()
     parentController.tabBar.isHidden = true
     parentController.viewControllers = [viewController]
-    window.rootViewController = viewController
+    window.rootViewController = parentController
     window.frame = frame
     window.makeKeyAndVisible()
     viewController.view.layoutIfNeeded()

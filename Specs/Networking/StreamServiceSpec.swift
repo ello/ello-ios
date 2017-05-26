@@ -18,7 +18,7 @@ class StreamServiceSpec: QuickSpec {
 
                 describe("-loadStream") {
                     xit("Calls success with an array of Activity objects and responseConfig") {
-                        var loadedPosts:[Post]?
+                        var loadedPosts: [Post]?
                         var config: ResponseConfig?
 
                         streamService.loadStream(endpoint: ElloAPI.following)
@@ -34,7 +34,7 @@ class StreamServiceSpec: QuickSpec {
 
                         expect(loadedPosts!.count) == 3
 
-                        let post0:Post = loadedPosts![0] as Post
+                        let post0: Post = loadedPosts![0] as Post
 
                         expect(post0.id) == "4718"
                         expect(post0.href) == "/api/v2/posts/4718"
@@ -44,36 +44,36 @@ class StreamServiceSpec: QuickSpec {
                         expect(post0.commentsCount) == 50
                         expect(post0.repostsCount) == 3
 
-                        let textRegion:TextRegion = post0.content![0] as! TextRegion
+                        let textRegion: TextRegion = post0.content![0] as! TextRegion
 
                         expect(textRegion.content) == "etest post to determine what happens when someone sees this for the first time as a repost from someone they follow. dcdoran will repost this."
 
-                        let post0Author:User = post0.author!
+                        let post0Author: User = post0.author!
                         expect(post0Author.id) == "27"
                         expect(post0Author.href) == "/api/v2/users/27"
                         expect(post0Author.username) == "dcdoran"
                         expect(post0Author.name) == "Sterling"
                         expect(post0Author.experimentalFeatures) == true
                         expect(post0Author.relationshipPriority) == RelationshipPriority.following
-                        expect(post0Author.avatarURL()?.absoluteString) == "https://d1qqdyhbrvi5gr.cloudfront.net/uploads/user/avatar/27/large_ello-09fd7088-2e4f-4781-87db-433d5dbc88a5.png"
+                        expect(post0Author.avatarURL()?.absoluteString) == "https: //d1qqdyhbrvi5gr.cloudfront.net/uploads/user/avatar/27/large_ello-09fd7088-2e4f-4781-87db-433d5dbc88a5.png"
                     }
 
                     xit("handles assets") {
-                        var loadedPosts:[Post]?
+                        var loadedPosts: [Post]?
 
                         streamService.loadStream(endpoint: ElloAPI.following)
                             .onSuccess { response in
-                                if case let .jsonables(jsonables, responseConfig) = response {
+                                if case let .jsonables(jsonables, _) = response {
                                     loadedPosts = (StreamKind.following.filter(jsonables, viewsAdultContent: true) as! [Post])
                                 }
                             }
                             .ignoreFailures()
 
-                        let post2:Post = loadedPosts![2] as Post
+                        let post2: Post = loadedPosts![2] as Post
 
                         expect(post2.id) == "4707"
 
-                        let imageRegion:ImageRegion = post2.content![0] as! ImageRegion
+                        let imageRegion: ImageRegion = post2.content![0] as! ImageRegion
 
                         expect(imageRegion.asset?.hdpi).notTo(beNil())
                         expect(imageRegion.asset?.hdpi!.width) == 750
@@ -86,26 +86,26 @@ class StreamServiceSpec: QuickSpec {
                 describe("-loadMoreCommentsForPost") {
 
                     it("calls success with an array of Comment objects") {
-                        var loadedComments:[ElloComment]?
+                        var loadedComments: [ElloComment]?
 
-                        streamService.loadMoreCommentsForPost("111",
-                            streamKind: nil,
-                            success: { (comments, responseConfig) in
-                            loadedComments = comments as? [ElloComment]
-                        }, .ignoreFailures(),
-                            noContent: { _ in })
+                        streamService.loadMoreCommentsForPost("111")
+                            .onSuccess { response in
+                                if case let .jsonables(comments, _) = response {
+                                    loadedComments = comments as? [ElloComment]
+                                }
+                            }.ignoreFailures()
 
                         expect(loadedComments!.count) == 1
 
                         let expectedCreatedAt = "2014-06-02T00:00:00.000Z".toDate()!
-                        let comment:ElloComment = loadedComments![0] as ElloComment
+                        let comment: ElloComment = loadedComments![0] as ElloComment
 
                         expect(comment.createdAt) == expectedCreatedAt
 
-                        let contentRegion0:TextRegion = comment.content[0] as! TextRegion
+                        let contentRegion0: TextRegion = comment.content[0] as! TextRegion
                         expect(contentRegion0.content) == "<p>Hello, I am a comment with awesome content!</p>"
 
-                        let commentAuthor:User = comment.author!
+                        let commentAuthor: User = comment.author!
 
                         expect(commentAuthor).to(beAnInstanceOf(User.self))
                         expect(commentAuthor.name) == "Pamilanderson"
@@ -134,19 +134,18 @@ class StreamServiceSpec: QuickSpec {
 
                     it("Calls failure with an error and statusCode") {
 
-                        var loadedJsonables:[JSONAble]?
-                        var loadedStatusCode:Int?
-                        var loadedError:NSError?
+                        var loadedJsonables: [JSONAble]?
+                        var loadedError: NSError?
 
                         streamService.loadStream(endpoint: ElloAPI.following)
                         .onSuccess { response in
-                            if case let .jsonables(jsonables, responseConfig) = response {
+                            if case let .jsonables(jsonables, _) = response {
                                 loadedJsonables = jsonables
                             }
                         }
                         .onFail { error in
-                            loadedError = error
-                        })
+                            loadedError = error as NSError
+                        }
 
                         expect(loadedJsonables).to(beNil())
                         expect(loadedError!).notTo(beNil())

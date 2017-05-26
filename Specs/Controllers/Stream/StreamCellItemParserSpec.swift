@@ -33,7 +33,7 @@ class StreamCellItemParserSpec: QuickSpec {
                     var cellItems = [StreamCellItem]()
                     StreamService().loadStream(endpoint: .following)
                         .onSuccess { response in
-                            if case let .jsonables(jsonables, responseConfig)) = response {
+                            if case let .jsonables(jsonables, _) = response {
                                 cellItems = subject.parse(jsonables, streamKind: .following)
                             }
                         }
@@ -45,7 +45,7 @@ class StreamCellItemParserSpec: QuickSpec {
                     var cellItems = [StreamCellItem]()
                     StreamService().loadStream(endpoint: .following)
                         .onSuccess { response in
-                            if case let .jsonables(jsonables, responseConfig)) = response {
+                            if case let .jsonables(jsonables, _) = response {
                                 cellItems = subject.parse(jsonables, streamKind: .userStream(userParam: "42"))
                             }
                         }
@@ -63,7 +63,7 @@ class StreamCellItemParserSpec: QuickSpec {
                     var loadedNotifications = [StreamCellItem]()
                     StreamService().loadStream(endpoint: .notificationsStream(category: nil))
                         .onSuccess { response in
-                            if case let .jsonables(jsonables, responseConfig)) = response {
+                            if case let .jsonables(jsonables, _) = response {
                                 loadedNotifications = subject.parse(jsonables, streamKind: .notifications(category: nil))
                             }
                         }

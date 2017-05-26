@@ -693,17 +693,10 @@ extension ElloAPI: Moya.TargetType {
                 "grant_type": "password"
             ]
         case let .availability(content):
-            return content as [String : Any]?
+            return content as [String: Any]?
         case let .custom(url, _):
-            guard let query = url.query else { return nil }
-            var params: [String: Any] = [:]
-            for value in query.split("&") {
-                let kv = value.split("=")
-                guard kv.count == 2 else { continue }
-                let (key, value) = (kv[0], kv[1])
-                params[key.urlDecoded()] = value.urlDecoded()
-            }
-            return params
+            guard let queryString = url.query else { return nil }
+            return convertQueryParams(queryString)
         case let .editorials(preview):
             if preview {
                 return ["preview": "1"]
@@ -775,7 +768,7 @@ extension ElloAPI: Moya.TargetType {
             if let invitationCode = invitationCode {
                 params["invitation_code"] = invitationCode
             }
-            return params as [String : Any]?
+            return params as [String: Any]?
         case let .locationAutoComplete(terms):
             return [
                 "location": terms
@@ -904,4 +897,23 @@ func += <KeyType, ValueType> (left: inout [KeyType: ValueType], right: [KeyType:
     for (k, v) in right {
         left.updateValue(v, forKey: k)
     }
+}
+
+func convertQueryParams(_ query: String) -> [String: Any] {
+    var params: [String: Any] = [:]
+    for value in query.split("&") {
+        let kv = value.split("=")
+        guard kv.count == 2 else { continue }
+        let (key, value) = (kv[0].urlDecoded(), kv[1].urlDecoded())
+
+        if key.hasSuffix("[]") {
+            let arrayKey = key.replacingOccurrences(of: "[]", with: "")
+            let paramsArray: [Any] = params[arrayKey] as? [Any] ?? []
+            params[arrayKey] = paramsArray + [value]
+        }
+        else {
+            params[key] = value
+        }
+    }
+    return params
 }
