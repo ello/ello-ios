@@ -26,7 +26,9 @@ Like Processing's map(). */
 func map(_ value: Double, fromInterval: (Double, Double), toInterval: (Double, Double)) -> Double {
     return interpolate(from: toInterval.0, to: toInterval.1, at: (value - fromInterval.0) / (fromInterval.1 - fromInterval.0))
 }
-
+func map(_ value: CGFloat, fromInterval: (CGFloat, CGFloat), toInterval: (CGFloat, CGFloat)) -> CGFloat {
+    return CGFloat(map(Double(value), fromInterval: (Double(fromInterval.0), Double(fromInterval.1)), toInterval: (Double(toInterval.0), Double(toInterval.1))))
+}
 /** Clips a value so that it falls between the specified minimum and maximum. */
 func clip<T: Comparable>(_ value: T, min minValue: T, max maxValue: T) -> T {
     return max(min(value, maxValue), minValue)
