@@ -4,7 +4,7 @@
 
 import Moya
 import SwiftyJSON
-import FutureKit
+import PromiseKit
 
 
 struct InviteService {
@@ -12,59 +12,59 @@ struct InviteService {
 
     init(){}
 
-    func invitations(_ emails: [String]) -> Future<()> {
-        let promise = Promise<()>()
-        ElloProvider.shared.elloRequest(ElloAPI.invitations(emails: emails),
-            success: { _ in
-                promise.completeWithSuccess(())
-            },
-            failure: { error, _ in
-                promise.completeWithFail(error)
-            })
-        return promise.future
+    func sendInvitations(_ emails: [String]) -> Promise<()> {
+        return Promise { fulfill, reject in
+            ElloProvider.shared.elloRequest(ElloAPI.invitations(emails: emails),
+                success: { _ in
+                    fulfill(())
+                },
+                failure: { error, _ in
+                    reject(error)
+                })
+        }
     }
 
-    func invite(_ email: String) -> Future<()> {
-        let promise = Promise<()>()
-        ElloProvider.shared.elloRequest(ElloAPI.inviteFriends(email: email),
-            success: { _ in
-                promise.completeWithSuccess(())
-            },
-            failure: { error, _ in
-                promise.completeWithFail(error)
-            })
-        return promise.future
+    func invite(_ email: String) -> Promise<()> {
+        return Promise { fulfill, reject in
+            ElloProvider.shared.elloRequest(ElloAPI.inviteFriends(email: email),
+                success: { _ in
+                    fulfill(())
+                },
+                failure: { error, _ in
+                    reject(error)
+                })
+        }
     }
 
-    func find(_ addressBook: AddressBookProtocol, currentUser: User?) -> Future<FindSuccess> {
+    func find(_ addressBook: AddressBookProtocol, currentUser: User?) -> Promise<FindSuccess> {
         var contacts = [String: [String]]()
         for person in addressBook.localPeople {
             contacts[person.identifier] = person.emails
         }
 
-        let promise = Promise<FindSuccess>()
-        ElloProvider.shared.elloRequest(ElloAPI.findFriends(contacts: contacts),
-            success: { (data, responseConfig) in
-                guard let data = data as? [User] else {
-                    let error = NSError.uncastableJSONAble()
-                    promise.completeWithFail(error)
-                    return
-                }
-
-                let users = InviteService.filterUsers(data, currentUser: currentUser)
-                let userIdentifiers = users.map { $0.identifiableBy ?? "" }
-                let mixed: [(LocalPerson, User?)] = addressBook.localPeople.map {
-                    if let index = userIdentifiers.index(of: $0.identifier) {
-                        return ($0, users[index])
+        return Promise { fulfill, reject in
+            ElloProvider.shared.elloRequest(ElloAPI.findFriends(contacts: contacts),
+                success: { (data, responseConfig) in
+                    guard let data = data as? [User] else {
+                        let error = NSError.uncastableJSONAble()
+                        reject(error)
+                        return
                     }
-                    return ($0, .none)
-                }
 
-                promise.completeWithSuccess(mixed)
-            }, failure: { error, _ in
-                promise.completeWithFail(error)
-            })
-        return promise.future
+                    let users = InviteService.filterUsers(data, currentUser: currentUser)
+                    let userIdentifiers = users.map { $0.identifiableBy ?? "" }
+                    let mixed: [(LocalPerson, User?)] = addressBook.localPeople.map {
+                        if let index = userIdentifiers.index(of: $0.identifier) {
+                            return ($0, users[index])
+                        }
+                        return ($0, .none)
+                    }
+
+                    fulfill(mixed)
+                }, failure: { error, _ in
+                    reject(error)
+                })
+        }
     }
 
     static func filterUsers(_ users: [User], currentUser: User?) -> [User] {

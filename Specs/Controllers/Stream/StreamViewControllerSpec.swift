@@ -123,14 +123,14 @@ class StreamViewControllerSpec: QuickSpec {
             beforeEach {
                 controller.streamKind = StreamKind.following
                 controller.streamService.loadStream(endpoint: controller.streamKind.endpoint)
-                    .onSuccess { response in
+                    .thenFinally { response in
                         if case let .jsonables(jsonables, responseConfig) = response {
                             controller.appendUnsizedCellItems(StreamCellItemParser().parse(jsonables, streamKind: controller.streamKind))
                             controller.responseConfig = responseConfig
                             controller.doneLoading()
                         }
                     }
-                    .onFail { _ in
+                    .catch { _ in
                         controller.doneLoading()
                     }
             }

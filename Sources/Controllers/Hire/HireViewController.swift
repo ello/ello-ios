@@ -2,7 +2,7 @@
 ///  HireViewController.swift
 //
 
-import FutureKit
+import PromiseKit
 
 
 class HireViewController: BaseElloViewController {
@@ -109,7 +109,7 @@ extension HireViewController: HireDelegate {
             hireSuccess()
         }
 
-        let endpoint: Future<Void>
+        let endpoint: Promise<Void>
         switch contactType {
         case .hire:
             endpoint = HireService().hire(user: user, body: body)
@@ -118,11 +118,11 @@ extension HireViewController: HireDelegate {
         }
 
         endpoint
-            .onSuccess { _ in
+            .thenFinally { _ in
                 Tracker.shared.hiredUser(self.user)
                 hireSuccess()
             }
-            .onFail { error in
+            .catch { error in
                 self.screen.hideSuccess()
                 let alertController = AlertViewController(error: InterfaceString.GenericError)
                 self.present(alertController, animated: true, completion: nil)

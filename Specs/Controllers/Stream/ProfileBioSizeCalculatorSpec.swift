@@ -17,8 +17,8 @@ class ProfileBioSizeCalculatorSpec: QuickSpec {
                 let calc = ProfileBioSizeCalculator()
                 var height: CGFloat?
                 calc.calculate(StreamCellItem(jsonable: user, type: .header), maxWidth: 320)
-                    .onSuccess { h in height = h }
-                    .onFail { _ in }
+                    .thenFinally { h in height = h }
+                    .catch { _ in }
                 expect(height) == 0
             }
 
@@ -28,8 +28,8 @@ class ProfileBioSizeCalculatorSpec: QuickSpec {
                 let calc = ProfileBioSizeCalculator()
                 var height: CGFloat?
                 calc.calculate(StreamCellItem(jsonable: user, type: .header), maxWidth: 320)
-                    .onSuccess { h in height = h }
-                    .onFail { _ in }
+                    .thenFinally { h in height = h }
+                    .catch { _ in }
                 expect(height) == 0
             }
 
@@ -40,8 +40,8 @@ class ProfileBioSizeCalculatorSpec: QuickSpec {
                 let calc = ProfileBioSizeCalculator()
                 var height: CGFloat?
                 calc.calculate(StreamCellItem(jsonable: user, type: .header), maxWidth: 320)
-                    .onSuccess { h in height = h }
-                    .onFail { _ in }
+                    .thenFinally { h in height = h }
+                    .catch { _ in }
                 expect(height).toEventually(beGreaterThan(40))
             }
         }

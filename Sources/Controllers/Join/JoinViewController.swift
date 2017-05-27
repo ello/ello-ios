@@ -94,7 +94,8 @@ extension JoinViewController: JoinDelegate {
                     username: username,
                     password: password,
                     invitationCode: self.invitationCode
-                    ).onSuccess { user in
+                    )
+                    .thenFinally { user in
                         let authService = CredentialsAuthService()
                         authService.authenticate(email: email,
                             password: password,
@@ -107,7 +108,7 @@ extension JoinViewController: JoinDelegate {
                                 self.showLoginScreen(email, password)
                             })
                     }
-                    .onFail { error in
+                    .catch { error in
                         let errorTitle = (error as NSError).elloErrorMessage ?? InterfaceString.UnknownError
                         self.screen.showError(errorTitle)
                         joinAborted()

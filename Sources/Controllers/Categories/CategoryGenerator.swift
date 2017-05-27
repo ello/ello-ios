@@ -150,7 +150,7 @@ private extension CategoryGenerator {
         else { return }
 
         CategoryService().loadCategory(slug)
-            .onSuccess { [weak self] category in
+            .thenFinally { [weak self] category in
                 guard
                     let `self` = self,
                     self.loadingToken.isValidInitialPageLoadingToken(self.localToken)
@@ -161,7 +161,7 @@ private extension CategoryGenerator {
                 self.destination?.replacePlaceholder(type: .categoryHeader, items: self.headerItems()) {}
                 doneOperation.run()
             }
-            .onFail { [weak self] _ in
+            .catch { [weak self] _ in
                 guard let `self` = self else { return }
                 self.destination?.primaryJSONAbleNotFound()
                 self.queue.cancelAllOperations()
@@ -172,7 +172,7 @@ private extension CategoryGenerator {
         guard usesPagePromo() else { return }
 
         PagePromotionalService().loadPagePromotionals()
-            .onSuccess { [weak self] promotionals in
+            .thenFinally { [weak self] promotionals in
                 guard
                     let `self` = self,
                     self.loadingToken.isValidInitialPageLoadingToken(self.localToken)
@@ -188,7 +188,7 @@ private extension CategoryGenerator {
                 self.destination?.replacePlaceholder(type: .categoryHeader, items: self.headerItems()) {}
                 doneOperation.run()
             }
-            .onFail { [weak self] _ in
+            .catch { [weak self] _ in
                 guard let `self` = self else { return }
                 self.destination?.primaryJSONAbleNotFound()
                 self.queue.cancelAllOperations()
@@ -197,11 +197,12 @@ private extension CategoryGenerator {
 
     func loadCategories() {
         CategoryService().loadCategories()
-            .onSuccess { [weak self] categories in
+            .thenFinally { [weak self] categories in
                 guard let `self` = self else { return }
                 self.categories = categories
                 self.categoryStreamDestination?.set(categories: categories)
-            }.ignoreFailures()
+            }
+        .ignoreErrors()
     }
 
     func loadCategoryPosts(_ doneOperation: AsyncOperation, reload: Bool) {
@@ -233,7 +234,7 @@ private extension CategoryGenerator {
             endpoint: endpoint,
             streamKind: streamKind
             )
-            .onSuccess { [weak self] response in
+            .thenFinally { [weak self] response in
                 guard
                     let `self` = self,
                     self.loadingToken.isValidInitialPageLoadingToken(self.localToken)
@@ -267,7 +268,7 @@ private extension CategoryGenerator {
                     self.queue.cancelAllOperations()
                 }
             }
-            .onFail { [weak self] _ in
+            .catch { [weak self] _ in
                     guard let `self` = self else { return }
                     self.destination?.primaryJSONAbleNotFound()
                     self.queue.cancelAllOperations()

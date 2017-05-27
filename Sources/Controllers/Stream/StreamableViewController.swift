@@ -352,7 +352,7 @@ extension StreamableViewController: InviteResponder {
         }
         ElloHUD.showLoadingHudInView(view)
         InviteService().invite(email)
-            .onComplete { [weak self] _ in
+            .always { [weak self] _ in
                 guard let `self` = self else { return }
                 ElloHUD.hideLoadingHudInView(self.view)
                 completion()

@@ -92,12 +92,12 @@ extension InviteFriendsViewController {
     fileprivate func findFriendsFromContacts() {
         ElloHUD.showLoadingHudInView(view)
         InviteService().find(addressBook, currentUser: self.currentUser)
-            .onSuccess { mixedContacts in
+            .thenFinally { mixedContacts in
                 self.streamViewController.clearForInitialLoad()
                 self.setContacts(mixedContacts)
                 self.streamViewController.doneLoading()
             }
-            .onFail { _ in
+            .catch { _ in
                 let mixedContacts: [(LocalPerson, User?)] = self.addressBook.localPeople.map { ($0, .none) }
                 self.setContacts(mixedContacts)
                 self.streamViewController.doneLoading()

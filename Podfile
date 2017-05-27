@@ -29,7 +29,6 @@ def ello_app_pods
   pod 'TimeAgoInWords', git: 'https://github.com/ello/TimeAgoInWords'
   pod 'WebLinking', git: 'https://github.com/kylef/WebLinking.swift'
   pod 'SnapKit', git: 'https://github.com/ello/SnapKit'
-  pod 'FutureKit', git: 'https://github.com/FutureKit/FutureKit', branch: 'v3'
   pod 'DeltaCalculator', git: 'https://github.com/ello/DeltaCalculator'
 end
 
@@ -44,6 +43,7 @@ def common_pods
     pod 'ElloOSSUIFonts', '~> 2.0'
     pod 'ElloOSSCerts', '~> 2.0'
   end
+  pod 'PromiseKit'
   pod 'MBProgressHUD', '~> 0.9.0'
   pod 'SVGKit', git: 'https://github.com/ello/SVGKit'
   pod 'FLAnimatedImage', '~> 1.0'

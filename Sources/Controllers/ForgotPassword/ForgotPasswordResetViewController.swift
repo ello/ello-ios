@@ -46,7 +46,7 @@ extension ForgotPasswordResetViewController: ForgotPasswordResetDelegate {
             Tracker.shared.resetPasswordValid()
 
             UserService().resetPassword(password: password, authToken: authToken)
-                .onSuccess { user in
+                .thenFinally { user in
                     CredentialsAuthService().authenticate(email: user.username,
                         password: password,
                         success: {
@@ -59,7 +59,7 @@ extension ForgotPasswordResetViewController: ForgotPasswordResetDelegate {
                         }
                     )
                 }
-                .onFail { error in
+                .catch { error in
                     Tracker.shared.resetPasswordFailed()
                     self.screen.loadingHUD(visible: false)
                     self.screen.showFailureMessage()

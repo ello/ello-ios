@@ -114,9 +114,7 @@ extension EditorialsViewController: EditorialToolsResponder {
 
         let emails: [String] = emailString.replacingOccurrences(of: "\n", with: ",").split(",").map { $0.trimmed() }
 
-        InviteService().invitations(emails)
-            .onSuccess { _ in }
-            .onFail { _ in }
+        InviteService().sendInvitations(emails).ignoreErrors()
     }
 
     func submitJoin(cell: UICollectionViewCell, email: String, username: String, password: String) {

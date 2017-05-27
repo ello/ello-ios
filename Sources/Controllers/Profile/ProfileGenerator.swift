@@ -99,7 +99,7 @@ private extension ProfileGenerator {
 
         // load the user with no posts
         StreamService().loadUser(streamKind.endpoint)
-            .onSuccess { [weak self] user in
+            .thenFinally { [weak self] user in
                 guard let `self` = self else { return }
                 guard self.loadingToken.isValidInitialPageLoadingToken(self.localToken) else { return }
 
@@ -108,7 +108,7 @@ private extension ProfileGenerator {
                 self.destination?.replacePlaceholder(type: .profileHeader, items: self.headerItems()) {}
                 doneOperation.run()
             }
-            .onFail { [weak self] _ in
+            .catch { [weak self] _ in
                 guard let `self` = self else { return }
                 self.destination?.primaryJSONAbleNotFound()
                 self.queue.cancelAllOperations()
@@ -121,7 +121,7 @@ private extension ProfileGenerator {
         queue.addOperation(displayPostsOperation)
 
         StreamService().loadUserPosts(userParam)
-            .onSuccess { [weak self] (posts, responseConfig) in
+            .thenFinally { [weak self] (posts, responseConfig) in
                 guard let `self` = self else { return }
                 guard self.loadingToken.isValidInitialPageLoadingToken(self.localToken) else { return }
 
@@ -152,7 +152,7 @@ private extension ProfileGenerator {
                     }
                 }
             }
-            .onFail { [weak self] _ in
+            .catch { [weak self] _ in
                 guard let `self` = self else { return }
                 self.destination?.primaryJSONAbleNotFound()
                 self.queue.cancelAllOperations()

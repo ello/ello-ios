@@ -22,10 +22,10 @@ class PostServiceSpec: QuickSpec {
                         var successPost: Post?
                         var failedCalled = false
                         subject.loadPost("fake-post-param", needsComments: true)
-                            .onSuccess { post in
+                            .thenFinally { post in
                                 successPost = post
                             }
-                            .onFail { _ in
+                            .catch { _ in
                                 failedCalled = true
                             }
 
@@ -44,10 +44,10 @@ class PostServiceSpec: QuickSpec {
                         var successPost: Post?
                         var failedCalled = false
                         subject.loadPost("fake-post-param", needsComments: true)
-                            .onSuccess { post in
+                            .thenFinally { post in
                                 successPost = post
                             }
-                            .onFail { _ in
+                            .catch { _ in
                                 failedCalled = true
                             }
 
@@ -65,10 +65,10 @@ class PostServiceSpec: QuickSpec {
                         var successCalled = false
                         var failedCalled = false
                         subject.deletePost("fake-post-id")
-                            .onSuccess {
+                            .then {
                                 successCalled = true
                             }
-                            .onFail { _ in
+                            .catch { _ in
                                 failedCalled = true
                             }
 
@@ -87,10 +87,10 @@ class PostServiceSpec: QuickSpec {
                         var successCalled = false
                         var failedCalled = false
                         subject.deletePost("fake-post-id")
-                            .onSuccess {
+                            .then {
                                 successCalled = true
                             }
-                            .onFail { _ in
+                            .catch { _ in
                                 failedCalled = true
                             }
 
@@ -109,10 +109,10 @@ class PostServiceSpec: QuickSpec {
                         var failedCalled = false
                         subject.deleteComment("fake-post-id",
                             commentId: "fake-comment-id")
-                            .onSuccess {
+                            .then {
                                 successCalled = true
                             }
-                            .onFail{ _ in
+                            .catch { error in
                                 failedCalled = true
                             }
 
@@ -132,10 +132,10 @@ class PostServiceSpec: QuickSpec {
                         var failedCalled = false
                         subject.deleteComment("fake-post-id",
                             commentId: "fake-comment-id")
-                            .onSuccess {
+                            .then {
                                 successCalled = true
                             }
-                            .onFail { _ in
+                            .catch { _ in
                                 failedCalled = true
                             }
 

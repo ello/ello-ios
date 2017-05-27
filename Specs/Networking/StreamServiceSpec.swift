@@ -22,12 +22,12 @@ class StreamServiceSpec: QuickSpec {
                         var config: ResponseConfig?
 
                         streamService.loadStream(endpoint: ElloAPI.following)
-                            .onSuccess { response in
+                            .thenFinally { response in
                                 if case let .jsonables(jsonables, responseConfig) = response {
                                     loadedPosts = (StreamKind.following.filter(jsonables, viewsAdultContent: true) as! [Post])
                                     config = responseConfig
                                 }
-                            }.ignoreFailures()
+                            }.ignoreErrors()
 
                         expect(config?.prevQueryItems?.count) == 2
                         expect(config?.nextQueryItems?.count) == 2
@@ -62,12 +62,12 @@ class StreamServiceSpec: QuickSpec {
                         var loadedPosts: [Post]?
 
                         streamService.loadStream(endpoint: ElloAPI.following)
-                            .onSuccess { response in
+                            .thenFinally { response in
                                 if case let .jsonables(jsonables, _) = response {
                                     loadedPosts = (StreamKind.following.filter(jsonables, viewsAdultContent: true) as! [Post])
                                 }
                             }
-                            .ignoreFailures()
+                            .ignoreErrors()
 
                         let post2: Post = loadedPosts![2] as Post
 
@@ -89,11 +89,11 @@ class StreamServiceSpec: QuickSpec {
                         var loadedComments: [ElloComment]?
 
                         streamService.loadMoreCommentsForPost("111")
-                            .onSuccess { response in
+                            .thenFinally { response in
                                 if case let .jsonables(comments, _) = response {
                                     loadedComments = comments as? [ElloComment]
                                 }
-                            }.ignoreFailures()
+                            }.ignoreErrors()
 
                         expect(loadedComments!.count) == 1
 
@@ -138,12 +138,12 @@ class StreamServiceSpec: QuickSpec {
                         var loadedError: NSError?
 
                         streamService.loadStream(endpoint: ElloAPI.following)
-                        .onSuccess { response in
+                        .thenFinally { response in
                             if case let .jsonables(jsonables, _) = response {
                                 loadedJsonables = jsonables
                             }
                         }
-                        .onFail { error in
+                        .catch { error in
                             loadedError = error as NSError
                         }
 

@@ -2,8 +2,6 @@
 ///  CategoryHeaderCellSizeCalculator.swift
 //
 
-import FutureKit
-
 
 class CategoryHeaderCellSizeCalculator {
     static let ratio: CGFloat = 320 / 192

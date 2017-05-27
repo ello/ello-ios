@@ -2,23 +2,23 @@
 ///  ProfileLinksSizeCalculator.swift
 //
 
-import FutureKit
+import PromiseKit
 
 
 struct ProfileLinksSizeCalculator {
 
-    func calculate(_ item: StreamCellItem, maxWidth: CGFloat) -> Future<CGFloat> {
-        let promise = Promise<CGFloat>()
-        guard
-            let user = item.jsonable as? User,
-            let externalLinks = user.externalLinksList, externalLinks.count > 0
-        else {
-            promise.completeWithSuccess(0)
-            return promise.future
-        }
+    func calculate(_ item: StreamCellItem, maxWidth: CGFloat) -> Promise<CGFloat> {
+        return Promise { fulfill, reject in
+            guard
+                let user = item.jsonable as? User,
+                let externalLinks = user.externalLinksList, externalLinks.count > 0
+            else {
+                fulfill(0)
+                return
+            }
 
-        promise.completeWithSuccess(ProfileLinksSizeCalculator.calculateHeight(externalLinks, maxWidth: maxWidth))
-        return promise.future
+            fulfill(ProfileLinksSizeCalculator.calculateHeight(externalLinks, maxWidth: maxWidth))
+        }
     }
 
     static func calculateHeight(_ externalLinks: [ExternalLink], maxWidth: CGFloat) -> CGFloat {
