@@ -5,14 +5,15 @@
 import Moya
 import Result
 import Alamofire
+import PromiseKit
 
 
 typealias ElloRequestClosure = (target: ElloAPI, success: ElloSuccessCompletion, failure: ElloFailureCompletion)
 typealias ElloSuccessCompletion = (Any, ResponseConfig) -> Void
-typealias ElloFailure = (error: NSError, Int?)
 typealias ElloFailureCompletion = (NSError, Int?) -> Void
 typealias ElloErrorCompletion = (NSError) -> Void
 typealias ElloEmptyCompletion = () -> Void
+typealias ElloAPIResponse = (Any, ResponseConfig)
 
 class ElloProvider {
     static var shared: ElloProvider = ElloProvider()
@@ -57,6 +58,18 @@ class ElloProvider {
     }
 
     // MARK: - Public
+
+    func request(_ target: ElloAPI) -> Promise<ElloAPIResponse> {
+        return Promise { fulfill, reject in
+            elloRequest((target,
+                success: { jsonables, responseConfig in
+                    fulfill((jsonables, responseConfig))
+                },
+                failure: { error, _ in
+                    reject(error)
+                }))
+        }
+    }
 
     func elloRequest(_ target: ElloAPI, success: @escaping ElloSuccessCompletion) {
         elloRequest((target: target, success: success, failure: { _ in }))

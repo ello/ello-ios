@@ -77,16 +77,14 @@ private extension EditorialsGenerator {
             else { continue }
 
             let next = afterAll()
-            ElloProvider.shared.elloRequest(
-                .custom(url: path, mimics: { return .following }),
-                success: { (data, responseConfig) in
+            ElloProvider.shared.request(.custom(url: path, mimics: { return .following }))
+                .thenFinally { data, responseConfig in
                     guard let posts = data as? [Post] else { next() ; return }
                     editorial.posts = posts
+                }
+                .always {
                     next()
-                },
-                failure: { (error, statusCode) in
-                    next()
-                })
+                }
         }
     }
 }

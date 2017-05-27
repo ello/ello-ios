@@ -17,66 +17,33 @@ struct UserService {
         password: String,
         invitationCode: String?) -> Promise<User>
     {
-        return Promise { fulfill, reject in
-            ElloProvider.shared.elloRequest(ElloAPI.join(email: email, username: username, password: password, invitationCode: invitationCode),
-                success: { data, _ in
-                    if let user = data as? User {
-                        fulfill(user)
+            return ElloProvider.shared.request(.join(email: email, username: username, password: password, invitationCode: invitationCode))
+                .then { data, _ -> User in
+                    guard let user = data as? User else {
+                        throw NSError.uncastableJSONAble()
                     }
-                    else {
-                        let error = NSError.uncastableJSONAble()
-                        reject(error)
-                    }
-                },
-                failure: { error, _ in
-                    reject(error)
+                    return user
                 }
-            )
-        }
     }
 
     func requestPasswordReset(email: String) -> Promise<()> {
-        return Promise { fulfill, reject in
-            ElloProvider.shared.elloRequest(ElloAPI.requestPasswordReset(email: email),
-                success: { _ in
-                    fulfill(())
-                },
-                failure: { error, _ in
-                    reject(error)
-                }
-            )
-        }
+        return ElloProvider.shared.request(.requestPasswordReset(email: email))
+            .asVoid()
     }
 
     func resetPassword(password: String, authToken: String) -> Promise<User> {
-        return Promise { fulfill, reject in
-            ElloProvider.shared.elloRequest(ElloAPI.resetPassword(password: password, authToken: authToken),
-                success: { user, _ in
-                    if let user = user as? User {
-                        fulfill(user)
-                    }
-                    else {
-                        let error = NSError.uncastableJSONAble()
-                        reject(error)
-                    }
-                },
-                failure: { error, _ in
-                    reject(error)
+        return ElloProvider.shared.request(.resetPassword(password: password, authToken: authToken))
+            .then { user, _ -> User in
+                guard let user = user as? User else {
+                    throw NSError.uncastableJSONAble()
                 }
-            )
-        }
+                return user
+            }
     }
 
     func setUser(categories: [Category]) -> Promise<()> {
-        return Promise { fulfill, reject in
-            let categoryIds = categories.map { $0.id }
-            ElloProvider.shared.elloRequest(ElloAPI.userCategories(categoryIds: categoryIds),
-                success: { _ in
-                    fulfill(())
-                },
-                failure: { error, _ in
-                    reject(error)
-                })
-        }
+        let categoryIds = categories.map { $0.id }
+        return ElloProvider.shared.request(.userCategories(categoryIds: categoryIds))
+            .asVoid()
     }
 }
