@@ -14,6 +14,14 @@ class ElloConfiguration: QuickConfiguration {
         config.beforeSuite {
             // make sure the promise `then` blocks are run synchronously
             DispatchQueue.default = zalgo
+            if ( DispatchQueue.default != zalgo ) {
+                fatalError(
+                    "Aww dang, somehow PromiseKit's `DispatchQueue.default` was " +
+                    "accessed before `zalgo` could be assigned. Add a break point to " +
+                    "PromiseKit/CorePromise/GlobalState.m, inside dispatch_queue_t PMKDefaultDispatchQueue() " +
+                    "to find out where this is being set"
+                    )
+            }
 
             ElloLinkedStore.databaseName = "ello_test.sqlite"
             BadgesService.badges = [
