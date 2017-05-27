@@ -10,30 +10,14 @@ import PromiseKit
 struct InviteService {
     typealias FindSuccess = [(LocalPerson, User?)]
 
-    init(){}
-
     func sendInvitations(_ emails: [String]) -> Promise<()> {
-        return Promise { fulfill, reject in
-            ElloProvider.shared.elloRequest(ElloAPI.invitations(emails: emails),
-                success: { _ in
-                    fulfill(())
-                },
-                failure: { error, _ in
-                    reject(error)
-                })
-        }
+        return ElloProvider.shared.request(.invitations(emails: emails))
+            .thenFinally { _ in }
     }
 
     func invite(_ email: String) -> Promise<()> {
-        return Promise { fulfill, reject in
-            ElloProvider.shared.elloRequest(ElloAPI.inviteFriends(email: email),
-                success: { _ in
-                    fulfill(())
-                },
-                failure: { error, _ in
-                    reject(error)
-                })
-        }
+        return ElloProvider.shared.request(.inviteFriends(email: email))
+            .thenFinally { _ in }
     }
 
     func find(_ addressBook: AddressBookProtocol, currentUser: User?) -> Promise<FindSuccess> {
@@ -42,29 +26,22 @@ struct InviteService {
             contacts[person.identifier] = person.emails
         }
 
-        return Promise { fulfill, reject in
-            ElloProvider.shared.elloRequest(ElloAPI.findFriends(contacts: contacts),
-                success: { (data, responseConfig) in
-                    guard let data = data as? [User] else {
-                        let error = NSError.uncastableJSONAble()
-                        reject(error)
-                        return
-                    }
+        return ElloProvider.shared.request(.findFriends(contacts: contacts))
+            .then { data, _ -> FindSuccess in
+                guard let data = data as? [User] else {
+                    throw NSError.uncastableJSONAble()
+                }
 
-                    let users = InviteService.filterUsers(data, currentUser: currentUser)
-                    let userIdentifiers = users.map { $0.identifiableBy ?? "" }
-                    let mixed: [(LocalPerson, User?)] = addressBook.localPeople.map {
-                        if let index = userIdentifiers.index(of: $0.identifier) {
-                            return ($0, users[index])
-                        }
-                        return ($0, .none)
+                let users = InviteService.filterUsers(data, currentUser: currentUser)
+                let userIdentifiers = users.map { $0.identifiableBy ?? "" }
+                let mixed: [(LocalPerson, User?)] = addressBook.localPeople.map {
+                    if let index = userIdentifiers.index(of: $0.identifier) {
+                        return ($0, users[index])
                     }
-
-                    fulfill(mixed)
-                }, failure: { error, _ in
-                    reject(error)
-                })
-        }
+                    return ($0, .none)
+                }
+                return mixed
+            }
     }
 
     static func filterUsers(_ users: [User], currentUser: User?) -> [User] {

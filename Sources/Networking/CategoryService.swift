@@ -10,36 +10,25 @@ typealias CategoriesCompletion = (_ categories: [Category]) -> Void
 class CategoryService {
 
     func loadCategories() -> Promise<[Category]> {
-        return Promise { fulfill, reject in
-            ElloProvider.shared.elloRequest(.categories, success: { (data, responseConfig) in
-                if let categories = data as? [Category] {
-                    Preloader().preloadImages(categories)
-                    fulfill(categories)
+        return ElloProvider.shared.request(.categories)
+            .then { data, _ -> [Category] in
+                guard let categories = data as? [Category] else {
+                    throw NSError.uncastableJSONAble()
                 }
-                else {
-                    reject(NSError.uncastableJSONAble())
-                }
-            }, failure: { (error, _) in
-                reject(error)
-            })
-        }
+                Preloader().preloadImages(categories)
+                return categories
+            }
     }
 
     func loadCategory(_ categorySlug: String) -> Promise<Category> {
-        return Promise { fulfill, reject in
-            ElloProvider.shared.elloRequest(
-                ElloAPI.category(slug: categorySlug),
-                success: { (data, responseConfig) in
-                    if let category = data as? Category {
-                        Preloader().preloadImages([category])
-                        fulfill(category)
-                    }
-                    else {
-                        reject(NSError.uncastableJSONAble())
-                    }
-                }, failure: { (error, statusCode) in
-                    reject(error)
-                })
-        }
+        return ElloProvider.shared.request(.category(slug: categorySlug))
+            .then { data, _ -> Category in
+                guard let category = data as? Category else {
+                    throw NSError.uncastableJSONAble()
+                }
+                Preloader().preloadImages([category])
+                return category
+            }
     }
+
 }

@@ -12,23 +12,15 @@ struct PostService {
         needsComments: Bool) -> Promise<Post>
     {
         let commentCount = needsComments ? 10 : 0
-        return Promise { fulfill, reject in
-            ElloProvider.shared.elloRequest(
-                ElloAPI.postDetail(postParam: postParam, commentCount: commentCount),
-                success: { (data, responseConfig) in
-                    if let post = data as? Post {
-                        Preloader().preloadImages([post])
-                        fulfill(post)
-                    }
-                    else {
-                        let error = NSError.uncastableJSONAble()
-                        reject(error)
-                    }
-                },
-                failure: { (error, _) in
-                    reject(error)
-                })
-        }
+        return ElloProvider.shared.request(.postDetail(postParam: postParam, commentCount: commentCount))
+            .then { data, responseConfig -> Post in
+                guard let post = data as? Post else {
+                    throw NSError.uncastableJSONAble()
+                }
+
+                Preloader().preloadImages([post])
+                return post
+            }
     }
 
     func sendPostViews(
@@ -47,164 +39,108 @@ struct PostService {
     }
 
     func loadPostComments(_ postId: String) -> Promise<([ElloComment], ResponseConfig)> {
-        return Promise { fulfill, reject in
-            ElloProvider.shared.elloRequest(
-                ElloAPI.postComments(postId: postId),
-                success: { (data, responseConfig) in
-                    if let comments = data as? [ElloComment] {
-                        Preloader().preloadImages(comments)
-                        for comment in comments {
-                            comment.loadedFromPostId = postId
-                        }
-                        fulfill((comments, responseConfig))
+        return ElloProvider.shared.request(.postComments(postId: postId))
+            .then { (data, responseConfig) -> ([ElloComment], ResponseConfig) in
+                if let comments = data as? [ElloComment] {
+                    Preloader().preloadImages(comments)
+                    for comment in comments {
+                        comment.loadedFromPostId = postId
                     }
-                    else if data as? String == "" {
-                        fulfill(([], responseConfig))
-                    }
-                    else {
-                        let error = NSError.uncastableJSONAble()
-                        reject(error)
-                    }
-                },
-                failure: { (error, statusCode) in
-                    reject(error)
-                })
-        }
+                    return (comments, responseConfig)
+                }
+                else if data as? String == "" {
+                    return ([], responseConfig)
+                }
+                else {
+                    throw NSError.uncastableJSONAble()
+                }
+            }
     }
 
     func loadPostLovers(_ postId: String) -> Promise<[User]> {
-        return Promise { fulfill, reject in
-            ElloProvider.shared.elloRequest(
-                ElloAPI.postLovers(postId: postId),
-                success: { (data, responseConfig) in
-                    if let users = data as? [User] {
-                        Preloader().preloadImages(users)
-                        fulfill(users)
-                    }
-                    else if data as? String == "" {
-                        fulfill([])
-                    }
-                    else {
-                        let error = NSError.uncastableJSONAble()
-                        reject(error)
-                    }
-                },
-                failure: { (error, statusCode) in
-                    reject(error)
-                })
-        }
+        return ElloProvider.shared.request(.postLovers(postId: postId))
+            .then { (data, responseConfig) -> [User] in
+                if let users = data as? [User] {
+                    Preloader().preloadImages(users)
+                    return users
+                }
+                else if data as? String == "" {
+                    return []
+                }
+                else {
+                    throw NSError.uncastableJSONAble()
+                }
+            }
     }
 
     func loadPostReposters(_ postId: String) -> Promise<[User]> {
-        return Promise { fulfill, reject in
-            ElloProvider.shared.elloRequest(
-                ElloAPI.postReposters(postId: postId),
-                success: { (data, responseConfig) in
-                    if let users = data as? [User] {
-                        Preloader().preloadImages(users)
-                        fulfill(users)
-                    }
-                    else if data as? String == "" {
-                        fulfill([])
-                    }
-                    else {
-                        let error = NSError.uncastableJSONAble()
-                        reject(error)
-                    }
-                },
-                failure: { (error, statusCode) in
-                    reject(error)
-                })
+        return ElloProvider.shared.request(.postReposters(postId: postId))
+            .then { (data, responseConfig) -> [User] in
+                if let users = data as? [User] {
+                    Preloader().preloadImages(users)
+                    return users
+                }
+                else if data as? String == "" {
+                    return []
+                }
+                else {
+                    throw NSError.uncastableJSONAble()
+                }
         }
     }
 
     func loadRelatedPosts(_ postId: String)  -> Promise<[Post]> {
-        return Promise { fulfill, reject in
-            ElloProvider.shared.elloRequest(
-                ElloAPI.postRelatedPosts(postId: postId),
-                success: { (data, _) in
-                    if let posts = data as? [Post] {
-                        Preloader().preloadImages(posts)
-                        fulfill(posts)
-                    }
-                     else if data as? String == "" {
-                         fulfill([])
-                     }
-                    else {
-                        let error = NSError.uncastableJSONAble()
-                        reject(error)
-                    }
-                },
-                failure: { (error, statusCode) in
-                    reject(error)
-                })
-        }
+        return ElloProvider.shared.request(.postRelatedPosts(postId: postId))
+            .then { (data, _) -> [Post] in
+                if let posts = data as? [Post] {
+                    Preloader().preloadImages(posts)
+                    return posts
+                }
+                 else if data as? String == "" {
+                    return []
+                 }
+                else {
+                    throw NSError.uncastableJSONAble()
+                }
+            }
     }
 
     func loadComment(_ postId: String, commentId: String) -> Promise<ElloComment> {
-        return Promise { fulfill, reject in
-            ElloProvider.shared.elloRequest(
-                ElloAPI.commentDetail(postId: postId, commentId: commentId),
-                success: { (data, responseConfig) in
-                    if let comment = data as? ElloComment {
-                        comment.loadedFromPostId = postId
-                        fulfill(comment)
-                    }
-                    else {
-                        let error = NSError.uncastableJSONAble()
-                        reject(error)
-                    }
-                },
-                failure: { (error, statusCode) in
-                    reject(error)
-                })
-        }
+        return ElloProvider.shared.request(.commentDetail(postId: postId, commentId: commentId))
+            .then { (data, _) -> ElloComment in
+                guard let comment = data as? ElloComment else {
+                    throw NSError.uncastableJSONAble()
+                }
+
+                comment.loadedFromPostId = postId
+                return comment
+            }
     }
 
     func loadReplyAll(_ postId: String) -> Promise<[String]> {
-        return Promise { fulfill, reject in
-            ElloProvider.shared.elloRequest(
-                ElloAPI.postReplyAll(postId: postId),
-                success: { (usernames, _) in
-                    if let usernames = usernames as? [Username] {
-                        let strings = usernames
-                            .map { $0.username }
-                        let uniq = strings.unique()
-                        fulfill(uniq)
-                    }
-                    else {
-                        let error = NSError.uncastableJSONAble()
-                        reject(error)
-                    }
-                }, failure: { (error, _) in
-                    reject(error)
-                })
-        }
+        return ElloProvider.shared.request(.postReplyAll(postId: postId))
+            .then { (usernames, _) -> [String] in
+                guard let usernames = usernames as? [Username] else {
+                    throw NSError.uncastableJSONAble()
+                }
+
+                let strings = usernames
+                    .map { $0.username }
+                let uniq = strings.unique()
+                return uniq
+            }
     }
 
     func deletePost(_ postId: String) -> Promise<()> {
-            return Promise { fulfill, reject in
-            ElloProvider.shared.elloRequest(ElloAPI.deletePost(postId: postId),
-                success: { (_, _) in
-                    URLCache.shared.removeAllCachedResponses()
-                    fulfill(())
-                }, failure: { (error, _) in
-                    reject(error)
-                }
-            )
-        }
+        return ElloProvider.shared.request(.deletePost(postId: postId))
+            .thenFinally { _ in
+                URLCache.shared.removeAllCachedResponses()
+            }
     }
 
     func deleteComment(_ postId: String, commentId: String) -> Promise<()> {
-            return Promise { fulfill, reject in
-            ElloProvider.shared.elloRequest(ElloAPI.deleteComment(postId: postId, commentId: commentId),
-                success: { (_, _) in
-                    fulfill(())
-                }, failure: { (error, _) in
-                    reject(error)
-                }
-            )
-        }
+        return ElloProvider.shared.request(.deleteComment(postId: postId, commentId: commentId))
+            .thenFinally { _ in }
     }
 
     func toggleWatchPost(_ post: Post, watching: Bool) -> Promise<Post> {
@@ -216,28 +152,22 @@ struct PostService {
             api = ElloAPI.deleteWatchPost(postId: post.id)
         }
 
-        return Promise { fulfill, reject in
-            ElloProvider.shared.elloRequest(api,
-                success: { data, _ in
-                    if watching,
-                        let watch = data as? Watch,
-                        let post = watch.post
-                    {
-                        fulfill(post)
-                    }
-                    else if !watching {
-                        post.watching = false
-                        ElloLinkedStore.sharedInstance.setObject(post, forKey: post.id, type: .postsType)
-                        fulfill(post)
-                    }
-                    else {
-                        let error = NSError.uncastableJSONAble()
-                        reject(error)
-                    }
-                },
-                failure: { error, _ in
-                    reject(error)
-                })
-        }
+        return ElloProvider.shared.request(api)
+            .then { data, _ -> Post in
+                if watching,
+                    let watch = data as? Watch,
+                    let post = watch.post
+                {
+                    return post
+                }
+                else if !watching {
+                    post.watching = false
+                    ElloLinkedStore.sharedInstance.setObject(post, forKey: post.id, type: .postsType)
+                    return post
+                }
+                else {
+                    throw NSError.uncastableJSONAble()
+                }
+            }
     }
 }
