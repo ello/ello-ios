@@ -198,10 +198,10 @@ final class PostDetailViewController: StreamableViewController {
 
             postNotification(PostChangedNotification, value: (post, .delete))
             PostService().deletePost(post.id)
-                .onSuccess {
+                .then {
                     Tracker.shared.postDeleted(post)
                 }
-                .onFail { error in
+                .catch { error in
                     // TODO: add error handling
                     print("failed to delete post, error: \(error)")
                 }

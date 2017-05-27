@@ -17,8 +17,8 @@ class ProfileBadgesSizeCalculatorSpec: QuickSpec {
                 let calc = ProfileBadgesSizeCalculator()
                 var height: CGFloat!
                 calc.calculate(StreamCellItem(jsonable: user, type: .header))
-                    .onSuccess { h in height = h }
-                    .onFail { _ in }
+                    .thenFinally { h in height = h }
+                    .catch { _ in }
                 expect(height) == 0
             }
 
@@ -27,8 +27,8 @@ class ProfileBadgesSizeCalculatorSpec: QuickSpec {
                 let calc = ProfileBadgesSizeCalculator()
                 var height: CGFloat!
                 calc.calculate(StreamCellItem(jsonable: user, type: .header))
-                    .onSuccess { h in height = h }
-                    .onFail { _ in }
+                    .thenFinally { h in height = h }
+                    .catch { _ in }
                 expect(height) > 0
             }
         }

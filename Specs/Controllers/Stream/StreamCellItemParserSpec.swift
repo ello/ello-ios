@@ -32,24 +32,24 @@ class StreamCellItemParserSpec: QuickSpec {
                 it("returns an array with the proper count of stream cell items when parsing friends.json's posts") {
                     var cellItems = [StreamCellItem]()
                     StreamService().loadStream(endpoint: .following)
-                        .onSuccess { response in
+                        .thenFinally { response in
                             if case let .jsonables(jsonables, _) = response {
                                 cellItems = subject.parse(jsonables, streamKind: .following)
                             }
                         }
-                        .onFail { _ in }
+                        .catch { _ in }
                     expect(cellItems.count) == 8
                 }
 
                 it("doesn't include user's own post headers on a profile stream") {
                     var cellItems = [StreamCellItem]()
                     StreamService().loadStream(endpoint: .following)
-                        .onSuccess { response in
+                        .thenFinally { response in
                             if case let .jsonables(jsonables, _) = response {
                                 cellItems = subject.parse(jsonables, streamKind: .userStream(userParam: "42"))
                             }
                         }
-                        .onFail { _ in }
+                        .catch { _ in }
                     let header = cellItems.find { $0.type == .header }
                     expect(header).to(beNil())
                 }
@@ -62,12 +62,12 @@ class StreamCellItemParserSpec: QuickSpec {
                 it("returns an array with the proper count of stream cell items when parsing friends.json's activities") {
                     var loadedNotifications = [StreamCellItem]()
                     StreamService().loadStream(endpoint: .notificationsStream(category: nil))
-                        .onSuccess { response in
+                        .thenFinally { response in
                             if case let .jsonables(jsonables, _) = response {
                                 loadedNotifications = subject.parse(jsonables, streamKind: .notifications(category: nil))
                             }
                         }
-                        .onFail { _ in }
+                        .catch { _ in }
                     expect(loadedNotifications.count) == 14
                 }
             }

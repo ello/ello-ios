@@ -2,7 +2,7 @@
 ///  ProfileHeaderCellSizeCalculator.swift
 //
 
-import FutureKit
+import PromiseKit
 
 
 class ProfileHeaderCellSizeCalculator {
@@ -100,7 +100,7 @@ private extension ProfileHeaderCellSizeCalculator {
     }
 
     func calculateAggregateHeights(_ item: StreamCellItem) {
-        let futures: [(CalculatedCellHeights.Prop, Future<CGFloat>)] = [
+        let promises: [(CalculatedCellHeights.Prop, Promise<CGFloat>)] = [
             (.profileAvatar, avatarSizeCalculator.calculate(item, maxWidth: maxWidth)),
             (.profileNames, namesSizeCalculator.calculate(item, maxWidth: maxWidth)),
             (.profileTotalCount, totalCountSizeCalculator.calculate(item)),
@@ -111,18 +111,17 @@ private extension ProfileHeaderCellSizeCalculator {
             (.profileLinks, linksSizeCalculator.calculate(item, maxWidth: maxWidth)),
         ]
 
-        let done = after(futures.count) {
+        let done = after(promises.count) {
             let totalHeight = ProfileHeaderCellSizeCalculator.calculateHeightFromCellHeights(item.calculatedCellHeights)!
             self.assignCellHeight(totalHeight)
         }
 
-        for (calcType, future) in futures {
-            future
-                .onSuccess { height in
+        for (calcType, promise) in promises {
+            promise
+                .thenFinally { height in
                     item.calculatedCellHeights.assign(calcType, height: height)
-                    done()
                 }
-                .onFailorCancel { _ in done() }
+                .always { done() }
         }
     }
 }

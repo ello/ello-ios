@@ -18,8 +18,8 @@ class ProfileNamesSizeCalculatorSpec: QuickSpec {
                 let calc = ProfileNamesSizeCalculator()
                 var height: CGFloat!
                 calc.calculate(StreamCellItem(jsonable: user, type: .header), maxWidth: 320)
-                    .onSuccess { h in height = h }
-                    .onFail { _ in }
+                    .thenFinally { h in height = h }
+                    .catch { _ in }
                 expect(height) == 57
             }
             it("should return sensible size for two lines of text") {
@@ -30,8 +30,8 @@ class ProfileNamesSizeCalculatorSpec: QuickSpec {
                 let calc = ProfileNamesSizeCalculator()
                 var height: CGFloat!
                 calc.calculate(StreamCellItem(jsonable: user, type: .header), maxWidth: 320)
-                    .onSuccess { h in height = h }
-                    .onFail { _ in }
+                    .thenFinally { h in height = h }
+                    .catch { _ in }
                 expect(height) == 76
             }
         }

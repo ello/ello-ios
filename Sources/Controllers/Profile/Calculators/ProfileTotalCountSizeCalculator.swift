@@ -2,23 +2,23 @@
 ///  ProfileTotalCountSizeCalculator.swift
 //
 
-import FutureKit
+import PromiseKit
 
 
 struct ProfileTotalCountSizeCalculator {
 
-    func calculate(_ item: StreamCellItem) -> Future<CGFloat> {
-        let promise = Promise<CGFloat>()
-        guard
-            let user = item.jsonable as? User,
-            let count = user.totalViewsCount,
-            count > 0
-        else {
-            promise.completeWithSuccess(0)
-            return promise.future
-        }
+    func calculate(_ item: StreamCellItem) -> Promise<CGFloat> {
+        return Promise { fulfill, reject in
+            guard
+                let user = item.jsonable as? User,
+                let count = user.totalViewsCount,
+                count > 0
+            else {
+                fulfill(0)
+                return
+            }
 
-        promise.completeWithSuccess(ProfileTotalCountView.Size.height)
-        return promise.future
+            fulfill(ProfileTotalCountView.Size.height)
+        }
     }
 }

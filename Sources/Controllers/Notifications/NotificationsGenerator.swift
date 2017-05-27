@@ -53,10 +53,10 @@ final class NotificationsGenerator: StreamGenerator {
 
     func markAnnouncementAsRead(_ announcement: Announcement) {
         NotificationService().markAnnouncementAsRead(announcement)
-            .onSuccess { [weak self] _ in
+            .thenFinally { [weak self] _ in
                 self?.announcements = []
             }
-            .onFail { _ in }
+            .catch { _ in }
     }
 
     func loadAnnouncements() {
@@ -66,7 +66,7 @@ final class NotificationsGenerator: StreamGenerator {
         }
 
         NotificationService().loadAnnouncements()
-            .onSuccess { [weak self] announcement in
+            .thenFinally { [weak self] announcement in
                 guard let `self` = self else { return }
                 guard self.loadingToken.isValidInitialPageLoadingToken(self.localToken) else { return }
 
@@ -77,7 +77,7 @@ final class NotificationsGenerator: StreamGenerator {
                     self.compareAndUpdateAnnouncements([])
                 }
             }
-            .onFail { [weak self] _ in
+            .catch { [weak self] _ in
                 self?.compareAndUpdateAnnouncements([])
             }
     }
@@ -98,7 +98,7 @@ final class NotificationsGenerator: StreamGenerator {
 
     func loadNotifications() {
         StreamService().loadStream(streamKind: streamKind)
-            .onSuccess { [weak self] response in
+            .thenFinally { [weak self] response in
                 guard
                     let `self` = self,
                     self.loadingToken.isValidInitialPageLoadingToken(self.localToken)
@@ -137,7 +137,7 @@ final class NotificationsGenerator: StreamGenerator {
                     }
                 }
             }
-            .onFail { [weak self] _ in
+            .catch { [weak self] _ in
                 self?.destination?.primaryJSONAbleNotFound()
             }
     }

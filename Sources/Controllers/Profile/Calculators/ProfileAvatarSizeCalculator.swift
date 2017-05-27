@@ -2,7 +2,7 @@
 ///  ProfileAvatarSizeCalculator.swift
 //
 
-import FutureKit
+import PromiseKit
 
 
 struct ProfileAvatarSizeCalculator {
@@ -11,9 +11,9 @@ struct ProfileAvatarSizeCalculator {
         return ceil(maxWidth / ProfileHeaderCellSizeCalculator.ratio) + ProfileAvatarView.Size.whiteBarHeight
     }
 
-    func calculate(_ item: StreamCellItem, maxWidth: CGFloat) -> Future<CGFloat> {
-        let promise = Promise<CGFloat>()
-        promise.completeWithSuccess(ProfileAvatarSizeCalculator.calculateHeight(maxWidth: maxWidth))
-        return promise.future
+    func calculate(_ item: StreamCellItem, maxWidth: CGFloat) -> Promise<CGFloat> {
+        return Promise { fulfill, _ in
+            fulfill(ProfileAvatarSizeCalculator.calculateHeight(maxWidth: maxWidth))
+        }
     }
 }

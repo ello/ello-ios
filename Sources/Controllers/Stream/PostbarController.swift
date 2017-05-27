@@ -118,7 +118,7 @@ class PostbarController: UIResponder, PostbarResponder {
             imageLabelControl.animate()
 
             StreamService().loadMoreCommentsForPost(post.id)
-                .onSuccess { [weak self] response in
+                .thenFinally { [weak self] response in
                     guard
                         let `self` = self,
                         let updatedIndexPath = self.dataSource.indexPathForItem(item)
@@ -135,7 +135,7 @@ class PostbarController: UIResponder, PostbarResponder {
                         self.commentLoadSuccess(post, comments: [], indexPath: nextIndexPath, cell: cell)
                     }
                 }
-                .onFail { _ in
+                .catch { _ in
                     item.state = .collapsed
                     imageLabelControl.finishAnimation()
                     cell.cancelCommentLoading()
@@ -163,10 +163,10 @@ class PostbarController: UIResponder, PostbarResponder {
                 // post comment count updated
                 ContentChange.updateCommentCount(comment, delta: -1)
                 PostService().deleteComment(comment.postId, commentId: comment.id)
-                    .onSuccess {
+                    .then {
                         Tracker.shared.commentDeleted(comment)
                     }
-                    .onFail { error in
+                    .catch { error in
                         // TODO: add error handling
                         print("failed to delete comment, error: \(error)")
                     }
@@ -426,7 +426,7 @@ class PostbarController: UIResponder, PostbarResponder {
 
         let postId = comment.loadedFromPostId
         PostService().loadReplyAll(postId)
-            .onSuccess { [weak self] usernames in
+            .thenFinally { [weak self] usernames in
                 guard let `self` = self else { return }
                 let usernamesText = usernames.reduce("") { memo, username in
                     return memo + "@\(username) "
@@ -434,7 +434,7 @@ class PostbarController: UIResponder, PostbarResponder {
                 let responder = self.properTarget(forAction: #selector(CreatePostResponder.createComment(_:text:fromController:)), withSender: self) as? CreatePostResponder
                 responder?.createComment(postId, text: usernamesText, fromController: presentingController)
             }
-            .onFail { [weak self] error in
+            .catch { [weak self] error in
                 guard let `self` = self else { return }
                 guard let controller = self.responderChainable?.controller else { return }
 
@@ -457,11 +457,11 @@ class PostbarController: UIResponder, PostbarResponder {
         cell.watching = watching
         cell.isUserInteractionEnabled = false
         PostService().toggleWatchPost(post, watching: watching)
-            .onSuccess { post in
+            .thenFinally { post in
                 cell.isUserInteractionEnabled = true
                 postNotification(PostChangedNotification, value: (post, .watching))
             }
-            .onFail { error in
+            .catch { error in
                 cell.isUserInteractionEnabled = true
                 cell.watching = !watching
             }

@@ -69,7 +69,7 @@ extension CategoriesSelectionViewController: OnboardingStepController {
         }
 
         UserService().setUser(categories: categories)
-            .onSuccess { [weak self] _ in
+            .thenFinally { [weak self] _ in
                 guard let `self` = self else { return }
 
                 // onboarding can be considered "done", even if they abort the app
@@ -78,7 +78,7 @@ extension CategoriesSelectionViewController: OnboardingStepController {
                 self.onboardingData.categories = categories
                 proceedClosure(.continue)
             }
-            .onFail { [weak self] _ in
+            .catch { [weak self] _ in
                 guard let `self` = self else { return }
 
                 let alertController = AlertViewController(error: InterfaceString.GenericError)

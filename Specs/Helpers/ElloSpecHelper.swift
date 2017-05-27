@@ -5,12 +5,16 @@
 @testable import Ello
 import Quick
 import Nimble_Snapshots
+import PromiseKit
 
 
 // Add in custom configuration
 class ElloConfiguration: QuickConfiguration {
     override class func configure(_ config: Configuration) {
         config.beforeSuite {
+            // make sure the promise `then` blocks are run synchronously
+            DispatchQueue.default = zalgo
+
             ElloLinkedStore.databaseName = "ello_test.sqlite"
             BadgesService.badges = [
                 "featured": Badge(slug: "featured", name: "Featured", link: "Learn More", url: nil, imageURL: nil),

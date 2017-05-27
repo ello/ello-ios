@@ -71,7 +71,7 @@ class DynamicSettingsViewController: UITableViewController {
         tableView.rowHeight = DynamicSettingsCellHeight
 
         StreamService().loadStream(endpoint: .profileToggles)
-            .onSuccess { [weak self] response in
+            .thenFinally { [weak self] response in
                 guard let `self` = self else { return }
 
                 self.hideLoadingHud()
@@ -97,7 +97,7 @@ class DynamicSettingsViewController: UITableViewController {
                 case .empty: break
                 }
             }
-            .onFail { [weak self] _ in
+            .catch { [weak self] _ in
                 self?.hideLoadingHud()
             }
     }

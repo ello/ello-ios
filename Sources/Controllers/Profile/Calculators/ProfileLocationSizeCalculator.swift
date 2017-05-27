@@ -2,22 +2,22 @@
 ///  ProfileLocationSizeCalculator.swift
 //
 
-import FutureKit
+import PromiseKit
 
 
 struct ProfileLocationSizeCalculator {
 
-    func calculate(_ item: StreamCellItem, maxWidth: CGFloat) -> Future<CGFloat> {
-        let promise = Promise<CGFloat>()
-        guard
-            let user = item.jsonable as? User,
-            let location = user.location, !location.isEmpty
-        else {
-            promise.completeWithSuccess(0)
-            return promise.future
-        }
+    func calculate(_ item: StreamCellItem, maxWidth: CGFloat) -> Promise<CGFloat> {
+        return Promise { fulfill, reject in
+            guard
+                let user = item.jsonable as? User,
+                let location = user.location, !location.isEmpty
+            else {
+                fulfill(0)
+                return
+            }
 
-        promise.completeWithSuccess(ProfileLocationView.Size.height)
-        return promise.future
+            fulfill(ProfileLocationView.Size.height)
+        }
     }
 }

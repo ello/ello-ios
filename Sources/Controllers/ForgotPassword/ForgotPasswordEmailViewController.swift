@@ -28,11 +28,11 @@ extension ForgotPasswordEmailViewController: ForgotPasswordEmailDelegate {
             Tracker.shared.requestPasswordValid()
 
             UserService().requestPasswordReset(email: email)
-                .onSuccess {
+                .thenFinally { _ in
                     self.screen.loadingHUD(visible: false)
                     self.screen.showSubmitMessage()
                 }
-                .onFail { error in
+                .catch { error in
                     self.screen.loadingHUD(visible: false)
                     let errorTitle = (error as NSError).elloErrorMessage ?? InterfaceString.UnknownError
                     self.screen.showEmailError(errorTitle)

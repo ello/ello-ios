@@ -2,32 +2,30 @@
 ///  ProfileBioSizeCalculator.swift
 //
 
-import FutureKit
+import PromiseKit
 
 
 class ProfileBioSizeCalculator: NSObject {
     let webView = UIWebView()
-    var promise: Promise<CGFloat>!
+    let (promise, fulfill, _) = Promise<CGFloat>.pending()
 
     deinit {
         webView.delegate = nil
     }
 
-    func calculate(_ item: StreamCellItem, maxWidth: CGFloat) -> Future<CGFloat> {
-        promise = Promise<CGFloat>()
-
+    func calculate(_ item: StreamCellItem, maxWidth: CGFloat) -> Promise<CGFloat> {
         guard
             let user = item.jsonable as? User,
             let formattedShortBio = user.formattedShortBio, !formattedShortBio.isEmpty
         else {
-            promise.completeWithSuccess(0)
-            return promise.future
+            fulfill(0)
+            return promise
         }
 
         webView.frame.size.width = maxWidth
         webView.delegate = self
         webView.loadHTMLString(StreamTextCellHTML.postHTML(formattedShortBio), baseURL: URL(string: "/"))
-        return promise.future
+        return promise
     }
 
     static func calculateHeight(webViewHeight: CGFloat) -> CGFloat {
@@ -44,11 +42,11 @@ extension ProfileBioSizeCalculator: UIWebViewDelegate {
     func webViewDidFinishLoad(_ webView: UIWebView) {
         let webViewHeight = webView.windowContentSize()?.height ?? 0
         let totalHeight = ProfileBioSizeCalculator.calculateHeight(webViewHeight: webViewHeight)
-        promise.completeWithSuccess(totalHeight)
+        fulfill(totalHeight)
     }
 
     func webView(_ webView: UIWebView, didFailLoadWithError error: Error) {
-        promise.completeWithSuccess(0)
+        fulfill(0)
     }
 
 }

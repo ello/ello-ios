@@ -49,14 +49,14 @@ class S3UploadingService {
             success: { credentialsData, responseConfig in
                 if let credentials = credentialsData as? AmazonCredentials {
                     self.uploader = ElloS3(credentials: credentials, filename: filename, data: data, contentType: contentType)
-                        .onSuccess({ (data: Data) in
+                        .thenFinally { (data: Data) in
                             let endpoint: String = credentials.endpoint
                             let prefix: String = credentials.prefix
                             success(URL(string: "\(endpoint)/\(prefix)/\(filename)"))
-                        })
-                        .onFailure({ (error: Swift.Error) in
+                        }
+                        .catch { (error: Swift.Error) in
                             failure(error as NSError, nil) // FIXME - is this the correct usage of Error?
-                        })
+                        }
                         .start()
                 }
                 else {

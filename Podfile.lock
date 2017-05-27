@@ -27,7 +27,6 @@ PODS:
   - FBSnapshotTestCase/SwiftSupport (2.1.4):
     - FBSnapshotTestCase/Core
   - FLAnimatedImage (1.0.12)
-  - FutureKit (2.0.0)
   - ImagePickerSheetController (0.9.3)
   - iRate (1.11.7)
   - JTSImageViewController (1.5)
@@ -66,6 +65,17 @@ PODS:
   - PINRemoteImage/PINCache (3.0.0-beta.8):
     - PINCache (= 3.0.1-beta.4)
     - PINRemoteImage/Core
+  - PromiseKit (4.1.7):
+    - PromiseKit/Foundation (= 4.1.7)
+    - PromiseKit/QuartzCore (= 4.1.7)
+    - PromiseKit/UIKit (= 4.1.7)
+  - PromiseKit/CorePromise (4.1.7)
+  - PromiseKit/Foundation (4.1.7):
+    - PromiseKit/CorePromise
+  - PromiseKit/QuartzCore (4.1.7):
+    - PromiseKit/CorePromise
+  - PromiseKit/UIKit (4.1.7):
+    - PromiseKit/CorePromise
   - Quick (1.1.0)
   - Result (3.2.1)
   - SnapKit (3.1.2)
@@ -133,7 +143,6 @@ DEPENDENCIES:
   - Fabric (~> 1.6)
   - FBSnapshotTestCase
   - FLAnimatedImage (~> 1.0)
-  - FutureKit (from `https://github.com/FutureKit/FutureKit`, branch `v3`)
   - ImagePickerSheetController (from `https://github.com/ello/ImagePickerSheetController`, branch `swift3`)
   - iRate (~> 1.11)
   - JTSImageViewController (from `https://github.com/ello/JTSImageViewController`)
@@ -147,6 +156,7 @@ DEPENDENCIES:
   - Nimble-Snapshots (~> 4.4)
   - PINCache (from `https://github.com/ello/PINCache`, commit `78c3461`)
   - PINRemoteImage (= 3.0.0-beta.8)
+  - PromiseKit
   - Quick (= 1.1.0)
   - SnapKit (from `https://github.com/ello/SnapKit`)
   - SSPullToRefresh (~> 1.2)
@@ -168,9 +178,6 @@ EXTERNAL SOURCES:
     :git: git@github.com:ello/Ello-iOS-Certs
   ElloUIFonts:
     :git: git@github.com:ello/ElloUIFonts
-  FutureKit:
-    :branch: v3
-    :git: https://github.com/FutureKit/FutureKit
   ImagePickerSheetController:
     :branch: swift3
     :git: https://github.com/ello/ImagePickerSheetController
@@ -208,9 +215,6 @@ CHECKOUT OPTIONS:
   ElloUIFonts:
     :commit: c0bcfe900cdcc97f7df534657d5ce3b1efeb6a67
     :git: git@github.com:ello/ElloUIFonts
-  FutureKit:
-    :commit: 43d4f55387e82e3a0892d346fc1a7018a7a5f15c
-    :git: https://github.com/FutureKit/FutureKit
   ImagePickerSheetController:
     :commit: 18e8d063a15c9d081d510f82ba25b46edfda7e28
     :git: https://github.com/ello/ImagePickerSheetController
@@ -249,7 +253,6 @@ SPEC CHECKSUMS:
   Fabric: 5911403591946b8228ab1c51d98f1d7137e863c6
   FBSnapshotTestCase: 094f9f314decbabe373b87cc339bea235a63e07a
   FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31
-  FutureKit: 409baf0c683f4cdd1784b90782f43386ca3749a5
   ImagePickerSheetController: 4789b06940e299431455c61be77fda440883c36c
   iRate: adae3f183d83c925ac42d7a2e86e89e838963f57
   JTSImageViewController: 89ae3c003060c65418fd3224ebbd67acc6046608
@@ -264,6 +267,7 @@ SPEC CHECKSUMS:
   PINCache: a89c8f609232afac77128557bd12c861844423d7
   PINOperation: ac23db44796d4a564ecf9b5ea7163510f579b71d
   PINRemoteImage: c4f9f16932840c597f32e69dd288e10e111a1929
+  PromiseKit: 779f2e41faf62d854e7593026ddbcb0bb5c5002d
   Quick: dafc587e21eed9f4cab3249b9f9015b0b7a7f71d
   Result: 2453a22e5c5b11c0c3a478736e82cd02f763b781
   SnapKit: 66bf0e9c5e02fdb6d2a549adb845ab4440d3ccfe
@@ -276,6 +280,6 @@ SPEC CHECKSUMS:
   WebLinking: 3f71787c14a225148e8be29fe6e7c98597cbc459
   YapDatabase: 861c720d5850a59f9e5c0bad0fd95334012b9dc9
 
-PODFILE CHECKSUM: f1fae533a9e0c5a6f272c2bbe8f8aa8c476d6ac6
+PODFILE CHECKSUM: 48c1c4bb07c0b0d5b81f46c5cd7a4793db01e621
 
 COCOAPODS: 1.1.1

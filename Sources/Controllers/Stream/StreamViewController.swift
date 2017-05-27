@@ -415,7 +415,7 @@ final class StreamViewController: BaseElloViewController {
             let localToken = loadingToken.resetInitialPageLoadingToken()
 
             streamService.loadStream(streamKind: streamKind)
-                .onSuccess { response in
+                .thenFinally { response in
                     guard self.loadingToken.isValidInitialPageLoadingToken(localToken) else { return }
 
                     switch response {
@@ -426,7 +426,7 @@ final class StreamViewController: BaseElloViewController {
                         self.showInitialJSONAbles([])
                     }
                 }
-                .onFail { error in
+                .catch { error in
                     print("failed to load \(self.streamKind.cacheKey) stream (reason: \(error))")
                     self.initialLoadFailure()
                 }
@@ -1256,7 +1256,7 @@ extension StreamViewController: UIScrollViewDelegate {
 
         let scrollAPI = ElloAPI.infiniteScroll(queryItems: nextQueryItems) { return self.streamKind.endpoint }
         streamService.loadStream(endpoint: scrollAPI, streamKind: streamKind)
-            .onSuccess { response in
+            .thenFinally { response in
                 switch response {
                 case let .jsonables(jsonables, responseConfig):
                     self.scrollLoaded(jsonables: jsonables, placeholderType: placeholderType)
@@ -1266,7 +1266,7 @@ extension StreamViewController: UIScrollViewDelegate {
                     self.scrollLoaded()
                 }
             }
-            .onFail { error in
+            .catch { error in
                 print("failed to load stream (reason: \(error))")
                 self.scrollLoaded()
             }

@@ -65,14 +65,14 @@ class OmnibarViewController: BaseElloViewController {
         self.init(nibName: nil, bundle: nil)
         editComment = comment
         PostService().loadComment(comment.postId, commentId: comment.id)
-            .onSuccess { [weak self] comment in
+            .thenFinally { [weak self] comment in
                 guard let `self` = self else { return }
                 self.rawEditBody = comment.body
                 if let body = comment.body, self.isViewLoaded {
                     self.prepareScreenForEditing(body, isComment: true)
                 }
             }
-            .onFail { error in
+            .catch { error in
                 print("could not edit comment: \(error)")
             }
     }
@@ -81,13 +81,13 @@ class OmnibarViewController: BaseElloViewController {
         self.init(nibName: nil, bundle: nil)
         editPost = post
         PostService().loadPost(post.id, needsComments: false)
-            .onSuccess { post in
+            .thenFinally { post in
                 self.rawEditBody = post.body
                 if let body = post.body, self.isViewLoaded {
                     self.prepareScreenForEditing(body, isComment: false)
                 }
             }
-            .ignoreFailures()
+            .ignoreErrors()
     }
 
     convenience init(parentPostId postId: String, defaultText: String?) {
@@ -456,12 +456,12 @@ extension OmnibarViewController {
 
             if let post = comment.parentPost {
                 PostService().loadPost(post.id, needsComments: false)
-                    .onSuccess { post in
+                    .thenFinally { post in
                         ElloLinkedStore.sharedInstance.setObject(post, forKey: post.id, type: .postsType)
                         postNotification(PostChangedNotification, value: (post, .watching))
                         self.stopSpinner()
                     }
-                    .onFail { _ in
+                    .catch { _ in
                         self.stopSpinner()
                     }
             }

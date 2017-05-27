@@ -48,7 +48,7 @@ private extension EditorialsGenerator {
 
         let receivedEditorials = afterAll()
         StreamService().loadStream(streamKind: streamKind)
-            .onSuccess { [weak self] response in
+            .thenFinally { [weak self] response in
                 guard
                     let `self` = self,
                     case let .jsonables(jsonables, responseConfig) = response,
@@ -62,7 +62,7 @@ private extension EditorialsGenerator {
                 self.loadPostStreamEditorials(postStreamEditorials, afterAll: afterAll)
                 receivedEditorials()
             }
-            .onFail { [weak self] _ in
+            .catch { [weak self] _ in
                 guard let `self` = self else { return }
                 self.destination?.primaryJSONAbleNotFound()
             }

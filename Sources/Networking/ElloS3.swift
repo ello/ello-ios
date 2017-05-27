@@ -4,12 +4,11 @@
 // creds = AmazonCredentials(...)
 // data = NSData()
 // uploader = ElloS3(credentials: credentials, data: data)
-//   .onSuccess { (response : NSData) in }
-//   .onFailure { (error : NSError) in }
-//   // NOT yet supported:
-//   //.onProgress { (progress : Float) in }
+//   .thenFinally { (response : NSData) in }
+//   .catch { (error : NSError) in }
 //   .start()
 
+import PromiseKit
 
 
 class ElloS3 {
@@ -17,14 +16,7 @@ class ElloS3 {
     let data: Data
     let contentType: String
     let credentials: AmazonCredentials
-
-    typealias SuccessHandler = (Data) -> Void
-    typealias FailureHandler = (Error) -> Void
-    typealias ProgressHandler = (Float) -> Void
-
-    fileprivate var successHandler: SuccessHandler?
-    fileprivate var failureHandler: FailureHandler?
-    fileprivate var progressHandler: ProgressHandler?
+    var (promise, fulfill, reject) = Promise<Data>.pending()
 
     init(credentials: AmazonCredentials, filename: String, data: Data, contentType: String) {
         self.filename = filename
@@ -33,18 +25,14 @@ class ElloS3 {
         self.credentials = credentials
     }
 
-    func onSuccess(_ handler: @escaping SuccessHandler) -> Self {
-        self.successHandler = handler
+    func thenFinally(execute body: @escaping (Data) throws -> Void) -> Self {
+        _ = promise.then(execute: body)
         return self
     }
 
-    func onFailure(_ handler: @escaping FailureHandler) -> Self {
-        self.failureHandler = handler
-        return self
-    }
-
-    func onProgress(_ handler: @escaping ProgressHandler) -> Self {
-        self.progressHandler = handler
+    @discardableResult
+    public func `catch`(execute body: @escaping (Error) -> Void) -> Self {
+        _ = promise.catch(execute: body)
         return self
     }
 
@@ -71,20 +59,20 @@ class ElloS3 {
             nextTick {
                 let httpResponse = response as? HTTPURLResponse
                 if let error = error {
-                    self.failureHandler?(error)
+                    self.reject(error)
                 }
                 else if let statusCode = httpResponse?.statusCode,
                     statusCode >= 200 && statusCode < 300
                 {
                     if let data = data {
-                        self.successHandler?(data)
+                        self.fulfill(data)
                     }
                     else {
-                        self.failureHandler?(NSError(domain: ElloErrorDomain, code: 0, userInfo: [NSLocalizedFailureReasonErrorKey: "failure"]))
+                        self.reject(NSError(domain: ElloErrorDomain, code: 0, userInfo: [NSLocalizedFailureReasonErrorKey: "failure"]))
                     }
                 }
                 else {
-                    self.failureHandler?(NSError(domain: ElloErrorDomain, code: 0, userInfo: [NSLocalizedFailureReasonErrorKey: "failure"]))
+                    self.reject(NSError(domain: ElloErrorDomain, code: 0, userInfo: [NSLocalizedFailureReasonErrorKey: "failure"]))
                 }
             }
         })
