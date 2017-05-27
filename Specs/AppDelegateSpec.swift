@@ -11,8 +11,10 @@ import PINCache
 class AppDelegateSpec: QuickSpec {
     override func spec() {
         describe("AppDelegate") {
-            let subject = UIApplication.shared.delegate as? AppDelegate
-            subject?.setupCaches()
+            beforeEach {
+                let subject = UIApplication.shared.delegate as? AppDelegate
+                subject?.setupCaches()
+            }
 
             describe("caches") {
 
