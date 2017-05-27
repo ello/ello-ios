@@ -20,7 +20,7 @@ class AnnouncementCellSpec: QuickSpec {
                     config.isStaffPreview = isStaffPreview
                     config.title = title
                     config.body = body
-                    config.image = UIImage(named: "specs-avatar", in: Bundle(for: type(of: self)), compatibleWith: nil)!
+                    config.image = specImage(named: "specs-avatar")
                     config.callToAction = "Learn More"
                     return config
                 }

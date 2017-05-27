@@ -11,7 +11,6 @@ import Nimble_Snapshots
 class ElloConfiguration: QuickConfiguration {
     override class func configure(_ config: Configuration) {
         config.beforeSuite {
-            setNimbleTolerance(0.001)
             ElloLinkedStore.databaseName = "ello_test.sqlite"
             BadgesService.badges = [
                 "featured": Badge(slug: "featured", name: "Featured", link: "Learn More", url: nil, imageURL: nil),
@@ -36,22 +35,19 @@ class ElloConfiguration: QuickConfiguration {
             ElloProvider.shared.authState = .authenticated
             ElloProvider.shared.queue = nil
             ElloProvider.sharedProvider = ElloProvider.StubbingProvider()
-
-            ElloLinkedStore.sharedInstance.writeConnection.readWrite { transaction in
-                transaction.removeAllObjectsInAllCollections()
-            }
         }
         config.afterEach {
             ElloProvider_Specs.errorStatusCode = .status404
             let window = UIWindow()
             window.rootViewController = UIViewController()
             window.makeKeyAndVisible()
-        }
-        config.afterSuite {
-            AuthToken.sharedKeychain = ElloKeychain()
+
             ElloLinkedStore.sharedInstance.writeConnection.readWrite { transaction in
                 transaction.removeAllObjectsInAllCollections()
             }
+        }
+        config.afterSuite {
+            AuthToken.sharedKeychain = ElloKeychain()
             ElloProvider.sharedProvider = ElloProvider.DefaultProvider()
         }
     }

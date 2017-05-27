@@ -34,8 +34,8 @@ class CategoryHeaderCellSpec: QuickSpec {
             var subject: CategoryHeaderCell!
 
             func setImages() {
-                subject.postedByAvatar.setImage(UIImage(named: "specs-avatar", in: Bundle(for: type(of: self)), compatibleWith: nil), for: .normal)
-                subject.setImage(UIImage(named: "specs-category-image.jpg", in: Bundle(for: type(of: self)), compatibleWith: nil)!)
+                subject.postedByAvatar.setImage(specImage(named: "specs-avatar"), for: .normal)
+                subject.setImage(specImage(named: "specs-category-image.jpg")!)
             }
 
             describe("snapshots") {

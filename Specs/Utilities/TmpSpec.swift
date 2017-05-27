@@ -75,7 +75,7 @@ class TmpSpec: QuickSpec {
             }
 
             it("+Tmp.write(UIImage)") {
-                let originalImage = UIImage(named: "specs-avatar", in: Bundle(for: type(of: self)), compatibleWith: nil)!
+                let originalImage = specImage(named: "specs-avatar")!
                 _ = Tmp.write(originalImage, to: "image")
                 if let readImage : UIImage = Tmp.read("image") {
                     let readData = UIImagePNGRepresentation(readImage)

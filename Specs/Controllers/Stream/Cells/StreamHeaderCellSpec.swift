@@ -164,7 +164,7 @@ class StreamHeaderCellSpec: QuickSpec {
 
                         subject.timeStamp = "1m"
                         subject.setDetails(user: user, repostedBy: repostedBy, category: cellCategory)
-                        subject.avatarButton.setImage(UIImage(named: "specs-avatar", in: Bundle(for: type(of: self)), compatibleWith: nil), for: .normal)
+                        subject.avatarButton.setImage(specImage(named: "specs-avatar"), for: .normal)
 
                         subject.layoutIfNeeded()
                         showView(subject)

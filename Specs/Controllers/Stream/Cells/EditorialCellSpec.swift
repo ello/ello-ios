@@ -15,11 +15,11 @@ class EditorialCellSpec: QuickSpec {
                     var config = EditorialCell.Config()
                     config.title = title
                     config.subtitle = subtitle
-                    config.invite = EditorialCell.Config.Invite(emails: "", sent: sent)
-                    config.specsImage = UIImage(named: "specs-avatar", in: Bundle(for: type(of: self)), compatibleWith: nil)!
+                    config.invite = (emails: "", sent: sent)
+                    config.specsImage = specImage(named: "specs-avatar")
 
                     if join {
-                        config.join = EditorialCell.Config.Join(email: "email@email.com", username: "username", password: "password")
+                        config.join = (email: "email@email.com", username: "username", password: "password")
                     }
 
                     return config
@@ -37,7 +37,7 @@ class EditorialCellSpec: QuickSpec {
                         let subject = cellClass.init()
                         subject.frame.size = CGSize(width: 375, height: 376)
                         subject.config = config
-                        expectValidSnapshot(subject, record: true)
+                        expectValidSnapshot(subject)
                     }
                 }
             }

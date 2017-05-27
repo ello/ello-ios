@@ -9,9 +9,8 @@ import Nimble
 
 class SettingsViewControllerSpec: QuickSpec {
     override func spec() {
-        var subject = UIStoryboard.storyboardWithId("SettingsViewController", storyboardName: "Settings") as! SettingsViewController
-
         describe("initialization") {
+            var subject: SettingsViewController!
             beforeEach {
                 subject = UIStoryboard.storyboardWithId("SettingsViewController", storyboardName: "Settings") as! SettingsViewController
             }

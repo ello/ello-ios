@@ -52,7 +52,7 @@ class ShareAttachmentProcessorSpec: QuickSpec {
 
                 it("loads url items") {
                     let extensionItem = NSExtensionItem()
-                    let image = UIImage(named: "specs-avatar", in: Bundle(for: type(of: self)), compatibleWith: nil)!
+                    let image = specImage(named: "specs-avatar")!
                     let imageAsData = UIImagePNGRepresentation(image)
                     try? imageAsData?.write(to: fileURL, options: [.atomic])
 

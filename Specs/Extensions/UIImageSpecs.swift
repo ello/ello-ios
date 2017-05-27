@@ -27,7 +27,7 @@ class UIImageSpecs: QuickSpec {
 
             context("no scaling") {
                 beforeEach {
-                    image = UIImage(named: "specs-avatar", in: Bundle(for: type(of: self)), compatibleWith: nil)
+                    image = specImage(named: "specs-avatar")!
                     image.copyWithCorrectOrientationAndSize { image in
                         oriented = image
                     }
@@ -48,7 +48,7 @@ class UIImageSpecs: QuickSpec {
 
             context("scaling when width is greater than max") {
                 beforeEach {
-                    image = UIImage(named: "specs-4000x1000", in: Bundle(for: type(of: self)), compatibleWith: nil)
+                    image = specImage(named: "specs-4000x1000")!
                     image.copyWithCorrectOrientationAndSize { image in
                         oriented = image
                     }
@@ -64,7 +64,7 @@ class UIImageSpecs: QuickSpec {
 
             context("scaling when height is greater than max") {
                 beforeEach {
-                    image = UIImage(named: "specs-1000x4000", in: Bundle(for: type(of: self)), compatibleWith: nil)
+                    image = specImage(named: "specs-1000x4000")!
                     image.copyWithCorrectOrientationAndSize { image in
                         oriented = image
                     }
