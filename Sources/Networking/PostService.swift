@@ -140,7 +140,7 @@ struct PostService {
 
     func deleteComment(_ postId: String, commentId: String) -> Promise<()> {
         return ElloProvider.shared.request(.deleteComment(postId: postId, commentId: commentId))
-            .thenFinally { _ in }
+            .asVoid()
     }
 
     func toggleWatchPost(_ post: Post, watching: Bool) -> Promise<Post> {

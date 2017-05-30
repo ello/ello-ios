@@ -12,12 +12,12 @@ struct InviteService {
 
     func sendInvitations(_ emails: [String]) -> Promise<()> {
         return ElloProvider.shared.request(.invitations(emails: emails))
-            .thenFinally { _ in }
+            .asVoid()
     }
 
     func invite(_ email: String) -> Promise<()> {
         return ElloProvider.shared.request(.inviteFriends(email: email))
-            .thenFinally { _ in }
+            .asVoid()
     }
 
     func find(_ addressBook: AddressBookProtocol, currentUser: User?) -> Promise<FindSuccess> {
