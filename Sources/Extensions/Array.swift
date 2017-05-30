@@ -40,14 +40,6 @@ extension Array {
         return self[index]
     }
 
-    func eachPair(_ fn: (Element?, Element) -> Void) {
-        var current: Element!, prev: Element?
-        for el in self {
-            prev = current
-            current = el
-            fn(prev, current)
-        }
-    }
 }
 
 extension Sequence {
@@ -68,6 +60,28 @@ extension Sequence {
             }
         }
         return true
+    }
+
+    func eachPair(_ block: (Iterator.Element?, Iterator.Element) -> Void) {
+        var prev: Iterator.Element?
+        for item in self {
+            block(prev, item)
+            prev = item
+        }
+    }
+
+    func eachPair(_ block: (Iterator.Element?, Iterator.Element, Bool) -> Void) {
+        var prev: Iterator.Element?, last: Iterator.Element?
+        for item in self {
+            if let last = last {
+                block(prev, last, false)
+            }
+            prev = last
+            last = item
+        }
+        if let last = last {
+            block(prev, last, true)
+        }
     }
 
 }

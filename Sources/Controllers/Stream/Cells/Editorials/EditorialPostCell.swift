@@ -55,17 +55,12 @@ class EditorialPostCell: EditorialTitledCell {
         buttons.eachPair { prevButton, button in
             button.snp.makeConstraints { make in
                 make.top.bottom.equalTo(buttonsContainer)
-            }
-
-            if let prevButton = prevButton {
-                button.snp.makeConstraints { make in
+                if let prevButton = prevButton {
                     make.leading.equalTo(prevButton.snp.trailing).offset(Size.buttonsMargin)
                 }
-            }
-            else {
-            button.snp.makeConstraints { make in
-                make.leading.equalTo(buttonsContainer)
-            }
+                else {
+                    make.leading.equalTo(buttonsContainer)
+                }
             }
         }
 

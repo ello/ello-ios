@@ -84,12 +84,9 @@ class EditorialJoinCell: EditorialCell {
         fields.eachPair { prevField, field in
             field.snp.makeConstraints { make in
                 make.leading.trailing.equalTo(editorialContentView).inset(Size.defaultMargin)
+                make.height.equalTo(Size.minFieldHeight)
                 if let prevField = prevField {
-                    make.height.equalTo(prevField)
                     make.top.equalTo(prevField.snp.bottom).offset(Size.textFieldMargin)
-                }
-                else {
-                    make.top.equalTo(joinLabel.snp.bottom).offset(Size.defaultMargin.top)
                 }
             }
         }

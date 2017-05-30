@@ -119,17 +119,16 @@ extension EditorialPostStreamCell {
 
         postViews.eachPair { prevView, view in
             scrollView.addSubview(view)
-
             view.snp.makeConstraints { make in
                 make.top.bottom.equalTo(scrollView)
+                make.size.equalTo(frame.size)
+
                 if let prevView = prevView {
                     make.leading.equalTo(prevView.snp.trailing)
                 }
                 else {
                     make.leading.equalTo(scrollView)
                 }
-
-                make.size.equalTo(frame.size)
             }
 
             view.contentView.snp.makeConstraints { make in
