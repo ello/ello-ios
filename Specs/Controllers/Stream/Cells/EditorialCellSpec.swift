@@ -25,17 +25,19 @@ class EditorialCellSpec: QuickSpec {
                     return config
                 }
 
-                let expectations: [(String, EditorialCell.Config, EditorialCell.Type)] = [
-                    ("invite sent", config(sent: true), EditorialInviteCell.self),
-                    ("join", config(), EditorialJoinCell.self),
-                    ("join filled in", config(join: true), EditorialJoinCell.self),
-                    ("post", config(), EditorialPostCell.self),
-                    ("post_stream", config(), EditorialPostStreamCell.self),
+                let expectations: [(String, EditorialCell.Config, EditorialCell.Type, CGFloat)] = [
+                    ("invite sent", config(sent: true), EditorialInviteCell.self, 375),
+                    ("join", config(), EditorialJoinCell.self, 375),
+                    ("join on iphone se", config(), EditorialJoinCell.self, 320),
+                    ("join on iphone plus", config(), EditorialJoinCell.self, 414),
+                    ("join filled in", config(join: true), EditorialJoinCell.self, 375),
+                    ("post", config(), EditorialPostCell.self, 375),
+                    ("post_stream", config(), EditorialPostStreamCell.self, 375),
                 ]
-                for (description, config, cellClass) in expectations {
+                for (description, config, cellClass, size) in expectations {
                     it("should have valid snapshot for \(description)") {
                         let subject = cellClass.init()
-                        subject.frame.size = CGSize(width: 375, height: 376)
+                        subject.frame.size = CGSize(width: size, height: size + 1)
                         subject.config = config
                         expectValidSnapshot(subject)
                     }

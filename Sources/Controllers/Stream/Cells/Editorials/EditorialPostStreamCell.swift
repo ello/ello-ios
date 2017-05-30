@@ -117,7 +117,7 @@ extension EditorialPostStreamCell {
             return cell
         }
 
-        postViews.eachPair { prevView, view in
+        postViews.eachPair { prevView, view, isLast in
             scrollView.addSubview(view)
             view.snp.makeConstraints { make in
                 make.top.bottom.equalTo(scrollView)
@@ -129,16 +129,14 @@ extension EditorialPostStreamCell {
                 else {
                     make.leading.equalTo(scrollView)
                 }
+
+                if isLast {
+                    make.trailing.equalTo(scrollView)
+                }
             }
 
             view.contentView.snp.makeConstraints { make in
                 make.edges.equalTo(view)
-            }
-        }
-
-        if let lastView = postViews.last {
-            lastView.snp.makeConstraints { make in
-                make.trailing.equalTo(scrollView)
             }
         }
     }

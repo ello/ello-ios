@@ -99,6 +99,23 @@ class EditorialJoinCell: EditorialCell {
         }
     }
 
+    override func updateConstraints() {
+        super.updateConstraints()
+        layoutIfNeeded()  // why-t-f is this necessary!?
+
+        // doing this simple height calculation in auto layout was a total waste of time
+        let fields = [emailField, usernameField, passwordField]
+        let remainingHeight = submitButton.frame.minY - joinLabel.frame.maxY - Size.defaultMargin.top - CGFloat(fields.count) * Size.textFieldMargin
+        let fieldHeight: CGFloat = min(max(ceil(remainingHeight / 3), Size.minFieldHeight), Size.fieldHeight)
+        for field in fields.reversed() {
+            guard field.frame.height != fieldHeight else { continue }
+
+            field.snp.updateConstraints { make in
+                make.height.equalTo(fieldHeight)
+            }
+        }
+    }
+
     override func prepareForReuse() {
         super.prepareForReuse()
         onJoinChange = nil

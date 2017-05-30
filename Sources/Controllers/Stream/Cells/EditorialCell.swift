@@ -28,6 +28,8 @@ class EditorialCell: UICollectionViewCell {
         static let bgMargins = UIEdgeInsets(bottom: 1)
         static let buttonsMargin: CGFloat = 30
         static let buttonHeight: CGFloat = 48
+        static let minFieldHeight: CGFloat = 50
+        static let fieldHeight: CGFloat = 64
     }
 
     struct Config {
@@ -119,6 +121,7 @@ class EditorialCell: UICollectionViewCell {
     }
 
     override func layoutSubviews() {
+        super.layoutSubviews()
         gradientLayer.frame = CGRect(origin: .zero, size: gradientView.frame.size)
     }
 
