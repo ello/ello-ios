@@ -12,8 +12,8 @@ struct ProfileAvatarSizeCalculator {
     }
 
     func calculate(_ item: StreamCellItem, maxWidth: CGFloat) -> Promise<CGFloat> {
-        return Promise { fulfill, _ in
-            fulfill(ProfileAvatarSizeCalculator.calculateHeight(maxWidth: maxWidth))
-        }
+        let (promise, fulfill, _) = Promise<CGFloat>.pending()
+        fulfill(ProfileAvatarSizeCalculator.calculateHeight(maxWidth: maxWidth))
+        return promise
     }
 }
