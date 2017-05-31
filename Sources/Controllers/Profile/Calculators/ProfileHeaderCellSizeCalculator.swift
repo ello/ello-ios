@@ -14,15 +14,6 @@ class ProfileHeaderCellSizeCalculator {
     fileprivate var cellItems: [StreamCellItem] = []
     fileprivate var completion: ElloEmptyCompletion = {}
 
-    let avatarSizeCalculator = ProfileAvatarSizeCalculator()
-    let namesSizeCalculator = ProfileNamesSizeCalculator()
-    let totalCountSizeCalculator = ProfileTotalCountSizeCalculator()
-    let badgesSizeCalculator = ProfileBadgesSizeCalculator()
-    let statsSizeCalculator = ProfileStatsSizeCalculator()
-    let bioSizeCalculator = ProfileBioSizeCalculator()
-    let locationSizeCalculator = ProfileLocationSizeCalculator()
-    let linksSizeCalculator = ProfileLinksSizeCalculator()
-
 // MARK: Public
     init() {}
 
@@ -100,6 +91,15 @@ private extension ProfileHeaderCellSizeCalculator {
     }
 
     func calculateAggregateHeights(_ item: StreamCellItem) {
+        let avatarSizeCalculator = ProfileAvatarSizeCalculator()
+        let namesSizeCalculator = ProfileNamesSizeCalculator()
+        let totalCountSizeCalculator = ProfileTotalCountSizeCalculator()
+        let badgesSizeCalculator = ProfileBadgesSizeCalculator()
+        let statsSizeCalculator = ProfileStatsSizeCalculator()
+        let bioSizeCalculator = ProfileBioSizeCalculator()
+        let locationSizeCalculator = ProfileLocationSizeCalculator()
+        let linksSizeCalculator = ProfileLinksSizeCalculator()
+
         let promises: [(CalculatedCellHeights.Prop, Promise<CGFloat>)] = [
             (.profileAvatar, avatarSizeCalculator.calculate(item, maxWidth: maxWidth)),
             (.profileNames, namesSizeCalculator.calculate(item, maxWidth: maxWidth)),
