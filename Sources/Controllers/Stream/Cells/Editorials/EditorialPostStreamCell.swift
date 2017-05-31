@@ -34,7 +34,7 @@ class EditorialPostStreamCell: EditorialCell {
         super.updateConfig()
         titleLabel.text = config.title
 
-        let postStreamConfigs: [EditorialCell.Config] = config.postStream?.postConfigs ?? []
+        let postStreamConfigs: [EditorialCell.Config] = config.postStreamConfigs ?? []
         updatePostViews(configs: postStreamConfigs)
         pageControl.numberOfPages = postStreamConfigs.count
         pageControl.isHidden = postStreamConfigs.count <= 1

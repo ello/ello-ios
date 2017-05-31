@@ -34,10 +34,6 @@ class EditorialCell: UICollectionViewCell {
     }
 
     struct Config {
-        struct PostStream {
-            let postConfigs: [Config]
-        }
-
         var title: String?
         var subtitle: String?
         var imageURL: URL?
@@ -46,7 +42,7 @@ class EditorialCell: UICollectionViewCell {
         var join: Editorial.JoinInfo?
         var invite: Editorial.InviteInfo?
         var post: Post?
-        var postStream: PostStream?
+        var postStreamConfigs: [Config]?
 
         init() {}
     }
@@ -170,7 +166,7 @@ extension EditorialCell.Config {
             let postConfigs = posts.map { editorialPost in
                 return EditorialCell.Config.fromPost(editorialPost)
             }
-            config.postStream = EditorialCell.Config.PostStream(postConfigs: postConfigs)
+            config.postStreamConfigs = postConfigs
         }
 
         if let postImageURL = editorial.post?.firstImageURL {
