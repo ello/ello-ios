@@ -119,7 +119,13 @@ class EditorialCell: UICollectionViewCell {
 
     override func layoutSubviews() {
         super.layoutSubviews()
+        // I think embedding an EditorialPostCell inside the scrollview of EditorialPostStreamCell
+        // results in weird behavior in layoutSubviews, where the frames are not yet set.  this
+        // method was getting called with the `gradientView` always having a zero-sized frame.
         layoutIfNeeded()
+
+        // prevents animating the gradient view (it was "growing out" from the corner because it
+        // starts with a frame of .zero)
         CATransaction.begin()
         CATransaction.setValue(true, forKey: kCATransactionDisableActions)
         gradientLayer.frame = CGRect(origin: .zero, size: gradientView.frame.size)
