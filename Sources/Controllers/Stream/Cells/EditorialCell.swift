@@ -23,7 +23,8 @@ class EditorialCell: UICollectionViewCell {
         static let smallTopMargin: CGFloat = 28
         static let defaultMargin = UIEdgeInsets(top: 18, left: 18, bottom: 17, right: 15)
         static let textFieldMargin: CGFloat = 10
-        static let arrowMargin: CGFloat = 17
+        static let pageControlMargin: CGFloat = 18
+        static let postStreamLabelMargin: CGFloat = 20
         static let subtitleButtonMargin: CGFloat = 36
         static let bgMargins = UIEdgeInsets(bottom: 1)
         static let buttonsMargin: CGFloat = 30

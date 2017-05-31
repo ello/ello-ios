@@ -30,8 +30,8 @@ class EditorialPostCell: EditorialTitledCell {
     override func updateConfig() {
         super.updateConfig()
         lovesButton.isEnabled = config.post != nil
-        commentButton.isEnabled = config.post != nil
-        repostButton.isEnabled = config.post != nil
+        repostButton.isEnabled = config.post?.author?.hasRepostingEnabled ?? false
+        commentButton.isEnabled = config.post?.author?.hasCommentingEnabled ?? false
         shareButton.isEnabled = config.post != nil
 
         let loved = config.post?.loved ?? false
