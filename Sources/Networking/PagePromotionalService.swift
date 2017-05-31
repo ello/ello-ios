@@ -12,7 +12,7 @@ class PagePromotionalService {
         return ElloProvider.shared.request(.pagePromotionals)
             .then { data, responseConfig -> [PagePromotional]? in
                 if responseConfig.statusCode == 204 {
-                    return .none
+                    return nil
                 }
                 else if let pagePromotionals = data as? [PagePromotional] {
                     Preloader().preloadImages(pagePromotionals)
