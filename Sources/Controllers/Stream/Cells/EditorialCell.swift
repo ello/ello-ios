@@ -123,7 +123,11 @@ class EditorialCell: UICollectionViewCell {
 
     override func layoutSubviews() {
         super.layoutSubviews()
+        layoutIfNeeded()
+        CATransaction.begin()
+        CATransaction.setValue(true, forKey: kCATransactionDisableActions)
         gradientLayer.frame = CGRect(origin: .zero, size: gradientView.frame.size)
+        CATransaction.commit()
     }
 
     override func prepareForReuse() {
