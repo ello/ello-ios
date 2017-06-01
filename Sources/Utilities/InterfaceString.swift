@@ -220,7 +220,9 @@ struct InterfaceString {
         static let Blocked: String = NSLocalizedString("Blocked", comment: "Blocked relationship")
 
         static let MuteButton: String = NSLocalizedString("Mute", comment: "Mute button title")
+        static let UnmuteButton: String = NSLocalizedString("Unmute", comment: "Unmute button title")
         static let BlockButton: String = NSLocalizedString("Block", comment: "Block button title")
+        static let UnblockButton: String = NSLocalizedString("Unblock", comment: "Unblock button title")
         static let FlagButton: String = NSLocalizedString("Flag", comment: "Flag button title")
         static let BlockedNoResultsTitle: String = NSLocalizedString("You haven't blocked any users", comment: "Current user no blocked results title")
         static let BlockedNoResultsBody = ""

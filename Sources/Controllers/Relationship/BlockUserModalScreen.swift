@@ -78,8 +78,10 @@ class BlockUserModalScreen: UIView {
         resetButtons()
         switch relationshipPriority {
         case .mute:
+            muteButton.setTitle(InterfaceString.Relationship.UnmuteButton, for: .normal)
             muteButton.isSelected = true
         case .block:
+            blockButton.setTitle(InterfaceString.Relationship.UnblockButton, for: .normal)
             blockButton.isSelected = true
         default:
             break
@@ -87,6 +89,8 @@ class BlockUserModalScreen: UIView {
     }
 
     fileprivate func resetButtons() {
+        muteButton.setTitle(InterfaceString.Relationship.MuteButton, for: .normal)
+        blockButton.setTitle(InterfaceString.Relationship.BlockButton, for: .normal)
         muteButton.isSelected = false
         blockButton.isSelected = false
     }

@@ -4,20 +4,20 @@
 
 class StyledButton: UIButton {
     struct Style {
-        let disabledBackgroundColor: UIColor?
         let highlightedBackgroundColor: UIColor?
         let selectedBackgroundColor: UIColor?
+        let disabledBackgroundColor: UIColor?
         let backgroundColor: UIColor?
 
-        let disabledTitleColor: UIColor?
-        let selectedTitleColor: UIColor?
         let highlightedTitleColor: UIColor?
+        let selectedTitleColor: UIColor?
+        let disabledTitleColor: UIColor?
         let titleColor: UIColor?
 
         let highlightedBorderColor: UIColor?
         let selectedBorderColor: UIColor?
-        let borderColor: UIColor?
         let disabledBorderColor: UIColor?
+        let borderColor: UIColor?
 
         let fontSize: CGFloat?
         let cornerRadius: CGFloat?
@@ -50,19 +50,19 @@ class StyledButton: UIButton {
             cornerRadius: CGFloat? = 0,
             underline: Bool = false
         ) {
-            self.disabledBackgroundColor = disabledBackgroundColor
             self.highlightedBackgroundColor = highlightedBackgroundColor
             self.selectedBackgroundColor = selectedBackgroundColor
+            self.disabledBackgroundColor = disabledBackgroundColor
             self.backgroundColor = backgroundColor
 
-            self.disabledTitleColor = disabledTitleColor
             self.highlightedTitleColor = highlightedTitleColor
             self.selectedTitleColor = selectedTitleColor
+            self.disabledTitleColor = disabledTitleColor
             self.titleColor = titleColor
 
-            self.disabledBorderColor = disabledBorderColor
             self.highlightedBorderColor = highlightedBorderColor
             self.selectedBorderColor = selectedBorderColor
+            self.disabledBorderColor = disabledBorderColor
             self.borderColor = borderColor
 
             self.fontSize = fontSize
@@ -135,7 +135,7 @@ class StyledButton: UIButton {
         titleLabel?.font = style.font
 
         if let title = self.title(for: .normal) {
-            let states: [UIControlState] = [.normal, .disabled, .highlighted, .selected]
+            let states: [UIControlState] = [.normal, .highlighted, .selected, .disabled]
             for state in states {
                 let attrdTitle = NSAttributedString(button: title, style: style, state: state)
                 setAttributedTitle(attrdTitle, for: state)
@@ -213,8 +213,8 @@ extension StyledButton.Style {
         titleColor: .grey6(), highlightedTitleColor: .black, disabledTitleColor: .greyC()
         )
     static let white = StyledButton.Style(
-        backgroundColor: .white, disabledBackgroundColor: .greyA(),
-        titleColor: .black, highlightedTitleColor: .grey6(), disabledTitleColor: .greyC()
+        backgroundColor: .white, selectedBackgroundColor: .black, disabledBackgroundColor: .greyA(),
+        titleColor: .black, highlightedTitleColor: .grey6(), selectedTitleColor: .white, disabledTitleColor: .greyC()
         )
     static let whiteUnderlined = StyledButton.Style(
         backgroundColor: .clear,
