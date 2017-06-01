@@ -8,7 +8,7 @@ import SnapKit
 class EditorialPostStreamCell: EditorialCell {
     fileprivate let pageControl = UIPageControl()
     fileprivate let scrollView = UIScrollView()
-    fileprivate var postViews: [EditorialPostCell] = []
+    fileprivate var postCells: [EditorialPostCell] = []
     fileprivate let titleLabel = StyledLabel(style: .giantWhite)
     fileprivate let bg = UIView()
 
@@ -68,7 +68,7 @@ class EditorialPostStreamCell: EditorialCell {
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        for view in postViews {
+        for view in postCells {
             view.snp.updateConstraints { make in
                 make.size.equalTo(frame.size)
             }
@@ -97,17 +97,17 @@ extension EditorialPostStreamCell {
 
 extension EditorialPostStreamCell {
     func updatePostViews(configs: [EditorialCell.Config]) {
-        for view in postViews {
+        for view in postCells {
             view.removeFromSuperview()
         }
 
-        postViews = configs.map { config in
+        postCells = configs.map { config in
             let cell = EditorialPostCell()
             cell.config = config
             return cell
         }
 
-        postViews.eachPair { prevView, view, isLast in
+        postCells.eachPair { prevView, view, isLast in
             scrollView.addSubview(view)
             view.snp.makeConstraints { make in
                 make.top.bottom.equalTo(scrollView)
@@ -132,12 +132,25 @@ extension EditorialPostStreamCell {
     }
 }
 
+extension EditorialPostStreamCell: EditorialCellResponder {
+    @objc
+    func editorialTapped(cell: EditorialCell) {
+        guard
+            let cell = cell as? EditorialPostCell,
+            let index = postCells.index(of: cell)
+        else { return }
+
+        let responder: EditorialPostStreamResponder? = findResponder()
+        responder?.editorialTapped(index: index, cell: self)
+    }
+}
+
 extension EditorialPostStreamCell: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let pageFloat: CGFloat = round(map(
             scrollView.contentOffset.x,
             fromInterval: (0, scrollView.contentSize.width),
-            toInterval: (0, CGFloat(postViews.count))))
-        pageControl.currentPage = max(0, min(postViews.count - 1, Int(pageFloat)))
+            toInterval: (0, CGFloat(postCells.count))))
+        pageControl.currentPage = max(0, min(postCells.count - 1, Int(pageFloat)))
     }
 }

@@ -41,6 +41,7 @@ class EditorialJoinCell: EditorialCell {
     }
 
     override func bindActions() {
+        super.bindActions()
         submitButton.addTarget(self, action: #selector(submitTapped), for: .touchUpInside)
         emailField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         usernameField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)

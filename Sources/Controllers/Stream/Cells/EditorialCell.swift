@@ -6,7 +6,19 @@ import SnapKit
 
 
 @objc
-protocol EditorialResponder: class {
+protocol EditorialCellResponder: class {
+    func editorialTapped(cell: EditorialCell)
+}
+
+
+@objc
+protocol EditorialPostStreamResponder: class {
+    func editorialTapped(index: Int, cell: EditorialCell)
+}
+
+
+@objc
+protocol EditorialToolsResponder: class {
     func submitInvite(cell: UICollectionViewCell, emails: String)
     func submitJoin(cell: UICollectionViewCell, email: String, username: String, password: String)
     func lovesTapped(post: Post, cell: EditorialPostCell)
@@ -54,6 +66,7 @@ class EditorialCell: UICollectionViewCell {
     }
 
     fileprivate let bg = UIView()
+    fileprivate let tappedResponder = UIControl()
     fileprivate let gradientView = UIView()
     fileprivate var gradientLayer = EditorialCell.generateGradientLayer()
     fileprivate let imageView = UIImageView()
@@ -90,6 +103,7 @@ class EditorialCell: UICollectionViewCell {
     }
 
     func bindActions() {
+        tappedResponder.addTarget(self, action: #selector(tappedEditorial), for: .touchUpInside)
     }
 
     func updateConfig() {
@@ -104,12 +118,16 @@ class EditorialCell: UICollectionViewCell {
     func arrange() {
         contentView.addSubview(bg)
         bg.addSubview(imageView)
+        bg.addSubview(tappedResponder)
         imageView.addSubview(gradientView)
 
         bg.snp.makeConstraints { make in
             make.edges.equalTo(contentView).inset(Size.bgMargins)
         }
         imageView.snp.makeConstraints { make in
+            make.edges.equalTo(bg)
+        }
+        tappedResponder.snp.makeConstraints { make in
             make.edges.equalTo(bg)
         }
         gradientView.snp.makeConstraints { make in
@@ -137,6 +155,14 @@ class EditorialCell: UICollectionViewCell {
     }
 }
 
+extension EditorialCell {
+    @objc
+    func tappedEditorial() {
+        let responder: EditorialCellResponder? = findResponder()
+        responder?.editorialTapped(cell: self)
+    }
+}
+
 extension Editorial.Kind {
     var reuseIdentifier: String {
         switch self {
@@ -145,6 +171,7 @@ extension Editorial.Kind {
         case .postStream: return "EditorialPostStreamCell"
         case .invite: return "EditorialInviteCell"
         case .join: return "EditorialJoinCell"
+        case .unknown: return "unknown"
         }
     }
 
@@ -155,6 +182,7 @@ extension Editorial.Kind {
         case .postStream: return EditorialPostStreamCell.self
         case .invite: return EditorialInviteCell.self
         case .join: return EditorialJoinCell.self
+        case .unknown: return UICollectionViewCell.self
         }
     }
 }

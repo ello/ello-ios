@@ -66,7 +66,43 @@ class EditorialsViewController: StreamableViewController, EditorialsScreenDelega
     }
 }
 
-extension EditorialsViewController: EditorialResponder {
+extension EditorialsViewController: EditorialCellResponder {
+    func editorialTapped(cell: EditorialCell) {
+        guard
+            let jsonable = streamViewController.jsonable(forCell: cell),
+            let editorial = jsonable as? Editorial
+        else { return }
+
+        switch editorial.kind {
+        case .external:
+            guard let url = editorial.externalURL else { return }
+            postNotification(ExternalWebNotification, value: url.absoluteString)
+        case .post:
+            guard let post = editorial.post else { return }
+            postTapped(post)
+        case .postStream,
+             .invite,
+             .join,
+             .unknown:
+            break
+        }
+    }
+}
+
+extension EditorialsViewController: EditorialPostStreamResponder {
+    func editorialTapped(index: Int, cell: EditorialCell) {
+        guard
+            let jsonable = streamViewController.jsonable(forCell: cell),
+            let editorial = jsonable as? Editorial,
+            let editorialPosts = editorial.posts,
+            let post = editorialPosts.safeValue(index)
+        else { return }
+
+        postTapped(post)
+    }
+}
+
+extension EditorialsViewController: EditorialToolsResponder {
     func submitInvite(cell: UICollectionViewCell, emails emailString: String) {
         guard
             let jsonable = streamViewController.jsonable(forCell: cell),

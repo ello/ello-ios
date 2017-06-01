@@ -29,6 +29,7 @@ class EditorialInviteCell: EditorialCell {
     }
 
     override func bindActions() {
+        super.bindActions()
         submitButton.addTarget(self, action: #selector(submitTapped), for: .touchUpInside)
     }
 

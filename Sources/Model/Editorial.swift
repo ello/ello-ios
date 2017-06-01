@@ -17,6 +17,7 @@ final class Editorial: JSONAble, Groupable {
         case external
         case invite
         case join
+        case unknown
     }
     enum Size: String {
         case size1x1 = "one_by_one_image"
@@ -91,7 +92,7 @@ final class Editorial: JSONAble, Groupable {
     override class func fromJSON(_ data: [String: Any]) -> JSONAble {
         let json = JSON(data)
         let id = json["id"].stringValue
-        let kind = Kind(rawValue: json["kind"].stringValue) ?? .post
+        let kind = Kind(rawValue: json["kind"].stringValue) ?? .unknown
         let title = json["title"].stringValue
         let subtitle = json["subtitle"].string
         let postId = json["links"]["post"]["id"].string

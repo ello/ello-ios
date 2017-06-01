@@ -136,7 +136,15 @@ enum StreamKind {
             default:
                 return jsonables
             }
-        case .announcements, .editorials:
+        case .editorials:
+            return jsonables.flatMap { jsonable -> Editorial? in
+                guard
+                    let editorial = jsonable as? Editorial,
+                    editorial.kind != .unknown
+                else { return nil }
+                return editorial
+            }
+        case .announcements:
             return jsonables
         case .discover, .category:
             if let comments = jsonables as? [ElloComment]  {

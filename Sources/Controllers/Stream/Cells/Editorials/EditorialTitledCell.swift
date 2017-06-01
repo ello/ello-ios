@@ -12,9 +12,6 @@ class EditorialTitledCell: EditorialCell {
         subtitleLabel.numberOfLines = 0
     }
 
-    override func bindActions() {
-    }
-
     override func updateConfig() {
         super.updateConfig()
         titleLabel.text = config.title
