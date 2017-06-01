@@ -4,6 +4,7 @@
 
 class EditorialPostCell: EditorialTitledCell {
     fileprivate let buttonsContainer = UIView()
+    fileprivate let postControlsStack = UIStackView()
     fileprivate let lovesButton = UIButton()
     fileprivate let commentButton = UIButton()
     fileprivate let repostButton = UIButton()
@@ -17,6 +18,11 @@ class EditorialPostCell: EditorialTitledCell {
         commentButton.setImage(.commentsOutline, imageStyle: .white, for: .normal)
         repostButton.setImage(.repost, imageStyle: .white, for: .normal)
         shareButton.setImage(.share, imageStyle: .white, for: .normal)
+
+        postControlsStack.axis = .horizontal
+        postControlsStack.distribution = .fillEqually
+        postControlsStack.alignment = .fill
+        postControlsStack.spacing = Size.buttonsMargin
     }
 
     override func bindActions() {
@@ -29,12 +35,13 @@ class EditorialPostCell: EditorialTitledCell {
 
     override func updateConfig() {
         super.updateConfig()
-        lovesButton.isEnabled = config.post != nil
-        repostButton.isEnabled = config.post?.author?.hasRepostingEnabled ?? false
-        commentButton.isEnabled = config.post?.author?.hasCommentingEnabled ?? false
-        shareButton.isEnabled = config.post != nil
+
+        repostButton.isHidden = !(config.post?.author?.hasRepostingEnabled ?? false)
+        commentButton.isHidden = !(config.post?.author?.hasCommentingEnabled ?? false)
+        lovesButton.isHidden = !(config.post?.author?.hasLovesEnabled ?? false)
 
         let loved = config.post?.loved ?? false
+        lovesButton.isEnabled = true
         lovesButton.isSelected = loved
     }
 
@@ -42,26 +49,18 @@ class EditorialPostCell: EditorialTitledCell {
         super.arrange()
 
         editorialContentView.addSubview(buttonsContainer)
-        buttonsContainer.addSubview(lovesButton)
-        buttonsContainer.addSubview(commentButton)
-        buttonsContainer.addSubview(repostButton)
+        buttonsContainer.addSubview(postControlsStack)
+        postControlsStack.addArrangedSubview(lovesButton)
+        postControlsStack.addArrangedSubview(commentButton)
+        postControlsStack.addArrangedSubview(repostButton)
         buttonsContainer.addSubview(shareButton)
 
         buttonsContainer.snp.makeConstraints { make in
             make.leading.bottom.trailing.equalTo(editorialContentView).inset(Size.defaultMargin)
         }
 
-        let buttons = [lovesButton, commentButton, repostButton]
-        buttons.eachPair { prevButton, button in
-            button.snp.makeConstraints { make in
-                make.top.bottom.equalTo(buttonsContainer)
-                if let prevButton = prevButton {
-                    make.leading.equalTo(prevButton.snp.trailing).offset(Size.buttonsMargin)
-                }
-                else {
-                    make.leading.equalTo(buttonsContainer)
-                }
-            }
+        postControlsStack.snp.makeConstraints { make in
+            make.leading.top.bottom.equalTo(buttonsContainer)
         }
 
         shareButton.snp.makeConstraints { make in
