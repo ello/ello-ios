@@ -92,8 +92,7 @@ class RelationshipControl: UIView {
 
         let prevRelationshipPriority = RelationshipPriorityWrapper(priority: self.relationshipPriority)
 
-        let responder = target(forAction: #selector(RelationshipResponder.launchBlockModal(_:userAtName:relationshipPriority:changeClosure:)), withSender: self) as? RelationshipResponder
-
+        let responder: RelationshipResponder? = findResponder()
         responder?.launchBlockModal(
             userId,
             userAtName: userAtName,
@@ -109,8 +108,7 @@ class RelationshipControl: UIView {
         let prevRelationshipPriority = RelationshipPriorityWrapper(priority: self.relationshipPriority)
         self.relationshipPriority = newRelationshipPriority
 
-        let responder = target(forAction: #selector(RelationshipResponder.relationshipTapped(_:prev:relationshipPriority:complete:)), withSender: self) as? RelationshipResponder
-
+        let responder: RelationshipResponder? = findResponder()
         responder?.relationshipTapped(
             self.userId,
             prev: prevRelationshipPriority,

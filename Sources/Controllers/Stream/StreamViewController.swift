@@ -904,13 +904,13 @@ extension StreamViewController: StreamEditingResponder {
         if let post = dataSource.postForIndexPath(indexPath),
             currentUser.isOwn(post: post)
         {
-            let responder = target(forAction: #selector(CreatePostResponder.editPost(_:fromController:)), withSender: self) as? CreatePostResponder
+            let responder: CreatePostResponder? = findResponder()
             responder?.editPost(post, fromController: self)
         }
         else if let comment = dataSource.commentForIndexPath(indexPath),
             currentUser.isOwn(comment: comment)
         {
-            let responder = target(forAction: #selector(CreatePostResponder.editComment(_:fromController:)), withSender: self) as? CreatePostResponder
+            let responder: CreatePostResponder? = findResponder()
             responder?.editComment(comment, fromController: self)
         }
     }
@@ -963,7 +963,7 @@ extension StreamViewController: StreamPostTappedResponder {
             Tracker.shared.relatedPostTapped(post)
         }
 
-        let responder = target(forAction: #selector(PostTappedResponder.postTapped(_:)), withSender: self) as? PostTappedResponder
+        let responder: PostTappedResponder? = findResponder()
         if let scrollToComment = scrollToComment {
             responder?.postTapped(post, scrollToComment: scrollToComment)
         }
@@ -1022,7 +1022,7 @@ extension StreamViewController: UserResponder {
     }
 
     func userTapped(user: User) {
-        let responder = target(forAction: #selector(UserTappedResponder.userTapped(_:)), withSender: self) as? UserTappedResponder
+        let responder: UserTappedResponder? = findResponder()
         responder?.userTapped(user)
     }
 
@@ -1071,7 +1071,7 @@ extension StreamViewController: AnnouncementCellResponder {
             let announcement = dataSource.jsonableForIndexPath(indexPath) as? Announcement
         else { return }
 
-        let responder = target(forAction: #selector(AnnouncementResponder.markAnnouncementAsRead(announcement:) ), withSender: self) as? AnnouncementResponder
+        let responder: AnnouncementResponder? = findResponder()
         responder?.markAnnouncementAsRead(announcement: announcement)
     }
 }
@@ -1109,7 +1109,7 @@ extension StreamViewController: UICollectionViewDelegate {
 
         let selection = paths.flatMap { dataSource.jsonableForIndexPath($0) as? Category }
 
-        let responder = target(forAction: #selector(SelectedCategoryResponder.categoriesSelectionChanged(selection:)), withSender: self) as? SelectedCategoryResponder
+        let responder: SelectedCategoryResponder? = findResponder()
         responder?.categoriesSelectionChanged(selection: selection)
     }
 
@@ -1142,7 +1142,7 @@ extension StreamViewController: UICollectionViewDelegate {
             }
         }
         else if tappedCell is StreamLoadMoreCommentsCell {
-            let responder = target(forAction: #selector(PostCommentsResponder.loadCommentsTapped), withSender: self) as? PostCommentsResponder
+            let responder: PostCommentsResponder? = findResponder()
             responder?.loadCommentsTapped()
         }
         else if let post = dataSource.postForIndexPath(indexPath),
@@ -1152,7 +1152,7 @@ extension StreamViewController: UICollectionViewDelegate {
         else if let notification = dataSource.jsonableForIndexPath(indexPath) as? Notification,
             let postId = notification.postId
         {
-            let responder = target(forAction: #selector(PostTappedResponder.postTapped(postId:)), withSender: self) as? PostTappedResponder
+            let responder: PostTappedResponder? = findResponder()
             responder?.postTapped(postId: postId)
         }
         else if let notification = dataSource.jsonableForIndexPath(indexPath) as? Notification,
@@ -1168,7 +1168,7 @@ extension StreamViewController: UICollectionViewDelegate {
             ElloWebViewHelper.handle(request: request, origin: self)
         }
         else if let comment = dataSource.commentForIndexPath(indexPath) {
-            let responder = target(forAction: #selector(CreatePostResponder.createComment(_:text:fromController:)), withSender: self) as? CreatePostResponder
+            let responder: CreatePostResponder? = findResponder()
             responder?.createComment(comment.loadedFromPostId, text: nil, fromController: self)
         }
         else if let item = dataSource.visibleStreamCellItem(at: indexPath),
@@ -1179,7 +1179,7 @@ extension StreamViewController: UICollectionViewDelegate {
                 let paths = collectionView.indexPathsForSelectedItems
                 let selection = paths?.flatMap { dataSource.jsonableForIndexPath($0) as? Category }
 
-                let responder = target(forAction: #selector(SelectedCategoryResponder.categoriesSelectionChanged(selection:)), withSender: self) as? SelectedCategoryResponder
+                let responder: SelectedCategoryResponder? = findResponder()
                 responder?.categoriesSelectionChanged(selection: selection ?? [Category]())
             }
             else {

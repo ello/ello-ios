@@ -162,7 +162,7 @@ class CategoryHeaderCell: UICollectionViewCell {
     func postedByTapped() {
         Tracker.shared.categoryHeaderPostedBy(config.tracking)
 
-        let responder = target(forAction: #selector(UserResponder.userTappedAuthor(cell:)), withSender: self) as? UserResponder
+        let responder: UserResponder? = findResponder()
         responder?.userTappedAuthor(cell: self)
     }
 

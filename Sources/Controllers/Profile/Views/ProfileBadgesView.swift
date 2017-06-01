@@ -114,7 +114,7 @@ extension ProfileBadgesView {
         else { return }
 
         let badge = badges[buttonIndex]
-        let responder = target(forAction: #selector(ProfileHeaderResponder.onCategoryBadgeTapped), withSender: self) as? ProfileHeaderResponder
+        let responder: ProfileHeaderResponder? = findResponder()
         if badge.slug == "featured" {
             responder?.onCategoryBadgeTapped()
         }
@@ -124,7 +124,7 @@ extension ProfileBadgesView {
     }
 
     func moreBadgesTapped() {
-        let responder = target(forAction: #selector(ProfileHeaderResponder.onMoreBadgesTapped), withSender: self) as? ProfileHeaderResponder
+        let responder: ProfileHeaderResponder? = findResponder()
         responder?.onMoreBadgesTapped()
     }
 

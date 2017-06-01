@@ -329,7 +329,7 @@ class NotificationCell: UICollectionViewCell, UIWebViewDelegate {
     func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebViewNavigationType) -> Bool {
         if let scheme = request.url?.scheme, scheme == "default"
         {
-            let responder = target(forAction: #selector(UserResponder.userTappedText(cell:)), withSender: self) as? UserResponder
+            let responder: UserResponder? = findResponder()
             responder?.userTappedText(cell: self)
 
             return false
@@ -358,20 +358,20 @@ extension NotificationCell: ElloTextViewDelegate {
     func textViewTapped(_ link: String, object: ElloAttributedObject) {
         switch object {
         case let .attributedPost(post):
-            let responder = target(forAction: #selector(NotificationResponder.postTapped(_:)), withSender: self) as? NotificationResponder
+            let responder: NotificationResponder? = findResponder()
             responder?.postTapped(post)
         case let .attributedComment(comment):
-            let responder = target(forAction: #selector(NotificationResponder.commentTapped(_:)), withSender: self) as? NotificationResponder
+            let responder: NotificationResponder? = findResponder()
             responder?.commentTapped(comment)
         case let .attributedUser(user):
-            let responder = target(forAction: #selector(NotificationResponder.userTapped(_:)), withSender: self) as? NotificationResponder
+            let responder: NotificationResponder? = findResponder()
             responder?.userTapped(user)
         default: break
         }
     }
 
     func textViewTappedDefault() {
-        let responder = target(forAction: #selector(UserResponder.userTappedText(cell:)), withSender: self) as? UserResponder
+        let responder: UserResponder? = findResponder()
         responder?.userTappedText(cell: self)
     }
 }
@@ -379,18 +379,17 @@ extension NotificationCell: ElloTextViewDelegate {
 extension NotificationCell {
 
     func replyTapped() {
+        guard let responder: NotificationResponder = findResponder() else { return }
         if let post = post {
-            let responder = target(forAction: #selector(NotificationResponder.postTapped(_:)), withSender: self) as? NotificationResponder
-            responder?.postTapped(post)
+            responder.postTapped(post)
         }
         else if let comment = comment {
-            let responder = target(forAction: #selector(NotificationResponder.commentTapped(_:)), withSender: self) as? NotificationResponder
-            responder?.commentTapped(comment)
+            responder.commentTapped(comment)
         }
     }
 
     func avatarTapped() {
-        let responder = target(forAction: #selector(UserResponder.userTappedAuthor(cell:)), withSender: self) as? UserResponder
+        let responder: UserResponder? = findResponder()
         responder?.userTappedAuthor(cell: self)
     }
 

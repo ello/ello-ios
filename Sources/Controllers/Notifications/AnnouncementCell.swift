@@ -149,7 +149,7 @@ extension AnnouncementCell {
 extension AnnouncementCell {
 
     func markAsRead() {
-        let responder = target(forAction: #selector(AnnouncementCellResponder.markAnnouncementAsRead(cell:)), withSender: self) as? AnnouncementCellResponder
+        let responder: AnnouncementCellResponder? = findResponder()
         responder?.markAnnouncementAsRead(cell: self)
     }
 }

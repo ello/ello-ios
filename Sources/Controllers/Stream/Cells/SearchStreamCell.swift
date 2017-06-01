@@ -90,12 +90,12 @@ extension SearchStreamCell: UITextFieldDelegate {
             text.characters.count > 0
         else { return }
 
-        let responder = target(forAction: #selector(SearchStreamResponder.searchFieldChanged(text:)), withSender: self) as? SearchStreamResponder
+        let responder: SearchStreamResponder? = findResponder()
         responder?.searchFieldChanged(text: text)
     }
 
     fileprivate func clearSearch() {
-        let responder = target(forAction: #selector(SearchStreamResponder.searchFieldChanged(text:)), withSender: self) as? SearchStreamResponder
+        let responder: SearchStreamResponder? = findResponder()
         responder?.searchFieldChanged(text: "")
         debounced {}
     }

@@ -65,12 +65,12 @@ extension AlertCell {
     }
 
     @IBAction func didTapOkButton() {
-        let responder = target(forAction: #selector(AlertCellResponder.tappedOkButton), withSender: self) as? AlertCellResponder
+        let responder: AlertCellResponder? = findResponder()
         responder?.tappedOkButton()
     }
 
     @IBAction func didTapCancelButton() {
-        let responder = target(forAction: #selector(AlertCellResponder.tappedCancelButton), withSender: self) as? AlertCellResponder
+        let responder: AlertCellResponder? = findResponder()
         responder?.tappedCancelButton()
     }
 

@@ -108,15 +108,14 @@ class StreamTextCell: StreamRegionableCell, UIWebViewDelegate, UIGestureRecogniz
     @IBAction func doubleTapped(_ gesture: UIGestureRecognizer) {
         let location = gesture.location(in: nil)
 
-        let responder = target(forAction: #selector(StreamEditingResponder.cellDoubleTapped(cell:location:)), withSender: self) as? StreamEditingResponder
-
+        let responder: StreamEditingResponder? = findResponder()
         responder?.cellDoubleTapped(cell: self, location: location)
     }
 
     @IBAction func longPressed(_ gesture: UIGestureRecognizer) {
         guard gesture.state == .began else { return }
 
-        let responder = target(forAction: #selector(StreamEditingResponder.cellLongPressed(cell:)), withSender: self) as? StreamEditingResponder
+        let responder: StreamEditingResponder? = findResponder()
         responder?.cellLongPressed(cell: self)
     }
 
@@ -133,7 +132,7 @@ class StreamTextCell: StreamRegionableCell, UIWebViewDelegate, UIGestureRecogniz
     func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebViewNavigationType) -> Bool {
         if let scheme = request.url?.scheme, scheme == "default"
         {
-            let responder = target(forAction: #selector(UserResponder.userTappedText(cell:)), withSender: self) as? UserResponder
+            let responder: UserResponder? = findResponder()
             responder?.userTappedText(cell: self)
             return false
         }

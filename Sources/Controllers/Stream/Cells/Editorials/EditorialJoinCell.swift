@@ -29,7 +29,7 @@ class EditorialJoinCell: EditorialCell {
             let password = passwordField.text
         else { return }
 
-        let responder = target(forAction: #selector(EditorialResponder.submitJoin(cell:email:username:password:)), withSender: self) as? EditorialResponder
+        let responder: EditorialToolsResponder? = findResponder()
         responder?.submitJoin(cell: self, email: email, username: username, password: password)
     }
 

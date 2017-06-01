@@ -558,6 +558,7 @@
 		1D472C281C1F42BA00B61E55 /* InterfaceSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D472C271C1F42BA00B61E55 /* InterfaceSpec.swift */; };
 		1D513E061ED735910081BB2D /* EditorialsGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D513E051ED735910081BB2D /* EditorialsGenerator.swift */; };
 		1D513E081ED8DA660081BB2D /* PromiseKitExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D513E071ED8DA660081BB2D /* PromiseKitExtensions.swift */; };
+		1D5566CD1EE097B400255DBF /* UIViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12384EBA1C56B3C200608BD8 /* UIViewExtensions.swift */; };
 		1D59336C1D10ADA600EAF03D /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D59336A1D10ADA600EAF03D /* Category.swift */; };
 		1D59336D1D10ADA600EAF03D /* CategoryList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D59336B1D10ADA600EAF03D /* CategoryList.swift */; };
 		1D59336F1D10ADB800EAF03D /* CategoryListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D59336E1D10ADB800EAF03D /* CategoryListCell.swift */; };
@@ -4683,6 +4684,7 @@
 				122D1B7C1C610892001386CE /* NSStringExtensions.swift in Sources */,
 				122B30E51C6A3FC400C1B9D8 /* Attachment.swift in Sources */,
 				1207C99D1C750F8A00939ADB /* ElloManager.swift in Sources */,
+				1D5566CD1EE097B400255DBF /* UIViewExtensions.swift in Sources */,
 				122B30C31C6A3FBB00C1B9D8 /* PushPayload.swift in Sources */,
 				122B30E71C6A3FC400C1B9D8 /* ImageRegion.swift in Sources */,
 				122B30BB1C6A3FBB00C1B9D8 /* ExperienceUpdate.swift in Sources */,

@@ -104,7 +104,7 @@ extension SearchViewController: SearchScreenDelegate {
     }
 
     func findFriendsTapped() {
-        let responder = target(forAction: #selector(InviteResponder.onInviteFriends), withSender: self) as? InviteResponder
+        let responder: InviteResponder? = findResponder()
         responder?.onInviteFriends()
     }
 

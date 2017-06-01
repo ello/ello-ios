@@ -15,7 +15,7 @@ class EditorialInviteCell: EditorialCell {
     func submitTapped() {
         guard let emails = textView.text else { return }
 
-        let responder = target(forAction: #selector(EditorialResponder.submitInvite(cell:emails:)), withSender: self) as? EditorialResponder
+        let responder: EditorialToolsResponder? = findResponder()
         responder?.submitInvite(cell: self, emails: emails)
     }
 

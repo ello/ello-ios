@@ -161,26 +161,26 @@ extension ProfileStatsView {
 extension ProfileStatsView {
 
     func postsButtonTapped() {
-        let responder = target(forAction: #selector(PostsTappedResponder.onPostsTapped), withSender: self) as? PostsTappedResponder
+        let responder: PostsTappedResponder? = findResponder()
         responder?.onPostsTapped()
     }
 
     func followingButtonTapped() {
         guard followingEnabled else { return }
 
-        let responder = target(forAction: #selector(ProfileHeaderResponder.onFollowingTapped), withSender: self) as? ProfileHeaderResponder
+        let responder: ProfileHeaderResponder? = findResponder()
         responder?.onFollowingTapped()
     }
 
     func followersButtonTapped() {
         guard followersEnabled else { return }
 
-        let responder = target(forAction: #selector(ProfileHeaderResponder.onFollowersTapped), withSender: self) as? ProfileHeaderResponder
+        let responder: ProfileHeaderResponder? = findResponder()
         responder?.onFollowersTapped()
     }
 
     func lovesButtonTapped() {
-        let responder = target(forAction: #selector(ProfileHeaderResponder.onLovesTapped), withSender: self) as? ProfileHeaderResponder
+        let responder: ProfileHeaderResponder? = findResponder()
         responder?.onLovesTapped()
     }
 }

@@ -53,7 +53,7 @@ extension DrawerViewController: UITableViewDelegate {
         case let .external(link):
             postNotification(ExternalWebNotification, value: link)
         case .invite:
-            let responder = target(forAction: #selector(InviteResponder.onInviteFriends), withSender: self) as? InviteResponder
+            let responder: InviteResponder? = findResponder()
             responder?.onInviteFriends()
         case .logout:
             isLoggingOut = true

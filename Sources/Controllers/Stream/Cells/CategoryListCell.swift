@@ -66,7 +66,7 @@ class CategoryListCell: UICollectionViewCell {
     func categoryButtonTapped(_ button: UIButton) {
         guard let categoryInfo = buttonCategoryLookup[button] else { return }
 
-        let responder = target(forAction: #selector(CategoryListCellResponder.categoryListCellTapped(slug:name:)), withSender: self) as? CategoryListCellResponder
+        let responder: CategoryListCellResponder? = findResponder()
         responder?.categoryListCellTapped(slug: categoryInfo.slug, name: categoryInfo.title)
     }
 

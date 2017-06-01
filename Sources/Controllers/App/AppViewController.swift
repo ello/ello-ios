@@ -592,12 +592,14 @@ extension AppViewController {
 
     fileprivate func showInvitationScreen() {
         guard
-            let vc = self.visibleViewController as? ElloTabBarController
+            let vc = self.visibleViewController as? ElloTabBarController,
+            let nav = vc.childViewControllers.first as? UINavigationController,
+            let streamableVC = nav.viewControllers.first as? StreamableViewController
         else { return }
 
         vc.selectedTab = .discover
 
-        let responder = target(forAction: #selector(InviteResponder.onInviteFriends), withSender: self) as? InviteResponder
+        let responder: InviteResponder? = streamableVC.findResponder()
         responder?.onInviteFriends()
     }
 

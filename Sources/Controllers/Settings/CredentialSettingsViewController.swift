@@ -176,7 +176,7 @@ class CredentialSettingsViewController: UITableViewController {
     }
 
     func valueChanged() {
-        let responder = target(forAction: #selector(CredentialSettingsResponder.credentialSettingsDidUpdate), withSender: self) as? CredentialSettingsResponder
+        let responder: CredentialSettingsResponder? = findResponder()
         responder?.credentialSettingsDidUpdate()
     }
 

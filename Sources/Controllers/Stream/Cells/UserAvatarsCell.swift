@@ -62,7 +62,7 @@ class UserAvatarsCell: UICollectionViewCell {
             let model = userAvatarCellModel
         else { return }
 
-        let responder = target(forAction: #selector(SimpleStreamResponder.showSimpleStream(boxedEndpoint:title:noResultsMessages:)), withSender: self) as? SimpleStreamResponder
+        let responder: SimpleStreamResponder? = findResponder()
         responder?.showSimpleStream(boxedEndpoint: BoxedElloAPI(endpoint: model.endpoint), title: model.seeMoreTitle, noResultsMessages: nil)
     }
 
@@ -73,7 +73,7 @@ class UserAvatarsCell: UICollectionViewCell {
         else { return }
 
         let user = users[index]
-        let responder = target(forAction: #selector(UserResponder.userTapped(user:)), withSender: self) as? UserResponder
+        let responder: UserResponder? = findResponder()
         responder?.userTapped(user: user)
     }
 }

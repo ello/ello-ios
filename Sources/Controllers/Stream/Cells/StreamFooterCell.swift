@@ -176,13 +176,13 @@ class StreamFooterCell: UICollectionViewCell {
 // MARK: - IBActions
 
     @IBAction func viewsButtonTapped() {
-        let responder = target(forAction: #selector(PostbarResponder.viewsButtonTapped(_:)), withSender: self) as? PostbarResponder
+        let responder: PostbarResponder? = findResponder()
         responder?.viewsButtonTapped(self)
     }
 
     @IBAction func commentsButtonTapped() {
         commentsOpened = !commentsOpened
-        let responder = target(forAction: #selector(PostbarResponder.commentsButtonTapped(_:imageLabelControl:)), withSender: self) as? PostbarResponder
+        let responder: PostbarResponder? = findResponder()
         responder?.commentsButtonTapped(self, imageLabelControl: commentsControl)
     }
 
@@ -194,17 +194,17 @@ class StreamFooterCell: UICollectionViewCell {
     }
 
     @IBAction func lovesButtonTapped() {
-        let responder = target(forAction: #selector(PostbarResponder.lovesButtonTapped(_:)), withSender: self) as? PostbarResponder
+        let responder: PostbarResponder? = findResponder()
         responder?.lovesButtonTapped(self)
     }
 
     @IBAction func repostButtonTapped() {
-        let responder = target(forAction: #selector(PostbarResponder.repostButtonTapped(_:)), withSender: self) as? PostbarResponder
+        let responder: PostbarResponder? = findResponder()
         responder?.repostButtonTapped(self)
     }
 
     @IBAction func shareButtonTapped() {
-        let responder = target(forAction: #selector(PostbarResponder.shareButtonTapped(_:sourceView:)), withSender: self) as? PostbarResponder
+        let responder: PostbarResponder? = findResponder()
         responder?.shareButtonTapped(self, sourceView: shareControl)
     }
 
@@ -214,7 +214,7 @@ class StreamFooterCell: UICollectionViewCell {
     @IBAction func longPressed(_ gesture: UIGestureRecognizer) {
         guard gesture.state == .began else { return }
 
-        let responder = target(forAction: #selector(StreamEditingResponder.cellLongPressed(cell:)), withSender: self) as? StreamEditingResponder
+        let responder: StreamEditingResponder? = findResponder()
         responder?.cellLongPressed(cell: self)
     }
 }

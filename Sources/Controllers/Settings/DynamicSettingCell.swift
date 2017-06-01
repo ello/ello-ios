@@ -20,13 +20,13 @@ class DynamicSettingCell: UITableViewCell {
     @IBAction func toggleButtonTapped() {
         guard let setting = setting else { return }
 
-        let responder = target(forAction: #selector(DynamicSettingCellResponder.toggleSetting(_:value:)), withSender: self) as? DynamicSettingCellResponder
+        let responder: DynamicSettingCellResponder? = findResponder()
         responder?.toggleSetting(setting, value: !toggleButton.value)
         toggleButton.value = !toggleButton.value
     }
 
     @IBAction func deleteButtonTapped() {
-        let responder = target(forAction: #selector(DynamicSettingCellResponder.toggleSetting(_:value:)), withSender: self) as? DynamicSettingCellResponder
+        let responder: DynamicSettingCellResponder? = findResponder()
         responder?.deleteAccount()
     }
 }

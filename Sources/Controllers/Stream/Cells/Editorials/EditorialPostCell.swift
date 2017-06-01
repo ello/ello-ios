@@ -80,7 +80,7 @@ extension EditorialPostCell {
     func lovesTapped() {
         guard let post = config.post else { return }
 
-        let responder = target(forAction: #selector(EditorialResponder.lovesTapped(post:cell:)), withSender: self) as? EditorialResponder
+        let responder: EditorialToolsResponder? = findResponder()
         responder?.lovesTapped(post: post, cell: self)
     }
 
@@ -88,7 +88,7 @@ extension EditorialPostCell {
     func commentTapped() {
         guard let post = config.post else { return }
 
-        let responder = target(forAction: #selector(EditorialResponder.commentTapped(post:cell:)), withSender: self) as? EditorialResponder
+        let responder: EditorialToolsResponder? = findResponder()
         responder?.commentTapped(post: post, cell: self)
     }
 
@@ -96,7 +96,7 @@ extension EditorialPostCell {
     func repostTapped() {
         guard let post = config.post else { return }
 
-        let responder = target(forAction: #selector(EditorialResponder.repostTapped(post:cell:)), withSender: self) as? EditorialResponder
+        let responder: EditorialToolsResponder? = findResponder()
         responder?.repostTapped(post: post, cell: self)
     }
 
@@ -104,7 +104,7 @@ extension EditorialPostCell {
     func shareTapped() {
         guard let post = config.post else { return }
 
-        let responder = target(forAction: #selector(EditorialResponder.shareTapped(post:cell:)), withSender: self) as? EditorialResponder
+        let responder: EditorialToolsResponder? = findResponder()
         responder?.shareTapped(post: post, cell: self)
     }
 }

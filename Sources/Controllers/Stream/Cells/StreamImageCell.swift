@@ -268,8 +268,7 @@ class StreamImageCell: StreamRegionableCell {
     }
 
     @IBAction func imageTapped() {
-        let responder = target(forAction: #selector(StreamImageCellResponder.imageTapped(imageView:cell:)), withSender: self) as? StreamImageCellResponder
-
+        let responder: StreamImageCellResponder? = findResponder()
         responder?.imageTapped(imageView: imageView, cell: self)
     }
 
@@ -284,14 +283,14 @@ class StreamImageCell: StreamRegionableCell {
     @IBAction func imageDoubleTapped(_ gesture: UIGestureRecognizer) {
         let location = gesture.location(in: nil)
 
-        let responder = target(forAction: #selector(StreamEditingResponder.cellDoubleTapped(cell:location:)), withSender: self) as? StreamEditingResponder
+        let responder: StreamEditingResponder? = findResponder()
         responder?.cellDoubleTapped(cell: self, location: location)
     }
 
     @IBAction func imageLongPressed(_ gesture: UIGestureRecognizer) {
         guard gesture.state == .began else { return }
 
-        let responder = target(forAction: #selector(StreamEditingResponder.cellLongPressed(cell:)), withSender: self) as? StreamEditingResponder
+        let responder: StreamEditingResponder? = findResponder()
         responder?.cellLongPressed(cell: self)
     }
 }

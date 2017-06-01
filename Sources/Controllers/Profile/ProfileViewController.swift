@@ -244,8 +244,7 @@ final class ProfileViewController: StreamableViewController {
         let userAtName = user.atName
         let prevRelationshipPriority = RelationshipPriorityWrapper(priority: user.relationshipPriority)
 
-        let responder = target(forAction: #selector(RelationshipResponder.launchBlockModal(_:userAtName:relationshipPriority:changeClosure:)), withSender: self) as? RelationshipResponder
-
+        let responder: RelationshipResponder? = findResponder()
         responder?.launchBlockModal(
             userId,
             userAtName: userAtName,

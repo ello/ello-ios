@@ -58,8 +58,7 @@ class BlockUserModalViewController: BaseElloViewController, BlockUserModalDelega
             default: break
         }
 
-        let responder = target(forAction: #selector(RelationshipResponder.updateRelationship(_:userId:prev:relationshipPriority:complete:)), withSender: self) as? RelationshipResponder
-
+        let responder: RelationshipResponder? = findResponder()
         responder?.updateRelationship(
             currentUserId,
             userId: userId,

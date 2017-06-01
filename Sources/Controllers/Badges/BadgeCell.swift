@@ -94,7 +94,7 @@ extension BadgeCell: ElloTextViewDelegate {
     func textViewTapped(_ link: String, object: ElloAttributedObject) {
         switch object {
         case let .attributedCategory(category):
-            let responder = target(forAction: #selector(CategoryResponder.categoryTapped(_:)), withSender: self) as? CategoryResponder
+            let responder: CategoryResponder? = findResponder()
             responder?.categoryTapped(category)
         default: break
         }
