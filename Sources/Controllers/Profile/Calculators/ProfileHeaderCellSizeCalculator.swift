@@ -8,6 +8,7 @@ import PromiseKit
 class ProfileHeaderCellSizeCalculator {
     static let ratio: CGFloat = 320 / 211
 
+    fileprivate var retainCalculators: [Any] = []
     fileprivate var maxWidth: CGFloat = 0.0
     fileprivate typealias CellJob = (cellItems: [StreamCellItem], width: CGFloat, columnCount: Int, completion: ElloEmptyCompletion)
     fileprivate var cellJobs: [CellJob] = []
@@ -50,8 +51,8 @@ class ProfileHeaderCellSizeCalculator {
 private extension ProfileHeaderCellSizeCalculator {
 
     func processJob(_ job: CellJob) {
-
         self.completion = {
+            self.retainCalculators = []
             if self.cellJobs.count > 0 {
                 self.cellJobs.remove(at: 0)
             }
@@ -66,7 +67,6 @@ private extension ProfileHeaderCellSizeCalculator {
     }
 
     func loadNext() {
-
         if let item = cellItems.safeValue(0) {
             if item.jsonable is User {
                 calculateAggregateHeights(item)
@@ -99,6 +99,16 @@ private extension ProfileHeaderCellSizeCalculator {
         let bioSizeCalculator = ProfileBioSizeCalculator()
         let locationSizeCalculator = ProfileLocationSizeCalculator()
         let linksSizeCalculator = ProfileLinksSizeCalculator()
+        self.retainCalculators += [
+            avatarSizeCalculator,
+            namesSizeCalculator,
+            totalCountSizeCalculator,
+            badgesSizeCalculator,
+            statsSizeCalculator,
+            bioSizeCalculator,
+            locationSizeCalculator,
+            linksSizeCalculator,
+        ]
 
         let promises: [(CalculatedCellHeights.Prop, Promise<CGFloat>)] = [
             (.profileAvatar, avatarSizeCalculator.calculate(item, maxWidth: maxWidth)),
