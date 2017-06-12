@@ -4,31 +4,27 @@
 
 import Moya
 import SwiftyJSON
+import PromiseKit
 
-typealias AvailabilitySuccessCompletion = (Availability) -> Void
 
 struct AvailabilityService {
 
-    init(){}
-
-    func usernameAvailability(_ username: String, success: @escaping AvailabilitySuccessCompletion, failure: @escaping ElloFailureCompletion) {
-        availability(["username": username], success: success, failure: failure)
+    func usernameAvailability(_ username: String) -> Promise<Availability> {
+        return availability(["username": username])
     }
 
-    func emailAvailability(_ email: String, success: @escaping AvailabilitySuccessCompletion, failure: @escaping ElloFailureCompletion) {
-        availability(["email": email], success: success, failure: failure)
+    func emailAvailability(_ email: String) -> Promise<Availability> {
+        return availability(["email": email])
     }
 
-    func availability(_ content: [String: String], success: @escaping AvailabilitySuccessCompletion, failure: @escaping ElloFailureCompletion) {
+    func availability(_ content: [String: String]) -> Promise<Availability> {
         let endpoint = ElloAPI.availability(content: content)
-        ElloProvider.shared.elloRequest(endpoint,
-            success: { data, _ in
-                if let data = data as? Availability {
-                    success(data)
-                } else {
-                    ElloProvider.unCastableJSONAble(failure)
+        return ElloProvider.shared.request(endpoint)
+            .then { response -> Availability in
+                guard let data = response.0 as? Availability else {
+                    throw NSError.uncastableJSONAble()
                 }
-            },
-            failure: failure)
+                return data
+            }
     }
 }

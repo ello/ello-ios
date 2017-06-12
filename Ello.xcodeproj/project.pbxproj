@@ -1086,7 +1086,6 @@
 		EA92992E1AEA95B000E22976 /* DeleteAccountConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA92992D1AEA95B000E22976 /* DeleteAccountConfirmationViewController.swift */; };
 		EA9299301AEAC70200E22976 /* DeleteAccountConfirmationViewControllerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA92992F1AEAC70200E22976 /* DeleteAccountConfirmationViewControllerSpec.swift */; };
 		EA9624E51ACB103700E94306 /* AvailabilitySpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA9624E41ACB103700E94306 /* AvailabilitySpec.swift */; };
-		EA9624E71ACB11E900E94306 /* AvailabilityServiceSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA9624E61ACB11E900E94306 /* AvailabilityServiceSpec.swift */; };
 		EAB484241AC1BCD200CE6A81 /* CredentialSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAB484231AC1BCD200CE6A81 /* CredentialSettingsViewController.swift */; };
 		EAB484271AC2112200CE6A81 /* CredentialSettingsViewControllerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAB484261AC2112200CE6A81 /* CredentialSettingsViewControllerSpec.swift */; };
 		EAC605461ADD95CB009B9426 /* DynamicSettingCellSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAC605451ADD95CB009B9426 /* DynamicSettingCellSpec.swift */; };
@@ -2135,7 +2134,6 @@
 		EA92992D1AEA95B000E22976 /* DeleteAccountConfirmationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeleteAccountConfirmationViewController.swift; sourceTree = "<group>"; };
 		EA92992F1AEAC70200E22976 /* DeleteAccountConfirmationViewControllerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeleteAccountConfirmationViewControllerSpec.swift; sourceTree = "<group>"; };
 		EA9624E41ACB103700E94306 /* AvailabilitySpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvailabilitySpec.swift; sourceTree = "<group>"; };
-		EA9624E61ACB11E900E94306 /* AvailabilityServiceSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvailabilityServiceSpec.swift; sourceTree = "<group>"; };
 		EAB484231AC1BCD200CE6A81 /* CredentialSettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CredentialSettingsViewController.swift; sourceTree = "<group>"; };
 		EAB484261AC2112200CE6A81 /* CredentialSettingsViewControllerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CredentialSettingsViewControllerSpec.swift; sourceTree = "<group>"; };
 		EAC605451ADD95CB009B9426 /* DynamicSettingCellSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DynamicSettingCellSpec.swift; sourceTree = "<group>"; };
@@ -2818,7 +2816,6 @@
 				1D73AB8F1C57C85600D708B9 /* AuthStateSpec.swift */,
 				12D14C641A43761A00C6F8E8 /* AuthTokenSpec.swift */,
 				125739151B432EB100EF7792 /* AutoCompleteServiceSpec.swift */,
-				EA9624E61ACB11E900E94306 /* AvailabilityServiceSpec.swift */,
 				1266E5141A9E3CA700270E1C /* ContentFlaggingServiceSpec.swift */,
 				12BF3CC01B66D68000CF4AE0 /* DateFormattingSpec.swift */,
 				12D14C651A43761A00C6F8E8 /* ElloAPISpec.swift */,
@@ -5025,7 +5022,6 @@
 				1DF50C9E1C61512000C62D89 /* NSAttributedStringSpec.swift in Sources */,
 				1D3128C21B557BE100E3D5B6 /* OnboardingSpec.swift in Sources */,
 				120FF6CB1C6D903D00D5BABD /* ShareRegionProcessorSpec.swift in Sources */,
-				EA9624E71ACB11E900E94306 /* AvailabilityServiceSpec.swift in Sources */,
 				1D7750F71ABB68D900D92191 /* ToDataSpec.swift in Sources */,
 				1D061B4D1AAA191500493435 /* KeyboardSpec.swift in Sources */,
 				1DB474FD1BAB5904000AA9DC /* RegexExtensionsSpec.swift in Sources */,

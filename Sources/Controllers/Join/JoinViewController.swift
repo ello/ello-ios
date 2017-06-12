@@ -193,51 +193,55 @@ extension JoinViewController: JoinDelegate {
 extension JoinViewController {
 
     fileprivate func emailAvailability(_ text: String, completion: @escaping (Bool) -> Void) {
-        AvailabilityService().emailAvailability(text, success: { availability in
-            if text != self.screen.email {
-                completion(false)
-                return
-            }
+        AvailabilityService().emailAvailability(text)
+            .thenFinally { availability in
+                if text != self.screen.email {
+                    completion(false)
+                    return
+                }
 
-            if !availability.isEmailAvailable {
-                self.screen.showEmailError(InterfaceString.Validator.EmailInvalid)
+                if !availability.isEmailAvailable {
+                    self.screen.showEmailError(InterfaceString.Validator.EmailInvalid)
+                    completion(false)
+                }
+                else {
+                    completion(true)
+                }
+            }
+            .catch { error in
+                let errorTitle = (error as NSError).elloErrorMessage ?? InterfaceString.UnknownError
+                self.screen.showEmailError(errorTitle)
                 completion(false)
             }
-            else {
-                completion(true)
-            }
-        }, failure: { error, _ in
-            let errorTitle = error.elloErrorMessage ?? InterfaceString.UnknownError
-            self.screen.showEmailError(errorTitle)
-            completion(false)
-        })
     }
 
     fileprivate func usernameAvailability(_ text: String, completion: @escaping (Bool) -> Void) {
-        AvailabilityService().usernameAvailability(text, success: { availability in
-            if text != self.screen.username {
-                completion(false)
-                return
-            }
-
-            if !availability.isUsernameAvailable {
-                self.screen.showUsernameError(InterfaceString.Join.UsernameUnavailable)
-
-                if !availability.usernameSuggestions.isEmpty {
-                    self.screen.showUsernameSuggestions(availability.usernameSuggestions)
+        AvailabilityService().usernameAvailability(text)
+            .thenFinally { availability in
+                if text != self.screen.username {
+                    completion(false)
+                    return
                 }
+
+                if !availability.isUsernameAvailable {
+                    self.screen.showUsernameError(InterfaceString.Join.UsernameUnavailable)
+
+                    if !availability.usernameSuggestions.isEmpty {
+                        self.screen.showUsernameSuggestions(availability.usernameSuggestions)
+                    }
+                    completion(false)
+                }
+                else {
+                    self.screen.hideMessage()
+                    completion(true)
+                }
+            }
+            .catch { error in
+                let errorTitle = (error as NSError).elloErrorMessage ?? InterfaceString.UnknownError
+                self.screen.showUsernameError(errorTitle)
+                self.screen.hideMessage()
                 completion(false)
             }
-            else {
-                self.screen.hideMessage()
-                completion(true)
-            }
-        }, failure: { error, _ in
-            let errorTitle = error.elloErrorMessage ?? InterfaceString.UnknownError
-            self.screen.showUsernameError(errorTitle)
-            self.screen.hideMessage()
-            completion(false)
-        })
     }
 
 }

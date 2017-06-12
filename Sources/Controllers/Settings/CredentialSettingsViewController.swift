@@ -92,20 +92,22 @@ class CredentialSettingsViewController: UITableViewController {
                 self.emailView.setState(.none)
                 self.updateView()
             } else if Validator.isValidEmail(text) {
-                AvailabilityService().emailAvailability(text, success: { availability in
-                    if text != self.emailView.textField.text { return }
-                    let state: ValidationState = availability.isEmailAvailable ? .ok : .error
+                AvailabilityService().emailAvailability(text)
+                    .thenFinally { availability in
+                        if text != self.emailView.textField.text { return }
+                        let state: ValidationState = availability.isEmailAvailable ? .ok : .error
 
-                    if !availability.isEmailAvailable {
-                        let msg = InterfaceString.Validator.EmailInvalid
-                        self.emailView.setErrorMessage(msg)
+                        if !availability.isEmailAvailable {
+                            let msg = InterfaceString.Validator.EmailInvalid
+                            self.emailView.setErrorMessage(msg)
+                        }
+                        self.emailView.setState(state)
+                        self.updateView()
                     }
-                    self.emailView.setState(state)
-                    self.updateView()
-                }, failure: { _, _ in
-                    self.emailView.setState(.none)
-                    self.updateView()
-                })
+                    .catch { _ in
+                        self.emailView.setState(.none)
+                        self.updateView()
+                    }
             } else {
                 self.emailView.setState(.error)
                 let msg = InterfaceString.Validator.EmailInvalid
@@ -130,25 +132,27 @@ class CredentialSettingsViewController: UITableViewController {
                 self.usernameView.setState(.none)
                 self.updateView()
             } else {
-                AvailabilityService().usernameAvailability(text, success: { availability in
-                    if text != self.usernameView.textField.text { return }
-                    let state: ValidationState = availability.isUsernameAvailable ? .ok : .error
+                AvailabilityService().usernameAvailability(text)
+                    .thenFinally { availability in
+                        if text != self.usernameView.textField.text { return }
+                        let state: ValidationState = availability.isUsernameAvailable ? .ok : .error
 
-                    if !availability.isUsernameAvailable {
-                        let msg = InterfaceString.Join.UsernameUnavailable
-                        self.usernameView.setErrorMessage(msg)
-                        if !availability.usernameSuggestions.isEmpty {
-                            let suggestions = availability.usernameSuggestions.joined(separator: ", ")
-                            let msg = String(format: InterfaceString.Join.UsernameSuggestionPrefix, suggestions)
-                            self.usernameView.setMessage(msg)
+                        if !availability.isUsernameAvailable {
+                            let msg = InterfaceString.Join.UsernameUnavailable
+                            self.usernameView.setErrorMessage(msg)
+                            if !availability.usernameSuggestions.isEmpty {
+                                let suggestions = availability.usernameSuggestions.joined(separator: ", ")
+                                let msg = String(format: InterfaceString.Join.UsernameSuggestionPrefix, suggestions)
+                                self.usernameView.setMessage(msg)
+                            }
                         }
+                        self.usernameView.setState(state)
+                        self.updateView()
                     }
-                    self.usernameView.setState(state)
-                    self.updateView()
-                }, failure: { _, _ in
-                    self.usernameView.setState(.none)
-                    self.updateView()
-                })
+                    .catch { _ in
+                        self.usernameView.setState(.none)
+                        self.updateView()
+                    }
             }
         }
     }
