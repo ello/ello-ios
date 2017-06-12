@@ -23,42 +23,20 @@ class AutoCompleteServiceSpec: QuickSpec {
                             var successCalled = false
                             var failedCalled = false
                             var loadedResults: [AutoCompleteResult]?
-                            subject.loadUsernameResults("doesn't matter",
-                                success: { (results, responseConfig) in
+                            subject.loadUsernameResults("doesn't matter")
+                                .thenFinally { results in
                                     successCalled = true
                                     loadedResults = results
-                                }, failure: { (_, _) in
+                                }
+                                .catch { _ in
                                     failedCalled = true
                                 }
-                            )
 
                             expect(successCalled) == true
                             expect(failedCalled) == false
                             expect(loadedResults!.count) == 3
                             expect(loadedResults?[1].name) == "lanakane"
                             expect(loadedResults?[1].url!.absoluteString) == "https://abc123.cloudfront.net/uploads/user/avatar/55/ello-small-aaca0f5e.png"
-                        }
-                    }
-
-                    context("failure") {
-
-                        beforeEach {
-                            ElloProvider.sharedProvider = ElloProvider.ErrorStubbingProvider()
-                        }
-
-                        it("fails") {
-                            var successCalled = false
-                            var failedCalled = false
-                            subject.loadUsernameResults("doesn't matter",
-                                success: { (results, responseConfig) in
-                                    successCalled = true
-                                }, failure: { (_, _) in
-                                    failedCalled = true
-                                }
-                            )
-
-                            expect(successCalled) == false
-                            expect(failedCalled) == true
                         }
                     }
                 }

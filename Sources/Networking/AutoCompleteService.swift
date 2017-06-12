@@ -4,30 +4,19 @@
 
 import Alamofire
 import SwiftyJSON
+import PromiseKit
 
-typealias AutoCompleteServiceSuccessCompletion = (_ results: [AutoCompleteResult], _ responseConfig: ResponseConfig) -> Void
 
 struct AutoCompleteService {
 
-    init(){}
-
-    func loadUsernameResults(
-        _ terms: String,
-        success: @escaping AutoCompleteServiceSuccessCompletion,
-        failure: @escaping ElloFailureCompletion)
-    {
-        ElloProvider.shared.elloRequest(
-            .userNameAutoComplete(terms: terms),
-            success: { (data, responseConfig) in
-                if let results = data as? [AutoCompleteResult] {
-                    success(results, responseConfig)
+    func loadUsernameResults(_ terms: String) -> Promise<[AutoCompleteResult]> {
+        return ElloProvider.shared.request(.userNameAutoComplete(terms: terms))
+            .then { response -> [AutoCompleteResult] in
+                guard let results = response.0 as? [AutoCompleteResult] else {
+                    throw NSError.uncastableJSONAble()
                 }
-                else {
-                    ElloProvider.unCastableJSONAble(failure)
-                }
-            },
-            failure: failure
-        )
+                return results
+            }
     }
 
     func loadEmojiResults(_ text: String) -> [AutoCompleteResult] {
@@ -85,23 +74,14 @@ struct AutoCompleteService {
             }
     }
 
-    func loadLocationResults(
-        _ terms: String,
-        success: @escaping AutoCompleteServiceSuccessCompletion,
-        failure: @escaping ElloFailureCompletion)
-    {
-        ElloProvider.shared.elloRequest(
-            .locationAutoComplete(terms: terms),
-            success: { (data, responseConfig) in
-                if let results = data as? [AutoCompleteResult] {
-                    success(results, responseConfig)
+    func loadLocationResults(_ terms: String) -> Promise<[AutoCompleteResult]> {
+        return ElloProvider.shared.request(.locationAutoComplete(terms: terms))
+            .then { response -> [AutoCompleteResult] in
+                guard let results = response.0 as? [AutoCompleteResult] else {
+                    throw NSError.uncastableJSONAble()
                 }
-                else {
-                    ElloProvider.unCastableJSONAble(failure)
-                }
-            },
-            failure: failure
-        )
+                return results
+            }
     }
 
 }

@@ -40,28 +40,34 @@ extension AutoCompleteViewController {
     func load(_ match: AutoCompleteMatch, loaded: @escaping (_ count: Int) -> Void) {
         switch match.type {
         case .emoji:
-            let results: [AutoCompleteResult] = service.loadEmojiResults(match.text)
+            let results = service.loadEmojiResults(match.text)
             self.dataSource.items = results.map { AutoCompleteItem(result: $0, type: match.type, match: match) }
             self.tableView.reloadData()
             loaded(self.dataSource.items.count)
         case .username:
-            service.loadUsernameResults(match.text,
-                success: { (results, _) in
+            service.loadUsernameResults(match.text)
+                .thenFinally { results in
                     self.dataSource.items = results.map { AutoCompleteItem(result: $0, type: match.type, match: match) }
                     self.tableView.reloadData()
                     loaded(self.dataSource.items.count)
-                }, failure: showAutoCompleteLoadFailure)
+                }
+                .catch { _ in
+                    self.showAutoCompleteLoadFailure()
+                }
         case .location:
-            service.loadLocationResults(match.text,
-                success: { (results, _) in
+            service.loadLocationResults(match.text)
+                .thenFinally { results in
                     self.dataSource.items = results.map { AutoCompleteItem(result: $0, type: match.type, match: match) }
                     self.tableView.reloadData()
                     loaded(self.dataSource.items.count)
-                }, failure: showAutoCompleteLoadFailure)
+                }
+                .catch { _ in
+                    self.showAutoCompleteLoadFailure()
+                }
         }
     }
 
-    func showAutoCompleteLoadFailure(_ error: NSError, statusCode: Int?) {
+    func showAutoCompleteLoadFailure() {
         let message = InterfaceString.GenericError
         let alertController = AlertViewController(error: message) { _ in
             _ = self.navigationController?.popViewController(animated: true)
