@@ -3,6 +3,7 @@
 //
 
 import SwiftyUserDefaults
+import PromiseKit
 
 
 struct NewContentNotifications {
@@ -15,6 +16,7 @@ struct NewContentNotifications {
     static let resume = TypedNotification<()>(name: "NewContentService-resume")
 }
 
+
 class NewContentService {
     fileprivate var timer: Timer?
     fileprivate var pauseCount = 0
@@ -22,7 +24,7 @@ class NewContentService {
     fileprivate var resumeObserver: NotificationObserver?
     fileprivate var postCreatedObserver: NotificationObserver?
 
-    init(){
+    init() {
         pauseObserver = NotificationObserver(notification: NewContentNotifications.pause) { [weak self] _ in
             self?.pauseCount += 1
         }
@@ -40,12 +42,15 @@ class NewContentService {
 extension NewContentService {
 
     func startPolling() {
-        checkForNewNotifications()
+        checkForNewContent()
+    }
+
+    private func restartPolling() {
         timer = Timer.scheduledTimer(timeInterval: TimeInterval(10), target: self, selector: #selector(NewContentService.checkForNewContent), userInfo: nil, repeats: false)
     }
 
-    func restartPolling() {
-        timer = Timer.scheduledTimer(timeInterval: TimeInterval(10), target: self, selector: #selector(NewContentService.checkForNewContent), userInfo: nil, repeats: false)
+    func stillPolling() -> Bool {
+        return timer != nil
     }
 
     func stopPolling() {
@@ -57,10 +62,14 @@ extension NewContentService {
         guard pauseCount == 0 else { return }
 
         stopPolling()
-        let (restart, done) = afterN(restartPolling)
-        checkForNewNotifications(restart())
-        checkForNewFollowingContent(restart())
-        done()
+        let check1 = checkForNewNotifications()
+        let check2 = checkForNewAnnouncements()
+        let check3 = checkForNewFollowingContent()
+        when(resolved: [check1, check2, check3])
+            .always { _ in
+                guard self.stillPolling() else { return }
+                self.restartPolling()
+            }
     }
 
     func updateCreatedAt(_ jsonables: [JSONAble], streamKind: StreamKind) {
@@ -93,45 +102,43 @@ private extension NewContentService {
         }
     }
 
-    func checkForNewNotifications(_ done: @escaping BasicBlock = {}) {
+    func checkForNewNotifications() -> Promise<Void> {
         let storedKey = StreamKind.notifications(category: nil).lastViewedCreatedAtKey!
         let storedDate = GroupDefaults[storedKey].date
 
-        ElloProvider.shared.elloRequest(
-            ElloAPI.notificationsNewContent(createdAt: storedDate),
-            success: { (_, responseConfig) in
-                if let statusCode = responseConfig.statusCode, statusCode == 204 {
-                    postNotification(NewContentNotifications.newNotifications, value: ())
-                }
+        return ElloProvider.shared.request(.notificationsNewContent(createdAt: storedDate))
+            .thenFinally { response in
+                guard
+                    let statusCode = response.1.statusCode,
+                    statusCode == 204
+                    else { return }
 
-                done()
-            },
-            failure: { _ in done() })
+                postNotification(NewContentNotifications.newNotifications, value: ())
+            }
     }
 
-    func checkForNewAnnouncements(_ done: @escaping BasicBlock = {}) {
+    func checkForNewAnnouncements() -> Promise<Void> {
         let storedKey = StreamKind.announcements.lastViewedCreatedAtKey!
         let storedDate = GroupDefaults[storedKey].date
 
-         ElloProvider.shared.elloRequest(
-             ElloAPI.announcementsNewContent(createdAt: storedDate),
-             success: { (_, responseConfig) in
-                 if let statusCode = responseConfig.statusCode, statusCode == 204 {
-                     postNotification(NewContentNotifications.newAnnouncements, value: ())
-                 }
+         return ElloProvider.shared.request(.announcementsNewContent(createdAt: storedDate))
+             .thenFinally { response in
+                guard
+                    let statusCode = response.1.statusCode,
+                    statusCode == 204
+                else { return }
 
-                 done()
-             },
-             failure: { _ in done() })
+                postNotification(NewContentNotifications.newAnnouncements, value: ())
+             }
     }
 
-    func checkForNewFollowingContent(_ done: @escaping BasicBlock = {}) {
+    func checkForNewFollowingContent() -> Promise<Void> {
         let storedKey = StreamKind.following.lastViewedCreatedAtKey!
         let storedDate = GroupDefaults[storedKey].date
 
-        ElloProvider.shared.elloRequest(
-            ElloAPI.followingNewContent(createdAt: storedDate),
-            success: { (_, responseConfig) in
+        return ElloProvider.shared.request(.followingNewContent(createdAt: storedDate))
+            .thenFinally { response in
+                let responseConfig = response.1
                 if let lastModified = responseConfig.lastModified {
                     GroupDefaults[storedKey] = lastModified.toDate(HTTPDateFormatter)
                 }
@@ -139,9 +146,6 @@ private extension NewContentService {
                 if let statusCode = responseConfig.statusCode, statusCode == 204 {
                     postNotification(NewContentNotifications.newFollowingContent, value: ())
                 }
-
-                done()
-            },
-            failure: { _ in done() })
+            }
     }
 }
