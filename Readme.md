@@ -93,13 +93,31 @@ cat aasa.json | openssl smime \
  -outform DER > apple-app-site-association
 ```
 
+### APNS certificates
+
+See also <http://docs.aws.amazon.com/sns/latest/dg/mobile-push-apns.html>
+
+Create the certs in Apple's developer portal in the usual way (using the
+1Password APNS password as the cert keyphrase), and download the `.cer` file
+(two of them, actually, one for `co.ello.Ello`, one for `co.ello.ElloDev`).
+Install that file into your keychain, then export the private key (in`.p12`
+format).  Then we convert those into Amazon's preferred `.pem` format:
+
+```bash
+openssl x509 -in ~/Downloads/co.ello.Ello.cer -inform DER -out ~/Downloads/co.ello.Ello.pem
+openssl pkcs12 -in ~/Downloads/co.ello.Ello.p12 -out co.ello.Ello.key.pem
+
+# verify
+openssl s_client -connect gateway.sandbox.push.apple.com:2195 -cert co.ello.Ello.pem -key co.ello.Ello.key.pem
+```
+
 ### Pinning certificates
 We use pinned certificates to avoid man-in-the-middle SSL attacks.  We use a rolling "primary + backup" pair of certificates, so if the primary expires or needs to be pulled, the backup is easy to swap in.  Every now and then the primary / backup need to be rotated.
 
 ### Cutting a new release
 Merge all new changes into master, checkout a new branch `release/x.x.x`. Change version number in `Ello` and `Share Extension` targets. Create the archive using the `Ello` scheme (not `ElloDev`). Using `Ello` will update the build numbers in both plists. Commit version and build number changes. Upload archive to TestFlight. After QA changes are often required. Continue making changes, merging them into master. Then rebase the release branch onto master and repeate until a release candidate is submitted to Apple for review. Once the release is approved and live in the store you `git tag x.x.x` and merge the release branch into master. Following these conventions will allow github to automatically mark the release as an official release.
 
-Sometimes you may need to increase the build number without making any changes to the code. iTunesConnect requires unique build numbers which in our case, are based off the number of commits. Any easy way to do that is `git commit --allow-empty -m "bumping build number"`.  
+Sometimes you may need to increase the build number without making any changes to the code. iTunesConnect requires unique build numbers which in our case, are based off the number of commits. Any easy way to do that is `git commit --allow-empty -m "bumping build number"`.
 
 ## Contributing
 Bug reports and pull requests are welcome on GitHub at https://github.com/ello/ello-ios.
