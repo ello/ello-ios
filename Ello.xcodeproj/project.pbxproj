@@ -498,6 +498,7 @@
 		1D15C2791C7D12890013B192 /* InterfaceString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D15C2771C7D12890013B192 /* InterfaceString.swift */; };
 		1D15C27B1C7D13050013B192 /* InterfaceString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D15C2771C7D12890013B192 /* InterfaceString.swift */; };
 		1D15C27C1C7D137F0013B192 /* InterfaceImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D15C2761C7D12890013B192 /* InterfaceImage.swift */; };
+		1D179FE01EEFEEBB00F0B37C /* PromiseKitExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D513E071ED8DA660081BB2D /* PromiseKitExtensions.swift */; };
 		1D1AF6231A83ED7F00E06C93 /* PostDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D1AF6221A83ED7F00E06C93 /* PostDetailViewController.swift */; };
 		1D1AF6281A84437B00E06C93 /* StreamableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D1AF6271A84437B00E06C93 /* StreamableViewController.swift */; };
 		1D1C162C1B1D034100C4F27C /* TemporaryCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D1C162B1B1D034100C4F27C /* TemporaryCache.swift */; };
@@ -4678,6 +4679,7 @@
 				122B30E51C6A3FC400C1B9D8 /* Attachment.swift in Sources */,
 				1207C99D1C750F8A00939ADB /* ElloManager.swift in Sources */,
 				1D5566CD1EE097B400255DBF /* UIViewExtensions.swift in Sources */,
+				1D179FE01EEFEEBB00F0B37C /* PromiseKitExtensions.swift in Sources */,
 				122B30C31C6A3FBB00C1B9D8 /* PushPayload.swift in Sources */,
 				122B30E71C6A3FC400C1B9D8 /* ImageRegion.swift in Sources */,
 				122B30BB1C6A3FBB00C1B9D8 /* ExperienceUpdate.swift in Sources */,
