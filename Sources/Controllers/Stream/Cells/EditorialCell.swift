@@ -69,7 +69,7 @@ class EditorialCell: UICollectionViewCell {
     fileprivate let tappedResponder = UIControl()
     fileprivate let gradientView = UIView()
     fileprivate var gradientLayer = EditorialCell.generateGradientLayer()
-    fileprivate let imageView = UIImageView()
+    fileprivate let imageView = FLAnimatedImageView()
     var editorialContentView: UIView { return bg }
 
     override init(frame: CGRect) {

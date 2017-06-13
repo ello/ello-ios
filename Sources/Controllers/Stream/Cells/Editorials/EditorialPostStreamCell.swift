@@ -11,6 +11,11 @@ class EditorialPostStreamCell: EditorialCell {
     fileprivate var postCells: [EditorialPostCell] = []
     fileprivate let titleLabel = StyledLabel(style: .giantWhite)
     fileprivate let bg = UIView()
+    fileprivate var autoscrollTimer: Timer?
+
+    deinit {
+        autoscrollTimer = nil
+    }
 
     override func style() {
         super.style()
@@ -39,6 +44,7 @@ class EditorialPostStreamCell: EditorialCell {
         pageControl.numberOfPages = postStreamConfigs.count
         pageControl.isHidden = postStreamConfigs.count <= 1
         moveToPage(0)
+        startAutoscroll()
     }
 
     override func arrange() {
@@ -80,6 +86,7 @@ extension EditorialPostStreamCell {
     @objc
     func pageTapped() {
         moveToPage(pageControl.currentPage)
+        stopAutoscroll()
     }
 
     fileprivate func moveToPage(_ page: Int) {
@@ -88,10 +95,27 @@ extension EditorialPostStreamCell {
             return
         }
 
-        let numPages = Int(round(scrollView.contentSize.width / scrollView.frame.width))
-        let destPage = min(numPages - 1, max(0, page))
+        let destPage = min(pageControl.numberOfPages - 1, max(0, page))
         let destX = scrollView.frame.width * CGFloat(destPage)
         scrollView.setContentOffset(CGPoint(x: destX, y: scrollView.contentOffset.y), animated: true)
+    }
+
+    fileprivate func startAutoscroll() {
+        guard autoscrollTimer == nil else { return }
+
+        autoscrollTimer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(nextPage), userInfo: nil, repeats: true)
+    }
+
+    fileprivate func stopAutoscroll() {
+        autoscrollTimer?.invalidate()
+        autoscrollTimer = nil
+    }
+
+    @objc
+    fileprivate func nextPage() {
+        let nextPage = pageControl.currentPage + 1
+        guard nextPage < pageControl.numberOfPages else { return }
+        moveToPage(nextPage)
     }
 }
 
@@ -146,6 +170,10 @@ extension EditorialPostStreamCell: EditorialCellResponder {
 }
 
 extension EditorialPostStreamCell: UIScrollViewDelegate {
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        stopAutoscroll()
+    }
+
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let pageFloat: CGFloat = round(map(
             scrollView.contentOffset.x,

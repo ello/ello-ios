@@ -43,7 +43,11 @@ final class Post: JSONAble, Authorable, Groupable {
         return getLinkArray("assets") as? [Asset] ?? []
     }
     var firstImageURL: URL? {
-        return assets.first?.largeOrBest?.url
+        guard let asset = assets.first else { return nil }
+        if asset.isGif, let url = asset.optimized?.url {
+            return url
+        }
+        return asset.largeOrBest?.url
     }
     var author: User? {
         return ElloLinkedStore.sharedInstance.getObject(self.authorId, type: .usersType) as? User
