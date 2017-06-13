@@ -52,22 +52,23 @@ class ContentFlagger {
             let endPoint: ElloAPI
             switch contentType {
             case .post:
-                endPoint = ElloAPI.flagPost(postId: flaggableId, kind: option.kind)
+                endPoint = .flagPost(postId: flaggableId, kind: option.kind)
             case .comment:
-                endPoint = ElloAPI.flagComment(postId: commentPostId!, commentId: flaggableId, kind: option.kind)
+                endPoint = .flagComment(postId: commentPostId!, commentId: flaggableId, kind: option.kind)
             case .user:
-                endPoint = ElloAPI.flagUser(userId: flaggableId, kind: option.kind)
+                endPoint = .flagUser(userId: flaggableId, kind: option.kind)
             }
 
-            let service = ContentFlaggingService()
-            service.flagContent(endPoint, success: {
-                Tracker.shared.contentFlagged(self.contentType, flag: option, contentId: self.flaggableId)
-                self.contentFlagged = true
-            }, failure: { (error, statusCode) in
-                let message = error.elloErrorMessage ?? error.localizedDescription
-                Tracker.shared.contentFlaggingFailed(self.contentType, message: message, contentId: self.flaggableId)
-                self.contentFlagged = false
-            })
+            ContentFlaggingService().flagContent(endPoint)
+                .then { _ -> Void in
+                    Tracker.shared.contentFlagged(self.contentType, flag: option, contentId: self.flaggableId)
+                    self.contentFlagged = true
+                }
+                .catch { error in
+                    let message = (error as NSError).elloErrorMessage ?? error.localizedDescription
+                    Tracker.shared.contentFlaggingFailed(self.contentType, message: message, contentId: self.flaggableId)
+                    self.contentFlagged = false
+                }
         }
     }
 

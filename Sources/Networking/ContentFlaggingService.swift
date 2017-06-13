@@ -4,17 +4,13 @@
 
 import Moya
 import SwiftyJSON
+import PromiseKit
 
-typealias ContentFlaggingSuccessCompletion = () -> Void
 
 struct ContentFlaggingService {
 
-    init(){}
-
-    func flagContent(_ endpoint: ElloAPI, success: @escaping ContentFlaggingSuccessCompletion, failure: @escaping ElloFailureCompletion) {
-        ElloProvider.shared.elloRequest(endpoint,
-            success: { data in
-                success()
-        }, failure: failure)
+    func flagContent(_ endpoint: ElloAPI) -> Promise<Void> {
+        return ElloProvider.shared.request(endpoint).asVoid()
     }
+
 }

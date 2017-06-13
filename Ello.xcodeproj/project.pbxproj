@@ -316,7 +316,6 @@
 		1264FEFA1B0E4C3D0011B646 /* StreamImageCellPresenterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1264FEF91B0E4C3D0011B646 /* StreamImageCellPresenterSpec.swift */; };
 		1266E50D1A9E2B9E00270E1C /* ContentFlagger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1266E50C1A9E2B9E00270E1C /* ContentFlagger.swift */; };
 		1266E5101A9E2BDF00270E1C /* ContentFlaggerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1266E50F1A9E2BDF00270E1C /* ContentFlaggerSpec.swift */; };
-		1266E5151A9E3CA700270E1C /* ContentFlaggingServiceSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1266E5141A9E3CA700270E1C /* ContentFlaggingServiceSpec.swift */; };
 		1267C7371BA232530000D809 /* Box.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1267C7341BA232530000D809 /* Box.swift */; };
 		1267C7381BA232530000D809 /* BoxType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1267C7351BA232530000D809 /* BoxType.swift */; };
 		1267C7391BA232530000D809 /* MutableBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1267C7361BA232530000D809 /* MutableBox.swift */; };
@@ -1359,7 +1358,6 @@
 		1264FEF91B0E4C3D0011B646 /* StreamImageCellPresenterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreamImageCellPresenterSpec.swift; sourceTree = "<group>"; };
 		1266E50C1A9E2B9E00270E1C /* ContentFlagger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentFlagger.swift; sourceTree = "<group>"; };
 		1266E50F1A9E2BDF00270E1C /* ContentFlaggerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentFlaggerSpec.swift; sourceTree = "<group>"; };
-		1266E5141A9E3CA700270E1C /* ContentFlaggingServiceSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentFlaggingServiceSpec.swift; sourceTree = "<group>"; };
 		1267C7341BA232530000D809 /* Box.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Box.swift; sourceTree = "<group>"; };
 		1267C7351BA232530000D809 /* BoxType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoxType.swift; sourceTree = "<group>"; };
 		1267C7361BA232530000D809 /* MutableBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MutableBox.swift; sourceTree = "<group>"; };
@@ -2816,7 +2814,6 @@
 				1D73AB8F1C57C85600D708B9 /* AuthStateSpec.swift */,
 				12D14C641A43761A00C6F8E8 /* AuthTokenSpec.swift */,
 				125739151B432EB100EF7792 /* AutoCompleteServiceSpec.swift */,
-				1266E5141A9E3CA700270E1C /* ContentFlaggingServiceSpec.swift */,
 				12BF3CC01B66D68000CF4AE0 /* DateFormattingSpec.swift */,
 				12D14C651A43761A00C6F8E8 /* ElloAPISpec.swift */,
 				122CD3601C6E770200B37624 /* ElloManagerSpec.swift */,
@@ -4888,7 +4885,6 @@
 				128FDF391DD0F5E300DBADD0 /* CategoryHeaderCellSpec.swift in Sources */,
 				76BE9C551B2B773B007575AA /* StreamInviteFriendsCellSpec.swift in Sources */,
 				124BBEDF1BDFEDE900CBDF69 /* AppDelegateSpec.swift in Sources */,
-				1266E5151A9E3CA700270E1C /* ContentFlaggingServiceSpec.swift in Sources */,
 				1D2B6A7C1BE3FB0900D27DC9 /* AvatarButtonSpec.swift in Sources */,
 				12D14C6B1A43761A00C6F8E8 /* StreamServiceSpec.swift in Sources */,
 				F8D1606A1AB75C2900575B25 /* DrawerViewDataSourceSpec.swift in Sources */,
