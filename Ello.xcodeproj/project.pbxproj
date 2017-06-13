@@ -404,7 +404,6 @@
 		12CFF68B1B16760C007CE68F /* posts_listing_users_who_have_loved_a_post.json in Resources */ = {isa = PBXBuildFile; fileRef = 12CFF6841B16760C007CE68F /* posts_listing_users_who_have_loved_a_post.json */; };
 		12CFF6921B167717007CE68F /* LoveSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12CFF6911B167717007CE68F /* LoveSpec.swift */; };
 		12CFF6941B167724007CE68F /* CoderSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12CFF6931B167724007CE68F /* CoderSpec.swift */; };
-		12CFF6971B16781B007CE68F /* LovesServiceSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12CFF6961B16781B007CE68F /* LovesServiceSpec.swift */; };
 		12CFF6A61B16BD13007CE68F /* TwoLineButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12CFF6A51B16BD13007CE68F /* TwoLineButton.swift */; };
 		12D14C631A4375FE00C6F8E8 /* ValidatorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12D14C621A4375FE00C6F8E8 /* ValidatorSpec.swift */; };
 		12D14C681A43761A00C6F8E8 /* AuthTokenSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12D14C641A43761A00C6F8E8 /* AuthTokenSpec.swift */; };
@@ -1441,7 +1440,6 @@
 		12CFF6841B16760C007CE68F /* posts_listing_users_who_have_loved_a_post.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = posts_listing_users_who_have_loved_a_post.json; path = Resources/StubbedResponses/posts_listing_users_who_have_loved_a_post.json; sourceTree = SOURCE_ROOT; };
 		12CFF6911B167717007CE68F /* LoveSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = LoveSpec.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		12CFF6931B167724007CE68F /* CoderSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoderSpec.swift; sourceTree = "<group>"; };
-		12CFF6961B16781B007CE68F /* LovesServiceSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LovesServiceSpec.swift; sourceTree = "<group>"; };
 		12CFF69A1B167841007CE68F /* Coder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Coder.swift; sourceTree = "<group>"; };
 		12CFF69B1B167841007CE68F /* Love.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Love.swift; sourceTree = "<group>"; };
 		12CFF6A51B16BD13007CE68F /* TwoLineButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwoLineButton.swift; sourceTree = "<group>"; };
@@ -2819,7 +2817,6 @@
 				122CD3601C6E770200B37624 /* ElloManagerSpec.swift */,
 				12D14C661A43761A00C6F8E8 /* ElloProviderSpec.swift */,
 				765670EF1A8022B4008ED9A2 /* ElloURISpec.swift */,
-				12CFF6961B16781B007CE68F /* LovesServiceSpec.swift */,
 				EA68A0DF1AADF4AB003F0425 /* MapperSpec.swift */,
 				1DB17B961AAA70B200DCF59E /* MultipartRequestBuilderSpec.swift */,
 				12BCEA3D1B6C0D4500AD85A9 /* NewContentServiceSpec.swift */,
@@ -4965,7 +4962,6 @@
 				12CD86DA1B67E61D00687B36 /* SearchScreenSpec.swift in Sources */,
 				12D14C7E1A43763B00C6F8E8 /* NotificationsViewControllerSpec.swift in Sources */,
 				1D5933791D10CD2F00EAF03D /* CategorySpec.swift in Sources */,
-				12CFF6971B16781B007CE68F /* LovesServiceSpec.swift in Sources */,
 				121D92591A5CACEA004F0455 /* JoinViewControllerSpec.swift in Sources */,
 				1DA18DF21DA83AF6000231CC /* ProfileNamesSizeCalculatorSpec.swift in Sources */,
 				1D652F5A1BC2D66200AF3B06 /* PostbarControllerSpec.swift in Sources */,

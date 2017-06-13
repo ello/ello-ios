@@ -2,42 +2,24 @@
 ///  LovesService.swift
 //
 
-typealias LovesCreateSuccessCompletion = (_ love: Love, _ responseConfig: ResponseConfig) -> Void
+import PromiseKit
+
 
 struct LovesService {
 
-    init(){}
-
-    func lovePost(
-        postId: String,
-        success: @escaping LovesCreateSuccessCompletion,
-        failure: @escaping ElloFailureCompletion)
-    {
+    func lovePost(postId: String) -> Promise<Love> {
         let endpoint = ElloAPI.createLove(postId: postId)
-        ElloProvider.shared.elloRequest(endpoint,
-            success: { (data, responseConfig) in
-                if let love = data as? Love {
-                    success(love, responseConfig)
+        return ElloProvider.shared.request(endpoint)
+            .then { response -> Love in
+                guard let love = response.0 as? Love else {
+                    throw NSError.uncastableJSONAble()
                 }
-                else {
-                    ElloProvider.unCastableJSONAble(failure)
-                }
-            },
-            failure: failure
-        )
+                return love
+            }
     }
 
-    func unlovePost(
-        postId: String,
-        success: @escaping ElloEmptyCompletion,
-        failure: @escaping ElloFailureCompletion)
-    {
+    func unlovePost(postId: String) -> Promise<Void> {
         let endpoint = ElloAPI.deleteLove(postId: postId)
-        ElloProvider.shared.elloRequest(endpoint,
-            success: { _, _ in
-                success()
-            },
-            failure: failure
-        )
+        return ElloProvider.shared.request(endpoint).asVoid()
     }
 }

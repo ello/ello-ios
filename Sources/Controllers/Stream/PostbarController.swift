@@ -229,10 +229,8 @@ class PostbarController: UIResponder, PostbarResponder {
             postNotification(CurrentUserChangedNotification, value: user)
         }
 
-        let service = LovesService()
-        service.unlovePost(
-            postId: post.id,
-            success: {
+        LovesService().unlovePost(postId: post.id)
+            .thenFinally {
                 if let currentUser = self.currentUser {
                     let love = Love(
                         id: "", createdAt: Date(), updatedAt: Date(),
@@ -242,11 +240,12 @@ class PostbarController: UIResponder, PostbarResponder {
                 }
                 cell?.toggleLoveState(loved: false)
                 cell?.toggleLoveControl(enabled: true)
-            },
-            failure: { error, statusCode in
+            }
+            .catch { error in
                 cell?.toggleLoveControl(enabled: true)
-                print("failed to unlove post \(post.id), error: \(error.elloErrorMessage ?? error.localizedDescription)")
-            })
+                let message = (error as NSError).elloErrorMessage ?? error.localizedDescription
+                print("failed to unlove post \(post.id), error: \(message)")
+            }
     }
 
     fileprivate func lovePost(_ post: Post, cell: LoveableCell?, via: String) {
@@ -260,17 +259,18 @@ class PostbarController: UIResponder, PostbarResponder {
             user.lovesCount = userLoveCount + 1
             postNotification(CurrentUserChangedNotification, value: user)
         }
-        LovesService().lovePost(
-            postId: post.id,
-            success: { (love, responseConfig) in
+
+        LovesService().lovePost(postId: post.id)
+            .thenFinally { love in
                 postNotification(JSONAbleChangedNotification, value: (love, .create))
                 cell?.toggleLoveState(loved: true)
                 cell?.toggleLoveControl(enabled: true)
-            },
-            failure: { error, statusCode in
+            }
+            .catch { error in
                 cell?.toggleLoveControl(enabled: true)
-                print("failed to love post \(post.id), error: \(error.elloErrorMessage ?? error.localizedDescription)")
-            })
+                let message = (error as NSError).elloErrorMessage ?? error.localizedDescription
+                print("failed to love post \(post.id), error: \(message)")
+            }
     }
 
     func repostButtonTapped(_ cell: UICollectionViewCell) {
