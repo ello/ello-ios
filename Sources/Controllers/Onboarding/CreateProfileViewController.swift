@@ -158,14 +158,15 @@ extension CreateProfileViewController: OnboardingStepController {
 
         ProfileService().updateUserImages(
             avatarImage: avatarImage, coverImage: coverImage,
-            properties: properties,
-            success: { _avatarURL, _coverImageURL, user in
+            properties: properties)
+            .thenFinally { _avatarURL, _coverImageURL, user in
                 self.appViewController?.currentUser = user
-                self.goToNextStep(abort, proceedClosure: proceedClosure) },
-            failure: { error, _ in
+                self.goToNextStep(abort, proceedClosure: proceedClosure)
+            }
+            .catch { error in
                 proceedClosure(.error)
                 let message: String
-                if let elloError = error.elloError, let messages = elloError.messages {
+                if let elloError = (error as NSError).elloError, let messages = elloError.messages {
                     if elloError.attrs?["links"] != nil {
                         self.screen.linksValid = false
                     }
@@ -176,7 +177,7 @@ extension CreateProfileViewController: OnboardingStepController {
                 }
                 let alertController = AlertViewController(error: message)
                 self.appViewController?.present(alertController, animated: true, completion: nil)
-            })
+            }
     }
 
     func goToNextStep(_ abort: Bool, proceedClosure: @escaping (_ success: OnboardingViewController.OnboardingProceed) -> Void) {

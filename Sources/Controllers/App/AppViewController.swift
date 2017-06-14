@@ -110,8 +110,8 @@ class AppViewController: BaseElloViewController {
             }
         }
 
-        ProfileService().loadCurrentUser(
-            success: { user in
+        ProfileService().loadCurrentUser()
+            .thenFinally { user in
                 self.logInNewUser()
                 JWT.refresh()
 
@@ -125,10 +125,10 @@ class AppViewController: BaseElloViewController {
                 else {
                     self.showMainScreen(user)
                 }
-            },
-            failure: { (error, _) in
-                failureCompletion(error)
-            })
+            }
+            .catch { error in
+                failureCompletion(error as NSError)
+            }
     }
 
     fileprivate func setupNotificationObservers() {

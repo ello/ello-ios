@@ -91,18 +91,18 @@ extension PushNotificationController {
 
     func updateToken(_ token: Data) {
         keychain.pushToken = token
-        ProfileService().updateUserDeviceToken(token)
+        ProfileService().updateUserDeviceToken(token).ignoreErrors()
     }
 
     func registerStoredToken() {
         if let token = keychain.pushToken {
-            ProfileService().updateUserDeviceToken(token)
+            ProfileService().updateUserDeviceToken(token).ignoreErrors()
         }
     }
 
     func deregisterStoredToken() {
         if let token = keychain.pushToken {
-            ProfileService().removeUserDeviceToken(token)
+            ProfileService().removeUserDeviceToken(token).ignoreErrors()
         }
     }
 

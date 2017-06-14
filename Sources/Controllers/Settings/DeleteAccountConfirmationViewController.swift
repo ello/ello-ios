@@ -75,15 +75,16 @@ class DeleteAccountConfirmationViewController: BaseElloViewController {
         timer?.invalidate()
         _ = ElloHUD.showLoadingHud()
 
-        ProfileService().deleteAccount(success: {
-            ElloHUD.hideLoadingHud()
-            Tracker.shared.userDeletedAccount()
-            self.dismiss(animated: true) {
-                postNotification(AuthenticationNotifications.userLoggedOut, value: ())
+        ProfileService().deleteAccount()
+            .thenFinally {
+                Tracker.shared.userDeletedAccount()
+                self.dismiss(animated: true) {
+                    postNotification(AuthenticationNotifications.userLoggedOut, value: ())
+                }
             }
-        }, failure: { _, _ in
-            ElloHUD.hideLoadingHud()
-        })
+            .always { _ in
+                ElloHUD.hideLoadingHud()
+            }
     }
 
     @IBAction func yesButtonTapped() {

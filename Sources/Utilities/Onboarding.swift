@@ -14,7 +14,8 @@ class Onboarding {
     }
 
     func updateVersionToLatest() {
-        ProfileService().updateUserProfile(["web_onboarding_version": _currentVersion], success: { _ in }, failure: { _ in })
+        ProfileService().updateUserProfile(["web_onboarding_version": _currentVersion])
+            .ignoreErrors()
     }
 
     class func shared() -> Onboarding {

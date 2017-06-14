@@ -186,6 +186,7 @@ class SettingsViewController: UITableViewController, ControllerThatMightHaveTheC
         let hideHud = after(2) {
             ElloHUD.hideLoadingHud()
         }
+
         if let dynamicSettingsViewController = dynamicSettingsViewController {
             dynamicSettingsViewController.hideLoadingHud = hideHud
         }
@@ -193,13 +194,14 @@ class SettingsViewController: UITableViewController, ControllerThatMightHaveTheC
             hideHud()
         }
 
-        ProfileService().loadCurrentUser(success: { [weak self] user in
-            guard let `self` = self else { return }
-            self.updateCurrentUser(user)
-            hideHud()
-        }, failure: { error in
-            hideHud()
-        })
+        ProfileService().loadCurrentUser()
+            .thenFinally { [weak self] user in
+                guard let `self` = self else { return }
+                self.updateCurrentUser(user)
+            }
+            .always { _ in
+                hideHud()
+            }
 
         setupViews()
     }
@@ -304,12 +306,14 @@ class SettingsViewController: UITableViewController, ControllerThatMightHaveTheC
         let updateNameFunction = debounce(0.5) { [weak self] in
             guard let `self` = self else { return }
             let name = self.nameTextFieldView.textField.text ?? ""
-            ProfileService().updateUserProfile(["name": name], success: { user in
-                self.updateCurrentUser(user)
-                self.nameTextFieldView.setState(.ok)
-            }, failure: { _, _ in
-                self.nameTextFieldView.setState(.error)
-            })
+            ProfileService().updateUserProfile(["name": name])
+                .thenFinally { user in
+                    self.updateCurrentUser(user)
+                    self.nameTextFieldView.setState(.ok)
+                }
+                .catch { _ in
+                    self.nameTextFieldView.setState(.error)
+                }
         }
 
         nameTextFieldView.textFieldDidChange = { _ in
@@ -324,13 +328,19 @@ class SettingsViewController: UITableViewController, ControllerThatMightHaveTheC
         bioTextView.delegate = self
 
         bioTextViewDidChange = debounce(0.5) { [weak self] in
-            guard let `self` = self, let bio = self.bioTextView.text else { return }
-            ProfileService().updateUserProfile(["unsanitized_short_bio": bio], success: { user in
-                self.updateCurrentUser(user)
-                self.bioTextStatusImage.image = ValidationState.ok.imageRepresentation
-            }, failure: { _, _ in
-                self.bioTextStatusImage.image = ValidationState.error.imageRepresentation
-            })
+            guard
+                let `self` = self,
+                let bio = self.bioTextView.text
+            else { return }
+
+            ProfileService().updateUserProfile(["unsanitized_short_bio": bio])
+                .thenFinally { user in
+                    self.updateCurrentUser(user)
+                    self.bioTextStatusImage.image = ValidationState.ok.imageRepresentation
+                }
+                .catch { _ in
+                    self.bioTextStatusImage.image = ValidationState.error.imageRepresentation
+                }
         }
     }
 
@@ -343,13 +353,19 @@ class SettingsViewController: UITableViewController, ControllerThatMightHaveTheC
         linksTextFieldView.textField.keyboardType = .asciiCapable
 
         let updateLinksFunction = debounce(0.5) { [weak self] in
-            guard let `self` = self, let links = self.linksTextFieldView.textField.text else { return }
-            ProfileService().updateUserProfile(["external_links": links], success: { user in
-                self.updateCurrentUser(user)
-                self.linksTextFieldView.setState(.ok)
-            }, failure: { _, _ in
-                self.linksTextFieldView.setState(.error)
-            })
+            guard
+                let `self` = self,
+                let links = self.linksTextFieldView.textField.text
+            else { return }
+
+            ProfileService().updateUserProfile(["external_links": links])
+                .thenFinally { user in
+                    self.updateCurrentUser(user)
+                    self.linksTextFieldView.setState(.ok)
+                }
+                .catch { _ in
+                    self.linksTextFieldView.setState(.error)
+                }
         }
 
         linksTextFieldView.textFieldDidChange = { _ in
@@ -366,18 +382,24 @@ class SettingsViewController: UITableViewController, ControllerThatMightHaveTheC
         locationTextFieldView.textField.leftViewMode = .always
 
         let updateLocationFunction = debounce(0.5) { [weak self] in
-            guard let `self` = self, let location = self.locationTextFieldView.textField.text else { return }
+            guard
+                let `self` = self,
+                let location = self.locationTextFieldView.textField.text
+            else { return }
+
             if location != self.currentUser?.location {
-                ProfileService().updateUserProfile(["location": location], success: { user in
-                    self.updateCurrentUser(user)
-                    guard let count = self.locationTextFieldView.textField.text?.characters.count, count > 0 else {
-                        self.locationTextFieldView.setState(.none)
-                        return
+                ProfileService().updateUserProfile(["location": location])
+                    .thenFinally { user in
+                        self.updateCurrentUser(user)
+                        guard let count = self.locationTextFieldView.textField.text?.characters.count, count > 0 else {
+                            self.locationTextFieldView.setState(.none)
+                            return
+                        }
+                        self.locationTextFieldView.setState(.ok)
                     }
-                    self.locationTextFieldView.setState(.ok)
-                }, failure: { _, _ in
-                    self.locationTextFieldView.setState(.error)
-                })
+                    .catch { _ in
+                        self.locationTextFieldView.setState(.error)
+                    }
             }
 
             self.autoCompleteVC.load(AutoCompleteMatch(type: .location, range: location.characters.startIndex..<location.characters.endIndex, text: location)) { count in
@@ -442,19 +464,20 @@ class SettingsViewController: UITableViewController, ControllerThatMightHaveTheC
     @IBAction func coverImageTapped() {
         photoSaveCallback = { image in
             _ = ElloHUD.showLoadingHud()
-            ProfileService().updateUserCoverImage(ImageRegionData(image: image), success: { url, _ in
-                ElloHUD.hideLoadingHud()
-                if let user = self.currentUser {
-                    let asset = Asset(url: url, image: image)
-                    user.coverImage = asset
+            ProfileService().updateUserCoverImage(ImageRegionData(image: image))
+                .thenFinally { url, _ in
+                    if let user = self.currentUser {
+                        let asset = Asset(url: url, image: image)
+                        user.coverImage = asset
 
-                    postNotification(CurrentUserChangedNotification, value: user)
+                        postNotification(CurrentUserChangedNotification, value: user)
+                    }
+                    self.coverImage.image = image
+                    self.alertUserOfImageProcessing(InterfaceString.Settings.CoverImageUploaded)
                 }
-                self.coverImage.image = image
-                self.alertUserOfImageProcessing(InterfaceString.Settings.CoverImageUploaded)
-            }, failure: { _, _ in
-                ElloHUD.hideLoadingHud()
-            })
+                .always { _ in
+                    ElloHUD.hideLoadingHud()
+                }
         }
         openImagePicker()
     }
@@ -462,19 +485,20 @@ class SettingsViewController: UITableViewController, ControllerThatMightHaveTheC
     @IBAction func avatarImageTapped() {
         photoSaveCallback = { image in
             _ = ElloHUD.showLoadingHud()
-            ProfileService().updateUserAvatarImage(ImageRegionData(image: image), success: { url, _ in
-                ElloHUD.hideLoadingHud()
-                if let user = self.currentUser {
-                    let asset = Asset(url: url, image: image)
-                    user.avatar = asset
+            ProfileService().updateUserAvatarImage(ImageRegionData(image: image))
+                .thenFinally { url, _ in
+                    if let user = self.currentUser {
+                        let asset = Asset(url: url, image: image)
+                        user.avatar = asset
 
-                    postNotification(CurrentUserChangedNotification, value: user)
+                        postNotification(CurrentUserChangedNotification, value: user)
+                    }
+                    self.avatarImage.image = image
+                    self.alertUserOfImageProcessing(InterfaceString.Settings.AvatarUploaded)
                 }
-                self.avatarImage.image = image
-                self.alertUserOfImageProcessing(InterfaceString.Settings.AvatarUploaded)
-            }, failure: { _, _ in
-                ElloHUD.hideLoadingHud()
-            })
+                .always { _ in
+                    ElloHUD.hideLoadingHud()
+                }
         }
         openImagePicker()
     }

@@ -55,21 +55,5 @@ class ProfileServiceSpec: QuickSpec {
                 }
             }
         }
-
-        describe("deleteAccount") {
-            let profileService = ProfileService()
-
-            context("success") {
-                it("Calls success function") {
-                    var called = false
-
-                    profileService.deleteAccount(success: {
-                        called = true
-                    }, failure: { _ in })
-
-                    expect(called) == true
-                }
-            }
-        }
     }
 }

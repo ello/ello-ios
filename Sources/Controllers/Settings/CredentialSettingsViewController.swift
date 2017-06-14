@@ -215,20 +215,24 @@ class CredentialSettingsViewController: UITableViewController {
             content["password_confirmation"] = password
         }
 
-        ProfileService().updateUserProfile(content, success: { [weak self] user in
-            guard let `self` = self else { return }
-            let responder = self.target(forAction: #selector(CredentialSettingsResponder.credentialSettingsUserChanged(_:)), withSender: self) as? CredentialSettingsResponder
-            responder?.credentialSettingsUserChanged(user)
-            self.resetViews()
-        }, failure: { [weak self] error, _ in
-            guard let `self` = self else { return }
-            self.currentPasswordField.text = ""
-            self.passwordView.textField.text = ""
+        ProfileService().updateUserProfile(content)
+            .thenFinally { [weak self] user in
+                guard let `self` = self else { return }
 
-            if let err = error.userInfo[NSLocalizedFailureReasonErrorKey] as? ElloNetworkError {
-                self.handleError(err)
+                let responder = self.target(forAction: #selector(CredentialSettingsResponder.credentialSettingsUserChanged(_:)), withSender: self) as? CredentialSettingsResponder
+                responder?.credentialSettingsUserChanged(user)
+                self.resetViews()
             }
-        })
+            .catch { [weak self] error in
+                guard let `self` = self else { return }
+
+                self.currentPasswordField.text = ""
+                self.passwordView.textField.text = ""
+
+                if let err = (error as NSError).userInfo[NSLocalizedFailureReasonErrorKey] as? ElloNetworkError {
+                    self.handleError(err)
+                }
+            }
     }
 
     fileprivate func resetViews() {

@@ -99,11 +99,11 @@ extension DynamicSettingCategoryViewController: DynamicSettingCellResponder {
             }
         }
 
-        ProfileService().updateUserProfile(updatedValues,
-            success: { [weak self] user in
+        ProfileService().updateUserProfile(updatedValues)
+            .thenFinally { [weak self] user in
                 guard let `self` = self else { return }
-                self.delegate?.dynamicSettingsUserChanged(user)
 
+                self.delegate?.dynamicSettingsUserChanged(user)
                 let changedPaths = visibility.filter { config in
                     return self.settingChanged(config, user: user)
                 }.map { config in
@@ -111,11 +111,11 @@ extension DynamicSettingCategoryViewController: DynamicSettingCellResponder {
                 }
 
                 self.tableView.reloadRows(at: changedPaths, with: .automatic)
-            },
-            failure: { [weak self] (_, _) in
+            }
+            .catch { [weak self] _ in
                 guard let `self` = self else { return }
                 self.tableView.reloadData()
-            })
+            }
     }
 
     fileprivate func settingChanged(_ config: SettingConfig, user: User) -> Bool {
