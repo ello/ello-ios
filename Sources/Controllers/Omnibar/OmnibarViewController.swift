@@ -413,25 +413,25 @@ extension OmnibarViewController {
         postNotification(NewContentNotifications.pause, value: ())
         service.create(
             content: content,
-            buyButtonURL: buyButtonURL,
-            success: { postOrComment in
+            buyButtonURL: buyButtonURL)
+            .thenFinally { postOrComment in
                 if self.editPost != nil || self.editComment != nil {
                     URLCache.shared.removeAllCachedResponses()
                 }
 
                 self.emitSuccess(postOrComment, didGoToPreviousTab: didGoToPreviousTab)
                 postNotification(NewContentNotifications.resume, value: ())
-            },
-            failure: { error, statusCode in
+            }
+            .catch { error in
                 ElloHUD.hideLoadingHudInView(self.view)
                 self.screen.interactionEnabled = true
-                self.contentCreationFailed(error.elloErrorMessage ?? error.localizedDescription)
+                self.contentCreationFailed((error as NSError).elloErrorMessage ?? error.localizedDescription)
 
                 if let vc = self.parent as? ElloTabBarController, didGoToPreviousTab {
                     vc.selectedTab = .omnibar
                 }
                 postNotification(NewContentNotifications.resume, value: ())
-            })
+            }
     }
 
     fileprivate func emitSuccess(_ postOrComment: Any, didGoToPreviousTab: Bool) {

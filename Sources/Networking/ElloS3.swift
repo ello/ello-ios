@@ -4,9 +4,9 @@
 // creds = AmazonCredentials(...)
 // data = NSData()
 // uploader = ElloS3(credentials: credentials, data: data)
+//   .start()
 //   .thenFinally { (response : NSData) in }
 //   .catch { (error : NSError) in }
-//   .start()
 
 import PromiseKit
 
@@ -16,7 +16,7 @@ class ElloS3 {
     let data: Data
     let contentType: String
     let credentials: AmazonCredentials
-    var (promise, fulfill, reject) = Promise<Data>.pending()
+    let (promise, fulfill, reject) = Promise<Data>.pending()
 
     init(credentials: AmazonCredentials, filename: String, data: Data, contentType: String) {
         self.filename = filename
@@ -25,20 +25,9 @@ class ElloS3 {
         self.credentials = credentials
     }
 
-    func thenFinally(execute body: @escaping (Data) throws -> Void) -> Self {
-        _ = promise.then(execute: body)
-        return self
-    }
-
-    @discardableResult
-    public func `catch`(execute body: @escaping (Error) -> Void) -> Self {
-        _ = promise.catch(execute: body)
-        return self
-    }
-
     // this is just the uploading code, the initialization and handler code is
     // mostly the same
-    func start() -> Self {
+    func start() -> Promise<Data> {
         let key = "\(credentials.prefix)/\(filename)"
         let url = URL(string: credentials.endpoint)!
 
@@ -78,7 +67,7 @@ class ElloS3 {
         })
         task.resume()
 
-        return self
+        return promise
     }
 
 }

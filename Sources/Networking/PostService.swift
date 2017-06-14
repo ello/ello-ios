@@ -33,9 +33,8 @@ struct PostService {
         guard posts.count + comments.count > 0 else { return }
 
         let postIds = Set(posts.map { $0.id } + comments.map { $0.id })
-        ElloProvider.shared.elloRequest(
-            ElloAPI.postViews(streamId: streamId, streamKind: streamKind, postIds: postIds, currentUserId: userId),
-            success: { _ in })
+        ElloProvider.shared.request(.postViews(streamId: streamId, streamKind: streamKind, postIds: postIds, currentUserId: userId))
+            .ignoreErrors()
     }
 
     func loadPostComments(_ postId: String) -> Promise<([ElloComment], ResponseConfig)> {

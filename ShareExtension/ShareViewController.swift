@@ -17,7 +17,6 @@ import MobileCoreServices
 class ShareViewController: SLComposeServiceViewController {
 
     var itemPreviews: [ExtensionItemPreview] = []
-    fileprivate var postService = PostEditingService()
     fileprivate lazy var background: UIView = self.createBackground()
 
     // moved into a separate function to save compile time
@@ -78,20 +77,17 @@ private extension ShareViewController {
     }
 
     func postContent(_ content: [PostEditingService.PostContentRegion]) {
-        postService.create(
-            content: content,
-            buyButtonURL: nil,
-            success: { post in
+        PostEditingService().create(content: content, buyButtonURL: nil)
+            .thenFinally { post in
 //                Tracker.shared.shareSuccessful()
                 self.donePosting()
                 self.dismissPostingForm()
-            },
-            failure: { error, statusCode in
+            }
+            .catch { error in
 //                Tracker.shared.shareFailed()
                 self.donePosting()
                 self.showFailedToPost()
             }
-        )
     }
 
     func donePosting() {

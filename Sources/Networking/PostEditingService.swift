@@ -9,6 +9,8 @@
 // asynchronously, they could come back in any order.  In this context "entry"
 // refers to the tuple of (index, Region) or (index, String/UIImage)
 
+import PromiseKit
+
 
 func == (lhs: PostEditingService.PostContentRegion, rhs: PostEditingService.PostContentRegion) -> Bool {
     switch (lhs, rhs) {
@@ -58,9 +60,6 @@ func == (lhs: ImageRegionData, rhs: ImageRegionData) -> Bool {
 
 
 class PostEditingService {
-    // this can return either a Post or Comment
-    typealias CreatePostSuccessCompletion = (_ post: Any) -> Void
-    typealias UploadImagesSuccessCompletion = ([(Int, ImageRegion)]) -> Void
 
     enum PostContentRegion {
         case text(String)
@@ -88,7 +87,7 @@ class PostEditingService {
     }
 
     // rawSections is String or UIImage objects
-    func create(content rawContent: [PostContentRegion], buyButtonURL: URL?, success: @escaping CreatePostSuccessCompletion, failure: @escaping ElloFailureCompletion) {
+    func create(content rawContent: [PostContentRegion], buyButtonURL: URL?) -> Promise<Any> {
         var textEntries = [(Int, String)]()
         var imageDataEntries = [(Int, ImageRegionData)]()
 
@@ -110,21 +109,22 @@ class PostEditingService {
         }
 
         if imageDataEntries.count > 0 {
-            uploadImages(imageDataEntries, success: { imageRegions in
-                indexedRegions += imageRegions.map { entry in
-                    let (index, region) = entry
-                    return (index, region as Regionable)
-                }
+            return uploadImages(imageDataEntries)
+                .then { imageRegions -> Promise<Any> in
+                    indexedRegions += imageRegions.map { entry in
+                        let (index, region) = entry
+                        return (index, region as Regionable)
+                    }
 
-                self.create(self.sortedRegions(indexedRegions), success: success, failure: failure)
-            }, failure: failure)
+                    return self.create(self.sortedRegions(indexedRegions))
+                }
         }
         else {
-            create(sortedRegions(indexedRegions), success: success, failure: failure)
+            return create(sortedRegions(indexedRegions))
         }
     }
 
-    func create(_ regions: [Regionable], success: @escaping CreatePostSuccessCompletion, failure: @escaping ElloFailureCompletion) {
+    func create(_ regions: [Regionable]) -> Promise<Any> {
         let body = NSMutableArray(capacity: regions.count)
         for region in regions {
             body.add(region.toJSON())
@@ -145,8 +145,9 @@ class PostEditingService {
             endpoint = ElloAPI.createPost(body: params)
         }
 
-        ElloProvider.shared.elloRequest(endpoint,
-            success: { data, responseConfig in
+        return ElloProvider.shared.request(endpoint)
+            .then { response -> Any in
+                let data = response.0
                 let post: Any = data
 
                 switch endpoint {
@@ -160,10 +161,8 @@ class PostEditingService {
                     break
                 }
 
-                success(post)
-            },
-            failure: failure
-        )
+                return post
+            }
     }
 
     func replaceLocalImageRegions(_ content: [Regionable], regions: [Regionable]) -> [Regionable] {
@@ -183,20 +182,21 @@ class PostEditingService {
     // Another way to upload the images would be to generate one AmazonCredentials
     // object, and pass that to the uploader.  The uploader would need to
     // generate unique image names in that case.
-    func uploadImages(_ imageEntries: [(Int, ImageRegionData)], success: @escaping UploadImagesSuccessCompletion, failure: @escaping ElloFailureCompletion) {
+    func uploadImages(_ imageEntries: [(Int, ImageRegionData)]) -> Promise<[(Int, ImageRegion)]> {
         var uploaded = [(Int, ImageRegion)]()
 
         // if any upload fails, the entire post creationg fails
-        var anyError: NSError?
-        var anyStatusCode: Int?
+        var anyError: Error?
 
         let operationQueue = OperationQueue.main
+        let (promise, fulfill, reject) = Promise<[(Int, ImageRegion)]>.pending()
+
         let doneOperation = BlockOperation(block: {
             if let error = anyError {
-                failure(error, anyStatusCode)
+                reject(error)
             }
             else {
-                success(uploaded)
+                fulfill(uploaded)
             }
         })
         var prevUploadOperation: Operation?
@@ -211,50 +211,44 @@ class PostEditingService {
                 let (imageIndex, imageRegionData) = dataEntry
                 let (image, data, contentType, buyButtonURL) = (imageRegionData.image, imageRegionData.data, imageRegionData.contentType, imageRegionData.buyButtonURL)
 
-                let failureHandler: ElloFailureCompletion = { error, statusCode in
+                let failureHandler: (Error) -> Void = { error in
                     anyError = error
-                    anyStatusCode = statusCode
                     done()
                 }
 
                 let uploadService = S3UploadingService()
+                let promise: Promise<URL?>
                 if let data = data, let contentType = contentType {
-                    uploadService.upload(data, contentType: contentType,
-                        success: { url in
-                            let imageRegion = ImageRegion(alt: nil)
-                            imageRegion.url = url
-                            imageRegion.buyButtonURL = buyButtonURL
-
-                            if let url = url {
-                                let asset = Asset(url: url, gifData: data, posterImage: image)
-
-                                ElloLinkedStore.sharedInstance.setObject(asset, forKey: asset.id, type: .assetsType)
-                                imageRegion.addLinkObject("assets", key: asset.id, type: .assetsType)
-                            }
-
-                            uploaded.append((imageIndex, imageRegion))
-                            done()
-                        },
-                        failure: failureHandler)
+                    promise = uploadService.upload(data, contentType: contentType)
                 }
                 else {
-                    uploadService.upload(image,
-                        success: { url in
-                            let imageRegion = ImageRegion(alt: nil)
-                            imageRegion.url = url
-                            imageRegion.buyButtonURL = buyButtonURL
+                    promise = uploadService.upload(image)
+                }
 
-                            if let url = url {
-                                let asset = Asset(url: url, image: image)
-                                ElloLinkedStore.sharedInstance.setObject(asset, forKey: asset.id, type: .assetsType)
-                                imageRegion.addLinkObject("assets", key: asset.id, type: .assetsType)
+                promise
+                    .thenFinally { url in
+                        let imageRegion = ImageRegion(alt: nil)
+                        imageRegion.url = url
+                        imageRegion.buyButtonURL = buyButtonURL
+
+                        if let url = url {
+                            let asset: Asset
+                            if let data = data {
+                                asset = Asset(url: url, gifData: data, posterImage: image)
+                            }
+                            else {
+                                asset = Asset(url: url, image: image)
                             }
 
-                            uploaded.append((imageIndex, imageRegion))
-                            done()
-                        },
-                        failure: failureHandler)
-                }
+                            ElloLinkedStore.sharedInstance.setObject(asset, forKey: asset.id, type: .assetsType)
+                            imageRegion.addLinkObject("assets", key: asset.id, type: .assetsType)
+                        }
+
+                        uploaded.append((imageIndex, imageRegion))
+                        done()
+
+                    }
+                    .catch(execute: failureHandler)
             })
 
             doneOperation.addDependency(uploadOperation)
@@ -267,6 +261,7 @@ class PostEditingService {
             prevUploadOperation = uploadOperation
         }
         operationQueue.addOperation(doneOperation)
+        return promise
     }
 
     // this happens just before create(regions:).  The original index of each

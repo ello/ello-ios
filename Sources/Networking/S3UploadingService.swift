@@ -2,7 +2,7 @@
 ///  S3UploadingService.swift
 //
 
-import Moya
+import PromiseKit
 
 
 class S3UploadingService {
@@ -10,31 +10,33 @@ class S3UploadingService {
 
     var uploader: ElloS3?
 
-    func upload(imageRegionData image: ImageRegionData, success: @escaping S3UploadSuccessCompletion, failure: @escaping ElloFailureCompletion) {
+    func upload(imageRegionData image: ImageRegionData) -> Promise<URL?> {
         if let data = image.data, let contentType = image.contentType {
-            upload(data as Data, contentType: contentType, success: success, failure: failure)
+            return upload(data as Data, contentType: contentType)
         }
         else {
-            upload(image.image, success: success, failure: failure)
+            return upload(image.image)
         }
     }
 
-    func upload(_ image: UIImage, success: @escaping S3UploadSuccessCompletion, failure: @escaping ElloFailureCompletion) {
+    func upload(_ image: UIImage) -> Promise<URL?> {
+        let (promise, fulfill, reject) = Promise<URL?>.pending()
         inBackground {
             if let data = UIImageJPEGRepresentation(image, AppSetup.sharedState.imageQuality) {
                 // Head back to the thread the original caller was on before heading into the service calls. I may be overthinking it.
                 nextTick {
-                    self.upload(data, contentType: "image/jpeg", success: success, failure: failure)
+                    self.upload(data, contentType: "image/jpeg").then(execute: fulfill).catch(execute: reject)
                 }
             }
             else {
                 let error = NSError(domain: ElloErrorDomain, code: 500, userInfo: [NSLocalizedFailureReasonErrorKey: InterfaceString.Error.JPEGCompress])
-                failure(error, nil)
+                reject(error)
             }
         }
+        return promise
     }
 
-    func upload(_ data: Data, contentType: String, success: @escaping S3UploadSuccessCompletion, failure: @escaping ElloFailureCompletion) {
+    func upload(_ data: Data, contentType: String) -> Promise<URL?> {
         let filename: String
         switch contentType {
         case "image/gif":
@@ -45,25 +47,19 @@ class S3UploadingService {
             filename = "\(UUID().uuidString).jpg"
         }
 
-        ElloProvider.shared.elloRequest(ElloAPI.amazonCredentials,
-            success: { credentialsData, responseConfig in
-                if let credentials = credentialsData as? AmazonCredentials {
-                    self.uploader = ElloS3(credentials: credentials, filename: filename, data: data, contentType: contentType)
-                        .thenFinally { (data: Data) in
-                            let endpoint: String = credentials.endpoint
-                            let prefix: String = credentials.prefix
-                            success(URL(string: "\(endpoint)/\(prefix)/\(filename)"))
-                        }
-                        .catch { (error: Swift.Error) in
-                            failure(error as NSError, nil) // FIXME - is this the correct usage of Error?
-                        }
-                        .start()
+        return ElloProvider.shared.request(ElloAPI.amazonCredentials)
+            .then { response -> Promise<URL?> in
+                guard let credentials = response.0 as? AmazonCredentials else {
+                    throw NSError.uncastableJSONAble()
                 }
-                else {
-                    ElloProvider.unCastableJSONAble(failure)
-                }
-            },
-            failure: failure
-        )
+
+                return ElloS3(credentials: credentials, filename: filename, data: data, contentType: contentType)
+                    .start()
+                    .then { data -> URL? in
+                        let endpoint: String = credentials.endpoint
+                        let prefix: String = credentials.prefix
+                        return URL(string: "\(endpoint)/\(prefix)/\(filename)")
+                    }
+            }
     }
 }
