@@ -2,21 +2,17 @@
 ///  RePostService.swift
 //
 
-class RePostService {
-    typealias RePostSuccessCompletion = (Post) -> Void
+import PromiseKit
 
-    func repost(post: Post, success: @escaping RePostSuccessCompletion, failure: @escaping ElloFailureCompletion) {
-        let endpoint = ElloAPI.rePost(postId: post.id)
-        ElloProvider.shared.elloRequest(endpoint,
-            success: { data, responseConfig in
-                if let repost = data as? Post {
-                    success(repost)
+
+class RePostService {
+    func repost(post: Post) -> Promise<Post> {
+        return ElloProvider.shared.request(.rePost(postId: post.id))
+            .then { response -> Post in
+                guard let repost = response.0 as? Post else {
+                    throw NSError.uncastableJSONAble()
                 }
-                else {
-                    ElloProvider.unCastableJSONAble(failure)
-                }
-            },
-            failure: failure
-        )
+                return repost
+            }
     }
 }

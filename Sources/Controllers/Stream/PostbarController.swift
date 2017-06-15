@@ -327,22 +327,23 @@ class PostbarController: UIResponder, PostbarResponder {
         ElloLinkedStore.sharedInstance.setObject(post, forKey: post.id, type: .postsType)
         postNotification(PostChangedNotification, value: (post, .reposted))
 
-        RePostService().repost(post: post,
-            success: { repost in
+        RePostService().repost(post: post)
+            .thenFinally { repost in
                 postNotification(PostChangedNotification, value: (repost, .create))
                 alertController.contentView = nil
                 alertController.message = InterfaceString.Post.RepostSuccess
                 delay(1) {
                     alertController.dismiss()
                 }
-            }, failure: { (error, statusCode)  in
+            }
+            .catch { _ in
                 alertController.contentView = nil
                 alertController.message = InterfaceString.Post.RepostError
                 alertController.autoDismiss = true
                 alertController.dismissable = true
                 let okAction = AlertAction(title: InterfaceString.OK, style: .light, handler: .none)
                 alertController.addAction(okAction)
-            })
+            }
     }
 
     func shareButtonTapped(_ cell: UICollectionViewCell, sourceView: UIView) {
