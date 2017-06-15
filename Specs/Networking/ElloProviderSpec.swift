@@ -60,7 +60,7 @@ class ElloProviderSpec: QuickSpec {
                             ElloProvider_Specs.errorStatusCode = .status401_Unauthorized
 
                             var loadedJSONAbles: [JSONAble]?
-                            var loadedError: NSError?
+                            var loadedError: Swift.Error?
                             var object: NSError?
                             var handled = false
 
@@ -112,7 +112,7 @@ class ElloProviderSpec: QuickSpec {
                             ElloProvider_Specs.errorStatusCode = .status410
 
                             var loadedJSONAbles: [JSONAble]?
-                            var loadedError: NSError?
+                            var loadedError: Swift.Error?
                             var handled = false
                             var object: NSError?
                             let testObserver = NotificationObserver(notification: ErrorStatusCode.status410.notification) { error in
@@ -191,12 +191,12 @@ class NetworkErrorSharedExamplesConfiguration: QuickConfiguration {
                 let expectedMessages: [String]? = sharedExampleContext()["messages"] as? [String]
 
                 var loadedJSONAbles: [JSONAble]?
-                var loadedError: NSError?
+                var loadedError: Swift.Error?
 
                 let endpoint: ElloAPI = .following
                 ElloProvider.shared.request(endpoint)
                     .then { response in
-                        loadedJSONAbles = data as? [JSONAble]
+                        loadedJSONAbles = response.0 as? [JSONAble]
                     }
                     .catch { error in
                         loadedError = error
@@ -204,7 +204,7 @@ class NetworkErrorSharedExamplesConfiguration: QuickConfiguration {
 
                 expect(loadedJSONAbles).to(beNil())
                 expect(loadedError!).notTo(beNil())
-                let elloNetworkError = loadedError!.userInfo[NSLocalizedFailureReasonErrorKey] as! ElloNetworkError
+                let elloNetworkError = (loadedError! as NSError).userInfo[NSLocalizedFailureReasonErrorKey] as! ElloNetworkError
 
                 expect(elloNetworkError).to(beAnInstanceOf(ElloNetworkError.self))
                 expect(elloNetworkError.status!) == expectedStatus
