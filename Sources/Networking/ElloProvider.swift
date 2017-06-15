@@ -71,15 +71,15 @@ class ElloProvider {
         return promise
     }
 
-    func elloRequest(_ target: ElloAPI, success: @escaping ElloSuccessCompletion) {
+    fileprivate func elloRequest(_ target: ElloAPI, success: @escaping ElloSuccessCompletion) {
         elloRequest((target: target, success: success, failure: { _ in }))
     }
 
-    func elloRequest(_ target: ElloAPI, success: @escaping ElloSuccessCompletion, failure: @escaping ElloFailureCompletion) {
+    fileprivate func elloRequest(_ target: ElloAPI, success: @escaping ElloSuccessCompletion, failure: @escaping ElloFailureCompletion) {
         elloRequest((target: target, success: success, failure: failure))
     }
 
-    func elloRequest(_ request: ElloRequestClosure) {
+    fileprivate func elloRequest(_ request: ElloRequestClosure) {
         let target = request.target
         let success = request.success
         let failure = request.failure
