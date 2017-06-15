@@ -11,7 +11,7 @@ import Alamofire
 
 class TestObserver {
     var handled = false
-    var object:Any?
+    var object: Any?
 
     func handleNotification(_ note: NSNotification) {
         handled = true
@@ -59,8 +59,8 @@ class ElloProviderSpec: QuickSpec {
 
                             ElloProvider_Specs.errorStatusCode = .status401_Unauthorized
 
-                            var loadedJSONAbles:[JSONAble]?
-                            var loadedError:NSError?
+                            var loadedJSONAbles: [JSONAble]?
+                            var loadedError: NSError?
                             var object: NSError?
                             var handled = false
 
@@ -98,11 +98,11 @@ class ElloProviderSpec: QuickSpec {
                     }
 
                     context("403") {
-                        itBehavesLike("network error") { ["status":"403", "title":"You do not have access to the requested resource.", "statusCode":403, "code" : ElloNetworkError.CodeType.unauthorized.rawValue]}
+                        itBehavesLike("network error") { ["status": "403", "title": "You do not have access to the requested resource.", "statusCode": 403, "code": ElloNetworkError.CodeType.unauthorized.rawValue]}
                     }
 
                     context("404") {
-                        itBehavesLike("network error") { ["status":"404", "title":"The requested resource could not be found.", "statusCode":404, "code" : ElloNetworkError.CodeType.notFound.rawValue]}
+                        itBehavesLike("network error") { ["status": "404", "title": "The requested resource could not be found.", "statusCode": 404, "code": ElloNetworkError.CodeType.notFound.rawValue]}
                     }
 
                     context("410") {
@@ -111,8 +111,8 @@ class ElloProviderSpec: QuickSpec {
 
                             ElloProvider_Specs.errorStatusCode = .status410
 
-                            var loadedJSONAbles:[JSONAble]?
-                            var loadedError:NSError?
+                            var loadedJSONAbles: [JSONAble]?
+                            var loadedError: NSError?
                             var handled = false
                             var object: NSError?
                             let testObserver = NotificationObserver(notification: ErrorStatusCode.status410.notification) { error in
@@ -149,23 +149,23 @@ class ElloProviderSpec: QuickSpec {
                     }
 
                     context("420") {
-                        itBehavesLike("network error") { ["status":"420", "title":"The request could not be handled due to rate limiting.", "statusCode":420, "code" : ElloNetworkError.CodeType.rateLimited.rawValue]}
+                        itBehavesLike("network error") { ["status": "420", "title": "The request could not be handled due to rate limiting.", "statusCode": 420, "code": ElloNetworkError.CodeType.rateLimited.rawValue]}
                     }
 
                     context("422") {
-                        itBehavesLike("network error") { ["status":"422", "attrs" : ["name" : ["can't be blank"]], "title":"The current resource was invalid.", "messages" : ["Name can't be blank"], "statusCode":422, "code" : ElloNetworkError.CodeType.invalidResource.rawValue]}
+                        itBehavesLike("network error") { ["status": "422", "attrs": ["name": ["can't be blank"]], "title": "The current resource was invalid.", "messages": ["Name can't be blank"], "statusCode": 422, "code": ElloNetworkError.CodeType.invalidResource.rawValue]}
                     }
 
                     context("500") {
-                        itBehavesLike("network error") { ["status":"500", "title":"An unknown error has occurred.", "statusCode":500, "code" : ElloNetworkError.CodeType.serverError.rawValue, "detail" : "You have broken it, and have been blacklisted from using the API."]}
+                        itBehavesLike("network error") { ["status": "500", "title": "An unknown error has occurred.", "statusCode": 500, "code": ElloNetworkError.CodeType.serverError.rawValue, "detail": "You have broken it, and have been blacklisted from using the API."]}
                     }
 
                     context("502") {
-                        itBehavesLike("network error") { ["status":"502", "title":"The service timed out. Try again?", "statusCode":502, "code" : ElloNetworkError.CodeType.timeout.rawValue]}
+                        itBehavesLike("network error") { ["status": "502", "title": "The service timed out. Try again?", "statusCode": 502, "code": ElloNetworkError.CodeType.timeout.rawValue]}
                     }
 
                     context("503") {
-                        itBehavesLike("network error") { ["status" : "503", "title":"The service is unavailable. Try back shortly.", "detail":"Oh snap, the service is down while we work on it.", "statusCode":503, "code" : ElloNetworkError.CodeType.unavailable.rawValue]}
+                        itBehavesLike("network error") { ["status": "503", "title": "The service is unavailable. Try back shortly.", "detail": "Oh snap, the service is down while we work on it.", "statusCode": 503, "code": ElloNetworkError.CodeType.unavailable.rawValue]}
                     }
                 }
             }
@@ -188,11 +188,11 @@ class NetworkErrorSharedExamplesConfiguration: QuickConfiguration {
                 ElloProvider_Specs.errorStatusCode = ErrorStatusCode(rawValue: expectedStatusCode)!
 
                 // optional values for 422
-                let expectedAttrs:[String:[String]]? = sharedExampleContext()["attrs"] as? [String:[String]]
-                let expectedMessages:[String]? = sharedExampleContext()["messages"] as? [String]
+                let expectedAttrs: [String: [String]]? = sharedExampleContext()["attrs"] as? [String: [String]]
+                let expectedMessages: [String]? = sharedExampleContext()["messages"] as? [String]
 
-                var loadedJSONAbles:[JSONAble]?
-                var loadedError:NSError?
+                var loadedJSONAbles: [JSONAble]?
+                var loadedError: NSError?
 
                 let endpoint: ElloAPI = .following
                 ElloProvider.shared.request(endpoint)
