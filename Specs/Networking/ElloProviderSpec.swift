@@ -120,8 +120,7 @@ class ElloProviderSpec: QuickSpec {
                                 object = error
                             }
 
-                            let endpoint: ElloAPI = .following
-                            ElloProvider.shared.elloRequest(endpoint)
+                            ElloProvider.shared.request(.following)
                                 .then { response in
                                     loadedJSONAbles = response.0 as? [JSONAble]
                                 }
