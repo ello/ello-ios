@@ -19,9 +19,11 @@ class ProfileServiceSpec: QuickSpec {
                 it("Calls success with a User") {
                     var loadedUser: User?
 
-                    profileService.loadCurrentUser(success: { user in
-                        loadedUser = user
-                    }, failure: { _ in })
+                    profileService.loadCurrentUser()
+                        .then { user in
+                            loadedUser = user
+                        }
+                        .ignoreErrors()
 
                     expect(loadedUser).toNot(beNil())
 
@@ -42,9 +44,11 @@ class ProfileServiceSpec: QuickSpec {
                 it("Calls success with a User") {
                     var returnedUser: User?
 
-                    profileService.updateUserProfile([:], success: { user in
-                        returnedUser = user
-                    }, failure: { _ in })
+                    profileService.updateUserProfile([:])
+                        .thenFinally { user in
+                            returnedUser = user
+                        }
+                        .ignoreErrors()
 
                     expect(returnedUser).toNot(beNil())
 

@@ -79,36 +79,28 @@ extension RelationshipController: RelationshipResponder {
     func updateRelationship(
         _ currentUserId: String,
         userId: String,
-        prev prevPriority: RelationshipPriorityWrapper,
+        prev prevRelationshipPriority: RelationshipPriorityWrapper,
         relationshipPriority newRelationshipPriority: RelationshipPriorityWrapper,
         complete: @escaping RelationshipChangeCompletion)
     {
-        var prevRelationshipPriority = prevPriority
-        RelationshipService().updateRelationship(
-            currentUserId: currentUserId,
-            userId: userId,
-            relationshipPriority: newRelationshipPriority.priority,
-            success: { [weak self] (data, responseConfig) in
-                guard let `self` = self else { return }
-                if let relationship = data as? Relationship {
-                    complete(RelationshipRequestStatusWrapper(status: .success), relationship, responseConfig.isFinalValue)
+        let responder: RelationshipControllerResponder? = self.findResponder()
+        let (optimisticRelationship, promise) = RelationshipService().updateRelationship(currentUserId: currentUserId, userId: userId, relationshipPriority: newRelationshipPriority.priority)
+        if let relationship = optimisticRelationship {
+            complete(RelationshipRequestStatusWrapper(status: .success), relationship, false)
+            responder?.relationshipChanged(userId, status: RelationshipRequestStatusWrapper(status: .success), relationship: relationship)
+        }
 
-                    let responder = self.target(forAction: #selector(RelationshipControllerResponder.relationshipChanged(_:status:relationship:)), withSender: self) as? RelationshipControllerResponder
-                    responder?.relationshipChanged(userId, status: RelationshipRequestStatusWrapper(status: .success), relationship: relationship)
-                    if responseConfig.isFinalValue {
-                        if let owner = relationship.owner {
-                            postNotification(RelationshipChangedNotification, value: owner)
-                        }
-                        if let subject = relationship.subject {
-                            postNotification(RelationshipChangedNotification, value: subject)
-                        }
+        promise.thenFinally { (relationship) in
+                complete(RelationshipRequestStatusWrapper(status: .success), relationship, true)
+                responder?.relationshipChanged(userId, status: RelationshipRequestStatusWrapper(status: .success), relationship: relationship)
+
+                if let relationship = relationship {
+                    if let owner = relationship.owner {
+                        postNotification(RelationshipChangedNotification, value: owner)
                     }
-                }
-                else {
-                    complete(RelationshipRequestStatusWrapper(status: .success), nil, responseConfig.isFinalValue)
-                    let responder = self.target(forAction: #selector(RelationshipControllerResponder.relationshipChanged(_:status:relationship:)), withSender: self) as? RelationshipControllerResponder
-                    responder?.relationshipChanged(userId, status: RelationshipRequestStatusWrapper(status: .success), relationship: nil)
-
+                    if let subject = relationship.subject {
+                        postNotification(RelationshipChangedNotification, value: subject)
+                    }
                 }
 
                 if prevRelationshipPriority != newRelationshipPriority {
@@ -125,15 +117,14 @@ extension RelationshipController: RelationshipResponder {
                     if mutedDelta != 0 {
                         postNotification(MutedCountChangedNotification, value: (userId, mutedDelta))
                     }
-
-                    prevRelationshipPriority = newRelationshipPriority
                 }
-            },
-            failure: { [weak self] _ in
+            }
+            .catch { [weak self] _ in
                 guard let `self` = self else { return }
+
                 complete(RelationshipRequestStatusWrapper(status: .failure), nil, true)
-                let responder = self.target(forAction: #selector(RelationshipControllerResponder.relationshipChanged(_:status:relationship:)), withSender: self) as? RelationshipControllerResponder
+                let responder: RelationshipControllerResponder? = self.findResponder()
                 responder?.relationshipChanged(userId, status: RelationshipRequestStatusWrapper(status: .failure), relationship: nil)
-            })
+            }
     }
 }

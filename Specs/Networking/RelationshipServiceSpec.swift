@@ -16,29 +16,25 @@ class RelationshipServiceSpec: QuickSpec {
 
             it("succeeds") {
                 var loadedSuccessfully = false
-                subject.updateRelationship(currentUserId: "", userId: "42", relationshipPriority: RelationshipPriority.following,
-                    success: {
-                        (data, responseConfig) in
+                subject.updateRelationship(currentUserId: "", userId: "42", relationshipPriority: RelationshipPriority.following).1
+                    .thenFinally { _ in
                         loadedSuccessfully = true
-                    },
-                    failure: { _ in }
-                )
+                    }
+                    .ignoreErrors()
                 expect(loadedSuccessfully).to(beTrue())
             }
 
             it("fails") {
                 ElloProvider.sharedProvider = ElloProvider.ErrorStubbingProvider()
                 var loadedSuccessfully = true
-                subject.updateRelationship(currentUserId: "", userId: "42", relationshipPriority: RelationshipPriority.following,
-                    success: {
-                        (data, responseConfig) in
+                subject.updateRelationship(currentUserId: "", userId: "42", relationshipPriority: RelationshipPriority.following).1
+                    .thenFinally { _ in
                         loadedSuccessfully = true
-                    },
-                    failure: {
-                        (error, statusCode) in
+                    }
+                    .catch { _ in
                         loadedSuccessfully = false
                     }
-                )
+
                 expect(loadedSuccessfully).to(beFalse())
             }
         }
