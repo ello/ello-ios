@@ -60,7 +60,6 @@ class ElloProviderSpec: QuickSpec {
                             ElloProvider_Specs.errorStatusCode = .status401_Unauthorized
 
                             var loadedJSONAbles:[JSONAble]?
-                            var loadedStatusCode:Int?
                             var loadedError:NSError?
                             var object: NSError?
                             var handled = false
@@ -71,16 +70,16 @@ class ElloProviderSpec: QuickSpec {
                             }
 
                             let endpoint: ElloAPI = .following
-                            ElloProvider.shared.elloRequest(endpoint, success: { (data, responseConfig) in
-                                loadedJSONAbles = data as? [JSONAble]
-                            }, failure: { (error, statusCode) in
-                                loadedError = error
-                                loadedStatusCode = statusCode
-                            })
+                            ElloProvider.shared.request(endpoint)
+                                .then { response in
+                                    loadedJSONAbles = response.0 as? [JSONAble]
+                                }
+                                .catch { error in
+                                    loadedError = error
+                                }
 
                             expect(handled) == true
                             expect(loadedJSONAbles).to(beNil())
-                            expect(loadedStatusCode) == 401
                             expect(loadedError).notTo(beNil())
                             expect(object).notTo(beNil())
 
@@ -113,7 +112,6 @@ class ElloProviderSpec: QuickSpec {
                             ElloProvider_Specs.errorStatusCode = .status410
 
                             var loadedJSONAbles:[JSONAble]?
-                            var loadedStatusCode:Int?
                             var loadedError:NSError?
                             var handled = false
                             var object: NSError?
@@ -123,19 +121,16 @@ class ElloProviderSpec: QuickSpec {
                             }
 
                             let endpoint: ElloAPI = .following
-                            ElloProvider.shared.elloRequest(endpoint,
-                                success: { (data, responseConfig) in
-                                    loadedJSONAbles = data as? [JSONAble]
-                                },
-                                failure: { (error, statusCode) in
-                                    loadedError = error
-                                    loadedStatusCode = statusCode
+                            ElloProvider.shared.elloRequest(endpoint)
+                                .then { response in
+                                    loadedJSONAbles = response.0 as? [JSONAble]
                                 }
-                            )
+                                .catch { error in
+                                    loadedError = error
+                                }
 
                             expect(handled) == true
                             expect(loadedJSONAbles).to(beNil())
-                            expect(loadedStatusCode).to(beNil())
                             expect(loadedError).to(beNil())
 
                             if let elloNetworkError = object?.userInfo[NSLocalizedFailureReasonErrorKey] as? ElloNetworkError {
@@ -197,22 +192,18 @@ class NetworkErrorSharedExamplesConfiguration: QuickConfiguration {
                 let expectedMessages:[String]? = sharedExampleContext()["messages"] as? [String]
 
                 var loadedJSONAbles:[JSONAble]?
-                var loadedStatusCode:Int?
                 var loadedError:NSError?
 
                 let endpoint: ElloAPI = .following
-                ElloProvider.shared.elloRequest(endpoint,
-                    success: { (data, responseConfig) in
+                ElloProvider.shared.request(endpoint)
+                    .then { response in
                         loadedJSONAbles = data as? [JSONAble]
-                    },
-                    failure: { (error, statusCode) in
-                        loadedError = error
-                        loadedStatusCode = statusCode
                     }
-                )
+                    .catch { error in
+                        loadedError = error
+                    }
 
                 expect(loadedJSONAbles).to(beNil())
-                expect(loadedStatusCode!) == expectedStatusCode
                 expect(loadedError!).notTo(beNil())
                 let elloNetworkError = loadedError!.userInfo[NSLocalizedFailureReasonErrorKey] as! ElloNetworkError
 
