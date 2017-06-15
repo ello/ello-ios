@@ -5,8 +5,6 @@
 import Keys
 
 
-// Mark: - API Keys
-
 struct APIKeys {
     let key: String
     let secret: String

@@ -384,7 +384,7 @@ extension ElloAPI: Moya.TargetType {
             default:
                 return "/api/\(ElloAPI.apiVersion)/discover/posts/\(type.slug)"
             }
-        case .emojiAutoComplete(_):
+        case .emojiAutoComplete:
             return "/api/\(ElloAPI.apiVersion)/emoji/autocomplete"
         case .findFriends:
             return "/api/\(ElloAPI.apiVersion)/profile/find_friends"
@@ -414,7 +414,7 @@ extension ElloAPI: Moya.TargetType {
             return "/api/\(ElloAPI.apiVersion)/join"
         case let .loves(userId):
             return "/api/\(ElloAPI.apiVersion)/users/\(userId)/loves"
-        case .locationAutoComplete(_):
+        case .locationAutoComplete:
             return "/api/\(ElloAPI.apiVersion)/profile/location_autocomplete"
         case .notificationsNewContent,
              .notificationsStream:
@@ -450,7 +450,7 @@ extension ElloAPI: Moya.TargetType {
             return "\(ElloAPI.currentUserStream.path)/push_subscriptions/apns/\(tokenStringFromData(tokenData))"
         case let .relationship(userId, relationship):
             return "/api/\(ElloAPI.apiVersion)/users/\(userId)/add/\(relationship)"
-        case .relationshipBatch(_, _):
+        case .relationshipBatch:
             return "/api/\(ElloAPI.apiVersion)/relationships/batches"
         case .searchForPosts:
             return "/api/\(ElloAPI.apiVersion)/posts"
@@ -470,7 +470,7 @@ extension ElloAPI: Moya.TargetType {
             return "\(ElloAPI.userStream(userParam: userId).path)/following"
         case let .userStreamPosts(userId):
             return "\(ElloAPI.userStream(userParam: userId).path)/posts"
-        case .userNameAutoComplete(_):
+        case .userNameAutoComplete:
             return "/api/\(ElloAPI.apiVersion)/users/autocomplete"
         }
     }

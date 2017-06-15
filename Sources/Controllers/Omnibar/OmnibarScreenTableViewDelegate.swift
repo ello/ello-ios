@@ -61,7 +61,7 @@ extension OmnibarScreen: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt path: IndexPath) {
         if let (_, region) = tableViewRegions.safeValue(path.row) {
             switch region {
-            case .attributedText(_):
+            case .attributedText:
                 startEditingAtPath(path)
             default:
                 stopEditing()

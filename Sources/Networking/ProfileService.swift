@@ -118,7 +118,7 @@ struct ProfileService {
         else {
             bothImages()
         }
-        
+
         return promise
     }
 

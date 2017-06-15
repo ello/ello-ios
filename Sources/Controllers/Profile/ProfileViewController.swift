@@ -180,7 +180,7 @@ final class ProfileViewController: StreamableViewController {
         updateInsets(navBar: screen.topInsetView)
     }
 
-    // MARK : private
+    // MARK: private
 
     fileprivate func loadProfile() {
         generator?.load()
