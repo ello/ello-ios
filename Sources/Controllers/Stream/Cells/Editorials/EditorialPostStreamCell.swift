@@ -174,6 +174,10 @@ extension EditorialPostStreamCell: UIScrollViewDelegate {
     }
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if scrollView.contentOffset.y != 0 {
+            scrollView.contentOffset.y = 0
+        }
+
         guard scrollView.contentSize.width > 0 else { return }
 
         let pageFloat: CGFloat = round(map(
