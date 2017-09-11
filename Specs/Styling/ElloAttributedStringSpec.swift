@@ -10,16 +10,10 @@ import Nimble
 class ElloAttributedStringSpec: QuickSpec {
     override func spec() {
         describe("styling a string") {
-            it("returns an attributed string") {
-                let text = "text"
-                let attrd = ElloAttributedString.style(text)
-                expect(attrd).to(beAKindOf(NSAttributedString.self))
-            }
             it("accepts additional options") {
                 let text = "text"
                 let c = UIColor.gray
                 let attrd = ElloAttributedString.style(text, [NSForegroundColorAttributeName: c])
-                expect(attrd).to(beAKindOf(NSAttributedString.self))
                 expect(attrd.attributes(at: 0, effectiveRange: nil)[NSForegroundColorAttributeName] as? UIColor) == c
             }
             it("ElloAttributedString.attrs() accepts many additional options") {
