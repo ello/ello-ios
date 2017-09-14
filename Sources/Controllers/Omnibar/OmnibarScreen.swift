@@ -5,7 +5,13 @@
 import MobileCoreServices
 import FLAnimatedImage
 import PINRemoteImage
+import Photos
 
+
+fileprivate let imageManager = PHCachingImageManager()
+fileprivate let imageHeight: CGFloat = 150
+fileprivate let imageMargin: CGFloat = 1
+fileprivate let imageContentHeight = imageHeight + 2 * imageMargin
 
 class OmnibarScreen: UIView, OmnibarScreenProtocol {
     struct Size {
@@ -104,6 +110,7 @@ class OmnibarScreen: UIView, OmnibarScreenProtocol {
     }
 
     var currentUser: User?
+    var currentAssets: [PHAsset] = []
 
 // MARK: internal and/or private vars
 
@@ -119,6 +126,7 @@ class OmnibarScreen: UIView, OmnibarScreenProtocol {
     let reorderButton = UIButton()
     let cameraButton = UIButton()
     let textButton = UIButton()
+    let photoAccessoryContainer = UIView()
 
 // MARK: keyboard buttons
     var keyboardButtonViews: [UIView]!
@@ -193,6 +201,15 @@ class OmnibarScreen: UIView, OmnibarScreenProtocol {
         }
     }
 
+    override func didMoveToWindow() {
+        if window == nil, photoAccessoryContainer.superview != nil {
+            photoAccessoryContainer.removeFromSuperview()
+        }
+        else if let window = window, photoAccessoryContainer.window != window {
+            window.addSubview(photoAccessoryContainer)
+        }
+    }
+
 // MARK: View setup code
 
     fileprivate func setupAutoComplete() {
@@ -232,7 +249,7 @@ class OmnibarScreen: UIView, OmnibarScreenProtocol {
         reorderButton.setImages(.reorder)
         reorderButton.addTarget(self, action: #selector(toggleReorderingTable), for: .touchUpInside)
 
-        cameraButton.contentEdgeInsets = UIEdgeInsets(tops: 4, sides: 9.5)
+        cameraButton.contentEdgeInsets = UIEdgeInsets(tops: 4, sides: 3.5)
         cameraButton.setImages(.camera)
         cameraButton.addTarget(self, action: #selector(cameraButtonTapped), for: .touchUpInside)
 
@@ -554,6 +571,8 @@ class OmnibarScreen: UIView, OmnibarScreenProtocol {
 // MARK: Keyboard events - animate layout update in conjunction with keyboard animation
 
     func keyboardWillShow() {
+        textButtonTapped()
+
         self.setNeedsLayout()
         animateWithKeyboard {
             self.layoutIfNeeded()
@@ -572,8 +591,6 @@ class OmnibarScreen: UIView, OmnibarScreenProtocol {
         regions = regions.filter { !$0.isEmpty }
     }
 
-// MARK: Layout and update views
-
     override func layoutSubviews() {
         super.layoutSubviews()
 
@@ -591,7 +608,7 @@ class OmnibarScreen: UIView, OmnibarScreenProtocol {
         }
 
         let toolbarTop = screenTop + Size.margins.top
-        var buttonX = frame.width - Size.margins.right + Size.toolbarRightPadding
+        var buttonX = frame.width - Size.margins.right
         for view in toolbarButtonViews.reversed() {
             view.frame.size = view.intrinsicContentSize
             buttonX -= view.frame.size.width + Size.toolbarRightPadding
@@ -640,6 +657,10 @@ class OmnibarScreen: UIView, OmnibarScreenProtocol {
         let remainingCameraWidth = frame.width - x
         keyboardSubmitButton.frame.origin.x = keyboardButtonView.frame.width - remainingCameraWidth
         keyboardSubmitButton.frame.size.width = remainingCameraWidth
+
+        photoAccessoryContainer.frame.size.width = frame.width
+        photoAccessoryContainer.frame.origin.x = 0
+        photoAccessoryContainer.frame.origin.y = frame.height - Keyboard.shared.keyboardBottomInset(inView: self) - photoAccessoryContainer.frame.height
     }
 
     func synchronizeScrollViews() {
@@ -903,22 +924,164 @@ class OmnibarScreen: UIView, OmnibarScreenProtocol {
     func cameraButtonTapped() {
         cameraButton.isHidden = true
         textButton.isHidden = false
-        textView.inputAccessoryView = nil
-        _ = textView.resignFirstResponder()
-        _ = textView.becomeFirstResponder()
+        stopEditing()
 
-        // stopEditing()
-        //
-        // let pickerSheet = UIImagePickerController.imagePickerSheetForImagePicker(callback: openImageSheet)
-        // self.delegate?.omnibarPresentController(pickerSheet)
+        let status = UIImagePickerController.alreadyDeterminedStatus()
+        if let status = status {
+            showKeyboardImages(isAuthorized: status == .authorized)
+        }
+        else {
+            UIImagePickerController.requestStatus()
+                .thenFinally { status in
+                    self.showKeyboardImages(isAuthorized: status == .authorized)
+                }
+                .ignoreErrors()
+        }
     }
 
     func textButtonTapped() {
+        currentAssets = []
         cameraButton.isHidden = false
         textButton.isHidden = true
-        textView.inputAccessoryView = keyboardButtonView
-        _ = textView.resignFirstResponder()
-        _ = textView.becomeFirstResponder()
+        setPhotoAccessoryView(nil)
+    }
+
+    private func showKeyboardImages(isAuthorized: Bool) {
+        guard isAuthorized else { return }
+
+        showKeyboardSpinner()
+        loadPhotos()
+    }
+
+    fileprivate func setPhotoAccessoryView(_ view: UIView?) {
+        for subview in photoAccessoryContainer.subviews {
+            subview.removeFromSuperview()
+        }
+
+        if let view = view {
+            photoAccessoryContainer.addSubview(view)
+            photoAccessoryContainer.frame.size.height = view.frame.size.height
+        }
+        else {
+            photoAccessoryContainer.frame.size.height = 0
+        }
+        setNeedsLayout()
+    }
+
+    private func showKeyboardSpinner() {
+        let spinner = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+        spinner.startAnimating()
+        let view = UIView(frame: CGRect(x: 0, y: 0, width: frame.width, height: imageContentHeight))
+        spinner.center = view.center
+        spinner.autoresizingMask = [.flexibleTopMargin, .flexibleBottomMargin, .flexibleLeftMargin, .flexibleRightMargin]
+        view.addSubview(spinner)
+        view.backgroundColor = UIColor.white.withAlphaComponent(0.5)
+        setPhotoAccessoryView(view)
+    }
+
+    private func loadPhotos() {
+        var assetsInfo: [(Int, PHAsset)] = []
+        let (afterAll, done) = afterN {
+            assetsInfo.sort { $0.0 < $1.0 }
+            let onlyAssets = assetsInfo.map { $0.1 }
+            self.createImageViews(assets: onlyAssets)
+        }
+
+        let options = PHFetchOptions()
+        options.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
+        options.predicate = NSPredicate(format: "mediaType = %d", PHAssetMediaType.image.rawValue)
+
+        let fetchLimit = 200
+        options.fetchLimit = fetchLimit
+
+        let requestOptions = PHImageRequestOptions()
+        requestOptions.isSynchronous = false
+        requestOptions.deliveryMode = .fastFormat
+
+        let result = PHAsset.fetchAssets(with: options)
+        result.enumerateObjects(options: [], using: { asset, index, _ in
+            let next = afterAll()
+            imageManager.requestImageData(for: asset, options: requestOptions) { data, _, _, _ in
+                defer { next() }
+                guard data != nil else { return }
+                assetsInfo.append((index, asset))
+            }
+        })
+        done()
+    }
+
+    private func image(forAsset asset: PHAsset) -> UIImage? {
+        let requestOptions = PHImageRequestOptions()
+        requestOptions.isSynchronous = true
+        requestOptions.deliveryMode = .fastFormat
+
+        let targetSize = size(forAsset: asset, scale: UIScreen.main.scale)
+        var retVal: UIImage?
+        if asset.representsBurst {
+            imageManager.requestImageData(for: asset, options: requestOptions) { data, _, _, _ in
+                retVal = data.flatMap { UIImage(data: $0) }
+            }
+        }
+        else {
+            imageManager.requestImage(for: asset, targetSize: targetSize, contentMode: .aspectFill, options: requestOptions) { image, _ in
+                retVal = image
+            }
+        }
+
+        return retVal
+    }
+
+    private func size(forAsset asset: PHAsset, scale: CGFloat = 1) -> CGSize {
+        let proportion = CGFloat(asset.pixelWidth) / CGFloat(asset.pixelHeight)
+        let imageWidth = floor(proportion * imageHeight)
+        return CGSize(width: scale * imageWidth, height: scale * imageHeight)
+    }
+
+    private func createImageViews(assets: [PHAsset]) {
+        let scrollView = UIScrollView(frame: CGRect(x: 0, y: 0, width: frame.width, height: imageContentHeight))
+        scrollView.backgroundColor = .white
+        currentAssets = []
+
+        var x: CGFloat = 0, y: CGFloat = 1
+        for asset in assets {
+            guard let image = image(forAsset: asset) else { continue }
+
+            x += imageMargin
+            let size = self.size(forAsset: asset)
+
+            let imageButton = UIButton()
+            imageButton.setImage(image, for: .normal)
+            imageButton.contentMode = .scaleAspectFit
+            imageButton.clipsToBounds = true
+            imageButton.frame = CGRect(x: x, y: y, width: size.width, height: size.height)
+            imageButton.addTarget(self, action: #selector(selectedImage(_:)), for: .touchUpInside)
+
+            currentAssets.append(asset)
+            scrollView.addSubview(imageButton)
+
+            x += size.width
+        }
+
+        let contentWidth = x + imageMargin
+        scrollView.contentSize = CGSize(width: contentWidth, height: imageContentHeight)
+        setPhotoAccessoryView(scrollView)
+    }
+
+    @objc
+    private func selectedImage(_ sender: UIButton) {
+        guard
+            let superview = sender.superview,
+            let index = superview.subviews.index(of: sender),
+            let asset = currentAssets.safeValue(index)
+        else { return }
+
+        stopEditing()
+        textButtonTapped()
+        AssetsToRegions.processPHAssets([asset]) { imageData in
+            for imageDatum in imageData {
+                self.addImage(imageDatum.image, data: imageDatum.data, type: imageDatum.contentType)
+            }
+        }
     }
 
 }

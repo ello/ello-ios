@@ -1008,7 +1008,6 @@
 		1DF4040A1B150DB40073460B /* NarrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF404091B150DB40073460B /* NarrationView.swift */; };
 		1DF4040C1B151BE70073460B /* UITabBarExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF4040B1B151BE70073460B /* UITabBarExtensions.swift */; };
 		1DF50C8D1C61452D00C62D89 /* UIImagePickerControllerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF50C8C1C61452D00C62D89 /* UIImagePickerControllerSpec.swift */; };
-		1DF50C981C614E0400C62D89 /* OmnibarImagePickerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF50C8E1C614C4400C62D89 /* OmnibarImagePickerExtension.swift */; };
 		1DF50C991C614E0700C62D89 /* OmnibarProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF50C8F1C614C4400C62D89 /* OmnibarProtocols.swift */; };
 		1DF50C9B1C614E0F00C62D89 /* OmnibarScreenAutocomplete.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF50C961C614C6900C62D89 /* OmnibarScreenAutocomplete.swift */; };
 		1DF50C9C1C614E1100C62D89 /* OmnibarScreenTableViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF50C911C614C4400C62D89 /* OmnibarScreenTableViewDelegate.swift */; };
@@ -2105,7 +2104,6 @@
 		1DF404091B150DB40073460B /* NarrationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NarrationView.swift; sourceTree = "<group>"; };
 		1DF4040B1B151BE70073460B /* UITabBarExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UITabBarExtensions.swift; sourceTree = "<group>"; };
 		1DF50C8C1C61452D00C62D89 /* UIImagePickerControllerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImagePickerControllerSpec.swift; sourceTree = "<group>"; };
-		1DF50C8E1C614C4400C62D89 /* OmnibarImagePickerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OmnibarImagePickerExtension.swift; sourceTree = "<group>"; };
 		1DF50C8F1C614C4400C62D89 /* OmnibarProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OmnibarProtocols.swift; sourceTree = "<group>"; };
 		1DF50C901C614C4400C62D89 /* OmnibarRegion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OmnibarRegion.swift; sourceTree = "<group>"; };
 		1DF50C911C614C4400C62D89 /* OmnibarScreenTableViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OmnibarScreenTableViewDelegate.swift; sourceTree = "<group>"; };
@@ -2767,7 +2765,6 @@
 				1DB286E51B96021F00D03516 /* OmnibarErrorCell.swift */,
 				1D783A281B838FDD00BD6BF4 /* OmnibarImageCell.swift */,
 				1D066FF41B8BAEC5002B303D /* OmnibarImageDownloadCell.swift */,
-				1DF50C8E1C614C4400C62D89 /* OmnibarImagePickerExtension.swift */,
 				1DF50C8F1C614C4400C62D89 /* OmnibarProtocols.swift */,
 				1DF50C901C614C4400C62D89 /* OmnibarRegion.swift */,
 				1DE176FB1B82626E00272145 /* OmnibarScreen.swift */,
@@ -5521,7 +5518,6 @@
 				1207C97C1C73FEE000939ADB /* ElloProvider.swift in Sources */,
 				1D7152E91D763EA4005998FE /* ImagePickerSheetConfig.swift in Sources */,
 				1DC78A541F21302300BE2413 /* ArtistInvitesProtocols.swift in Sources */,
-				1DF50C981C614E0400C62D89 /* OmnibarImagePickerExtension.swift in Sources */,
 				1DB474FB1BAB5584000AA9DC /* RegexExtensions.swift in Sources */,
 				76B1A6411AE594DC00110D30 /* StreamEmbedCell.swift in Sources */,
 				1D59336C1D10ADA600EAF03D /* Category.swift in Sources */,

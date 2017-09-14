@@ -5,6 +5,8 @@
 import ImagePickerSheetController
 import Photos
 import MobileCoreServices
+import Photos
+import PromiseKit
 
 
 enum ImagePickerSheetResult {
@@ -13,7 +15,10 @@ enum ImagePickerSheetResult {
 }
 
 extension UIImagePickerController {
-    class var elloImagePickerController: UIImagePickerController {
+    static let elloPhotoLibraryPickerController: UIImagePickerController = createPhotoLibraryPickerController()
+    static let elloCameraPickerController: UIImagePickerController = createCameraPickerController()
+
+    static private func createImagePickerController() -> UIImagePickerController {
         let controller = UIImagePickerController()
         controller.mediaTypes = [kUTTypeImage as String]
         controller.allowsEditing = false
@@ -22,19 +27,38 @@ extension UIImagePickerController {
         return controller
     }
 
-    class var elloPhotoLibraryPickerController: UIImagePickerController {
-        let controller = elloImagePickerController
+    static private func createPhotoLibraryPickerController() -> UIImagePickerController {
+        let controller = createImagePickerController()
         controller.sourceType = .photoLibrary
         return controller
     }
 
-    class var elloCameraPickerController: UIImagePickerController {
-        let controller = elloImagePickerController
+    static private func createCameraPickerController() -> UIImagePickerController {
+        let controller = createImagePickerController()
         controller.sourceType = .camera
         return controller
     }
 
-    class func alertControllerForImagePicker(_ callback: @escaping (UIImagePickerController) -> Void) -> AlertViewController? {
+    static func alreadyDeterminedStatus() -> PHAuthorizationStatus? {
+        let status = PHPhotoLibrary.authorizationStatus()
+        return status == .notDetermined ? nil : status
+    }
+
+    @discardableResult
+    static func requestStatus() -> Promise<PHAuthorizationStatus> {
+        let (promise, resolve, _) = Promise<PHAuthorizationStatus>.pending()
+        if let status = alreadyDeterminedStatus() {
+            resolve(status)
+        }
+        else {
+            PHPhotoLibrary.requestAuthorization { status in
+                resolve(status)
+            }
+        }
+        return promise
+    }
+
+    static func alertControllerForImagePicker(callback: @escaping (UIImagePickerController) -> Void) -> AlertViewController? {
         let alertController: AlertViewController
 
         if UIImagePickerController.isSourceTypeAvailable(.camera) {
@@ -70,7 +94,7 @@ extension UIImagePickerController {
         return alertController
     }
 
-    class func imagePickerSheetForImagePicker(
+    static func imagePickerSheetForImagePicker(
         config: ImagePickerSheetConfig = ImagePickerSheetConfig(),
         callback: @escaping (ImagePickerSheetResult) -> Void
         ) -> ImagePickerSheetController
