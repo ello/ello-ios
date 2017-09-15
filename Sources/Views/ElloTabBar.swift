@@ -4,10 +4,28 @@
 
 class ElloTabBar: UITabBar {
     struct Size {
-        static let height = CGFloat(49)
+        static let height: CGFloat = calculateHeight()
+        static let topOffset: CGFloat = calculateTopOffset()
+
+        static private func calculateHeight() -> CGFloat {
+            if AppSetup.shared.isIphoneX {
+                return 74
+            }
+            return 44
+        }
+
+        static private func calculateTopOffset() -> CGFloat {
+            if AppSetup.shared.isIphoneX {
+                return 11
+            }
+            return 1
+        }
     }
 
     fileprivate var redDotViews = [(ElloTab, UIView)]()
+    fileprivate var tabbarButtons: [UIControl] {
+        return subviews.flatMap { $0 as? UIControl }
+    }
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -61,6 +79,10 @@ class ElloTabBar: UITabBar {
         return tabBarButtons.safeValue(index)?.frame ?? .zero
     }
 
+    fileprivate func positionTabButton(_ button: UIControl) {
+        button.frame.origin.y = Size.topOffset
+    }
+
     fileprivate func positionRedDot(_ redDot: UIView, forTab tab: ElloTab) {
         let radius: CGFloat = 3
         let diameter = radius * 2
@@ -78,6 +100,9 @@ class ElloTabBar: UITabBar {
         super.layoutSubviews()
         for (tab, redDot) in redDotViews {
             positionRedDot(redDot, forTab: tab)
+        }
+        for tabButton in tabbarButtons {
+            positionTabButton(tabButton)
         }
     }
 

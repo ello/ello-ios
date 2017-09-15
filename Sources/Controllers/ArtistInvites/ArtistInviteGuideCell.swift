@@ -24,7 +24,7 @@ class ArtistInviteGuideCell: CollectionViewCell {
     }
 
     fileprivate let titleLabel = StyledLabel(style: .artistInviteGuide)
-    fileprivate let guideWebView = UIWebView()
+    fileprivate let guideWebView = ElloWebView()
 
     override func arrange() {
         contentView.addSubview(titleLabel)

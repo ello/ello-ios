@@ -4,10 +4,17 @@
 
 class ElloNavigationBar: UINavigationBar {
     struct Size {
-        static let height: CGFloat = 64
-        static let largeHeight: CGFloat = 125
+        static let height: CGFloat = calculateHeight()
+        static let largeHeight: CGFloat = calculateLargeHeight()
         static let discoverLargeHeight: CGFloat = 162
         static let largeIconOffset: CGFloat = 8
+
+        static private func calculateHeight() -> CGFloat {
+            return 44 + BlackBar.Size.height
+        }
+        static private func calculateLargeHeight() -> CGFloat {
+            return 105 + BlackBar.Size.height
+        }
     }
 
     enum SizeClass {
@@ -53,7 +60,7 @@ class ElloNavigationBar: UINavigationBar {
         self.isOpaque = true
         self.barTintColor = UIColor.white
 
-        let bar = BlackBar(frame: CGRect(x: 0, y: 0, width: frame.width, height: 20))
+        let bar = BlackBar(frame: CGRect(x: 0, y: 0, width: frame.width, height: BlackBar.Size.height))
         addSubview(bar)
     }
 
@@ -61,6 +68,10 @@ class ElloNavigationBar: UINavigationBar {
         var size = super.intrinsicContentSize
         size.height = sizeClass.height
         return size
+    }
+
+    private var contentView: UIView? {
+        return subviews.find({ $0.readableClassName() == "_UINavigationBarContentView" })
     }
 
     override func layoutSubviews() {
@@ -76,6 +87,10 @@ class ElloNavigationBar: UINavigationBar {
             for view in leftItemViews + rightItemViews {
                 view.frame.origin.y -= Size.largeHeight - Size.height - Size.largeIconOffset
             }
+        }
+
+        if AppSetup.shared.isIphoneX, let contentView = contentView {
+            contentView.frame.origin.y += BlackBar.Size.height
         }
 
         if let navItem = topItem,

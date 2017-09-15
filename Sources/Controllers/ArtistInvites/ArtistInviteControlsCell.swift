@@ -24,7 +24,7 @@ class ArtistInviteControlsCell: CollectionViewCell, ArtistInviteConfigurableCell
         }
     }
 
-    fileprivate let descriptionWebView = UIWebView()
+    fileprivate let descriptionWebView = ElloWebView()
     fileprivate let submitButton = StyledButton(style: .artistInviteSubmit)
     fileprivate var submitVisibleConstraint: Constraint!
     fileprivate var submitHiddenConstraint: Constraint!

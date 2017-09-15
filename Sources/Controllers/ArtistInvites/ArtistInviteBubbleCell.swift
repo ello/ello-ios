@@ -53,7 +53,7 @@ class ArtistInviteBubbleCell: CollectionViewCell, ArtistInviteConfigurableCell {
     fileprivate let statusLabel = StyledLabel()
     fileprivate let inviteTypeLabel = StyledLabel(style: .gray)
     fileprivate let dateLabel = StyledLabel(style: .gray)
-    fileprivate let descriptionWebView = UIWebView()
+    fileprivate let descriptionWebView = ElloWebView()
 
     override func style() {
         bg.layer.cornerRadius = Size.cornerRadius

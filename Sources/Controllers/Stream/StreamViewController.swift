@@ -106,7 +106,7 @@ final class StreamViewController: BaseElloViewController {
         newItems: [StreamCellItem],
         change: StreamViewDataChange,
         promise: Promise<Void>,
-        fulfill: (Void) -> Void)] = []
+        resolve: () -> Void)] = []
     fileprivate var isRunningDataChangeJobs = false
 
     var contentInset: UIEdgeInsets {
@@ -188,6 +188,9 @@ final class StreamViewController: BaseElloViewController {
         collectionView.delegate = self
 
         automaticallyAdjustsScrollViewInsets = false
+        if #available(iOS 11.0, *) {
+            collectionView.contentInsetAdjustmentBehavior = .never
+        }
         collectionView.alwaysBounceHorizontal = false
         collectionView.alwaysBounceVertical = true
         collectionView.isDirectionalLockEnabled = true
@@ -1314,8 +1317,8 @@ extension StreamViewController {
     }
 
     private func appendDataChange(_ change: StreamViewDataChange) -> Promise<Void> {
-        let (promise, fulfill, _) = Promise<Void>.pending()
-        dataChangeJobs.append((dataSource.visibleCellItems, change, promise, fulfill))
+        let (promise, resolve, _) = Promise<Void>.pending()
+        dataChangeJobs.append((dataSource.visibleCellItems, change, promise, resolve))
         runNextDataChangeJob()
         return promise
     }
@@ -1342,23 +1345,23 @@ extension StreamViewController {
             collectionView.reloadData()
             collectionView.layoutIfNeeded()
 
-            job.fulfill(())
+            job.resolve(())
         case let .delta(delta):
             collectionView.performBatchUpdates({
                 self.collectionViewDataSource.visibleCellItems = job.newItems
                 delta.applyUpdatesToCollectionView(self.collectionView, inSection: 0)
             }, completion: { _ in
-                job.fulfill(())
+                job.resolve(())
             })
         case let .update(block):
             block(collectionView)
-            job.fulfill(())
+            job.resolve(())
         case let .batch(block):
             collectionView.performBatchUpdates({
                 self.collectionViewDataSource.visibleCellItems = job.newItems
                 block(self.collectionView)
             }, completion: { _ in
-                job.fulfill(())
+                job.resolve(())
             })
         }
     }

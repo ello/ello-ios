@@ -7,15 +7,26 @@ import SnapKit
 
 class LoggedOutScreen: Screen, LoggedOutScreenProtocol {
     struct Size {
-        static let bottomBarHeight: CGFloat = 70
-        static let buttonInset: CGFloat = 10
+        static let bottomBarHeight: CGFloat = calculateHeight()
+        static let buttonInsets = calculateInsets()
+        static let buttonSpacing: CGFloat = 10
         static let loginButtonWidth: CGFloat = 75
         static let closeButtonOffset = CGPoint(x: 6, y: -5)
         static let textMargin: CGFloat = 20
+
+        static private func calculateHeight() -> CGFloat {
+            return 60 + AppSetup.shared.bestBottomMargin
+        }
+        static private func calculateInsets() -> UIEdgeInsets {
+            var insets = UIEdgeInsets(all: 10)
+            insets.bottom = AppSetup.shared.bestBottomMargin
+            return insets
+        }
     }
 
     let controllerView = UIView()
     let bottomBarView = UIView()
+    let bottomBarExtraMargin = UIView()
     let joinButton = StyledButton(style: .green)
     let loginButton = StyledButton(style: .clearGray)
     let closeButton = UIButton()
@@ -83,29 +94,29 @@ class LoggedOutScreen: Screen, LoggedOutScreenProtocol {
         bottomBarExpandedConstraint.deactivate()
 
         tagLabel.snp.makeConstraints { make in
-            make.leading.trailing.equalTo(bottomBarView).inset(Size.buttonInset)
+            make.leading.trailing.equalTo(bottomBarView).inset(Size.buttonInsets)
             make.bottom.equalTo(joinButton.snp.top).offset(-Size.textMargin)
         }
 
         joinLabel.snp.makeConstraints { make in
-            make.leading.trailing.equalTo(bottomBarView).inset(Size.buttonInset)
+            make.leading.trailing.equalTo(bottomBarView).inset(Size.buttonInsets)
             make.bottom.equalTo(tagLabel.snp.top).offset(-Size.textMargin)
         }
 
         joinButton.snp.makeConstraints { make in
-            make.leading.bottom.equalTo(bottomBarView).inset(Size.buttonInset)
-            make.height.equalTo(Size.bottomBarHeight - 2 * Size.buttonInset)
+            make.leading.bottom.equalTo(bottomBarView).inset(Size.buttonInsets)
+            make.height.equalTo(Size.bottomBarHeight - Size.buttonInsets.top - Size.buttonInsets.bottom)
         }
 
         loginButton.snp.makeConstraints { make in
-            make.trailing.bottom.equalTo(bottomBarView).inset(Size.buttonInset)
-            make.height.equalTo(Size.bottomBarHeight - 2 * Size.buttonInset)
-            make.leading.equalTo(joinButton.snp.trailing).offset(Size.buttonInset)
+            make.trailing.bottom.equalTo(bottomBarView).inset(Size.buttonInsets)
+            make.height.equalTo(Size.bottomBarHeight - Size.buttonInsets.top - Size.buttonInsets.bottom)
+            make.leading.equalTo(joinButton.snp.trailing).offset(Size.buttonSpacing)
             make.width.equalTo(Size.loginButtonWidth)
         }
 
         closeButton.snp.makeConstraints { make in
-            make.trailing.equalTo(bottomBarView).inset(Size.buttonInset + Size.closeButtonOffset.x)
+            make.trailing.equalTo(bottomBarView).inset(Size.buttonInsets.right + Size.closeButtonOffset.x)
             make.top.equalTo(joinLabel).offset(Size.closeButtonOffset.y)
         }
     }
@@ -122,7 +133,7 @@ extension LoggedOutScreen {
     func showJoinText() {
         bottomBarCollapsedConstraint.deactivate()
         bottomBarExpandedConstraint.activate()
-        let height = Size.textMargin + joinLabel.frame.height + Size.textMargin + tagLabel.frame.height + Size.textMargin + joinButton.frame.height + Size.buttonInset
+        let height = Size.textMargin + joinLabel.frame.height + Size.textMargin + tagLabel.frame.height + Size.textMargin + joinButton.frame.height + Size.buttonInsets.bottom
         animate {
             self.bottomBarView.frame = self.bounds.fromBottom().grow(up: height)
             self.joinLabel.frame.origin.y = Size.textMargin
