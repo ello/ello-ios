@@ -571,7 +571,7 @@ class OmnibarScreen: UIView, OmnibarScreenProtocol {
 // MARK: Keyboard events - animate layout update in conjunction with keyboard animation
 
     func keyboardWillShow() {
-        textButtonTapped()
+        resetToImageButton()
 
         self.setNeedsLayout()
         animateWithKeyboard {
@@ -939,11 +939,15 @@ class OmnibarScreen: UIView, OmnibarScreenProtocol {
         }
     }
 
-    func textButtonTapped() {
+    private func resetToImageButton() {
         currentAssets = []
         cameraButton.isHidden = false
         textButton.isHidden = true
         setPhotoAccessoryView(nil)
+    }
+
+    func textButtonTapped() {
+        resetToImageButton()
     }
 
     private func showKeyboardImages(isAuthorized: Bool) {
@@ -1042,7 +1046,24 @@ class OmnibarScreen: UIView, OmnibarScreenProtocol {
         scrollView.backgroundColor = .white
         currentAssets = []
 
-        var x: CGFloat = 0, y: CGFloat = 1
+        let extraButtonsSize = CGSize(width: 50, height: imageContentHeight)
+        let cameraButton = UIButton()
+        cameraButton.isEnabled = UIImagePickerController.isSourceTypeAvailable(.camera)
+        cameraButton.setImage(.camera, imageStyle: .normal, for: .normal)
+        cameraButton.frame = CGRect(x: 0, y: 0, width: extraButtonsSize.width, height: extraButtonsSize.height / 2)
+        cameraButton.backgroundColor = .white
+        cameraButton.addTarget(self, action: #selector(openNativeCameraTapped), for: .touchUpInside)
+        scrollView.addSubview(cameraButton)
+
+        let libraryButton = UIButton()
+        libraryButton.isEnabled = UIImagePickerController.isSourceTypeAvailable(.photoLibrary)
+        libraryButton.setImage(.browse, imageStyle: .normal, for: .normal)
+        libraryButton.frame = CGRect(x: 0, y: extraButtonsSize.height / 2, width: extraButtonsSize.width, height: extraButtonsSize.height / 2)
+        libraryButton.backgroundColor = .white
+        libraryButton.addTarget(self, action: #selector(openNativeLibraryTapped), for: .touchUpInside)
+        scrollView.addSubview(libraryButton)
+
+        var x: CGFloat = extraButtonsSize.width, y: CGFloat = 1
         for asset in assets {
             guard let image = image(forAsset: asset) else { continue }
 
@@ -1065,6 +1086,20 @@ class OmnibarScreen: UIView, OmnibarScreenProtocol {
         let contentWidth = x + imageMargin
         scrollView.contentSize = CGSize(width: contentWidth, height: imageContentHeight)
         setPhotoAccessoryView(scrollView)
+    }
+
+    @objc
+    func openNativeCameraTapped() {
+        let controller = UIImagePickerController.elloCameraPickerController
+        delegate?.omnibarPresentController(controller)
+        resetToImageButton()
+    }
+
+    @objc
+    func openNativeLibraryTapped() {
+        let controller = UIImagePickerController.elloPhotoLibraryPickerController
+        delegate?.omnibarPresentController(controller)
+        resetToImageButton()
     }
 
     @objc

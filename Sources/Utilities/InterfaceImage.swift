@@ -75,6 +75,7 @@ enum InterfaceImage: String {
     // Omnibar
     case reorder = "reorder"
     case camera = "camera"
+    case browse = "browse"
     case check = "check"
     case arrow = "arrow"
     case link = "link"
