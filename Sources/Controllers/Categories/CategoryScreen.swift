@@ -13,6 +13,12 @@ class CategoryScreen: HomeSubviewScreen, CategoryScreenProtocol {
         static let buttonMargin: CGFloat = 5
     }
 
+    enum NavBarItems {
+        case onlyGridToggle
+        case all
+        case none
+    }
+
     weak var delegate: CategoryScreenDelegate?
     fileprivate let usage: CategoryViewController.Usage
 
@@ -35,19 +41,17 @@ class CategoryScreen: HomeSubviewScreen, CategoryScreenProtocol {
         }
     }
 
-    enum NavBarItems {
-        case onlyGridToggle
-        case all
-        case none
-    }
-
     fileprivate let categoryCardList = CategoryCardListView()
+    fileprivate let iPhoneBlackBar = UIView()
     fileprivate let searchField = SearchNavBarField()
     fileprivate let searchFieldButton = UIButton()
     fileprivate let backButton = UIButton()
     fileprivate let gridListButton = UIButton()
     fileprivate let shareButton = UIButton()
     fileprivate let navigationContainer = UIView()
+
+    fileprivate var categoryCardTopConstraint: Constraint!
+    fileprivate var iPhoneBlackBarTopConstraint: Constraint!
     fileprivate var backVisibleConstraint: Constraint!
     fileprivate var backHiddenConstraint: Constraint!
     fileprivate var shareVisibleConstraint: Constraint!
@@ -74,6 +78,7 @@ class CategoryScreen: HomeSubviewScreen, CategoryScreenProtocol {
 
     override func style() {
         super.style()
+        iPhoneBlackBar.backgroundColor = .black
         backButton.setImages(.angleBracket, degree: 180)
         shareButton.alpha = 0
         shareButton.setImage(.share, imageStyle: .normal, for: .normal)
@@ -105,10 +110,19 @@ class CategoryScreen: HomeSubviewScreen, CategoryScreenProtocol {
             arrangeHomeScreenNavBar(type: .discover, navigationBar: navigationBar)
         }
 
+        if AppSetup.shared.isIphoneX {
+            addSubview(iPhoneBlackBar)
+            iPhoneBlackBar.snp.makeConstraints { make in
+                iPhoneBlackBarTopConstraint = make.top.equalTo(self).constraint
+                make.leading.trailing.equalTo(self)
+                make.height.equalTo(AppSetup.shared.statusBarHeight + Size.navigationBarHeight)
+            }
+            iPhoneBlackBar.alpha = 0
+        }
         categoryCardList.isHidden = true
 
         categoryCardList.snp.makeConstraints { make in
-            make.top.equalTo(navigationBar.snp.bottom)
+            categoryCardTopConstraint = make.top.equalTo(navigationBar.snp.bottom).constraint
             make.leading.trailing.equalTo(self)
             make.height.equalTo(CategoryCardListView.Size.height)
         }
@@ -191,11 +205,25 @@ class CategoryScreen: HomeSubviewScreen, CategoryScreenProtocol {
 
     func animateCategoriesList(navBarVisible: Bool) {
         animate {
+            let categoryCardListTop: CGFloat
             if navBarVisible {
-                self.categoryCardList.frame.origin.y = self.navigationBar.frame.height
+                categoryCardListTop = self.navigationBar.frame.height
+            }
+            else if AppSetup.shared.isIphoneX {
+                categoryCardListTop = AppSetup.shared.statusBarHeight
             }
             else {
-                self.categoryCardList.frame.origin.y = 0
+                categoryCardListTop = 0
+            }
+
+            self.categoryCardTopConstraint.update(offset: categoryCardListTop)
+            self.categoryCardList.frame.origin.y = categoryCardListTop
+
+            if AppSetup.shared.isIphoneX {
+                let iPhoneBlackBarTop = self.categoryCardList.frame.minY - self.iPhoneBlackBar.frame.height
+                self.iPhoneBlackBarTopConstraint.update(offset: iPhoneBlackBarTop)
+                self.iPhoneBlackBar.frame.origin.y = iPhoneBlackBarTop
+                self.iPhoneBlackBar.alpha = navBarVisible ? 0 : 1
             }
         }
     }
