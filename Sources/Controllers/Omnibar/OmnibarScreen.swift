@@ -1058,7 +1058,7 @@ class OmnibarScreen: UIView, OmnibarScreenProtocol {
 
         let libraryButton = UIButton()
         libraryButton.isEnabled = UIImagePickerController.isSourceTypeAvailable(.photoLibrary)
-        libraryButton.setImage(.browse, imageStyle: .normal, for: .normal)
+        libraryButton.setImage(.library, imageStyle: .normal, for: .normal)
         libraryButton.frame = CGRect(x: 0, y: extraButtonsSize.height / 2, width: extraButtonsSize.width, height: extraButtonsSize.height / 2)
         libraryButton.backgroundColor = .white
         libraryButton.addTarget(self, action: #selector(openNativeLibraryTapped), for: .touchUpInside)

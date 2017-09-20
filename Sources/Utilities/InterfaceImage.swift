@@ -76,6 +76,7 @@ enum InterfaceImage: String {
     case reorder = "reorder"
     case camera = "camera"
     case browse = "browse"
+    case library = "library"
     case check = "check"
     case arrow = "arrow"
     case link = "link"

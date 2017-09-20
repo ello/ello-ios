@@ -1001,6 +1001,8 @@
 		1DF0B2EC1E94247C001B9F97 /* SearchNavBarField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF0B2EA1E94247C001B9F97 /* SearchNavBarField.swift */; };
 		1DF0B2EE1E942BE2001B9F97 /* SearchToggleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF0B2ED1E942BE2001B9F97 /* SearchToggleButton.swift */; };
 		1DF0B2F01E942BFA001B9F97 /* SearchProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF0B2EF1E942BFA001B9F97 /* SearchProtocols.swift */; };
+		1DF17DA71F7322C7001C2681 /* library_normal.svg in Resources */ = {isa = PBXBuildFile; fileRef = 1DF17DA51F7322C7001C2681 /* library_normal.svg */; };
+		1DF17DA81F7322C7001C2681 /* library_selected.svg in Resources */ = {isa = PBXBuildFile; fileRef = 1DF17DA61F7322C7001C2681 /* library_selected.svg */; };
 		1DF233611A94FB060096DA65 /* CGRectExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF233601A94FB060096DA65 /* CGRectExtensions.swift */; };
 		1DF233641A9537590096DA65 /* CGRectSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF233631A9537590096DA65 /* CGRectSpec.swift */; };
 		1DF322421BD6F16C008203F3 /* DebugViewsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF322411BD6F16C008203F3 /* DebugViewsController.swift */; };
@@ -2095,6 +2097,8 @@
 		1DF0B2EA1E94247C001B9F97 /* SearchNavBarField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchNavBarField.swift; sourceTree = "<group>"; };
 		1DF0B2ED1E942BE2001B9F97 /* SearchToggleButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchToggleButton.swift; sourceTree = "<group>"; };
 		1DF0B2EF1E942BFA001B9F97 /* SearchProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchProtocols.swift; sourceTree = "<group>"; };
+		1DF17DA51F7322C7001C2681 /* library_normal.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = library_normal.svg; sourceTree = "<group>"; };
+		1DF17DA61F7322C7001C2681 /* library_selected.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = library_selected.svg; sourceTree = "<group>"; };
 		1DF2335B1A94005C0096DA65 /* Notification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 		1DF233601A94FB060096DA65 /* CGRectExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CGRectExtensions.swift; sourceTree = "<group>"; };
 		1DF233631A9537590096DA65 /* CGRectSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CGRectSpec.swift; sourceTree = "<group>"; };
@@ -4052,6 +4056,8 @@
 				1D1D564A1CD3D56A00B3EBED /* hearts_giant.svg */,
 				12E2A5A11E5CD357000EFFBA /* home_normal.svg */,
 				12E2A5A21E5CD357000EFFBA /* home_selected.svg */,
+				1DF17DA51F7322C7001C2681 /* library_normal.svg */,
+				1DF17DA61F7322C7001C2681 /* library_selected.svg */,
 				1DF7416C1BFA65F0000F5349 /* link_normal.svg */,
 				1DF7416D1BFA65F0000F5349 /* link_selected.svg */,
 				1DF7416A1BFA650E000F5349 /* link_white.svg */,
@@ -4749,6 +4755,7 @@
 				1DF7416F1BFA65F0000F5349 /* link_selected.svg in Resources */,
 				76F8DEC21B6C0BC4009BCF61 /* checksmall_white.svg in Resources */,
 				122B19161A86972900247A05 /* StreamFooterCell.xib in Resources */,
+				1DF17DA81F7322C7001C2681 /* library_selected.svg in Resources */,
 				12FEEB551A60396A00E32248 /* posts.json in Resources */,
 				12931BDA1BFE8E30009B26F9 /* xpmmini_selected.svg in Resources */,
 				7689B5021AD4ED3B00E4A4A3 /* profile_user_profile_and_settings.json in Resources */,
@@ -4800,6 +4807,7 @@
 				12F6AE971A433F2700493660 /* 401.json in Resources */,
 				12F0E3A81A4333150012CEA2 /* LaunchScreen.xib in Resources */,
 				EA9299271AE9995400E22976 /* DeleteAccountConfirmationView.xib in Resources */,
+				1DF17DA71F7322C7001C2681 /* library_normal.svg in Resources */,
 				1DA9AA7E1C6A81AB000562E4 /* emojis.json in Resources */,
 				76B53AD21B0AA89B00534548 /* relationship_batches__when_a_priority_is_omitted.json in Resources */,
 				1241EDB41DD3D07900426A17 /* page_promotionals.json in Resources */,
