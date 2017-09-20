@@ -6,7 +6,7 @@ import SnapKit
 
 
 protocol BottomBarController: class {
-    var navigationBarsVisible: Bool { get }
+    var navigationBarsVisible: Bool? { get }
     var bottomBarVisible: Bool { get }
     var bottomBarHeight: CGFloat { get }
     var bottomBarView: UIView { get }
@@ -16,7 +16,7 @@ protocol BottomBarController: class {
 
 class LoggedOutViewController: BaseElloViewController, BottomBarController {
     private var _navigationBarsVisible: Bool = true
-    override var navigationBarsVisible: Bool { return _navigationBarsVisible }
+    override var navigationBarsVisible: Bool? { return _navigationBarsVisible }
     let bottomBarVisible: Bool = true
     var bottomBarHeight: CGFloat { return screen.bottomBarHeight }
     var bottomBarView: UIView { return screen.bottomBarView }

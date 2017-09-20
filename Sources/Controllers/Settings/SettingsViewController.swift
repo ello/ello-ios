@@ -59,7 +59,10 @@ class SettingsContainerViewController: BaseElloViewController {
             settings.tableView.contentOffset.y = 0
             updateNavBars()
             navigationBar.items = [settings.navigationItem]
-            settings.scrollLogic.isShowing = navigationBarsVisible
+
+            if let navigationBarsVisible = navigationBarsVisible {
+                settings.scrollLogic.isShowing = navigationBarsVisible
+            }
         }
     }
 

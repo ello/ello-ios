@@ -78,7 +78,9 @@ class StreamableViewController: BaseElloViewController {
 
     override func updateNavBars() {
         super.updateNavBars()
-        scrollLogic.isShowing = navigationBarsVisible
+        if let navigationBarsVisible = navigationBarsVisible {
+            scrollLogic.isShowing = navigationBarsVisible
+        }
     }
 
     func updateInsets(navBar: UIView?, navigationBarsVisible visible: Bool? = nil) {

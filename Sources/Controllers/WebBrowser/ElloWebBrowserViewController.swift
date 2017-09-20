@@ -7,7 +7,7 @@ import KINWebBrowser
 
 class BottomBarNavController: ElloNavigationController, BottomBarController {
     var bottomBarView = UIView()
-    var navigationBarsVisible: Bool = true
+    var navigationBarsVisible: Bool? = true
     let bottomBarVisible: Bool = true
     var bottomBarHeight: CGFloat { return 0 }
 

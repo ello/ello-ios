@@ -26,7 +26,7 @@ class OnboardingCreatorTypeViewController: BaseElloViewController {
     var onboardingData: OnboardingData!
     weak var delegate: DynamicSettingsDelegate?
 
-    override var navigationBarsVisible: Bool { return true }
+    override var navigationBarsVisible: Bool? { return true }
 
     override func loadView() {
         let screen = OnboardingCreatorTypeScreen()

@@ -58,8 +58,8 @@ class BaseElloViewController: UIViewController, HasAppController, ControllerThat
         return findViewController { vc in vc is BottomBarController } as? BottomBarController
     }
 
-    var navigationBarsVisible: Bool {
-        return bottomBarController?.navigationBarsVisible ?? true
+    var navigationBarsVisible: Bool? {
+        return bottomBarController?.navigationBarsVisible
     }
 
     // This is an odd one, `super.next` is not accessible in a closure that
@@ -130,6 +130,8 @@ class BaseElloViewController: UIViewController, HasAppController, ControllerThat
     }
 
     func updateNavBars() {
+        guard let navigationBarsVisible = navigationBarsVisible else { return }
+
         postNotification(StatusBarNotifications.statusBarVisibility, value: navigationBarsVisible)
         UIView.setAnimationsEnabled(false)
         if navigationBarsVisible {

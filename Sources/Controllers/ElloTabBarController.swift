@@ -115,7 +115,7 @@ class ElloTabBarController: UIViewController, HasAppController, ControllerThatMi
         return _bottomBarVisible
     }
     var bottomBarHeight: CGFloat { return ElloTabBar.Size.height }
-    var navigationBarsVisible: Bool {
+    var navigationBarsVisible: Bool? {
         return bottomBarVisible
     }
 
