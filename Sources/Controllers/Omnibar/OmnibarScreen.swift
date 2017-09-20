@@ -12,6 +12,7 @@ fileprivate let imageManager = PHCachingImageManager()
 fileprivate let imageHeight: CGFloat = 150
 fileprivate let imageMargin: CGFloat = 1
 fileprivate let imageContentHeight = imageHeight + 2 * imageMargin
+fileprivate let imageFetchLimit = 100
 
 class OmnibarScreen: UIView, OmnibarScreenProtocol {
     struct Size {
@@ -111,6 +112,7 @@ class OmnibarScreen: UIView, OmnibarScreenProtocol {
 
     var currentUser: User?
     var currentAssets: [PHAsset] = []
+    var imageButtons: [UIButton] = []
 
 // MARK: internal and/or private vars
 
@@ -995,8 +997,7 @@ class OmnibarScreen: UIView, OmnibarScreenProtocol {
         options.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
         options.predicate = NSPredicate(format: "mediaType = %d", PHAssetMediaType.image.rawValue)
 
-        let fetchLimit = 200
-        options.fetchLimit = fetchLimit
+        options.fetchLimit = imageFetchLimit + 1
 
         let requestOptions = PHImageRequestOptions()
         requestOptions.isSynchronous = false
@@ -1063,6 +1064,7 @@ class OmnibarScreen: UIView, OmnibarScreenProtocol {
         libraryButton.addTarget(self, action: #selector(openNativeLibraryTapped), for: .touchUpInside)
         scrollView.addSubview(libraryButton)
 
+        imageButtons = []
         var x: CGFloat = extraButtonsSize.width, y: CGFloat = 1
         for asset in assets {
             guard let image = image(forAsset: asset) else { continue }
@@ -1078,9 +1080,22 @@ class OmnibarScreen: UIView, OmnibarScreenProtocol {
             imageButton.addTarget(self, action: #selector(selectedImage(_:)), for: .touchUpInside)
 
             currentAssets.append(asset)
+            imageButtons.append(imageButton)
             scrollView.addSubview(imageButton)
 
             x += size.width
+        }
+
+        if assets.count > imageFetchLimit {
+            let anotherButton = UIButton()
+            anotherButton.isEnabled = UIImagePickerController.isSourceTypeAvailable(.photoLibrary)
+            anotherButton.setImage(.dots, imageStyle: .normal, for: .normal)
+            anotherButton.frame = CGRect(x: x, y: 0, width: extraButtonsSize.width, height: extraButtonsSize.height)
+            anotherButton.backgroundColor = .white
+            anotherButton.addTarget(self, action: #selector(openNativeLibraryTapped), for: .touchUpInside)
+            scrollView.addSubview(anotherButton)
+
+            x += extraButtonsSize.width
         }
 
         let contentWidth = x + imageMargin
@@ -1091,6 +1106,7 @@ class OmnibarScreen: UIView, OmnibarScreenProtocol {
     @objc
     func openNativeCameraTapped() {
         let controller = UIImagePickerController.elloCameraPickerController
+        controller.delegate = self
         delegate?.omnibarPresentController(controller)
         resetToImageButton()
     }
@@ -1098,6 +1114,7 @@ class OmnibarScreen: UIView, OmnibarScreenProtocol {
     @objc
     func openNativeLibraryTapped() {
         let controller = UIImagePickerController.elloPhotoLibraryPickerController
+        controller.delegate = self
         delegate?.omnibarPresentController(controller)
         resetToImageButton()
     }
@@ -1105,8 +1122,7 @@ class OmnibarScreen: UIView, OmnibarScreenProtocol {
     @objc
     private func selectedImage(_ sender: UIButton) {
         guard
-            let superview = sender.superview,
-            let index = superview.subviews.index(of: sender),
+            let index = imageButtons.index(of: sender),
             let asset = currentAssets.safeValue(index)
         else { return }
 
@@ -1119,4 +1135,39 @@ class OmnibarScreen: UIView, OmnibarScreenProtocol {
         }
     }
 
+}
+
+extension OmnibarScreen: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+    func imagePickerController(_ controller: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: Any]) {
+        guard
+            let image = info[UIImagePickerControllerOriginalImage] as? UIImage
+        else {
+            delegate?.omnibarDismissController()
+            return
+        }
+
+        if let url = info[UIImagePickerControllerReferenceURL] as? URL,
+            let asset = PHAsset.fetchAssets(withALAssetURLs: [url], options: nil).firstObject
+        {
+            AssetsToRegions.processPHAssets([asset]) { imageData in
+                for imageDatum in imageData {
+                    self.addImage(imageDatum.image, data: imageDatum.data, type: imageDatum.contentType)
+                }
+            }
+            delegate?.omnibarDismissController()
+        }
+        else {
+            image.copyWithCorrectOrientationAndSize { image in
+                if let image = image {
+                    self.addImage(image, data: nil, type: nil)
+                }
+
+                self.delegate?.omnibarDismissController()
+            }
+        }
+    }
+
+    func imagePickerControllerDidCancel(_ controller: UIImagePickerController) {
+        delegate?.omnibarDismissController()
+    }
 }
