@@ -87,18 +87,29 @@ class StreamableViewController: BaseElloViewController {
         updateInsets(maxY: navBar?.frame.maxY ?? 0, navigationBarsVisible: visible)
     }
 
-    func updateInsets(maxY: CGFloat, navigationBarsVisible visible: Bool? = nil) {
-        let topInset = max(0, maxY)
+    func updateInsets(maxY: CGFloat, navigationBarsVisible _visible: Bool? = nil) {
+        let visible = _visible ?? bottomBarController?.bottomBarVisible ?? false
+        let defaultTopInset: CGFloat
+        if AppSetup.shared.isIphoneX && !visible {
+            defaultTopInset = 44
+        }
+        else {
+            defaultTopInset = 0
+        }
+        let topInset = max(defaultTopInset, maxY)
+
         let bottomInset: CGFloat
-        if visible ?? bottomBarController?.bottomBarVisible ?? false {
+        if visible {
             bottomInset = bottomBarController?.bottomBarHeight ?? 0
         }
         else {
             bottomInset = 0
         }
 
-        streamViewController.contentInset.top = topInset
-        streamViewController.contentInset.bottom = bottomInset
+        var contentInset = streamViewController.contentInset
+        contentInset.top = topInset
+        contentInset.bottom = bottomInset
+        streamViewController.contentInset = contentInset
     }
 
     func positionNavBar(_ navBar: UIView, visible: Bool, withConstraint navigationBarTopConstraint: NSLayoutConstraint? = nil, animated: Bool = true) {
