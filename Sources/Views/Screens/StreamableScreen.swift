@@ -31,7 +31,7 @@ class StreamableScreen: Screen, StreamableScreenProtocol {
 
         navigationBar.snp.makeConstraints { make in
             let c = make.top.equalTo(self).constraint
-            self.navigationBarTopConstraint = c.layoutConstraints.first!
+            navigationBarTopConstraint = c.layoutConstraints.first!
             make.leading.equalTo(self)
             make.trailing.equalTo(self)
         }
