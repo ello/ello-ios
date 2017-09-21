@@ -126,9 +126,14 @@ class OmnibarScreen: UIView, OmnibarScreenProtocol {
     let buyButton = UIButton()
     let cancelButton = UIButton()
     let reorderButton = UIButton()
-    let cameraButton = UIButton()
+    let addImageButton = UIButton()
     let textButton = UIButton()
+
     let photoAccessoryContainer = UIView()
+    let imagesScrollView = UIScrollView()
+    let nativeCameraButton = UIButton()
+    let nativeLibraryButton = UIButton()
+    let nativeAdditionalImagesButton = UIButton()
 
 // MARK: keyboard buttons
     var keyboardButtonViews: [UIView]!
@@ -160,11 +165,13 @@ class OmnibarScreen: UIView, OmnibarScreenProtocol {
         autoCompleteContainer.frame = CGRect(x: 0, y: 0, width: frame.size.width, height: 0)
 
         editableRegions = generateEditableRegions(submitableRegions)
+
         setupAutoComplete()
         setupNavigationBar()
         setupToolbarButtons()
         setupTableViews()
         setupKeyboardViews()
+        setupImageViews()
         setupViewHierarchy()
 
         regionsTableView.addObserver(self, forKeyPath: "contentSize", options: [.new], context: nil)
@@ -222,7 +229,7 @@ class OmnibarScreen: UIView, OmnibarScreenProtocol {
 
     // TODO: use elloNavigationItem, move into OmnibarViewController.loadView
     fileprivate func setupNavigationBar() {
-        let backItem = UIBarButtonItem.backChevronWithTarget(self, action: #selector(backAction))
+        let backItem = UIBarButtonItem.backChevronWithTarget(self, action: #selector(backButtonTapped))
         navigationItem.leftBarButtonItem = backItem
         navigationItem.fixNavBarItemPadding()
         navigationBar.items = [navigationItem]
@@ -245,15 +252,16 @@ class OmnibarScreen: UIView, OmnibarScreenProtocol {
 
         cancelButton.contentEdgeInsets = UIEdgeInsets(tops: 4, sides: 9.5)
         cancelButton.setImages(.x)
-        cancelButton.addTarget(self, action: #selector(cancelEditingAction), for: .touchUpInside)
+        cancelButton.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
 
         reorderButton.contentEdgeInsets = UIEdgeInsets(tops: 4, sides: 9.5)
         reorderButton.setImages(.reorder)
         reorderButton.addTarget(self, action: #selector(toggleReorderingTable), for: .touchUpInside)
 
-        cameraButton.contentEdgeInsets = UIEdgeInsets(tops: 4, sides: 3.5)
-        cameraButton.setImages(.camera)
-        cameraButton.addTarget(self, action: #selector(cameraButtonTapped), for: .touchUpInside)
+        addImageButton.contentEdgeInsets = UIEdgeInsets(tops: 4, sides: 3.5)
+        addImageButton.setImages(.camera)
+        addImageButton.addTarget(self, action: #selector(addImageButtonTapped), for: .touchUpInside)
+        addImageButton.isEnabled = UIImagePickerController.isSourceTypeAvailable(.photoLibrary)
 
         textButton.setAttributedTitle(NSAttributedString(string: "T", attributes: [
             NSFontAttributeName: UIFont.defaultItalicFont(),
@@ -271,7 +279,7 @@ class OmnibarScreen: UIView, OmnibarScreenProtocol {
             button.titleLabel?.font = UIFont.defaultFont()
             button.contentEdgeInsets.left = -5
             button.imageEdgeInsets.right = 5
-            button.addTarget(self, action: #selector(submitAction), for: .touchUpInside)
+            button.addTarget(self, action: #selector(submitButtonTapped), for: .touchUpInside)
             button.frame.size.height = Size.keyboardButtonSize.height
         }
     }
@@ -358,6 +366,32 @@ class OmnibarScreen: UIView, OmnibarScreenProtocol {
         linkButton.setImage(.breakLink, imageStyle: .white, for: .selected)
     }
 
+    fileprivate func setupImageViews() {
+        imagesScrollView.backgroundColor = .white
+
+        nativeCameraButton.isEnabled = UIImagePickerController.isSourceTypeAvailable(.camera)
+        nativeCameraButton.setImage(.camera, imageStyle: .normal, for: .normal)
+        nativeCameraButton.backgroundColor = .white
+
+        nativeLibraryButton.setImage(.library, imageStyle: .normal, for: .normal)
+        nativeLibraryButton.backgroundColor = .white
+
+        let extraButtonsSize = CGSize(width: 50, height: imageContentHeight)
+        nativeCameraButton.frame = CGRect(x: 0, y: 0, width: extraButtonsSize.width, height: extraButtonsSize.height / 2)
+        nativeCameraButton.addTarget(self, action: #selector(openNativeCameraTapped), for: .touchUpInside)
+        imagesScrollView.addSubview(nativeCameraButton)
+
+        nativeLibraryButton.frame = CGRect(x: 0, y: extraButtonsSize.height / 2, width: extraButtonsSize.width, height: extraButtonsSize.height / 2)
+        nativeLibraryButton.addTarget(self, action: #selector(openNativeLibraryTapped), for: .touchUpInside)
+        imagesScrollView.addSubview(nativeLibraryButton)
+
+        nativeAdditionalImagesButton.setImage(.dots, imageStyle: .normal, for: .normal)
+        nativeAdditionalImagesButton.backgroundColor = .white
+        nativeAdditionalImagesButton.addTarget(self, action: #selector(openNativeLibraryTapped), for: .touchUpInside)
+        nativeAdditionalImagesButton.frame = CGRect(x: 0, y: 0, width: extraButtonsSize.width, height: extraButtonsSize.height)
+        imagesScrollView.addSubview(nativeAdditionalImagesButton)
+    }
+
     fileprivate func setupViewHierarchy() {
         let views = [
             regionsTableView,
@@ -372,7 +406,7 @@ class OmnibarScreen: UIView, OmnibarScreenProtocol {
         toolbarButtonViews = [
             buyButton,
             reorderButton,
-            cameraButton,
+            addImageButton,
         ]
         for button in toolbarButtonViews as [UIView] {
             self.addSubview(button)
@@ -616,7 +650,7 @@ class OmnibarScreen: UIView, OmnibarScreenProtocol {
             buttonX -= view.frame.size.width + Size.toolbarRightPadding
             view.frame.origin = CGPoint(x: buttonX, y: toolbarTop)
         }
-        textButton.frame = cameraButton.frame
+        textButton.frame = addImageButton.frame
 
         buyButton.frame = buyButton.frame.shift(left: Size.additionalBuyPadding)
 
@@ -705,11 +739,11 @@ class OmnibarScreen: UIView, OmnibarScreenProtocol {
 
 // MARK: Button Actions
 
-    func backAction() {
+    func backButtonTapped() {
         delegate?.omnibarCancel()
     }
 
-    func cancelEditingAction() {
+    func cancelButtonTapped() {
         if reordering {
             reorderingTable(false)
         }
@@ -731,11 +765,11 @@ class OmnibarScreen: UIView, OmnibarScreenProtocol {
         }
     }
 
-    func submitAction() {
-        if canPost() {
-            stopEditing()
-            delegate?.omnibarSubmitted(submitableRegions, buyButtonURL: buyButtonURL)
-        }
+    func submitButtonTapped() {
+        guard canPost() else { return }
+
+        stopEditing()
+        delegate?.omnibarSubmitted(submitableRegions, buyButtonURL: buyButtonURL)
     }
 
     func buyButtonTapped() {
@@ -923,8 +957,8 @@ class OmnibarScreen: UIView, OmnibarScreenProtocol {
 
 // MARK: Camera / Image Picker
 
-    func cameraButtonTapped() {
-        cameraButton.isHidden = true
+    func addImageButtonTapped() {
+        addImageButton.isHidden = true
         textButton.isHidden = false
         stopEditing()
 
@@ -943,7 +977,7 @@ class OmnibarScreen: UIView, OmnibarScreenProtocol {
 
     private func resetToImageButton() {
         currentAssets = []
-        cameraButton.isHidden = false
+        addImageButton.isHidden = false
         textButton.isHidden = true
         setPhotoAccessoryView(nil)
     }
@@ -996,22 +1030,20 @@ class OmnibarScreen: UIView, OmnibarScreenProtocol {
         let options = PHFetchOptions()
         options.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
         options.predicate = NSPredicate(format: "mediaType = %d", PHAssetMediaType.image.rawValue)
-
         options.fetchLimit = imageFetchLimit + 1
 
         let requestOptions = PHImageRequestOptions()
         requestOptions.isSynchronous = false
         requestOptions.deliveryMode = .fastFormat
 
-        let result = PHAsset.fetchAssets(with: options)
-        result.enumerateObjects(options: [], using: { asset, index, _ in
+        Globals.fetchAssets(with: options) { asset, index in
             let next = afterAll()
             imageManager.requestImageData(for: asset, options: requestOptions) { data, _, _, _ in
                 defer { next() }
                 guard data != nil else { return }
                 assetsInfo.append((index, asset))
             }
-        })
+        }
         done()
     }
 
@@ -1043,29 +1075,20 @@ class OmnibarScreen: UIView, OmnibarScreenProtocol {
     }
 
     private func createImageViews(assets: [PHAsset]) {
-        let scrollView = UIScrollView(frame: CGRect(x: 0, y: 0, width: frame.width, height: imageContentHeight))
-        scrollView.backgroundColor = .white
+        guard assets.count > 0 else {
+            setPhotoAccessoryView(nil)
+            return
+        }
+
+        imagesScrollView.frame = CGRect(x: 0, y: 0, width: frame.width, height: imageContentHeight)
         currentAssets = []
 
-        let extraButtonsSize = CGSize(width: 50, height: imageContentHeight)
-        let cameraButton = UIButton()
-        cameraButton.isEnabled = UIImagePickerController.isSourceTypeAvailable(.camera)
-        cameraButton.setImage(.camera, imageStyle: .normal, for: .normal)
-        cameraButton.frame = CGRect(x: 0, y: 0, width: extraButtonsSize.width, height: extraButtonsSize.height / 2)
-        cameraButton.backgroundColor = .white
-        cameraButton.addTarget(self, action: #selector(openNativeCameraTapped), for: .touchUpInside)
-        scrollView.addSubview(cameraButton)
-
-        let libraryButton = UIButton()
-        libraryButton.isEnabled = UIImagePickerController.isSourceTypeAvailable(.photoLibrary)
-        libraryButton.setImage(.library, imageStyle: .normal, for: .normal)
-        libraryButton.frame = CGRect(x: 0, y: extraButtonsSize.height / 2, width: extraButtonsSize.width, height: extraButtonsSize.height / 2)
-        libraryButton.backgroundColor = .white
-        libraryButton.addTarget(self, action: #selector(openNativeLibraryTapped), for: .touchUpInside)
-        scrollView.addSubview(libraryButton)
+        for view in imageButtons {
+            view.removeFromSuperview()
+        }
 
         imageButtons = []
-        var x: CGFloat = extraButtonsSize.width, y: CGFloat = 1
+        var x: CGFloat = nativeCameraButton.frame.maxX, y: CGFloat = 1
         for asset in assets {
             guard let image = image(forAsset: asset) else { continue }
 
@@ -1081,26 +1104,24 @@ class OmnibarScreen: UIView, OmnibarScreenProtocol {
 
             currentAssets.append(asset)
             imageButtons.append(imageButton)
-            scrollView.addSubview(imageButton)
+            imagesScrollView.addSubview(imageButton)
 
             x += size.width
         }
 
         if assets.count > imageFetchLimit {
-            let anotherButton = UIButton()
-            anotherButton.isEnabled = UIImagePickerController.isSourceTypeAvailable(.photoLibrary)
-            anotherButton.setImage(.dots, imageStyle: .normal, for: .normal)
-            anotherButton.frame = CGRect(x: x, y: 0, width: extraButtonsSize.width, height: extraButtonsSize.height)
-            anotherButton.backgroundColor = .white
-            anotherButton.addTarget(self, action: #selector(openNativeLibraryTapped), for: .touchUpInside)
-            scrollView.addSubview(anotherButton)
+            nativeAdditionalImagesButton.isHidden = false
+            nativeAdditionalImagesButton.frame.origin.x = x
 
-            x += extraButtonsSize.width
+            x += nativeAdditionalImagesButton.frame.width
+        }
+        else if nativeAdditionalImagesButton.superview != nil {
+            nativeAdditionalImagesButton.isHidden = true
         }
 
         let contentWidth = x + imageMargin
-        scrollView.contentSize = CGSize(width: contentWidth, height: imageContentHeight)
-        setPhotoAccessoryView(scrollView)
+        imagesScrollView.contentSize = CGSize(width: contentWidth, height: imageContentHeight)
+        setPhotoAccessoryView(imagesScrollView)
     }
 
     @objc
