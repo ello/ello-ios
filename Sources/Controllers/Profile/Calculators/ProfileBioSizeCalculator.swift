@@ -23,7 +23,7 @@ class ProfileBioSizeCalculator: NSObject {
             return promise
         }
 
-        guard !AppSetup.shared.isTesting else {
+        guard !Globals.isTesting else {
             resolve(ProfileBioSizeCalculator.calculateHeight(webViewHeight: 30))
             return promise
         }

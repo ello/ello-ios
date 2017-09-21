@@ -24,7 +24,7 @@ class ElloProviderSpec: QuickSpec {
     override func spec() {
 
         afterEach {
-            AppSetup.shared.isSimulator = true
+            Globals.isSimulator = true
         }
 
         describe("SSL Pinning") {

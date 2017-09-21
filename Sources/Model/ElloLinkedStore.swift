@@ -28,7 +28,7 @@ struct ElloLinkedStore {
     }
 
     func parseLinked(_ linked: [String:[[String: Any]]], completion: @escaping Block) {
-        if AppSetup.shared.isTesting {
+        if Globals.isTesting {
             parseLinkedSync(linked)
             completion()
         }

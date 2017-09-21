@@ -230,7 +230,7 @@ class PostbarController: UIResponder, PostbarResponder {
             .thenFinally {
                 guard let currentUser = self.currentUser else { return }
 
-                let now = AppSetup.shared.now
+                let now = Globals.now
                 let love = Love(
                     id: "", createdAt: now, updatedAt: now,
                     isDeleted: true, postId: post.id, userId: currentUser.id

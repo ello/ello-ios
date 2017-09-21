@@ -14,26 +14,26 @@ class ElloManagerSpec: QuickSpec {
 
         describe("ElloManager") {
             afterEach {
-                AppSetup.shared.isSimulator = true
+                Globals.isSimulator = true
             }
 
             describe("serverTrustPolicies") {
 
                 if ElloCerts.isPublic {
                     it("has zero when running as open source app") {
-                        AppSetup.shared.isSimulator = false
+                        Globals.isSimulator = false
                         expect(ElloManager.serverTrustPolicies["ello.co"]).to(beNil())
                     }
                 }
                 else {
                     it("has one when not in the simulator") {
-                        AppSetup.shared.isSimulator = false
+                        Globals.isSimulator = false
                         expect(ElloManager.serverTrustPolicies["ello.co"]).notTo(beNil())
                     }
                 }
 
                 it("has zero when in the simulator") {
-                    AppSetup.shared.isSimulator = true
+                    Globals.isSimulator = true
                     expect(ElloManager.serverTrustPolicies["ello.co"]).to(beNil())
                 }
             }
@@ -49,7 +49,7 @@ class ElloManagerSpec: QuickSpec {
 
                 if !ElloCerts.isPublic {
                     it("includes 2 ssl certificates in the app") {
-                        AppSetup.shared.isSimulator = false
+                        Globals.isSimulator = false
                         let policy = ElloManager.serverTrustPolicies["ello.co"]!
                         var doesValidateChain = false
                         var doesValidateHost = false

@@ -16,7 +16,7 @@ struct DebugSettings {
 enum DebugServer: String {
     static var fromDefaults: DebugServer? {
         guard
-            !AppSetup.shared.isTesting,
+            !Globals.isTesting,
             let name = GroupDefaults[DebugSettings.useStaging].string,
             let server = DebugServer(rawValue: name)
         else { return nil }

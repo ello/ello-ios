@@ -395,7 +395,7 @@
 		12DD85C61B015A76004D3EEF /* UITabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12DD85C51B015A76004D3EEF /* UITabBarItem.swift */; };
 		12DEB2491C5BED4000D4CDCE /* ArrayExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8A3B6441AC457CA00806224 /* ArrayExtensions.swift */; };
 		12DEB24A1C5BED4600D4CDCE /* RegexExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB474FA1BAB5584000AA9DC /* RegexExtensions.swift */; };
-		12DEB24B1C5BF9E600D4CDCE /* AppSetup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F0E3B61A4333EC0012CEA2 /* AppSetup.swift */; };
+		12DEB24B1C5BF9E600D4CDCE /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F0E3B61A4333EC0012CEA2 /* Globals.swift */; };
 		12DEB2501C5BFB3100D4CDCE /* CryptoStringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12DEB24F1C5BFB3100D4CDCE /* CryptoStringExtensions.swift */; };
 		12DEB2511C5BFB6F00D4CDCE /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F6AE2B1A43390900493660 /* StringExtensions.swift */; };
 		12E06F3F1CE24AF00066E247 /* UsernameSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12E06F3E1CE24AF00066E247 /* UsernameSpec.swift */; };
@@ -410,7 +410,7 @@
 		12F0E3A81A4333150012CEA2 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 12F0E3A61A4333150012CEA2 /* LaunchScreen.xib */; };
 		12F0E3AB1A4333260012CEA2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 12F0E3AA1A4333260012CEA2 /* Images.xcassets */; };
 		12F0E3AF1A4333550012CEA2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F0E3AE1A4333550012CEA2 /* AppDelegate.swift */; };
-		12F0E3B71A4333EC0012CEA2 /* AppSetup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F0E3B61A4333EC0012CEA2 /* AppSetup.swift */; };
+		12F0E3B71A4333EC0012CEA2 /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F0E3B61A4333EC0012CEA2 /* Globals.swift */; };
 		12F47DD11AD7139900A73B5F /* StreamFooterCellPresenterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F47DD01AD7139900A73B5F /* StreamFooterCellPresenterSpec.swift */; };
 		12F6ADFB1A43380C00493660 /* BaseElloViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F6ADF61A43380C00493660 /* BaseElloViewController.swift */; };
 		12F6ADFD1A43380C00493660 /* ElloTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F6ADF81A43380C00493660 /* ElloTabBarController.swift */; };
@@ -605,7 +605,7 @@
 		1D447EE71F3BC79E00013384 /* MultipartRequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1207C9611C73FEE000939ADB /* MultipartRequestBuilder.swift */; };
 		1D447EE81F3BC7A300013384 /* JWT.swift in Sources */ = {isa = PBXBuildFile; fileRef = 120E64131E327B7A00CAF03E /* JWT.swift */; };
 		1D447EE91F3BC7A800013384 /* DateFormatting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1207C9531C73FEE000939ADB /* DateFormatting.swift */; };
-		1D447EEA1F3BC7AD00013384 /* AppSetup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F0E3B61A4333EC0012CEA2 /* AppSetup.swift */; };
+		1D447EEA1F3BC7AD00013384 /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F0E3B61A4333EC0012CEA2 /* Globals.swift */; };
 		1D447EEB1F3BC7B200013384 /* ElloLinkedStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12C183A11A76DA6D00E7D72A /* ElloLinkedStore.swift */; };
 		1D447EEC1F3BC7BE00013384 /* APIKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1207C94B1C73FEE000939ADB /* APIKeys.swift */; };
 		1D447EED1F3BC7FD00013384 /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF2335B1A94005C0096DA65 /* Notification.swift */; };
@@ -931,7 +931,7 @@
 		1DC29BB71D3824D30041B1DC /* Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC29BB61D3824D30041B1DC /* Defaults.swift */; };
 		1DC29BB81D3824DE0041B1DC /* Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC29BB61D3824D30041B1DC /* Defaults.swift */; };
 		1DC309FC1B03F29300EAD920 /* communities.json in Resources */ = {isa = PBXBuildFile; fileRef = 1DC309FB1B03F29300EAD920 /* communities.json */; };
-		1DC4285B1BBB021700D5E38B /* AppSetupSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC4285A1BBB021700D5E38B /* AppSetupSpec.swift */; };
+		1DC4285B1BBB021700D5E38B /* GlobalsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC4285A1BBB021700D5E38B /* GlobalsSpec.swift */; };
 		1DC78A1E1F17F0B700BE2413 /* OnboardingCreatorTypeProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC78A1B1F17F0B700BE2413 /* OnboardingCreatorTypeProtocols.swift */; };
 		1DC78A1F1F17F0B700BE2413 /* OnboardingCreatorTypeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC78A1C1F17F0B700BE2413 /* OnboardingCreatorTypeScreen.swift */; };
 		1DC78A201F17F0B700BE2413 /* OnboardingCreatorTypeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC78A1D1F17F0B700BE2413 /* OnboardingCreatorTypeViewController.swift */; };
@@ -1626,7 +1626,7 @@
 		12F0E3AA1A4333260012CEA2 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		12F0E3AD1A4333540012CEA2 /* Ello-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Ello-Bridging-Header.h"; sourceTree = "<group>"; };
 		12F0E3AE1A4333550012CEA2 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		12F0E3B61A4333EC0012CEA2 /* AppSetup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppSetup.swift; sourceTree = "<group>"; };
+		12F0E3B61A4333EC0012CEA2 /* Globals.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Globals.swift; sourceTree = "<group>"; };
 		12F47DD01AD7139900A73B5F /* StreamFooterCellPresenterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreamFooterCellPresenterSpec.swift; sourceTree = "<group>"; };
 		12F6ADF61A43380C00493660 /* BaseElloViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseElloViewController.swift; sourceTree = "<group>"; };
 		12F6ADF81A43380C00493660 /* ElloTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ElloTabBarController.swift; sourceTree = "<group>"; };
@@ -2032,7 +2032,7 @@
 		1DC10FA41C3DEB7600846ED6 /* availability.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = availability.json; sourceTree = "<group>"; };
 		1DC29BB61D3824D30041B1DC /* Defaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Defaults.swift; sourceTree = "<group>"; };
 		1DC309FB1B03F29300EAD920 /* communities.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = communities.json; sourceTree = "<group>"; };
-		1DC4285A1BBB021700D5E38B /* AppSetupSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppSetupSpec.swift; sourceTree = "<group>"; };
+		1DC4285A1BBB021700D5E38B /* GlobalsSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobalsSpec.swift; sourceTree = "<group>"; };
 		1DC78A1B1F17F0B700BE2413 /* OnboardingCreatorTypeProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingCreatorTypeProtocols.swift; sourceTree = "<group>"; };
 		1DC78A1C1F17F0B700BE2413 /* OnboardingCreatorTypeScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingCreatorTypeScreen.swift; sourceTree = "<group>"; };
 		1DC78A1D1F17F0B700BE2413 /* OnboardingCreatorTypeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingCreatorTypeViewController.swift; sourceTree = "<group>"; };
@@ -3155,7 +3155,7 @@
 		12F0E3B51A4333DB0012CEA2 /* Environment */ = {
 			isa = PBXGroup;
 			children = (
-				12F0E3B61A4333EC0012CEA2 /* AppSetup.swift */,
+				12F0E3B61A4333EC0012CEA2 /* Globals.swift */,
 			);
 			path = Environment;
 			sourceTree = "<group>";
@@ -3918,7 +3918,7 @@
 		1DC428591BBB020100D5E38B /* Environment */ = {
 			isa = PBXGroup;
 			children = (
-				1DC4285A1BBB021700D5E38B /* AppSetupSpec.swift */,
+				1DC4285A1BBB021700D5E38B /* GlobalsSpec.swift */,
 			);
 			path = Environment;
 			sourceTree = "<group>";
@@ -5153,7 +5153,7 @@
 				1207C9AA1C752FF000939ADB /* MultipartRequestBuilder.swift in Sources */,
 				120E64151E327D6300CAF03E /* JWT.swift in Sources */,
 				1207C9931C74CD3A00939ADB /* DateFormatting.swift in Sources */,
-				12DEB24B1C5BF9E600D4CDCE /* AppSetup.swift in Sources */,
+				12DEB24B1C5BF9E600D4CDCE /* Globals.swift in Sources */,
 				122B30B91C6A3FBB00C1B9D8 /* ElloLinkedStore.swift in Sources */,
 				1207C9A21C752F1C00939ADB /* APIKeys.swift in Sources */,
 				122B30BF1C6A3FBB00C1B9D8 /* Notification.swift in Sources */,
@@ -5335,7 +5335,7 @@
 				76FF80591A96921100617A1E /* RelationshipControllerSpec.swift in Sources */,
 				1294EBAC1B2B1CB30020F38A /* StreamEmbedCellPresenterSpec.swift in Sources */,
 				1DF984081D9B13BF0055EFC7 /* OnboardingScreenSpec.swift in Sources */,
-				1DC4285B1BBB021700D5E38B /* AppSetupSpec.swift in Sources */,
+				1DC4285B1BBB021700D5E38B /* GlobalsSpec.swift in Sources */,
 				1D447E571F3388CA00013384 /* MockUIWebView.swift in Sources */,
 				1D061B521AAA1C6D00493435 /* StringExtensionSpec.swift in Sources */,
 				1D59EFA41D6659FF0029C106 /* HireScreenSpec.swift in Sources */,
@@ -5829,7 +5829,7 @@
 				1D70DE691DF730C1008AF216 /* StreamTextCellSizeCalculator.swift in Sources */,
 				12614C581E705940006FB0E5 /* PINRemoteImageManagerResult.swift in Sources */,
 				1DF0B2D91E8D679E001B9F97 /* ForgotPasswordEmailScreen.swift in Sources */,
-				12F0E3B71A4333EC0012CEA2 /* AppSetup.swift in Sources */,
+				12F0E3B71A4333EC0012CEA2 /* Globals.swift in Sources */,
 				122B30D21C6A3FBC00C1B9D8 /* JSONAble.swift in Sources */,
 				1D8AFAD01A9691F90034DDAD /* DictionaryExtensions.swift in Sources */,
 				1207C9801C73FEE000939ADB /* ErrorStatusCode.swift in Sources */,
@@ -5991,7 +5991,7 @@
 				1D447EFD1F3BC95C00013384 /* NSObjectClassName.swift in Sources */,
 				1D447F031F3BC9AD00013384 /* Announcement.swift in Sources */,
 				1D447EDA1F3BC6FC00013384 /* Love.swift in Sources */,
-				1D447EEA1F3BC7AD00013384 /* AppSetup.swift in Sources */,
+				1D447EEA1F3BC7AD00013384 /* Globals.swift in Sources */,
 				1D447EB51F3BC3A000013384 /* DynamicSetting.swift in Sources */,
 				1D447F0F1F3BCA2600013384 /* ElloRequest.swift in Sources */,
 				1D447EDF1F3BC73F00013384 /* EmbedRegion.swift in Sources */,

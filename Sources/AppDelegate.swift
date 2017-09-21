@@ -41,7 +41,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             transaction.removeAllObjectsInAllCollections()
         }
 
-        if AppSetup.shared.isTesting {
+        if Globals.isTesting {
             if UIScreen.main.scale > 2 {
                 fatalError("Tests should be run in a @2x retina device (for snapshot specs to work)")
             }

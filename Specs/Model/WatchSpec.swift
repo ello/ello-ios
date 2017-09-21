@@ -63,8 +63,8 @@ class WatchSpec: QuickSpec {
             context("decoding") {
 
                 it("decodes successfully") {
-                    let expectedCreatedAt = AppSetup.shared.now
-                    let expectedUpdatedAt = AppSetup.shared.now
+                    let expectedCreatedAt = Globals.now
+                    let expectedUpdatedAt = Globals.now
 
                     let user: User = stub([
                         "id": "444"

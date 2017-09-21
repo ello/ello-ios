@@ -87,7 +87,7 @@ class ActivitySpec: QuickSpec {
             context("decoding") {
 
                 it("decodes new_follower_post successfully") {
-                    let expectedCreatedAt = AppSetup.shared.now
+                    let expectedCreatedAt = Globals.now
                     let post: Post = stub(["id": "768"])
                     let activity: Activity = stub([
                         "subject": post,
@@ -115,7 +115,7 @@ class ActivitySpec: QuickSpec {
                 }
 
                 it("decodes post mention successfully") {
-                    let expectedCreatedAt = AppSetup.shared.now
+                    let expectedCreatedAt = Globals.now
                     let post: Post = stub(["id": "768"])
                     let activity: Activity = stub([
                         "subject": post,

@@ -80,7 +80,7 @@ final class Announcement: JSONAble, Groupable {
         let body = json["body"].stringValue
         let ctaURL = json["cta_href"].string.flatMap { URL(string: $0) }
         let ctaCaption = json["cta_caption"].stringValue
-        let createdAt: Date = json["created_at"].string?.toDate() ?? AppSetup.shared.now
+        let createdAt: Date = json["created_at"].string?.toDate() ?? Globals.now
 
         let announcement = Announcement(id: id,
             isStaffPreview: isStaffPreview,

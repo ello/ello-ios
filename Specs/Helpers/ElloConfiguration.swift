@@ -39,20 +39,20 @@ class ElloConfiguration: QuickConfiguration {
                 "nsfw": Badge(slug: "nsfw", name: "Nsfw", caption: "Learn More", url: nil, imageURL: nil),
             ]
 
-            AppSetup.shared.nowGenerator = { return now }
+            Globals.nowGenerator = { return now }
         }
 
         config.beforeEach {
-            let appSetup = AppSetup()
-            appSetup.nowGenerator = { return now }
-            appSetup.cachedCategories = nil
-            AppSetup.shared = appSetup
+            let specGlobals = GlobalFactory()
+            specGlobals.nowGenerator = { return now }
+            specGlobals.cachedCategories = nil
+            overrideGlobals(specGlobals)
 
             let keychain = FakeKeychain()
             keychain.username = "email"
             keychain.password = "password"
             keychain.authToken = "abcde"
-            keychain.authTokenExpires = AppSetup.shared.now.addingTimeInterval(3600)
+            keychain.authTokenExpires = Globals.now.addingTimeInterval(3600)
             keychain.authTokenType = "grant"
             keychain.refreshAuthToken = "abcde"
             keychain.isPasswordBased = true

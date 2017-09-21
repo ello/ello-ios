@@ -349,10 +349,10 @@ final class Profile: JSONAble {
         // create profile
         let profile = Profile(
             id: json["id"].string ?? "",
-            createdAt: (json["created_at"].stringValue.toDate() ?? AppSetup.shared.now),
+            createdAt: (json["created_at"].stringValue.toDate() ?? Globals.now),
             shortBio: json["short_bio"].stringValue,
             email: json["email"].stringValue,
-            confirmedAt: (json["confirmed_at"].stringValue.toDate() ?? AppSetup.shared.now),
+            confirmedAt: (json["confirmed_at"].stringValue.toDate() ?? Globals.now),
             isPublic: json["is_public"].boolValue,
             isCommunity: json["is_community"].boolValue,
             mutedCount: json["muted_count"].intValue,

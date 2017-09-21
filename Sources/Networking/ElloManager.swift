@@ -9,7 +9,7 @@ import ElloCerts
 struct ElloManager {
     static var serverTrustPolicies: [String: ServerTrustPolicy] {
         let policyDict: [String: ServerTrustPolicy]
-        if AppSetup.shared.isSimulator {
+        if Globals.isSimulator {
             // make Charles plays nice in the sim by not setting a policy
             policyDict = [:]
         }

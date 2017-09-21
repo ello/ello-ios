@@ -43,7 +43,7 @@ class EditorialCellSpec: QuickSpec {
                 }
 
                 let expectations: [(String, () -> EditorialCell.Config, EditorialCell.Type, CGFloat)] = [
-                    ("invite sent",         { return config(sent: AppSetup.shared.now) }, EditorialInviteCell.self, 375),
+                    ("invite sent",         { return config(sent: Globals.now) }, EditorialInviteCell.self, 375),
                     ("join",                { return config() }, EditorialJoinCell.self, 375),
                     ("join on iphone se",   { return config() }, EditorialJoinCell.self, 320),
                     ("join on iphone plus", { return config() }, EditorialJoinCell.self, 414),

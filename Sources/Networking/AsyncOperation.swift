@@ -10,7 +10,7 @@ class AsyncOperation: Operation {
         set {
             guard _block == nil else { return }
             _block = newValue
-            if AppSetup.shared.isTesting {
+            if Globals.isTesting {
                 usleep(1000)
             }
             if isCancelled && _executing {

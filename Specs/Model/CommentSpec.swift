@@ -115,7 +115,7 @@ class CommentSpec: QuickSpec {
                 }
 
                 it("decodes successfully") {
-                    let expectedCreatedAt = AppSetup.shared.now
+                    let expectedCreatedAt = Globals.now
 
                     let parentPost: Post = stub([:])
                     let author: User = stub([:])

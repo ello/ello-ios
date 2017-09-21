@@ -144,8 +144,8 @@ extension Love: Stubbable {
 
         let love = Love(
             id: (values["id"] as? String) ?? generateID(),
-            createdAt: (values["createdAt"] as? Date) ?? AppSetup.shared.now,
-            updatedAt: (values["updatedAt"] as? Date) ?? AppSetup.shared.now,
+            createdAt: (values["createdAt"] as? Date) ?? Globals.now,
+            updatedAt: (values["updatedAt"] as? Date) ?? Globals.now,
             isDeleted: (values["deleted"] as? Bool) ?? true,
             postId: post.id,
             userId: user.id
@@ -168,8 +168,8 @@ extension Watch: Stubbable {
 
         let watch = Watch(
             id: (values["id"] as? String) ?? generateID(),
-            createdAt: (values["createdAt"] as? Date) ?? AppSetup.shared.now,
-            updatedAt: (values["updatedAt"] as? Date) ?? AppSetup.shared.now,
+            createdAt: (values["createdAt"] as? Date) ?? Globals.now,
+            updatedAt: (values["updatedAt"] as? Date) ?? Globals.now,
             postId: post.id,
             userId: user.id
         )
@@ -181,10 +181,10 @@ extension Watch: Stubbable {
 extension Profile: Stubbable {
     class func stub(_ values: [String: Any]) -> Profile {
         let id: String = (values["id"] as? String) ?? generateID()
-        let createdAt: Date = (values["createdAt"] as? Date) ?? AppSetup.shared.now
+        let createdAt: Date = (values["createdAt"] as? Date) ?? Globals.now
         let shortBio: String = (values["shortBio"] as? String) ?? "shortBio"
         let email: String = (values["email"] as? String) ?? "email@example.com"
-        let confirmedAt: Date = (values["confirmedAt"] as? Date) ?? AppSetup.shared.now
+        let confirmedAt: Date = (values["confirmedAt"] as? Date) ?? Globals.now
         let isPublic: Bool = (values["isPublic"] as? Bool) ?? true
         let isCommunity: Bool = (values["isCommunity"] as? Bool) ?? false
         let mutedCount: Int = (values["mutedCount"] as? Int) ?? 0
@@ -273,7 +273,7 @@ extension Post: Stubbable {
 
         let post = Post(
             id: (values["id"] as? String) ?? generateID(),
-            createdAt: (values["createdAt"] as? Date) ?? AppSetup.shared.now,
+            createdAt: (values["createdAt"] as? Date) ?? Globals.now,
             authorId: author.id,
             href: (values["href"] as? String) ?? "sample-href",
             token: (values["token"] as? String) ?? "sample-token",
@@ -354,7 +354,7 @@ extension ElloComment: Stubbable {
 
         let comment = ElloComment(
             id: (values["id"] as? String) ?? generateID(),
-            createdAt: (values["createdAt"] as? Date) ?? AppSetup.shared.now,
+            createdAt: (values["createdAt"] as? Date) ?? Globals.now,
             authorId: author.id,
             postId: parentPost.id,
             content: (values["content"] as? [Regionable]) ?? [stubbedTextRegion]
@@ -452,7 +452,7 @@ extension Activity: Stubbable {
 
         let activity = Activity(
             id: (values["id"] as? String) ?? generateID(),
-            createdAt: (values["createdAt"] as? Date) ?? AppSetup.shared.now,
+            createdAt: (values["createdAt"] as? Date) ?? Globals.now,
             kind: activityKind,
             subjectType: activitySubjectType
         )
@@ -528,7 +528,7 @@ extension Relationship: Stubbable {
 
         return Relationship(
             id: (values["id"] as? String) ?? generateID(),
-            createdAt: (values["createdAt"] as? Date) ?? AppSetup.shared.now,
+            createdAt: (values["createdAt"] as? Date) ?? Globals.now,
             ownerId: owner.id,
             subjectId: subject.id
         )
@@ -669,7 +669,7 @@ extension Announcement: Stubbable {
             body: (values["body"] as? String) ?? "Submissions for Issue 01 — Censorship will be open from 11/7 – 11/23",
             ctaURL: urlFromValue(values["ctaURL"]),
             ctaCaption: (values["ctaCaption"] as? String) ?? "Learn More",
-            createdAt: (values["createdAt"] as? Date) ?? AppSetup.shared.now
+            createdAt: (values["createdAt"] as? Date) ?? Globals.now
         )
 
         if let asset = values["image"] as? Asset {

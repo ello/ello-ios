@@ -108,7 +108,7 @@ final class Activity: JSONAble {
             createdAt = date
         }
         else {
-            createdAt = AppSetup.shared.now
+            createdAt = Globals.now
         }
 
         // create activity

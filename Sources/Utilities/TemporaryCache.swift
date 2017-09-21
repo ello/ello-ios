@@ -28,7 +28,7 @@ struct TemporaryCache {
     }
 
     static func load(_ key: CacheKey) -> UIImage? {
-        let date = AppSetup.shared.now
+        let date = Globals.now
         let entry: TemporaryCacheEntry?
 
         switch key {

@@ -19,7 +19,7 @@ class RelationshipService: NSObject {
         let optimisticRelationship: Relationship? = currentUserId.map({ currentUserId in
             return Relationship(
                 id: UUID().uuidString,
-                createdAt: AppSetup.shared.now,
+                createdAt: Globals.now,
                 ownerId: currentUserId,
                 subjectId: userId
             )

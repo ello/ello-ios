@@ -1,5 +1,5 @@
 ////
-///  AppSetupSpec.swift
+///  GlobalsSpec.swift
 //
 
 @testable import Ello
@@ -7,9 +7,9 @@ import Quick
 import Nimble
 
 
-class AppSetupSpec: QuickSpec {
+class GlobalsSpec: QuickSpec {
     override func spec() {
-        describe("AppSetup") {
+        describe("Globals") {
         }
     }
 }

@@ -16,7 +16,7 @@ class NotificationSpec: QuickSpec {
                     "author": user,
                     "summary": [TextRegion(content: "<p>This is a post summary!</p>")]
                     ])
-                let createdAtDate = AppSetup.shared.now
+                let createdAtDate = Globals.now
                 let activity: Activity = stub(["subject": post, "createdAt": createdAtDate, "subjectType": Activity.SubjectType.post.rawValue, "kind": Activity.Kind.repostNotification.rawValue])
                 let notification = Notification(activity: activity)
 
@@ -45,7 +45,7 @@ class NotificationSpec: QuickSpec {
                         imageRegion2,
                     ]
                 ])
-                let createdAtDate = AppSetup.shared.now
+                let createdAtDate = Globals.now
                 let activity: Activity = stub(["subject": post, "createdAt": createdAtDate, "subjectType": Activity.SubjectType.post.rawValue, "kind": Activity.Kind.repostNotification.rawValue])
                 let notification = Notification(activity: activity)
 
@@ -72,7 +72,7 @@ class NotificationSpec: QuickSpec {
                     "author": user,
                     "summary": [TextRegion(content: "<p>This is a comment summary!</p>")]
                     ])
-                let createdAtDate = AppSetup.shared.now
+                let createdAtDate = Globals.now
                 let activity: Activity = stub(["subject": comment, "createdAt": createdAtDate, "subjectType": Activity.SubjectType.comment.rawValue, "kind": Activity.Kind.commentMentionNotification.rawValue])
                 let notification = Notification(activity: activity)
 
@@ -113,7 +113,7 @@ class NotificationSpec: QuickSpec {
                         commentRegion2,
                     ]
                 ])
-                let createdAtDate = AppSetup.shared.now
+                let createdAtDate = Globals.now
                 let activity: Activity = stub(["subject": comment, "createdAt": createdAtDate, "subjectType": Activity.SubjectType.comment.rawValue, "kind": Activity.Kind.commentMentionNotification.rawValue])
                 let notification = Notification(activity: activity)
 
@@ -159,7 +159,7 @@ class NotificationSpec: QuickSpec {
                 context("decoding") {
 
                     it("decodes successfully") {
-                        let expectedCreatedAt = AppSetup.shared.now
+                        let expectedCreatedAt = Globals.now
 
                         let author: User = stub(["id": "author-id"])
 

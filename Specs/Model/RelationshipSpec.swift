@@ -96,7 +96,7 @@ class RelationshipSpec: QuickSpec {
             context("decoding") {
 
                 it("decodes successfully") {
-                    let expectedCreatedAt = AppSetup.shared.now
+                    let expectedCreatedAt = Globals.now
                     let relationship: Relationship = stub([
                         "id": "relationship",
                         "createdAt": expectedCreatedAt,

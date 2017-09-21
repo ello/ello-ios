@@ -17,7 +17,7 @@ class ElloProvider {
     static var shared: ElloProvider = ElloProvider()
     var authState: AuthState = .initial {
         willSet {
-            if newValue != authState && !authState.canTransitionTo(newValue) && !AppSetup.shared.isTesting {
+            if newValue != authState && !authState.canTransitionTo(newValue) && !Globals.isTesting {
                 print("invalid transition from \(authState) to \(newValue)")
             }
         }

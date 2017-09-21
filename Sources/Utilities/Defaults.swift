@@ -6,7 +6,7 @@ let ElloGroupName = "group.ello.Ello"
 let GroupDefaults = defaults()
 
 private func defaults() -> UserDefaults {
-    if AppSetup.shared.isTesting {
+    if Globals.isTesting {
         return UserDefaults.standard
     }
 

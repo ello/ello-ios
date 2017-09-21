@@ -1,12 +1,19 @@
 ////
-///  AppSetup.swift
+///  Globals.swift
 //
 
 import SwiftyUserDefaults
+import Photos
 
-class AppSetup {
-    static var shared: AppSetup = AppSetup()
 
+var Globals = GlobalFactory()
+
+func overrideGlobals(_ global: GlobalFactory?) {
+    Globals = global ?? GlobalFactory()
+}
+
+
+class GlobalFactory {
     lazy var isTesting: Bool = _isTesting()
     lazy var isSimulator: Bool = _isRunningOnSimulator()
     var imageQuality: CGFloat = 0.8
@@ -14,6 +21,11 @@ class AppSetup {
     var now: Date { return nowGenerator() }
 
     var cachedCategories: [Category]?
+
+    func fetchAssets(with options: PHFetchOptions, completion: @escaping (PHAsset, Int) -> Void) {
+        let result = PHAsset.fetchAssets(with: options)
+        result.enumerateObjects(options: []) { asset, index, _ in completion(asset, index) }
+    }
 }
 
 private func _isRunningOnSimulator() -> Bool {
