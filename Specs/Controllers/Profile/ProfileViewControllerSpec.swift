@@ -9,6 +9,21 @@ import Nimble
 
 
 class ProfileViewControllerSpec: QuickSpec {
+    class HasNavBarController: UIViewController, BottomBarController {
+        var navigationBarsVisible: Bool? { return true }
+        var bottomBarVisible: Bool { return true }
+        var bottomBarHeight: CGFloat { return 44 }
+        var bottomBarView: UIView { return UIView() }
+
+        func setNavigationBarsVisible(_ visible: Bool, animated: Bool) {
+        }
+
+        override func addChildViewController(_ controller: UIViewController) {
+            super.addChildViewController(controller)
+            view.addSubview(controller.view)
+        }
+    }
+
     override func spec() {
         describe("ProfileViewController") {
             let currentUser: User = stub([:])
@@ -18,7 +33,10 @@ class ProfileViewControllerSpec: QuickSpec {
                 beforeEach {
                     subject = ProfileViewController(userParam: "42")
                     subject.currentUser = currentUser
-                    showController(subject)
+
+                    let parent = HasNavBarController()
+                    parent.addChildViewController(subject)
+                    showController(parent)
                 }
 
                 it("does update the top inset") {
