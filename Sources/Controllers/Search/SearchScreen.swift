@@ -11,6 +11,7 @@ class SearchScreen: StreamableScreen, SearchScreenProtocol {
         static let buttonMargin: CGFloat = 5
         static let buttonWidth: CGFloat = 40
         static let searchControlsHeight: CGFloat = 30
+        static let searchControlsTallHeight: CGFloat = 74
         static let cornerRadius: CGFloat = 5
         static let findFriendsInsets = UIEdgeInsets(all: 20)
         static let findFriendsLabelLeft: CGFloat = 25
@@ -43,6 +44,7 @@ class SearchScreen: StreamableScreen, SearchScreenProtocol {
     fileprivate let findFriendsLabel = StyledLabel(style: .black)
     fileprivate var bottomInset: CGFloat = 0
     fileprivate let gridListButton = UIButton()
+    fileprivate var searchControlsContainerHeight: Constraint!
     fileprivate var gridListVisibleConstraint: Constraint!
     fileprivate var gridListHiddenConstraint: Constraint!
 
@@ -118,19 +120,21 @@ class SearchScreen: StreamableScreen, SearchScreenProtocol {
         searchControlsContainer.snp.makeConstraints { make in
             make.top.equalTo(navigationBar.snp.bottom)
             make.leading.trailing.equalTo(self)
-            make.height.equalTo(Size.searchControlsHeight)
+            searchControlsContainerHeight = make.height.equalTo(Size.searchControlsHeight).constraint
         }
 
         postsToggleButton.snp.makeConstraints { make in
             make.leading.equalTo(searchControlsContainer).offset(Size.margin)
-            make.top.bottom.equalTo(searchControlsContainer)
+            make.bottom.equalTo(searchControlsContainer)
+            make.height.equalTo(Size.searchControlsHeight)
         }
 
         peopleToggleButton.snp.makeConstraints { make in
             make.trailing.equalTo(searchControlsContainer).offset(-Size.margin)
             make.leading.equalTo(postsToggleButton.snp.trailing)
             make.width.equalTo(postsToggleButton)
-            make.top.bottom.equalTo(searchControlsContainer)
+            make.bottom.equalTo(searchControlsContainer)
+            make.height.equalTo(Size.searchControlsHeight)
         }
 
         findFriendsContainer.snp.makeConstraints { make in
@@ -162,12 +166,17 @@ extension SearchScreen {
 
     func showNavBars() {
         animate {
+            self.searchControlsContainerHeight.update(offset: Size.searchControlsHeight)
             self.searchControlsContainer.frame.origin.y = self.navigationBar.frame.size.height
         }
     }
 
     func hideNavBars() {
         animate {
+            if AppSetup.shared.isIphoneX {
+                self.searchControlsContainerHeight.update(offset: Size.searchControlsTallHeight)
+                self.searchControlsContainer.frame.size.height = Size.searchControlsTallHeight
+            }
             self.searchControlsContainer.frame.origin.y = -1
         }
     }

@@ -75,7 +75,7 @@ class NotificationCell: UICollectionViewCell, UIWebViewDelegate {
     let relationshipControl = RelationshipControl()
     let titleTextView = ElloTextView()
     let createdAtLabel = UILabel()
-    let messageWebView = UIWebView()
+    let messageWebView = ElloWebView()
     let notificationImageView = FLAnimatedImageView()
     let separator = UIView()
     var aspectRatio: CGFloat = 4/3

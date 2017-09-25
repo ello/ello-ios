@@ -210,11 +210,14 @@ extension ElloTabBarController {
     }
 
     fileprivate func positionTabBar() {
-        var upAmount = CGFloat(0)
+        let upAmount: CGFloat
         if bottomBarVisible || isShowingNarration {
-            upAmount = tabBar.frame.height
+            upAmount = ElloTabBar.Size.height
         }
-        tabBar.frame = view.bounds.fromBottom().with(height: tabBar.frame.height).shift(up: upAmount)
+        else {
+            upAmount = 0
+        }
+        tabBar.frame = view.bounds.fromBottom().with(height: ElloTabBar.Size.height).shift(up: upAmount)
     }
 
     func setNavigationBarsVisible(_ visible: Bool, animated: Bool) {

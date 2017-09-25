@@ -42,8 +42,8 @@ class StreamDataSourceSpec: QuickSpec {
             StreamKind.following.setIsGridView(true)
 
             subject = StreamDataSource(streamKind: .following)
-            subject.textSizeCalculator = FakeStreamTextCellSizeCalculator(webView: UIWebView())
-            subject.notificationSizeCalculator = FakeStreamNotificationCellSizeCalculator(webView: UIWebView())
+            subject.textSizeCalculator = FakeStreamTextCellSizeCalculator(webView: ElloWebView())
+            subject.notificationSizeCalculator = FakeStreamNotificationCellSizeCalculator(webView: ElloWebView())
             subject.announcementSizeCalculator = FakeAnnouncementCellSizeCalculator()
             subject.profileHeaderSizeCalculator = FakeProfileHeaderCellSizeCalculator()
 

@@ -116,7 +116,7 @@ extension OmnibarScreen: UITextViewDelegate {
         if autoCompleteShowing {
             autoCompleteShowing = false
             textView.spellCheckingType = .yes
-            textView.inputAccessoryView = keyboardButtonView
+            textView.inputAccessoryView = keyboardButtonsContainer
             _ = textView.resignFirstResponder()
             _ = textView.becomeFirstResponder()
         }

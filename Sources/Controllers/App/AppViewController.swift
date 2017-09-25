@@ -475,30 +475,32 @@ extension AppViewController: InviteResponder {
 
         Tracker.shared.inviteFriendsTapped()
         AddressBookController.promptForAddressBookAccess(fromController: self, completion: { result in
-            switch result {
-            case let .success(addressBook):
-                Tracker.shared.contactAccessPreferenceChanged(true)
-                let vc = OnboardingInviteViewController(addressBook: addressBook)
-                vc.currentUser = self.currentUser
-                if let navigationController = self.navigationController {
-                    navigationController.pushViewController(vc, animated: true)
+            nextTick {
+                switch result {
+                case let .success(addressBook):
+                    Tracker.shared.contactAccessPreferenceChanged(true)
+                    let vc = OnboardingInviteViewController(addressBook: addressBook)
+                    vc.currentUser = self.currentUser
+                    if let navigationController = self.navigationController {
+                        navigationController.pushViewController(vc, animated: true)
+                    }
+                    else {
+                        self.present(vc, animated: true, completion: nil)
+                    }
+                case let .failure(addressBookError):
+                    guard addressBookError != .cancelled else { return }
+
+                    Tracker.shared.contactAccessPreferenceChanged(false)
+                    let message = addressBookError.rawValue
+                    let alertController = AlertViewController(
+                        message: InterfaceString.Friends.ImportError(message)
+                    )
+
+                    let action = AlertAction(title: InterfaceString.OK, style: .dark, handler: .none)
+                    alertController.addAction(action)
+
+                    self.present(alertController, animated: true, completion: .none)
                 }
-                else {
-                    self.present(vc, animated: true, completion: nil)
-                }
-            case let .failure(addressBookError):
-                guard addressBookError != .cancelled else { return }
-
-                Tracker.shared.contactAccessPreferenceChanged(false)
-                let message = addressBookError.rawValue
-                let alertController = AlertViewController(
-                    message: InterfaceString.Friends.ImportError(message)
-                )
-
-                let action = AlertAction(title: InterfaceString.OK, style: .dark, handler: .none)
-                alertController.addAction(action)
-
-                self.present(alertController, animated: true, completion: .none)
             }
         })
     }

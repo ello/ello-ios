@@ -887,6 +887,7 @@
 		1DA8FD711B98A63600472B1E /* reorder_selected.svg in Resources */ = {isa = PBXBuildFile; fileRef = 1DA8FD6F1B98A63600472B1E /* reorder_selected.svg */; };
 		1DA9AA7C1C694F32000562E4 /* profile__no_sharing.json in Resources */ = {isa = PBXBuildFile; fileRef = 1DA9AA7B1C694F32000562E4 /* profile__no_sharing.json */; };
 		1DA9AA7E1C6A81AB000562E4 /* emojis.json in Resources */ = {isa = PBXBuildFile; fileRef = 1DA9AA7D1C6A81AB000562E4 /* emojis.json */; };
+		1DAA161A1F6B22E600E79CC0 /* ElloWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DAA16191F6B22E500E79CC0 /* ElloWebView.swift */; };
 		1DADA1661A96DC130000DDA1 /* NotificationsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DADA1651A96DC130000DDA1 /* NotificationsScreen.swift */; };
 		1DADC57A1AF449B3000DAC88 /* ElloWebBrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DADC5791AF449B3000DAC88 /* ElloWebBrowserViewController.swift */; };
 		1DB17B981AAA70B200DCF59E /* MultipartRequestBuilderSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB17B961AAA70B200DCF59E /* MultipartRequestBuilderSpec.swift */; };
@@ -1994,6 +1995,7 @@
 		1DA8FD6F1B98A63600472B1E /* reorder_selected.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = reorder_selected.svg; sourceTree = "<group>"; };
 		1DA9AA7B1C694F32000562E4 /* profile__no_sharing.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = profile__no_sharing.json; sourceTree = "<group>"; };
 		1DA9AA7D1C6A81AB000562E4 /* emojis.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = emojis.json; sourceTree = "<group>"; };
+		1DAA16191F6B22E500E79CC0 /* ElloWebView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ElloWebView.swift; sourceTree = "<group>"; };
 		1DADA1651A96DC130000DDA1 /* NotificationsScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationsScreen.swift; sourceTree = "<group>"; };
 		1DADC5791AF449B3000DAC88 /* ElloWebBrowserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ElloWebBrowserViewController.swift; sourceTree = "<group>"; };
 		1DB17B961AAA70B200DCF59E /* MultipartRequestBuilderSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultipartRequestBuilderSpec.swift; sourceTree = "<group>"; };
@@ -3449,6 +3451,7 @@
 				767399801AA679CB00C4222C /* ElloTextView.swift */,
 				EAED46DF1ADC6AE10081A9F7 /* ElloToggleButton.swift */,
 				12F6AE681A4339EF00493660 /* ElloUnderlinedTextButton.swift */,
+				1DAA16191F6B22E500E79CC0 /* ElloWebView.swift */,
 				1289F3951AF17901008A938C /* ImageLabelAnimatable.swift */,
 				1289F3911AF1468B008A938C /* ImageLabelControl.swift */,
 				1D59EF841D5CFC480029C106 /* InterpolatedLoadingView.swift */,
@@ -5911,6 +5914,7 @@
 				1D06D6C51E3BAFA9004FA878 /* LoggedOutScreenProtocol.swift in Sources */,
 				1DDC23501F326F2200E68B0E /* ElloRequest.swift in Sources */,
 				1D8783181ECCF45E00253602 /* EditorialPostStreamCell.swift in Sources */,
+				1DAA161A1F6B22E600E79CC0 /* ElloWebView.swift in Sources */,
 				12F6AE631A4339C600493660 /* Validator.swift in Sources */,
 				128D36B61A951F4600622833 /* NotificationCellPresenter.swift in Sources */,
 				1207C98B1C73FEE000939ADB /* ReAuthService.swift in Sources */,

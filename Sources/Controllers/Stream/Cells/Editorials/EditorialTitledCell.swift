@@ -8,7 +8,7 @@ import SnapKit
 class EditorialTitledCell: EditorialCell {
     let titleLabel = StyledLabel(style: .editorialHeader)
     let authorLabel = StyledLabel(style: .editorialHeader)
-    let subtitleWebView = UIWebView()
+    let subtitleWebView = ElloWebView()
     var subtitleHeightConstraint: Constraint?
 
     enum TitlePlacement {

@@ -43,20 +43,20 @@ class StreamTextCell: StreamRegionableCell, UIWebViewDelegate, UIGestureRecogniz
     var html: String = "" {
         didSet {
             if html != oldValue {
-                setupWebView(UIWebView())
+                setupWebView(ElloWebView())
                 let wrappedHtml = StreamTextCellHTML.postHTML(html)
                 webView.loadHTMLString(wrappedHtml, baseURL: URL(string: "/"))
             }
         }
     }
 
-    fileprivate var webView = UIWebView()
+    fileprivate var webView = ElloWebView()
     fileprivate var webViewContainer = UIView()
     fileprivate var leadingConstraint: Constraint!
     fileprivate let doubleTapGesture = UITapGestureRecognizer()
     fileprivate let longPressGesture = UILongPressGestureRecognizer()
 
-    func setupWebView(_ webView: UIWebView) {
+    func setupWebView(_ webView: ElloWebView) {
         self.webView.delegate = nil
         self.webView.removeFromSuperview()
 

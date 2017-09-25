@@ -15,7 +15,7 @@ class ProfileBioView: ProfileBaseView {
             bioView.loadHTMLString(StreamTextCellHTML.postHTML(bio), baseURL: URL(string: "/"))
         }
     }
-    fileprivate let bioView = UIWebView()
+    fileprivate let bioView = ElloWebView()
     fileprivate let grayLine = UIView()
     var grayLineVisible: Bool {
         get { return !grayLine.isHidden }

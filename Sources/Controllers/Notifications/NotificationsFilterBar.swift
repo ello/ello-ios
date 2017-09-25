@@ -5,8 +5,12 @@
 class NotificationsFilterBar: UIView {
 
     struct Size {
-        static let height: CGFloat = 64
+        static let height: CGFloat = calculateHeight()
         static let buttonPadding: CGFloat = 1
+
+        static private func calculateHeight() -> CGFloat {
+            return 44 + BlackBar.Size.height
+        }
     }
 
     var buttons: [UIButton] {
@@ -32,7 +36,7 @@ class NotificationsFilterBar: UIView {
         let buttons = self.buttons
         if buttons.count > 0 {
             var x: CGFloat = 0
-            let y: CGFloat = 20
+            let y: CGFloat = BlackBar.Size.height
             let w: CGFloat = (self.frame.size.width - Size.buttonPadding * CGFloat(buttons.count - 1)) / CGFloat(buttons.count)
             for button in buttons {
                 let frame = CGRect(x: x, y: y, width: w, height: self.frame.size.height - y)

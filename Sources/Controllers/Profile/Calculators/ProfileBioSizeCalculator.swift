@@ -6,7 +6,7 @@ import PromiseKit
 
 
 class ProfileBioSizeCalculator: NSObject {
-    let webView = UIWebView()
+    let webView = ElloWebView()
     var resolve: ((CGFloat) -> Void)?
 
     deinit {

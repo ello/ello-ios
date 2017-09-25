@@ -369,8 +369,9 @@ class StreamDataSource: ElloDataSource {
             }
         case .replaced:
             let (oldIndexPaths, _) = elementsFor(jsonable: jsonable, change: change)
+            guard let firstIndexPath = oldIndexPaths.first else { return }
+
             let items = StreamCellItemParser().parse([jsonable], streamKind: self.streamKind, currentUser: currentUser)
-            let firstIndexPath = oldIndexPaths.first!
             calculateCellItems(items, withWidth: UIWindow.windowWidth()) {
                 self.removeItems(at: oldIndexPaths)
                 let newIndexPaths = self.insertStreamCellItems(items, startingIndexPath: firstIndexPath)

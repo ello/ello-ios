@@ -4,7 +4,11 @@
 
 class BlackBar: View {
     struct Size {
-        static let height: CGFloat = 20
+        static let height: CGFloat = calculateHeight()
+
+        static private func calculateHeight() -> CGFloat {
+            return AppSetup.shared.statusBarHeight
+        }
     }
 
     override func style() {

@@ -109,7 +109,7 @@ class OmnibarScreen: UIView, OmnibarScreenProtocol {
 
     weak var delegate: OmnibarScreenDelegate?
 
-    let statusBarUnderlay = UIView(frame: CGRect(x: 0, y: 0, width: 320, height: 20))
+    let statusBarUnderlay = UIView()
     let navigationBar = ElloNavigationBar(frame: .zero)
 
 // MARK: toolbar buttons
@@ -121,7 +121,7 @@ class OmnibarScreen: UIView, OmnibarScreenProtocol {
 
 // MARK: keyboard buttons
     var keyboardButtonViews: [UIView]!
-    var keyboardButtonView = UIView()
+    var keyboardButtonsContainer = UIView()
     let boldButton = UIButton()
     let italicButton = UIButton()
     let linkButton = UIButton()
@@ -207,9 +207,7 @@ class OmnibarScreen: UIView, OmnibarScreenProtocol {
         navigationItem.fixNavBarItemPadding()
         navigationBar.items = [navigationItem]
 
-        statusBarUnderlay.frame.size.width = frame.width
         statusBarUnderlay.backgroundColor = .black
-        statusBarUnderlay.autoresizingMask = [.flexibleWidth, .flexibleBottomMargin]
         addSubview(statusBarUnderlay)
     }
 
@@ -291,7 +289,7 @@ class OmnibarScreen: UIView, OmnibarScreenProtocol {
             linkButton,
         ]
 
-        keyboardButtonView.backgroundColor = UIColor.greyC
+        keyboardButtonsContainer.backgroundColor = UIColor.greyC
         for button in keyboardButtonViews as [UIView] {
             button.backgroundColor = UIColor.greyA
             button.frame.size = Size.keyboardButtonSize
@@ -352,15 +350,15 @@ class OmnibarScreen: UIView, OmnibarScreenProtocol {
         }
 
         for button in keyboardButtonViews as [UIView] {
-            keyboardButtonView.addSubview(button)
+            keyboardButtonsContainer.addSubview(button)
         }
 
         addSubview(tabbarSubmitButton)
-        keyboardButtonView.addSubview(keyboardSubmitButton)
+        keyboardButtonsContainer.addSubview(keyboardSubmitButton)
 
         textScrollView.addSubview(textContainer)
         textScrollView.addSubview(textView)
-        textView.inputAccessoryView = keyboardButtonView
+        textView.inputAccessoryView = keyboardButtonsContainer
         textScrollView.isHidden = true
     }
 
@@ -568,6 +566,8 @@ class OmnibarScreen: UIView, OmnibarScreenProtocol {
     override func layoutSubviews() {
         super.layoutSubviews()
 
+        statusBarUnderlay.frame = CGRect(x: 0, y: 0, width: frame.width, height: BlackBar.Size.height)
+
         let screenTop: CGFloat
         if canGoBack {
             postNotification(StatusBarNotifications.statusBarVisibility, value: true)
@@ -576,7 +576,7 @@ class OmnibarScreen: UIView, OmnibarScreenProtocol {
             statusBarUnderlay.isHidden = true
         }
         else {
-            screenTop = CGFloat(20)
+            screenTop = BlackBar.Size.height
             navigationBar.frame = .zero
             statusBarUnderlay.isHidden = false
         }
@@ -600,35 +600,36 @@ class OmnibarScreen: UIView, OmnibarScreenProtocol {
         var bottomInset = Keyboard.shared.keyboardBottomInset(inView: self)
 
         if bottomInset == 0 {
-            bottomInset = ElloTabBar.Size.height + Size.keyboardButtonSize.height
+            bottomInset = ElloTabBar.Size.height
         }
-        else {
-            bottomInset += Size.keyboardButtonSize.height
-        }
+        bottomInset += Size.keyboardButtonSize.height
 
         regionsTableView.contentInset.top = Size.tableTopInset
         regionsTableView.contentInset.bottom = bottomInset
         regionsTableView.scrollIndicatorInsets.bottom = bottomInset
         synchronizeScrollViews()
 
-        keyboardButtonView.frame.size = CGSize(width: frame.width, height: Size.keyboardButtonSize.height)
-        tabbarSubmitButton.frame.size = CGSize(width: frame.width, height: Size.keyboardButtonSize.height)
+        let keyboardButtonHeight = Size.keyboardButtonSize.height
+        keyboardButtonsContainer.frame.size = CGSize(width: frame.width, height: keyboardButtonHeight)
+        tabbarSubmitButton.frame.size = CGSize(width: frame.width, height: keyboardButtonHeight)
 
+        var bumpKeyboardHeight = false
         if Keyboard.shared.active {
             tabbarSubmitButton.frame.origin.y = frame.height
         }
         else {
-            tabbarSubmitButton.frame.origin.y = frame.height - ElloTabBar.Size.height - Size.keyboardButtonSize.height
+            tabbarSubmitButton.frame.origin.y = frame.height - ElloTabBar.Size.height - keyboardButtonHeight
         }
 
-        var x = CGFloat(0)
+        var x: CGFloat = 0
         for view in keyboardButtonViews {
             view.frame.origin.x = x
             x += view.frame.size.width
             x += Size.keyboardButtonMargin
+            view.frame.size.height = keyboardButtonHeight
         }
         let remainingCameraWidth = frame.width - x
-        keyboardSubmitButton.frame.origin.x = keyboardButtonView.frame.width - remainingCameraWidth
+        keyboardSubmitButton.frame.origin.x = keyboardButtonsContainer.frame.width - remainingCameraWidth
         keyboardSubmitButton.frame.size.width = remainingCameraWidth
     }
 

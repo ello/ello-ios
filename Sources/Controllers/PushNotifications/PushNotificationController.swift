@@ -109,14 +109,12 @@ extension PushNotificationController {
             let center = UNUserNotificationCenter.current()
             center.delegate = self
             center.setNotificationCategories([postCategory, commentCategory, userCategory, userMessageCategory])
-            center.requestAuthorization(options: [.badge, .sound, .alert]) {
-                (granted, _) in
+            center.requestAuthorization(options: [.badge, .sound, .alert]) { granted, _ in
                 if granted {
-                    app.registerForRemoteNotifications()
+                    nextTick(app.registerForRemoteNotifications)
                 }
             }
         }
-
         else { //If user is not on iOS 10 use the old methods we've been using
             let settings = UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: [])
             app.registerUserNotificationSettings(settings)

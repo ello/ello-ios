@@ -9,6 +9,11 @@ class AppSetup {
 
     lazy var isTesting: Bool = _isTesting()
     lazy var isSimulator: Bool = _isRunningOnSimulator()
+    lazy var isIphoneX: Bool = _isIphoneX()
+
+    lazy var statusBarHeight: CGFloat = _statusBarHeight()
+    lazy var bestBottomMargin: CGFloat = _bestBottomMargin()
+
     var imageQuality: CGFloat = 0.8
     var nowGenerator: () -> Date = { return Date() }
     var now: Date { return nowGenerator() }
@@ -27,4 +32,22 @@ private func _isRunningOnSimulator() -> Bool {
 
 private func _isTesting() -> Bool {
     return NSClassFromString("XCTest") != nil
+}
+
+private func _isIphoneX() -> Bool {
+    return UIScreen.main.bounds.size.height == 812
+}
+
+private func _statusBarHeight() -> CGFloat {
+    if AppSetup.shared.isIphoneX {
+        return 44
+    }
+    return 20
+}
+
+private func _bestBottomMargin() -> CGFloat {
+    if AppSetup.shared.isIphoneX {
+        return 23
+    }
+    return 10
 }
