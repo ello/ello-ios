@@ -12,7 +12,7 @@ class ArtistInviteBubbleCell: CollectionViewCell, ArtistInviteConfigurableCell {
 
     struct Size {
         static let headerImageHeight: CGFloat = 230
-        static let infoTotalHeight: CGFloat = 130
+        static let infoTotalHeight: CGFloat = 86
 
         static let logoImageSize = CGSize(width: 270, height: 152)
         static let cornerRadius: CGFloat = 5
@@ -55,6 +55,13 @@ class ArtistInviteBubbleCell: CollectionViewCell, ArtistInviteConfigurableCell {
     fileprivate let dateLabel = StyledLabel(style: .gray)
     fileprivate let descriptionWebView = ElloWebView()
 
+    static func calculateDynamicHeights(title: String, inviteType: String, cellWidth: CGFloat) -> CGFloat {
+        let textWidth = cellWidth - Size.bubbleMargins.left - Size.bubbleMargins.right - Size.infoMargins.left - Size.infoMargins.right
+        let height1 = NSAttributedString(label: title, style: .artistInviteTitle, lineBreakMode: .byWordWrapping).heightForWidth(textWidth)
+        let height2 = NSAttributedString(label: inviteType, style: .gray, lineBreakMode: .byWordWrapping).heightForWidth(textWidth)
+        return height1 + height2
+    }
+
     override func style() {
         bg.layer.cornerRadius = Size.cornerRadius
         bg.clipsToBounds = true
@@ -65,6 +72,8 @@ class ArtistInviteBubbleCell: CollectionViewCell, ArtistInviteConfigurableCell {
         headerOverlay.alpha = 0.3
         logoImage.contentMode = .scaleAspectFit
         logoImage.clipsToBounds = true
+        titleLabel.isMultiline = true
+        inviteTypeLabel.isMultiline = true
         descriptionWebView.scrollView.isScrollEnabled = false
         descriptionWebView.scrollView.scrollsToTop = false
         descriptionWebView.isUserInteractionEnabled = false

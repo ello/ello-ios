@@ -133,6 +133,11 @@ class ArtistInviteCellSizeCalculator: NSObject {
         var totalHeight = height
         totalHeight += ArtistInviteBubbleCell.Size.bubbleMargins.top
         totalHeight += ArtistInviteBubbleCell.Size.headerImageHeight
+        if let width = job?.width,
+            let artistInvite = cellItem.jsonable as? ArtistInvite
+        {
+            totalHeight += ArtistInviteBubbleCell.calculateDynamicHeights(title: artistInvite.title, inviteType: artistInvite.inviteType, cellWidth: width)
+        }
         totalHeight += ArtistInviteBubbleCell.Size.infoTotalHeight
         totalHeight += (height > 0 ? ArtistInviteBubbleCell.Size.descriptionMargins.bottom : 0)
         totalHeight += ArtistInviteBubbleCell.Size.bubbleMargins.bottom
