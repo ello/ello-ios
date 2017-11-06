@@ -166,7 +166,7 @@ class ElloProvider {
                 },
                 failure: { _, _ in
                     self.advanceAuthState(.shouldTryUserCreds)
-                }, noNetwork:{
+                }, noNetwork: {
                     self.advanceAuthState(.shouldTryRefreshToken)
                 })
             case .shouldTryUserCreds:
@@ -178,7 +178,7 @@ class ElloProvider {
                 },
                 failure: { _, _ in
                     self.advanceAuthState(.noToken)
-                }, noNetwork:{
+                }, noNetwork: {
                     self.advanceAuthState(.shouldTryUserCreds)
                 })
             case .shouldTryAnonymousCreds, .noToken:
@@ -294,7 +294,7 @@ extension ElloProvider {
 
             switch statusCode {
             case 200...299, 300...399:
-                handleNetworkSuccess(data: data, elloAPI: target, statusCode:statusCode, response: response, success: success, failure: failure)
+                handleNetworkSuccess(data: data, elloAPI: target, statusCode: statusCode, response: response, success: success, failure: failure)
             case 401:
                 attemptAuthentication(request: (target: target, success: success, failure: failure), uuid: uuid)
             case 410:
@@ -319,7 +319,7 @@ extension ElloProvider {
             var newResponseConfig: ResponseConfig?
             if let pagingPath = elloAPI.pagingPath,
                 let links = (node as? [String: Any])?["links"] as? [String: Any],
-                let pagingPathNode = links[pagingPath] as? [String:Any],
+                let pagingPathNode = links[pagingPath] as? [String: Any],
                 let pagination = pagingPathNode["pagination"] as? [String: String]
             {
                 newResponseConfig = self.parsePagination(pagination)
@@ -349,7 +349,7 @@ extension ElloProvider {
             }
         }
 
-        if let linked = dict["linked"] as? [String:[[String:Any]]] {
+        if let linked = dict["linked"] as? [String: [[String: Any]]] {
             ElloLinkedStore.shared.parseLinked(linked, completion: completion)
         }
         else {

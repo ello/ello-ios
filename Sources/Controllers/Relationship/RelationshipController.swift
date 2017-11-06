@@ -92,40 +92,40 @@ extension RelationshipController: RelationshipResponder {
         }
 
         promise.then { relationship -> Void in
-                complete(RelationshipRequestStatusWrapper(status: .success), relationship, true)
-                responder?.relationshipChanged(userId, status: RelationshipRequestStatusWrapper(status: .success), relationship: relationship)
+            complete(RelationshipRequestStatusWrapper(status: .success), relationship, true)
+            responder?.relationshipChanged(userId, status: RelationshipRequestStatusWrapper(status: .success), relationship: relationship)
 
-                if let relationship = relationship {
-                    if let owner = relationship.owner {
-                        postNotification(RelationshipChangedNotification, value: owner)
-                    }
-                    if let subject = relationship.subject {
-                        postNotification(RelationshipChangedNotification, value: subject)
-                    }
+            if let relationship = relationship {
+                if let owner = relationship.owner {
+                    postNotification(RelationshipChangedNotification, value: owner)
                 }
-
-                if prevRelationshipPriority != newRelationshipPriority {
-                    var blockDelta = 0
-                    if prevRelationshipPriority.priority == .block { blockDelta -= 1 }
-                    if newRelationshipPriority.priority == .block { blockDelta += 1 }
-                    if blockDelta != 0 {
-                        postNotification(BlockedCountChangedNotification, value: (userId, blockDelta))
-                    }
-
-                    var mutedDelta = 0
-                    if prevRelationshipPriority.priority == .mute { mutedDelta -= 1 }
-                    if newRelationshipPriority.priority == .mute { mutedDelta += 1 }
-                    if mutedDelta != 0 {
-                        postNotification(MutedCountChangedNotification, value: (userId, mutedDelta))
-                    }
+                if let subject = relationship.subject {
+                    postNotification(RelationshipChangedNotification, value: subject)
                 }
             }
-            .catch { [weak self] _ in
-                guard let `self` = self else { return }
 
-                complete(RelationshipRequestStatusWrapper(status: .failure), nil, true)
-                let responder: RelationshipControllerResponder? = self.findResponder()
-                responder?.relationshipChanged(userId, status: RelationshipRequestStatusWrapper(status: .failure), relationship: nil)
+            if prevRelationshipPriority != newRelationshipPriority {
+                var blockDelta = 0
+                if prevRelationshipPriority.priority == .block { blockDelta -= 1 }
+                if newRelationshipPriority.priority == .block { blockDelta += 1 }
+                if blockDelta != 0 {
+                    postNotification(BlockedCountChangedNotification, value: (userId, blockDelta))
+                }
+
+                var mutedDelta = 0
+                if prevRelationshipPriority.priority == .mute { mutedDelta -= 1 }
+                if newRelationshipPriority.priority == .mute { mutedDelta += 1 }
+                if mutedDelta != 0 {
+                    postNotification(MutedCountChangedNotification, value: (userId, mutedDelta))
+                }
             }
+        }
+        .catch { [weak self] _ in
+            guard let `self` = self else { return }
+
+            complete(RelationshipRequestStatusWrapper(status: .failure), nil, true)
+            let responder: RelationshipControllerResponder? = self.findResponder()
+            responder?.relationshipChanged(userId, status: RelationshipRequestStatusWrapper(status: .failure), relationship: nil)
+        }
     }
 }

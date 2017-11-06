@@ -27,7 +27,7 @@ struct ElloLinkedStore {
         writeConnection = database.newConnection()
     }
 
-    func parseLinked(_ linked: [String:[[String: Any]]], completion: @escaping Block) {
+    func parseLinked(_ linked: [String: [[String: Any]]], completion: @escaping Block) {
         if AppSetup.shared.isTesting {
             parseLinkedSync(linked)
             completion()

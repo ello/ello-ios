@@ -459,7 +459,7 @@ extension ProfileViewController {
 }
 
 // MARK: ProfileViewController: StreamDestination
-extension ProfileViewController:  StreamDestination {
+extension ProfileViewController: StreamDestination {
 
     var isPagingEnabled: Bool {
         get { return streamViewController.isPagingEnabled }

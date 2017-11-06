@@ -88,14 +88,14 @@ struct Validator {
 
     static func isValidEmail(_ string: String) -> Bool {
         let emailRegEx = "^[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,20}$"
-        let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
+        let emailTest = NSPredicate(format: "SELF MATCHES %@", emailRegEx)
         let result = emailTest.evaluate(with: string)
         return result
     }
 
     static func isValidUsername(_ string: String) -> Bool {
         let usernameRegEx = "^[_-]|[\\w-]{2,}$"
-        let usernameTest = NSPredicate(format:"SELF MATCHES %@", usernameRegEx)
+        let usernameTest = NSPredicate(format: "SELF MATCHES %@", usernameRegEx)
         let result = usernameTest.evaluate(with: string)
         return result
     }

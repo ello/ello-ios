@@ -19,8 +19,8 @@ extension Dictionary {
     }
 }
 
-func +<K, V> (left: [K:V], right: [K:V]) -> [K:V] {
-    var d: [K:V] = [:]
+func +<K, V> (left: [K: V], right: [K: V]) -> [K: V] {
+    var d: [K: V] = [:]
     d.merge(left)
     d.merge(right)
     return d

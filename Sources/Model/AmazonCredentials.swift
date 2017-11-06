@@ -54,9 +54,9 @@ class AmazonCredentials: JSONAble {
     override class func fromJSON(_ data: [String: Any]) -> JSONAble {
         return AmazonCredentials(
             accessKey: data["access_key"] as! String,
-            endpoint:  data["endpoint"] as! String,
-            policy:    data["policy"] as! String,
-            prefix:    data["prefix"] as! String,
+            endpoint: data["endpoint"] as! String,
+            policy: data["policy"] as! String,
+            prefix: data["prefix"] as! String,
             signature: data["signature"] as! String
         )
     }

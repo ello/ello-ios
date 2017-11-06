@@ -12,18 +12,18 @@ enum NotificationFilterType: String {
 
     var category: String? {
         switch self {
-            case .all:
-                return nil
-            case .comments:  // …
-                return "comments"
-            case .mention:  // @
-                return "mentions"
-            case .heart:
-                return "loves"
-            case .repost:
-                return "reposts"
-            case .relationship:
-                return "relationships"
+        case .all:
+            return nil
+        case .comments:  // …
+            return "comments"
+        case .mention:  // @
+            return "mentions"
+        case .heart:
+            return "loves"
+        case .repost:
+            return "reposts"
+        case .relationship:
+            return "relationships"
         }
     }
 

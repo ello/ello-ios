@@ -168,9 +168,9 @@ enum AttrValue {
 
     func toString(_ tag: String) -> String {
         switch self {
-            case .`false`: return ""
-            case .`true`: return tag
-            case let .value(value): return "\"\(value)\""
+        case .`false`: return ""
+        case .`true`: return tag
+        case let .value(value): return "\"\(value)\""
         }
     }
 }

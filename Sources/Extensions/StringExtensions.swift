@@ -6,7 +6,7 @@ import Keys
 
 
 // static variables, to store HTML entities
-private var entityLookup: [String : String] = populateEntityLookup()
+private var entityLookup: [String: String] = populateEntityLookup()
 
 private var srcRegex: NSRegularExpression? = try? NSRegularExpression(
                 pattern: "src=[\"']([^\"']*)[\"']",
@@ -70,7 +70,7 @@ extension String {
         while !scanner.isAtEnd {
             var scanned: NSString?
 
-            if scanner.scanUpTo("&", into:&scanned) {
+            if scanner.scanUpTo("&", into: &scanned) {
                 entitiesDecoded += scanned! as String
             }
 

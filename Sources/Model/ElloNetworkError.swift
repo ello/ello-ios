@@ -28,14 +28,14 @@ class ElloNetworkError: JSONAble {
         case unknown = "unknown"
     }
 
-    let attrs: [String:[String]]?
+    let attrs: [String: [String]]?
     let code: CodeType
     let detail: String?
     let messages: [String]?
     let status: String?
     let title: String
 
-    init(attrs: [String:[String]]?,
+    init(attrs: [String: [String]]?,
         code: CodeType,
         detail: String?,
         messages: [String]?,
@@ -75,7 +75,7 @@ class ElloNetworkError: JSONAble {
         let detail = json["detail"].string
         let status = json["status"].string
         let messages = json["messages"].object as? [String]
-        let attrs = json["attrs"].object as? [String:[String]]
+        let attrs = json["attrs"].object as? [String: [String]]
 
         return ElloNetworkError(
             attrs: attrs,

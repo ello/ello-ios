@@ -46,16 +46,16 @@ class BlockUserModalViewController: BaseElloViewController, BlockUserModalDelega
         }
 
         switch newRelationship {
-            case .block: Tracker.shared.userBlocked(userId)
-            case .mute: Tracker.shared.userMuted(userId)
-            case .inactive:
-                if relationshipPriority == .block {
-                    Tracker.shared.userUnblocked(userId)
-                }
-                else if relationshipPriority == .mute {
-                    Tracker.shared.userUnmuted(userId)
-                }
-            default: break
+        case .block: Tracker.shared.userBlocked(userId)
+        case .mute: Tracker.shared.userMuted(userId)
+        case .inactive:
+            if relationshipPriority == .block {
+                Tracker.shared.userUnblocked(userId)
+            }
+            else if relationshipPriority == .mute {
+                Tracker.shared.userUnmuted(userId)
+            }
+        default: break
         }
 
         let responder: RelationshipResponder? = findResponder()
