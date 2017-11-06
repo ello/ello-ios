@@ -65,8 +65,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window = window
         AppSetup.shared.windowSize = window.frame.size
 
-        UIApplication.shared.statusBarStyle = .lightContent
-
         setupGlobalStyles()
         setupCaches()
 
@@ -79,6 +77,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func setupGlobalStyles() {
+        UIApplication.shared.statusBarStyle = .lightContent
+
         let attributes = [
             NSAttributedStringKey.foregroundColor: UIColor.greyA,
             NSAttributedStringKey.font: UIFont.defaultFont(12),
