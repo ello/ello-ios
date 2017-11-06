@@ -37,12 +37,9 @@ class AvatarButton: UIButton {
 
             if result.resultType != .memoryCache {
                 self.alpha = 0
-                UIView.animate(withDuration: 0.3,
-                    delay:0.0,
-                    options:UIViewAnimationOptions.curveLinear,
-                    animations: {
-                        self.alpha = 1.0
-                    }, completion: nil)
+                elloAnimate {
+                    self.alpha = 0
+                }
             }
             else {
                 self.alpha = 1.0
