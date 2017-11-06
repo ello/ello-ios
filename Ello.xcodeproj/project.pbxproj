@@ -2498,13 +2498,6 @@
 			path = Networking;
 			sourceTree = "<group>";
 		};
-		121D92501A5AEE55004F0455 /* Post */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Post;
-			sourceTree = "<group>";
-		};
 		121D92571A5CACC7004F0455 /* Join */ = {
 			isa = PBXGroup;
 			children = (
@@ -3246,7 +3239,6 @@
 				124357681A89276E008B24FB /* Notifications */,
 				12551FB81A68725100ABC5D9 /* Omnibar */,
 				1D7426371B02973200C16322 /* Onboarding */,
-				121D92501A5AEE55004F0455 /* Post */,
 				1D66801E1A89B862003E93C8 /* Profile */,
 				F8D4F60C1AE829C900AF4470 /* PushNotifications */,
 				76E5CBE71A92678500D6483F /* Relationship */,
