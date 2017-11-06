@@ -18,8 +18,8 @@ class PromotionalHeaderCellSizeCalculatorSpec: QuickSpec {
                 ]
                 for (frameWidth, calcHeight) in expectations {
                     it("should size width \(frameWidth) to \(calcHeight)") {
-                        let calculator = PromotionalHeaderCellSizeCalculator()
-                        let cellItem = StreamCellItem(type: .categoryPromotionalHeader)
+                        let calculator = PromotionalHeaderCellSizeCalculator(webView: MockUIWebView())
+                        let cellItem = StreamCellItem(jsonable: PagePromotional.stub([:]), type: .categoryPromotionalHeader)
                         calculator.processCells([cellItem], withWidth: frameWidth) {
                             expect(cellItem.calculatedCellHeights.oneColumn) == calcHeight
                         }

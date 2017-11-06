@@ -120,10 +120,6 @@ class StreamViewControllerSpec: QuickSpec {
 
             context("WebLinkResponder") {
 
-                it("is a WebLinkResponder") {
-                    expect(controller as WebLinkResponder).notTo(beNil())
-                }
-
                 describe("webLinkTapped(_:data:)") {
                     var hasAppVC: MockHasAppViewController!
 
@@ -146,14 +142,6 @@ class StreamViewControllerSpec: QuickSpec {
                         else {
                             fail("did not present ElloWebBrowserViewController")
                         }
-                    }
-
-                    xit("presents a profile if type .profile") {
-                        // not yet implemented
-                    }
-
-                    xit("shows a post detail if type .post") {
-                        // not yet implemented
                     }
 
                 }

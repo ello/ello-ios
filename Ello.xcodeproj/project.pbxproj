@@ -1277,7 +1277,6 @@
 		F8BDA7551AA8F3C800A662B4 /* DrawerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8BDA7541AA8F3C800A662B4 /* DrawerViewController.swift */; };
 		F8BDA7581AA8F3E000A662B4 /* DrawerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F8BDA7571AA8F3E000A662B4 /* DrawerViewController.xib */; };
 		F8D160681AB75B1D00575B25 /* DrawerViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8D160671AB75B1D00575B25 /* DrawerViewDataSource.swift */; };
-		F8D1606A1AB75C2900575B25 /* DrawerViewDataSourceSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8D160691AB75C2900575B25 /* DrawerViewDataSourceSpec.swift */; };
 		F8D4F60E1AE82A1600AF4470 /* PushNotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8D4F60D1AE82A1600AF4470 /* PushNotificationController.swift */; };
 		F8FDB1B81AC0B81500A59266 /* UIScreenEdgePanGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8FDB1B71AC0B81500A59266 /* UIScreenEdgePanGestureRecognizer.swift */; };
 /* End PBXBuildFile section */
@@ -2397,7 +2396,6 @@
 		F8BDA7541AA8F3C800A662B4 /* DrawerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawerViewController.swift; sourceTree = "<group>"; };
 		F8BDA7571AA8F3E000A662B4 /* DrawerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DrawerViewController.xib; sourceTree = "<group>"; };
 		F8D160671AB75B1D00575B25 /* DrawerViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawerViewDataSource.swift; sourceTree = "<group>"; };
-		F8D160691AB75C2900575B25 /* DrawerViewDataSourceSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawerViewDataSourceSpec.swift; sourceTree = "<group>"; };
 		F8D4F60D1AE82A1600AF4470 /* PushNotificationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushNotificationController.swift; sourceTree = "<group>"; };
 		F8FDB1B71AC0B81500A59266 /* UIScreenEdgePanGestureRecognizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIScreenEdgePanGestureRecognizer.swift; sourceTree = "<group>"; };
 		FCC6D1CF14C9670467D6090C /* Pods-ShareExtension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShareExtension.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ShareExtension/Pods-ShareExtension.debug.xcconfig"; sourceTree = "<group>"; };
@@ -2655,7 +2653,6 @@
 			children = (
 				1D98563E1C723B7C00C1BF78 /* DrawerAnimatorsSpec.swift */,
 				F81ED61C1AAF499D00A20794 /* DrawerViewControllerSpec.swift */,
-				F8D160691AB75C2900575B25 /* DrawerViewDataSourceSpec.swift */,
 			);
 			path = Drawer;
 			sourceTree = "<group>";
@@ -5309,7 +5306,6 @@
 				76BE9C551B2B773B007575AA /* StreamInviteFriendsCellSpec.swift in Sources */,
 				124BBEDF1BDFEDE900CBDF69 /* AppDelegateSpec.swift in Sources */,
 				1D2B6A7C1BE3FB0900D27DC9 /* AvatarButtonSpec.swift in Sources */,
-				F8D1606A1AB75C2900575B25 /* DrawerViewDataSourceSpec.swift in Sources */,
 				12D14C681A43761A00C6F8E8 /* AuthTokenSpec.swift in Sources */,
 				1D7B93971C5AA2D9006CFA0B /* InteractionVisibilitySpec.swift in Sources */,
 				1D7750F41ABB391500D92191 /* TmpSpec.swift in Sources */,

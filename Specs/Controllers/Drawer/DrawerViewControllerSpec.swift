@@ -47,11 +47,7 @@ class DrawerViewControllerSpec: QuickSpec {
             }
 
             describe("appearance") {
-                var subject: DrawerViewController!
-                beforeEach {
-                    subject = DrawerViewController()
-                }
-                validateAllSnapshots { return subject }
+                validateAllSnapshots(named: "DrawerViewController") { return DrawerViewController() }
             }
         }
     }
