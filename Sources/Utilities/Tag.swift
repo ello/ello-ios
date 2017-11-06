@@ -294,8 +294,8 @@ class Tag: CustomStringConvertible {
 
     private func attrd(_ text: String, addlAttrs: [NSAttributedStringKey: Any] = [:]) -> NSAttributedString {
         let defaultAttrs: [NSAttributedStringKey: Any] = [
-            NSAttributedStringKey.font: UIFont.editorFont(),
-            NSAttributedStringKey.foregroundColor: UIColor.black,
+            .font: UIFont.editorFont(),
+            .foregroundColor: UIColor.black,
         ]
         return NSAttributedString(string: text, attributes: defaultAttrs + addlAttrs)
     }
@@ -306,7 +306,7 @@ class Tag: CustomStringConvertible {
         }
 
         let retval = NSMutableAttributedString(string: "")
-        var newAttrs: [NSAttributedStringKey: Any] = inheritedAttrs
+        var newAttrs = inheritedAttrs
         let text: String? = self.text
 
         if let tag = name {
@@ -314,22 +314,20 @@ class Tag: CustomStringConvertible {
             case "br":
                 retval.append(attrd("\n"))
             case "u":
-                newAttrs[NSAttributedStringKey.underlineStyle] = NSUnderlineStyle.styleSingle.rawValue
+                newAttrs[.underlineStyle] = NSUnderlineStyle.styleSingle.rawValue
             case "b", "strong":
-                if let existingFont = inheritedAttrs[NSAttributedStringKey.font] as? UIFont, existingFont.fontName == UIFont.editorItalicFont().fontName
-                {
-                    newAttrs[NSAttributedStringKey.font] = UIFont.editorBoldItalicFont()
+                if let existingFont = inheritedAttrs[.font] as? UIFont, existingFont.fontName == UIFont.editorItalicFont().fontName {
+                    newAttrs[.font] = UIFont.editorBoldItalicFont()
                 }
                 else {
-                    newAttrs[NSAttributedStringKey.font] = UIFont.editorBoldFont()
+                    newAttrs[.font] = UIFont.editorBoldFont()
                 }
             case "i", "em":
-                if let existingFont = inheritedAttrs[NSAttributedStringKey.font] as? UIFont, existingFont.fontName == UIFont.editorBoldFont().fontName
-                {
-                    newAttrs[NSAttributedStringKey.font] = UIFont.editorBoldItalicFont()
+                if let existingFont = inheritedAttrs[.font] as? UIFont, existingFont.fontName == UIFont.editorBoldFont().fontName {
+                    newAttrs[.font] = UIFont.editorBoldItalicFont()
                 }
                 else {
-                    newAttrs[NSAttributedStringKey.font] = UIFont.editorItalicFont()
+                    newAttrs[.font] = UIFont.editorItalicFont()
                 }
             default:
                 break

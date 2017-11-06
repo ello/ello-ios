@@ -82,8 +82,8 @@ class ClearTextField: UITextField {
 
     override func drawPlaceholder(in rect: CGRect) {
         placeholder?.draw(in: rect, withAttributes: [
-            NSAttributedStringKey.font: UIFont.defaultFont(18),
-            NSAttributedStringKey.foregroundColor: UIColor.white,
+            .font: UIFont.defaultFont(18),
+            .foregroundColor: UIColor.white,
         ])
     }
 

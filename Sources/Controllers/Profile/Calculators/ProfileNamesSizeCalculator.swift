@@ -30,14 +30,14 @@ struct ProfileNamesSizeCalculator {
             nameSize = user.name.boundingRect(
                 with: maxSize, options: [],
                 attributes: [
-                    NSAttributedStringKey.font: nameFont,
+                    .font: nameFont,
                 ], context: nil).size.integral
         }
 
         let usernameSize = user.atName.boundingRect(
             with: maxSize, options: [],
             attributes: [
-                NSAttributedStringKey.font: usernameFont,
+                .font: usernameFont,
             ], context: nil).size.integral
 
         let (height, _) = ProfileNamesView.preferredHeight(nameSize: nameSize, usernameSize: usernameSize, maxWidth: maxWidth)

@@ -255,7 +255,7 @@ class SettingsViewController: UITableViewController, ControllerThatMightHaveTheC
             bioLabel.text = InterfaceString.Settings.Bio
         }
 
-        bioTextView.attributedText = ElloAttributedString.style(currentUser?.profile?.shortBio ?? "")
+        bioTextView.attributedText = NSAttributedString(defaults: currentUser?.profile?.shortBio ?? "")
         nameTextFieldView.textField.text = currentUser?.name
 
         if let links = currentUser?.externalLinksList {

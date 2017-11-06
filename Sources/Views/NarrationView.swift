@@ -70,18 +70,18 @@ class NarrationView: UIView {
         let style = NSMutableParagraphStyle()
         style.lineSpacing = 6
 
-        let titleAttributes = [
-            NSAttributedStringKey.font: UIFont.defaultBoldFont(),
-            NSAttributedStringKey.foregroundColor: UIColor.white,
-            NSAttributedStringKey.paragraphStyle: style
+        let titleAttributes: [NSAttributedStringKey: Any] = [
+            .font: UIFont.defaultBoldFont(),
+            .foregroundColor: UIColor.white,
+            .paragraphStyle: style
         ]
-        let textAttributes = [
-            NSAttributedStringKey.font: UIFont.defaultFont(),
-            NSAttributedStringKey.foregroundColor: UIColor.white,
-            NSAttributedStringKey.paragraphStyle: style
+        let textAttributes: [NSAttributedStringKey: Any] = [
+            .font: UIFont.defaultFont(),
+            .foregroundColor: UIColor.white,
+            .paragraphStyle: style
         ]
 
-        label.attributedText = NSMutableAttributedString(string: title + "\n", attributes: titleAttributes) + NSMutableAttributedString(string: text, attributes: textAttributes)
+        label.attributedText = NSAttributedString(string: title + "\n", attributes: titleAttributes) + NSAttributedString(string: text, attributes: textAttributes)
     }
 
     override func layoutSubviews() {

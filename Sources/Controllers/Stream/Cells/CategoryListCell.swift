@@ -28,11 +28,10 @@ class CategoryListCell: CollectionViewCell {
     private var categoryButtons: [UIButton] = []
 
     private class func buttonTitle(_ category: String) -> NSAttributedString {
-        let attrs: [NSAttributedStringKey: Any] = [
-            NSAttributedStringKey.font: UIFont.defaultFont(),
-            NSAttributedStringKey.foregroundColor: UIColor.black
-        ]
-        let attributedString = NSAttributedString(string: category, attributes: attrs)
+        let attributedString = NSAttributedString(string: category, attributes: [
+            .font: UIFont.defaultFont(),
+            .foregroundColor: UIColor.black
+        ])
         return attributedString
     }
 

@@ -51,7 +51,7 @@ class SearchNavBarField: UITextField {
         attributedPlaceholder = NSAttributedString(
             string: InterfaceString.Search.Prompt,
             attributes: [
-                NSAttributedStringKey.foregroundColor: UIColor.greyA
+                .foregroundColor: UIColor.greyA
             ])
 
         leftViewMode = .always

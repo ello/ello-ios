@@ -9,97 +9,6 @@ import Nimble
 
 class ElloAttributedStringSpec: QuickSpec {
     override func spec() {
-        describe("styling a string") {
-            it("returns an attributed string") {
-                let text = "text"
-                let attrd = ElloAttributedString.style(text)
-                expect(attrd).to(beAKindOf(NSAttributedString.self))
-            }
-            it("accepts additional options") {
-                let text = "text"
-                let c = UIColor.gray
-                let attrd = ElloAttributedString.style(text, [NSAttributedStringKey.foregroundColor: c])
-                expect(attrd).to(beAKindOf(NSAttributedString.self))
-                expect(attrd.attributes(at: 0, effectiveRange: nil)[NSAttributedStringKey.foregroundColor] as? UIColor) == c
-            }
-            it("ElloAttributedString.attrs() accepts many additional options") {
-                let c1 = UIColor.lightGray
-                let c2 = UIColor.darkGray
-                let attrs1: [NSAttributedStringKey: Any] = [NSAttributedStringKey.foregroundColor: c1]
-                let attrs2: [NSAttributedStringKey: Any] = [NSAttributedStringKey.backgroundColor: c2]
-                let attrs = ElloAttributedString.attrs(attrs1, attrs2)
-                expect(attrs[NSAttributedStringKey.foregroundColor] as? UIColor) == c1
-                expect(attrs[NSAttributedStringKey.backgroundColor] as? UIColor) == c2
-            }
-        }
-
-        describe("splitting a string") {
-            it("preserves a string") {
-                let attrd = ElloAttributedString.style("text")
-                let splits = ElloAttributedString.split(attrd)
-                expect(splits.count) == 1
-                expect(splits.safeValue(0)?.string) == "text"
-            }
-            it("preserves a string with emoji") {
-                let attrd = ElloAttributedString.style("text😄")
-                let splits = ElloAttributedString.split(attrd)
-                expect(splits.count) == 1
-                expect(splits.safeValue(0)?.string) == "text😄"
-            }
-            it("splits a string") {
-                let attrd = ElloAttributedString.style("test1\ntest2")
-                let splits = ElloAttributedString.split(attrd)
-                expect(splits.count) == 2
-                expect(splits.safeValue(0)?.string) == "test1\n"
-                expect(splits.safeValue(1)?.string) == "test2"
-            }
-            it("splits a string with emoji") {
-                let attrd = ElloAttributedString.style("test1😄\ntest2")
-                let splits = ElloAttributedString.split(attrd)
-                expect(splits.count) == 2
-                expect(splits.safeValue(0)?.string) == "test1😄\n"
-                expect(splits.safeValue(1)?.string) == "test2"
-            }
-            it("preserves trailing newlines") {
-                let attrd = ElloAttributedString.style("test1\ntest2\n\n")
-                let splits = ElloAttributedString.split(attrd)
-                expect(splits.count) == 2
-                expect(splits.safeValue(0)?.string) == "test1\n"
-                expect(splits.safeValue(1)?.string) == "test2\n\n"
-            }
-            it("preserves trailing newlines with emoji") {
-                let attrd = ElloAttributedString.style("test1\n😄test2\n\n")
-                let splits = ElloAttributedString.split(attrd)
-                expect(splits.count) == 2
-                expect(splits.safeValue(0)?.string) == "test1\n"
-                expect(splits.safeValue(1)?.string) == "😄test2\n\n"
-            }
-            it("preserves preceding newlines") {
-                let attrd = ElloAttributedString.style("\n\ntest1\ntest2")
-                let splits = ElloAttributedString.split(attrd)
-                expect(splits.count) == 2
-                expect(splits.safeValue(0)?.string) == "\n\ntest1\n"
-                expect(splits.safeValue(1)?.string) == "test2"
-            }
-            it("preserves many regions") {
-                let attrd = ElloAttributedString.style("\n\ntest1\n\ntest2\ntest3\n\n\n")
-                let splits = ElloAttributedString.split(attrd)
-                expect(splits.count) == 3
-                expect(splits.safeValue(0)?.string) == "\n\ntest1\n\n"
-                expect(splits.safeValue(1)?.string) == "test2\n"
-                expect(splits.safeValue(2)?.string) == "test3\n\n\n"
-            }
-            it("preserves many regions with emoji") {
-                let attrd = ElloAttributedString.style("\n\n😄test1\n\nte😄st2\ntest3😄\n😄\n\n")
-                let splits = ElloAttributedString.split(attrd)
-                expect(splits.count) == 4
-                expect(splits.safeValue(0)?.string) == "\n\n😄test1\n\n"
-                expect(splits.safeValue(1)?.string) == "te😄st2\n"
-                expect(splits.safeValue(2)?.string) == "test3😄\n"
-                expect(splits.safeValue(3)?.string) == "😄\n\n"
-            }
-        }
-
         describe("parsing Post body") {
             let tests: [String: (input: String, output: String)] = [
                 "with newlines": (input: "test<br><br />", output: "test\n\n"),
@@ -130,30 +39,6 @@ class ElloAttributedStringSpec: QuickSpec {
                     let output = ElloAttributedString.render(text!)
                     expect(output) == spec.output
                 }
-            }
-        }
-
-        describe("featuredIn(categories:)") {
-            it("should render one category") {
-                let categories = [Category.featured]
-                let subject = ElloAttributedString.featuredIn(categories: categories)
-                expect(subject.string) == "Featured in Featured"
-            }
-            it("should accept attrs") {
-                let categories = [Category.featured]
-                let key = NSAttributedStringKey("some")
-                let subject = ElloAttributedString.featuredIn(categories: categories, attrs: [key: "thing"])
-                expect(subject.attributes(at: 0, effectiveRange: nil)[key] as? String) == "thing"
-            }
-            it("should render two categories") {
-                let categories = [Category.featured, Category.trending]
-                let subject = ElloAttributedString.featuredIn(categories: categories)
-                expect(subject.string) == "Featured in Featured & Trending"
-            }
-            it("should render three categories") {
-                let categories = [Category.featured, Category.trending, Category.recent]
-                let subject = ElloAttributedString.featuredIn(categories: categories)
-                expect(subject.string) == "Featured in Featured, Trending & Recent"
             }
         }
     }

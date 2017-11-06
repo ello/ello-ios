@@ -2,19 +2,36 @@
 ///  NSAttributedString.swift
 //
 
-extension NSMutableAttributedString {
-    override func appending(_ str: NSAttributedString) -> NSAttributedString {
-        self.append(str)
-        return self
-    }
+struct ElloAttributedText {
+    static let Link: NSAttributedStringKey = NSAttributedStringKey("ElloLinkAttributedString")
+    static let Object: NSAttributedStringKey = NSAttributedStringKey("ElloObjectAttributedString")
 }
 
+
 extension NSAttributedString {
-    @objc
-    func appending(_ str: NSAttributedString) -> NSAttributedString {
-        let retval: NSMutableAttributedString = NSMutableAttributedString(attributedString: self)
-        retval.append(str)
-        return NSAttributedString(attributedString: retval)
+    static func oldAttrs(_ oldAddrs: [NSAttributedStringKey: Any]) -> [String: Any] {
+        return oldAddrs.convert { key, value in
+            return (key.rawValue, value)
+        }
+    }
+
+    static func defaultAttrs(_ allAddlAttrs: [NSAttributedStringKey: Any]...) -> [NSAttributedStringKey: Any] {
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = 6
+
+        var attrs: [NSAttributedStringKey: Any] = [
+            .paragraphStyle: paragraphStyle,
+            .font: UIFont.defaultFont(),
+            .foregroundColor: UIColor.black,
+        ]
+        for addlAttrs in allAddlAttrs {
+            attrs += addlAttrs
+        }
+        return attrs
+    }
+
+    convenience init(defaults string: String) {
+        self.init(string: string, attributes: NSAttributedString.defaultAttrs())
     }
 
     convenience init(_ string: String, color: UIColor = .black, underlineStyle: NSUnderlineStyle? = nil, font: UIFont = .defaultFont(), alignment: NSTextAlignment = .left, lineBreakMode: NSLineBreakMode? = nil) {
@@ -28,10 +45,10 @@ extension NSAttributedString {
         }
         let underlineValue = underlineStyle?.rawValue ?? 0
         let attrs: [NSAttributedStringKey: Any] = [
-            NSAttributedStringKey.foregroundColor: color,
-            NSAttributedStringKey.font: font,
-            NSAttributedStringKey.paragraphStyle: paragraphStyle,
-            NSAttributedStringKey.underlineStyle: underlineValue,
+            .foregroundColor: color,
+            .font: font,
+            .paragraphStyle: paragraphStyle,
+            .underlineStyle: underlineValue,
         ]
         self.init(string: string, attributes: attrs)
     }
@@ -66,18 +83,62 @@ extension NSAttributedString {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 6
         let bold: [NSAttributedStringKey: Any] = [
-            NSAttributedStringKey.foregroundColor: UIColor.black,
-            NSAttributedStringKey.font: UIFont.defaultFont(16),
-            NSAttributedStringKey.paragraphStyle: paragraphStyle,
+            .foregroundColor: UIColor.black,
+            .font: UIFont.defaultFont(16),
+            .paragraphStyle: paragraphStyle,
             ]
         let plain: [NSAttributedStringKey: Any] = [
-            NSAttributedStringKey.foregroundColor: UIColor.greyA,
-            NSAttributedStringKey.font: UIFont.defaultFont(16),
-            NSAttributedStringKey.paragraphStyle: paragraphStyle,
+            .foregroundColor: UIColor.greyA,
+            .font: UIFont.defaultFont(16),
+            .paragraphStyle: paragraphStyle,
             ]
         let header = NSAttributedString(string: primaryHeader, attributes: bold) +
             NSAttributedString(string: " \(secondaryHeader)", attributes: plain)
         self.init(attributedString: header)
+    }
+
+    convenience init(featuredIn categories: [Category], font: UIFont = .defaultFont(18), color: UIColor = .white, alignment: NSTextAlignment = .center) {
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = 6
+        paragraphStyle.alignment = alignment
+
+        let attributes = NSAttributedString.defaultAttrs([
+            .paragraphStyle: paragraphStyle,
+            .font: font,
+            .foregroundColor: color,
+        ])
+
+        let featuredIn = NSMutableAttributedString(string: InterfaceString.Profile.FeaturedIn, attributes: attributes)
+        let count = categories.count
+        for (index, category) in categories.enumerated() {
+            let prefix: NSAttributedString
+            if index == count - 1 && count > 1 {
+                prefix = NSAttributedString(string: " & ", attributes: attributes)
+            }
+            else if index > 0 {
+                prefix = NSAttributedString(string: ", ", attributes: attributes)
+            }
+            else {
+                prefix = NSAttributedString(string: " ", attributes: attributes)
+            }
+
+            let categoryString = NSAttributedString(string: category.name, attributes: attributes + [
+                ElloAttributedText.Link: "category",
+                ElloAttributedText.Object: category,
+                .underlineStyle: NSUnderlineStyle.styleSingle.rawValue,
+            ])
+
+            featuredIn.append(prefix)
+            featuredIn.append(categoryString)
+        }
+
+        self.init(attributedString: featuredIn)
+    }
+
+    func appending(_ str: NSAttributedString) -> NSAttributedString {
+        let retval: NSMutableAttributedString = NSMutableAttributedString(attributedString: self)
+        retval.append(str)
+        return NSAttributedString(attributedString: retval)
     }
 
     func heightForWidth(_ width: CGFloat) -> CGFloat {

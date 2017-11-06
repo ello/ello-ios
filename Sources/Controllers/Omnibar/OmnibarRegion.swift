@@ -11,7 +11,7 @@ enum OmnibarRegion {
     case error(URL)
 
     static func text(_ str: String) -> OmnibarRegion {
-        return attributedText(ElloAttributedString.style(str))
+        return attributedText(NSAttributedString(defaults: str))
     }
 }
 

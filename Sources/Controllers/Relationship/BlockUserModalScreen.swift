@@ -100,9 +100,7 @@ extension BlockUserModalScreen {
         paragraphStyle.lineSpacing = 6
         let labels: [(UILabel, String)] = [(titleLabel, titleText), (muteLabel, muteText), (blockLabel, blockText), (flagLabel, flagText)]
         for (label, text) in labels {
-            label.attributedText = NSAttributedString(string: text, attributes: [
-                NSAttributedStringKey.paragraphStyle: paragraphStyle
-            ])
+            label.attributedText = NSAttributedString(string: text, attributes: [.paragraphStyle: paragraphStyle])
         }
 
         resetButtons()

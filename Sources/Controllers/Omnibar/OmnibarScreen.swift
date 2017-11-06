@@ -278,30 +278,30 @@ class OmnibarScreen: UIView, OmnibarScreenProtocol {
 
         boldButton.addTarget(self, action: #selector(boldButtonTapped), for: .touchUpInside)
         boldButton.setAttributedTitle(NSAttributedString(string: "B", attributes: [
-            NSAttributedStringKey.font: UIFont.defaultBoldFont(),
-            NSAttributedStringKey.foregroundColor: UIColor.white
+            .font: UIFont.defaultBoldFont(),
+            .foregroundColor: UIColor.white
         ]), for: .normal)
         boldButton.setAttributedTitle(NSAttributedString(string: "B", attributes: [
-            NSAttributedStringKey.font: UIFont.defaultBoldFont(),
-            NSAttributedStringKey.foregroundColor: UIColor.grey6
+            .font: UIFont.defaultBoldFont(),
+            .foregroundColor: UIColor.grey6
         ]), for: .highlighted)
         boldButton.setAttributedTitle(NSAttributedString(string: "B", attributes: [
-            NSAttributedStringKey.font: UIFont.defaultBoldFont(),
-            NSAttributedStringKey.foregroundColor: UIColor.black
+            .font: UIFont.defaultBoldFont(),
+            .foregroundColor: UIColor.black
             ]), for: .selected)
 
         italicButton.addTarget(self, action: #selector(italicButtonTapped), for: .touchUpInside)
         italicButton.setAttributedTitle(NSAttributedString(string: "I", attributes: [
-            NSAttributedStringKey.font: UIFont.defaultItalicFont(),
-            NSAttributedStringKey.foregroundColor: UIColor.white
+            .font: UIFont.defaultItalicFont(),
+            .foregroundColor: UIColor.white
         ]), for: .normal)
         italicButton.setAttributedTitle(NSAttributedString(string: "I", attributes: [
-            NSAttributedStringKey.font: UIFont.defaultItalicFont(),
-            NSAttributedStringKey.foregroundColor: UIColor.grey6
+            .font: UIFont.defaultItalicFont(),
+            .foregroundColor: UIColor.grey6
         ]), for: .highlighted)
         italicButton.setAttributedTitle(NSAttributedString(string: "I", attributes: [
-            NSAttributedStringKey.font: UIFont.defaultItalicFont(),
-            NSAttributedStringKey.foregroundColor: UIColor.black
+            .font: UIFont.defaultItalicFont(),
+            .foregroundColor: UIColor.black
             ]), for: .selected)
 
         linkButton.addTarget(self, action: #selector(linkButtonTapped), for: .touchUpInside)
@@ -462,7 +462,7 @@ class OmnibarScreen: UIView, OmnibarScreenProtocol {
 
     private func convertReorderableRegions(_ reorderableRegions: [IndexedRegion]) -> [OmnibarRegion] {
         var regions = [OmnibarRegion]()
-        var buffer = ElloAttributedString.style("")
+        var buffer = NSAttributedString(defaults: "")
         var lastRegionIsText = false
         for (_, region) in reorderableRegions {
             switch region {
@@ -474,7 +474,7 @@ class OmnibarScreen: UIView, OmnibarScreenProtocol {
                     regions.append(.attributedText(buffer))
                 }
                 regions.append(region)
-                buffer = ElloAttributedString.style("")
+                buffer = NSAttributedString(defaults: "")
                 lastRegionIsText = false
             default: break
             }
@@ -753,16 +753,15 @@ class OmnibarScreen: UIView, OmnibarScreenProtocol {
         {
             let range = textView.selectedRange
             let currentText = NSMutableAttributedString(attributedString: textView.attributedText)
-            let attributes = [NSAttributedStringKey.font: newFont]
-            currentText.addAttributes(attributes, range: textView.selectedRange)
+            currentText.addAttributes([.font: newFont], range: textView.selectedRange)
             textView.attributedText = currentText
             textView.selectedRange = range
 
             updateCurrentText(currentText)
         }
         else {
-            textView.typingAttributes = ElloAttributedString.oldAttrs(ElloAttributedString.attrs([
-                NSAttributedStringKey.font: newFont,
+            textView.typingAttributes = NSAttributedString.oldAttrs(NSAttributedString.defaultAttrs([
+                .font: newFont,
             ]))
         }
     }
@@ -776,7 +775,7 @@ class OmnibarScreen: UIView, OmnibarScreenProtocol {
             range.location -= 1
 
             var effectiveRange: NSRange? = NSRange(location: 0, length: 0)
-            if textView.textStorage.attribute(NSAttributedStringKey.link, at: range.location, effectiveRange: &effectiveRange!) != nil,
+            if textView.textStorage.attribute(.link, at: range.location, effectiveRange: &effectiveRange!) != nil,
                 let effectiveRange = effectiveRange
             {
                 range = effectiveRange
@@ -785,9 +784,9 @@ class OmnibarScreen: UIView, OmnibarScreenProtocol {
         guard range.length > 0 else { return }
 
         let currentAttrs = textView.textStorage.attributes(at: range.location, effectiveRange: nil)
-        if currentAttrs[NSAttributedStringKey.link] != nil {
-            textView.textStorage.removeAttribute(NSAttributedStringKey.link, range: range)
-            textView.textStorage.removeAttribute(NSAttributedStringKey.underlineStyle, range: range)
+        if currentAttrs[.link] != nil {
+            textView.textStorage.removeAttribute(.link, range: range)
+            textView.textStorage.removeAttribute(.underlineStyle, range: range)
             linkButton.isSelected = false
         }
         else {
@@ -797,8 +796,8 @@ class OmnibarScreen: UIView, OmnibarScreenProtocol {
                 }
 
                 self.textView.textStorage.addAttributes([
-                    NSAttributedStringKey.link: url,
-                    NSAttributedStringKey.underlineStyle: NSUnderlineStyle.styleSingle.rawValue,
+                    .link: url,
+                    .underlineStyle: NSUnderlineStyle.styleSingle.rawValue,
                     ], range: range)
                 self.linkButton.isSelected = true
                 self.linkButton.isEnabled = true

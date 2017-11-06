@@ -6,8 +6,8 @@ struct NotificationAttributedTitle {
 
     static private func attrs(_ addlAttrs: [NSAttributedStringKey: Any] = [:]) -> [NSAttributedStringKey: Any] {
         let attrs: [NSAttributedStringKey: Any] = [
-            NSAttributedStringKey.font: UIFont.defaultFont(),
-            NSAttributedStringKey.foregroundColor: UIColor.greyA,
+            .font: UIFont.defaultFont(),
+            .foregroundColor: UIColor.greyA,
         ]
         return attrs + addlAttrs
     }
@@ -21,7 +21,7 @@ struct NotificationAttributedTitle {
             return NSAttributedString(string: user.atName, attributes: attrs([
                 ElloAttributedText.Link: "user",
                 ElloAttributedText.Object: user,
-                NSAttributedStringKey.underlineStyle: NSUnderlineStyle.styleSingle.rawValue,
+                .underlineStyle: NSUnderlineStyle.styleSingle.rawValue,
             ]))
         }
         else {
@@ -33,7 +33,7 @@ struct NotificationAttributedTitle {
         let attrs = self.attrs([
             ElloAttributedText.Link: "post",
             ElloAttributedText.Object: post,
-            NSAttributedStringKey.underlineStyle: NSUnderlineStyle.styleSingle.rawValue,
+            .underlineStyle: NSUnderlineStyle.styleSingle.rawValue,
         ])
         return NSAttributedString(string: text, attributes: attrs)
     }
@@ -42,7 +42,7 @@ struct NotificationAttributedTitle {
         let attrs = self.attrs([
             ElloAttributedText.Link: "comment",
             ElloAttributedText.Object: comment,
-            NSAttributedStringKey.underlineStyle: NSUnderlineStyle.styleSingle.rawValue,
+            .underlineStyle: NSUnderlineStyle.styleSingle.rawValue,
         ])
         return NSAttributedString(string: text, attributes: attrs)
     }

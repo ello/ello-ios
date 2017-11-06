@@ -46,23 +46,21 @@ final class StreamViewController: BaseElloViewController {
             let titleParagraphStyle = NSMutableParagraphStyle()
             titleParagraphStyle.lineSpacing = 17
 
-            let titleAttributes = [
-                NSAttributedStringKey.font: UIFont.defaultBoldFont(18),
-                NSAttributedStringKey.foregroundColor: UIColor.black,
-                NSAttributedStringKey.paragraphStyle: titleParagraphStyle
-            ]
+            let title = NSAttributedString(string: self.noResultsMessages.title + "\n", attributes: [
+                .font: UIFont.defaultBoldFont(18),
+                .foregroundColor: UIColor.black,
+                .paragraphStyle: titleParagraphStyle
+            ])
 
             let bodyParagraphStyle = NSMutableParagraphStyle()
             bodyParagraphStyle.lineSpacing = 8
 
-            let bodyAttributes = [
-                NSAttributedStringKey.font: UIFont.defaultFont(),
-                NSAttributedStringKey.foregroundColor: UIColor.black,
-                NSAttributedStringKey.paragraphStyle: bodyParagraphStyle
-            ]
+            let body = NSAttributedString(string: self.noResultsMessages.body, attributes: [
+                .font: UIFont.defaultFont(),
+                .foregroundColor: UIColor.black,
+                .paragraphStyle: bodyParagraphStyle
+            ])
 
-            let title = NSAttributedString(string: self.noResultsMessages.title + "\n", attributes: titleAttributes)
-            let body = NSAttributedString(string: self.noResultsMessages.body, attributes: bodyAttributes)
             self.noResultsLabel.attributedText = title.appending(body)
         }
     }

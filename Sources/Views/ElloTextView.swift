@@ -39,11 +39,6 @@ enum ElloAttributedObject {
     }
 }
 
-struct ElloAttributedText {
-    static let Link: NSAttributedStringKey = NSAttributedStringKey("ElloLinkAttributedString")
-    static let Object: NSAttributedStringKey = NSAttributedStringKey("ElloObjectAttributedString")
-}
-
 class ElloTextView: UITextView {
 
     var customFont: UIFont?
@@ -70,8 +65,8 @@ class ElloTextView: UITextView {
 
     private func defaultAttrs() -> [NSAttributedStringKey: Any]  {
         return [
-            NSAttributedStringKey.font: self.customFont ?? UIFont.defaultFont(),
-            NSAttributedStringKey.foregroundColor: UIColor.greyA,
+            .font: self.customFont ?? UIFont.defaultFont(),
+            .foregroundColor: UIColor.greyA,
         ]
     }
 

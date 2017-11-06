@@ -3,8 +3,6 @@
 //
 
 class ElloToggleButton: UIButton {
-    private let attributes = [NSAttributedStringKey.font: UIFont.defaultFont()]
-
     var text: String? {
         didSet {
             toggleButton()
@@ -29,8 +27,10 @@ class ElloToggleButton: UIButton {
     }
 
     func setText(_ text: String, color: UIColor) {
-        let string = NSMutableAttributedString(string: text, attributes: attributes)
-        string.addAttribute(NSAttributedStringKey.foregroundColor, value: color, range: NSRange(location: 0, length: string.length))
+        let string = NSAttributedString(string: text, attributes: [
+            .font: UIFont.defaultFont(),
+            .foregroundColor: color,
+            ])
         setAttributedTitle(string, for: .normal)
     }
 

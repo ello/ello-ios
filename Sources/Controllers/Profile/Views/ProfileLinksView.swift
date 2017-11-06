@@ -165,18 +165,18 @@ extension ProfileLinksView {
             }
         }
 
-        let attrs: [NSAttributedStringKey: Any] = [
-            NSAttributedStringKey.font: UIFont.defaultFont(),
-            NSAttributedStringKey.foregroundColor: UIColor.greyA,
-            NSAttributedStringKey.underlineStyle: NSUnderlineStyle.styleSingle.rawValue,
-        ]
-        let highlightedAttrs: [NSAttributedStringKey: Any] = [
-            NSAttributedStringKey.font: UIFont.defaultFont(),
-            NSAttributedStringKey.foregroundColor: UIColor.black,
-            NSAttributedStringKey.underlineStyle: NSUnderlineStyle.styleSingle.rawValue,
-        ]
-        button.setAttributedTitle(NSAttributedString(string: externalLink.text, attributes: attrs), for: .normal)
-        button.setAttributedTitle(NSAttributedString(string: externalLink.text, attributes: highlightedAttrs), for: .highlighted)
+        button.setAttributedTitle(NSAttributedString(string: externalLink.text, attributes: [
+            .font: UIFont.defaultFont(),
+            .foregroundColor: UIColor.greyA,
+            .underlineStyle: NSUnderlineStyle.styleSingle.rawValue,
+        ]), for: .normal)
+
+        button.setAttributedTitle(NSAttributedString(string: externalLink.text, attributes: [
+            .font: UIFont.defaultFont(),
+            .foregroundColor: UIColor.black,
+            .underlineStyle: NSUnderlineStyle.styleSingle.rawValue,
+        ]), for: .highlighted)
+
         button.contentHorizontalAlignment = .left
         return button
     }

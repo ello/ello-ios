@@ -14,7 +14,7 @@ class OmnibarTextCell: UITableViewCell {
     var isFirst = false {
         didSet {
             if isFirst && attributedText.string.isEmpty {
-                textView.attributedText = ElloAttributedString.style(InterfaceString.Omnibar.SayEllo, [NSAttributedStringKey.foregroundColor: UIColor.black])
+                textView.attributedText = NSAttributedString(defaults: InterfaceString.Omnibar.SayEllo)
             }
         }
     }
@@ -43,10 +43,10 @@ class OmnibarTextCell: UITableViewCell {
                 textView.attributedText = attributedText
             }
             else if isFirst {
-                textView.attributedText = ElloAttributedString.style(InterfaceString.Omnibar.SayEllo, [NSAttributedStringKey.foregroundColor: UIColor.black])
+                textView.attributedText = NSAttributedString(defaults: InterfaceString.Omnibar.SayEllo)
             }
             else {
-                textView.attributedText = ElloAttributedString.style(InterfaceString.Omnibar.AddMoreText, [NSAttributedStringKey.foregroundColor: UIColor.black])
+                textView.attributedText = NSAttributedString(defaults: InterfaceString.Omnibar.AddMoreText)
             }
         }
     }

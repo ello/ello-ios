@@ -104,13 +104,13 @@ class StreamHeaderCell: UICollectionViewCell {
 
         if let category = category, categoryVisible {
             let attributedString = NSAttributedString(string: "in ", attributes: [
-                NSAttributedStringKey.font: UIFont.defaultFont(),
-                NSAttributedStringKey.foregroundColor: UIColor.greyA,
+                .font: UIFont.defaultFont(),
+                .foregroundColor: UIColor.greyA,
                 ])
             let categoryName = NSAttributedString(string: category.name, attributes: [
-                NSAttributedStringKey.font: UIFont.defaultFont(),
-                NSAttributedStringKey.foregroundColor: UIColor.greyA,
-                NSAttributedStringKey.underlineStyle: NSUnderlineStyle.styleSingle.rawValue,
+                .font: UIFont.defaultFont(),
+                .foregroundColor: UIColor.greyA,
+                .underlineStyle: NSUnderlineStyle.styleSingle.rawValue,
                 ])
             categoryButton.setAttributedTitle(attributedString + categoryName, for: .normal)
             categoryButton.sizeToFit()
@@ -135,9 +135,9 @@ class StreamHeaderCell: UICollectionViewCell {
         repostIconView.setInterfaceImage(.repost, style: .selected)
 
         let attributedSubmissionTitle = NSAttributedString(string: InterfaceString.ArtistInvites.PostSubmissionHeader, attributes: [
-            NSAttributedStringKey.font: UIFont.defaultFont(),
-            NSAttributedStringKey.foregroundColor: UIColor.greyA,
-            NSAttributedStringKey.underlineStyle: NSUnderlineStyle.styleSingle.rawValue,
+            .font: UIFont.defaultFont(),
+            .foregroundColor: UIColor.greyA,
+            .underlineStyle: NSUnderlineStyle.styleSingle.rawValue,
             ])
         artistInviteSubmissionButton.setAttributedTitle(attributedSubmissionTitle, for: .normal)
     }

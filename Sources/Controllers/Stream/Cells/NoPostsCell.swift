@@ -29,7 +29,7 @@ class NoPostsCell: UICollectionViewCell {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 4
         let attrString = NSMutableAttributedString(string: noPostsBodyText, attributes: [
-            NSAttributedStringKey.font: UIFont.defaultFont(),
+            .font: UIFont.defaultFont(),
             .paragraphStyle: paragraphStyle,
             ])
         noPostsBody.attributedText = attrString

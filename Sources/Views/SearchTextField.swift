@@ -9,7 +9,7 @@ class SearchTextField: UITextField {
                 attributedPlaceholder = NSAttributedString(
                     string: placeholder,
                     attributes: [
-                        NSAttributedStringKey.foregroundColor: UIColor.greyA
+                        .foregroundColor: UIColor.greyA
                     ])
             }
         }

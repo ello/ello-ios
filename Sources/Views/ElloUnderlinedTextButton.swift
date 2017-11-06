@@ -25,8 +25,8 @@ class ElloUnderlinedTextButton: UIButton {
 
         if let title = self.titleLabel?.text {
             let attributedString = NSAttributedString(string: title, attributes: [
-                NSAttributedStringKey.font: UIFont.defaultFont(),
-                NSAttributedStringKey.underlineStyle: NSUnderlineStyle.styleSingle.rawValue,
+                .font: UIFont.defaultFont(),
+                .underlineStyle: NSUnderlineStyle.styleSingle.rawValue,
                 ])
             self.setAttributedTitle(attributedString, for: .normal)
         }

@@ -109,13 +109,14 @@ class JoinScreen: CredentialsScreen {
     override func style() {
         super.style()
 
-        let attrs = ElloAttributedString.attrs([
-            NSAttributedStringKey.foregroundColor: UIColor.greyA,
-            NSAttributedStringKey.font: UIFont.defaultFont(Size.termsFontSize),
+        let attrs = NSAttributedString.defaultAttrs([
+            .foregroundColor: UIColor.greyA,
+            .font: UIFont.defaultFont(Size.termsFontSize),
         ])
-        let linkAttrs = ElloAttributedString.attrs(ElloAttributedString.linkAttrs(), [
-            NSAttributedStringKey.foregroundColor: UIColor.greyA,
-            NSAttributedStringKey.font: UIFont.defaultFont(Size.termsFontSize),
+        let linkAttrs = NSAttributedString.defaultAttrs([
+            .underlineStyle: NSUnderlineStyle.styleSingle.rawValue,
+            .foregroundColor: UIColor.greyA,
+            .font: UIFont.defaultFont(Size.termsFontSize),
         ])
         // needs i18n
         let attributedTitle = NSAttributedString(string: "By clicking Continue you are agreeing to our ", attributes: attrs) + NSAttributedString(string: "Terms", attributes: linkAttrs)
@@ -355,11 +356,11 @@ extension JoinScreen: JoinScreenProtocol {
 
     func showUsernameSuggestions(_ usernames: [String]) {
         let usernameAttrs: [NSAttributedStringKey: Any] = [
-            NSAttributedStringKey.font: UIFont.defaultFont(12),
-            NSAttributedStringKey.underlineStyle: NSUnderlineStyle.styleSingle.rawValue,
+            .font: UIFont.defaultFont(12),
+            .underlineStyle: NSUnderlineStyle.styleSingle.rawValue,
         ]
-        let plainAttrs = [
-            NSAttributedStringKey.font: UIFont.defaultFont(12),
+        let plainAttrs: [NSAttributedStringKey: Any] = [
+            .font: UIFont.defaultFont(12),
         ]
         let suggestions: NSAttributedString = usernames.reduce(NSAttributedString(string: "", attributes: plainAttrs)) { attrdString, username in
             let usernameAttrd = NSAttributedString(string: username, attributes: usernameAttrs)
@@ -373,8 +374,8 @@ extension JoinScreen: JoinScreenProtocol {
     }
 
     func showMessage(_ text: String) {
-        let plainAttrs = [
-            NSAttributedStringKey.font: UIFont.defaultFont(12),
+        let plainAttrs: [NSAttributedStringKey: Any] = [
+            .font: UIFont.defaultFont(12),
         ]
         showMessageAttributed(NSAttributedString(string: text, attributes: plainAttrs))
     }

@@ -48,7 +48,7 @@ class ProfileCategoriesScreen: Screen, ProfileCategoriesProtocol {
     }
 
     override func setText() {
-        textView.attributedText = ElloAttributedString.featuredIn(categories: categories)
+        textView.attributedText = NSAttributedString(featuredIn: categories)
         textView.sizeToFit()
 
         learnMoreButton.setTitle(InterfaceString.Badges.LearnMore, for: .normal)

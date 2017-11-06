@@ -23,12 +23,11 @@ class StreamFooterButton: UIButton {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.alignment = .center
 
-        let attributes = [
-            NSAttributedStringKey.font: UIFont.defaultFont(),
-            NSAttributedStringKey.foregroundColor: color,
-            NSAttributedStringKey.paragraphStyle: paragraphStyle
-        ]
-        attributedText = NSMutableAttributedString(string: title, attributes: attributes)
+        attributedText = NSMutableAttributedString(string: title, attributes: [
+            .font: UIFont.defaultFont(),
+            .foregroundColor: color,
+            .paragraphStyle: paragraphStyle
+        ])
 
         contentHorizontalAlignment = .center
         self.titleLabel?.textAlignment = .center

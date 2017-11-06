@@ -79,9 +79,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func setupGlobalStyles() {
         UIApplication.shared.statusBarStyle = .lightContent
 
-        let attributes = [
-            NSAttributedStringKey.foregroundColor: UIColor.greyA,
-            NSAttributedStringKey.font: UIFont.defaultFont(12),
+        let attributes: [NSAttributedStringKey: Any] = [
+            .foregroundColor: UIColor.greyA,
+            .font: UIFont.defaultFont(12),
         ]
         UIBarButtonItem.appearance().setTitleTextAttributes(attributes, for: .normal)
         UIBarButtonItem.appearance().setTitleTextAttributes(attributes, for: .highlighted)

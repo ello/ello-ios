@@ -64,8 +64,8 @@ extension OmnibarScreen: UITextViewDelegate {
         {
             var currentText = textView.attributedText
             if currentText?.string.isEmpty == true {
-                currentText = ElloAttributedString.style("")
-                textView.typingAttributes = ElloAttributedString.oldAttrs(ElloAttributedString.attrs())
+                currentText = NSAttributedString(defaults: "")
+                textView.typingAttributes = NSAttributedString.oldAttrs(NSAttributedString.defaultAttrs())
                 boldButton.isSelected = false
                 italicButton.isSelected = false
             }
@@ -166,7 +166,7 @@ extension OmnibarScreen: AutoCompleteDelegate {
             }
 
             let newText = textView.text.replacingCharacters(in: item.match.range, with: "\(prefix)\(name)\(suffix) ")
-            let currentText = ElloAttributedString.style(newText)
+            let currentText = NSAttributedString(defaults: newText)
             textView.attributedText = currentText
             textViewDidChange(textView)
             updateButtons()

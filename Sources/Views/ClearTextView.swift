@@ -97,16 +97,20 @@ class ClearTextView: UITextView {
     private func updateTextStyle() {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 12
-        var attributes: [String: Any] = [
-            NSAttributedStringKey.paragraphStyle.rawValue: paragraphStyle
+
+        var attributes: [NSAttributedStringKey: Any] = [
+            .paragraphStyle: paragraphStyle,
         ]
+
         if let font = font {
-            attributes[NSAttributedStringKey.font.rawValue] = font
+            attributes[.font] = font
         }
+
         if let textColor = textColor {
-            attributes[NSAttributedStringKey.foregroundColor.rawValue] = textColor
+            attributes[.foregroundColor] = textColor
         }
-        typingAttributes = attributes
+
+        typingAttributes = NSAttributedString.oldAttrs(attributes)
     }
 
     override func layoutSubviews() {
