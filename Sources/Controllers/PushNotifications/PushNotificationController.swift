@@ -190,7 +190,7 @@ extension PushNotificationController {
 
     private func actionMessageUser(userId: String, text: String, payload: PushPayload) {
         UserService().loadUser(.userStream(userParam: userId))
-            .thenFinally { user in
+            .then { user -> Void in
                 let postText: String
                 if text =~ "\(user.atName)\\b" {
                     postText = text
@@ -205,7 +205,7 @@ extension PushNotificationController {
 
     private func actionSendMessage(text: String, postEditingService: PostEditingService, payload: PushPayload) {
         postEditingService.create(content: [.text(text)])
-            .thenFinally { _ in
+            .then { _ -> Void in
                 let message: String
                 if postEditingService.parentPostId == nil {
                     message = InterfaceString.Omnibar.CreatedPost

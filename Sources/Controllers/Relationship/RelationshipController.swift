@@ -91,7 +91,7 @@ extension RelationshipController: RelationshipResponder {
             responder?.relationshipChanged(userId, status: RelationshipRequestStatusWrapper(status: .success), relationship: relationship)
         }
 
-        promise.thenFinally { (relationship) in
+        promise.then { relationship -> Void in
                 complete(RelationshipRequestStatusWrapper(status: .success), relationship, true)
                 responder?.relationshipChanged(userId, status: RelationshipRequestStatusWrapper(status: .success), relationship: relationship)
 

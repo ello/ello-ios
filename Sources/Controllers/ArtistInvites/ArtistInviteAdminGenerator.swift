@@ -40,11 +40,8 @@ private extension ArtistInviteAdminGenerator {
 
     func loadArtistInvites() {
         StreamService().loadStream(endpoint: stream.endpoint)
-            .thenFinally { [weak self] response in
-                guard
-                    let `self` = self,
-                    self.loadingToken.isValidInitialPageLoadingToken(self.localToken)
-                else { return }
+            .then { response -> Void in
+                guard self.loadingToken.isValidInitialPageLoadingToken(self.localToken) else { return }
 
                 if case .empty = response {
                     self.showEmptySubmissions()
@@ -66,8 +63,7 @@ private extension ArtistInviteAdminGenerator {
                     self.destination?.isPagingEnabled = artistInviteItems.count > 0
                 }
             }
-            .catch { [weak self] _ in
-                guard let `self` = self else { return }
+            .catch { _ in
                 self.destination?.primaryJSONAbleNotFound()
             }
     }

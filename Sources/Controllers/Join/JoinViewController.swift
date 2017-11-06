@@ -95,7 +95,7 @@ extension JoinViewController: JoinDelegate {
                     password: password,
                     invitationCode: self.invitationCode
                     )
-                    .thenFinally { user in
+                    .then { user -> Void in
                         Tracker.shared.joinSuccessful()
                         self.showOnboardingScreen(user)
                     }
@@ -186,7 +186,7 @@ extension JoinViewController {
 
     private func emailAvailability(_ text: String, completion: @escaping (Bool) -> Void) {
         AvailabilityService().emailAvailability(text)
-            .thenFinally { availability in
+            .then { availability -> Void in
                 if text != self.screen.email {
                     completion(false)
                     return
@@ -209,7 +209,7 @@ extension JoinViewController {
 
     private func usernameAvailability(_ text: String, completion: @escaping (Bool) -> Void) {
         AvailabilityService().usernameAvailability(text)
-            .thenFinally { availability in
+            .then { availability -> Void in
                 if text != self.screen.username {
                     completion(false)
                     return

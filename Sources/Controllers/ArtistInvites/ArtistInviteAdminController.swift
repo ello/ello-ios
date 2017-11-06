@@ -120,7 +120,7 @@ extension ArtistInviteAdminController: ArtistInviteAdminResponder {
 
         ElloHUD.showLoadingHudInView(streamViewController.view)
         ArtistInviteService().performAction(action: action)
-            .thenFinally { newSubmission in
+            .then { newSubmission -> Void in
                 streamCellItem.jsonable = newSubmission
                 collectionView.reloadItems(at: [indexPath])
             }

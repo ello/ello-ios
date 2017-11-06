@@ -93,7 +93,7 @@ class CredentialSettingsViewController: UITableViewController {
                 self.updateView()
             } else if Validator.isValidEmail(text) {
                 AvailabilityService().emailAvailability(text)
-                    .thenFinally { availability in
+                    .then { availability -> Void in
                         if text != self.emailView.textField.text { return }
                         let state: ValidationState = availability.isEmailAvailable ? .ok : .error
 
@@ -133,7 +133,7 @@ class CredentialSettingsViewController: UITableViewController {
                 self.updateView()
             } else {
                 AvailabilityService().usernameAvailability(text)
-                    .thenFinally { availability in
+                    .then { availability -> Void in
                         if text != self.usernameView.textField.text { return }
                         let state: ValidationState = availability.isUsernameAvailable ? .ok : .error
 
@@ -217,7 +217,7 @@ class CredentialSettingsViewController: UITableViewController {
         }
 
         ProfileService().updateUserProfile(properties)
-            .thenFinally { [weak self] user in
+            .then { [weak self] user -> Void in
                 guard let `self` = self else { return }
 
                 let responder = self.target(forAction: #selector(CredentialSettingsResponder.credentialSettingsUserChanged(_:)), withSender: self) as? CredentialSettingsResponder

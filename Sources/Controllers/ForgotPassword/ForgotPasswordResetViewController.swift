@@ -47,9 +47,9 @@ extension ForgotPasswordResetViewController: ForgotPasswordResetDelegate {
             Tracker.shared.resetPasswordValid()
 
             UserService().resetPassword(password: password, authToken: authToken)
-                .thenFinally { user in
+                .then { user -> Void in
                     CredentialsAuthService().authenticate(email: user.username, password: password)
-                        .thenFinally { _ in
+                        .then { _ -> Void in
                             Tracker.shared.resetPasswordSuccessful()
                             self.loadCurrentUser()
                         }

@@ -130,7 +130,7 @@ struct PostService {
 
     func deletePost(_ postId: String) -> Promise<()> {
         return ElloProvider.shared.request(.deletePost(postId: postId))
-            .thenFinally { _ in
+            .then { _ -> Void in
                 URLCache.shared.removeAllCachedResponses()
             }
     }

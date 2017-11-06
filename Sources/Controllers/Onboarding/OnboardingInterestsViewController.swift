@@ -69,7 +69,7 @@ extension OnboardingInterestsViewController: OnboardingStepController {
         }
 
         UserService().setUser(categories: categories)
-            .thenFinally { [weak self] _ in
+            .then { [weak self] _ -> Void in
                 guard let `self` = self else { return }
 
                 self.onboardingData.categories = categories

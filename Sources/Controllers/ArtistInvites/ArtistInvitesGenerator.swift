@@ -37,11 +37,8 @@ private extension ArtistInvitesGenerator {
 
     func loadArtistInvitePromotionals() {
         PagePromotionalService().loadArtistInvitePromotionals()
-            .thenFinally { [weak self] promotionals in
-                guard
-                    let `self` = self,
-                    let promotionals = promotionals
-                else { return }
+            .then { promotionals -> Void in
+                guard let promotionals = promotionals else { return }
 
                 if let pagePromotional = promotionals.randomItem() {
                     self.destination?.replacePlaceholder(type: .promotionalHeader, items: [
@@ -55,9 +52,8 @@ private extension ArtistInvitesGenerator {
 
     func loadArtistInvites() {
         StreamService().loadStream(streamKind: streamKind)
-            .thenFinally { [weak self] response in
+            .then { response -> Void in
                 guard
-                    let `self` = self,
                     self.loadingToken.isValidInitialPageLoadingToken(self.localToken),
                     case let .jsonables(jsonables, responseConfig) = response,
                     let artistInvites = jsonables as? [ArtistInvite]
@@ -70,8 +66,7 @@ private extension ArtistInvitesGenerator {
                     self.destination?.isPagingEnabled = artistInviteItems.count > 0
                 }
             }
-            .catch { [weak self] _ in
-                guard let `self` = self else { return }
+            .catch { _ in
                 self.destination?.primaryJSONAbleNotFound()
             }
     }

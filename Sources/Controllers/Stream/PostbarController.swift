@@ -124,7 +124,7 @@ class PostbarController: UIResponder, PostbarResponder {
             imageLabelControl.animate()
 
             PostService().loadMoreCommentsForPost(post.id)
-                .thenFinally { [weak self] comments in
+                .then { [weak self] comments -> Void in
                     guard
                         let `self` = self,
                         let updatedIndexPath = self.collectionViewDataSource.indexPath(forItem: item)
@@ -227,7 +227,7 @@ class PostbarController: UIResponder, PostbarResponder {
         }
 
         LovesService().unlovePost(postId: post.id)
-            .thenFinally {
+            .then { _ -> Void in
                 guard let currentUser = self.currentUser else { return }
 
                 let now = AppSetup.shared.now
@@ -260,7 +260,7 @@ class PostbarController: UIResponder, PostbarResponder {
         postNotification(HapticFeedbackNotifications.successfulUserEvent, value: ())
 
         LovesService().lovePost(postId: post.id)
-            .thenFinally { love in
+            .then { love -> Void in
                 postNotification(JSONAbleChangedNotification, value: (love, .create))
             }
             .always {
@@ -323,7 +323,7 @@ class PostbarController: UIResponder, PostbarResponder {
         postNotification(PostChangedNotification, value: (post, .reposted))
 
         RePostService().repost(post: post)
-            .thenFinally { repost in
+            .then { repost -> Void in
                 postNotification(PostChangedNotification, value: (repost, .create))
                 postNotification(HapticFeedbackNotifications.successfulUserEvent, value: ())
                 alertController.contentView = nil
@@ -423,7 +423,7 @@ class PostbarController: UIResponder, PostbarResponder {
 
         let postId = comment.loadedFromPostId
         PostService().loadReplyAll(postId)
-            .thenFinally { [weak self] usernames in
+            .then { [weak self] usernames -> Void in
                 guard let `self` = self else { return }
                 let usernamesText = usernames.reduce("") { memo, username in
                     return memo + "@\(username) "
@@ -454,7 +454,7 @@ class PostbarController: UIResponder, PostbarResponder {
         cell.isWatching = isWatching
         cell.isUserInteractionEnabled = false
         PostService().toggleWatchPost(post, isWatching: isWatching)
-            .thenFinally { post in
+            .then { post -> Void in
                 cell.isUserInteractionEnabled = true
                 if isWatching {
                     Tracker.shared.postWatched(post)

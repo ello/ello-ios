@@ -56,10 +56,10 @@ final class NotificationsGenerator: StreamGenerator {
 
     func markAnnouncementAsRead(_ announcement: Announcement) {
         NotificationService().markAnnouncementAsRead(announcement)
-            .thenFinally { [weak self] _ in
-                self?.announcements = []
+            .then { _ -> Void in
+                self.announcements = []
             }
-            .catch { _ in }
+            .ignoreErrors()
     }
 
     func loadAnnouncements() {
@@ -69,8 +69,7 @@ final class NotificationsGenerator: StreamGenerator {
         }
 
         NotificationService().loadAnnouncements()
-            .thenFinally { [weak self] announcement in
-                guard let `self` = self else { return }
+            .then { announcement -> Void in
                 guard self.loadingToken.isValidInitialPageLoadingToken(self.localToken) else { return }
 
                 if let announcement = announcement {
@@ -80,8 +79,8 @@ final class NotificationsGenerator: StreamGenerator {
                     self.compareAndUpdateAnnouncements([])
                 }
             }
-            .catch { [weak self] _ in
-                self?.compareAndUpdateAnnouncements([])
+            .catch { _ in
+                self.compareAndUpdateAnnouncements([])
             }
     }
 
@@ -101,11 +100,8 @@ final class NotificationsGenerator: StreamGenerator {
 
     func loadNotifications() {
         StreamService().loadStream(streamKind: streamKind)
-            .thenFinally { [weak self] response in
-                guard
-                    let `self` = self,
-                    self.loadingToken.isValidInitialPageLoadingToken(self.localToken)
-                else { return }
+            .then { response -> Void in
+                guard self.loadingToken.isValidInitialPageLoadingToken(self.localToken) else { return }
 
                 switch response {
                 case let .jsonables(jsonables, responseConfig):
@@ -119,7 +115,7 @@ final class NotificationsGenerator: StreamGenerator {
                     self.destination?.setPagingConfig(responseConfig: responseConfig)
 
                     self.loadExtraNotificationContent(notificationActivities)
-                        .thenFinally {
+                        .then { _ -> Void in
                             let notificationItems = self.parse(jsonables: notificationActivities)
                             if notificationItems.count == 0 {
                                 let noContentItem = StreamCellItem(type: .emptyStream(height: 282))
@@ -144,8 +140,8 @@ final class NotificationsGenerator: StreamGenerator {
                     }
                 }
             }
-            .catch { [weak self] _ in
-                self?.destination?.primaryJSONAbleNotFound()
+            .catch { _ in
+                self.destination?.primaryJSONAbleNotFound()
             }
     }
 
@@ -159,7 +155,7 @@ final class NotificationsGenerator: StreamGenerator {
 
             let next = afterAll()
             ArtistInviteService().load(id: submission.artistInviteId)
-                .thenFinally { artistInvite in
+                .then { artistInvite -> Void in
                     ElloLinkedStore.shared.setObject(artistInvite, forKey: submission.artistInviteId, type: .artistInvitesType)
                 }
                 .always {  next() }

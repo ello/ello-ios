@@ -37,6 +37,12 @@ class NewContentService {
             }
         }
     }
+
+    deinit {
+        pauseObserver?.removeObserver()
+        resumeObserver?.removeObserver()
+        postCreatedObserver?.removeObserver()
+    }
 }
 
 extension NewContentService {
@@ -107,7 +113,7 @@ private extension NewContentService {
         let storedDate = GroupDefaults[storedKey].date
 
         return ElloProvider.shared.request(.notificationsNewContent(createdAt: storedDate))
-            .thenFinally { response in
+            .then { response -> Void in
                 guard
                     let statusCode = response.1.statusCode,
                     statusCode == 204
@@ -122,7 +128,7 @@ private extension NewContentService {
         let storedDate = GroupDefaults[storedKey].date
 
          return ElloProvider.shared.request(.announcementsNewContent(createdAt: storedDate))
-             .thenFinally { response in
+             .then { response -> Void in
                 guard
                     let statusCode = response.1.statusCode,
                     statusCode == 204
@@ -137,7 +143,7 @@ private extension NewContentService {
         let storedDate = GroupDefaults[storedKey].date
 
         return ElloProvider.shared.request(.followingNewContent(createdAt: storedDate))
-            .thenFinally { response in
+            .then { response -> Void in
                 let responseConfig = response.1
                 if let lastModified = responseConfig.lastModified {
                     GroupDefaults[storedKey] = lastModified.toDate(HTTPDateFormatter)

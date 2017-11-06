@@ -72,7 +72,7 @@ class DynamicSettingsViewController: UITableViewController {
         tableView.rowHeight = DynamicSettingsCellHeight
 
         StreamService().loadStream(endpoint: .profileToggles)
-            .thenFinally { [weak self] response in
+            .then { [weak self] response -> Void in
                 guard let `self` = self else { return }
 
                 self.hideLoadingHud()
@@ -160,7 +160,7 @@ class DynamicSettingsViewController: UITableViewController {
 
             tableView.isUserInteractionEnabled = false
             CategoryService().loadCreatorCategories()
-                .thenFinally { categories in
+                .then { categories -> Void in
                     let creatorCategories = categoryIds.flatMap { id -> Category? in
                         return categories.find { $0.id == id }
                     }

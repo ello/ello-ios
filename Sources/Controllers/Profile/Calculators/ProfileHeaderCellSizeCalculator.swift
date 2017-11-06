@@ -130,7 +130,7 @@ extension ProfileHeaderCellSizeCalculator {
 
         for (calcType, promise) in promises {
             promise
-                .thenFinally { height in
+                .then { height -> Void in
                     item.calculatedCellHeights.assign(calcType, height: height)
                 }
                 .always { done() }

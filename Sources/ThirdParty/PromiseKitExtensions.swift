@@ -19,10 +19,6 @@ extension Promise {
         return promise
     }
 
-    func thenFinally(execute body: @escaping (T) throws -> Void) -> Promise<Void> {
-        return then(execute: body)
-    }
-
     @discardableResult
     func ignoreErrors() -> Promise<T> {
         self.catch { _ in }

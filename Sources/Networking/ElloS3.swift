@@ -5,8 +5,8 @@
 // data = NSData()
 // uploader = ElloS3(credentials: credentials, data: data)
 //   .start()
-//   .thenFinally { (response: NSData) in }
-//   .catch { (error: NSError) in }
+//   .then { response -> Void in }
+//   .catch { error in }
 
 import PromiseKit
 

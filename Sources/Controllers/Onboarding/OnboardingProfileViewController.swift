@@ -159,7 +159,7 @@ extension OnboardingProfileViewController: OnboardingStepController {
         ProfileService().updateUserImages(
             avatarImage: avatarImage, coverImage: coverImage,
             properties: properties)
-            .thenFinally { _avatarURL, _coverImageURL, user in
+            .then { _avatarURL, _coverImageURL, user -> Void in
                 self.appViewController?.currentUser = user
                 self.goToNextStep(abort, proceedClosure: proceedClosure)
             }

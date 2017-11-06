@@ -46,7 +46,7 @@ class NotificationService: UNNotificationServiceExtension {
 
     private func fetchPost(id: String, content: UNMutableNotificationContent) {
         PostService().loadPost(id)
-            .thenFinally { post in
+            .then { post -> Void in
                 guard let regions = post.notificationContent,
                     let contentHandler = self.contentHandler
                 else { return }

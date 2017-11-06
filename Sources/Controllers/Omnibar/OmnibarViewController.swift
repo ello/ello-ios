@@ -61,7 +61,7 @@ class OmnibarViewController: BaseElloViewController {
         self.init(nibName: nil, bundle: nil)
         editComment = comment
         PostService().loadComment(comment.postId, commentId: comment.id)
-            .thenFinally { [weak self] comment in
+            .then { [weak self] comment -> Void in
                 guard let `self` = self else { return }
                 self.rawEditBody = comment.body
                 if let body = comment.body, self.isViewLoaded {
@@ -75,7 +75,7 @@ class OmnibarViewController: BaseElloViewController {
         self.init(nibName: nil, bundle: nil)
         editPost = post
         PostService().loadPost(post.id)
-            .thenFinally { post in
+            .then { post -> Void in
                 self.rawEditBody = post.body
                 if let body = post.body, self.isViewLoaded {
                     self.prepareScreenForEditing(body, isComment: false)
@@ -422,7 +422,7 @@ extension OmnibarViewController {
             buyButtonURL: buyButtonURL,
             artistInviteId: artistInvite?.id
             )
-            .thenFinally { postOrComment in
+            .then { postOrComment -> Void in
                 if self.editPost != nil || self.editComment != nil {
                     URLCache.shared.removeAllCachedResponses()
                 }
@@ -467,7 +467,7 @@ extension OmnibarViewController {
 
             if let post = comment.parentPost {
                 PostService().loadPost(post.id)
-                    .thenFinally { post in
+                    .then { post -> Void in
                         ElloLinkedStore.shared.setObject(post, forKey: post.id, type: .postsType)
                         postNotification(PostChangedNotification, value: (post, .watching))
                         self.stopSpinner()

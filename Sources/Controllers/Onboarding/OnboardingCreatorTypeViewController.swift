@@ -54,7 +54,7 @@ class OnboardingCreatorTypeViewController: BaseElloViewController {
         }
 
         CategoryService().loadCreatorCategories()
-            .thenFinally { categories in
+            .then { categories -> Void in
                 self.categories = categories
                 self.screen.creatorCategories = categories.map { $0.name }
                 self.screen.updateCreatorType(type: self.creatorType)
@@ -65,7 +65,7 @@ class OnboardingCreatorTypeViewController: BaseElloViewController {
     override func backButtonTapped() {
         super.backButtonTapped()
         saveCreatorType()
-            .thenFinally { user in
+            .then { user -> Void in
                 self.delegate?.dynamicSettingsUserChanged(user)
             }
             .catch { error in
@@ -143,7 +143,7 @@ extension OnboardingCreatorTypeViewController: OnboardingStepController {
         guard creatorType.isValid else { return }
 
         saveCreatorType()
-            .thenFinally { _ in
+            .then { _ -> Void in
                 self.onboardingData.creatorType = self.creatorType
                 proceedClosure(.continue)
             }

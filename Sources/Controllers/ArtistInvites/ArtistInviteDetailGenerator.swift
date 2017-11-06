@@ -49,7 +49,7 @@ private extension ArtistInviteDetailGenerator {
 
     func loadArtistInvite() {
         StreamService().loadStream(streamKind: streamKind)
-            .thenFinally { response in
+            .then { response -> Void in
                 guard
                     self.loadingToken.isValidInitialPageLoadingToken(self.localToken),
                     case let .jsonables(jsonables, responseConfig) = response,
@@ -87,7 +87,7 @@ private extension ArtistInviteDetailGenerator {
         }
 
         StreamService().loadStream(endpoint: endpoint)
-            .thenFinally { response in
+            .then { response -> Void in
                 guard
                     self.loadingToken.isValidInitialPageLoadingToken(self.localToken)
                 else { return }

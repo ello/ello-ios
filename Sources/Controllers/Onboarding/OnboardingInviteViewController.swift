@@ -87,7 +87,7 @@ extension OnboardingInviteViewController {
     private func findFriendsFromContacts() {
         ElloHUD.showLoadingHudInView(view)
         InviteService().find(addressBook, currentUser: self.currentUser)
-            .thenFinally { mixedContacts in
+            .then { mixedContacts -> Void in
                 self.streamViewController.clearForInitialLoad()
                 self.setContacts(mixedContacts)
                 self.streamViewController.doneLoading()

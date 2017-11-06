@@ -98,8 +98,7 @@ private extension ProfileGenerator {
 
         // load the user with no posts
         UserService().loadUser(streamKind.endpoint)
-            .thenFinally { [weak self] user in
-                guard let `self` = self else { return }
+            .then { user -> Void in
                 guard self.loadingToken.isValidInitialPageLoadingToken(self.localToken) else { return }
 
                 self.user = user
@@ -107,8 +106,7 @@ private extension ProfileGenerator {
                 self.destination?.replacePlaceholder(type: .profileHeader, items: self.headerItems())
                 doneOperation.run()
             }
-            .catch { [weak self] _ in
-                guard let `self` = self else { return }
+            .catch { _ in
                 self.destination?.primaryJSONAbleNotFound()
                 self.queue.cancelAllOperations()
             }
@@ -120,8 +118,7 @@ private extension ProfileGenerator {
         queue.addOperation(displayPostsOperation)
 
         UserService().loadUserPosts(userParam)
-            .thenFinally { [weak self] (posts, responseConfig) in
-                guard let `self` = self else { return }
+            .then { posts, responseConfig -> Void in
                 guard self.loadingToken.isValidInitialPageLoadingToken(self.localToken) else { return }
 
                 self.destination?.setPagingConfig(responseConfig: responseConfig)
@@ -151,8 +148,7 @@ private extension ProfileGenerator {
                     }
                 }
             }
-            .catch { [weak self] _ in
-                guard let `self` = self else { return }
+            .catch { _ in
                 self.destination?.primaryJSONAbleNotFound()
                 self.queue.cancelAllOperations()
             }

@@ -68,9 +68,7 @@ final class PostDetailGenerator: StreamGenerator {
 
         let scrollAPI = ElloAPI.infiniteScroll(query: nextQuery, api: .postComments(postId: postId))
         StreamService().loadStream(endpoint: scrollAPI, streamKind: .postDetail(postParam: postId))
-            .thenFinally { [weak self] response in
-                guard let `self` = self else { return }
-
+            .then { response -> Void in
                 switch response {
                 case let .jsonables(jsonables, responseConfig):
                     self.destination?.setPagingConfig(responseConfig: responseConfig)
@@ -146,8 +144,7 @@ private extension PostDetailGenerator {
 
         // load the post with no comments
         PostService().loadPost(postParam)
-            .thenFinally { [weak self] post in
-                guard let `self` = self else { return }
+            .then { post -> Void in
                 guard self.loadingToken.isValidInitialPageLoadingToken(self.localToken) else { return }
                 self.post = post
                 self.destination?.setPrimary(jsonable: post)
@@ -155,21 +152,18 @@ private extension PostDetailGenerator {
                 self.destination?.replacePlaceholder(type: .postHeader, items: postItems)
                 doneOperation.run()
             }
-            .catch { [weak self] _ in
-                guard let `self` = self else { return }
+            .catch { _ in
                 self.destination?.primaryJSONAbleNotFound()
                 self.queue.cancelAllOperations()
             }
     }
 
     func displayCommentBar(_ doneOperation: AsyncOperation) {
-
         let displayCommentBarOperation = AsyncOperation()
         displayCommentBarOperation.addDependency(doneOperation)
         queue.addOperation(displayCommentBarOperation)
 
-        displayCommentBarOperation.run { [weak self] in
-            guard let `self` = self else { return }
+        displayCommentBarOperation.run {
             guard let post = self.post else { return }
             let commentingEnabled = post.author?.hasCommentingEnabled ?? true
             guard let currentUser = self.currentUser, commentingEnabled else { return }
@@ -205,8 +199,7 @@ private extension PostDetailGenerator {
         queue.addOperation(displayCommentsOperation)
 
         PostService().loadPostComments(postParam)
-            .thenFinally { [weak self] (comments, responseConfig) in
-                guard let `self` = self else { return }
+            .then { comments, responseConfig -> Void in
                 guard self.loadingToken.isValidInitialPageLoadingToken(self.localToken) else { return }
 
                 let commentItems = self.parse(jsonables: comments)
@@ -232,8 +225,7 @@ private extension PostDetailGenerator {
         queue.addOperation(displayLoversOperation)
 
         PostService().loadPostLovers(postParam)
-            .thenFinally { [weak self] users in
-                guard let `self` = self else { return }
+            .then { users -> Void in
                 guard self.loadingToken.isValidInitialPageLoadingToken(self.localToken) else { return }
                 guard users.count > 0 else { return }
 
@@ -260,8 +252,7 @@ private extension PostDetailGenerator {
         queue.addOperation(displayRepostersOperation)
 
         PostService().loadPostReposters(postParam)
-            .thenFinally { [weak self] users in
-                guard let `self` = self else { return }
+            .then { users -> Void in
                 guard self.loadingToken.isValidInitialPageLoadingToken(self.localToken) else { return }
                 guard users.count > 0 else { return }
 
@@ -288,8 +279,7 @@ private extension PostDetailGenerator {
         queue.addOperation(displayRelatedPostsOperation)
 
         PostService().loadRelatedPosts(postParam)
-            .thenFinally { [weak self] relatedPosts in
-                guard let `self` = self else { return }
+            .then { relatedPosts -> Void in
                 guard self.loadingToken.isValidInitialPageLoadingToken(self.localToken) else { return }
                 guard relatedPosts.count > 0 else { return }
 

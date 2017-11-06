@@ -28,7 +28,7 @@ extension ForgotPasswordEmailViewController: ForgotPasswordEmailDelegate {
             Tracker.shared.requestPasswordValid()
 
             UserService().requestPasswordReset(email: email)
-                .thenFinally { _ in
+                .then { _ -> Void in
                     self.screen.loadingHUD(visible: false)
                     self.screen.showSubmitMessage()
                 }

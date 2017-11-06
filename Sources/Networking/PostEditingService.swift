@@ -197,7 +197,7 @@ class PostEditingService {
                 }
 
                 promise
-                    .thenFinally { url in
+                    .then { url -> Void in
                         let imageRegion = ImageRegion(alt: nil)
                         imageRegion.url = url
                         imageRegion.buyButtonURL = buyButtonURL

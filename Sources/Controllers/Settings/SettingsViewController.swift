@@ -193,7 +193,7 @@ class SettingsViewController: UITableViewController, ControllerThatMightHaveTheC
         }
 
         ProfileService().loadCurrentUser()
-            .thenFinally { [weak self] user in
+            .then { [weak self] user -> Void in
                 guard let `self` = self else { return }
                 self.updateCurrentUser(user)
             }
@@ -299,7 +299,9 @@ class SettingsViewController: UITableViewController, ControllerThatMightHaveTheC
             guard let `self` = self else { return }
             let name = self.nameTextFieldView.textField.text ?? ""
             ProfileService().updateUserProfile([.name: name])
-                .thenFinally { user in
+                .then { [weak self] user -> Void in
+                    guard let `self` = self else { return }
+
                     self.updateCurrentUser(user)
                     self.nameTextFieldView.setState(.ok)
                 }
@@ -326,7 +328,9 @@ class SettingsViewController: UITableViewController, ControllerThatMightHaveTheC
             else { return }
 
             ProfileService().updateUserProfile([.bio: bio])
-                .thenFinally { user in
+                .then { [weak self] user -> Void in
+                    guard let `self` = self else { return }
+
                     self.updateCurrentUser(user)
                     self.bioTextStatusImage.image = ValidationState.ok.imageRepresentation
                 }
@@ -351,7 +355,9 @@ class SettingsViewController: UITableViewController, ControllerThatMightHaveTheC
             else { return }
 
             ProfileService().updateUserProfile([.links: links])
-                .thenFinally { user in
+                .then { [weak self] user -> Void in
+                    guard let `self` = self else { return }
+
                     self.updateCurrentUser(user)
                     self.linksTextFieldView.setState(.ok)
                 }
@@ -381,13 +387,12 @@ class SettingsViewController: UITableViewController, ControllerThatMightHaveTheC
 
             if location != self.currentUser?.location {
                 ProfileService().updateUserProfile([.location: location])
-                    .thenFinally { user in
+                    .then { [weak self] user -> Void in
+                        guard let `self` = self else { return }
+
                         self.updateCurrentUser(user)
-                        guard self.locationTextFieldView.textField.text?.isEmpty == false else {
-                            self.locationTextFieldView.setState(.none)
-                            return
-                        }
-                        self.locationTextFieldView.setState(.ok)
+                        let isValid = self.locationTextFieldView.textField.text?.isEmpty == false
+                        self.locationTextFieldView.setState(isValid ? .ok : .none)
                     }
                     .catch { _ in
                         self.locationTextFieldView.setState(.error)
@@ -455,7 +460,9 @@ class SettingsViewController: UITableViewController, ControllerThatMightHaveTheC
         photoSaveCallback = { imageRegion in
             _ = ElloHUD.showLoadingHud()
             ProfileService().updateUserCoverImage(imageRegion)
-                .thenFinally { url, _ in
+                .then { [weak self] url, _ -> Void in
+                    guard let `self` = self else { return }
+
                     if let user = self.currentUser {
                         let asset = Asset(url: url)
                         user.coverImage = asset
@@ -483,7 +490,9 @@ class SettingsViewController: UITableViewController, ControllerThatMightHaveTheC
         photoSaveCallback = { imageRegion in
             _ = ElloHUD.showLoadingHud()
             ProfileService().updateUserAvatarImage(imageRegion)
-                .thenFinally { url, _ in
+                .then { [weak self] url, _ -> Void in
+                    guard let `self` = self else { return }
+
                     if let user = self.currentUser {
                         let asset = Asset(url: url)
                         user.avatar = asset

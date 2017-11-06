@@ -16,7 +16,7 @@ class ProfileLinksSizeCalculatorSpec: QuickSpec {
                 let calc = ProfileLinksSizeCalculator()
                 var height: CGFloat?
                 calc.calculate(StreamCellItem(jsonable: user, type: .streamHeader), maxWidth: 375)
-                    .thenFinally { h in height = h }
+                    .then { h -> Void in height = h }
                     .catch { _ in }
                 expect(height) == 0
             }
@@ -27,7 +27,7 @@ class ProfileLinksSizeCalculatorSpec: QuickSpec {
                 let calc = ProfileLinksSizeCalculator()
                 var height: CGFloat?
                 calc.calculate(StreamCellItem(jsonable: user, type: .streamHeader), maxWidth: 375)
-                    .thenFinally { h in height = h }
+                    .then { h -> Void in height = h }
                     .catch { _ in }
                 expect(height) == 0
             }
@@ -40,7 +40,7 @@ class ProfileLinksSizeCalculatorSpec: QuickSpec {
                 let calc = ProfileLinksSizeCalculator()
                 var height: CGFloat?
                 calc.calculate(StreamCellItem(jsonable: user, type: .streamHeader), maxWidth: 375)
-                    .thenFinally { h in height = h }
+                    .then { h -> Void in height = h }
                     .catch { _ in }
                 expect(height) == 53
             }
@@ -55,7 +55,7 @@ class ProfileLinksSizeCalculatorSpec: QuickSpec {
                 let calc = ProfileLinksSizeCalculator()
                 var height: CGFloat?
                 calc.calculate(StreamCellItem(jsonable: user, type: .streamHeader), maxWidth: 375)
-                    .thenFinally { h in height = h }
+                    .then { h -> Void in height = h }
                     .catch { _ in }
                 expect(height) == 82
             }
@@ -74,7 +74,7 @@ class ProfileLinksSizeCalculatorSpec: QuickSpec {
                 let calc = ProfileLinksSizeCalculator()
                 var height: CGFloat?
                 calc.calculate(StreamCellItem(jsonable: user, type: .streamHeader), maxWidth: 375)
-                    .thenFinally { h in height = h }
+                    .then { h -> Void in height = h }
                     .catch { _ in }
                 expect(height) == 198
             }
@@ -89,7 +89,7 @@ class ProfileLinksSizeCalculatorSpec: QuickSpec {
                 let calc = ProfileLinksSizeCalculator()
                 var height: CGFloat?
                 calc.calculate(StreamCellItem(jsonable: user, type: .streamHeader), maxWidth: 375)
-                    .thenFinally { h in height = h }
+                    .then { h -> Void in height = h }
                     .catch { _ in }
                 expect(height) == 53
             }
@@ -108,7 +108,7 @@ class ProfileLinksSizeCalculatorSpec: QuickSpec {
                 let calc = ProfileLinksSizeCalculator()
                 var height: CGFloat?
                 calc.calculate(StreamCellItem(jsonable: user, type: .streamHeader), maxWidth: 375)
-                    .thenFinally { h in height = h }
+                    .then { h -> Void in height = h }
                     .catch { _ in }
                 expect(height) == 81
             }
@@ -121,7 +121,7 @@ class ProfileLinksSizeCalculatorSpec: QuickSpec {
                 let calc = ProfileLinksSizeCalculator()
                 var height: CGFloat?
                 calc.calculate(StreamCellItem(jsonable: user, type: .streamHeader), maxWidth: 375)
-                    .thenFinally { h in height = h }
+                    .then { h -> Void in height = h }
                     .catch { _ in }
                 expect(height) == 49
             }
