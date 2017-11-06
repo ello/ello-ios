@@ -131,7 +131,7 @@ struct ProfileService {
     }
 
     func updateUserDeviceToken(_ token: Data) -> Promise<Void> {
-        log(comment: "push token", object: String((token as NSData).description.characters.filter { !"<> ".characters.contains($0) }))
+        log(comment: "push token", object: String((token as NSData).description.filter { !"<> ".contains($0) }))
         return ElloProvider.shared.request(.pushSubscriptions(token: token))
             .asVoid()
     }

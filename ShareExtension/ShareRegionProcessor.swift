@@ -4,13 +4,11 @@
 
 class ShareRegionProcessor {
 
-    init(){}
-
     static func prepContent(_ contentText: String, itemPreviews: [ExtensionItemPreview]) -> [PostEditingService.PostContentRegion] {
         var content: [PostEditingService.PostContentRegion] = []
 
         let cleanedText = contentText.trimmingCharacters(in: CharacterSet.whitespaces)
-        if cleanedText.characters.count > 0 {
+        if !cleanedText.isEmpty {
             let region = PostEditingService.PostContentRegion.text(cleanedText)
             let exists = content.any {$0 == region}
             if !exists {

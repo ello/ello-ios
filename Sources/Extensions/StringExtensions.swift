@@ -30,7 +30,7 @@ extension String {
         guard let srcRegex = srcRegex else {
             return self
         }
-        let range = NSRange(location: 0, length: characters.count)
+        let range = NSRange(location: 0, length: count)
         return srcRegex.stringByReplacingMatches(in: self,
             options: .reportCompletion,
             range: range,
@@ -119,7 +119,7 @@ extension String {
     }
 
     func split(_ splitChars: Character...) -> [String] {
-        return characters.split(whereSeparator: { (c: Character) -> Bool in
+        return split(whereSeparator: { (c: Character) -> Bool in
             return splitChars.any { s in
                 return s == c
             }
@@ -139,19 +139,22 @@ extension String {
         return capSplits.joined(separator: "")
     }
 
-    var first: String {
-        return String(characters.prefix(1))
+    var first: String? {
+        guard !isEmpty else { return nil }
+        return String(self[startIndex])
     }
 
     var secondIndex: String.Index { return index(after: startIndex) }
     var secondToLastIndex: String.Index { return index(before: endIndex) }
 
-    var last: String {
-        return String(characters.suffix(1))
+    var last: String? {
+        guard !isEmpty else { return nil }
+        return String(self[index(before: endIndex)])
     }
 
     var uppercaseFirst: String {
-        return first.uppercased() + String(characters.dropFirst())
+        guard let first = first else { return "" }
+        return first.uppercased() + String(self[secondIndex...])
     }
 }
 

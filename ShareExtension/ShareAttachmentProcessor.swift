@@ -16,7 +16,7 @@ class ShareAttachmentProcessor {
 
     static func hasContent(_ contentText: String?, extensionItem: NSExtensionItem?) -> Bool {
         let cleanedText = contentText?.trimmingCharacters(in: CharacterSet.whitespaces)
-        if let count = cleanedText?.characters.count, count > 0 {
+        if cleanedText?.isEmpty == false {
             return true
         }
 
