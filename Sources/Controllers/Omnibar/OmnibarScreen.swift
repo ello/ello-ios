@@ -135,6 +135,8 @@ class OmnibarScreen: UIView, OmnibarScreenProtocol {
     var autoCompleteThrottle = debounce(0.4)
     var autoCompleteShowing = false
 
+    private var contentSizeObservation: NSKeyValueObservation?
+
 // MARK: init
 
     override init(frame: CGRect) {
@@ -154,40 +156,25 @@ class OmnibarScreen: UIView, OmnibarScreenProtocol {
         setupKeyboardViews()
         setupViewHierarchy()
 
-        regionsTableView.addObserver(self, forKeyPath: "contentSize", options: [.new], context: nil)
+        contentSizeObservation = regionsTableView.observe(\UITableView.contentSize) { [weak self] tableView, change in
+            guard let `self` = self else { return }
+            let contentSize = tableView.contentSize
+            let regionsTableView = self.regionsTableView
+
+            let contentHeight: CGFloat = ceil(contentSize.height) + regionsTableView.contentInset.bottom
+            let height: CGFloat = max(0, regionsTableView.frame.height - contentHeight)
+            let y = regionsTableView.frame.height - height - regionsTableView.contentInset.bottom
+            self.textEditingControl.frame = CGRect(
+                x: 0,
+                y: y,
+                width: self.frame.width,
+                height: height
+            )
+        }
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-
-    deinit {
-        regionsTableView.removeObserver(self, forKeyPath: "contentSize", context: nil)
-    }
-
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?, context: UnsafeMutableRawPointer?) {
-        let sup = { super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context) }
-        guard let keyPath = keyPath, let change = change else {
-            sup()
-            return
-        }
-
-        switch keyPath {
-        case "contentSize":
-            if let contentSize = (change[NSKeyValueChangeKey.newKey] as? NSValue)?.cgSizeValue {
-                let contentHeight: CGFloat = ceil(contentSize.height) + regionsTableView.contentInset.bottom
-                let height: CGFloat = max(0, regionsTableView.frame.height - contentHeight)
-                let y = regionsTableView.frame.height - height - regionsTableView.contentInset.bottom
-                textEditingControl.frame = CGRect(
-                    x: 0,
-                    y: y,
-                    width: self.frame.width,
-                    height: height
-                    )
-            }
-        default:
-            sup()
-        }
     }
 
 // MARK: View setup code
