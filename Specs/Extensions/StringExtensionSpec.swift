@@ -167,6 +167,22 @@ class StringExtensionSpec: QuickSpec {
                     expect(snake.camelCase) == "hhhhhSssss"
                 }
             }
+            describe("jsonQuoted") {
+                let expectations: [(String, String)] = [
+                    ("", "\"\""),
+                    ("test", "\"test\""),
+                    ("newline\ntest", "\"newline\\ntest\""),
+                    ("carriage\rtest", "\"carriage\\rtest\""),
+                    ("quote\"test", "\"quote\\\"test\""),
+                    ("quote'test", "\"quote'test\""),
+                    ("日本語 test", "\"日本語 test\""),
+                ]
+                for (input, expected) in expectations {
+                    it("should quote \(input)") {
+                        expect(input.jsonQuoted) == expected
+                    }
+                }
+            }
         }
     }
 }

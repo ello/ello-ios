@@ -86,6 +86,16 @@ class DebugController: UIViewController, UITableViewDataSource, UITableViewDeleg
             }
         }
 
+        addAction(name: "GraphQL test") {
+            GraphQLProvider.shared.request(.userPostStream(username: "colinta"))
+                .then { json in
+                    print(json)
+                }
+                .catch { error in
+                    print(error)
+                }
+        }
+
         addAction(name: "Logout") {
             appController.closeDebugController {
                 appController.userLoggedOut()

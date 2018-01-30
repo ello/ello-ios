@@ -156,6 +156,30 @@ extension String {
         guard let first = first else { return "" }
         return first.uppercased() + String(self[secondIndex...])
     }
+
+    var jsonQuoted: String {
+        var retval = ""
+        for c in self.map(String.init) {
+            switch c {
+            case "\n":
+                retval += "\\n"
+            case "\r":
+                retval += "\\r"
+            case "\t":
+                retval += "\\t"
+            case "\u{8}":
+                retval += "\\b"
+            case "\u{c}":
+                retval += "\\f"
+            case "\"", "\\", "/":
+                retval += "\\"
+                retval += c
+            default:
+                retval += c
+            }
+        }
+        return "\"\(retval)\""
+    }
 }
 
 extension Optional where Wrapped == String {

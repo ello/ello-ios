@@ -442,10 +442,12 @@
 		1D0DF8B82021198500019875 /* AuthenticationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D0DF8B72021198500019875 /* AuthenticationManager.swift */; };
 		1D0DF8BB20211E8C00019875 /* AuthenticationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D0DF8B72021198500019875 /* AuthenticationManager.swift */; };
 		1D0DF8BC20211E8D00019875 /* AuthenticationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D0DF8B72021198500019875 /* AuthenticationManager.swift */; };
-		1D0DF917202A1CB000019875 /* NotificationsProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D0DF916202A1CAF00019875 /* NotificationsProtocols.swift */; };
-		1D0DF919202A1FF000019875 /* BuyButtonLinkProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D0DF918202A1FF000019875 /* BuyButtonLinkProtocols.swift */; };
-		1D0DF91B202A205D00019875 /* BlockUserModalProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D0DF91A202A205D00019875 /* BlockUserModalProtocols.swift */; };
-		1D0DF926202A695200019875 /* SettingsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D0DF925202A695000019875 /* SettingsService.swift */; };
+    1D0DF917202A1CB000019875 /* NotificationsProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D0DF916202A1CAF00019875 /* NotificationsProtocols.swift */; };
+    1D0DF919202A1FF000019875 /* BuyButtonLinkProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D0DF918202A1FF000019875 /* BuyButtonLinkProtocols.swift */; };
+    1D0DF91B202A205D00019875 /* BlockUserModalProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D0DF91A202A205D00019875 /* BlockUserModalProtocols.swift */; };
+    1D0DF926202A695200019875 /* SettingsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D0DF925202A695000019875 /* SettingsService.swift */; };
+    1D0DF8BF20212D4A00019875 /* ElloGraphQL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D0DF8BD20212D4500019875 /* ElloGraphQL.swift */; };
+    1D0DF8C020212D4A00019875 /* GraphQLProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D0DF8BE20212D4900019875 /* GraphQLProvider.swift */; };
 		1D104FD01F3CEBCD00B5487A /* ElloTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F6AE691A4339EF00493660 /* ElloTextField.swift */; };
 		1D104FD11F3CEC5900B5487A /* ValidationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7152B31D6E4FCE005998FE /* ValidationState.swift */; };
 		1D104FD21F3CEC6E00B5487A /* UIViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12384EBA1C56B3C200608BD8 /* UIViewExtensions.swift */; };
@@ -1662,10 +1664,12 @@
 		1D06D6CB1E43B7DD004FA878 /* AppDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDefaults.swift; sourceTree = "<group>"; };
 		1D08320E1AAA54880076C67D /* TypedNotificationSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TypedNotificationSpec.swift; sourceTree = "<group>"; };
 		1D0DF8B72021198500019875 /* AuthenticationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticationManager.swift; sourceTree = "<group>"; };
-		1D0DF916202A1CAF00019875 /* NotificationsProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationsProtocols.swift; sourceTree = "<group>"; };
-		1D0DF918202A1FF000019875 /* BuyButtonLinkProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BuyButtonLinkProtocols.swift; sourceTree = "<group>"; };
-		1D0DF91A202A205D00019875 /* BlockUserModalProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockUserModalProtocols.swift; sourceTree = "<group>"; };
-		1D0DF925202A695000019875 /* SettingsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsService.swift; sourceTree = "<group>"; };
+    1D0DF916202A1CAF00019875 /* NotificationsProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationsProtocols.swift; sourceTree = "<group>"; };
+    1D0DF918202A1FF000019875 /* BuyButtonLinkProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BuyButtonLinkProtocols.swift; sourceTree = "<group>"; };
+    1D0DF91A202A205D00019875 /* BlockUserModalProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockUserModalProtocols.swift; sourceTree = "<group>"; };
+    1D0DF925202A695000019875 /* SettingsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsService.swift; sourceTree = "<group>"; };
+    1D0DF8BD20212D4500019875 /* ElloGraphQL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ElloGraphQL.swift; sourceTree = "<group>"; };
+    1D0DF8BE20212D4900019875 /* GraphQLProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphQLProvider.swift; sourceTree = "<group>"; };
 		1D15C2761C7D12890013B192 /* InterfaceImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InterfaceImage.swift; sourceTree = "<group>"; };
 		1D15C2771C7D12890013B192 /* InterfaceString.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InterfaceString.swift; sourceTree = "<group>"; };
 		1D1AF6221A83ED7F00E06C93 /* PostDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostDetailViewController.swift; sourceTree = "<group>"; };
@@ -2439,6 +2443,7 @@
 				1207C9541C73FEE000939ADB /* ElloAPI.swift */,
 				1207C9551C73FEE000939ADB /* ElloAPIDescription.swift */,
 				1D5A901F1D3D74B300C2AEFF /* ElloAPISharingHeaders.swift */,
+				1D0DF8BD20212D4500019875 /* ElloGraphQL.swift */,
 				1207C9561C73FEE000939ADB /* ElloManager.swift */,
 				1207C9571C73FEE000939ADB /* ElloProvider_Specs.swift */,
 				1207C9581C73FEE000939ADB /* ElloProvider.swift */,
@@ -2447,6 +2452,7 @@
 				1207C95A1C73FEE000939ADB /* ElloS3.swift */,
 				1207C95B1C73FEE000939ADB /* ElloURI.swift */,
 				1207C95C1C73FEE000939ADB /* ErrorStatusCode.swift */,
+				1D0DF8BE20212D4900019875 /* GraphQLProvider.swift */,
 				1D59EF911D6624DC0029C106 /* HireService.swift */,
 				1D447F141F3BCAD700013384 /* ImageRegionData.swift */,
 				1207C95D1C73FEE000939ADB /* InviteService.swift */,
@@ -5834,6 +5840,7 @@
 				122B30F11C6A3FC500C1B9D8 /* Regionable.swift in Sources */,
 				1D7152C51D6F81D2005998FE /* CredentialsScreen.swift in Sources */,
 				766375E01AA911090096FA51 /* SimpleStreamViewController.swift in Sources */,
+				1D0DF8BF20212D4A00019875 /* ElloGraphQL.swift in Sources */,
 				12384EBB1C56B3C200608BD8 /* UIViewExtensions.swift in Sources */,
 				1DDC233E1F30FF8400E68B0E /* NestedTabBarView.swift in Sources */,
 				1220347F1DECCE890059E633 /* ProfileLocationView.swift in Sources */,
@@ -5878,6 +5885,7 @@
 				1D8783181ECCF45E00253602 /* EditorialPostStreamCell.swift in Sources */,
 				1DAA161A1F6B22E600E79CC0 /* ElloWebView.swift in Sources */,
 				12F6AE631A4339C600493660 /* Validator.swift in Sources */,
+				1D0DF8C020212D4A00019875 /* GraphQLProvider.swift in Sources */,
 				128D36B61A951F4600622833 /* NotificationCellPresenter.swift in Sources */,
 				1207C98B1C73FEE000939ADB /* ReAuthService.swift in Sources */,
 				1207C96E1C73FEE000939ADB /* AnonymousAuthService.swift in Sources */,
