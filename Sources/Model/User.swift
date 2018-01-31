@@ -21,7 +21,7 @@ final class User: JSONAble {
     let id: String
     let username: String
     let name: String
-    let experimentalFeatures: Bool
+    var experimentalFeatures: Bool?
     var relationshipPriority: RelationshipPriority
     @objc var postsAdultContent: Bool
     @objc var viewsAdultContent: Bool
@@ -86,7 +86,6 @@ final class User: JSONAble {
     init(id: String,
         username: String,
         name: String,
-        experimentalFeatures: Bool,
         relationshipPriority: RelationshipPriority,
         postsAdultContent: Bool,
         viewsAdultContent: Bool,
@@ -100,7 +99,6 @@ final class User: JSONAble {
         self.id = id
         self.username = username
         self.name = name
-        self.experimentalFeatures = experimentalFeatures
         self.relationshipPriority = relationshipPriority
         self.postsAdultContent = postsAdultContent
         self.viewsAdultContent = viewsAdultContent
@@ -120,7 +118,7 @@ final class User: JSONAble {
         self.id = decoder.decodeKey("id")
         self.username = decoder.decodeKey("username")
         self.name = decoder.decodeKey("name")
-        self.experimentalFeatures = decoder.decodeKey("experimentalFeatures")
+        self.experimentalFeatures = decoder.decodeOptionalKey("experimentalFeatures")
         let relationshipPriorityRaw: String = decoder.decodeKey("relationshipPriorityRaw")
         self.relationshipPriority = RelationshipPriority(stringValue: relationshipPriorityRaw)
         self.postsAdultContent = decoder.decodeKey("postsAdultContent")
@@ -176,7 +174,6 @@ final class User: JSONAble {
             id: id,
             username: "",
             name: "",
-            experimentalFeatures: false,
             relationshipPriority: RelationshipPriority.none,
             postsAdultContent: false,
             viewsAdultContent: false,
@@ -245,7 +242,6 @@ final class User: JSONAble {
             id: json["id"].stringValue,
             username: json["username"].stringValue,
             name: json["name"].stringValue,
-            experimentalFeatures: json["experimental_features"].boolValue,
             relationshipPriority: RelationshipPriority(stringValue: json["relationship_priority"].stringValue),
             postsAdultContent: json["posts_adult_content"].boolValue,
             viewsAdultContent: json["views_adult_content"].boolValue,
@@ -258,7 +254,10 @@ final class User: JSONAble {
         )
 
         user.avatar = Asset.parseAsset("user_avatar_\(user.id)", node: data["avatar"] as? [String: Any])
-        user.identifiableBy = json["identifiable_by"].stringValue
+        user.coverImage = Asset.parseAsset("user_cover_image_\(user.id)", node: data["cover_image"] as? [String: Any])
+
+        user.experimentalFeatures = json["experimental_features"].bool
+        user.identifiableBy = json["identifiable_by"].string
         user.postsCount = json["posts_count"].int
         user.lovesCount = json["loves_count"].int
         if let count = json["followers_count"].string {

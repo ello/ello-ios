@@ -98,8 +98,8 @@ final class EmbedRegion: JSONAble, Regionable {
         return [
             "kind": kind.rawValue,
             "data": [
-                "url": url.absoluteString
-                ],
+                "url": url.absoluteString,
+            ],
         ]
     }
 }

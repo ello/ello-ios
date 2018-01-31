@@ -87,9 +87,10 @@ class DebugController: UIViewController, UITableViewDataSource, UITableViewDeleg
         }
 
         addAction(name: "GraphQL test") {
-            GraphQLProvider.shared.request(.userPostStream(username: "colinta"))
-                .then { json in
-                    print(json)
+            API().userPosts(username: "colinta")
+                .then { config, posts -> Void in
+                    print(config)
+                    print(posts)
                 }
                 .catch { error in
                     print(error)

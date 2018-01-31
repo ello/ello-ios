@@ -46,7 +46,6 @@ extension User: Stubbable {
             id: (values["id"] as? String) ?? generateID(),
             username: (values["username"] as? String) ?? "username",
             name: (values["name"] as? String) ?? "name",
-            experimentalFeatures: (values["experimentalFeatures"] as? Bool) ?? false,
             relationshipPriority: relationshipPriority,
             postsAdultContent: (values["postsAdultContent"] as? Bool) ?? false,
             viewsAdultContent: (values["viewsAdultContent"] as? Bool) ?? false,
@@ -57,11 +56,20 @@ extension User: Stubbable {
             isCollaborateable: (values["isCollaborateable"] as? Bool) ?? false,
             isHireable: (values["isHireable"] as? Bool) ?? false
         )
+
+        user.coverImage = values["coverImage"] as? Asset
         user.avatar = values["avatar"] as? Asset
+
+        user.experimentalFeatures = values["experimentalFeatures"] as? Bool
         user.identifiableBy = (values["identifiableBy"] as? String)
         user.postsCount = (values["postsCount"] as? Int) ?? 0
         user.lovesCount = (values["lovesCount"] as? Int) ?? 0
         user.totalViewsCount = (values["totalViewsCount"] as? Int)
+        user.followingCount = (values["followingCount"] as? Int) ?? 0
+        user.formattedShortBio = (values["formattedShortBio"] as? String)
+        user.onboardingVersion = (values["onboardingVersion"] as? Int)
+        user.location = values["location"] as? String
+        user.profile = values["profile"] as? Profile
 
         if let badges = values["badges"] as? [Badge] {
             user.badges = badges
@@ -80,8 +88,6 @@ extension User: Stubbable {
             user.followersCount = "stub-user-followers-count"
         }
 
-        user.followingCount = (values["followingCount"] as? Int) ?? 0
-        user.formattedShortBio = (values["formattedShortBio"] as? String)
         if let linkValues = (values["externalLinksList"] as? [[String:String]]) {
             user.externalLinksList = linkValues.flatMap { ExternalLink.fromDict($0) }
         }
@@ -110,9 +116,6 @@ extension User: Stubbable {
             user.addLinkArray("categories", array: categories.map { $0.id }, type: .categoriesType)
         }
 
-        user.location = values["location"] as? String
-
-        user.profile = values["profile"] as? Profile
         ElloLinkedStore.shared.setObject(user, forKey: user.id, type: .usersType)
         return user
     }

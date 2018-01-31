@@ -72,7 +72,7 @@ extension Tracker {
                 // leave these as snake_case since they are being used in reports
                 "is_nabaroo": authToken.isNabaroo,
                 "is_featured": user.isFeatured,
-                "is_experimental": user.experimentalFeatures,
+                "is_experimental": user.experimentalFeatures ?? false,
                 "created_at": user.profile?.createdAt.toServerDateString() ?? "no-creation-date",
             ])
         }

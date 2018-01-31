@@ -92,6 +92,7 @@ final class ImageRegion: JSONAble, Regionable {
         if let buyButtonURL = buyButtonURL {
             json["link_url"] = buyButtonURL.absoluteString
         }
+
         return json
     }
 }

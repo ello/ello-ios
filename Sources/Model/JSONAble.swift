@@ -8,6 +8,14 @@ protocol JSONSaveable {
     var tableId: String? { get }
 }
 
+
+enum JSONAbleResult {
+    case one(JSONAble)
+    case many([JSONAble])
+    case none
+}
+
+
 @objc(JSONAble)
 class JSONAble: NSObject, NSCoding {
     var links: [String: Any]?

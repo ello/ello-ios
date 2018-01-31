@@ -191,15 +191,15 @@ final class Post: JSONAble, Authorable, Groupable {
 
     class func fromJSON(_ data: [String: Any]) -> Post {
         let json = JSON(data)
-        let repostContent = RegionParser.regions("repost_content", json: json)
-        var createdAt: Date
+        let repostContent = RegionParser.jsonRegions(json: json["repost_content"])
+        let createdAt: Date
         if let date = json["created_at"].stringValue.toDate() {
             createdAt = date
         }
         else {
             createdAt = Globals.now
         }
-        // create post
+
         let post = Post(
             id: json["id"].stringValue,
             createdAt: createdAt,
@@ -211,10 +211,10 @@ final class Post: JSONAble, Authorable, Groupable {
             isReposted: json["reposted"].bool ?? false,
             isLoved: json["loved"].bool ?? false,
             isWatching: json["watching"].bool ?? false,
-            summary: RegionParser.regions("summary", json: json)
+            summary: RegionParser.jsonRegions(json: json["summary"])
         )
-        post.content = RegionParser.regions("content", json: json, isRepostContent: repostContent.count > 0)
-        post.body = RegionParser.regions("body", json: json, isRepostContent: repostContent.count > 0)
+        post.content = RegionParser.jsonRegions(json: json["content"], isRepostContent: repostContent.count > 0)
+        post.body = RegionParser.jsonRegions(json: json["body"], isRepostContent: repostContent.count > 0)
         post.repostContent = repostContent
         post.artistInviteId = json["artist_invite_id"].string
         post.viewsCount = json["views_count"].int
