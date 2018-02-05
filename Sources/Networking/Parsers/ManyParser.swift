@@ -8,7 +8,6 @@ import SwiftyJSON
 class ManyParser<T> {
     enum Error: Swift.Error {
         case notAnArray
-        case wrongType
     }
 
     let parser: Parser
@@ -24,6 +23,10 @@ class ManyParser<T> {
         guard let objects = results.array else {
             throw Error.notAnArray
         }
+
+        let next = json["next"].string
+        let isLastPage = json["isLastPage"].bool
+        let config = PageConfig(next: next, isLastPage: isLastPage)
 
         var db: Parser.Database = [:]
         var ids: [Parser.Identifier] = []
@@ -47,12 +50,10 @@ class ManyParser<T> {
         }
 
         if let many = many as? [T] {
-            let next = json["next"].string
-            let isLastPage = json["isLastPage"].bool
-            let config = PageConfig(next: next, isLastPage: isLastPage)
             return (config, many)
         }
-        throw Error.wrongType
-
+        else {
+            return (config, [T]())
+        }
     }
 }
