@@ -139,6 +139,19 @@ extension String {
         return capSplits.joined(separator: "")
     }
 
+    var snakeCase: String {
+        return self.reduce("") { memo, c in
+            if memo.isEmpty { return String(c) }
+
+            switch c {
+            case "A" ... "Z":
+                return memo + "_" + String(c).lowercased()
+            default:
+                return memo + String(c)
+            }
+        }
+    }
+
     var first: String? {
         guard !isEmpty else { return nil }
         return String(self[startIndex])

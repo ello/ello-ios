@@ -167,6 +167,12 @@ class StringExtensionSpec: QuickSpec {
                     expect(snake.camelCase) == "hhhhhSssss"
                 }
             }
+            describe("snakeCase") {
+                it("converts a string from camel case to snake case") {
+                    let camel = "hhhhhSssss"
+                    expect(camel.snakeCase) == "hhhhh_sssss"
+                }
+            }
             describe("jsonQuoted") {
                 let expectations: [(String, String)] = [
                     ("", "\"\""),

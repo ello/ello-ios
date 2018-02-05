@@ -58,11 +58,16 @@ struct API {
                   linkUrl
                   kind
                   data
+                  links { assets }
                 }
 
                 fragment assetProps on Asset {
                   id
                   attachment { ...responsiveImages }
+                }
+
+                fragment postContent on Post {
+                  content { ...contentProps }
                 }
 
                 fragment postSummary on Post {
@@ -80,6 +85,7 @@ struct API {
                 next isLastPage
                 posts {
                     ...postSummary
+                    ...postContent
                     repostContent { ...contentProps }
                     currentUserState { loved reposted watching }
                     repostedSource {

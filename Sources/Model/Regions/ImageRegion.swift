@@ -13,7 +13,6 @@ final class ImageRegion: JSONAble, Regionable {
 
     var url: URL?
     var buyButtonURL: URL?
-
     var asset: Asset? { return getLinkObject("assets") as? Asset }
 
     var fullScreenURL: URL? {

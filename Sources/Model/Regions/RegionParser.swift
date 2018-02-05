@@ -69,7 +69,11 @@ struct RegionParser {
         if let urlStr = json["linkUrl"].string {
             imageRegion.buyButtonURL = URL(string: urlStr)
         }
-        imageRegion.links = json["links"].dictionaryObject
+
+        if let id = json["links"]["assets"].string {
+            imageRegion.addLinkObject("assets", key: id, type: .assetsType)
+        }
+
         return imageRegion
     }
 

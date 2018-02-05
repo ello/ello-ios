@@ -11,13 +11,26 @@ class PostParser: IdParser {
         super.init(table: .postsType)
         linkArray(.assetsType)
         linkObject(.usersType, "author")
+        linkObject(.usersType, "repostAuthor")
+        linkObject(.postsType, "repostedSource")
         linkObject(.categoriesType)
         linkObject(.artistInviteSubmissionsType)
     }
 
+    override func flatten(json _json: JSON, identifier: Identifier, db: inout Database) {
+        var json = _json
+        let repostedSource = json["repostedSource"]
+        if let repostIdentifier = self.identifier(json: repostedSource) {
+            flatten(json: repostedSource, identifier: repostIdentifier, db: &db)
+            json["links"] = ["reposted_source": ["id": repostIdentifier.id, "type": MappingType.postsType.rawValue]]
+        }
+
+        super.flatten(json: json, identifier: identifier, db: &db)
+    }
+
     override func parse(json: JSON) -> Post {
         let repostContent = RegionParser.graphQLRegions(json: json["repostContent"])
-        let createdAt = json["created_at"].stringValue.toDate() ?? Globals.now
+        let createdAt = json["createdAt"].stringValue.toDate() ?? Globals.now
 
         let post = Post(
             id: json["id"].stringValue,
