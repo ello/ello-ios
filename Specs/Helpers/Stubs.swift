@@ -488,7 +488,6 @@ extension Asset: Stubbable {
         let asset = Asset(id: (values["id"] as? String) ?? generateID())
         let defaultAttachment = values["attachment"] as? Attachment
         asset.optimized = (values["optimized"] as? Attachment) ?? defaultAttachment
-        asset.smallScreen = (values["smallScreen"] as? Attachment) ?? defaultAttachment
         asset.ldpi = (values["ldpi"] as? Attachment) ?? defaultAttachment
         asset.mdpi = (values["mdpi"] as? Attachment) ?? defaultAttachment
         asset.hdpi = (values["hdpi"] as? Attachment) ?? defaultAttachment

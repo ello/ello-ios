@@ -11,7 +11,6 @@ let AssetVersion = 1
 final class Asset: JSONAble {
     enum AttachmentType {
         case optimized
-        case smallScreen
         case ldpi
         case mdpi
         case hdpi
@@ -24,7 +23,6 @@ final class Asset: JSONAble {
 
     let id: String
     var optimized: Attachment?
-    var smallScreen: Attachment?
     var ldpi: Attachment?
     var mdpi: Attachment?
     var hdpi: Attachment?
@@ -43,8 +41,8 @@ final class Asset: JSONAble {
         }
         if let hdpi = hdpi { return hdpi }
         if let regular = regular { return regular }
-        return nil
 
+        return nil
     }
     var large: Attachment?
     var regular: Attachment?
@@ -52,7 +50,6 @@ final class Asset: JSONAble {
     var allAttachments: [(AttachmentType, Attachment)] {
         let possibles: [(AttachmentType, Attachment?)] = [
             (.optimized, optimized),
-            (.smallScreen, smallScreen),
             (.ldpi, ldpi),
             (.mdpi, mdpi),
             (.hdpi, hdpi),
@@ -63,8 +60,7 @@ final class Asset: JSONAble {
             (.small, small)
         ]
         return possibles.flatMap { type, attachment in
-            guard let attachment = attachment else { return nil }
-            return (type, attachment)
+            return attachment.map { (type, $0) }
         }
     }
 
@@ -120,7 +116,6 @@ final class Asset: JSONAble {
 
         let attachment = Attachment(url: url)
         self.optimized = attachment
-        self.smallScreen = attachment
         self.ldpi = attachment
         self.mdpi = attachment
         self.hdpi = attachment
@@ -171,7 +166,6 @@ final class Asset: JSONAble {
         let decoder = Coder(coder)
         self.id = decoder.decodeKey("id")
         self.optimized = decoder.decodeOptionalKey("optimized")
-        self.smallScreen = decoder.decodeOptionalKey("smallScreen")
         self.ldpi = decoder.decodeOptionalKey("ldpi")
         self.mdpi = decoder.decodeOptionalKey("mdpi")
         self.hdpi = decoder.decodeOptionalKey("hdpi")
@@ -188,7 +182,6 @@ final class Asset: JSONAble {
         let coder = Coder(encoder)
         coder.encodeObject(id, forKey: "id")
         coder.encodeObject(optimized, forKey: "optimized")
-        coder.encodeObject(smallScreen, forKey: "smallScreen")
         coder.encodeObject(ldpi, forKey: "ldpi")
         coder.encodeObject(mdpi, forKey: "mdpi")
         coder.encodeObject(hdpi, forKey: "hdpi")
@@ -214,9 +207,6 @@ final class Asset: JSONAble {
 
         if let optimized = node["optimized"] as? [String: Any] {
             asset.optimized = Attachment.fromJSON(optimized)
-        }
-        if let smallScreen = node["small_screen"] as? [String: Any] {
-            asset.smallScreen = Attachment.fromJSON(smallScreen)
         }
         if let ldpi = node["ldpi"] as? [String: Any] {
             asset.ldpi = Attachment.fromJSON(ldpi)
@@ -251,7 +241,6 @@ extension Asset {
     func replace(attachmentType: AttachmentType, with attachment: Attachment?) {
         switch attachmentType {
         case .optimized:    optimized = attachment
-        case .smallScreen:  smallScreen = attachment
         case .ldpi:         ldpi = attachment
         case .mdpi:         mdpi = attachment
         case .hdpi:         hdpi = attachment
