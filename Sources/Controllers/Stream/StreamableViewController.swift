@@ -2,6 +2,9 @@
 ///  StreamableViewController.swift
 //
 
+import PromiseKit
+
+
 class StreamableViewController: BaseElloViewController {
     weak var viewContainer: UIView!
     private var showing = false
@@ -185,6 +188,10 @@ class StreamableViewController: BaseElloViewController {
         if showing {
             postNotification(StatusBarNotifications.statusBarVisibility, value: visible)
         }
+    }
+
+    func streamViewInfiniteScroll() -> Promise<[JSONAble]>? {
+        return nil
     }
 }
 

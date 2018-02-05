@@ -1153,8 +1153,8 @@ extension StreamViewController: UIScrollViewDelegate {
 
     private func maybeLoadNextPage(scrollView: UIScrollView) {
         guard
-            canLoadNextPage() &&
-            scrollView.contentOffset.y + (view.frame.height * 1.666) > scrollView.contentSize.height
+            scrollView.contentOffset.y + (view.frame.height * 1.666) > scrollView.contentSize.height &&
+            canLoadNextPage()
         else { return }
 
         actuallyLoadNextPage()
@@ -1170,8 +1170,7 @@ extension StreamViewController: UIScrollViewDelegate {
     @discardableResult
     func actuallyLoadNextPage() -> Promise<Void> {
         guard
-            canLoadNextPage(),
-            let nextQuery = responseConfig?.nextQuery
+            canLoadNextPage()
         else { return Promise(value: Void()) }
 
         guard
@@ -1183,21 +1182,33 @@ extension StreamViewController: UIScrollViewDelegate {
         appendStreamCellItems([StreamCellItem(type: .streamPageLoading)])
 
         scrollToPaginateGuard = false
-        let scrollAPI = ElloAPI.infiniteScroll(query: nextQuery, api: streamKind.endpoint)
-        return StreamService().loadStream(endpoint: scrollAPI, streamKind: streamKind)
-            .then { response -> Promise<Void> in
-                let promise: Promise<Void>
-                switch response {
-                case let .jsonables(jsonables, responseConfig):
-                    self.allOlderPagesLoaded = jsonables.count == 0
-                    self.responseConfig = responseConfig
-                    promise = self.scrollLoaded(jsonables: jsonables, placeholderType: placeholderType)
-                case .empty:
-                    self.allOlderPagesLoaded = true
-                    promise = self.scrollLoaded()
-                }
 
-                return promise
+        let infiniteScrollGenerator: Promise<[JSONAble]>
+        if let delegateScrollGenerator = streamViewDelegate?.streamViewInfiniteScroll() {
+            infiniteScrollGenerator = delegateScrollGenerator
+        }
+        else {
+            guard let nextQuery = responseConfig?.nextQuery else { return Promise(value: Void()) }
+            let scrollAPI = ElloAPI.infiniteScroll(query: nextQuery, api: streamKind.endpoint)
+            infiniteScrollGenerator = StreamService().loadStream(endpoint: scrollAPI, streamKind: streamKind)
+                .then { response -> [JSONAble] in
+                    let scrollJsonables: [JSONAble]
+                    switch response {
+                    case let .jsonables(jsonables, responseConfig):
+                        scrollJsonables = jsonables
+                        self.responseConfig = responseConfig
+                    case .empty:
+                        self.allOlderPagesLoaded = true
+                        scrollJsonables = []
+                    }
+                    return scrollJsonables
+                }
+        }
+
+        return infiniteScrollGenerator
+            .then { jsonables -> Promise<Void> in
+                self.allOlderPagesLoaded = jsonables.count == 0
+                return self.scrollLoaded(jsonables: jsonables, placeholderType: placeholderType)
             }
             .catch { error in
                 self.scrollLoaded()

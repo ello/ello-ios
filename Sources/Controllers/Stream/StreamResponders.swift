@@ -2,6 +2,7 @@
 ///  StreamResponders.swift
 //
 
+import PromiseKit
 import FLAnimatedImage
 
 
@@ -40,6 +41,7 @@ protocol StreamViewDelegate: class {
     func streamViewDidScroll(scrollView: UIScrollView)
     func streamViewWillBeginDragging(scrollView: UIScrollView)
     func streamViewDidEndDragging(scrollView: UIScrollView, willDecelerate: Bool)
+    func streamViewInfiniteScroll() -> Promise<[JSONAble]>?
 }
 
 @objc

@@ -2,6 +2,7 @@
 ///  ProfileViewController.swift
 //
 
+import PromiseKit
 import FLAnimatedImage
 
 
@@ -219,6 +220,16 @@ final class ProfileViewController: StreamableViewController {
         generator?.toggleGrid()
     }
 
+    override func streamViewDidScroll(scrollView: UIScrollView) {
+        if let start = coverImageHeightStart {
+            screen.updateHeaderHeightConstraints(max: max(start - scrollView.contentOffset.y, start), scrollAdjusted: start - scrollView.contentOffset.y)
+        }
+        super.streamViewDidScroll(scrollView: scrollView)
+    }
+
+    override func streamViewInfiniteScroll() -> Promise<[JSONAble]>? {
+        return generator?.loadNextPage()
+    }
 }
 
 extension ProfileViewController: ProfileScreenDelegate {
@@ -413,17 +424,6 @@ extension ProfileViewController: EditProfileResponder {
 
         let settingsViewController = SettingsViewController(currentUser: currentUser)
         navigationController?.pushViewController(settingsViewController, animated: true)
-    }
-}
-
-// MARK: ProfileViewController: StreamViewDelegate
-extension ProfileViewController {
-
-    override func streamViewDidScroll(scrollView: UIScrollView) {
-        if let start = coverImageHeightStart {
-            screen.updateHeaderHeightConstraints(max: max(start - scrollView.contentOffset.y, start), scrollAdjusted: start - scrollView.contentOffset.y)
-        }
-        super.streamViewDidScroll(scrollView: scrollView)
     }
 }
 
