@@ -2,7 +2,7 @@
 ///  ElloTextView.swift
 //
 
-protocol ElloTextViewDelegate: NSObjectProtocol {
+protocol ElloTextViewDelegate: class {
     func textViewTapped(_ link: String, object: ElloAttributedObject)
     func textViewTappedDefault()
 }

@@ -9,7 +9,7 @@ class OnboardingCreatorTypeViewController: BaseElloViewController {
     private var _mockScreen: OnboardingCreatorTypeScreenProtocol?
     var screen: OnboardingCreatorTypeScreenProtocol {
         set(screen) { _mockScreen = screen }
-        get { return _mockScreen ?? (self.view as! OnboardingCreatorTypeScreen) }
+        get { return _mockScreen ?? self.view as! OnboardingCreatorTypeScreen }
     }
 
     var categories: [Category]?

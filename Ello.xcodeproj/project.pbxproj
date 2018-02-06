@@ -443,6 +443,9 @@
 		1D0DF8B82021198500019875 /* AuthenticationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D0DF8B72021198500019875 /* AuthenticationManager.swift */; };
 		1D0DF8BB20211E8C00019875 /* AuthenticationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D0DF8B72021198500019875 /* AuthenticationManager.swift */; };
 		1D0DF8BC20211E8D00019875 /* AuthenticationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D0DF8B72021198500019875 /* AuthenticationManager.swift */; };
+		1D0DF917202A1CB000019875 /* NotificationsProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D0DF916202A1CAF00019875 /* NotificationsProtocols.swift */; };
+		1D0DF919202A1FF000019875 /* BuyButtonLinkProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D0DF918202A1FF000019875 /* BuyButtonLinkProtocols.swift */; };
+		1D0DF91B202A205D00019875 /* BlockUserModalProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D0DF91A202A205D00019875 /* BlockUserModalProtocols.swift */; };
 		1D104FD01F3CEBCD00B5487A /* ElloTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F6AE691A4339EF00493660 /* ElloTextField.swift */; };
 		1D104FD11F3CEC5900B5487A /* ValidationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7152B31D6E4FCE005998FE /* ValidationState.swift */; };
 		1D104FD21F3CEC6E00B5487A /* UIViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12384EBA1C56B3C200608BD8 /* UIViewExtensions.swift */; };
@@ -1660,6 +1663,9 @@
 		1D06D6CB1E43B7DD004FA878 /* AppDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDefaults.swift; sourceTree = "<group>"; };
 		1D08320E1AAA54880076C67D /* TypedNotificationSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TypedNotificationSpec.swift; sourceTree = "<group>"; };
 		1D0DF8B72021198500019875 /* AuthenticationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticationManager.swift; sourceTree = "<group>"; };
+		1D0DF916202A1CAF00019875 /* NotificationsProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationsProtocols.swift; sourceTree = "<group>"; };
+		1D0DF918202A1FF000019875 /* BuyButtonLinkProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BuyButtonLinkProtocols.swift; sourceTree = "<group>"; };
+		1D0DF91A202A205D00019875 /* BlockUserModalProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockUserModalProtocols.swift; sourceTree = "<group>"; };
 		1D15C2761C7D12890013B192 /* InterfaceImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InterfaceImage.swift; sourceTree = "<group>"; };
 		1D15C2771C7D12890013B192 /* InterfaceString.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InterfaceString.swift; sourceTree = "<group>"; };
 		1D1AF6221A83ED7F00E06C93 /* PostDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostDetailViewController.swift; sourceTree = "<group>"; };
@@ -2663,6 +2669,7 @@
 				1DFF43511A8D520E00D43CFF /* NotificationCell.swift */,
 				1D66803C1A8AA7B1003E93C8 /* NotificationsFilterBar.swift */,
 				1D70DE601DF6229B008AF216 /* NotificationsGenerator.swift */,
+				1D0DF916202A1CAF00019875 /* NotificationsProtocols.swift */,
 				1DADA1651A96DC130000DDA1 /* NotificationsScreen.swift */,
 				124357691A8927BF008B24FB /* NotificationsViewController.swift */,
 			);
@@ -2725,6 +2732,7 @@
 		12551FB81A68725100ABC5D9 /* Omnibar */ = {
 			isa = PBXGroup;
 			children = (
+				1D0DF918202A1FF000019875 /* BuyButtonLinkProtocols.swift */,
 				1D9CF99A1D4800C4004A95B7 /* BuyButtonLinkScreen.swift */,
 				1D9CF9981D4800AE004A95B7 /* BuyButtonLinkViewController.swift */,
 				1D9CF99E1D4925BE004A95B7 /* OmnibarCacheData.swift */,
@@ -4184,6 +4192,7 @@
 			isa = PBXGroup;
 			children = (
 				1D273A351D08A480009FD393 /* BlockUserModalConfig.swift */,
+				1D0DF91A202A205D00019875 /* BlockUserModalProtocols.swift */,
 				1D45E5721D05F17500AAB730 /* BlockUserModalScreen.swift */,
 				76629C6E1A95067400E1F92B /* BlockUserModalViewController.swift */,
 				86D8D8FD1B1798B200CC8D6C /* RelationshipControl.swift */,
@@ -5411,6 +5420,7 @@
 				1D7E82431F2692D3006ACE7A /* ArtistInviteGuideCell.swift in Sources */,
 				122943291C6BF534003FCD20 /* ExtensionItemPreview.swift in Sources */,
 				12F6AE311A43390900493660 /* ScreenExtensions.swift in Sources */,
+				1D0DF91B202A205D00019875 /* BlockUserModalProtocols.swift in Sources */,
 				1DDC85281D91F60000C29552 /* PostActionable.swift in Sources */,
 				1DDC23451F32250600E68B0E /* ArtistInviteAdminControlsPresenter.swift in Sources */,
 				1D7152E71D7639F8005998FE /* OnboardingProfileProtocols.swift in Sources */,
@@ -5521,6 +5531,7 @@
 				122B30EF1C6A3FC500C1B9D8 /* EmbedRegion.swift in Sources */,
 				1D33284E1AE74D7A00446591 /* SearchViewController.swift in Sources */,
 				1207C9701C73FEE000939ADB /* AsyncOperation.swift in Sources */,
+				1D0DF919202A1FF000019875 /* BuyButtonLinkProtocols.swift in Sources */,
 				12F6ADFB1A43380C00493660 /* BaseElloViewController.swift in Sources */,
 				1DC78A5B1F2161E900BE2413 /* ArtistInviteBubbleCell.swift in Sources */,
 				12B2913C1DE4F7090056C52E /* SimpleMessageCellPresenter.swift in Sources */,
@@ -5613,6 +5624,7 @@
 				1D7152AE1D6E12AB005998FE /* AppProtocols.swift in Sources */,
 				EA0977C91AE6C42000F898CA /* UIImagePickerController.swift in Sources */,
 				F847BC241B0E1FE8006E5F3E /* NotificationBanner.swift in Sources */,
+				1D0DF917202A1CB000019875 /* NotificationsProtocols.swift in Sources */,
 				1289F3981AF17937008A938C /* BasicIcon.swift in Sources */,
 				122D1BBE1C641188001386CE /* ElloHUDWindowExtensions.swift in Sources */,
 				122D1BAE1C6139DA001386CE /* KeyboardWindowExtension.swift in Sources */,

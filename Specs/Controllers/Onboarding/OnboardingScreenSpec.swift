@@ -8,7 +8,7 @@ import Nimble
 
 
 class OnboardingScreenSpec: QuickSpec {
-    class MockDelegate: OnboardingDelegate {
+    class MockDelegate: OnboardingScreenDelegate {
         var didGoNext = false
         var didAbort = false
 

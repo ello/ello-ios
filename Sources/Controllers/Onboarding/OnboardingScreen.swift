@@ -14,7 +14,7 @@ class OnboardingScreen: EmptyScreen {
     private var nextButton = StyledButton(style: .green)
     private var abortButton = StyledButton(style: .grayText)
 
-    weak var delegate: OnboardingDelegate?
+    weak var delegate: OnboardingScreenDelegate?
 
     var hasAbortButton: Bool = false {
         didSet {

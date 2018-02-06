@@ -16,7 +16,7 @@ class JoinScreen: CredentialsScreen {
         static let termsBottomInset: CGFloat = 5
     }
 
-    weak var delegate: JoinDelegate?
+    weak var delegate: JoinScreenDelegate?
 
     var prompt: String? {
         get { return promptLabel.text }

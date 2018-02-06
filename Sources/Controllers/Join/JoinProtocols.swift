@@ -2,7 +2,7 @@
 ///  JoinProtocols.swift
 //
 
-protocol JoinDelegate: class {
+protocol JoinScreenDelegate: class {
     func backAction()
     func validate(email: String, username: String, password: String)
     func onePasswordAction(_ sender: UIView)

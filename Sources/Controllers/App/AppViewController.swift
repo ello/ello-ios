@@ -39,7 +39,7 @@ class AppViewController: BaseElloViewController {
     private var _mockScreen: AppScreenProtocol?
     var screen: AppScreenProtocol {
         set(screen) { _mockScreen = screen }
-        get { return _mockScreen ?? (self.view as! AppScreen) }
+        get { return _mockScreen ?? self.view as! AppScreen }
     }
 
     var visibleViewController: UIViewController?

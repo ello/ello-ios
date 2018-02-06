@@ -8,7 +8,7 @@ class JoinViewController: BaseElloViewController {
     private var _mockScreen: JoinScreenProtocol?
     var screen: JoinScreenProtocol {
         set(screen) { _mockScreen = screen }
-        get { return _mockScreen ?? (self.view as! JoinScreen) }
+        get { return _mockScreen ?? self.view as! JoinScreen }
     }
 
     var invitationCode: String?
@@ -52,7 +52,7 @@ class JoinViewController: BaseElloViewController {
     }
 }
 
-extension JoinViewController: JoinDelegate {
+extension JoinViewController: JoinScreenDelegate {
     func backAction() {
         appViewController?.cancelledJoin()
         _ = navigationController?.popViewController(animated: true)

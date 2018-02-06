@@ -3,7 +3,7 @@
 //
 
 
-protocol AutoCompleteDelegate: NSObjectProtocol {
+protocol AutoCompleteDelegate: class {
     func autoComplete(_ controller: AutoCompleteViewController, itemSelected item: AutoCompleteItem)
 }
 

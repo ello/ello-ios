@@ -9,7 +9,7 @@ import Nimble
 
 class JoinScreenSpec: QuickSpec {
     override func spec() {
-        class MockDelegate: JoinDelegate {
+        class MockDelegate: JoinScreenDelegate {
             var didValidate = false
 
             func backAction() {}

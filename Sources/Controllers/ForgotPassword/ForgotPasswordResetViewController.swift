@@ -6,7 +6,7 @@ class ForgotPasswordResetViewController: BaseElloViewController {
     private var _mockScreen: ForgotPasswordResetScreenProtocol?
     var screen: ForgotPasswordResetScreenProtocol {
         set(screen) { _mockScreen = screen }
-        get { return _mockScreen ?? (self.view as! ForgotPasswordResetScreen) }
+        get { return _mockScreen ?? self.view as! ForgotPasswordResetScreen }
     }
 
     let authToken: String
@@ -35,7 +35,7 @@ class ForgotPasswordResetViewController: BaseElloViewController {
     }
 }
 
-extension ForgotPasswordResetViewController: ForgotPasswordResetDelegate {
+extension ForgotPasswordResetViewController: ForgotPasswordResetScreenDelegate {
     func submit(password: String) {
         Tracker.shared.tappedReset()
 

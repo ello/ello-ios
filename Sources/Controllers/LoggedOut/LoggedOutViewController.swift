@@ -24,7 +24,7 @@ class LoggedOutViewController: BaseElloViewController, BottomBarController {
     private var _mockScreen: LoggedOutScreenProtocol?
     var screen: LoggedOutScreenProtocol {
         set(screen) { _mockScreen = screen }
-        get { return _mockScreen ?? (self.view as! LoggedOutScreen) }
+        get { return _mockScreen ?? self.view as! LoggedOutScreen }
     }
 
     private var userActionAttemptedObserver: NotificationObserver?

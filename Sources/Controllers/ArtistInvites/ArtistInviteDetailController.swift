@@ -14,7 +14,7 @@ class ArtistInviteDetailController: StreamableViewController {
     private var _mockScreen: ArtistInviteDetailScreenProtocol?
     var screen: ArtistInviteDetailScreenProtocol {
         set(screen) { _mockScreen = screen }
-        get { return _mockScreen ?? self.view as! ArtistInviteDetailScreenProtocol }
+        get { return _mockScreen ?? self.view as! ArtistInviteDetailScreen }
     }
     var generator: ArtistInviteDetailGenerator!
 

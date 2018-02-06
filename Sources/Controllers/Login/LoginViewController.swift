@@ -9,7 +9,7 @@ class LoginViewController: BaseElloViewController {
     private var _mockScreen: LoginScreenProtocol?
     var screen: LoginScreenProtocol {
         set(screen) { _mockScreen = screen }
-        get { return _mockScreen ?? (self.view as! LoginScreen) }
+        get { return _mockScreen ?? self.view as! LoginScreen }
     }
 
     override func loadView() {
@@ -39,7 +39,7 @@ class LoginViewController: BaseElloViewController {
     }
 }
 
-extension LoginViewController: LoginDelegate {
+extension LoginViewController: LoginScreenDelegate {
     func backAction() {
         _ = navigationController?.popViewController(animated: true)
     }

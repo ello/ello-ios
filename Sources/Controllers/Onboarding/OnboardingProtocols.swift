@@ -9,13 +9,13 @@ enum OnboardingStep: Int {
     case inviteFriends
 }
 
-protocol OnboardingDelegate: class {
+protocol OnboardingScreenDelegate: class {
     func nextAction()
     func abortAction()
 }
 
 protocol OnboardingScreenProtocol: class {
-    var delegate: OnboardingDelegate? { get set }
+    var delegate: OnboardingScreenDelegate? { get set }
     var controllerContainer: UIView { get set }
     var hasAbortButton: Bool { get set }
     var canGoNext: Bool { get set }

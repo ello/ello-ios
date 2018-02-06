@@ -18,7 +18,7 @@ final class ProfileCategoriesViewController: BaseElloViewController {
     private var _mockScreen: ProfileCategoriesProtocol?
     var screen: ProfileCategoriesProtocol {
         set(screen) { _mockScreen = screen }
-        get { return _mockScreen ?? (self.view as! ProfileCategoriesScreen) }
+        get { return _mockScreen ?? self.view as! ProfileCategoriesScreen }
     }
 
     override func loadView() {

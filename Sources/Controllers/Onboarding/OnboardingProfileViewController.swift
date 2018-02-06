@@ -6,7 +6,7 @@ class OnboardingProfileViewController: UIViewController, HasAppController {
     private var _mockScreen: OnboardingProfileScreenProtocol?
     var screen: OnboardingProfileScreenProtocol {
         set(screen) { _mockScreen = screen }
-        get { return _mockScreen ?? (self.view as! OnboardingProfileScreen) }
+        get { return _mockScreen ?? self.view as! OnboardingProfileScreen }
     }
 
     var currentUser: User?

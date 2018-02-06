@@ -24,8 +24,10 @@ class NotificationsViewController: StreamableViewController, NotificationsScreen
         self.view = NotificationsScreen(frame: UIScreen.main.bounds)
     }
 
-    var screen: NotificationsScreen {
-        return self.view as! NotificationsScreen
+    private var _mockScreen: NotificationsScreenProtocol?
+    var screen: NotificationsScreenProtocol {
+        set(screen) { _mockScreen = screen }
+        get { return _mockScreen ?? self.view as! NotificationsScreen }
     }
 
     init() {

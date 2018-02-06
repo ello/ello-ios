@@ -18,8 +18,8 @@ class LightboxViewController: BaseElloViewController {
     weak var delegate: LightboxControllerDelegate?
     weak var streamViewController: StreamViewController?
 
-    private var _mockScreen: LightboxScreen?
-    var screen: LightboxScreen {
+    private var _mockScreen: LightboxScreenProtocol?
+    var screen: LightboxScreenProtocol {
         set(screen) { _mockScreen = screen }
         get { return _mockScreen ?? self.view as! LightboxScreen }
     }

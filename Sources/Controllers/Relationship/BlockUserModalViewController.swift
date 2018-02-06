@@ -5,7 +5,7 @@
 import SnapKit
 
 
-class BlockUserModalViewController: BaseElloViewController, BlockUserModalDelegate {
+class BlockUserModalViewController: BaseElloViewController, BlockUserModalScreenDelegate {
 
     let config: BlockUserModalConfig
     var relationshipPriority: RelationshipPriority { return config.relationshipPriority }
@@ -13,7 +13,11 @@ class BlockUserModalViewController: BaseElloViewController, BlockUserModalDelega
     var userAtName: String { return config.userAtName }
     var changeClosure: RelationshipChangeClosure { return config.changeClosure }
 
-    var screen: BlockUserModalScreen { return self.view as! BlockUserModalScreen }
+    private var _mockScreen: BlockUserModalScreenProtocol?
+    var screen: BlockUserModalScreenProtocol {
+        set(screen) { _mockScreen = screen }
+        get { return _mockScreen ?? self.view as! BlockUserModalScreen }
+    }
 
     required init(config: BlockUserModalConfig) {
         self.config = config

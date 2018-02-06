@@ -19,7 +19,7 @@ class OnboardingViewController: BaseElloViewController {
     private var _mockScreen: OnboardingScreenProtocol?
     var screen: OnboardingScreenProtocol {
         set(screen) { _mockScreen = screen }
-        get { return _mockScreen ?? (self.view as! OnboardingScreen) }
+        get { return _mockScreen ?? self.view as! OnboardingScreen }
     }
 
     var inviteFriendsController: OnboardingInviteViewController? {
@@ -139,7 +139,7 @@ private extension OnboardingViewController {
 
 }
 
-extension OnboardingViewController: OnboardingDelegate {
+extension OnboardingViewController: OnboardingScreenDelegate {
     func nextAction() { proceedToNextStep(abort: false) }
     func abortAction() { proceedToNextStep(abort: true) }
 }

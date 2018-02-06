@@ -2,13 +2,12 @@
 ///  BuyButtonLinkViewController.swift
 //
 
-protocol BuyButtonLinkControllerDelegate: class {
-    func submitBuyButtonLink(_ url: URL)
-    func clearBuyButtonLink()
-}
-
 class BuyButtonLinkViewController: UIViewController {
-    var screen: BuyButtonLinkScreen { return self.view as! BuyButtonLinkScreen }
+    private var _mockScreen: BuyButtonLinkScreenProtocol?
+    var screen: BuyButtonLinkScreenProtocol {
+        set(screen) { _mockScreen = screen }
+        get { return _mockScreen ?? self.view as! BuyButtonLinkScreen }
+    }
     var buyButtonURL: URL?
     weak var delegate: BuyButtonLinkControllerDelegate?
 
@@ -33,7 +32,7 @@ class BuyButtonLinkViewController: UIViewController {
 
 }
 
-extension BuyButtonLinkViewController: BuyButtonLinkDelegate {
+extension BuyButtonLinkViewController: BuyButtonLinkScreenDelegate {
 
     func closeModal() {
         dismiss(animated: true, completion: nil)

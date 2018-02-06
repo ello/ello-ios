@@ -12,7 +12,7 @@ class ArtistInviteAdminController: StreamableViewController {
     private var _mockScreen: ArtistInviteAdminScreenProtocol?
     var screen: ArtistInviteAdminScreenProtocol {
         set(screen) { _mockScreen = screen }
-        get { return _mockScreen ?? self.view as! ArtistInviteAdminScreenProtocol }
+        get { return _mockScreen ?? self.view as! ArtistInviteAdminScreen }
     }
     var generator: ArtistInviteAdminGenerator!
 

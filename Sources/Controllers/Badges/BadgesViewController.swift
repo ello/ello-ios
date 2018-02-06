@@ -11,7 +11,7 @@ class BadgesViewController: StreamableViewController {
     var _mockScreen: StreamableScreenProtocol?
     var screen: StreamableScreenProtocol {
         set(screen) { _mockScreen = screen }
-        get { return _mockScreen ?? self.view as! StreamableScreenProtocol }
+        get { return _mockScreen ?? self.view as! StreamableScreen }
     }
 
     init(user: User) {
