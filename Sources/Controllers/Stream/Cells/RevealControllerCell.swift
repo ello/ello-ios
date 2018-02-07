@@ -22,7 +22,7 @@ class RevealControllerCell: CollectionViewCell {
     private let arrow = UIImageView()
 
     override func style() {
-        arrow.interfaceImage = .angleBracket
+        arrow.interfaceImage = .forwardChevron
     }
 
     override func arrange() {

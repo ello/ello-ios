@@ -17,7 +17,7 @@ class InterfaceImageSpec: QuickSpec {
                         (.elloLogo, .normal),
                         (.eye, .selected),
                         (.breakLink, .white),
-                        (.angleBracket, .disabled),
+                        (.forwardChevron, .disabled),
                         (.x, .red),
                     ]
                     for (interfaceImage, style) in styles {
@@ -64,7 +64,7 @@ class InterfaceImageSpec: QuickSpec {
                         .dots,
                         .plusSmall,
                         .checkSmall,
-                        .angleBracket,
+                        .forwardChevron,
                         .audioPlay,
                         .videoPlay,
                         .validationLoading,
@@ -107,7 +107,7 @@ class InterfaceImageSpec: QuickSpec {
                         .dots,
                         .plusSmall,
                         .checkSmall,
-                        .angleBracket,
+                        .forwardChevron,
                         .validationLoading,
                     ]
                     for image in selectedImages {
@@ -140,7 +140,7 @@ class InterfaceImageSpec: QuickSpec {
                 }
                 describe("disabledImage") {
                     let disabledImages: [InterfaceImage] = [
-                        .angleBracket,
+                        .forwardChevron,
                     ]
                     for image in disabledImages {
                         it("\(image) should have a disabledImage") {

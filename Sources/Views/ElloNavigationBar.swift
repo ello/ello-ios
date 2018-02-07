@@ -124,7 +124,7 @@ class ElloNavigationBar: UIView {
 
         var image: InterfaceImage {
             switch self {
-            case .back: return .back
+            case .back: return .backChevron
             case .burger: return .burger
             case .close: return .x
             case .delete: return .xBox
