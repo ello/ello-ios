@@ -83,7 +83,6 @@ extension SearchViewController: SearchScreenDelegate {
         searchText = ""
         streamViewController.removeAllCellItems()
         streamViewController.loadingToken.cancelInitialPage()
-        streamViewController.noResultsMessages = NoResultsMessages(title: "", body: "")
     }
 
     func searchFieldChanged(_ text: String, isPostSearch: Bool) {
@@ -91,7 +90,6 @@ extension SearchViewController: SearchScreenDelegate {
     }
 
     func searchShouldReset() {
-        streamViewController.hideNoResults()
     }
 
     func toggleChanged(_ text: String, isPostSearch: Bool) {
@@ -115,10 +113,8 @@ extension SearchViewController: SearchScreenDelegate {
         else { return }
 
         self.isPostSearch = isPostSearch
-        streamViewController.hideNoResults()
         searchText = text
         let endpoint = isPostSearch ? ElloAPI.searchForPosts(terms: text) : ElloAPI.searchForUsers(terms: text)
-        streamViewController.noResultsMessages = NoResultsMessages(title: InterfaceString.Search.NoMatches, body: InterfaceString.Search.TryAgain)
         let streamKind = StreamKind.simpleStream(endpoint: endpoint, title: "")
         streamViewController.streamKind = streamKind
         streamViewController.removeAllCellItems()

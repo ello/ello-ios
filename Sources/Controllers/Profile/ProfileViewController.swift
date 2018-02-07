@@ -374,63 +374,27 @@ extension ProfileViewController: ProfileHeaderResponder {
     func onLovesTapped() {
         guard let user = self.user else { return }
 
-        let noResultsTitle: String
-        let noResultsBody: String
-        if user.id == currentUser?.id {
-            noResultsTitle = InterfaceString.Loves.CurrentUserNoResultsTitle
-            noResultsBody = InterfaceString.Loves.CurrentUserNoResultsBody
-        }
-        else {
-            noResultsTitle = InterfaceString.Loves.NoResultsTitle
-            noResultsBody = InterfaceString.Loves.NoResultsBody
-        }
-
         streamViewController.showSimpleStream(
             boxedEndpoint: BoxedElloAPI(endpoint: .loves(userId: user.id)),
-            title: InterfaceString.Loves.Title,
-            noResultsMessages: NoResultsMessages(title: noResultsTitle, body: noResultsBody)
+            title: InterfaceString.Loves.Title
         )
     }
 
     func onFollowersTapped() {
         guard let user = self.user else { return }
 
-        let noResultsTitle: String
-        let noResultsBody: String
-        if user.id == currentUser?.id {
-            noResultsTitle = InterfaceString.Followers.CurrentUserNoResultsTitle
-            noResultsBody = InterfaceString.Followers.CurrentUserNoResultsBody
-        }
-        else {
-            noResultsTitle = InterfaceString.Followers.NoResultsTitle
-            noResultsBody = InterfaceString.Followers.NoResultsBody
-        }
-
         streamViewController.showSimpleStream(
             boxedEndpoint: BoxedElloAPI(endpoint: .userStreamFollowers(userId: user.id)),
-            title: InterfaceString.Followers.Title,
-            noResultsMessages: NoResultsMessages(title: noResultsTitle, body: noResultsBody)
+            title: InterfaceString.Followers.Title
         )
     }
 
     func onFollowingTapped() {
         guard let user = user else { return }
 
-        let noResultsTitle: String
-        let noResultsBody: String
-        if user.id == currentUser?.id {
-            noResultsTitle = InterfaceString.Following.CurrentUserNoResultsTitle
-            noResultsBody = InterfaceString.Following.CurrentUserNoResultsBody
-        }
-        else {
-            noResultsTitle = InterfaceString.Following.NoResultsTitle
-            noResultsBody = InterfaceString.Following.NoResultsBody
-        }
-
         streamViewController.showSimpleStream(
             boxedEndpoint: BoxedElloAPI(endpoint: .userStreamFollowing(userId: user.id)),
-            title: InterfaceString.Following.Title,
-            noResultsMessages: NoResultsMessages(title: noResultsTitle, body: noResultsBody)
+            title: InterfaceString.Following.Title
         )
     }}
 

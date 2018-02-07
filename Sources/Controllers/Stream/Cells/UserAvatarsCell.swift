@@ -63,7 +63,7 @@ class UserAvatarsCell: UICollectionViewCell {
         else { return }
 
         let responder: SimpleStreamResponder? = findResponder()
-        responder?.showSimpleStream(boxedEndpoint: BoxedElloAPI(endpoint: model.endpoint), title: model.seeMoreTitle, noResultsMessages: nil)
+        responder?.showSimpleStream(boxedEndpoint: BoxedElloAPI(endpoint: model.endpoint), title: model.seeMoreTitle)
     }
 
     @IBAction func avatarTapped(_ sender: AvatarButton) {

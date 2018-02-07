@@ -13,7 +13,7 @@ protocol StreamCellResponder: class {
 
 @objc
 protocol SimpleStreamResponder: class {
-    func showSimpleStream(boxedEndpoint: BoxedElloAPI, title: String, noResultsMessages: NoResultsMessages?)
+    func showSimpleStream(boxedEndpoint: BoxedElloAPI, title: String)
 }
 
 @objc

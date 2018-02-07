@@ -824,54 +824,21 @@ extension AppViewController {
 
     private func showProfileFollowersScreen(username: String) {
         let endpoint = ElloAPI.userStreamFollowers(userId: "~\(username)")
-        let noResultsTitle: String
-        let noResultsBody: String
-        if username == currentUser?.username {
-            noResultsTitle = InterfaceString.Followers.CurrentUserNoResultsTitle
-            noResultsBody = InterfaceString.Followers.CurrentUserNoResultsBody
-        }
-        else {
-            noResultsTitle = InterfaceString.Followers.NoResultsTitle
-            noResultsBody = InterfaceString.Followers.NoResultsBody
-        }
         let followersVC = SimpleStreamViewController(endpoint: endpoint, title: "@" + username + "'s " + InterfaceString.Followers.Title)
-        followersVC.streamViewController.noResultsMessages = NoResultsMessages(title: noResultsTitle, body: noResultsBody)
         followersVC.currentUser = currentUser
         pushDeepLinkViewController(followersVC)
     }
 
     private func showProfileFollowingScreen(_ username: String) {
         let endpoint = ElloAPI.userStreamFollowing(userId: "~\(username)")
-        let noResultsTitle: String
-        let noResultsBody: String
-        if username == currentUser?.username {
-            noResultsTitle = InterfaceString.Following.CurrentUserNoResultsTitle
-            noResultsBody = InterfaceString.Following.CurrentUserNoResultsBody
-        }
-        else {
-            noResultsTitle = InterfaceString.Following.NoResultsTitle
-            noResultsBody = InterfaceString.Following.NoResultsBody
-        }
         let vc = SimpleStreamViewController(endpoint: endpoint, title: "@" + username + "'s " + InterfaceString.Following.Title)
-        vc.streamViewController.noResultsMessages = NoResultsMessages(title: noResultsTitle, body: noResultsBody)
         vc.currentUser = currentUser
         pushDeepLinkViewController(vc)
     }
 
     private func showProfileLovesScreen(username: String) {
         let endpoint = ElloAPI.loves(userId: "~\(username)")
-        let noResultsTitle: String
-        let noResultsBody: String
-        if username == currentUser?.username {
-            noResultsTitle = InterfaceString.Loves.CurrentUserNoResultsTitle
-            noResultsBody = InterfaceString.Loves.CurrentUserNoResultsBody
-        }
-        else {
-            noResultsTitle = InterfaceString.Loves.NoResultsTitle
-            noResultsBody = InterfaceString.Loves.NoResultsBody
-        }
         let vc = SimpleStreamViewController(endpoint: endpoint, title: "@" + username + "'s " + InterfaceString.Loves.Title)
-        vc.streamViewController.noResultsMessages = NoResultsMessages(title: noResultsTitle, body: noResultsBody)
         vc.currentUser = currentUser
         pushDeepLinkViewController(vc)
     }

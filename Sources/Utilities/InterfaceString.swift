@@ -24,20 +24,12 @@ struct InterfaceString {
     }
 
     struct Followers {
-        static let CurrentUserNoResultsTitle: String = NSLocalizedString("You don't have any followers yet!", comment: "Current user no followers results title")
-        static let CurrentUserNoResultsBody: String = NSLocalizedString("Here's some tips on how to get new followers: use Discover to find people you're interested in, and to find or invite your contacts. When you see things you like you can comment, repost, mention people and love the posts that you most enjoy. ", comment: "Current user no followers results body.")
-        static let NoResultsTitle: String = NSLocalizedString("This person doesn't have any followers yet! ", comment: "Non-current user followers no results title")
-        static let NoResultsBody: String = NSLocalizedString("Be the first to follow them and give them some love! Following interesting people makes Ello way more fun.", comment: "Non-current user following no results body")
         static let Title: String = NSLocalizedString("Followers", comment: "Followers title")
     }
 
     struct Following {
         static let Title: String = NSLocalizedString("Following", comment: "Following title")
         static let NewPosts: String = NSLocalizedString("New Posts", comment: "New posts title")
-        static let CurrentUserNoResultsTitle: String = NSLocalizedString("You aren't following anyone yet!", comment: "Current user no following results title")
-        static let CurrentUserNoResultsBody: String = NSLocalizedString("Ello is way more rad when you're following lots of people.\n\nUse Discover to find people you're interested in, and to find or invite your contacts.\nYou can also use Search (upper right) to look for new and excellent people!", comment: "Current user No following results body.")
-        static let NoResultsTitle: String = NSLocalizedString("This person isn't following anyone yet!", comment: "Non-current user followoing no results title")
-        static let NoResultsBody: String = NSLocalizedString("Follow, mention them, comment, repost or love one of their posts and maybe they'll follow you back ;)", comment: "Non-current user following no results body")
     }
 
     struct Editorials {
@@ -120,8 +112,6 @@ struct InterfaceString {
     struct Notifications {
         static let Title: String = NSLocalizedString("Notifications", comment: "Notifications title")
         static let Reply: String = NSLocalizedString("Reply", comment: "Reply button title")
-        static let NoResultsTitle: String = NSLocalizedString("Welcome to your Notifications Center!", comment: "No notification results title")
-        static let NoResultsBody: String = NSLocalizedString("Whenever someone mentions you, follows you, accepts an invitation, comments, reposts or Loves one of your posts, you'll be notified here.", comment: "No notification results body.")
     }
 
     struct Discover {
@@ -283,10 +273,6 @@ struct InterfaceString {
     }
 
     struct Loves {
-        static let CurrentUserNoResultsTitle: String = NSLocalizedString("You haven't Loved any posts yet!", comment: "Current user no loves results title")
-        static let CurrentUserNoResultsBody: String = NSLocalizedString("You can use Ello Loves as a way to bookmark the things you care about most. Go Love someone's post, and it will be added to this stream.", comment: "Current user no loves results body.")
-        static let NoResultsTitle: String = NSLocalizedString("This person hasn’t Loved any posts yet!", comment: "Non-current user no loves results title")
-        static let NoResultsBody: String = NSLocalizedString("Ello Loves are a way to bookmark the things you care about most. When they love something the posts will appear here.", comment: "Non-current user no loves results body.")
         static let Title: String = NSLocalizedString("Loves", comment: "love stream")
     }
 
@@ -301,10 +287,6 @@ struct InterfaceString {
         static let BlockButton: String = NSLocalizedString("Block", comment: "Block button title")
         static let UnblockButton: String = NSLocalizedString("Unblock", comment: "Unblock button title")
         static let FlagButton: String = NSLocalizedString("Flag", comment: "Flag button title")
-        static let BlockedNoResultsTitle: String = NSLocalizedString("You haven't blocked any users", comment: "Current user no blocked results title")
-        static let BlockedNoResultsBody = ""
-        static let MutedNoResultsTitle: String = NSLocalizedString("You haven't muted any users", comment: "Current user no muted results title")
-        static let MutedNoResultsBody = ""
 
         static func UnmuteAlert(atName: String) -> String {
             return String.localizedStringWithFormat("Would you like to \nunmute or block %@?", atName)

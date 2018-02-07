@@ -140,7 +140,6 @@ class NotificationsViewController: StreamableViewController, NotificationsScreen
 
         generator?.streamKind = categoryStreamKind
         streamViewController.streamKind = categoryStreamKind
-        streamViewController.hideNoResults()
         streamViewController.removeAllCellItems()
         streamViewController.loadInitialPage()
 
