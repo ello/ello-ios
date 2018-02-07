@@ -8,19 +8,6 @@ protocol DynamicSettingsDelegate: class {
     func dynamicSettingsUserChanged(_ user: User)
 }
 
-private enum DynamicSettingsSection: Int {
-    case creatorType
-    case dynamicSettings
-    case blocked
-    case muted
-    case accountDeletion
-    case unknown
-
-    static var count: Int {
-        return DynamicSettingsSection.unknown.rawValue
-    }
-}
-
 class DynamicSettingsViewController: UITableViewController {
     var hasBlocked: Bool {
         if let blockedCount = currentUser?.profile?.blockedCount {
@@ -112,21 +99,22 @@ class DynamicSettingsViewController: UITableViewController {
         return DynamicSettingsSection.count
     }
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch DynamicSettingsSection(rawValue: section) ?? .unknown {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection tvSection: Int) -> Int {
+        guard let section = DynamicSettingsSection(rawValue: tvSection) else { return 0 }
+        switch section {
         case .creatorType: return dynamicCategories.count > 0 ? 1 : 0
         case .dynamicSettings: return dynamicCategories.count
         case .blocked: return hasBlocked ? 1 : 0
         case .muted: return hasMuted ? 1 : 0
         case .accountDeletion: return 1
-        case .unknown: return 0
         }
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "PreferenceCell", for: indexPath)
+        guard let section = DynamicSettingsSection(rawValue: indexPath.section) else { return cell }
 
-        switch DynamicSettingsSection(rawValue: indexPath.section) ?? .unknown {
+        switch section {
         case .creatorType:
             cell.textLabel?.text = DynamicSettingCategory.creatorTypeCategory.label
 
@@ -142,17 +130,18 @@ class DynamicSettingsViewController: UITableViewController {
 
         case .accountDeletion:
             cell.textLabel?.text = DynamicSettingCategory.accountDeletionCategory.label
-
-        case .unknown: break
         }
 
         return cell
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let currentUser = currentUser else { return }
+        guard
+            let currentUser = currentUser,
+            let section = DynamicSettingsSection(rawValue: indexPath.section)
+        else { return }
 
-        switch DynamicSettingsSection(rawValue: indexPath.section) ?? .unknown {
+        switch section {
         case .dynamicSettings, .accountDeletion:
             performSegue(withIdentifier: "DynamicSettingCategorySegue", sender: nil)
         case .creatorType:
@@ -199,26 +188,27 @@ class DynamicSettingsViewController: UITableViewController {
                 )
             controller.currentUser = currentUser
             navigationController?.pushViewController(controller, animated: true)
-        case .unknown: break
         }
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard segue.identifier == "DynamicSettingCategorySegue" else { return }
+        guard
+            segue.identifier == "DynamicSettingCategorySegue",
+            let selectedIndexPath = tableView.indexPathForSelectedRow,
+            let section = DynamicSettingsSection(rawValue: selectedIndexPath.section)
+        else { return }
 
         let controller = segue.destination as! DynamicSettingCategoryViewController
         controller.delegate = delegate
-        let selectedIndexPath = tableView.indexPathForSelectedRow
 
-        switch DynamicSettingsSection(rawValue: selectedIndexPath?.section ?? 0) ?? .unknown {
+        switch section {
         case .dynamicSettings:
-            let index = tableView.indexPathForSelectedRow?.row ?? 0
-            controller.category = dynamicCategories[index]
+            controller.category = dynamicCategories[selectedIndexPath.row]
 
         case .accountDeletion:
             controller.category = DynamicSettingCategory.accountDeletionCategory
 
-        case .creatorType, .blocked, .muted, .unknown:
+        case .creatorType, .blocked, .muted:
             break
         }
         controller.currentUser = currentUser

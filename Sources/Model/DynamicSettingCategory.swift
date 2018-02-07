@@ -6,6 +6,20 @@ import SwiftyJSON
 
 
 let DynamicSettingCategoryVersion = 1
+ 
+ 
+enum DynamicSettingsSection: Int {
+    case creatorType
+    case dynamicSettings
+    case blocked
+    case muted
+    case accountDeletion
+
+    static var count: Int {
+        return 5
+    }
+}
+
 
 @objc(DynamicSettingCategory)
 final class DynamicSettingCategory: JSONAble {
