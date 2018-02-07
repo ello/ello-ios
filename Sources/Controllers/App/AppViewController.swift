@@ -887,7 +887,7 @@ extension AppViewController {
 
     private func showSettingsScreen() {
         guard
-            let settings = UIStoryboard(name: "Settings", bundle: .none).instantiateInitialViewController() as? SettingsContainerViewController,
+            let settings = UIStoryboard(name: "Settings", bundle: nil).instantiateInitialViewController() as? SettingsContainerViewController,
             let currentUser = currentUser
         else { return }
 

@@ -20,7 +20,7 @@ class DynamicSettingCategoryViewController: UIViewController, UITableViewDataSou
     private func setupTableView() {
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 50
-        tableView.register(UINib(nibName: "DynamicSettingCell", bundle: .none), forCellReuseIdentifier: "DynamicSettingCell")
+        tableView.register(UINib(nibName: "DynamicSettingCell", bundle: nil), forCellReuseIdentifier: "DynamicSettingCell")
     }
 
     private func setupNavigationBar() {

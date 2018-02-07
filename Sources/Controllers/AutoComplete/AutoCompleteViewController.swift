@@ -14,7 +14,7 @@ class AutoCompleteViewController: UIViewController {
     weak var delegate: AutoCompleteDelegate?
 
     required init() {
-        super.init(nibName: nil, bundle: .none)
+        super.init(nibName: nil, bundle: nil)
     }
 
     required init?(coder: NSCoder) {
