@@ -93,7 +93,7 @@ class ElloTabBarController: UIViewController, HasAppController, ControllerThatMi
             .notifications,
             .profile,
         ]
-//        tabBar.selectedTab = .home
+        tabBar.selectedTab = .defaultTab
     }
 
     required init?(coder: NSCoder) {
