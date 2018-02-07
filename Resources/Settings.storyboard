@@ -613,7 +613,7 @@
         <!--Dynamic Setting Category View Controller-->
         <scene sceneID="hKB-Hi-WYj">
             <objects>
-                <viewController id="ohM-iJ-4Uy" customClass="DynamicSettingCategoryViewController" customModule="Ello" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="DynamicSettingCategoryViewController" id="ohM-iJ-4Uy" customClass="DynamicSettingCategoryViewController" customModule="Ello" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="XzQ-cg-7fe"/>
                         <viewControllerLayoutGuide type="bottom" id="o15-O8-mb2"/>
