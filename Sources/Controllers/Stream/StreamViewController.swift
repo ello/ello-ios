@@ -263,7 +263,6 @@ final class StreamViewController: BaseElloViewController {
             self.performDataChange { collectionView in
                 collectionView.insertItems(at: indexPaths)
             }.always {
-                self.doneLoading()
                 completion?()
             }
         }
@@ -372,6 +371,7 @@ final class StreamViewController: BaseElloViewController {
         if jsonables.count == 0 {
             items.append(StreamCellItem(type: .emptyStream(height: 282)))
         }
+        doneLoading()
         appendUnsizedCellItems(items) {
             self.isPagingEnabled = true
         }
