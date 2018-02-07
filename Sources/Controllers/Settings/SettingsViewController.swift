@@ -291,9 +291,8 @@ class SettingsViewController: UITableViewController, ControllerThatMightHaveTheC
     }
 
     private func setupNameTextField() {
-        nameTextFieldView.label.text = InterfaceString.Settings.Name
-        nameTextFieldView.textField.keyboardAppearance = .dark
-        nameTextFieldView.textField.text = currentUser?.name
+        nameTextFieldView.title = InterfaceString.Settings.Name
+        nameTextFieldView.text = currentUser?.name
 
         let updateNameFunction = debounce(0.5) { [weak self] in
             guard let `self` = self else { return }
@@ -341,11 +340,10 @@ class SettingsViewController: UITableViewController, ControllerThatMightHaveTheC
     }
 
     private func setupLinksTextField() {
-        linksTextFieldView.label.text = InterfaceString.Settings.Links
+        linksTextFieldView.title = InterfaceString.Settings.Links
         linksTextFieldView.textField.spellCheckingType = .no
         linksTextFieldView.textField.autocapitalizationType = .none
         linksTextFieldView.textField.autocorrectionType = .no
-        linksTextFieldView.textField.keyboardAppearance = .dark
         linksTextFieldView.textField.keyboardType = .asciiCapable
 
         let updateLinksFunction = debounce(0.5) { [weak self] in
@@ -373,8 +371,7 @@ class SettingsViewController: UITableViewController, ControllerThatMightHaveTheC
     }
 
     private func setupLocationTextField() {
-        locationTextFieldView.label.text = InterfaceString.Settings.Location
-        locationTextFieldView.textField.keyboardAppearance = .dark
+        locationTextFieldView.title = InterfaceString.Settings.Location
         locationTextFieldView.textField.autocorrectionType = .no
         locationTextFieldView.textField.leftView = UIImageView(image: InterfaceImage.marker.normalImage)
         locationTextFieldView.textField.leftViewMode = .always

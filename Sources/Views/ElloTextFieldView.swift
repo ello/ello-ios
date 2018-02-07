@@ -12,6 +12,15 @@ class ElloTextFieldView: View {
         static let height: CGFloat = 89
     }
 
+    var title: String? {
+        get { return label.text }
+        set { label.text = newValue }
+    }
+    var text: String? {
+        get { return textField.text }
+        set { textField.text = newValue }
+    }
+
     let textField = ElloTextField()
     let label = StyledLabel(style: .lightGray)
 
@@ -62,6 +71,10 @@ class ElloTextFieldView: View {
         else {
             return 0
         }
+    }
+
+    override func style() {
+        textField.keyboardAppearance = .dark
     }
 
     override func arrange() {
