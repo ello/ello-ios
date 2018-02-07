@@ -255,7 +255,12 @@ final class User: JSONAble {
         user.identifiableBy = json["identifiable_by"].stringValue
         user.postsCount = json["posts_count"].int
         user.lovesCount = json["loves_count"].int
-        user.followersCount = json["followers_count"].string
+        if let count = json["followers_count"].string {
+            user.followersCount = count
+        }
+        else {
+            user.followersCount = json["followers_count"].int.map { "\($0)" }
+        }
         user.followingCount = json["following_count"].int
         user.formattedShortBio = json["formatted_short_bio"].string
         user.onboardingVersion = json["web_onboarding_version"].string.flatMap { Int($0) }
