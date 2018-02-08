@@ -12,8 +12,8 @@ class ElloWebView: UIWebView {
         }
     }
 
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
         isOpaque = false
         backgroundColor = .clear
         if #available(iOS 11.0, *) {
