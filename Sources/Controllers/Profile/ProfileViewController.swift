@@ -141,6 +141,9 @@ final class ProfileViewController: StreamableViewController {
 
     override func didSetCurrentUser() {
         generator?.currentUser = currentUser
+        if user?.id == currentUser?.id {
+            reloadEntireProfile()
+        }
         super.didSetCurrentUser()
     }
 

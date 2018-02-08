@@ -258,9 +258,8 @@ class SettingsViewController: UITableViewController, ControllerThatMightHaveTheC
         bioTextView.attributedText = NSAttributedString(defaults: currentUser?.profile?.shortBio ?? "")
         nameTextFieldView.textField.text = currentUser?.name
 
-        if let links = currentUser?.externalLinksList {
-            let urls = links.map { $0.url.absoluteString }
-            linksTextFieldView.textField.text = urls.joined(separator: ", ")
+        if let links = currentUser?.externalLinksString {
+            linksTextFieldView.textField.text = links
         }
 
         if let location = currentUser?.location {

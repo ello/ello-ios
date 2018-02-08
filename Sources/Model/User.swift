@@ -40,6 +40,12 @@ final class User: JSONAble {
     var followingCount: Int?
     var formattedShortBio: String?
     var externalLinksList: [ExternalLink]?
+    var externalLinksString: String? {
+        guard let externalLinksList = externalLinksList else { return nil }
+
+        let urls = externalLinksList.map { $0.url.absoluteString }
+        return urls.joined(separator: ", ")
+    }
     var coverImage: Asset?
     var onboardingVersion: Int?
     var totalViewsCount: Int?
