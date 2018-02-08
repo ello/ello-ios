@@ -104,7 +104,7 @@ class SettingsViewController: UITableViewController, ControllerThatMightHaveTheC
     }
     var locationAutoCompleteResultCount = 0 {
         didSet {
-            updateAutoCompleteFrame()
+            updateAutoCompleteFrame(animated: false)
         }
     }
 
@@ -208,7 +208,7 @@ class SettingsViewController: UITableViewController, ControllerThatMightHaveTheC
         super.viewWillAppear(animated)
         if let superview = view.superview {
             superview.addSubview(autoCompleteVC.view)
-            updateAutoCompleteFrame()
+            updateAutoCompleteFrame(animated: false)
         }
 
         keyboardWillShowObserver = NotificationObserver(notification: Keyboard.Notifications.KeyboardWillShow, block: self.keyboardWillShow)
@@ -627,7 +627,7 @@ extension SettingsViewController {
 }
 
 extension SettingsViewController: AutoCompleteDelegate {
-    func updateAutoCompleteFrame(animated: Bool = false) {
+    func updateAutoCompleteFrame(animated: Bool) {
         guard isViewLoaded else { return }
 
         let rowHeight: CGFloat = AutoCompleteCell.Size.height
