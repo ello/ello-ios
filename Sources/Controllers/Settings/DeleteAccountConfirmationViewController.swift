@@ -73,7 +73,7 @@ class DeleteAccountConfirmationViewController: BaseElloViewController {
 
     private func deleteAccount() {
         timer?.invalidate()
-        _ = ElloHUD.showLoadingHud()
+        ElloHUD.showLoadingHud()
 
         ProfileService().deleteAccount()
             .then { _ -> Void in

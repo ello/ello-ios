@@ -175,7 +175,7 @@ class SettingsViewController: UITableViewController, ControllerThatMightHaveTheC
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        _ = ElloHUD.showLoadingHud()
+        ElloHUD.showLoadingHud()
 
         let hideHud = after(2) {
             ElloHUD.hideLoadingHud()
@@ -450,7 +450,7 @@ class SettingsViewController: UITableViewController, ControllerThatMightHaveTheC
     @IBAction
     func coverImageTapped() {
         photoSaveCallback = { imageRegion in
-            _ = ElloHUD.showLoadingHud()
+            ElloHUD.showLoadingHud()
             ProfileService().updateUserCoverImage(imageRegion)
                 .then { [weak self] url, _ -> Void in
                     guard let `self` = self else { return }
@@ -480,7 +480,7 @@ class SettingsViewController: UITableViewController, ControllerThatMightHaveTheC
     @IBAction
     func avatarImageTapped() {
         photoSaveCallback = { imageRegion in
-            _ = ElloHUD.showLoadingHud()
+            ElloHUD.showLoadingHud()
             ProfileService().updateUserAvatarImage(imageRegion)
                 .then { [weak self] url, _ -> Void in
                     guard let `self` = self else { return }
