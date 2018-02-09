@@ -230,8 +230,8 @@ class CredentialSettingsViewController: UITableViewController {
                 self.currentPasswordField.text = ""
                 self.passwordView.textField.text = ""
 
-                if let err = (error as NSError).userInfo[NSLocalizedFailureReasonErrorKey] as? ElloNetworkError {
-                    self.handleError(err)
+                if let error = (error as NSError).elloError {
+                    self.handleError(error)
                 }
             }
     }
