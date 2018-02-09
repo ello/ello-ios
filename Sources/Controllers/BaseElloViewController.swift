@@ -124,6 +124,12 @@ class BaseElloViewController: UIViewController, HasAppController, ControllerThat
 
     func didSetCurrentUser() {
         relationshipController?.currentUser = currentUser
+
+        for childController in childViewControllers {
+            (childController as? ControllerThatMightHaveTheCurrentUser)?.currentUser = currentUser
+        }
+
+        (presentedViewController as? ControllerThatMightHaveTheCurrentUser)?.currentUser = currentUser
     }
 
     func showShareActivity(sender: UIView, url shareURL: URL, image: UIImage? = nil) {

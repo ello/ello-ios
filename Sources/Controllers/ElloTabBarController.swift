@@ -6,24 +6,10 @@ import SwiftyUserDefaults
 import PINRemoteImage
 
 
-class ElloTabBarController: UIViewController, HasAppController, ControllerThatMightHaveTheCurrentUser, BottomBarController {
+class ElloTabBarController: BaseElloViewController, BottomBarController {
     override func trackerName() -> String? { return nil }
 
     let tabBar = ElloTabBar()
-    private var systemLoggedOutObserver: NotificationObserver?
-    private var streamLoadedObserver: NotificationObserver?
-
-    private var newContentService = NewContentService()
-    private var foregroundObserver: NotificationObserver?
-    private var backgroundObserver: NotificationObserver?
-    private var newNotificationsObserver: NotificationObserver?
-    private var newStreamContentObserver: NotificationObserver?
-
-    private var visibleViewController: UIViewController?
-
-    var appViewController: AppViewController? { return findParentController() }
-
-    private(set) var notificationsDot: UIView?
     var newNotificationsAvailable: Bool {
         set { notificationsDot?.isHidden = !newValue }
         get {
@@ -33,15 +19,12 @@ class ElloTabBarController: UIViewController, HasAppController, ControllerThatMi
             return false
         }
     }
-    private(set) var homeDot: UIView?
 
-    // MARK: BottomBarController
-    private var _bottomBarVisible = true
     var bottomBarVisible: Bool {
         return _bottomBarVisible
     }
     var bottomBarHeight: CGFloat { return ElloTabBar.Size.height }
-    var navigationBarsVisible: Bool? {
+    override var navigationBarsVisible: Bool? {
         return bottomBarVisible
     }
 
@@ -49,7 +32,6 @@ class ElloTabBarController: UIViewController, HasAppController, ControllerThatMi
         return tabBar
     }
 
-    private(set) var previousTab: ElloTab = .defaultTab
     var selectedTab: ElloTab = .defaultTab {
         willSet {
             if selectedTab != previousTab {
@@ -69,9 +51,6 @@ class ElloTabBarController: UIViewController, HasAppController, ControllerThatMi
         }
     }
 
-    var currentUser: User? {
-        didSet { didSetCurrentUser() }
-    }
     var profileResponseConfig: ResponseConfig?
 
     var narrationView = NarrationView()
@@ -81,6 +60,20 @@ class ElloTabBarController: UIViewController, HasAppController, ControllerThatMi
         set { ElloTabBarController.didShowNarration(selectedTab, !newValue) }
     }
 
+    private var systemLoggedOutObserver: NotificationObserver?
+    private var streamLoadedObserver: NotificationObserver?
+    private var foregroundObserver: NotificationObserver?
+    private var backgroundObserver: NotificationObserver?
+    private var newNotificationsObserver: NotificationObserver?
+    private var newStreamContentObserver: NotificationObserver?
+
+    private var newContentService = NewContentService()
+    private var visibleViewController: UIViewController?
+    private(set) var notificationsDot: UIView?
+    private(set) var homeDot: UIView?
+
+    private var _bottomBarVisible = true
+    private(set) var previousTab: ElloTab = .defaultTab
     required init() {
         super.init(nibName: nil, bundle: nil)
 
@@ -96,6 +89,22 @@ class ElloTabBarController: UIViewController, HasAppController, ControllerThatMi
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    override func didSetCurrentUser() {
+        super.didSetCurrentUser()
+
+        if let currentUserImage = TemporaryCache.load(.avatar) {
+            tabBar.resetImages(profile: currentUserImage)
+        }
+        else if let imageURL = currentUser?.avatar?.large?.url {
+            PINRemoteImageManager.shared().downloadImage(with: imageURL, options: [])  { [weak self] result in
+                guard let `self` = self else { return }
+                nextTick {
+                    self.tabBar.resetImages(profile: result.image)
+                }
+            }
+        }
     }
 }
 
@@ -250,26 +259,6 @@ extension ElloTabBarController {
 }
 
 extension ElloTabBarController {
-
-    func didSetCurrentUser() {
-        if let currentUserImage = TemporaryCache.load(.avatar) {
-            tabBar.resetImages(profile: currentUserImage)
-        }
-        else if let imageURL = currentUser?.avatar?.large?.url {
-            PINRemoteImageManager.shared().downloadImage(with: imageURL, options: [])  { [weak self] result in
-                guard let `self` = self else { return }
-                nextTick {
-                    self.tabBar.resetImages(profile: result.image)
-                }
-            }
-        }
-
-
-        for controller in childViewControllers {
-            guard let controller = controller as? ControllerThatMightHaveTheCurrentUser else { return }
-            controller.currentUser = currentUser
-        }
-    }
 
     func systemLoggedOut() {
         appViewController?.forceLogOut()
