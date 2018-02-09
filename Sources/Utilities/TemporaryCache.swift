@@ -5,10 +5,7 @@
 typealias TemporaryCacheEntry = (image: UIImage, expiration: Date)
 
 struct TemporaryCache {
-    enum Key {
-        case coverImage
-        case avatar
-    }
+    typealias Key = Profile.ImageProperty
     private static var coverImage: TemporaryCacheEntry?
     private static var avatar: TemporaryCacheEntry?
 

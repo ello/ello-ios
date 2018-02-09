@@ -273,7 +273,7 @@ extension ProfileViewController: ProfileScreenDelegate {
 
 // MARK: Check for cached coverImage and avatar (only for currentUser)
 extension ProfileViewController {
-    func cachedImage(_ key: TemporaryCache.Key) -> UIImage? {
+    func cachedImage(_ key: Profile.ImageProperty) -> UIImage? {
         guard user?.id == currentUser?.id else {
             return nil
         }

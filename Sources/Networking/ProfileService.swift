@@ -34,7 +34,7 @@ struct ProfileService {
             }
     }
 
-    func updateUserImage(_ prop: Profile.Property, imageRegion: ImageRegionData) -> Promise<UploadSuccess> {
+    func updateUserImage(_ prop: Profile.ImageProperty, imageRegion: ImageRegionData) -> Promise<UploadSuccess> {
         guard prop == .coverImage || prop == .avatar else {
             return Promise<UploadSuccess>(error: NSError())
         }
@@ -75,12 +75,12 @@ struct ProfileService {
 
                 if let avatarImage = avatarImage, let avatarURL = avatarURL {
                     TemporaryCache.save(.avatar, image: avatarImage.image)
-                    mergedProperties[.avatar] = avatarURL.absoluteString
+                    mergedProperties[.avatarURL] = avatarURL.absoluteString
                 }
 
                 if let coverImage = coverImage, let coverImageURL = coverImageURL {
                     TemporaryCache.save(.coverImage, image: coverImage.image)
-                    mergedProperties[.coverImage] = coverImageURL.absoluteString
+                    mergedProperties[.coverImageURL] = coverImageURL.absoluteString
                 }
 
                 self.updateUserProfile(mergedProperties)
@@ -141,7 +141,7 @@ struct ProfileService {
 
     private func updateUserImage(
         _ image: ImageRegionData,
-        key: Profile.Property,
+        key: Profile.ImageProperty,
         properties: [Profile.Property: Any])
         -> Promise<UploadSuccess>
     {
@@ -153,7 +153,7 @@ struct ProfileService {
 
                 let urlString = url.absoluteString
                 let mergedProperties: [Profile.Property: Any] = properties + [
-                    key: urlString,
+                    key.toProperty: urlString,
                 ]
 
                 return self.updateUserProfile(mergedProperties)
