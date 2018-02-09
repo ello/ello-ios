@@ -76,7 +76,7 @@ extension AutoCompleteViewController {
 
     func showAutoCompleteLoadFailure() {
         let message = InterfaceString.GenericError
-        let alertController = AlertViewController(error: message) { _ in
+        let alertController = AlertViewController(confirmation: message) { _ in
             _ = self.navigationController?.popViewController(animated: true)
         }
         present(alertController, animated: true)

@@ -418,7 +418,7 @@ final class StreamViewController: BaseElloViewController {
             clearForInitialLoad(newItems: [StreamCellItem(type: .error(message: "Error loading your stream"))])
 
             let message = InterfaceString.GenericError
-            let alertController = AlertViewController(error: message) { _ in
+            let alertController = AlertViewController(confirmation: message) { _ in
                 guard
                     let navigationController = self.navigationController,
                     navigationController.childViewControllers.count > 1

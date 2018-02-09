@@ -120,7 +120,7 @@ extension HireViewController: HireScreenDelegate {
             }
             .catch { error in
                 self.screen.hideSuccess()
-                let alertController = AlertViewController(error: InterfaceString.GenericError)
+                let alertController = AlertViewController(confirmation: InterfaceString.GenericError)
                 self.present(alertController, animated: true, completion: nil)
             }
     }

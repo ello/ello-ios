@@ -173,7 +173,7 @@ extension OnboardingProfileViewController: OnboardingStepController {
                 else {
                     message = InterfaceString.GenericError
                 }
-                let alertController = AlertViewController(error: message)
+                let alertController = AlertViewController(confirmation: message)
                 self.appViewController?.present(alertController, animated: true, completion: nil)
             }
     }
@@ -205,7 +205,7 @@ extension OnboardingProfileViewController: OnboardingStepController {
 
                 Tracker.shared.contactAccessPreferenceChanged(false)
                 let message = addressBookError.rawValue
-                let alertController = AlertViewController(error: InterfaceString.Friends.ImportError(message))
+                let alertController = AlertViewController(confirmation: InterfaceString.Friends.ImportError(message))
                 presenter.present(alertController, animated: true, completion: nil)
             }
         },

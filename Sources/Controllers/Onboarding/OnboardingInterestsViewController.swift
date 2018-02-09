@@ -78,7 +78,7 @@ extension OnboardingInterestsViewController: OnboardingStepController {
             .catch { [weak self] _ in
                 guard let `self` = self else { return }
 
-                let alertController = AlertViewController(error: InterfaceString.GenericError)
+                let alertController = AlertViewController(confirmation: InterfaceString.GenericError)
                 self.appViewController?.present(alertController, animated: true, completion: nil)
                 proceedClosure(.error)
             }

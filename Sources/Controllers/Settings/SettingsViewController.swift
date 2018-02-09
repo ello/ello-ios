@@ -471,7 +471,9 @@ class SettingsViewController: UITableViewController, ControllerThatMightHaveTheC
                     else {
                         self.coverImage.image = imageRegion.image
                     }
-                    self.alertUserOfImageProcessing(InterfaceString.Settings.CoverImageUploaded)
+
+                    let alertController = AlertViewController(confirmation: InterfaceString.Settings.CoverImageUploaded)
+                    self.present(alertController, animated: true, completion: nil)
                 }
                 .always {
                     ElloHUD.hideLoadingHud()
@@ -501,7 +503,9 @@ class SettingsViewController: UITableViewController, ControllerThatMightHaveTheC
                     else {
                         self.avatarImage.image = imageRegion.image
                     }
-                    self.alertUserOfImageProcessing(InterfaceString.Settings.AvatarUploaded)
+
+                    let alertController = AlertViewController(confirmation: InterfaceString.Settings.AvatarUploaded)
+                    self.present(alertController, animated: true, completion: nil)
                 }
                 .always {
                     ElloHUD.hideLoadingHud()
@@ -519,13 +523,6 @@ class SettingsViewController: UITableViewController, ControllerThatMightHaveTheC
         if let alertViewController = alertViewController {
             present(alertViewController, animated: true, completion: nil)
         }
-    }
-
-    private func alertUserOfImageProcessing(_ message: String) {
-        let alertController = AlertViewController(message: message)
-        let action = AlertAction(title: InterfaceString.OK, style: .light, handler: .none)
-        alertController.addAction(action)
-        present(alertController, animated: true, completion: nil)
     }
 }
 

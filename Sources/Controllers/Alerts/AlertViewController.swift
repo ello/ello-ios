@@ -95,8 +95,8 @@ class AlertViewController: UIViewController {
         fatalError("This isn't implemented")
     }
 
-    convenience init(error: String, handler: AlertHandler? = nil) {
-        self.init(message: error)
+    convenience init(confirmation: String, handler: AlertHandler? = nil) {
+        self.init(message: confirmation)
         let action = AlertAction(title: InterfaceString.OK, style: .dark, handler: handler)
         addAction(action)
     }

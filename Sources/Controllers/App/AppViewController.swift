@@ -190,11 +190,7 @@ class AppViewController: BaseElloViewController {
         apiOutOfDateObserver = NotificationObserver(notification: AuthenticationNotifications.outOfDateAPI) { [weak self] _ in
             guard let `self` = self else { return }
             let message = InterfaceString.App.OldVersion
-            let alertController = AlertViewController(message: message)
-
-            let action = AlertAction(title: InterfaceString.OK, style: .dark, handler: nil)
-            alertController.addAction(action)
-
+            let alertController = AlertViewController(confirmation: message)
             self.present(alertController, animated: true, completion: nil)
             self.apiOutOfDateObserver?.removeObserver()
             self.userLoggedOut()
@@ -470,11 +466,7 @@ extension AppViewController {
         if isLoggedIn() {
             removeViewController {
                 let message = InterfaceString.App.LoggedOut
-                let alertController = AlertViewController(message: message)
-
-                let action = AlertAction(title: InterfaceString.OK, style: .dark, handler: nil)
-                alertController.addAction(action)
-
+                let alertController = AlertViewController(confirmation: message)
                 self.present(alertController, animated: true, completion: nil)
             }
         }
@@ -538,13 +530,7 @@ extension AppViewController: InviteResponder {
 
                     Tracker.shared.contactAccessPreferenceChanged(false)
                     let message = addressBookError.rawValue
-                    let alertController = AlertViewController(
-                        message: InterfaceString.Friends.ImportError(message)
-                    )
-
-                    let action = AlertAction(title: InterfaceString.OK, style: .dark, handler: .none)
-                    alertController.addAction(action)
-
+                    let alertController = AlertViewController(confirmation: InterfaceString.Friends.ImportError(message))
                     self.present(alertController, animated: true, completion: nil)
                 }
             }
