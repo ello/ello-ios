@@ -485,10 +485,6 @@
 		1D2B6A7C1BE3FB0900D27DC9 /* AvatarButtonSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D2B6A7B1BE3FB0900D27DC9 /* AvatarButtonSpec.swift */; };
 		1D2C12AA1D4FD727007C4981 /* OmnibarScreenSnapshotSpecs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D2C12A91D4FD727007C4981 /* OmnibarScreenSnapshotSpecs.swift */; };
 		1D2D18651AC322070078AA05 /* UIWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D2D18641AC322070078AA05 /* UIWebView.swift */; };
-		1D2ED1AE1F82D2E900B19052 /* back_white.svg in Resources */ = {isa = PBXBuildFile; fileRef = 1D2ED1AA1F82D2E600B19052 /* back_white.svg */; };
-		1D2ED1AF1F82D2E900B19052 /* back_disabled.svg in Resources */ = {isa = PBXBuildFile; fileRef = 1D2ED1AB1F82D2E800B19052 /* back_disabled.svg */; };
-		1D2ED1B01F82D2E900B19052 /* back_selected.svg in Resources */ = {isa = PBXBuildFile; fileRef = 1D2ED1AC1F82D2E800B19052 /* back_selected.svg */; };
-		1D2ED1B11F82D2E900B19052 /* back_normal.svg in Resources */ = {isa = PBXBuildFile; fileRef = 1D2ED1AD1F82D2E900B19052 /* back_normal.svg */; };
 		1D2ED1B41F82EF2800B19052 /* grid_view_selected.svg in Resources */ = {isa = PBXBuildFile; fileRef = 1D2ED1B21F82EF2600B19052 /* grid_view_selected.svg */; };
 		1D2ED1B51F82EF2800B19052 /* list_view_selected.svg in Resources */ = {isa = PBXBuildFile; fileRef = 1D2ED1B31F82EF2700B19052 /* list_view_selected.svg */; };
 		1D2F65A91D185AB90099D036 /* DiscoverType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D2F65A81D185AB90099D036 /* DiscoverType.swift */; };
@@ -1696,10 +1692,6 @@
 		1D2B6A7B1BE3FB0900D27DC9 /* AvatarButtonSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarButtonSpec.swift; sourceTree = "<group>"; };
 		1D2C12A91D4FD727007C4981 /* OmnibarScreenSnapshotSpecs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OmnibarScreenSnapshotSpecs.swift; sourceTree = "<group>"; };
 		1D2D18641AC322070078AA05 /* UIWebView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIWebView.swift; sourceTree = "<group>"; };
-		1D2ED1AA1F82D2E600B19052 /* back_white.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = back_white.svg; sourceTree = "<group>"; };
-		1D2ED1AB1F82D2E800B19052 /* back_disabled.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = back_disabled.svg; sourceTree = "<group>"; };
-		1D2ED1AC1F82D2E800B19052 /* back_selected.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = back_selected.svg; sourceTree = "<group>"; };
-		1D2ED1AD1F82D2E900B19052 /* back_normal.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = back_normal.svg; sourceTree = "<group>"; };
 		1D2ED1B21F82EF2600B19052 /* grid_view_selected.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grid_view_selected.svg; sourceTree = "<group>"; };
 		1D2ED1B31F82EF2700B19052 /* list_view_selected.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = list_view_selected.svg; sourceTree = "<group>"; };
 		1D2F65A81D185AB90099D036 /* DiscoverType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoverType.swift; sourceTree = "<group>"; };
@@ -4030,10 +4022,6 @@
 				1D313F681F265FED00953EE2 /* artist_invite_status_preview.svg */,
 				1D313F691F265FED00953EE2 /* artist_invite_status_selecting.svg */,
 				1D313F6A1F265FED00953EE2 /* artist_invite_status_upcoming.svg */,
-				1D2ED1AB1F82D2E800B19052 /* back_disabled.svg */,
-				1D2ED1AD1F82D2E900B19052 /* back_normal.svg */,
-				1D2ED1AC1F82D2E800B19052 /* back_selected.svg */,
-				1D2ED1AA1F82D2E600B19052 /* back_white.svg */,
 				1D6E43071EA68AEA0029C9B1 /* badge_community_normal.svg */,
 				1D6E43081EA68AEA0029C9B1 /* badge_community_selected.svg */,
 				1D6E43091EA68AEA0029C9B1 /* badge_experimental_normal.svg */,
@@ -4558,7 +4546,6 @@
 				76F8DEBC1B6C0BC4009BCF61 /* camera_selected.svg in Resources */,
 				1D6E43171EA68AEA0029C9B1 /* badge_staff_normal.svg in Resources */,
 				7689B4F51AD4ED3B00E4A4A3 /* posts_loading_more_post_comments.json in Resources */,
-				1D2ED1B01F82D2E900B19052 /* back_selected.svg in Resources */,
 				76F8DECA1B6C0BC4009BCF61 /* dots_normal.svg in Resources */,
 				120E64191E32970800CAF03E /* jwt-auth-no-staff.json in Resources */,
 				76F8DEF51B6C0BC4009BCF61 /* search_normal.svg in Resources */,
@@ -4605,7 +4592,6 @@
 				76F8DEF91B6C0BC4009BCF61 /* sparkles_normal.svg in Resources */,
 				EA8990141ABA180100339CBE /* Settings.storyboard in Resources */,
 				76F8DEBD1B6C0BC4009BCF61 /* check_green.svg in Resources */,
-				1D2ED1B11F82D2E900B19052 /* back_normal.svg in Resources */,
 				76F8DEBB1B6C0BC4009BCF61 /* camera_normal.svg in Resources */,
 				12E2A5A41E5CD357000EFFBA /* home_selected.svg in Resources */,
 				76F8DEFA1B6C0BC4009BCF61 /* sparkles_selected.svg in Resources */,
@@ -4661,7 +4647,6 @@
 				1DF4908B1FCDE26500C0ACAC /* text_picker_selected.svg in Resources */,
 				1212FDEA1A66377100AD4AF7 /* comments.json in Resources */,
 				1D612BF61D3EA39500B4079C /* $_add_selected.svg in Resources */,
-				1D2ED1AF1F82D2E900B19052 /* back_disabled.svg in Resources */,
 				1DA8FD701B98A63600472B1E /* reorder_normal.svg in Resources */,
 				76F8DED71B6C0BC4009BCF61 /* hearts_selected.svg in Resources */,
 				7689B4E81AD4ED3B00E4A4A3 /* discovery_listing_random_users.json in Resources */,
@@ -4772,7 +4757,6 @@
 				76F8DEE21B6C0BC4009BCF61 /* person_selected.svg in Resources */,
 				1D9B74D11BB1E62500ACD028 /* bubble_body_normal.svg in Resources */,
 				1DB68E991D46CE0F00D446C7 /* $_add_disabled.svg in Resources */,
-				1D2ED1AE1F82D2E900B19052 /* back_white.svg in Resources */,
 				7689B4D51AD4ED3B00E4A4A3 /* access_tokens__when_the_user_has_been_locked_out.json in Resources */,
 				7689B4D61AD4ED3B00E4A4A3 /* access_tokens_client_access_token_(client_credentials).json in Resources */,
 				1DA9AA7C1C694F32000562E4 /* profile__no_sharing.json in Resources */,
