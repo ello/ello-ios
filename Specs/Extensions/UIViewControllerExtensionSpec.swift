@@ -10,14 +10,14 @@ import Nimble
 class UIViewControllerExtensionSpec: QuickSpec {
     override func spec() {
         describe("UIViewController") {
-            describe("findViewController") {
+            describe("findParentController") {
                 it("should find a navigation controller") {
                     let controller = UIViewController()
                     let navController = UINavigationController(rootViewController: controller)
                     let tabBarController = UITabBarController()
                     tabBarController.viewControllers = [navController]
                     tabBarController.title = "foo"
-                    let found = controller.findViewController { vc in vc is UITabBarController }
+                    let found = controller.findParentController { vc in vc is UITabBarController }
                     expect(found).to(equal(tabBarController))
                 }
 
@@ -27,7 +27,7 @@ class UIViewControllerExtensionSpec: QuickSpec {
                     let tabBarController = UITabBarController()
                     tabBarController.viewControllers = [navController]
                     tabBarController.title = "foo"
-                    let found = controller.findViewController { vc in vc.title == "foo" }
+                    let found = controller.findParentController { vc in vc.title == "foo" }
                     expect(found).to(equal(tabBarController))
                 }
             }

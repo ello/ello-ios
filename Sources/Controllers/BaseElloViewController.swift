@@ -34,19 +34,10 @@ class BaseElloViewController: UIViewController, HasAppController, ControllerThat
         didSet { didSetCurrentUser() }
     }
 
-    var appViewController: AppViewController? {
-        return findViewController { vc in vc is AppViewController } as? AppViewController
-    }
-
-    var elloTabBarController: ElloTabBarController? {
-        return findViewController { vc in vc is ElloTabBarController } as? ElloTabBarController
-    }
-
+    var appViewController: AppViewController? { return findParentController() }
+    var elloTabBarController: ElloTabBarController? { return findParentController() }
+    var bottomBarController: BottomBarController? { return findParentController() }
     var updatesBottomBar = true
-    var bottomBarController: BottomBarController? {
-        return findViewController { vc in vc is BottomBarController } as? BottomBarController
-    }
-
     var navigationBarsVisible: Bool? {
         return bottomBarController?.navigationBarsVisible
     }

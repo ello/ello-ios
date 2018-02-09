@@ -21,9 +21,7 @@ class ElloTabBarController: UIViewController, HasAppController, ControllerThatMi
 
     private var visibleViewController: UIViewController?
 
-    var appViewController: AppViewController? {
-        return findViewController { vc in vc is AppViewController } as? AppViewController
-    }
+    var appViewController: AppViewController? { return findParentController() }
 
     private(set) var notificationsDot: UIView?
     var newNotificationsAvailable: Bool {

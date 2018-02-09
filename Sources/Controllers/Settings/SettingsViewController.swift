@@ -154,12 +154,8 @@ class SettingsViewController: UITableViewController, ControllerThatMightHaveTheC
         tableView.estimatedRowHeight = 100
     }
 
-    var bottomBarController: BottomBarController? {
-        return findViewController { vc in vc is BottomBarController } as! BottomBarController?
-    }
-    var containerController: SettingsContainerViewController? {
-        return findViewController { vc in vc is SettingsContainerViewController } as! SettingsContainerViewController?
-    }
+    var bottomBarController: BottomBarController? { return findParentController() }
+    var containerController: SettingsContainerViewController? { return findParentController() }
 
     func showNavBars() {
         if let bottomBarController = bottomBarController {
@@ -648,7 +644,7 @@ extension SettingsViewController: AutoCompleteDelegate {
         }
 
         if locationTextViewSelected,
-            let cell = locationTextFieldView.findParentView({ $0 is UITableViewCell })
+            let cell: UITableViewCell = locationTextFieldView.findParentView()
         {
             tableView.scrollRectToVisible(cell.frame, animated: true)
         }

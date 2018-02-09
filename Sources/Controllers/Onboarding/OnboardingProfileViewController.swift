@@ -11,9 +11,7 @@ class OnboardingProfileViewController: UIViewController, HasAppController {
 
     var currentUser: User?
 
-    var appViewController: AppViewController? {
-        return findViewController { vc in vc is AppViewController } as? AppViewController
-    }
+    var appViewController: AppViewController? { return findParentController() }
 
     var onboardingViewController: OnboardingViewController?
     var onboardingData: OnboardingData!

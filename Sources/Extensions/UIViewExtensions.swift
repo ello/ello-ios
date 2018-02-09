@@ -3,8 +3,11 @@
 //
 
 extension UIView {
+    var firstResponder: UIView? {
+        return findSubview { $0.isFirstResponder }
+    }
 
-    func findAllSubviews<T>(_ test: ((T) -> Bool)? = nil) -> [T] where T: UIView {
+    func findAllSubviews<T>(_ test: ((T) -> Bool)? = nil) -> [T] {
         var views: [T] = []
         if let view = self as? T, test?(view) ?? true {
             views.append(view)
@@ -18,7 +21,7 @@ extension UIView {
         return views
     }
 
-    func findSubview<T>(_ test: ((T) -> Bool)? = nil) -> T? where T: UIView {
+    func findSubview<T>(_ test: ((T) -> Bool)? = nil) -> T? {
         if let view = self as? T, test?(view) ?? true {
             return view
         }
@@ -31,28 +34,13 @@ extension UIView {
         return nil
     }
 
-    func findParentView<T>(_ test: ((T) -> Bool)? = nil) -> T? where T: UIView {
+    func findParentView<T>(_ test: ((T) -> Bool)? = nil) -> T? {
         var view: UIView? = superview
         while view != nil {
             if let view = view as? T, test?(view) ?? true {
                 return view
             }
             view = view?.superview
-        }
-        return nil
-    }
-
-}
-
-extension UIResponder {
-
-    func findResponder<T>() -> T? {
-        var responder: UIResponder! = self
-        while responder != nil {
-            if let responder = responder as? T {
-                return responder
-            }
-            responder = responder.next
         }
         return nil
     }
