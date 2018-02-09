@@ -87,6 +87,9 @@ class SettingsContainerViewController: BaseElloViewController {
 
 
 class SettingsViewController: UITableViewController, ControllerThatMightHaveTheCurrentUser {
+    class func instantiateFromStoryboard() -> SettingsViewController {
+        return UIStoryboard(name: "Settings", bundle: Bundle(for: AppDelegate.self)).instantiateInitialViewController() as! SettingsViewController
+    }
 
     @IBOutlet weak var avatarImageView: UIView!
     @IBOutlet weak var profileDescription: StyledLabel!
@@ -584,12 +587,6 @@ extension SettingsViewController: UIImagePickerControllerDelegate, UINavigationC
 
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         self.dismiss(animated: true, completion: nil)
-    }
-}
-
-extension SettingsViewController {
-    class func instantiateFromStoryboard() -> SettingsViewController {
-        return UIStoryboard(name: "Settings", bundle: Bundle(for: AppDelegate.self)).instantiateInitialViewController() as! SettingsViewController
     }
 }
 
