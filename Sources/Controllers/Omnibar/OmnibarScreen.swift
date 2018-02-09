@@ -887,7 +887,7 @@ class OmnibarScreen: Screen, OmnibarScreenProtocol {
         let urlAction = AlertAction(title: InterfaceString.Omnibar.EnterURL, style: .urlInput)
         alertController.addAction(urlAction)
 
-        let okCancelAction = AlertAction(title: "", style: .okCancel) { _ in
+        let okCancelAction = AlertAction(style: .okCancel) { _ in
             if let urlString = alertController.actionInputs.safeValue(0) {
                 handler(URL.shorthand(urlString))
             }

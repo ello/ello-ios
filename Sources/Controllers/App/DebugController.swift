@@ -127,7 +127,7 @@ class DebugController: UIViewController, UITableViewDataSource, UITableViewDeleg
                 let urlAction = AlertAction(title: "Enter URL", initial: initial, style: .urlInput)
                 alertController.addAction(urlAction)
 
-                let okCancelAction = AlertAction(title: "", style: .okCancel) { _ in
+                let okCancelAction = AlertAction(style: .okCancel) { _ in
                     delay(0.5) {
                         if let urlString = alertController.actionInputs.safeValue(0),
                             !urlString.isEmpty

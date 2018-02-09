@@ -30,7 +30,7 @@ struct AlertAction {
     let handler: AlertHandler?
     var waitForDismiss = false
 
-    init(title: String, initial: String = "", style: ActionStyle, handler: AlertHandler? = nil) {
+    init(title: String = "", initial: String = "", style: ActionStyle, handler: AlertHandler? = nil) {
         self.title = title
         self.initial = initial
         self.style = style
