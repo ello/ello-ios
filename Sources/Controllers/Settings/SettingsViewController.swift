@@ -454,7 +454,7 @@ class SettingsViewController: UITableViewController, ControllerThatMightHaveTheC
     func coverImageTapped() {
         photoSaveCallback = { imageRegion in
             ElloHUD.showLoadingHud()
-            ProfileService().updateUserCoverImage(imageRegion)
+            ProfileService().updateUserImage(.coverImage, imageRegion: imageRegion)
                 .then { [weak self] url, _ -> Void in
                     guard let `self` = self else { return }
 
@@ -484,7 +484,7 @@ class SettingsViewController: UITableViewController, ControllerThatMightHaveTheC
     func avatarImageTapped() {
         photoSaveCallback = { imageRegion in
             ElloHUD.showLoadingHud()
-            ProfileService().updateUserAvatarImage(imageRegion)
+            ProfileService().updateUserImage(.avatar, imageRegion: imageRegion)
                 .then { [weak self] url, _ -> Void in
                     guard let `self` = self else { return }
 

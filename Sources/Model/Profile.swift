@@ -40,8 +40,8 @@ final class Profile: JSONAble {
         case bio = "unsanitized_short_bio"
         case links = "external_links"
         case location
-        case avatarUrl = "remote_avatar_url"
-        case coverImageUrl = "remote_cover_image_url"
+        case avatar = "remote_avatar_url"
+        case coverImage = "remote_cover_image_url"
         case webOnboardingVersion = "web_onboarding_version"
         case creatorTypeCategoryIds = "creator_type_category_ids"
 
