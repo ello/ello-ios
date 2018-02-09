@@ -177,6 +177,6 @@ extension BaseElloViewController: HasBackButton {
 
 extension BaseElloViewController: HasCloseButton {
     func closeButtonTapped() {
-        dismiss(animated: true, completion: .none)
+        dismiss(animated: true, completion: nil)
     }
 }

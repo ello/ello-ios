@@ -62,7 +62,7 @@ class ContentFlagger {
 
         alertController.addAction(cancelAction)
 
-        presentingController.present(alertController, animated: true, completion: .none)
+        presentingController.present(alertController, animated: true, completion: nil)
     }
 
 }

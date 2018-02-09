@@ -98,6 +98,6 @@ class DeleteAccountConfirmationViewController: BaseElloViewController {
 
     @IBAction private func dismiss() {
         timer?.invalidate()
-        self.dismiss(animated: true, completion: .none)
+        self.dismiss(animated: true, completion: nil)
     }
 }

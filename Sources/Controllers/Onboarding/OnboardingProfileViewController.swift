@@ -206,7 +206,7 @@ extension OnboardingProfileViewController: OnboardingStepController {
                 Tracker.shared.contactAccessPreferenceChanged(false)
                 let message = addressBookError.rawValue
                 let alertController = AlertViewController(error: InterfaceString.Friends.ImportError(message))
-                presenter.present(alertController, animated: true, completion: .none)
+                presenter.present(alertController, animated: true, completion: nil)
             }
         },
             cancelCompletion: {

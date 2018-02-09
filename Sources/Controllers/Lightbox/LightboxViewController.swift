@@ -138,7 +138,7 @@ extension LightboxViewController: LightboxScreenDelegate {
     func dismissAction() {
         postNotification(StatusBarNotifications.alertStatusBarVisibility, value: true)
         delegate?.lightboxWillDismiss()
-        dismiss(animated: true, completion: .none)
+        dismiss(animated: true, completion: nil)
     }
 
     func isDifferentPost(delta: Int) -> Bool {

@@ -418,7 +418,7 @@ extension AppViewController {
 
     func removeViewController(_ completion: @escaping Block = {}) {
         if presentingViewController != nil {
-            dismiss(animated: false, completion: .none)
+            dismiss(animated: false, completion: nil)
         }
         statusBarIsVisible = true
 
@@ -545,7 +545,7 @@ extension AppViewController: InviteResponder {
                     let action = AlertAction(title: InterfaceString.OK, style: .dark, handler: .none)
                     alertController.addAction(action)
 
-                    self.present(alertController, animated: true, completion: .none)
+                    self.present(alertController, animated: true, completion: nil)
                 }
             }
         })

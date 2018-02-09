@@ -64,6 +64,6 @@ extension ProfileCategoriesViewController: ProfileCategoriesDelegate {
     }
 
     func dismiss() {
-        self.dismiss(animated: true, completion: .none)
+        self.dismiss(animated: true, completion: nil)
     }
 }

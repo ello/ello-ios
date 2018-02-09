@@ -320,7 +320,7 @@ extension PostDetailViewController: HasDeleteButton {
         alertController.addAction(yesAction)
         alertController.addAction(noAction)
 
-        self.present(alertController, animated: true, completion: .none)
+        self.present(alertController, animated: true, completion: nil)
     }
 }
 

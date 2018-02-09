@@ -30,7 +30,7 @@ extension StreamImageViewer {
         lightboxViewController.currentUser = currentUser
         lightboxViewController.delegate = self
         lightboxViewController.streamViewController = streamViewController
-        streamViewController.present(lightboxViewController, animated: true, completion: .none)
+        streamViewController.present(lightboxViewController, animated: true, completion: nil)
     }
 }
 

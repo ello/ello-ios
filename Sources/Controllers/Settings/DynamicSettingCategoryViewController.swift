@@ -124,7 +124,7 @@ extension DynamicSettingCategoryViewController: DynamicSettingCellResponder {
 
     func deleteAccount() {
         let vc = DeleteAccountConfirmationViewController()
-        present(vc, animated: true, completion: .none)
+        present(vc, animated: true, completion: nil)
     }
 }
 

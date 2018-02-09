@@ -75,7 +75,7 @@ extension AddressBookController {
         }
         alertController.addAction(cancelAction)
 
-        controller.present(alertController, animated: true, completion: .none)
+        controller.present(alertController, animated: true, completion: nil)
     }
 
     private static func proceedWithImport(_ completion: @escaping Completion) {
@@ -95,7 +95,7 @@ extension AddressBookController {
         }
         alertController.addAction(action)
 
-        controller.present(alertController, animated: true, completion: .none)
+        controller.present(alertController, animated: true, completion: nil)
     }
 
     private static func getAddressBook(_ completion: @escaping Completion) {

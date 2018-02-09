@@ -510,11 +510,11 @@ class SettingsViewController: UITableViewController, ControllerThatMightHaveTheC
     private func openImagePicker() {
         let alertViewController = UIImagePickerController.alertControllerForImagePicker { imagePicker in
             imagePicker.delegate = self
-            self.present(imagePicker, animated: true, completion: .none)
+            self.present(imagePicker, animated: true, completion: nil)
         }
 
         if let alertViewController = alertViewController {
-            present(alertViewController, animated: true, completion: .none)
+            present(alertViewController, animated: true, completion: nil)
         }
     }
 
@@ -522,7 +522,7 @@ class SettingsViewController: UITableViewController, ControllerThatMightHaveTheC
         let alertController = AlertViewController(message: message)
         let action = AlertAction(title: InterfaceString.OK, style: .light, handler: .none)
         alertController.addAction(action)
-        present(alertController, animated: true, completion: .none)
+        present(alertController, animated: true, completion: nil)
     }
 }
 
@@ -566,7 +566,7 @@ extension SettingsViewController: UIImagePickerControllerDelegate, UINavigationC
                 self.photoSaveCallback?(imageRegion)
             }
 
-            dismiss(animated: true, completion: .none)
+            dismiss(animated: true, completion: nil)
         }
         else if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
             image.copyWithCorrectOrientationAndSize { image in
@@ -574,16 +574,16 @@ extension SettingsViewController: UIImagePickerControllerDelegate, UINavigationC
                     let imageRegion = ImageRegionData(image: image)
                     self.photoSaveCallback?(imageRegion)
                 }
-                self.dismiss(animated: true, completion: .none)
+                self.dismiss(animated: true, completion: nil)
             }
         }
         else {
-            dismiss(animated: true, completion: .none)
+            dismiss(animated: true, completion: nil)
         }
     }
 
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        self.dismiss(animated: true, completion: .none)
+        self.dismiss(animated: true, completion: nil)
     }
 }
 
