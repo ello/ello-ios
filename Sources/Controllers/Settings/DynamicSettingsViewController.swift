@@ -2,205 +2,71 @@
 ///  DynamicSettingsViewController.swift
 //
 
-private let DynamicSettingsCellHeight: CGFloat = 50
+class DynamicSettingsViewController: BaseElloViewController {
+    private var _mockScreen: DynamicSettingsScreenProtocol?
+    var screen: DynamicSettingsScreenProtocol {
+        set(screen) { _mockScreen = screen }
+        get { return _mockScreen ?? self.view as! DynamicSettingsScreen }
+    }
 
-protocol DynamicSettingsDelegate: class {
-    func dynamicSettingsUserChanged(_ user: User)
+    let category: DynamicSettingCategory
+
+    init(category: DynamicSettingCategory) {
+        self.category = category
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    override func loadView() {
+        let screen = DynamicSettingsScreen(settings: category.settings)
+        screen.delegate = self
+        screen.title = category.label
+        self.view = screen
+    }
+
+    override func didSetCurrentUser() {
+        super.didSetCurrentUser()
+        screen.reload()
+    }
 }
 
-class DynamicSettingsViewController: UITableViewController {
-    var hasBlocked: Bool {
-        if let blockedCount = currentUser?.profile?.blockedCount {
-            return blockedCount > 0
-        }
-        return false
-    }
-    var hasMuted: Bool {
-        if let mutedCount = currentUser?.profile?.mutedCount {
-            return mutedCount > 0
-        }
-        return false
-    }
+extension DynamicSettingsViewController: DynamicSettingsScreenDelegate {
+}
 
-    var dynamicCategories: [DynamicSettingCategory] = []
-    var currentUser: User?
-    weak var delegate: DynamicSettingsDelegate?
-    var hideLoadingHud: Block = ElloHUD.hideLoadingHud
+extension DynamicSettingsViewController: DynamicSettingCellResponder {
+    func toggleSetting(_ setting: DynamicSetting, value: Bool) {
+        guard
+            let settingKey = Profile.Property(rawValue: setting.key)
+        else { return }
 
-    var height: CGFloat {
-        var totalRows = 0
-        for section in 0..<tableView.numberOfSections {
-            totalRows += tableView.numberOfRows(inSection: section)
-        }
-        return DynamicSettingsCellHeight * CGFloat(totalRows)
-    }
+        var updatedValues: [Profile.Property: Any] = [
+            settingKey: value,
+        ]
+        for anotherSetting in category.settings {
+            guard
+                let anotherValue = setting.sets(anotherSetting, when: value),
+                let anotherKey = Profile.Property(rawValue: anotherSetting.key)
+            else { continue }
 
-    private var blockedCountChangedNotification: NotificationObserver?
-    private var mutedCountChangedNotification: NotificationObserver?
-
-    deinit {
-        blockedCountChangedNotification?.removeObserver()
-        mutedCountChangedNotification?.removeObserver()
-    }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        blockedCountChangedNotification = NotificationObserver(notification: BlockedCountChangedNotification) { [unowned self] userId, delta in
-            self.currentUser?.profile?.blockedCount += delta
-            self.reloadTables()
-        }
-        mutedCountChangedNotification = NotificationObserver(notification: MutedCountChangedNotification) { [unowned self] userId, delta in
-            self.currentUser?.profile?.mutedCount += delta
-            self.reloadTables()
+            updatedValues[anotherKey] = anotherValue
         }
 
-        tableView.scrollsToTop = false
-        tableView.rowHeight = DynamicSettingsCellHeight
-
-        StreamService().loadStream(endpoint: .profileToggles)
-            .then { [weak self] response -> Void in
+        ProfileService().updateUserProfile(updatedValues)
+            .then { [weak self] user -> Void in
                 guard let `self` = self else { return }
 
-                self.hideLoadingHud()
-
-                switch response {
-                case let .jsonables(jsonables, _):
-                    guard let categories = jsonables as? [DynamicSettingCategory] else { return }
-
-                    self.dynamicCategories = categories.reduce([]) { categoryArr, category in
-                        category.settings = category.settings.reduce([]) { settingsArr, setting in
-                            if self.currentUser?.hasProperty(key: setting.key) == true {
-                                return settingsArr + [setting]
-                            }
-                            return settingsArr
-                        }
-                        if category.settings.count > 0 {
-                            return categoryArr + [category]
-                        }
-                        return categoryArr
-                    }
-
-                    self.reloadTables()
-                case .empty: break
-                }
+                self.appViewController?.currentUser = user
             }
             .catch { [weak self] _ in
-                self?.hideLoadingHud()
+                self?.screen.reload()
             }
     }
 
-    private func reloadTables() {
-        self.tableView.reloadData()
-        (self.parent as? SettingsViewController)?.tableView.reloadData()
+    func deleteAccount() {
+        let vc = DeleteAccountConfirmationViewController()
+        present(vc, animated: true, completion: nil)
     }
-
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return DynamicSettingsSection.count
-    }
-
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection tvSection: Int) -> Int {
-        guard let section = DynamicSettingsSection(rawValue: tvSection) else { return 0 }
-        switch section {
-        case .creatorType: return dynamicCategories.count > 0 ? 1 : 0
-        case .dynamicSettings: return dynamicCategories.count
-        case .blocked: return hasBlocked ? 1 : 0
-        case .muted: return hasMuted ? 1 : 0
-        case .accountDeletion: return 1
-        }
-    }
-
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "PreferenceCell", for: indexPath)
-        guard let section = DynamicSettingsSection(rawValue: indexPath.section) else { return cell }
-
-        switch section {
-        case .creatorType:
-            cell.textLabel?.text = DynamicSettingCategory.creatorTypeCategory.label
-
-        case .dynamicSettings:
-            let category = dynamicCategories[indexPath.row]
-            cell.textLabel?.text = category.label
-
-        case .blocked:
-            cell.textLabel?.text = DynamicSettingCategory.blockedCategory.label
-
-        case .muted:
-            cell.textLabel?.text = DynamicSettingCategory.mutedCategory.label
-
-        case .accountDeletion:
-            cell.textLabel?.text = DynamicSettingCategory.accountDeletionCategory.label
-        }
-
-        return cell
-    }
-
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard
-            let currentUser = currentUser,
-            let section = DynamicSettingsSection(rawValue: indexPath.section)
-        else { return }
-
-        switch section {
-        case .dynamicSettings, .accountDeletion:
-            performSegue(withIdentifier: "DynamicSettingCategorySegue", sender: nil)
-        case .creatorType:
-            guard let categoryIds = currentUser.profile?.creatorTypeCategoryIds else { return }
-
-            tableView.isUserInteractionEnabled = false
-            CategoryService().loadCreatorCategories()
-                .then { categories -> Void in
-                    let creatorCategories = categoryIds.flatMap { id -> Category? in
-                        return categories.find { $0.id == id }
-                    }
-
-                    let controller = OnboardingCreatorTypeViewController()
-                    controller.delegate = self.delegate
-                    controller.currentUser = currentUser
-                    let creatorType: Profile.CreatorType
-                    if creatorCategories.count > 0 {
-                        creatorType = .artist(creatorCategories)
-                    }
-                    else {
-                        creatorType = .fan
-                    }
-                    controller.creatorType = creatorType
-                    self.navigationController?.pushViewController(controller, animated: true)
-                }
-                .always {
-                    tableView.isUserInteractionEnabled = true
-                }
-        case .blocked:
-            let controller = SimpleStreamViewController(endpoint: .currentUserBlockedList, title: InterfaceString.Settings.BlockedTitle)
-            controller.currentUser = currentUser
-            navigationController?.pushViewController(controller, animated: true)
-        case .muted:
-            let controller = SimpleStreamViewController(endpoint: .currentUserMutedList, title: InterfaceString.Settings.MutedTitle)
-            controller.currentUser = currentUser
-            navigationController?.pushViewController(controller, animated: true)
-        }
-    }
-
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard
-            segue.identifier == "DynamicSettingCategorySegue",
-            let selectedIndexPath = tableView.indexPathForSelectedRow,
-            let section = DynamicSettingsSection(rawValue: selectedIndexPath.section)
-        else { return }
-
-        let controller = segue.destination as! DynamicSettingCategoryViewController
-        controller.delegate = delegate
-
-        switch section {
-        case .dynamicSettings:
-            controller.category = dynamicCategories[selectedIndexPath.row]
-
-        case .accountDeletion:
-            controller.category = DynamicSettingCategory.accountDeletionCategory
-
-        case .creatorType, .blocked, .muted:
-            break
-        }
-        controller.currentUser = currentUser
-}
 }

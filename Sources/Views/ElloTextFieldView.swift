@@ -208,13 +208,13 @@ extension ElloTextFieldView {
         textField.keyboardType = .emailAddress
     }
 
-    class func styleAsPassword(_ passwordView: ElloTextFieldView) {
+    class func styleAsPassword(_ passwordView: ElloTextFieldView, returnKey: UIReturnKeyType = .go) {
         passwordView.label.text = InterfaceString.Join.Password
-        styleAsPasswordField(passwordView.textField)
+        styleAsPasswordField(passwordView.textField, returnKey: returnKey)
     }
-    class func styleAsPasswordField(_ textField: UITextField) {
+    class func styleAsPasswordField(_ textField: UITextField, returnKey: UIReturnKeyType = .go) {
         styleCommonField(textField)
-        textField.returnKeyType = .go
+        textField.returnKeyType = returnKey
         textField.keyboardType = .default
         textField.isSecureTextEntry = true
     }

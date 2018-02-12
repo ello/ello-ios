@@ -445,6 +445,7 @@
 		1D0DF917202A1CB000019875 /* NotificationsProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D0DF916202A1CAF00019875 /* NotificationsProtocols.swift */; };
 		1D0DF919202A1FF000019875 /* BuyButtonLinkProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D0DF918202A1FF000019875 /* BuyButtonLinkProtocols.swift */; };
 		1D0DF91B202A205D00019875 /* BlockUserModalProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D0DF91A202A205D00019875 /* BlockUserModalProtocols.swift */; };
+		1D0DF926202A695200019875 /* SettingsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D0DF925202A695000019875 /* SettingsService.swift */; };
 		1D104FD01F3CEBCD00B5487A /* ElloTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F6AE691A4339EF00493660 /* ElloTextField.swift */; };
 		1D104FD11F3CEC5900B5487A /* ValidationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7152B31D6E4FCE005998FE /* ValidationState.swift */; };
 		1D104FD21F3CEC6E00B5487A /* UIViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12384EBA1C56B3C200608BD8 /* UIViewExtensions.swift */; };
@@ -775,6 +776,16 @@
 		1D7E82481F2A7277006ACE7A /* ArtistInviteSubmission.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7E82461F2A7249006ACE7A /* ArtistInviteSubmission.swift */; };
 		1D7E824A1F2BCB9E006ACE7A /* ArtistInviteSubmissionsButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7E82491F2BCB9E006ACE7A /* ArtistInviteSubmissionsButtonCell.swift */; };
 		1D807D9A1B050DE2009B0F71 /* awesome_people.json in Resources */ = {isa = PBXBuildFile; fileRef = 1D807D991B050DE2009B0F71 /* awesome_people.json */; };
+		1D80877B2032596C0081E8FE /* SettingsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D808771203259690081E8FE /* SettingsScreen.swift */; };
+		1D80877C2032596C0081E8FE /* DynamicSettingCellPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D808772203259690081E8FE /* DynamicSettingCellPresenter.swift */; };
+		1D80877D2032596C0081E8FE /* SettingsCredentialsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8087732032596A0081E8FE /* SettingsCredentialsViewController.swift */; };
+		1D80877E2032596C0081E8FE /* SettingsProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8087742032596A0081E8FE /* SettingsProtocols.swift */; };
+		1D80877F2032596C0081E8FE /* DynamicSettingsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8087752032596B0081E8FE /* DynamicSettingsScreen.swift */; };
+		1D8087802032596C0081E8FE /* SettingsCredentialsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8087762032596B0081E8FE /* SettingsCredentialsScreen.swift */; };
+		1D8087812032596C0081E8FE /* SettingsGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8087772032596B0081E8FE /* SettingsGenerator.swift */; };
+		1D8087822032596D0081E8FE /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8087782032596C0081E8FE /* SettingsViewController.swift */; };
+		1D8087832032596D0081E8FE /* DynamicSettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8087792032596C0081E8FE /* DynamicSettingCell.swift */; };
+		1D8087842032596D0081E8FE /* DynamicSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D80877A2032596C0081E8FE /* DynamicSettingsViewController.swift */; };
 		1D81E1D11C4E8DE6001C63DC /* ReauthenticationSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D81E1D01C4E8DE6001C63DC /* ReauthenticationSpec.swift */; };
 		1D8783161ECCF45E00253602 /* EditorialExternalCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8783131ECCF45E00253602 /* EditorialExternalCell.swift */; };
 		1D8783171ECCF45E00253602 /* EditorialPostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8783141ECCF45E00253602 /* EditorialPostCell.swift */; };
@@ -1221,30 +1232,22 @@
 		EA0977C91AE6C42000F898CA /* UIImagePickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA0977C81AE6C42000F898CA /* UIImagePickerController.swift */; };
 		EA34DAC21AD84184002F566D /* dynamic_settings.json in Resources */ = {isa = PBXBuildFile; fileRef = EA34DAC11AD84184002F566D /* dynamic_settings.json */; };
 		EA34DAC41AD851DC002F566D /* DynamicSettingsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA34DAC31AD851DC002F566D /* DynamicSettingsSpec.swift */; };
-		EA34DAC71AD85826002F566D /* DynamicSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA34DAC51AD85808002F566D /* DynamicSettingsViewController.swift */; };
 		EA587A9F1ACDC6F4002AF389 /* ElloEditableTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA587A9E1ACDC6F4002AF389 /* ElloEditableTextView.swift */; };
 		EA68A0DA1AADF3D4003F0425 /* NSObjectClassName.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA68A0D81AADF3D4003F0425 /* NSObjectClassName.swift */; };
 		EA68A0E31AADF4AB003F0425 /* MapperSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA68A0DF1AADF4AB003F0425 /* MapperSpec.swift */; };
 		EA68A0E81AADF62F003F0425 /* empty.json in Resources */ = {isa = PBXBuildFile; fileRef = EA68A0E61AADF62F003F0425 /* empty.json */; };
 		EA68A0EA1AADF62F003F0425 /* find-friends.json in Resources */ = {isa = PBXBuildFile; fileRef = EA68A0E71AADF62F003F0425 /* find-friends.json */; };
 		EA68A0F01AAE1691003F0425 /* LocalPersonSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA68A0EF1AAE1691003F0425 /* LocalPersonSpec.swift */; };
-		EA8990141ABA180100339CBE /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EA8990131ABA180100339CBE /* Settings.storyboard */; };
-		EA8990181ABB4B6B00339CBE /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8990171ABB4B6B00339CBE /* SettingsViewController.swift */; };
 		EA9299271AE9995400E22976 /* DeleteAccountConfirmationView.xib in Resources */ = {isa = PBXBuildFile; fileRef = EA9299261AE9995400E22976 /* DeleteAccountConfirmationView.xib */; };
 		EA92992E1AEA95B000E22976 /* DeleteAccountConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA92992D1AEA95B000E22976 /* DeleteAccountConfirmationViewController.swift */; };
 		EA9299301AEAC70200E22976 /* DeleteAccountConfirmationViewControllerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA92992F1AEAC70200E22976 /* DeleteAccountConfirmationViewControllerSpec.swift */; };
 		EA9624E51ACB103700E94306 /* AvailabilitySpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA9624E41ACB103700E94306 /* AvailabilitySpec.swift */; };
-		EAB484241AC1BCD200CE6A81 /* CredentialSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAB484231AC1BCD200CE6A81 /* CredentialSettingsViewController.swift */; };
 		EAB484271AC2112200CE6A81 /* CredentialSettingsViewControllerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAB484261AC2112200CE6A81 /* CredentialSettingsViewControllerSpec.swift */; };
 		EAC605461ADD95CB009B9426 /* DynamicSettingCellSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAC605451ADD95CB009B9426 /* DynamicSettingCellSpec.swift */; };
-		EAC605481ADD978D009B9426 /* DynamicSettingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EAC605471ADD978D009B9426 /* DynamicSettingCell.xib */; };
 		EAC6054A1ADDA64B009B9426 /* DynamicSettingCellPresenterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAC605491ADDA64B009B9426 /* DynamicSettingCellPresenterSpec.swift */; };
 		EAD1ABCD1AB9CBB600779A48 /* amazon-credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = 12BA14411AB20F7500D5018B /* amazon-credentials.json */; };
 		EAD1ABCE1AB9CBD500779A48 /* 410.json in Resources */ = {isa = PBXBuildFile; fileRef = 12F6AE911A433F2700493660 /* 410.json */; };
-		EAED46DC1ADC13BF0081A9F7 /* DynamicSettingCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAED46DB1ADC13BF0081A9F7 /* DynamicSettingCategoryViewController.swift */; };
-		EAED46DE1ADC5D570081A9F7 /* DynamicSettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAED46DD1ADC5D570081A9F7 /* DynamicSettingCell.swift */; };
 		EAED46E01ADC6AE10081A9F7 /* ElloToggleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAED46DF1ADC6AE10081A9F7 /* ElloToggleButton.swift */; };
-		EAED46E21ADD86F70081A9F7 /* DynamicSettingCellPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAED46E11ADD86F70081A9F7 /* DynamicSettingCellPresenter.swift */; };
 		EAEE2A3A1AC48A2A000B6CDA /* UIViewNibLoading.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA68A0D91AADF3D4003F0425 /* UIViewNibLoading.swift */; };
 		EAEE89491AB2253F0075C832 /* StreamCellItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1217008B1A7841C400EBACA5 /* StreamCellItem.swift */; };
 		EAF43D8E1AB0B5AC0016E110 /* InviteCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF43D8D1AB0B5AC0016E110 /* InviteCache.swift */; };
@@ -1662,6 +1665,7 @@
 		1D0DF916202A1CAF00019875 /* NotificationsProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationsProtocols.swift; sourceTree = "<group>"; };
 		1D0DF918202A1FF000019875 /* BuyButtonLinkProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BuyButtonLinkProtocols.swift; sourceTree = "<group>"; };
 		1D0DF91A202A205D00019875 /* BlockUserModalProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockUserModalProtocols.swift; sourceTree = "<group>"; };
+		1D0DF925202A695000019875 /* SettingsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsService.swift; sourceTree = "<group>"; };
 		1D15C2761C7D12890013B192 /* InterfaceImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InterfaceImage.swift; sourceTree = "<group>"; };
 		1D15C2771C7D12890013B192 /* InterfaceString.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InterfaceString.swift; sourceTree = "<group>"; };
 		1D1AF6221A83ED7F00E06C93 /* PostDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostDetailViewController.swift; sourceTree = "<group>"; };
@@ -1881,6 +1885,16 @@
 		1D7E82461F2A7249006ACE7A /* ArtistInviteSubmission.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtistInviteSubmission.swift; sourceTree = "<group>"; };
 		1D7E82491F2BCB9E006ACE7A /* ArtistInviteSubmissionsButtonCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtistInviteSubmissionsButtonCell.swift; sourceTree = "<group>"; };
 		1D807D991B050DE2009B0F71 /* awesome_people.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = awesome_people.json; sourceTree = "<group>"; };
+		1D808771203259690081E8FE /* SettingsScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsScreen.swift; sourceTree = "<group>"; };
+		1D808772203259690081E8FE /* DynamicSettingCellPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DynamicSettingCellPresenter.swift; sourceTree = "<group>"; };
+		1D8087732032596A0081E8FE /* SettingsCredentialsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsCredentialsViewController.swift; sourceTree = "<group>"; };
+		1D8087742032596A0081E8FE /* SettingsProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsProtocols.swift; sourceTree = "<group>"; };
+		1D8087752032596B0081E8FE /* DynamicSettingsScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DynamicSettingsScreen.swift; sourceTree = "<group>"; };
+		1D8087762032596B0081E8FE /* SettingsCredentialsScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsCredentialsScreen.swift; sourceTree = "<group>"; };
+		1D8087772032596B0081E8FE /* SettingsGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsGenerator.swift; sourceTree = "<group>"; };
+		1D8087782032596C0081E8FE /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		1D8087792032596C0081E8FE /* DynamicSettingCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DynamicSettingCell.swift; sourceTree = "<group>"; };
+		1D80877A2032596C0081E8FE /* DynamicSettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DynamicSettingsViewController.swift; sourceTree = "<group>"; };
 		1D81E1D01C4E8DE6001C63DC /* ReauthenticationSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReauthenticationSpec.swift; sourceTree = "<group>"; };
 		1D8783131ECCF45E00253602 /* EditorialExternalCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditorialExternalCell.swift; sourceTree = "<group>"; };
 		1D8783141ECCF45E00253602 /* EditorialPostCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditorialPostCell.swift; sourceTree = "<group>"; };
@@ -2319,7 +2333,6 @@
 		EA34DABF1AD83CA3002F566D /* DynamicSetting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DynamicSetting.swift; sourceTree = "<group>"; };
 		EA34DAC11AD84184002F566D /* dynamic_settings.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = dynamic_settings.json; sourceTree = "<group>"; };
 		EA34DAC31AD851DC002F566D /* DynamicSettingsSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DynamicSettingsSpec.swift; sourceTree = "<group>"; };
-		EA34DAC51AD85808002F566D /* DynamicSettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DynamicSettingsViewController.swift; sourceTree = "<group>"; };
 		EA587A9E1ACDC6F4002AF389 /* ElloEditableTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ElloEditableTextView.swift; sourceTree = "<group>"; };
 		EA68A0D81AADF3D4003F0425 /* NSObjectClassName.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSObjectClassName.swift; sourceTree = "<group>"; };
 		EA68A0D91AADF3D4003F0425 /* UIViewNibLoading.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewNibLoading.swift; sourceTree = "<group>"; };
@@ -2328,21 +2341,14 @@
 		EA68A0E71AADF62F003F0425 /* find-friends.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "find-friends.json"; sourceTree = "<group>"; };
 		EA68A0EC1AAE166F003F0425 /* LocalPerson.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalPerson.swift; sourceTree = "<group>"; };
 		EA68A0EF1AAE1691003F0425 /* LocalPersonSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalPersonSpec.swift; sourceTree = "<group>"; };
-		EA8990131ABA180100339CBE /* Settings.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Settings.storyboard; sourceTree = "<group>"; };
-		EA8990171ABB4B6B00339CBE /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = SettingsViewController.swift; sourceTree = "<group>"; tabWidth = 4; wrapsLines = 1; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		EA9299261AE9995400E22976 /* DeleteAccountConfirmationView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DeleteAccountConfirmationView.xib; sourceTree = "<group>"; };
 		EA92992D1AEA95B000E22976 /* DeleteAccountConfirmationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeleteAccountConfirmationViewController.swift; sourceTree = "<group>"; };
 		EA92992F1AEAC70200E22976 /* DeleteAccountConfirmationViewControllerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeleteAccountConfirmationViewControllerSpec.swift; sourceTree = "<group>"; };
 		EA9624E41ACB103700E94306 /* AvailabilitySpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvailabilitySpec.swift; sourceTree = "<group>"; };
-		EAB484231AC1BCD200CE6A81 /* CredentialSettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CredentialSettingsViewController.swift; sourceTree = "<group>"; };
 		EAB484261AC2112200CE6A81 /* CredentialSettingsViewControllerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CredentialSettingsViewControllerSpec.swift; sourceTree = "<group>"; };
 		EAC605451ADD95CB009B9426 /* DynamicSettingCellSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DynamicSettingCellSpec.swift; sourceTree = "<group>"; };
-		EAC605471ADD978D009B9426 /* DynamicSettingCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DynamicSettingCell.xib; sourceTree = "<group>"; };
 		EAC605491ADDA64B009B9426 /* DynamicSettingCellPresenterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DynamicSettingCellPresenterSpec.swift; sourceTree = "<group>"; };
-		EAED46DB1ADC13BF0081A9F7 /* DynamicSettingCategoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DynamicSettingCategoryViewController.swift; sourceTree = "<group>"; };
-		EAED46DD1ADC5D570081A9F7 /* DynamicSettingCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DynamicSettingCell.swift; sourceTree = "<group>"; };
 		EAED46DF1ADC6AE10081A9F7 /* ElloToggleButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ElloToggleButton.swift; sourceTree = "<group>"; };
-		EAED46E11ADD86F70081A9F7 /* DynamicSettingCellPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DynamicSettingCellPresenter.swift; sourceTree = "<group>"; };
 		EAF43D8D1AB0B5AC0016E110 /* InviteCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InviteCache.swift; sourceTree = "<group>"; };
 		EAF43D931AB0DE080016E110 /* ObjectCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObjectCache.swift; sourceTree = "<group>"; };
 		EAF43D961AB0DEF70016E110 /* ObjectCacheSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObjectCacheSpec.swift; sourceTree = "<group>"; };
@@ -2462,6 +2468,7 @@
 				1207C9691C73FEE000939ADB /* RePostService.swift */,
 				1207C96A1C73FEE000939ADB /* ResponseConfig.swift */,
 				1207C96B1C73FEE000939ADB /* S3UploadingService.swift */,
+				1D0DF925202A695000019875 /* SettingsService.swift */,
 				1207C96C1C73FEE000939ADB /* StreamService.swift */,
 				1207C96D1C73FEE000939ADB /* UserService.swift */,
 			);
@@ -3073,7 +3080,6 @@
 				12F0E3AA1A4333260012CEA2 /* Images.xcassets */,
 				12F0E3A61A4333150012CEA2 /* LaunchScreen.xib */,
 				1D6680431A8AC8E0003E93C8 /* selected-pixel@2x.png */,
-				EA8990131ABA180100339CBE /* Settings.storyboard */,
 				12F6AE881A433EF600493660 /* StubbedResponses */,
 				12A313D81C73ECAA009727DD /* unselected-pixel@2x.png */,
 				12F6AEA01A433F3D00493660 /* www */,
@@ -4216,15 +4222,18 @@
 		EA8990161ABB4B0F00339CBE /* Settings */ = {
 			isa = PBXGroup;
 			children = (
-				EA8990171ABB4B6B00339CBE /* SettingsViewController.swift */,
-				EAB484231AC1BCD200CE6A81 /* CredentialSettingsViewController.swift */,
-				EA34DAC51AD85808002F566D /* DynamicSettingsViewController.swift */,
-				EAED46DB1ADC13BF0081A9F7 /* DynamicSettingCategoryViewController.swift */,
-				EAED46DD1ADC5D570081A9F7 /* DynamicSettingCell.swift */,
-				EAED46E11ADD86F70081A9F7 /* DynamicSettingCellPresenter.swift */,
-				EAC605471ADD978D009B9426 /* DynamicSettingCell.xib */,
 				EA9299261AE9995400E22976 /* DeleteAccountConfirmationView.xib */,
 				EA92992D1AEA95B000E22976 /* DeleteAccountConfirmationViewController.swift */,
+				1D808772203259690081E8FE /* DynamicSettingCellPresenter.swift */,
+				1D8087792032596C0081E8FE /* DynamicSettingCell.swift */,
+				1D8087752032596B0081E8FE /* DynamicSettingsScreen.swift */,
+				1D80877A2032596C0081E8FE /* DynamicSettingsViewController.swift */,
+				1D8087762032596B0081E8FE /* SettingsCredentialsScreen.swift */,
+				1D8087732032596A0081E8FE /* SettingsCredentialsViewController.swift */,
+				1D8087772032596B0081E8FE /* SettingsGenerator.swift */,
+				1D8087742032596A0081E8FE /* SettingsProtocols.swift */,
+				1D808771203259690081E8FE /* SettingsScreen.swift */,
+				1D8087782032596C0081E8FE /* SettingsViewController.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -4590,7 +4599,6 @@
 				76B53AD41B0AA89B00534548 /* relationship_batches__when_no_user_ids_are_specified.json in Resources */,
 				76F8DEB81B6C0BC4009BCF61 /* bubble_white.svg in Resources */,
 				76F8DEF91B6C0BC4009BCF61 /* sparkles_normal.svg in Resources */,
-				EA8990141ABA180100339CBE /* Settings.storyboard in Resources */,
 				76F8DEBD1B6C0BC4009BCF61 /* check_green.svg in Resources */,
 				76F8DEBB1B6C0BC4009BCF61 /* camera_normal.svg in Resources */,
 				12E2A5A41E5CD357000EFFBA /* home_selected.svg in Resources */,
@@ -4627,7 +4635,6 @@
 				76F8DEF31B6C0BC4009BCF61 /* repost_selected.svg in Resources */,
 				1D6E431A1EA68B5E0029C9B1 /* badge_nsfw_selected.svg in Resources */,
 				76F8DF071B6C0BC4009BCF61 /* xpmcirc_selected.svg in Resources */,
-				EAC605481ADD978D009B9426 /* DynamicSettingCell.xib in Resources */,
 				128C5AF31C59801900EFC226 /* (null) in Resources */,
 				122B19101A8692C700247A05 /* StreamImageCell.xib in Resources */,
 				12F0E3AB1A4333260012CEA2 /* Images.xcassets in Resources */,
@@ -5422,6 +5429,7 @@
 				1289F3961AF17901008A938C /* ImageLabelAnimatable.swift in Sources */,
 				1DDC85231D91F5ED00C29552 /* Authorable.swift in Sources */,
 				122B30ED1C6A3FC500C1B9D8 /* Asset.swift in Sources */,
+				1D8087842032596D0081E8FE /* DynamicSettingsViewController.swift in Sources */,
 				1D9309D41EC1093B0099FCF8 /* EditorialsScreen.swift in Sources */,
 				121700B91A7891B300EBACA5 /* StreamImageViewer.swift in Sources */,
 				12F6AE7A1A433B1C00493660 /* AuthenticationNotifications.swift in Sources */,
@@ -5479,6 +5487,7 @@
 				128D36A61A95174C00622833 /* StreamKind.swift in Sources */,
 				128D36B31A951F1700622833 /* StreamTextCellPresenter.swift in Sources */,
 				123375871DA6ECEC0019CFAD /* ProfileLinksView.swift in Sources */,
+				1D80877D2032596C0081E8FE /* SettingsCredentialsViewController.swift in Sources */,
 				EA587A9F1ACDC6F4002AF389 /* ElloEditableTextView.swift in Sources */,
 				123DEBE91D3D4087007B5F86 /* PostDetailGenerator.swift in Sources */,
 				1249AD871D9EC3FC009074FD /* ProfileScreen.swift in Sources */,
@@ -5497,10 +5506,10 @@
 				1D71529A1D6CBFE2005998FE /* NoPostsCellPresenter.swift in Sources */,
 				1DDC233A1F30EB2D00E68B0E /* ArtistInviteAdminGenerator.swift in Sources */,
 				F8158C491ACDD4C1008C15A1 /* AlertAction.swift in Sources */,
-				EAED46E21ADD86F70081A9F7 /* DynamicSettingCellPresenter.swift in Sources */,
 				1D1AF6231A83ED7F00E06C93 /* PostDetailViewController.swift in Sources */,
 				127128261A77373300695F15 /* TypedNotifications.swift in Sources */,
 				F8006EE51AB9FE670008BB42 /* Animators.swift in Sources */,
+				1D8087832032596D0081E8FE /* DynamicSettingCell.swift in Sources */,
 				1DF0B2F01E942BFA001B9F97 /* SearchProtocols.swift in Sources */,
 				1D9309D71EC1133F0099FCF8 /* Editorial.swift in Sources */,
 				12F9EB411DEE0F8200E127AE /* ProfileLocationSizeCalculator.swift in Sources */,
@@ -5523,6 +5532,7 @@
 				12B2913C1DE4F7090056C52E /* SimpleMessageCellPresenter.swift in Sources */,
 				120E64141E327B7A00CAF03E /* JWT.swift in Sources */,
 				122B30CB1C6A3FBC00C1B9D8 /* Comment.swift in Sources */,
+				1D80877B2032596C0081E8FE /* SettingsScreen.swift in Sources */,
 				1207C9AD1C75314300939ADB /* OmnibarRegion.swift in Sources */,
 				1DC29BB71D3824D30041B1DC /* Defaults.swift in Sources */,
 				1207C9771C73FEE000939ADB /* DateFormatting.swift in Sources */,
@@ -5535,9 +5545,9 @@
 				1D9A12C91EA96623003B3BD7 /* Badge.swift in Sources */,
 				1DB8C6A71D7A132E007E1447 /* OnboardingInviteViewController.swift in Sources */,
 				1D69BBCF1C3EF5AA00FCBDE0 /* ElloSegmentedControl.swift in Sources */,
-				EAED46DE1ADC5D570081A9F7 /* DynamicSettingCell.swift in Sources */,
 				1DB8C6AB1D7A2349007E1447 /* SearchTextField.swift in Sources */,
 				122943281C6BF509003FCD20 /* ShareViewController.swift in Sources */,
+				1D8087822032596D0081E8FE /* SettingsViewController.swift in Sources */,
 				76EB15A91B0295AA001BBB2A /* StreamSeeMoreCommentsCell.swift in Sources */,
 				1D7E823C1F26885D006ACE7A /* ArtistInviteDetailGenerator.swift in Sources */,
 				1DE261351B0D38A400475325 /* UIImageViewExtensions.swift in Sources */,
@@ -5619,6 +5629,7 @@
 				12F9EB3D1DEDF40600E127AE /* ProfileLocationPresenter.swift in Sources */,
 				1DDF3C491A9D0D05000D0945 /* ElloNavigationBar.swift in Sources */,
 				1D87CBDA1FF2E54300F77A26 /* PersistentBackButton.swift in Sources */,
+				1D8087802032596C0081E8FE /* SettingsCredentialsScreen.swift in Sources */,
 				EA68A0DA1AADF3D4003F0425 /* NSObjectClassName.swift in Sources */,
 				1D59EF8C1D63C74F0029C106 /* HireViewController.swift in Sources */,
 				1D066FF61B8BAF43002B303D /* OmnibarImageDownloadCell.swift in Sources */,
@@ -5645,6 +5656,7 @@
 				12431FFA1DBAAF27006808D4 /* PromotionalHeaderCell.swift in Sources */,
 				1207C9811C73FEE000939ADB /* InviteService.swift in Sources */,
 				1275351D1B73D155006B9A0F /* DateExtensions.swift in Sources */,
+				1D80877E2032596C0081E8FE /* SettingsProtocols.swift in Sources */,
 				12F6AE241A43389B00493660 /* LoginViewController.swift in Sources */,
 				1D2B50BB1D272A6400F6CE90 /* BlackBar.swift in Sources */,
 				1D98563B1C6D7D3300C1BF78 /* DrawerAnimators.swift in Sources */,
@@ -5696,6 +5708,7 @@
 				12431FF81DBAACF3006808D4 /* CategoryGenerator.swift in Sources */,
 				1207C97F1C73FEE000939ADB /* ElloURI.swift in Sources */,
 				86D8D8FE1B1798B200CC8D6C /* RelationshipControl.swift in Sources */,
+				1D8087812032596C0081E8FE /* SettingsGenerator.swift in Sources */,
 				12E3A2751DBE811900D42599 /* Promotional.swift in Sources */,
 				1D45E5731D05F17500AAB730 /* BlockUserModalScreen.swift in Sources */,
 				1D22C8221AAF87F60048D415 /* StreamCreateCommentCell.swift in Sources */,
@@ -5714,7 +5727,6 @@
 				1DF0B2EC1E94247C001B9F97 /* SearchNavBarField.swift in Sources */,
 				124E344C1B54229300E5A475 /* AutoComplete.swift in Sources */,
 				1D9856421C723EAA00C1BF78 /* DrawerPopControl.swift in Sources */,
-				EAB484241AC1BCD200CE6A81 /* CredentialSettingsViewController.swift in Sources */,
 				1D7152CA1D6FA0D4005998FE /* JoinScreen.swift in Sources */,
 				1DE87FC61BB2FFB8007A7325 /* Mentionables.swift in Sources */,
 				122B19031A867C7D00247A05 /* StreamTextCell.swift in Sources */,
@@ -5729,6 +5741,7 @@
 				12431FF21DBAA6D3006808D4 /* CategoryViewController.swift in Sources */,
 				1D06D6CC1E43B7DD004FA878 /* AppDefaults.swift in Sources */,
 				1D24AA511B7E8CD5004BAAFA /* DebugController.swift in Sources */,
+				1D80877F2032596C0081E8FE /* DynamicSettingsScreen.swift in Sources */,
 				1D7152B81D6E50CD005998FE /* LoginProtocols.swift in Sources */,
 				1DDC23391F30EB2D00E68B0E /* ArtistInviteAdminController.swift in Sources */,
 				1D06D6C41E3BAFA9004FA878 /* LoggedOutScreen.swift in Sources */,
@@ -5739,7 +5752,6 @@
 				F8D160681AB75B1D00575B25 /* DrawerViewDataSource.swift in Sources */,
 				123375891DA6ECEC0019CFAD /* ProfileTotalCountView.swift in Sources */,
 				1DB2710D1F4F882D0044D475 /* StreamResponders.swift in Sources */,
-				EA8990181ABB4B6B00339CBE /* SettingsViewController.swift in Sources */,
 				76B0B18F1B41B06C004C2D7B /* UserAvatarsCellPresenter.swift in Sources */,
 				1D7E82471F2A7249006ACE7A /* ArtistInviteSubmission.swift in Sources */,
 				1D3DED771AE16D1B00F1D514 /* JoinViewController.swift in Sources */,
@@ -5750,7 +5762,6 @@
 				12F6AE6D1A4339EF00493660 /* ElloUnderlinedTextButton.swift in Sources */,
 				1DA18E581DD12FE8000231CC /* CategoryCardListView.swift in Sources */,
 				1DB8C6AD1D7A26B1007E1447 /* SearchStreamCell.swift in Sources */,
-				EAED46DC1ADC13BF0081A9F7 /* DynamicSettingCategoryViewController.swift in Sources */,
 				1D59EF851D5CFC480029C106 /* InterpolatedLoadingView.swift in Sources */,
 				1D9201BC1B6AD7CD007528BF /* Tag.swift in Sources */,
 				1D2896531FA25CBE004661C1 /* CommentHeaderCell.swift in Sources */,
@@ -5783,6 +5794,7 @@
 				122B30D21C6A3FBC00C1B9D8 /* JSONAble.swift in Sources */,
 				1D8AFAD01A9691F90034DDAD /* DictionaryExtensions.swift in Sources */,
 				1207C9801C73FEE000939ADB /* ErrorStatusCode.swift in Sources */,
+				1D80877C2032596C0081E8FE /* DynamicSettingCellPresenter.swift in Sources */,
 				122B30D71C6A3FBC00C1B9D8 /* Post.swift in Sources */,
 				1D7152E51D7620D2005998FE /* OnboardingProfileScreen.swift in Sources */,
 				123DEBEB1D3D409C007B5F86 /* ProfileGenerator.swift in Sources */,
@@ -5848,10 +5860,10 @@
 				122B30F01C6A3FC500C1B9D8 /* ImageRegion.swift in Sources */,
 				EAF43D941AB0DE080016E110 /* ObjectCache.swift in Sources */,
 				122454AE1D9F1BC700D930E0 /* ElloCollectionView.swift in Sources */,
+				1D0DF926202A695200019875 /* SettingsService.swift in Sources */,
 				76FF80551A966B6300617A1E /* RelationshipController.swift in Sources */,
 				122B190D1A86894400247A05 /* StreamCellType.swift in Sources */,
 				122B30C41C6A3FBC00C1B9D8 /* Activity.swift in Sources */,
-				EA34DAC71AD85826002F566D /* DynamicSettingsViewController.swift in Sources */,
 				1243576A1A8927BF008B24FB /* NotificationsViewController.swift in Sources */,
 				1D7E82421F2692D3006ACE7A /* ArtistInviteHeaderCell.swift in Sources */,
 				1DF50C9C1C614E1100C62D89 /* OmnibarScreenTableViewDelegate.swift in Sources */,

@@ -3,6 +3,10 @@
 //
 
 class DynamicSettingCategoryViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, ControllerThatMightHaveTheCurrentUser {
+    class func instantiateFromStoryboard() -> DynamicSettingCategoryViewController {
+        return UIStoryboard(name: "Settings", bundle: Bundle(for: AppDelegate.self)).instantiateViewController(withIdentifier: "DynamicSettingCategoryViewController") as! DynamicSettingCategoryViewController
+    }
+
     var category: DynamicSettingCategory?
     var currentUser: User?
     weak var delegate: DynamicSettingsDelegate?

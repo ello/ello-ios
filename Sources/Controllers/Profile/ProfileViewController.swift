@@ -406,14 +406,13 @@ extension ProfileViewController: ProfileHeaderResponder {
 extension ProfileViewController: EditProfileResponder {
 
     func onEditProfile() {
-        guard currentUser != nil else {
+        guard let currentUser = currentUser else {
             postNotification(LoggedOutNotifications.userActionAttempted, value: .postTool)
             return
         }
 
-        guard let settings = UIStoryboard(name: "Settings", bundle: .none).instantiateInitialViewController() as? SettingsContainerViewController else { return }
-        settings.currentUser = currentUser
-        navigationController?.pushViewController(settings, animated: true)
+        let settingsViewController = SettingsViewController(currentUser: currentUser)
+        navigationController?.pushViewController(settingsViewController, animated: true)
     }
 }
 

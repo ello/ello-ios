@@ -2,103 +2,17 @@
 ///  SettingsViewController.swift
 //
 
-import Photos
-import FLAnimatedImage
-
-enum SettingsRow: Int {
-    case coverImage
-    case avatarImage
-    case profileDescription
-    case credentialSettings
-    case name
-    case bio
-    case links
-    case location
-    case preferenceSettings
-    case unknown
-}
-
-
-class SettingsContainerViewController: BaseElloViewController {
-    @IBOutlet var navigationBar: ElloNavigationBar!
-    @IBOutlet var navigationBarTopConstraint: NSLayoutConstraint!
-    private var settingsViewController: SettingsViewController?
-
-    override func showNavBars() {
-        navigationBarTopConstraint.constant = 0
-        animate {
-            postNotification(StatusBarNotifications.statusBarVisibility, value: true)
-            self.view.layoutIfNeeded()
-        }
-
-        if let tableView = settingsViewController?.tableView {
-            tableView.contentInset.top = ElloNavigationBar.Size.height
-            tableView.scrollIndicatorInsets.top = ElloNavigationBar.Size.height
-            tableView.contentInset.bottom = ElloTabBar.Size.height
-            tableView.scrollIndicatorInsets.bottom = ElloTabBar.Size.height
-        }
+class SettingsViewController: BaseElloViewController {
+    private var _mockScreen: SettingsScreenProtocol?
+    var screen: SettingsScreenProtocol {
+        set(screen) { _mockScreen = screen }
+        get { return _mockScreen ?? self.view as! SettingsScreen }
     }
 
-    override func hideNavBars() {
-        navigationBarTopConstraint.constant = -ElloNavigationBar.Size.height
-        animate {
-            postNotification(StatusBarNotifications.statusBarVisibility, value: false)
-            self.view.layoutIfNeeded()
-        }
-
-        if let tableView = settingsViewController?.tableView {
-            tableView.contentInset.top = 0
-            tableView.scrollIndicatorInsets.top = 0
-            tableView.contentInset.bottom = 0
-            tableView.scrollIndicatorInsets.bottom = 0
-        }
-    }
-
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard segue.identifier == "SettingsContainerSegue" else { return }
-
-        let settings = segue.destination as! SettingsViewController
-        settings.currentUser = currentUser
-        settingsViewController = settings
-        settings.tableView.contentOffset.y = 0
-        updateNavBars()
-
-        navigationBar.title = InterfaceString.Settings.EditProfile
-        navigationBar.leftItems = [.back]
-
-        if let navigationBarsVisible = navigationBarsVisible {
-            settings.scrollLogic.isShowing = navigationBarsVisible
-        }
-    }
-
-    override func didSetCurrentUser() {
-        super.didSetCurrentUser()
-        settingsViewController?.currentUser = currentUser
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        navigationController?.setNavigationBarHidden(true, animated: false)
-        let visible = bottomBarController?.navigationBarsVisible ?? !UIApplication.shared.isStatusBarHidden
-        postNotification(StatusBarNotifications.statusBarVisibility, value: visible)
-        updateNavBars()
-    }
-}
-
-
-class SettingsViewController: UITableViewController, ControllerThatMightHaveTheCurrentUser {
-    class func instantiateFromStoryboard() -> SettingsViewController {
-        return UIStoryboard(name: "Settings", bundle: Bundle(for: AppDelegate.self)).instantiateInitialViewController() as! SettingsViewController
-    }
-
-    @IBOutlet weak var avatarImageView: UIView!
-    @IBOutlet weak var profileDescription: StyledLabel!
-    @IBOutlet weak var coverImage: FLAnimatedImageView!
-    @IBOutlet weak var avatarImage: FLAnimatedImageView!
+    let generator: SettingsGenerator
     var scrollLogic: ElloScrollLogic!
-    var appViewController: AppViewController? {
-        return (parent as? SettingsContainerViewController)?.appViewController
-    }
+    var categories: [Category]?
+
     var autoCompleteVC = AutoCompleteViewController()
     var locationTextViewSelected = false {
         didSet {
@@ -111,104 +25,51 @@ class SettingsViewController: UITableViewController, ControllerThatMightHaveTheC
         }
     }
 
-    @IBOutlet weak var nameTextFieldView: ElloTextFieldView!
-    @IBOutlet weak var bioLabel: UILabel!
-    @IBOutlet weak var bioTextView: ElloEditableTextView!
-    @IBOutlet weak var bioTextCountLabel: StyledLabel!
-    @IBOutlet weak var bioTextStatusImage: UIImageView!
-    private var bioTextViewDidChange: Block?
-
-    @IBOutlet weak var linksTextFieldView: ElloTextFieldView!
-    @IBOutlet weak var locationTextFieldView: ElloTextFieldView!
-
     var keyboardWillShowObserver: NotificationObserver?
     var keyboardDidHideObserver: NotificationObserver?
     var keyboardWillHideObserver: NotificationObserver?
 
-    var currentUser: User? {
-        didSet {
-            credentialSettingsViewController?.currentUser = currentUser
-            dynamicSettingsViewController?.currentUser = currentUser
-            if isViewLoaded {
-                setupUserValues()
-            }
-        }
-    }
+    init(currentUser: User) {
+        generator = SettingsGenerator(currentUser: currentUser)
+        super.init(nibName: nil, bundle: nil)
 
-    var credentialSettingsViewController: CredentialSettingsViewController?
-    var dynamicSettingsViewController: DynamicSettingsViewController?
-    var photoSaveCallback: ((ImageRegionData) -> Void)?
-
-    override func awakeFromNib() {
-        super.awakeFromNib()
         scrollLogic = ElloScrollLogic(
-            onShow: { [weak self] in self?.showNavBars() },
-            onHide: { [weak self] in self?.hideNavBars() }
-        )
+                onShow: { [weak self] in self?.showNavBars() },
+                onHide: { [weak self] in self?.hideNavBars() }
+            )
 
-        locationTextViewSelected = false
-        autoCompleteVC.delegate = self
-        autoCompleteVC.view.alpha = 0
-
-        if #available(iOS 11.0, *) {
-            tableView.contentInsetAdjustmentBehavior = .never
-        }
-
-        tableView.estimatedRowHeight = 100
+        self.currentUser = currentUser
+        generator.delegate = self
     }
 
-    var bottomBarController: BottomBarController? { return findParentController() }
-    var containerController: SettingsContainerViewController? { return findParentController() }
-
-    func showNavBars() {
-        if let bottomBarController = bottomBarController {
-            bottomBarController.setNavigationBarsVisible(true, animated: true)
-        }
-
-        containerController?.showNavBars()
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 
-    func hideNavBars() {
-        if let bottomBarController = bottomBarController {
-            bottomBarController.setNavigationBarsVisible(false, animated: true)
-        }
+    override func loadView() {
+        let screen = SettingsScreen()
+        screen.delegate = self
+        self.view = screen
+    }
 
-        containerController?.hideNavBars()
+    override func didSetCurrentUser() {
+        super.didSetCurrentUser()
+        updateScreenFromUser()
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        ElloHUD.showLoadingHud()
+        generator.loadSettings()
+        generator.loadCategories()
 
-        let hideHud = after(2) {
-            ElloHUD.hideLoadingHud()
-        }
+        autoCompleteVC.delegate = self
+        autoCompleteVC.view.alpha = 0
 
-        if let dynamicSettingsViewController = dynamicSettingsViewController {
-            dynamicSettingsViewController.hideLoadingHud = hideHud
-        }
-        else {
-            hideHud()
-        }
-
-        ProfileService().loadCurrentUser()
-            .then { [weak self] user -> Void in
-                guard let `self` = self else { return }
-                self.updateCurrentUser(user)
-            }
-            .always {
-                hideHud()
-            }
-
-        setupViews()
+        updateScreenFromUser()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if let superview = view.superview {
-            superview.addSubview(autoCompleteVC.view)
-            updateAutoCompleteFrame(animated: false)
-        }
 
         keyboardWillShowObserver = NotificationObserver(notification: Keyboard.Notifications.KeyboardWillShow, block: self.keyboardWillShow)
         keyboardDidHideObserver = NotificationObserver(notification: Keyboard.Notifications.KeyboardDidHide, block: self.keyboardDidHide)
@@ -227,312 +88,259 @@ class SettingsViewController: UITableViewController, ControllerThatMightHaveTheC
         keyboardWillHideObserver = nil
     }
 
-    private func updateCurrentUser(_ user: User) {
-        appViewController?.currentUser = user
-        postNotification(SettingChangedNotification, value: user)
+    override func showNavBars() {
+        super.showNavBars()
+        screen.showNavBars(animated: true)
     }
 
-    private func setupUserValues() {
-        if let cachedImage = TemporaryCache.load(.coverImage) {
-            coverImage.image = cachedImage
+    override func hideNavBars() {
+        super.hideNavBars()
+        screen.hideNavBars(animated: true)
+    }
+
+    override func closeButtonTapped() {
+        if pendingChanges().count > 0 {
+            let alertController = AlertViewController(message: InterfaceString.Settings.AbortChanges)
+
+            let okCancelAction = AlertAction(style: .okCancel) { _ in
+                super.backButtonTapped()
+            }
+            alertController.addAction(okCancelAction)
+
+            self.present(alertController, animated: true, completion: nil)
         }
-        else if let imageURL = currentUser?.coverImageURL(viewsAdultContent: true, animated: true) {
-            coverImage.pin_setImage(from: imageURL)
+        else {
+            super.backButtonTapped()
+        }
+    }
+
+    override func backButtonTapped() {
+        let profileUpdates = pendingChanges()
+        guard profileUpdates.count > 0 else {
+            super.backButtonTapped()
+            return
+        }
+
+        saveAndExit(profileUpdates)
+    }
+
+    private func pendingChanges() -> [Profile.Property: Any] {
+        var profileUpdates: [Profile.Property: Any] = [:]
+        guard let currentUser = currentUser, let profile = currentUser.profile else { return profileUpdates }
+
+        if !(currentUser.name =?= screen.name) {
+            profileUpdates[.name] = screen.name ?? ""
+        }
+
+        if !(profile.shortBio =?= screen.bio) {
+            profileUpdates[.bio] = screen.bio ?? ""
+        }
+
+        if !(currentUser.externalLinksString =?= screen.links) {
+            profileUpdates[.links] = screen.links ?? ""
+        }
+
+        if !(currentUser.location =?= screen.location) {
+            profileUpdates[.location] = screen.location ?? ""
+        }
+
+        return profileUpdates
+    }
+
+    private func saveAndExit(_ profileUpdates: [Profile.Property: Any]) {
+        view.isUserInteractionEnabled = false
+        ElloHUD.showLoadingHudInView(view)
+
+        ProfileService().updateUserProfile(profileUpdates)
+            .then { user -> Void in
+                self.appViewController?.currentUser = user
+                super.backButtonTapped()
+            }
+            .catch { error in
+                if let error = (error as NSError).elloError,
+                    let messages = error.attrs?.flatMap({ attr, messages in return messages })
+                {
+                    let errorMessage = messages.joined(separator: "\n")
+                    self.screen.showError(errorMessage)
+                }
+                else {
+                    self.screen.showError(InterfaceString.UnknownError)
+                }
+
+                self.view.isUserInteractionEnabled = true
+            }
+            .always {
+                ElloHUD.hideLoadingHudInView(self.view)
+            }
+    }
+
+    private func updateScreenFromUser() {
+        guard let currentUser = currentUser,
+            let profile = currentUser.profile
+        else {
+            return
+        }
+
+        screen.username = currentUser.username
+        screen.email = profile.email
+        screen.name = currentUser.name
+        screen.bio = profile.shortBio
+        screen.links = currentUser.externalLinksString
+        screen.location = currentUser.location
+
+        if let cachedImage = TemporaryCache.load(.coverImage) {
+            screen.setImage(.coverImage, image: cachedImage)
+        }
+        else if let imageURL = currentUser.coverImageURL(viewsAdultContent: true, animated: true) {
+            screen.setImage(.coverImage, url: imageURL)
         }
 
         if let cachedImage = TemporaryCache.load(.avatar) {
-            avatarImage.image = cachedImage
+            screen.setImage(.avatar, image: cachedImage)
         }
-        else if let imageURL = currentUser?.avatar?.large?.url {
-            avatarImage.pin_setImage(from: imageURL)
-        }
-
-        if currentUser?.profile?.isCommunity == true {
-            bioLabel.text = InterfaceString.Settings.CommunityInfo
-        }
-        else {
-            bioLabel.text = InterfaceString.Settings.Bio
-        }
-
-        bioTextView.attributedText = NSAttributedString(defaults: currentUser?.profile?.shortBio ?? "")
-        nameTextFieldView.textField.text = currentUser?.name
-
-        if let links = currentUser?.externalLinksString {
-            linksTextFieldView.textField.text = links
-        }
-
-        if let location = currentUser?.location {
-            locationTextFieldView.textField.text = location
+        else if let imageURL = currentUser.avatar?.large?.url {
+            screen.setImage(.avatar, url: imageURL)
         }
     }
+}
 
-    private func setupViews() {
-        tableView.addSubview(autoCompleteVC.view)
-        avatarImageView.layer.cornerRadius = avatarImageView.frame.width / 2
-        containerController?.showNavBars()
-        setupDefaultValues()
-        setupUserValues()
+extension SettingsViewController: SettingsScreenDelegate {
+    func dismissController() {
+        dismiss(animated: true, completion: nil)
     }
 
-    @IBAction
-    func searchButtonTapped() {
-        containerController?.searchButtonTapped()
+    func present(controller: UIViewController) {
+        present(controller, animated: true, completion: nil)
     }
 
-    private func setupDefaultValues() {
-        setupNameTextField()
-        setupBioTextField()
-        setupLinksTextField()
-        setupLocationTextField()
+    func saveImage(_ imageRegion: ImageRegionData, property: Profile.ImageProperty) {
+        ElloHUD.showLoadingHudInView(view)
+        ProfileService().updateUserImage(property, imageRegion: imageRegion)
+            .then { [weak self] url, _ -> Void in
+                guard let `self` = self else { return }
 
-        profileDescription.text = InterfaceString.Settings.ProfileDescription
-    }
+                if let user = self.currentUser {
+                    let asset = Asset(url: url)
+                    user.coverImage = asset
 
-    private func setupNameTextField() {
-        nameTextFieldView.title = InterfaceString.Settings.Name
-        nameTextFieldView.text = currentUser?.name
-
-        let updateNameFunction = debounce(0.5) { [weak self] in
-            guard let `self` = self else { return }
-            let name = self.nameTextFieldView.textField.text ?? ""
-            ProfileService().updateUserProfile([.name: name])
-                .then { [weak self] user -> Void in
-                    guard let `self` = self else { return }
-
-                    self.updateCurrentUser(user)
-                    self.nameTextFieldView.setState(.ok)
+                    postNotification(CurrentUserChangedNotification, value: user)
                 }
-                .catch { _ in
-                    self.nameTextFieldView.setState(.error)
+
+                if imageRegion.isAnimatedGif {
+                    self.screen.setImage(property, url: url)
                 }
-        }
-
-        nameTextFieldView.textFieldDidChange = { _ in
-            self.nameTextFieldView.setState(.loading)
-            updateNameFunction()
-        }
-    }
-
-    private func setupBioTextField() {
-        bioTextView.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 30)
-        bioTextView.keyboardAppearance = .dark
-        bioTextView.delegate = self
-
-        bioTextViewDidChange = debounce(0.5) { [weak self] in
-            guard
-                let `self` = self,
-                let bio = self.bioTextView.text
-            else { return }
-
-            ProfileService().updateUserProfile([.bio: bio])
-                .then { [weak self] user -> Void in
-                    guard let `self` = self else { return }
-
-                    self.updateCurrentUser(user)
-                    self.bioTextStatusImage.image = ValidationState.ok.imageRepresentation
+                else {
+                    self.screen.setImage(property, image: imageRegion.image)
                 }
-                .catch { _ in
-                    self.bioTextStatusImage.image = ValidationState.error.imageRepresentation
+
+                let message: String
+                if property == .coverImage {
+                    message = InterfaceString.Settings.CoverImageUploaded
                 }
-        }
-    }
-
-    private func setupLinksTextField() {
-        linksTextFieldView.title = InterfaceString.Settings.Links
-        linksTextFieldView.textField.spellCheckingType = .no
-        linksTextFieldView.textField.autocapitalizationType = .none
-        linksTextFieldView.textField.autocorrectionType = .no
-        linksTextFieldView.textField.keyboardType = .asciiCapable
-
-        let updateLinksFunction = debounce(0.5) { [weak self] in
-            guard
-                let `self` = self,
-                let links = self.linksTextFieldView.textField.text
-            else { return }
-
-            ProfileService().updateUserProfile([.links: links])
-                .then { [weak self] user -> Void in
-                    guard let `self` = self else { return }
-
-                    self.updateCurrentUser(user)
-                    self.linksTextFieldView.setState(.ok)
+                else {
+                    message = InterfaceString.Settings.AvatarUploaded
                 }
-                .catch { _ in
-                    self.linksTextFieldView.setState(.error)
-                }
-        }
 
-        linksTextFieldView.textFieldDidChange = { _ in
-            self.linksTextFieldView.setState(.loading)
-            updateLinksFunction()
-        }
-    }
-
-    private func setupLocationTextField() {
-        locationTextFieldView.title = InterfaceString.Settings.Location
-        locationTextFieldView.textField.autocorrectionType = .no
-        locationTextFieldView.textField.leftView = UIImageView(image: InterfaceImage.marker.normalImage)
-        locationTextFieldView.textField.leftViewMode = .always
-
-        let updateLocationFunction = debounce(0.5) { [weak self] in
-            guard
-                let `self` = self,
-                let location = self.locationTextFieldView.textField.text
-            else { return }
-
-            if location != self.currentUser?.location {
-                ProfileService().updateUserProfile([.location: location])
-                    .then { [weak self] user -> Void in
-                        guard let `self` = self else { return }
-
-                        self.updateCurrentUser(user)
-                        let isValid = self.locationTextFieldView.textField.text?.isEmpty == false
-                        self.locationTextFieldView.setState(isValid ? .ok : .none)
-                    }
-                    .catch { _ in
-                        self.locationTextFieldView.setState(.error)
-                    }
+                let alertController = AlertViewController(confirmation: message)
+                self.present(alertController, animated: true, completion: nil)
             }
-
-            self.autoCompleteVC.load(AutoCompleteMatch(type: .location, range: location.startIndex ..< location.endIndex, text: location)) { count in
-                guard location == self.locationTextFieldView.textField.text else { return }
-
-                self.locationAutoCompleteResultCount = count
+            .always {
+                ElloHUD.hideLoadingHudInView(self.view)
             }
-        }
-
-        locationTextFieldView.textFieldDidChange = { [weak self] text in
-            guard let `self` = self else { return }
-            self.locationTextFieldView.setState(.loading)
-            updateLocationFunction()
-        }
-
-        locationTextFieldView.firstResponderDidChange = { [weak self] isFirstResponder in
-            guard let `self` = self else { return }
-            self.locationTextViewSelected = isFirstResponder
-            updateLocationFunction()
-        }
     }
 
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        switch SettingsRow(rawValue: indexPath.row) ?? .unknown {
-        case .coverImage: return 200
-        case .avatarImage: return 250
-        case .profileDescription: return 130
-        case .credentialSettings: return credentialSettingsViewController?.height ?? 0
-        case .name: return nameTextFieldView.height
-        case .bio: return 200
-        case .links: return linksTextFieldView.height
-        case .location: return locationTextFieldView.height
-        case .preferenceSettings: return dynamicSettingsViewController?.height ?? 0
-        case .unknown: return 0
-        }
-    }
-
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        switch segue.identifier ?? "" {
-        case "CredentialSettingsSegue":
-            credentialSettingsViewController = segue.destination as? CredentialSettingsViewController
-            credentialSettingsViewController?.currentUser = currentUser
-
-        case "DynamicSettingsSegue":
-            dynamicSettingsViewController = segue.destination as? DynamicSettingsViewController
-            dynamicSettingsViewController?.currentUser = currentUser
-            dynamicSettingsViewController?.delegate = self
-
-        default: break
-        }
-    }
-
-    @IBAction
-    func logOutTapped() {
+    func logoutTapped() {
         Tracker.shared.tappedLogout()
         postNotification(AuthenticationNotifications.userLoggedOut, value: ())
     }
 
-    @IBAction
-    func coverImageTapped() {
-        photoSaveCallback = { imageRegion in
-            ElloHUD.showLoadingHud()
-            ProfileService().updateUserImage(.coverImage, imageRegion: imageRegion)
-                .then { [weak self] url, _ -> Void in
-                    guard let `self` = self else { return }
-
-                    if let user = self.currentUser {
-                        let asset = Asset(url: url)
-                        user.coverImage = asset
-
-                        postNotification(CurrentUserChangedNotification, value: user)
-                    }
-
-                    if imageRegion.isAnimatedGif {
-                        self.coverImage.pin_setImage(from: url)
-                    }
-                    else {
-                        self.coverImage.image = imageRegion.image
-                    }
-
-                    let alertController = AlertViewController(confirmation: InterfaceString.Settings.CoverImageUploaded)
-                    self.present(alertController, animated: true, completion: nil)
-                }
-                .always {
-                    ElloHUD.hideLoadingHud()
-                }
-        }
-        openImagePicker()
+    func showCredentialsScreen() {
+        guard let currentUser = currentUser else { return }
+        let controller = SettingsCredentialsViewController(currentUser: currentUser)
+        navigationController?.pushViewController(controller, animated: true)
     }
 
-    @IBAction
-    func avatarImageTapped() {
-        photoSaveCallback = { imageRegion in
-            ElloHUD.showLoadingHud()
-            ProfileService().updateUserImage(.avatar, imageRegion: imageRegion)
-                .then { [weak self] url, _ -> Void in
-                    guard let `self` = self else { return }
+    func showDynamicSettings(_ settingsCategory: DynamicSettingCategory) {
+        guard let currentUser = currentUser else { return }
 
-                    if let user = self.currentUser {
-                        let asset = Asset(url: url)
-                        user.avatar = asset
+        let controller: UIViewController
+        switch settingsCategory.section {
+        case .creatorType:
+            guard
+                let categoryIds = currentUser.profile?.creatorTypeCategoryIds,
+                let categories = categories
+            else { return }
 
-                        postNotification(CurrentUserChangedNotification, value: user)
-                    }
+            let creatorCategories = categoryIds.flatMap { id -> Category? in
+                return categories.find { $0.id == id }
+            }
 
-                    if imageRegion.isAnimatedGif {
-                        self.avatarImage.pin_setImage(from: url)
-                    }
-                    else {
-                        self.avatarImage.image = imageRegion.image
-                    }
+            let creatorTypeController = OnboardingCreatorTypeViewController()
+            creatorTypeController.delegate = self
+            let creatorType: Profile.CreatorType
+            if creatorCategories.count > 0 {
+                creatorType = .artist(creatorCategories)
+            }
+            else {
+                creatorType = .fan
+            }
+            creatorTypeController.creatorType = creatorType
+            controller = creatorTypeController
 
-                    let alertController = AlertViewController(confirmation: InterfaceString.Settings.AvatarUploaded)
-                    self.present(alertController, animated: true, completion: nil)
-                }
-                .always {
-                    ElloHUD.hideLoadingHud()
-                }
+        case .dynamicSettings, .accountDeletion:
+            let dynamicSettingsController = DynamicSettingsViewController(category: settingsCategory)
+            dynamicSettingsController.currentUser = currentUser
+            controller = dynamicSettingsController
+
+        case .blocked:
+            let streamController = SimpleStreamViewController(endpoint: .currentUserBlockedList, title: InterfaceString.Settings.BlockedTitle)
+            controller = streamController
+
+        case .muted:
+            let streamController = SimpleStreamViewController(endpoint: .currentUserMutedList, title: InterfaceString.Settings.MutedTitle)
+            controller = streamController
+
         }
-        openImagePicker()
+
+        (controller as? ControllerThatMightHaveTheCurrentUser)?.currentUser = currentUser
+
+        navigationController?.pushViewController(controller, animated: true)
     }
 
-    private func openImagePicker() {
-        let alertViewController = UIImagePickerController.alertControllerForImagePicker { imagePicker in
-            imagePicker.delegate = self
-            self.present(imagePicker, animated: true, completion: nil)
+    func locationChanged(isFirstResponder: Bool, text locationText: String) {
+        locationTextViewSelected = isFirstResponder
+        guard isFirstResponder else {
+            updateAutoCompleteFrame(animated: true)
+            return
         }
 
-        if let alertViewController = alertViewController {
-            present(alertViewController, animated: true, completion: nil)
+        autoCompleteVC.load(AutoCompleteMatch(type: .location, range: locationText.startIndex ..< locationText.endIndex, text: locationText)) { count in
+            guard locationText == self.screen.location else { return }
+            self.locationAutoCompleteResultCount = count
         }
+    }
+
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        scrollLogic.scrollViewDidScroll(scrollView)
+    }
+
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        scrollLogic.scrollViewWillBeginDragging(scrollView)
+    }
+
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate: Bool) {
+        scrollLogic.scrollViewDidEndDragging(scrollView, willDecelerate: willDecelerate)
     }
 }
 
 extension SettingsViewController {
     func keyboardWillShow(_ keyboard: Keyboard) {
+        screen.keyboardUpdated(keyboard)
         updateAutoCompleteFrame(animated: true)
     }
 
     func keyboardDidHide(_ keyboard: Keyboard) {
-        containerController?.updateNavBars()
+        screen.keyboardUpdated(keyboard)
     }
 
     func keyboardWillHide(_ keyboard: Keyboard) {
@@ -540,114 +348,54 @@ extension SettingsViewController {
     }
 }
 
-extension SettingsViewController: CredentialSettingsResponder, DynamicSettingsDelegate {
+extension SettingsViewController: SettingsGeneratorDelegate {
+    func dynamicSettingsLoaded(_ settings: [DynamicSettingCategory]) {
+        screen.updateDynamicSettings(settings,
+            blockCount: currentUser?.profile?.blockedCount ?? 0,
+            mutedCount: currentUser?.profile?.mutedCount ?? 0
+            )
+    }
+
+    func categoriesLoaded(_ categories: [Category]) {
+        self.categories = categories
+        screen.categoriesEnabled = true
+    }
+}
+
+extension SettingsViewController: DynamicSettingsDelegate {
     func dynamicSettingsUserChanged(_ user: User) {
-        updateCurrentUser(user)
+        appViewController?.currentUser = user
     }
-
-    func credentialSettingsUserChanged(_ user: User) {
-        updateCurrentUser(user)
-    }
-
-    func credentialSettingsDidUpdate() {
-        tableView.beginUpdates()
-        tableView.endUpdates()
-    }
-}
-
-extension SettingsViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: Any]) {
-        if let url = info[UIImagePickerControllerReferenceURL] as? URL,
-            let asset = PHAsset.fetchAssets(withALAssetURLs: [url], options: nil).firstObject
-        {
-            AssetsToRegions.processPHAssets([asset]) { (images: [ImageRegionData]) in
-                guard let imageRegion = images.first else { return }
-                self.photoSaveCallback?(imageRegion)
-            }
-
-            dismiss(animated: true, completion: nil)
-        }
-        else if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
-            image.copyWithCorrectOrientationAndSize { image in
-                if let image = image {
-                    let imageRegion = ImageRegionData(image: image)
-                    self.photoSaveCallback?(imageRegion)
-                }
-                self.dismiss(animated: true, completion: nil)
-            }
-        }
-        else {
-            dismiss(animated: true, completion: nil)
-        }
-    }
-
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        self.dismiss(animated: true, completion: nil)
-    }
-}
-
-extension SettingsViewController: UITextViewDelegate {
-    func textViewDidChange(_ textView: UITextView) {
-        let characterCount = textView.text.lengthOfBytes(using: String.Encoding.ascii)
-        bioTextCountLabel.text = "\(characterCount)"
-        bioTextCountLabel.isHidden = characterCount <= 192
-        bioTextStatusImage.image = ValidationState.loading.imageRepresentation
-        bioTextViewDidChange?()
-    }
-}
-
-
-// strangely, we have to "override" these delegate methods, but the parent class
-// UITableViewController doesn't implement them.
-extension SettingsViewController {
-
-    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        scrollLogic.scrollViewDidScroll(scrollView)
-    }
-
-    override func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        scrollLogic.scrollViewWillBeginDragging(scrollView)
-    }
-
-    override func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate: Bool) {
-        scrollLogic.scrollViewDidEndDragging(scrollView, willDecelerate: willDecelerate)
-    }
-
 }
 
 extension SettingsViewController: AutoCompleteDelegate {
     func updateAutoCompleteFrame(animated: Bool) {
         guard isViewLoaded else { return }
 
+        if let window = view.window, autoCompleteVC.view.superview == nil {
+            window.addSubview(autoCompleteVC.view)
+        }
+
         let rowHeight: CGFloat = AutoCompleteCell.Size.height
         let maxHeight: CGFloat = 3.5 * rowHeight
         let height: CGFloat = min(maxHeight, CGFloat(locationAutoCompleteResultCount) * rowHeight)
         let inset = Keyboard.shared.keyboardBottomInset(inView: view) + height
         let y = view.frame.height - inset
-        if locationTextViewSelected && Keyboard.shared.isActive {
-            tableView.contentInset.bottom = inset
-        }
-        else if !Keyboard.shared.isActive {
-            containerController?.updateNavBars()
-        }
 
         animateWithKeyboard(animated: animated) {
             self.autoCompleteVC.view.alpha = (self.locationTextViewSelected && self.locationAutoCompleteResultCount > 0) ? 1 : 0
             self.autoCompleteVC.view.frame = CGRect(x: 0, y: y, width: self.view.frame.width, height: height)
         }
 
-        if locationTextViewSelected,
-            let cell: UITableViewCell = locationTextFieldView.findParentView()
-        {
-            tableView.scrollRectToVisible(cell.frame, animated: true)
+        if locationTextViewSelected {
+            screen.scrollToLocation()
         }
     }
 
     func autoComplete(_ controller: AutoCompleteViewController, itemSelected item: AutoCompleteItem) {
-        guard let name = item.result.name else { return }
+        guard let locationText = item.result.name else { return }
 
-        locationTextFieldView.textField.text = name
-        _ = locationTextFieldView.resignFirstResponder()
+        screen.location = locationText
+        screen.resignLocationField()
     }
 }

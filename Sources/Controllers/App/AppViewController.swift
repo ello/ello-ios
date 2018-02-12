@@ -840,11 +840,10 @@ extension AppViewController {
 
     private func showSettingsScreen() {
         guard
-            let settings = UIStoryboard(name: "Settings", bundle: nil).instantiateInitialViewController() as? SettingsContainerViewController,
             let currentUser = currentUser
         else { return }
 
-        settings.currentUser = currentUser
+        let settings = SettingsViewController(currentUser: currentUser)
         pushDeepLinkViewController(settings)
     }
 

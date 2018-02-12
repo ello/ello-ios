@@ -56,6 +56,8 @@ final class Profile: JSONAble {
         case coverImageURL = "remote_cover_image_url"
         case webOnboardingVersion = "web_onboarding_version"
         case creatorTypeCategoryIds = "creator_type_category_ids"
+        case isHireable = "is_hireable"
+        case isCollaborateable = "is_collaborateable"
 
         case username
         case email
