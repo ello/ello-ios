@@ -2,28 +2,20 @@
 ///  ElloToggleButton.swift
 //
 
-class ElloToggleButton: UIButton {
-    var text: String? {
-        didSet {
-            toggleButton()
-        }
-    }
-    var value: Bool = false {
-        didSet {
-            toggleButton()
-        }
-    }
+class ElloToggleButton: Button {
+    var text: String? { didSet { updateButton() }}
+    var value: Bool = false { didSet { updateButton() }}
+
+    override var intrinsicContentSize: CGSize { return CGSize(width: 40, height: 30) }
     override var isEnabled: Bool {
         didSet {
-            toggleButton()
+            updateButton()
         }
     }
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
+    override func style() {
         layer.borderWidth = 1
-
-        toggleButton()
+        updateButton()
     }
 
     func setText(_ text: String, color: UIColor) {
@@ -34,7 +26,7 @@ class ElloToggleButton: UIButton {
         setAttributedTitle(string, for: .normal)
     }
 
-    private func toggleButton() {
+    private func updateButton() {
         let highlightedColor: UIColor = isEnabled ? .greyA : .greyC
         let offColor: UIColor = .white
 

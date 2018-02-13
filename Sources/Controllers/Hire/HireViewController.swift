@@ -26,7 +26,7 @@ class HireViewController: BaseElloViewController {
     private var _mockScreen: HireScreenProtocol?
     var screen: HireScreenProtocol {
         set(screen) { _mockScreen = screen }
-        get { return _mockScreen ?? (self.view as! HireScreen) }
+        get { return _mockScreen ?? self.view as! HireScreen }
     }
     var keyboardWillShowObserver: NotificationObserver?
     var keyboardWillHideObserver: NotificationObserver?
@@ -89,7 +89,7 @@ class HireViewController: BaseElloViewController {
 
 }
 
-extension HireViewController: HireDelegate {
+extension HireViewController: HireScreenDelegate {
     func submit(body: String) {
         guard !body.isEmpty else { return }
 
@@ -120,7 +120,7 @@ extension HireViewController: HireDelegate {
             }
             .catch { error in
                 self.screen.hideSuccess()
-                let alertController = AlertViewController(error: InterfaceString.GenericError)
+                let alertController = AlertViewController(confirmation: InterfaceString.GenericError)
                 self.present(alertController, animated: true, completion: nil)
             }
     }

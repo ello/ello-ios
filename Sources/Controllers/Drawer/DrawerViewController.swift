@@ -17,7 +17,7 @@ class DrawerViewController: BaseElloViewController {
     let dataSource = DrawerViewDataSource()
 
     required init() {
-        super.init(nibName: nil, bundle: .none)
+        super.init(nibName: nil, bundle: nil)
     }
 
     required init?(coder: NSCoder) {

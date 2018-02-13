@@ -37,6 +37,8 @@ extension UIColor {
 
     // not popular
     static let greyF1 = UIColor(hex: 0xF1F1F1)
+
+    // line separator colors
     static let greyF2 = UIColor(hex: 0xF2F2F2)
 
     // get started button background

@@ -12,6 +12,15 @@ class ElloTextFieldView: View {
         static let height: CGFloat = 89
     }
 
+    var title: String? {
+        get { return label.text }
+        set { label.text = newValue }
+    }
+    var text: String? {
+        get { return textField.text }
+        set { textField.text = newValue }
+    }
+
     let textField = ElloTextField()
     let label = StyledLabel(style: .lightGray)
 
@@ -62,6 +71,10 @@ class ElloTextFieldView: View {
         else {
             return 0
         }
+    }
+
+    override func style() {
+        textField.keyboardAppearance = .dark
     }
 
     override func arrange() {
@@ -195,13 +208,13 @@ extension ElloTextFieldView {
         textField.keyboardType = .emailAddress
     }
 
-    class func styleAsPassword(_ passwordView: ElloTextFieldView) {
+    class func styleAsPassword(_ passwordView: ElloTextFieldView, returnKey: UIReturnKeyType = .go) {
         passwordView.label.text = InterfaceString.Join.Password
-        styleAsPasswordField(passwordView.textField)
+        styleAsPasswordField(passwordView.textField, returnKey: returnKey)
     }
-    class func styleAsPasswordField(_ textField: UITextField) {
+    class func styleAsPasswordField(_ textField: UITextField, returnKey: UIReturnKeyType = .go) {
         styleCommonField(textField)
-        textField.returnKeyType = .go
+        textField.returnKeyType = returnKey
         textField.keyboardType = .default
         textField.isSecureTextEntry = true
     }

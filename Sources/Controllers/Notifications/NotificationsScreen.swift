@@ -2,13 +2,7 @@
 ///  NotificationsScreen.swift
 //
 
-@objc
-protocol NotificationsScreenDelegate {
-    func activatedCategory(_ filter: String)
-}
-
-class NotificationsScreen: UIView {
-
+class NotificationsScreen: UIView, NotificationsScreenProtocol {
     private let filterAllButton = NotificationsScreen.filterButton(title: "All")
     private let filterCommentsButton = NotificationsScreen.filterButton(image: .comments)
     private let filterMentionButton = NotificationsScreen.filterButton(title: "@")

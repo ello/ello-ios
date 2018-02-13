@@ -13,8 +13,7 @@ struct ProfileStatsPresenter {
         let followingCount = user.followingCount ?? 0
         view.followingCount = followingCount.numberToHuman(rounding: 1, showZero: true)
         view.followingEnabled = followingCount > 0
-        if
-            let string = user.followersCount,
+        if let string = user.followersCount,
             let followersCount = Int(string)
         {
             view.followersCount = followersCount.numberToHuman(rounding: 1, showZero: true)

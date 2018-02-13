@@ -3,6 +3,10 @@
 //
 
 class DynamicSettingCategoryViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, ControllerThatMightHaveTheCurrentUser {
+    class func instantiateFromStoryboard() -> DynamicSettingCategoryViewController {
+        return UIStoryboard(name: "Settings", bundle: Bundle(for: AppDelegate.self)).instantiateViewController(withIdentifier: "DynamicSettingCategoryViewController") as! DynamicSettingCategoryViewController
+    }
+
     var category: DynamicSettingCategory?
     var currentUser: User?
     weak var delegate: DynamicSettingsDelegate?
@@ -20,7 +24,7 @@ class DynamicSettingCategoryViewController: UIViewController, UITableViewDataSou
     private func setupTableView() {
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 50
-        tableView.register(UINib(nibName: "DynamicSettingCell", bundle: .none), forCellReuseIdentifier: "DynamicSettingCell")
+        tableView.register(UINib(nibName: "DynamicSettingCell", bundle: nil), forCellReuseIdentifier: "DynamicSettingCell")
     }
 
     private func setupNavigationBar() {
@@ -124,7 +128,7 @@ extension DynamicSettingCategoryViewController: DynamicSettingCellResponder {
 
     func deleteAccount() {
         let vc = DeleteAccountConfirmationViewController()
-        present(vc, animated: true, completion: .none)
+        present(vc, animated: true, completion: nil)
     }
 }
 

@@ -3,20 +3,18 @@
 //
 
 typealias TemporaryCacheEntry = (image: UIImage, expiration: Date)
-enum CacheKey {
-    case coverImage
-    case avatar
-}
+
 struct TemporaryCache {
-    static var coverImage: TemporaryCacheEntry?
-    static var avatar: TemporaryCacheEntry?
+    typealias Key = Profile.ImageProperty
+    private static var coverImage: TemporaryCacheEntry?
+    private static var avatar: TemporaryCacheEntry?
 
     static func clear() {
         TemporaryCache.coverImage = nil
         TemporaryCache.avatar = nil
     }
 
-    static func save(_ key: CacheKey, image: UIImage) {
+    static func save(_ key: Key, image: UIImage) {
         let fiveMinutes: TimeInterval = 5 * 60
         let date = Date(timeIntervalSinceNow: fiveMinutes)
         switch key {
@@ -27,7 +25,7 @@ struct TemporaryCache {
         }
     }
 
-    static func load(_ key: CacheKey) -> UIImage? {
+    static func load(_ key: Key) -> UIImage? {
         let date = Globals.now
         let entry: TemporaryCacheEntry?
 

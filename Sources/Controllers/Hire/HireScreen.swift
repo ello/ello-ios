@@ -23,7 +23,7 @@ class HireScreen: StreamableScreen {
             successLabel.text = "Email sent to \(recipient)"
         }
     }
-    weak var delegate: HireDelegate?
+    weak var delegate: HireScreenDelegate?
 
     private let successView = UIView()
     private let successLabel = UILabel()

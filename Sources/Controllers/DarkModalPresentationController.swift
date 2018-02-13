@@ -27,7 +27,7 @@ extension DarkModalPresentationController {
         let transitionCoordinator = presentingViewController.transitionCoordinator
         transitionCoordinator?.animate(alongsideTransition: { _ in
                 self.background.alpha = 1
-            }, completion: .none)
+            }, completion: nil)
         if let presentedView = presentedView {
             containerView.addSubview(presentedView)
         }
@@ -37,7 +37,7 @@ extension DarkModalPresentationController {
         let transitionCoordinator = presentingViewController.transitionCoordinator
         transitionCoordinator?.animate(alongsideTransition: { _ in
             self.background.alpha = 0
-            }, completion: .none)
+            }, completion: nil)
     }
 
     override func dismissalTransitionDidEnd(_ completed: Bool) {

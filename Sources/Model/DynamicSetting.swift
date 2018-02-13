@@ -151,24 +151,24 @@ final class DynamicSetting: JSONAble {
 }
 
 extension DynamicSetting {
-    static var creatorTypeSetting: DynamicSetting {
+    static let creatorTypeSetting: DynamicSetting = {
         let label = InterfaceString.Settings.CreatorType
         let info = InterfaceString.Settings.CreatorType
         return DynamicSetting(label: label, key: "creatorType", info: info)
-    }
-    static var blockedSetting: DynamicSetting {
+    }()
+    static let blockedSetting: DynamicSetting = {
         let label = InterfaceString.Settings.BlockedTitle
         let info = InterfaceString.Settings.BlockedTitle
         return DynamicSetting(label: label, key: "blocked", info: info)
-    }
-    static var mutedSetting: DynamicSetting {
+    }()
+    static let mutedSetting: DynamicSetting = {
         let label = InterfaceString.Settings.MutedTitle
         let info = InterfaceString.Settings.MutedTitle
         return DynamicSetting(label: label, key: "muted", info: info)
-    }
-    static var accountDeletionSetting: DynamicSetting {
+    }()
+    static let accountDeletionSetting: DynamicSetting = {
         let label = InterfaceString.Settings.DeleteAccount
         let info = InterfaceString.Settings.DeleteAccountExplanation
-        return DynamicSetting(label: label, key: "delete_account", info: info)
-    }
+        return DynamicSetting(label: label, key: "deleteAccount", info: info)
+    }()
 }

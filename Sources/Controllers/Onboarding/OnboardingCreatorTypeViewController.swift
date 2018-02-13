@@ -9,7 +9,7 @@ class OnboardingCreatorTypeViewController: BaseElloViewController {
     private var _mockScreen: OnboardingCreatorTypeScreenProtocol?
     var screen: OnboardingCreatorTypeScreenProtocol {
         set(screen) { _mockScreen = screen }
-        get { return _mockScreen ?? (self.view as! OnboardingCreatorTypeScreen) }
+        get { return _mockScreen ?? self.view as! OnboardingCreatorTypeScreen }
     }
 
     var categories: [Category]?
@@ -69,7 +69,7 @@ class OnboardingCreatorTypeViewController: BaseElloViewController {
                 self.delegate?.dynamicSettingsUserChanged(user)
             }
             .catch { error in
-                let alertController = AlertViewController(error: InterfaceString.GenericError)
+                let alertController = AlertViewController(confirmation: InterfaceString.GenericError)
                 self.appViewController?.present(alertController, animated: true, completion: nil)
             }
     }
@@ -148,7 +148,7 @@ extension OnboardingCreatorTypeViewController: OnboardingStepController {
                 proceedClosure(.continue)
             }
             .catch { _ in
-                let alertController = AlertViewController(error: InterfaceString.GenericError)
+                let alertController = AlertViewController(confirmation: InterfaceString.GenericError)
                 self.appViewController?.present(alertController, animated: true, completion: nil)
                 proceedClosure(.error)
         }

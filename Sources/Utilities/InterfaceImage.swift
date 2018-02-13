@@ -114,9 +114,8 @@ enum InterfaceImage: String {
     case dotsLight = "dots_light"
     case plusSmall = "plussmall"
     case checkSmall = "checksmall"
-    case angleBracket = "abracket"
-    case chevron = "chevron"
-    case back = "back"
+    case forwardChevron = "abracket"
+    case backChevron = "chevron"
 
     // Embeds
     case audioPlay = "embetter_audio_play"
@@ -184,28 +183,27 @@ enum InterfaceImage: String {
     }
     var whiteImage: UIImage? {
         switch self {
-        case .angleBracket,
-             .arrow,
-             .back,
+        case .arrow,
+             .backChevron,
              .breakLink,
              .bubbleBody,
              .camera,
              .checkSmall,
-             .chevron,
              .comments,
              .commentsOutline,
              .eye,
+             .forwardChevron,
              .heart,
              .heartOutline,
              .invite,
-             .link,
              .library,
+             .link,
              .mail,
              .onePassword,
              .pencil,
              .plusSmall,
-             .share,
              .repost,
+             .share,
              .x:
             return svgNamed("\(self.rawValue)_white")
         default:
@@ -214,7 +212,7 @@ enum InterfaceImage: String {
     }
     var disabledImage: UIImage? {
         switch self {
-        case .angleBracket, .addBuyButton, .back, .chevron, .repost:
+        case .forwardChevron, .addBuyButton, .backChevron, .repost:
             return svgNamed("\(self.rawValue)_disabled")
         default:
             return nil

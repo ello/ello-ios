@@ -4,13 +4,7 @@
 
 import SnapKit
 
-protocol BuyButtonLinkDelegate: class {
-    func closeModal()
-    func submitLink(_ url: URL)
-    func clearLink()
-}
-
-class BuyButtonLinkScreen: View {
+class BuyButtonLinkScreen: View, BuyButtonLinkScreenProtocol {
     struct Size {
         static let topMargin: CGFloat = 120
         static let sideMargin: CGFloat = 10
@@ -20,17 +14,16 @@ class BuyButtonLinkScreen: View {
         static let cancelOffset: CGFloat = 25
     }
 
-    let backgroundButton = UIButton()
-    let titleLabel = UILabel()
-    let productLinkField = ElloTextField()
-    let submitButton = StyledButton(style: .green)
-    let removeButton = StyledButton(style: .green)
-    let cancelLabel = UILabel()
+    private let backgroundButton = UIButton()
+    private let titleLabel = UILabel()
+    private let productLinkField = ElloTextField()
+    private let submitButton = StyledButton(style: .green)
+    private let removeButton = StyledButton(style: .green)
+    private let cancelLabel = UILabel()
+    private var submitButtonTrailingRight: Constraint!
+    private var submitButtonTrailingRemove: Constraint!
 
-    var submitButtonTrailingRight: Constraint!
-    var submitButtonTrailingRemove: Constraint!
-
-    weak var delegate: BuyButtonLinkDelegate?
+    weak var delegate: BuyButtonLinkScreenDelegate?
 
     var buyButtonURL: URL? {
         get { return URL(string: productLinkField.text ?? "") }

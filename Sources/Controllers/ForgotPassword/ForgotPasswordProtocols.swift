@@ -3,7 +3,7 @@
 //
 
 
-protocol ForgotPasswordEmailDelegate: class {
+protocol ForgotPasswordEmailScreenDelegate: class {
     func backAction()
     func validate(email: String)
     func submit(email: String)
@@ -19,7 +19,7 @@ protocol ForgotPasswordEmailScreenProtocol: class {
 }
 
 
-protocol ForgotPasswordResetDelegate: class {
+protocol ForgotPasswordResetScreenDelegate: class {
     func backAction()
     func validate(password: String)
     func submit(password: String)

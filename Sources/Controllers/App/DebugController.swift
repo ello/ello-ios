@@ -113,7 +113,7 @@ class DebugController: UIViewController, UITableViewDataSource, UITableViewDeleg
             else {
                 appController.closeDebugController {
                     Tracker.shared.overrideAgent = DebugAgent()
-                    let alertController = AlertViewController(error: "Debug tracking is on")
+                    let alertController = AlertViewController(confirmation: "Debug tracking is on")
                     appController.present(alertController, animated: true, completion: nil)
                 }
             }
@@ -127,7 +127,7 @@ class DebugController: UIViewController, UITableViewDataSource, UITableViewDeleg
                 let urlAction = AlertAction(title: "Enter URL", initial: initial, style: .urlInput)
                 alertController.addAction(urlAction)
 
-                let okCancelAction = AlertAction(title: "", style: .okCancel) { _ in
+                let okCancelAction = AlertAction(style: .okCancel) { _ in
                     delay(0.5) {
                         if let urlString = alertController.actionInputs.safeValue(0),
                             !urlString.isEmpty
@@ -185,7 +185,7 @@ class DebugController: UIViewController, UITableViewDataSource, UITableViewDeleg
             addAction(name: comment) {
                 UIPasteboard.general.string = message
 
-                let alertController = AlertViewController(error: "Copied\n\n\(message)")
+                let alertController = AlertViewController(confirmation: "Copied\n\n\(message)")
                 appController.present(alertController, animated: true, completion: nil)
             }
         }

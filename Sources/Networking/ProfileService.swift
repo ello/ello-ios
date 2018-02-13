@@ -34,23 +34,22 @@ struct ProfileService {
             }
     }
 
-    func updateUserCoverImage(_ imageRegion: ImageRegionData, properties: [Profile.Property: Any] = [:]) -> Promise<UploadSuccess> {
-        return updateUserImage(imageRegion, key: .coverImageUrl, properties: properties)
-            .then { (url, user) -> UploadSuccess in
-                user.updateDefaultImages(avatarURL: nil, coverImageURL: url)
-                if !imageRegion.isAnimatedGif {
-                    TemporaryCache.save(.coverImage, image: imageRegion.image)
-                }
-                return (url, user)
-            }
-    }
+    func updateUserImage(_ prop: Profile.ImageProperty, imageRegion: ImageRegionData) -> Promise<UploadSuccess> {
+        guard prop == .coverImage || prop == .avatar else {
+            return Promise<UploadSuccess>(error: NSError())
+        }
 
-    func updateUserAvatarImage(_ imageRegion: ImageRegionData, properties: [Profile.Property: Any] = [:]) -> Promise<UploadSuccess> {
-        return updateUserImage(imageRegion, key: .avatarUrl, properties: properties)
+        return updateUserImage(imageRegion, key: prop, properties: [:])
             .then { (url, user) -> UploadSuccess in
-                user.updateDefaultImages(avatarURL: url, coverImageURL: nil)
+                if prop == .coverImage {
+                    user.updateDefaultImages(avatarURL: nil, coverImageURL: url)
+                }
+                else if prop == .avatar {
+                    user.updateDefaultImages(avatarURL: url, coverImageURL: nil)
+                }
+
                 if !imageRegion.isAnimatedGif {
-                    TemporaryCache.save(.avatar, image: imageRegion.image)
+                    TemporaryCache.save(prop, image: imageRegion.image)
                 }
                 return (url, user)
             }
@@ -76,12 +75,12 @@ struct ProfileService {
 
                 if let avatarImage = avatarImage, let avatarURL = avatarURL {
                     TemporaryCache.save(.avatar, image: avatarImage.image)
-                    mergedProperties[.avatarUrl] = avatarURL.absoluteString
+                    mergedProperties[.avatarURL] = avatarURL.absoluteString
                 }
 
                 if let coverImage = coverImage, let coverImageURL = coverImageURL {
                     TemporaryCache.save(.coverImage, image: coverImage.image)
-                    mergedProperties[.coverImageUrl] = coverImageURL.absoluteString
+                    mergedProperties[.coverImageURL] = coverImageURL.absoluteString
                 }
 
                 self.updateUserProfile(mergedProperties)
@@ -142,7 +141,7 @@ struct ProfileService {
 
     private func updateUserImage(
         _ image: ImageRegionData,
-        key: Profile.Property,
+        key: Profile.ImageProperty,
         properties: [Profile.Property: Any])
         -> Promise<UploadSuccess>
     {
@@ -154,7 +153,7 @@ struct ProfileService {
 
                 let urlString = url.absoluteString
                 let mergedProperties: [Profile.Property: Any] = properties + [
-                    key: urlString,
+                    key.toProperty: urlString,
                 ]
 
                 return self.updateUserProfile(mergedProperties)

@@ -6,7 +6,7 @@ class ForgotPasswordEmailViewController: BaseElloViewController {
     private var _mockScreen: ForgotPasswordEmailScreenProtocol?
     var screen: ForgotPasswordEmailScreenProtocol {
         set(screen) { _mockScreen = screen}
-        get { return _mockScreen ?? (self.view as! ForgotPasswordEmailScreen) }
+        get { return _mockScreen ?? self.view as! ForgotPasswordEmailScreen }
     }
 
     override func loadView() {
@@ -16,7 +16,7 @@ class ForgotPasswordEmailViewController: BaseElloViewController {
     }
 }
 
-extension ForgotPasswordEmailViewController: ForgotPasswordEmailDelegate {
+extension ForgotPasswordEmailViewController: ForgotPasswordEmailScreenDelegate {
     func submit(email: String) {
         Tracker.shared.tappedRequestPassword()
 

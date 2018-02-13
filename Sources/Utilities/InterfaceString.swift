@@ -24,20 +24,12 @@ struct InterfaceString {
     }
 
     struct Followers {
-        static let CurrentUserNoResultsTitle: String = NSLocalizedString("You don't have any followers yet!", comment: "Current user no followers results title")
-        static let CurrentUserNoResultsBody: String = NSLocalizedString("Here's some tips on how to get new followers: use Discover to find people you're interested in, and to find or invite your contacts. When you see things you like you can comment, repost, mention people and love the posts that you most enjoy. ", comment: "Current user no followers results body.")
-        static let NoResultsTitle: String = NSLocalizedString("This person doesn't have any followers yet! ", comment: "Non-current user followers no results title")
-        static let NoResultsBody: String = NSLocalizedString("Be the first to follow them and give them some love! Following interesting people makes Ello way more fun.", comment: "Non-current user following no results body")
         static let Title: String = NSLocalizedString("Followers", comment: "Followers title")
     }
 
     struct Following {
         static let Title: String = NSLocalizedString("Following", comment: "Following title")
         static let NewPosts: String = NSLocalizedString("New Posts", comment: "New posts title")
-        static let CurrentUserNoResultsTitle: String = NSLocalizedString("You aren't following anyone yet!", comment: "Current user no following results title")
-        static let CurrentUserNoResultsBody: String = NSLocalizedString("Ello is way more rad when you're following lots of people.\n\nUse Discover to find people you're interested in, and to find or invite your contacts.\nYou can also use Search (upper right) to look for new and excellent people!", comment: "Current user No following results body.")
-        static let NoResultsTitle: String = NSLocalizedString("This person isn't following anyone yet!", comment: "Non-current user followoing no results title")
-        static let NoResultsBody: String = NSLocalizedString("Follow, mention them, comment, repost or love one of their posts and maybe they'll follow you back ;)", comment: "Non-current user following no results body")
     }
 
     struct Editorials {
@@ -120,8 +112,6 @@ struct InterfaceString {
     struct Notifications {
         static let Title: String = NSLocalizedString("Notifications", comment: "Notifications title")
         static let Reply: String = NSLocalizedString("Reply", comment: "Reply button title")
-        static let NoResultsTitle: String = NSLocalizedString("Welcome to your Notifications Center!", comment: "No notification results title")
-        static let NoResultsBody: String = NSLocalizedString("Whenever someone mentions you, follows you, accepts an invitation, comments, reposts or Loves one of your posts, you'll be notified here.", comment: "No notification results body.")
     }
 
     struct Discover {
@@ -171,20 +161,31 @@ struct InterfaceString {
     }
 
     struct Settings {
-        static let EditProfile: String = NSLocalizedString("Edit Profile", comment: "Edit Profile Title")
+        static let EditProfile: String = NSLocalizedString("Edit Profile", comment: "")
+        static let EditCredentials: String = NSLocalizedString("Edit Credentials", comment: "")
+        static let CredentialsSettings: String = NSLocalizedString("To change your username, email, or password, please verify your current password", comment: "")
+        static let TapToEdit: String = NSLocalizedString("(tap to edit)", comment: "")
+        static let AbortChanges: String = NSLocalizedString("Discard changes?", comment: "")
+        static let Logout: String = NSLocalizedString("Logout", comment: "")
+        static let Profile: String = NSLocalizedString("Profile", comment: "")
         static let ProfileDescription: String = NSLocalizedString("Your name, username, bio and links appear on your public profile. Your email address remains private.", comment: "Profile Privacy Description")
-        static let Bio: String = NSLocalizedString("Bio", comment: "bio setting")
-        static let CommunityInfo: String = NSLocalizedString("Community Info", comment: "community info setting")
-        static let Name: String = NSLocalizedString("Name", comment: "name setting")
-        static let Links: String = NSLocalizedString("Links", comment: "links setting")
-        static let Location: String = NSLocalizedString("Location", comment: "location setting")
-        static let AvatarUploaded: String = NSLocalizedString("You’ve updated your Avatar.\n\nIt may take a few minutes for your new avatar/header to appear on Ello, so please be patient. It’ll be live soon!", comment: "Avatar updated copy")
-        static let CoverImageUploaded: String = NSLocalizedString("You’ve updated your Header.\n\nIt may take a few minutes for your new avatar/header to appear on Ello, so please be patient. It’ll be live soon!", comment: "Cover Image updated copy")
+        static let CommunityInfo: String = NSLocalizedString("Community Info", comment: "")
+        static let Username: String = NSLocalizedString("Username", comment: "")
+        static let Email: String = NSLocalizedString("Email", comment: "")
+        static let OldPassword: String = NSLocalizedString("Current Password", comment: "")
+        static let OldPasswordRequired: String = NSLocalizedString("You must enter your current password to change your username, email, or password.", comment: "")
+        static let Password: String = NSLocalizedString("Password", comment: "")
+        static let Name: String = NSLocalizedString("Name", comment: "")
+        static let Bio: String = NSLocalizedString("Bio", comment: "")
+        static let Links: String = NSLocalizedString("Links", comment: "")
+        static let Location: String = NSLocalizedString("Location", comment: "")
+        static let AvatarUploaded: String = NSLocalizedString("You’ve updated your Avatar.\n\nIt may take a few minutes for your new avatar to appear on Ello, so please be patient. It’ll be live soon!", comment: "Avatar updated copy")
+        static let CoverImageUploaded: String = NSLocalizedString("You’ve updated your Header.\n\nIt may take a few minutes for your new header to appear on Ello, so please be patient. It’ll be live soon!", comment: "Cover Image updated copy")
         static let CreatorType: String = NSLocalizedString("Creator Type", comment: "")
-        static let BlockedTitle: String = NSLocalizedString("Blocked", comment: "blocked settings item")
-        static let MutedTitle: String = NSLocalizedString("Muted", comment: "muted settings item")
-        static let DeleteAccountTitle: String = NSLocalizedString("Account Deletion", comment: "account deletion settings button")
-        static let DeleteAccount: String = NSLocalizedString("Delete Account", comment: "account deletion label")
+        static let BlockedTitle: String = NSLocalizedString("Blocked", comment: "")
+        static let MutedTitle: String = NSLocalizedString("Muted", comment: "")
+        static let DeleteAccountTitle: String = NSLocalizedString("Account Deletion", comment: "")
+        static let DeleteAccount: String = NSLocalizedString("Delete Account", comment: "")
         static let DeleteAccountExplanation: String = NSLocalizedString("By deleting your account you remove your personal information from Ello. Your account cannot be restored.", comment: "")
         static let DeleteAccountConfirm: String = NSLocalizedString("Delete Account?", comment: "delete account question")
         static let AccountIsBeingDeleted: String = NSLocalizedString("Your account is in the process of being deleted.", comment: "")
@@ -283,10 +284,6 @@ struct InterfaceString {
     }
 
     struct Loves {
-        static let CurrentUserNoResultsTitle: String = NSLocalizedString("You haven't Loved any posts yet!", comment: "Current user no loves results title")
-        static let CurrentUserNoResultsBody: String = NSLocalizedString("You can use Ello Loves as a way to bookmark the things you care about most. Go Love someone's post, and it will be added to this stream.", comment: "Current user no loves results body.")
-        static let NoResultsTitle: String = NSLocalizedString("This person hasn’t Loved any posts yet!", comment: "Non-current user no loves results title")
-        static let NoResultsBody: String = NSLocalizedString("Ello Loves are a way to bookmark the things you care about most. When they love something the posts will appear here.", comment: "Non-current user no loves results body.")
         static let Title: String = NSLocalizedString("Loves", comment: "love stream")
     }
 
@@ -301,10 +298,6 @@ struct InterfaceString {
         static let BlockButton: String = NSLocalizedString("Block", comment: "Block button title")
         static let UnblockButton: String = NSLocalizedString("Unblock", comment: "Unblock button title")
         static let FlagButton: String = NSLocalizedString("Flag", comment: "Flag button title")
-        static let BlockedNoResultsTitle: String = NSLocalizedString("You haven't blocked any users", comment: "Current user no blocked results title")
-        static let BlockedNoResultsBody = ""
-        static let MutedNoResultsTitle: String = NSLocalizedString("You haven't muted any users", comment: "Current user no muted results title")
-        static let MutedNoResultsBody = ""
 
         static func UnmuteAlert(atName: String) -> String {
             return String.localizedStringWithFormat("Would you like to \nunmute or block %@?", atName)

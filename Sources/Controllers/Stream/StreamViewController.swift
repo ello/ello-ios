@@ -15,55 +15,17 @@ struct StreamNotification {
     static let UpdateCellHeightNotification = TypedNotification<StreamCellItem>(name: "UpdateCellHeightNotification")
 }
 
-// This is an NSObject in order to pass it as an
-// objective-c argument to a responder chain call
-class NoResultsMessages: NSObject {
-    let title: String
-    let body: String
-    init(title: String, body: String) {
-        self.title = title
-        self.body = body
-    }
-}
-
 // MARK: StreamViewController
 final class StreamViewController: BaseElloViewController {
     override func trackerName() -> String? { return nil }
 
     let collectionView = ElloCollectionView(frame: .zero, collectionViewLayout: StreamCollectionViewLayout())
-    let noResultsLabel = UILabel()
-    var noResultsTopConstraint: NSLayoutConstraint!
-    private let defaultNoResultsTopConstant: CGFloat = 113
 
     override var next: UIResponder? {
         return postbarController
     }
 
     var currentJSONables = [JSONAble]()
-
-    var noResultsMessages: NoResultsMessages = NoResultsMessages(title: "", body: "") {
-        didSet {
-            let titleParagraphStyle = NSMutableParagraphStyle()
-            titleParagraphStyle.lineSpacing = 17
-
-            let title = NSAttributedString(string: self.noResultsMessages.title + "\n", attributes: [
-                .font: UIFont.defaultBoldFont(18),
-                .foregroundColor: UIColor.black,
-                .paragraphStyle: titleParagraphStyle
-            ])
-
-            let bodyParagraphStyle = NSMutableParagraphStyle()
-            bodyParagraphStyle.lineSpacing = 8
-
-            let body = NSAttributedString(string: self.noResultsMessages.body, attributes: [
-                .font: UIFont.defaultFont(),
-                .foregroundColor: UIColor.black,
-                .paragraphStyle: bodyParagraphStyle
-            ])
-
-            self.noResultsLabel.attributedText = title.appending(body)
-        }
-    }
 
     var dataSource: StreamDataSource!
     var collectionViewDataSource: CollectionViewDataSource!
@@ -248,18 +210,10 @@ final class StreamViewController: BaseElloViewController {
     override func loadView() {
         super.loadView()
         view.addSubview(collectionView)
-        view.addSubview(noResultsLabel)
 
         collectionView.snp.makeConstraints { make in
             make.edges.equalTo(self.view)
         }
-
-        noResultsLabel.snp.makeConstraints { make in
-            let c = make.top.equalTo(self.view).constraint
-            self.noResultsTopConstraint = c.layoutConstraints.first!
-            make.leading.trailing.equalTo(self.view).inset(15)
-        }
-        view.layoutIfNeeded()
     }
 
     // changing the filter, i.e. when searching for contacts
@@ -288,7 +242,6 @@ final class StreamViewController: BaseElloViewController {
         ElloHUD.hideLoadingHudInView(view)
         pullToRefreshView?.finishLoading()
         initialDataLoaded = true
-        updateNoResultsLabel()
     }
 
     func removeAllCellItems() {
@@ -310,7 +263,6 @@ final class StreamViewController: BaseElloViewController {
             self.performDataChange { collectionView in
                 collectionView.insertItems(at: indexPaths)
             }.always {
-                self.doneLoading()
                 completion?()
             }
         }
@@ -419,6 +371,7 @@ final class StreamViewController: BaseElloViewController {
         if jsonables.count == 0 {
             items.append(StreamCellItem(type: .emptyStream(height: 282)))
         }
+        doneLoading()
         appendUnsizedCellItems(items) {
             self.isPagingEnabled = true
         }
@@ -434,30 +387,6 @@ final class StreamViewController: BaseElloViewController {
         }
 
         return defaultGenerator()
-    }
-
-    private func updateNoResultsLabel() {
-        let shouldShowNoResults = dataSource.visibleCellItems.count == 0
-        if shouldShowNoResults {
-            delay(0.666) {
-                self.showNoResults()
-            }
-        }
-        else {
-            self.hideNoResults()
-        }
-    }
-
-    func hideNoResults() {
-        noResultsLabel.isHidden = true
-        noResultsLabel.alpha = 0
-    }
-
-    func showNoResults() {
-        noResultsLabel.isHidden = false
-        UIView.animate(withDuration: 0.25, animations: {
-            self.noResultsLabel.alpha = 1
-        })
     }
 
     func clearForInitialLoad(newItems: [StreamCellItem] = []) {
@@ -489,7 +418,7 @@ final class StreamViewController: BaseElloViewController {
             clearForInitialLoad(newItems: [StreamCellItem(type: .error(message: "Error loading your stream"))])
 
             let message = InterfaceString.GenericError
-            let alertController = AlertViewController(error: message) { _ in
+            let alertController = AlertViewController(confirmation: message) { _ in
                 guard
                     let navigationController = self.navigationController,
                     navigationController.childViewControllers.count > 1
@@ -537,7 +466,6 @@ final class StreamViewController: BaseElloViewController {
                 self.dataSource.modifyItems(comment, change: change, streamViewController: self)
             default: break
             }
-            self.updateNoResultsLabel()
         }
 
         postChangedNotification = NotificationObserver(notification: PostChangedNotification) { [weak self] (post, change) in
@@ -562,7 +490,6 @@ final class StreamViewController: BaseElloViewController {
                 self.dataSource.modifyItems(post, change: change, streamViewController: self)
             case .read: break
             }
-            self.updateNoResultsLabel()
         }
 
         jsonableChangedNotification = NotificationObserver(notification: JSONAbleChangedNotification) { [weak self] (jsonable, change) in
@@ -571,7 +498,6 @@ final class StreamViewController: BaseElloViewController {
             else { return }
 
             self.dataSource.modifyItems(jsonable, change: change, streamViewController: self)
-            self.updateNoResultsLabel()
         }
 
         relationshipChangedNotification = NotificationObserver(notification: RelationshipChangedNotification) { [weak self] user in
@@ -580,7 +506,6 @@ final class StreamViewController: BaseElloViewController {
             else { return }
 
             self.dataSource.modifyUserRelationshipItems(user, streamViewController: self)
-            self.updateNoResultsLabel()
         }
 
         settingChangedNotification = NotificationObserver(notification: SettingChangedNotification) { [weak self] user in
@@ -589,7 +514,6 @@ final class StreamViewController: BaseElloViewController {
             else { return }
 
             self.dataSource.modifyUserSettingsItems(user, streamViewController: self)
-            self.updateNoResultsLabel()
         }
 
         currentUserChangedNotification = NotificationObserver(notification: CurrentUserChangedNotification) { [weak self] user in
@@ -598,7 +522,6 @@ final class StreamViewController: BaseElloViewController {
             else { return }
 
             self.dataSource.modifyItems(user, change: .update, streamViewController: self)
-            self.updateNoResultsLabel()
         }
     }
 
@@ -694,12 +617,9 @@ extension StreamViewController: CategoryListCellResponder {
 // MARK: StreamViewController: SimpleStreamResponder
 extension StreamViewController: SimpleStreamResponder {
 
-    func showSimpleStream(boxedEndpoint: BoxedElloAPI, title: String, noResultsMessages: NoResultsMessages? = nil) {
+    func showSimpleStream(boxedEndpoint: BoxedElloAPI, title: String) {
         let vc = SimpleStreamViewController(endpoint: boxedEndpoint.endpoint, title: title)
         vc.currentUser = currentUser
-        if let messages = noResultsMessages {
-            vc.streamViewController.noResultsMessages = messages
-        }
         navigationController?.pushViewController(vc, animated: true)
     }
 }
@@ -1212,10 +1132,6 @@ extension StreamViewController: UIScrollViewDelegate {
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         streamViewDelegate?.streamViewDidScroll(scrollView: scrollView)
-        if !noResultsLabel.isHidden {
-            noResultsTopConstraint.constant = -scrollView.contentOffset.y + defaultNoResultsTopConstant
-            self.view.layoutIfNeeded()
-        }
 
         if scrollToPaginateGuard {
             self.maybeLoadNextPage(scrollView: scrollView)

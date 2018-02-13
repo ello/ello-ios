@@ -3,7 +3,7 @@
 //
 
 
-protocol AutoCompleteDelegate: NSObjectProtocol {
+protocol AutoCompleteDelegate: class {
     func autoComplete(_ controller: AutoCompleteViewController, itemSelected item: AutoCompleteItem)
 }
 
@@ -14,7 +14,7 @@ class AutoCompleteViewController: UIViewController {
     weak var delegate: AutoCompleteDelegate?
 
     required init() {
-        super.init(nibName: nil, bundle: .none)
+        super.init(nibName: nil, bundle: nil)
     }
 
     required init?(coder: NSCoder) {
@@ -76,7 +76,7 @@ extension AutoCompleteViewController {
 
     func showAutoCompleteLoadFailure() {
         let message = InterfaceString.GenericError
-        let alertController = AlertViewController(error: message) { _ in
+        let alertController = AlertViewController(confirmation: message) { _ in
             _ = self.navigationController?.popViewController(animated: true)
         }
         present(alertController, animated: true)

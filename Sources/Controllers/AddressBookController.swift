@@ -75,7 +75,7 @@ extension AddressBookController {
         }
         alertController.addAction(cancelAction)
 
-        controller.present(alertController, animated: true, completion: .none)
+        controller.present(alertController, animated: true, completion: nil)
     }
 
     private static func proceedWithImport(_ completion: @escaping Completion) {
@@ -86,16 +86,10 @@ extension AddressBookController {
     }
 
     private static func displayAddressBookAlert(_ controller: UIViewController, message: String, completion: @escaping Completion) {
-        let alertController = AlertViewController(
-            message: InterfaceString.Friends.ImportError(message)
-        )
-
-        let action = AlertAction(title: InterfaceString.OK, style: .dark) { _ in
+        let alertController = AlertViewController(confirmation: InterfaceString.Friends.ImportError(message)) { _ in
             completion(.failure(.cancelled))
         }
-        alertController.addAction(action)
-
-        controller.present(alertController, animated: true, completion: .none)
+        controller.present(alertController, animated: true, completion: nil)
     }
 
     private static func getAddressBook(_ completion: @escaping Completion) {

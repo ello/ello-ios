@@ -135,16 +135,11 @@ private extension ShareViewController {
 
     func showNotSignedIn() {
         let message = InterfaceString.Share.PleaseLogin
-        let notSignedInVC = AlertViewController(message: message)
-        let cancelAction = AlertAction(title: InterfaceString.OK, style: .dark) {
-            action in
-            if let context = self.extensionContext {
-                let error = NSError(domain: "co.ello.Ello", code: 0, userInfo: nil)
-                context.cancelRequest(withError: error)
-            }
+        let notSignedInVC = AlertViewController(confirmation: message) { _ in
+            guard let context = self.extensionContext else { return }
+            let error = NSError(domain: "co.ello.Ello", code: 0, userInfo: nil)
+            context.cancelRequest(withError: error)
         }
-
-        notSignedInVC.addAction(cancelAction)
         self.present(notSignedInVC, animated: true, completion: nil)
     }
 }

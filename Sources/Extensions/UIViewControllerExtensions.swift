@@ -16,14 +16,15 @@ extension UIViewController: GestureNavigation {
         }
     }
 
-    func findViewController(_ find: (UIViewController) -> Bool) -> UIViewController? {
-        var controller: UIViewController? = self
-        while controller != nil {
-            if find(controller!) {
-                return controller
-            }
-            controller = controller!.parent ?? controller!.presentingViewController
+    func findParentController<T>(_ test: ((T) -> Bool)? = nil) -> T? {
+        if let controller = self as? T, test?(controller) ?? true {
+            return controller
         }
+
+        if let parentController = (parent ?? presentingViewController) {
+            return parentController.findParentController(test)
+        }
+
         return nil
     }
 

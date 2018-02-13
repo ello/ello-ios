@@ -26,3 +26,8 @@ protocol LightboxScreenDelegate: class {
 
     func loadMoreImages() -> Promise<Void>
 }
+
+protocol LightboxScreenProtocol: class {
+    var toolbar: PostToolbar { get }
+    func updateImages(updateToolbar: Bool)
+}

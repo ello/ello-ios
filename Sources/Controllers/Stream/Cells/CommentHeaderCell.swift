@@ -63,7 +63,7 @@ class CommentHeaderCell: CollectionViewCell {
         usernameButton.contentHorizontalAlignment = .left
 
         replyButton.setImages(.reply)
-        chevronButton.setImages(.angleBracket)
+        chevronButton.setImages(.forwardChevron)
         toggleChevron(isOpen: false)
         flagButton.setImages(.flag)
         editButton.setImages(.pencil)

@@ -162,7 +162,7 @@ class PostbarController: UIResponder {
         alertController.addAction(yesAction)
         alertController.addAction(noAction)
 
-        responderChainable?.controller?.present(alertController, animated: true, completion: .none)
+        responderChainable?.controller?.present(alertController, animated: true, completion: nil)
     }
 
     func editCommentButtonTapped(cell: UICollectionViewCell) {
@@ -294,7 +294,7 @@ class PostbarController: UIResponder {
         alertController.addAction(yesAction)
         alertController.addAction(noAction)
 
-        presentingController.present(alertController, animated: true, completion: .none)
+        presentingController.present(alertController, animated: true, completion: nil)
     }
 
     private func createRepost(_ post: Post, alertController: AlertViewController) {

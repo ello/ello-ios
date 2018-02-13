@@ -6,14 +6,12 @@ class OnboardingProfileViewController: UIViewController, HasAppController {
     private var _mockScreen: OnboardingProfileScreenProtocol?
     var screen: OnboardingProfileScreenProtocol {
         set(screen) { _mockScreen = screen }
-        get { return _mockScreen ?? (self.view as! OnboardingProfileScreen) }
+        get { return _mockScreen ?? self.view as! OnboardingProfileScreen }
     }
 
     var currentUser: User?
 
-    var appViewController: AppViewController? {
-        return findViewController { vc in vc is AppViewController } as? AppViewController
-    }
+    var appViewController: AppViewController? { return findParentController() }
 
     var onboardingViewController: OnboardingViewController?
     var onboardingData: OnboardingData!
@@ -175,7 +173,7 @@ extension OnboardingProfileViewController: OnboardingStepController {
                 else {
                     message = InterfaceString.GenericError
                 }
-                let alertController = AlertViewController(error: message)
+                let alertController = AlertViewController(confirmation: message)
                 self.appViewController?.present(alertController, animated: true, completion: nil)
             }
     }
@@ -207,8 +205,8 @@ extension OnboardingProfileViewController: OnboardingStepController {
 
                 Tracker.shared.contactAccessPreferenceChanged(false)
                 let message = addressBookError.rawValue
-                let alertController = AlertViewController(error: InterfaceString.Friends.ImportError(message))
-                presenter.present(alertController, animated: true, completion: .none)
+                let alertController = AlertViewController(confirmation: InterfaceString.Friends.ImportError(message))
+                presenter.present(alertController, animated: true, completion: nil)
             }
         },
             cancelCompletion: {

@@ -182,9 +182,17 @@ extension StyledLabel.Style {
     static let lightGray = StyledLabel.Style(
         textColor: UIColor(hex: 0x9a9a9a)
         )
+    static let smallGray = StyledLabel.Style(
+        textColor: .greyA,
+        fontFamily: .small
+        )
     static let largeGrayHeader = StyledLabel.Style(
-        textColor: UIColor.greyA,
+        textColor: .greyA,
         fontFamily: .large
+        )
+    static let largeBoldGray = StyledLabel.Style(
+        textColor: .greyA,
+        fontFamily: .largeBold
         )
     static let placeholder = StyledLabel.Style(
         textColor: .greyC,

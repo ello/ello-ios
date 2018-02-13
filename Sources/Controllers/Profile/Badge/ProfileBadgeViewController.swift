@@ -18,7 +18,7 @@ final class ProfileBadgeViewController: BaseElloViewController {
     private var _mockScreen: ProfileBadgeScreenProtocol?
     var screen: ProfileBadgeScreenProtocol {
         set(screen) { _mockScreen = screen }
-        get { return _mockScreen ?? (self.view as! ProfileBadgeScreen) }
+        get { return _mockScreen ?? self.view as! ProfileBadgeScreen }
     }
 
     override func loadView() {
@@ -52,6 +52,6 @@ extension ProfileBadgeViewController: ProfileBadgeScreenDelegate {
     }
 
     func dismiss() {
-        self.dismiss(animated: true, completion: .none)
+        self.dismiss(animated: true, completion: nil)
     }
 }

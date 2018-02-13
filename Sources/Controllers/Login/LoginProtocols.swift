@@ -2,7 +2,7 @@
 ///  LoginProtocols.swift
 //
 
-protocol LoginDelegate: class {
+protocol LoginScreenDelegate: class {
     func backAction()
     func forgotPasswordAction()
     func onePasswordAction(_ sender: UIView)

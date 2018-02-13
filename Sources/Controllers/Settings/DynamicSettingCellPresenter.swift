@@ -24,21 +24,9 @@ struct DynamicSettingCellPresenter {
     }
 
     static func configure(_ cell: DynamicSettingCell, setting: DynamicSetting, currentUser: User) {
-        cell.titleLabel.text = setting.label
-        cell.descriptionLabel.text = setting.info
-
-        if setting.key == DynamicSetting.accountDeletionSetting.key {
-            cell.toggleButton.isHidden = true
-            cell.deleteButton.isHidden = false
-            cell.deleteButton.text = InterfaceString.Delete
-            cell.contentView.isHidden = false
-        } else {
-            cell.toggleButton.isHidden = false
-            cell.deleteButton.isHidden = true
-            cell.toggleButton.value = currentUser.propertyForSettingsKey(key: setting.key)
-
-            let visible = isVisible(setting: setting, currentUser: currentUser)
-            cell.contentView.isHidden = !visible
-        }
+        cell.setting = setting
+        cell.title = setting.label
+        cell.info = setting.info
+        cell.isEnabled = isVisible(setting: setting, currentUser: currentUser)
     }
 }

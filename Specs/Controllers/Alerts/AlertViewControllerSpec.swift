@@ -19,9 +19,7 @@ class AlertViewControllerSpec: QuickSpec {
         describe("AlertViewController") {
             describe("snapshots") {
                 validateAllSnapshots {
-                    let subject = AlertViewController(message: "hey there!")
-                    let action = AlertAction(title: InterfaceString.OK, style: .dark, handler: nil)
-                    subject.addAction(action)
+                    let subject = AlertViewController(confirmation: "hey there!")
                     return subject
                 }
             }

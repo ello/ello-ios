@@ -4,13 +4,8 @@
 
 import SnapKit
 
-protocol BlockUserModalDelegate: class {
-    func updateRelationship(_ newRelationship: RelationshipPriority)
-    func flagTapped()
-    func closeModal()
-}
 
-class BlockUserModalScreen: View {
+class BlockUserModalScreen: View, BlockUserModalScreenProtocol {
     struct Size {
         static let outerMargins = UIEdgeInsets(top: 50, left: 10, bottom: 0, right: 10)
         static let innerMargins = UIEdgeInsets(all: 20)
@@ -32,8 +27,8 @@ class BlockUserModalScreen: View {
     private let flagButton = StyledButton(style: .white)
     private let flagLabel = UILabel()
 
-    private var delegate: BlockUserModalDelegate? {
-        return next as? BlockUserModalDelegate
+    private var delegate: BlockUserModalScreenDelegate? {
+        return next as? BlockUserModalScreenDelegate
     }
 
     convenience init(config: BlockUserModalConfig) {

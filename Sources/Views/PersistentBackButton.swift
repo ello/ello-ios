@@ -20,7 +20,7 @@ class PersistentBackButton: Button {
         super.style()
 
         backgroundColor = .white
-        setImages(.back)
+        setImages(.backChevron)
         layer.masksToBounds = true
         contentEdgeInsets = UIEdgeInsets(right: 2)
     }

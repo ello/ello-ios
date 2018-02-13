@@ -73,7 +73,7 @@ class DeleteAccountConfirmationViewController: BaseElloViewController {
 
     private func deleteAccount() {
         timer?.invalidate()
-        _ = ElloHUD.showLoadingHud()
+        ElloHUD.showLoadingHudInView(self.view)
 
         ProfileService().deleteAccount()
             .then { _ -> Void in
@@ -83,7 +83,7 @@ class DeleteAccountConfirmationViewController: BaseElloViewController {
                 }
             }
             .always {
-                ElloHUD.hideLoadingHud()
+                ElloHUD.hideLoadingHudInView(self.view)
             }
     }
 
@@ -98,6 +98,6 @@ class DeleteAccountConfirmationViewController: BaseElloViewController {
 
     @IBAction private func dismiss() {
         timer?.invalidate()
-        self.dismiss(animated: true, completion: .none)
+        self.dismiss(animated: true, completion: nil)
     }
 }

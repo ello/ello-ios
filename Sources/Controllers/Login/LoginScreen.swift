@@ -12,7 +12,7 @@ class LoginScreen: CredentialsScreen {
         static let forgotPasswordFontSize: CGFloat = 11
     }
 
-    weak var delegate: LoginDelegate?
+    weak var delegate: LoginScreenDelegate?
     var username: String {
         get { return usernameField.text?.trimmingCharacters(in: CharacterSet.whitespaces) ?? "" }
         set { usernameField.text = newValue }

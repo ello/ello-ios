@@ -6,7 +6,7 @@ import FLAnimatedImage
 import SnapKit
 
 
-class LightboxScreen: Screen {
+class LightboxScreen: Screen, LightboxScreenProtocol {
     struct Size {
         static let insets = calculateInsets()
         static let lilBits: CGFloat = 15

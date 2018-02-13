@@ -39,7 +39,7 @@ class AppViewController: BaseElloViewController {
     private var _mockScreen: AppScreenProtocol?
     var screen: AppScreenProtocol {
         set(screen) { _mockScreen = screen }
-        get { return _mockScreen ?? (self.view as! AppScreen) }
+        get { return _mockScreen ?? self.view as! AppScreen }
     }
 
     var visibleViewController: UIViewController?
@@ -190,11 +190,7 @@ class AppViewController: BaseElloViewController {
         apiOutOfDateObserver = NotificationObserver(notification: AuthenticationNotifications.outOfDateAPI) { [weak self] _ in
             guard let `self` = self else { return }
             let message = InterfaceString.App.OldVersion
-            let alertController = AlertViewController(message: message)
-
-            let action = AlertAction(title: InterfaceString.OK, style: .dark, handler: nil)
-            alertController.addAction(action)
-
+            let alertController = AlertViewController(confirmation: message)
             self.present(alertController, animated: true, completion: nil)
             self.apiOutOfDateObserver?.removeObserver()
             self.userLoggedOut()
@@ -418,7 +414,7 @@ extension AppViewController {
 
     func removeViewController(_ completion: @escaping Block = {}) {
         if presentingViewController != nil {
-            dismiss(animated: false, completion: .none)
+            dismiss(animated: false, completion: nil)
         }
         statusBarIsVisible = true
 
@@ -470,11 +466,7 @@ extension AppViewController {
         if isLoggedIn() {
             removeViewController {
                 let message = InterfaceString.App.LoggedOut
-                let alertController = AlertViewController(message: message)
-
-                let action = AlertAction(title: InterfaceString.OK, style: .dark, handler: nil)
-                alertController.addAction(action)
-
+                let alertController = AlertViewController(confirmation: message)
                 self.present(alertController, animated: true, completion: nil)
             }
         }
@@ -538,14 +530,8 @@ extension AppViewController: InviteResponder {
 
                     Tracker.shared.contactAccessPreferenceChanged(false)
                     let message = addressBookError.rawValue
-                    let alertController = AlertViewController(
-                        message: InterfaceString.Friends.ImportError(message)
-                    )
-
-                    let action = AlertAction(title: InterfaceString.OK, style: .dark, handler: .none)
-                    alertController.addAction(action)
-
-                    self.present(alertController, animated: true, completion: .none)
+                    let alertController = AlertViewController(confirmation: InterfaceString.Friends.ImportError(message))
+                    self.present(alertController, animated: true, completion: nil)
                 }
             }
         })
@@ -824,54 +810,21 @@ extension AppViewController {
 
     private func showProfileFollowersScreen(username: String) {
         let endpoint = ElloAPI.userStreamFollowers(userId: "~\(username)")
-        let noResultsTitle: String
-        let noResultsBody: String
-        if username == currentUser?.username {
-            noResultsTitle = InterfaceString.Followers.CurrentUserNoResultsTitle
-            noResultsBody = InterfaceString.Followers.CurrentUserNoResultsBody
-        }
-        else {
-            noResultsTitle = InterfaceString.Followers.NoResultsTitle
-            noResultsBody = InterfaceString.Followers.NoResultsBody
-        }
         let followersVC = SimpleStreamViewController(endpoint: endpoint, title: "@" + username + "'s " + InterfaceString.Followers.Title)
-        followersVC.streamViewController.noResultsMessages = NoResultsMessages(title: noResultsTitle, body: noResultsBody)
         followersVC.currentUser = currentUser
         pushDeepLinkViewController(followersVC)
     }
 
     private func showProfileFollowingScreen(_ username: String) {
         let endpoint = ElloAPI.userStreamFollowing(userId: "~\(username)")
-        let noResultsTitle: String
-        let noResultsBody: String
-        if username == currentUser?.username {
-            noResultsTitle = InterfaceString.Following.CurrentUserNoResultsTitle
-            noResultsBody = InterfaceString.Following.CurrentUserNoResultsBody
-        }
-        else {
-            noResultsTitle = InterfaceString.Following.NoResultsTitle
-            noResultsBody = InterfaceString.Following.NoResultsBody
-        }
         let vc = SimpleStreamViewController(endpoint: endpoint, title: "@" + username + "'s " + InterfaceString.Following.Title)
-        vc.streamViewController.noResultsMessages = NoResultsMessages(title: noResultsTitle, body: noResultsBody)
         vc.currentUser = currentUser
         pushDeepLinkViewController(vc)
     }
 
     private func showProfileLovesScreen(username: String) {
         let endpoint = ElloAPI.loves(userId: "~\(username)")
-        let noResultsTitle: String
-        let noResultsBody: String
-        if username == currentUser?.username {
-            noResultsTitle = InterfaceString.Loves.CurrentUserNoResultsTitle
-            noResultsBody = InterfaceString.Loves.CurrentUserNoResultsBody
-        }
-        else {
-            noResultsTitle = InterfaceString.Loves.NoResultsTitle
-            noResultsBody = InterfaceString.Loves.NoResultsBody
-        }
         let vc = SimpleStreamViewController(endpoint: endpoint, title: "@" + username + "'s " + InterfaceString.Loves.Title)
-        vc.streamViewController.noResultsMessages = NoResultsMessages(title: noResultsTitle, body: noResultsBody)
         vc.currentUser = currentUser
         pushDeepLinkViewController(vc)
     }
@@ -887,11 +840,10 @@ extension AppViewController {
 
     private func showSettingsScreen() {
         guard
-            let settings = UIStoryboard(name: "Settings", bundle: .none).instantiateInitialViewController() as? SettingsContainerViewController,
             let currentUser = currentUser
         else { return }
 
-        settings.currentUser = currentUser
+        let settings = SettingsViewController(currentUser: currentUser)
         pushDeepLinkViewController(settings)
     }
 

@@ -52,14 +52,14 @@ extension AlertPresentationController {
             presentedView.frame = containerView.bounds
             presentedView.alpha = 1
             self.backgroundView.alpha = 1
-        }, completion: .none)
+        }, completion: nil)
     }
 
     override func dismissalTransitionWillBegin() {
         let transitionCoordinator = presentingViewController.transitionCoordinator
         transitionCoordinator?.animate(alongsideTransition: { _ in
             self.backgroundView.alpha = 0
-        }, completion: .none)
+        }, completion: nil)
     }
 
     override func dismissalTransitionDidEnd(_ completed: Bool) {
@@ -75,6 +75,6 @@ extension AlertPresentationController {
         if let alertViewController = presentedViewController as? AlertViewController,
             !alertViewController.isDismissable { return }
 
-        presentedViewController.dismiss(animated: true, completion: .none)
+        presentedViewController.dismiss(animated: true, completion: nil)
     }
 }

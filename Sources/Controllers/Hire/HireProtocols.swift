@@ -2,7 +2,7 @@
 ///  HireProtocols.swift
 //
 
-protocol HireDelegate: class {
+protocol HireScreenDelegate: class {
     func submit(body: String)
 }
 

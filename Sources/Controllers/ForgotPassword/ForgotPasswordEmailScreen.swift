@@ -11,7 +11,7 @@ class ForgotPasswordEmailScreen: CredentialsScreen {
         static let fieldsErrorMargin: CGFloat = 15
         static let fieldsInnerMargin: CGFloat = 30
     }
-    weak var delegate: ForgotPasswordEmailDelegate?
+    weak var delegate: ForgotPasswordEmailScreenDelegate?
 
     var isEmailValid: Bool? = nil {
         didSet {
