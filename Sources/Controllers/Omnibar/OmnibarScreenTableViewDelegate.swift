@@ -14,11 +14,11 @@ extension OmnibarScreen: UITableViewDelegate, UITableViewDataSource {
         if let (_, region) = tableViewRegions.safeValue(path.row) {
             switch region {
             case let .attributedText(attrdString):
-                return OmnibarTextCell.heightForText(attrdString, tableWidth: regionsTableView.frame.width, editing: reordering)
+                return OmnibarTextCell.heightForText(attrdString, tableWidth: regionsTableView.frame.width, editing: isReordering)
             case let .image(image):
-                return OmnibarImageCell.heightForImage(image, tableWidth: regionsTableView.frame.width, editing: reordering)
+                return OmnibarImageCell.heightForImage(image, tableWidth: regionsTableView.frame.width, editing: isReordering)
             case let .imageData(image, _, _):
-                return OmnibarImageCell.heightForImage(image, tableWidth: regionsTableView.frame.width, editing: reordering)
+                return OmnibarImageCell.heightForImage(image, tableWidth: regionsTableView.frame.width, editing: isReordering)
             case .imageURL:
                 return OmnibarImageDownloadCell.Size.height
             case .spacer:
@@ -45,12 +45,12 @@ extension OmnibarScreen: UITableViewDelegate, UITableViewDataSource {
                 let imageCell = cell as! OmnibarImageCell
                 imageCell.hasBuyButtonURL = (buyButtonURL != nil)
                 imageCell.omnibarImage = image
-                imageCell.reordering = reordering
+                imageCell.isReordering = isReordering
             case let .imageData(_, data, _):
                 let imageCell = cell as! OmnibarImageCell
                 imageCell.hasBuyButtonURL = (buyButtonURL != nil)
                 imageCell.omnibarAnimagedImage = FLAnimatedImage(animatedGIFData: data)
-                imageCell.reordering = reordering
+                imageCell.isReordering = isReordering
             case let .error(url):
                 let textCell = cell as! OmnibarErrorCell
                 textCell.url = url
@@ -101,7 +101,7 @@ extension OmnibarScreen: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, commit style: UITableViewCellEditingStyle, forRowAt path: IndexPath) {
         if style == .delete {
-            if reordering {
+            if isReordering {
                 deleteReorderableAtIndexPath(path)
             }
             else {

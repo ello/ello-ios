@@ -153,7 +153,7 @@ class OmnibarViewControllerSpec: QuickSpec {
                         screen = OmnibarMockScreen()
                         subject.screen = screen
                         showController(subject)
-                        subject.omnibarSubmitted(regions, buyButtonURL: nil)
+                        subject.submitted(regions: regions, buyButtonURL: nil)
 
                         expect(screen.isInteractionEnabled) == false
                     }
@@ -167,7 +167,7 @@ class OmnibarViewControllerSpec: QuickSpec {
                         screen = OmnibarMockScreen()
                         subject.screen = screen
                         showController(subject)
-                        subject.omnibarSubmitted(regions, buyButtonURL: nil)
+                        subject.submitted(regions: regions, buyButtonURL: nil)
 
                         expect(screen.isInteractionEnabled) == true
                     }
@@ -194,7 +194,7 @@ class OmnibarViewControllerSpec: QuickSpec {
                     showController(subject)
                     let text = NSAttributedString(string: "test")
                     let regions = [OmnibarRegion.attributedText(text)]
-                    subject.omnibarSubmitted(regions, buyButtonURL: nil)
+                    subject.submitted(regions: regions, buyButtonURL: nil)
                 }
 
                 it("sets the watching property of the parent post to true after submitting the post") {
@@ -268,7 +268,7 @@ class OmnibarViewControllerSpec: QuickSpec {
 
                 it("saves the data when cancelled") {
                     expect(Tmp.fileExists(subject.omnibarDataName()!)).to(beFalse())
-                    subject.omnibarCancel()
+                    subject.cancelTapped()
                     expect(Tmp.fileExists(subject.omnibarDataName()!)).to(beTrue())
                 }
             }

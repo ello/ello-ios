@@ -157,18 +157,6 @@ extension StyledLabel.Style {
         textColor: .white,
         fontFamily: .largeBold
         )
-    static let editorialHeader = StyledLabel.Style(
-        textColor: .white,
-        fontFamily: .editorialHeader
-        )
-    static let editorialSuccess = StyledLabel.Style(
-        textColor: .white,
-        fontFamily: .editorialSuccess
-        )
-    static let editorialCaption = StyledLabel.Style(
-        textColor: .white,
-        fontFamily: .editorialCaption
-        )
     static let black = StyledLabel.Style(
         textColor: .black
         )
@@ -208,6 +196,22 @@ extension StyledLabel.Style {
         )
     static let error = StyledLabel.Style(
         textColor: .red
+        )
+
+    static let chosenCommunityButton = StyledLabel.Style(
+        textColor: .white, backgroundColor: UIColor.black.withAlphaComponent(0.5)
+        )
+    static let editorialHeader = StyledLabel.Style(
+        textColor: .white,
+        fontFamily: .editorialHeader
+        )
+    static let editorialSuccess = StyledLabel.Style(
+        textColor: .white,
+        fontFamily: .editorialSuccess
+        )
+    static let editorialCaption = StyledLabel.Style(
+        textColor: .white,
+        fontFamily: .editorialCaption
         )
 
     static func byName(_ name: String) -> StyledLabel.Style {

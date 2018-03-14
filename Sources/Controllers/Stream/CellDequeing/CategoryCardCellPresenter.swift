@@ -21,9 +21,13 @@ struct CategoryCardCellPresenter {
 
         switch streamCellItem.type {
         case .categorySubscribeCard:
-            cell.isSubscribing = true
+            cell.usage = .subscribing
+        case let .categoryChooseCard(isSubscribed, isSelected):
+            cell.usage = .choosing
+            cell.isSubscribed = isSubscribed
+            cell.isSelected = isSelected
         case .onboardingCategoryCard:
-            cell.isSubscribing = false
+            cell.usage = .onboarding
         default:
             break
         }

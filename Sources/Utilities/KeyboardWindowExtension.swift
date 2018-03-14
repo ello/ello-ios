@@ -6,6 +6,8 @@ extension Keyboard {
     @objc
     func willShow(_ notification: Foundation.Notification) {
         isActive = true
+        isAdjusting = bottomInset > 0
+
         setFromNotification(notification)
         endFrame = (notification.userInfo![UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
         let window = UIWindow.mainWindow
@@ -20,6 +22,7 @@ extension Keyboard {
         setFromNotification(notification)
         endFrame = (notification.userInfo![UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
         bottomInset = 0
+        isAdjusting = false
 
         let windowBottom = UIWindow.mainWindow.frame.size.height
         if endFrame.origin.y >= windowBottom {

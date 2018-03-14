@@ -959,8 +959,8 @@ extension StreamViewController: AnnouncementCellResponder {
 extension StreamViewController: UICollectionViewDelegate {
 
     func jsonable(forPath indexPath: IndexPath) -> JSONAble? {
-        guard let item = collectionViewDataSource.streamCellItem(at: indexPath) else { return nil }
-        return item.jsonable
+        guard let streamCellItem = collectionViewDataSource.streamCellItem(at: indexPath) else { return nil }
+        return streamCellItem.jsonable
     }
 
     func jsonable(forCell cell: UICollectionViewCell) -> JSONAble? {
@@ -1004,14 +1004,26 @@ extension StreamViewController: UICollectionViewDelegate {
 
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
         guard
-            let item = collectionViewDataSource.streamCellItem(at: indexPath)
-            else { return }
+            let streamCellItem = collectionViewDataSource.streamCellItem(at: indexPath)
+        else { return }
 
-        if item.type == .onboardingCategoryCard || item.type == .categorySubscribeCard {
+        var makeSelected = false
+        if streamCellItem.type == .onboardingCategoryCard || streamCellItem.type == .categorySubscribeCard {
             let paths = collectionView.indexPathsForSelectedItems
             let selection = paths?.flatMap { collectionViewDataSource.jsonable(at: $0) as? Category }
             let responder: SelectedCategoryResponder? = findResponder()
             responder?.categoriesSelectionChanged(selection: selection ?? [])
+        }
+        else if let category = streamCellItem.jsonable as? Category,
+            case .categoryChooseCard = streamCellItem.type
+        {
+            let responder: ChooseCategoryResponder? = findResponder()
+            responder?.categoryChosen(category)
+            makeSelected = true
+        }
+
+        if makeSelected {
+            collectionView.selectItem(at: indexPath, animated: false, scrollPosition: [])
         }
     }
 
@@ -1089,11 +1101,16 @@ extension StreamViewController: UICollectionViewDelegate {
         else if let category = streamCellItem.jsonable as? Category {
             if streamCellItem.type == .onboardingCategoryCard || streamCellItem.type == .categorySubscribeCard {
                 keepSelected = true
+
                 let paths = collectionView.indexPathsForSelectedItems
                 let selection = paths?.flatMap { dataSource.jsonable(at: $0) as? Category }
 
                 let responder: SelectedCategoryResponder? = findResponder()
                 responder?.categoriesSelectionChanged(selection: selection ?? [])
+            }
+            else if case .categoryChooseCard = streamCellItem.type {
+                let responder: ChooseCategoryResponder? = findResponder()
+                responder?.categoryChosen(category)
             }
             else {
                 showCategoryViewController(slug: category.slug, name: category.name)

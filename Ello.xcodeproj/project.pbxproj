@@ -436,6 +436,10 @@
 		1D06D6CC1E43B7DD004FA878 /* AppDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D06D6CB1E43B7DD004FA878 /* AppDefaults.swift */; };
 		1D08320F1AAA54880076C67D /* TypedNotificationSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D08320E1AAA54880076C67D /* TypedNotificationSpec.swift */; };
 		1D0A39032053351100AE9109 /* logo_medium.svg in Resources */ = {isa = PBXBuildFile; fileRef = 1D0A39022053350F00AE9109 /* logo_medium.svg */; };
+		1D0A3909205AE07100AE9109 /* ChooseCategoryScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D0A3905205AE07000AE9109 /* ChooseCategoryScreen.swift */; };
+		1D0A390A205AE07100AE9109 /* ChooseCategoryProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D0A3906205AE07000AE9109 /* ChooseCategoryProtocols.swift */; };
+		1D0A390B205AE07100AE9109 /* ChooseCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D0A3907205AE07000AE9109 /* ChooseCategoryViewController.swift */; };
+		1D0A390C205AE07100AE9109 /* ChooseCategoryGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D0A3908205AE07000AE9109 /* ChooseCategoryGenerator.swift */; };
 		1D0DF8B82021198500019875 /* AuthenticationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D0DF8B72021198500019875 /* AuthenticationManager.swift */; };
 		1D0DF8BB20211E8C00019875 /* AuthenticationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D0DF8B72021198500019875 /* AuthenticationManager.swift */; };
 		1D0DF8BC20211E8D00019875 /* AuthenticationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D0DF8B72021198500019875 /* AuthenticationManager.swift */; };
@@ -1717,6 +1721,10 @@
 		1D06D6CB1E43B7DD004FA878 /* AppDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDefaults.swift; sourceTree = "<group>"; };
 		1D08320E1AAA54880076C67D /* TypedNotificationSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TypedNotificationSpec.swift; sourceTree = "<group>"; };
 		1D0A39022053350F00AE9109 /* logo_medium.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = logo_medium.svg; sourceTree = "<group>"; };
+		1D0A3905205AE07000AE9109 /* ChooseCategoryScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChooseCategoryScreen.swift; sourceTree = "<group>"; };
+		1D0A3906205AE07000AE9109 /* ChooseCategoryProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChooseCategoryProtocols.swift; sourceTree = "<group>"; };
+		1D0A3907205AE07000AE9109 /* ChooseCategoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChooseCategoryViewController.swift; sourceTree = "<group>"; };
+		1D0A3908205AE07000AE9109 /* ChooseCategoryGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChooseCategoryGenerator.swift; sourceTree = "<group>"; };
 		1D0DF8B72021198500019875 /* AuthenticationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticationManager.swift; sourceTree = "<group>"; };
 		1D0DF8C22022394800019875 /* Parser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
 		1D0DF8C32022394900019875 /* PostParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostParser.swift; sourceTree = "<group>"; };
@@ -3249,7 +3257,6 @@
 		12F6ADF51A4337CE00493660 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				1DB390C2203F8C7600A1B7E7 /* ManageCategories */,
 				1DB8C6A41D78DB12007E1447 /* AddressBookController.swift */,
 				F87928661ACC6CBD00579BE1 /* Alerts */,
 				F8006EE41AB9FE670008BB42 /* Animators.swift */,
@@ -3259,6 +3266,7 @@
 				1D9A12C11EA95AA5003B3BD7 /* Badges */,
 				12F6ADF61A43380C00493660 /* BaseElloViewController.swift */,
 				12431FF01DBAA69B006808D4 /* Categories */,
+				1D0A3904205AE04D00AE9109 /* ChooseCategory */,
 				1D9A12CE1EAA65E7003B3BD7 /* DarkModalPresentationController.swift */,
 				12347A961AA8BDCC00736B42 /* Drawer */,
 				1D9309CF1EC109170099FCF8 /* Editorials */,
@@ -3272,6 +3280,7 @@
 				1DD7B4E21FD9FDFC002C766C /* Lightbox */,
 				1D06D6BF1E3BADA0004FA878 /* LoggedOut */,
 				12F6AE221A43387B00493660 /* Login */,
+				1DB390C2203F8C7600A1B7E7 /* ManageCategories */,
 				124357681A89276E008B24FB /* Notifications */,
 				12551FB81A68725100ABC5D9 /* Omnibar */,
 				1D7426371B02973200C16322 /* Onboarding */,
@@ -3669,6 +3678,17 @@
 				12148F1C1DA3234A00D6296C /* specs-cover.jpg */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		1D0A3904205AE04D00AE9109 /* ChooseCategory */ = {
+			isa = PBXGroup;
+			children = (
+				1D0A3908205AE07000AE9109 /* ChooseCategoryGenerator.swift */,
+				1D0A3906205AE07000AE9109 /* ChooseCategoryProtocols.swift */,
+				1D0A3905205AE07000AE9109 /* ChooseCategoryScreen.swift */,
+				1D0A3907205AE07000AE9109 /* ChooseCategoryViewController.swift */,
+			);
+			path = ChooseCategory;
 			sourceTree = "<group>";
 		};
 		1D0DF8C12022392600019875 /* Parsers */ = {
@@ -5617,6 +5637,7 @@
 				1D3128C01B557BD500E3D5B6 /* Onboarding.swift in Sources */,
 				1233758D1DA6F0C10019CFAD /* ProfileAvatarSizeCalculator.swift in Sources */,
 				1DF806531CDD1A42002D60AD /* Username.swift in Sources */,
+				1D0A390C205AE07100AE9109 /* ChooseCategoryGenerator.swift in Sources */,
 				122B19051A867C7D00247A05 /* StreamTextCellHTML.swift in Sources */,
 				765319F51B62AA61009B0D7E /* CrashlyticsKey.swift in Sources */,
 				1207C97C1C73FEE000939ADB /* ElloProvider.swift in Sources */,
@@ -5699,9 +5720,11 @@
 				1D9A12C91EA96623003B3BD7 /* Badge.swift in Sources */,
 				1DB8C6A71D7A132E007E1447 /* OnboardingInviteViewController.swift in Sources */,
 				1D69BBCF1C3EF5AA00FCBDE0 /* ElloSegmentedControl.swift in Sources */,
+				1D0A3909205AE07100AE9109 /* ChooseCategoryScreen.swift in Sources */,
 				1DB8C6AB1D7A2349007E1447 /* SearchTextField.swift in Sources */,
 				122943281C6BF509003FCD20 /* ShareViewController.swift in Sources */,
 				1D8087822032596D0081E8FE /* SettingsViewController.swift in Sources */,
+				1D0A390B205AE07100AE9109 /* ChooseCategoryViewController.swift in Sources */,
 				76EB15A91B0295AA001BBB2A /* StreamSeeMoreCommentsCell.swift in Sources */,
 				1D7E823C1F26885D006ACE7A /* ArtistInviteDetailGenerator.swift in Sources */,
 				1DE261351B0D38A400475325 /* UIImageViewExtensions.swift in Sources */,
@@ -6024,6 +6047,7 @@
 				EAF43D941AB0DE080016E110 /* ObjectCache.swift in Sources */,
 				122454AE1D9F1BC700D930E0 /* ElloCollectionView.swift in Sources */,
 				1D0DF926202A695200019875 /* SettingsService.swift in Sources */,
+				1D0A390A205AE07100AE9109 /* ChooseCategoryProtocols.swift in Sources */,
 				76FF80551A966B6300617A1E /* RelationshipController.swift in Sources */,
 				122B190D1A86894400247A05 /* StreamCellType.swift in Sources */,
 				122B30C41C6A3FBC00C1B9D8 /* Activity.swift in Sources */,

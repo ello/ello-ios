@@ -8,8 +8,9 @@ import SwiftyUserDefaults
 enum StreamKind {
     case announcements
     case category(Category.Selection, DiscoverType)
-    case categories
+    case onboardingCategories
     case manageCategories
+    case chooseCategory
     case editorials
     case following
     case notifications(category: String?)
@@ -24,7 +25,7 @@ enum StreamKind {
         switch self {
         case .announcements: return ""
         case .category: return ""
-        case .categories, .manageCategories: return InterfaceString.Discover.Categories
+        case .onboardingCategories, .manageCategories, .chooseCategory: return InterfaceString.Discover.Categories
         case .editorials: return InterfaceString.Editorials.Title
         case .following: return InterfaceString.Following.Title
         case .notifications: return InterfaceString.Notifications.Title
@@ -42,8 +43,9 @@ enum StreamKind {
         case .artistInvites: return "ArtistInvites"
         case .artistInviteSubmissions: return "ArtistInviteSubmissions"
         case .category: return "Category"
-        case .categories: return "AllCategories"
+        case .onboardingCategories: return "AllCategories"
         case .manageCategories: return "ManageCategories"
+        case .chooseCategory: return "ChooseCategory"
         case .announcements: return "Announcements"
         case .editorials: return "Editorials"
         case .following: return "Following"
@@ -76,15 +78,15 @@ enum StreamKind {
 
     var horizontalColumnSpacing: CGFloat {
         switch self {
-        case .categories: return CategoryCardCell.Size.smallMargin
-        case .manageCategories: return CategoryCardCell.Size.cardMargins
+        case .onboardingCategories: return CategoryCardCell.Size.smallMargin
+        case .manageCategories, .chooseCategory: return CategoryCardCell.Size.cardMargins
         default: return 12
         }
     }
 
     var layoutInsets: UIEdgeInsets {
         switch self {
-        case .manageCategories: return UIEdgeInsets(sides: CategoryCardCell.Size.cardMargins)
+        case .manageCategories, .chooseCategory: return UIEdgeInsets(sides: CategoryCardCell.Size.cardMargins)
         default: return .zero
         }
     }
@@ -117,7 +119,7 @@ enum StreamKind {
     var endpoint: ElloAPI {
         switch self {
         case .announcements: return .announcements
-        case .category, .categories, .manageCategories: return .categories
+        case .category, .onboardingCategories, .manageCategories, .chooseCategory: return .categories
         case .editorials: return .editorials
         case .artistInvites: return .artistInvites
         case .artistInviteSubmissions: return .artistInviteSubmissions
@@ -178,7 +180,7 @@ enum StreamKind {
     var isGridView: Bool {
         var defaultGrid: Bool
         switch self {
-        case .category, .categories, .manageCategories: defaultGrid = true
+        case .category, .onboardingCategories, .manageCategories, .chooseCategory: defaultGrid = true
         default: defaultGrid = false
         }
         return GroupDefaults["\(cacheKey)IsGridView"].bool ?? defaultGrid

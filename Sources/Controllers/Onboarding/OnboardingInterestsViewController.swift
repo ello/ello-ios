@@ -11,7 +11,7 @@ class OnboardingInterestsViewController: StreamableViewController {
 
     required init() {
         super.init(nibName: nil, bundle: nil)
-        streamViewController.streamKind = .categories
+        streamViewController.streamKind = .onboardingCategories
     }
 
     required init?(coder: NSCoder) {

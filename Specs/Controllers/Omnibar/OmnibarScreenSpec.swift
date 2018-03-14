@@ -16,7 +16,7 @@ class OmnibarScreenMockDelegate: OmnibarScreenDelegate {
     var submitted = false
     var hasBuyButtonURL = false
 
-    func omnibarCancel() {
+    func cancelTapped() {
         didGoBack = true
     }
     func omnibarPushController(_ controller: UIViewController) {
@@ -28,7 +28,7 @@ class OmnibarScreenMockDelegate: OmnibarScreenDelegate {
     func omnibarDismissController() {
         didDismissController = true
     }
-    func omnibarSubmitted(_ regions: [OmnibarRegion], buyButtonURL: URL?) {
+    func submitted(regions: [OmnibarRegion], buyButtonURL: URL?) {
         submitted = true
         hasBuyButtonURL = buyButtonURL != nil
     }
@@ -818,9 +818,9 @@ class OmnibarScreenSpec: QuickSpec {
                 it("should end reordering if no more regions") {
                     subject.regions = [.text("some")]
                     subject.reorderingTable(true)
-                    expect(subject.reordering) == true
+                    expect(subject.isReordering) == true
                     subject.deleteReorderableAtIndexPath(IndexPath(row: 0, section: 0))
-                    expect(subject.reordering) == false
+                    expect(subject.isReordering) == false
                     expect(subject.regions.count) == 1
                     expect(RegionExpectation.text("").matches(subject.regions[0])) == true
                 }

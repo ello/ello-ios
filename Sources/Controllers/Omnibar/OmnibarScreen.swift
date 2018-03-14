@@ -22,8 +22,12 @@ class OmnibarScreen: Screen, OmnibarScreenProtocol {
         static let toolbarButtonSpacing: CGFloat = 20
         static let additionalBuyPadding: CGFloat = 5
         static let tableTopInset: CGFloat = 22.5
-        static var keyboardContainerHeight: CGFloat { return Size.keyboardContainerMargin.tops + Size.keyboardButtonSize.height }
+        static var keyboardContainerHeight: CGFloat {
+            return Size.keyboardContainerMargin.tops + 2 * Size.keyboardButtonSize.height + Size.keyboardContainerSpacing
+        }
         static let keyboardContainerMargin = UIEdgeInsets(all: 10)
+        static let clearCommunityMargin: CGFloat = 15
+        static let keyboardContainerSpacing: CGFloat = 10
         static let keyboardButtonsMargin = UIEdgeInsets(top: 13, left: 10, bottom: 13, right: 10)
         static let keyboardButtonSize = CGSize(width: 40, height: 40)
         static let keyboardButtonSpacing: CGFloat = 5
@@ -47,7 +51,10 @@ class OmnibarScreen: Screen, OmnibarScreenProtocol {
         didSet { updateButtons() }
     }
     var isEditing = false
-    var reordering = false
+    var isReordering = false
+    var chosenCategory: Category? {
+        didSet { updateChooseCommunityButton() }
+    }
 
     var isInteractionEnabled: Bool = true {
         didSet {
@@ -80,7 +87,7 @@ class OmnibarScreen: Screen, OmnibarScreenProtocol {
     }
     var submitableRegions: [OmnibarRegion]
     var tableViewRegions: [IndexedRegion] {
-        if reordering {
+        if isReordering {
             return reorderableRegions
         }
         else {
@@ -144,6 +151,10 @@ class OmnibarScreen: Screen, OmnibarScreenProtocol {
     let boldButton = StyledButton(style: .boldButton)
     let italicButton = StyledButton(style: .italicButton)
     let linkButton = StyledButton(style: .linkButton)
+    private let chooseCommunityButton = StyledButton(style: .roundedBlackOutline)
+    private let currentCommunityButton = UIButton()
+    private let currentCommunityLabel = StyledLabel(style: .chosenCommunityButton)
+    private let clearCommunityButton = UIButton()
     private let submitButton = StyledButton(style: .green)
     private var styleButtonsVisibleConstraint: Constraint!
     private var styleButtonsHiddenConstraint: Constraint!
@@ -376,14 +387,28 @@ class OmnibarScreen: Screen, OmnibarScreenProtocol {
         linkButton.setImage(.link, imageStyle: .white, for: .normal)
         linkButton.setImage(.breakLink, imageStyle: .white, for: .selected)
 
+        currentCommunityButton.imageView?.contentMode = .scaleAspectFill
+        currentCommunityButton.clipsToBounds = true
+        currentCommunityButton.layer.cornerRadius = 5
+
+        currentCommunityLabel.textAlignment = .center
+        clearCommunityButton.setImage(.x, imageStyle: .white, for: .normal)
+        chooseCommunityButton.addTarget(self, action: #selector(chooseCommunityButtonTapped), for: .touchUpInside)
+        currentCommunityButton.addTarget(self, action: #selector(currentCommunityButtonTapped), for: .touchUpInside)
+        clearCommunityButton.addTarget(self, action: #selector(clearCommunityButtonTapped), for: .touchUpInside)
+        updateChooseCommunityButton()
+
         submitButton.setImage(.pencil, imageStyle: .white, for: .normal)
         submitButton.setImage(.pencil, imageStyle: .selected, for: .highlighted)
         submitButton.title = InterfaceString.Omnibar.CreatePostButton
         submitButton.contentEdgeInsets.left = -5
         submitButton.imageEdgeInsets.right = 5
         submitButton.addTarget(self, action: #selector(submitButtonTapped), for: .touchUpInside)
-        submitButton.frame.size.height = Size.keyboardButtonSize.height
 
+        keyboardButtonsContainer.addSubview(chooseCommunityButton)
+        keyboardButtonsContainer.addSubview(currentCommunityButton)
+        currentCommunityButton.addSubview(currentCommunityLabel)
+        keyboardButtonsContainer.addSubview(clearCommunityButton)
         keyboardButtonsContainer.addSubview(boldButton)
         keyboardButtonsContainer.addSubview(italicButton)
         keyboardButtonsContainer.addSubview(linkButton)
@@ -391,7 +416,7 @@ class OmnibarScreen: Screen, OmnibarScreenProtocol {
 
         [boldButton, italicButton, linkButton].eachPair { prevButton, button, isLast in
             button.snp.makeConstraints { make in
-                make.top.bottom.equalTo(keyboardButtonsContainer).inset(Size.keyboardButtonsMargin)
+                make.bottom.equalTo(keyboardButtonsContainer).inset(Size.keyboardButtonsMargin)
                 make.size.equalTo(Size.keyboardButtonSize)
 
                 if isLast {
@@ -409,8 +434,44 @@ class OmnibarScreen: Screen, OmnibarScreenProtocol {
         }
         styleButtonsVisibleConstraint.deactivate()
 
+        chooseCommunityButton.snp.makeConstraints { make in
+            make.top.leading.trailing.equalTo(keyboardButtonsContainer).inset(Size.keyboardContainerMargin)
+            make.height.equalTo(Size.keyboardButtonSize.height)
+        }
+
+        currentCommunityButton.snp.makeConstraints { make in
+            make.edges.equalTo(chooseCommunityButton)
+        }
+
+        clearCommunityButton.snp.makeConstraints { make in
+            make.centerY.equalTo(currentCommunityButton)
+            make.trailing.equalTo(currentCommunityButton).offset(-Size.clearCommunityMargin)
+        }
+
+        currentCommunityLabel.snp.makeConstraints { make in
+            make.edges.equalTo(currentCommunityButton)
+        }
+
         submitButton.snp.makeConstraints { make in
-            make.top.bottom.trailing.equalTo(keyboardButtonsContainer).inset(Size.keyboardContainerMargin)
+            make.top.equalTo(chooseCommunityButton.snp.bottom).offset(Size.keyboardContainerSpacing)
+            make.bottom.trailing.equalTo(keyboardButtonsContainer).inset(Size.keyboardContainerMargin)
+            make.height.equalTo(Size.keyboardButtonSize.height)
+        }
+    }
+
+    private func updateChooseCommunityButton() {
+        if let chosenCategory = chosenCategory {
+            chooseCommunityButton.isHidden = true
+            clearCommunityButton.isVisible = true
+            currentCommunityButton.isVisible = true
+            currentCommunityButton.pin_setImage(from: chosenCategory.tileURL)
+            currentCommunityLabel.text = chosenCategory.name
+        }
+        else {
+            chooseCommunityButton.isVisible = true
+            clearCommunityButton.isHidden = true
+            currentCommunityButton.isHidden = true
+            chooseCommunityButton.title = InterfaceString.Omnibar.ChooseCommunity
         }
     }
 
@@ -549,7 +610,7 @@ class OmnibarScreen: Screen, OmnibarScreenProtocol {
 
     @objc
     func toggleReorderingTable() {
-        reorderingTable(!reordering)
+        reorderingTable(!isReordering)
     }
 
     private func generateReorderableRegions(_ regions: [OmnibarRegion]) -> [IndexedRegion] {
@@ -589,8 +650,8 @@ class OmnibarScreen: Screen, OmnibarScreenProtocol {
         return regions
     }
 
-    func reorderingTable(_ reordering: Bool) {
-        if reordering {
+    func reorderingTable(_ isReordering: Bool) {
+        if isReordering {
             reorderableRegions = generateReorderableRegions(submitableRegions)
             if reorderableRegions.count == 0 { return }
 
@@ -605,8 +666,8 @@ class OmnibarScreen: Screen, OmnibarScreenProtocol {
             reorderButton.isSelected = false
         }
 
-        self.reordering = reordering
-        regionsTableView.setEditing(reordering, animated: true)
+        self.isReordering = isReordering
+        regionsTableView.setEditing(isReordering, animated: true)
         updateButtons()
         regionsTableView.reloadData()
     }
@@ -628,7 +689,9 @@ class OmnibarScreen: Screen, OmnibarScreenProtocol {
 // MARK: Keyboard events - animate layout update in conjunction with keyboard animation
 
     func keyboardWillShow() {
-        resetToImageButton()
+        if !Keyboard.shared.isAdjusting {
+            resetToImageButton()
+        }
 
         self.setNeedsLayout()
         animateWithKeyboard {
@@ -689,10 +752,10 @@ class OmnibarScreen: Screen, OmnibarScreenProtocol {
             return
         }
 
-        let canSubmit = !reordering && canPost()
+        let canSubmit = !isReordering && canPost()
         submitButton.isEnabled = canSubmit
 
-        let canAddBuyButtonLink = !reordering && hasImage()
+        let canAddBuyButtonLink = !isReordering && hasImage()
         buyButton.isEnabled = canAddBuyButtonLink
         buyButton.isHidden = isComment || isArtistInviteSubmission
         reorderButton.isEnabled = submitableRegions.count > 1
@@ -709,7 +772,7 @@ class OmnibarScreen: Screen, OmnibarScreenProtocol {
 
     @objc
     func cancelButtonTapped() {
-        if reordering {
+        if isReordering {
             reorderingTable(false)
         }
         else if canPost() && !isEditing {
@@ -726,7 +789,7 @@ class OmnibarScreen: Screen, OmnibarScreenProtocol {
             delegate?.omnibarPresentController(alertController)
         }
         else {
-            delegate?.omnibarCancel()
+            delegate?.cancelTapped()
         }
     }
 
@@ -735,7 +798,22 @@ class OmnibarScreen: Screen, OmnibarScreenProtocol {
         guard canPost() else { return }
 
         stopEditing()
-        delegate?.omnibarSubmitted(submitableRegions, buyButtonURL: buyButtonURL)
+        delegate?.submitted(regions: submitableRegions, buyButtonURL: buyButtonURL)
+    }
+
+    @objc
+    func chooseCommunityButtonTapped() {
+        delegate?.chooseCommunityTapped()
+    }
+
+    @objc
+    func currentCommunityButtonTapped() {
+        delegate?.chooseCommunityTapped()
+    }
+
+    @objc
+    func clearCommunityButtonTapped() {
+        delegate?.clearCommunityTapped()
     }
 
     @objc
@@ -930,6 +1008,7 @@ class OmnibarScreen: Screen, OmnibarScreenProtocol {
     func addImageButtonTapped() {
         addImageButton.isHidden = true
         cancelImageButton.isVisible = true
+        keyboardButtonsEffect.isHidden = true
         stopEditing()
 
         UIImagePickerController.requestStatus()
@@ -943,6 +1022,7 @@ class OmnibarScreen: Screen, OmnibarScreenProtocol {
         currentAssets = []
         addImageButton.isVisible = true
         cancelImageButton.isHidden = true
+        keyboardButtonsEffect.isVisible = true
         setPhotoAccessoryView(nil)
     }
 
@@ -1170,7 +1250,7 @@ extension OmnibarScreen: UINavigationControllerDelegate, UIImagePickerController
 
 extension OmnibarScreen: HasBackButton {
     func backButtonTapped() {
-        delegate?.omnibarCancel()
+        delegate?.cancelTapped()
     }
 }
 

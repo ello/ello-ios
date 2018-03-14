@@ -16,7 +16,7 @@ class OmnibarImageCell: TableViewCell {
 
     let flImageView = FLAnimatedImageView()
     let buyButton = UIButton()
-    var reordering = false
+    var isReordering = false
     var hasBuyButtonURL = false
 
     var omnibarImage: UIImage? {
@@ -61,7 +61,7 @@ class OmnibarImageCell: TableViewCell {
         super.layoutSubviews()
 
         let margins: UIEdgeInsets
-        if reordering {
+        if isReordering {
             margins = Size.editingMargins
 
             flImageView.contentMode = .scaleAspectFill

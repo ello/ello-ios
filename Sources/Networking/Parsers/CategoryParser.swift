@@ -13,13 +13,6 @@ class CategoryParser: IdParser {
 
     override func parse(json: JSON) -> Category {
         let level: CategoryLevel = CategoryLevel(rawValue: json["level"].stringValue) ?? .unknown
-        let tileImage: Attachment?
-        if let attachmentJson = json["tileImage"]["large"].object as? [String: Any] {
-            tileImage = Attachment.fromJSON(attachmentJson)
-        }
-        else {
-            tileImage = nil
-        }
 
         let category = Category(
             id: json["id"].stringValue,
@@ -28,11 +21,14 @@ class CategoryParser: IdParser {
             order: json["order"].intValue,
             allowInOnboarding: json["allowInOnboarding"].bool ?? true,
             isCreatorType: json["isCreatorType"].bool ?? true,
-            level: level,
-            tileImage: tileImage
+            level: level
         )
 
         category.links = json["links"].dictionaryObject
+
+        if let attachmentJson = json["tileImage"]["large"].object as? [String: Any] {
+            category.tileImage = Attachment.fromJSON(attachmentJson)
+        }
 
         return category
     }

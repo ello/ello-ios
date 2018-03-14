@@ -29,6 +29,7 @@ class OmnibarViewController: BaseElloViewController {
     var editComment: ElloComment?
     var rawEditBody: [Regionable]?
     var defaultText: String?
+    var category: Category?
     var canGoBack: Bool = true {
         didSet {
             if canGoBack {
@@ -291,9 +292,29 @@ extension OmnibarViewController {
 }
 
 
+extension OmnibarViewController: ChooseCategoryControllerDelegate {
+    func categoryChosen(_ category: Category) {
+        self.category = category
+        screen.chosenCategory = category
+    }
+}
+
 extension OmnibarViewController: OmnibarScreenDelegate {
 
-    func omnibarCancel() {
+    func clearCommunityTapped() {
+        screen.chosenCategory = nil
+        category = nil
+    }
+
+    func chooseCommunityTapped() {
+        guard let currentUser = currentUser else { return }
+
+        let controller = ChooseCategoryViewController(currentUser: currentUser, category: category)
+        controller.delegate = self
+        navigationController?.pushViewController(controller, animated: true)
+    }
+
+    func cancelTapped() {
         if canGoBack {
             if let fileName = omnibarDataName() {
                 var dataRegions = [NSObject]()
@@ -340,7 +361,7 @@ extension OmnibarViewController: OmnibarScreenDelegate {
         self.dismiss(animated: true, completion: nil)
     }
 
-    func omnibarSubmitted(_ regions: [OmnibarRegion], buyButtonURL: URL?) {
+    func submitted(regions: [OmnibarRegion], buyButtonURL: URL?) {
         let content = generatePostRegions(regions)
         guard content.count > 0 else {
             return

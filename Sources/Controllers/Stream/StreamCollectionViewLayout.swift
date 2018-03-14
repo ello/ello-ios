@@ -111,7 +111,8 @@ class StreamCollectionViewLayout: UICollectionViewLayout {
 
         var attributes = UICollectionViewLayoutAttributes()
 
-        let width = collectionView!.frame.size.width - insets.sides
+        let fullWidth = collectionView!.frame.size.width
+        let width = fullWidth - insets.sides
         let spaceColumCount = CGFloat(columnCount-1)
         let itemWidth = floor((width - (spaceColumCount * horizontalColumnSpacing)) / CGFloat(columnCount))
         let itemCount = collectionView!.numberOfItems(inSection: section)
@@ -137,7 +138,7 @@ class StreamCollectionViewLayout: UICollectionViewLayout {
             var calculatedColumnCount = columnCount
             var calculatedItemWidth = itemWidth
             if isFullWidth {
-                calculatedItemWidth = floor(width)
+                calculatedItemWidth = floor(fullWidth)
                 calculatedColumnCount = 1
                 currentColumnIndex = 0
             }

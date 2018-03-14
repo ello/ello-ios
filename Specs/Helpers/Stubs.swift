@@ -596,14 +596,6 @@ extension Ello.Category: Stubbable {
             level = .primary
         }
 
-        let tileImage: Attachment?
-        if let attachment = values["tileImage"] as? [String: Any] {
-            tileImage = Attachment.stub(attachment)
-        }
-        else {
-            tileImage = nil
-        }
-
         let category = Category(
             id: (values["id"] as? String) ?? generateID(),
             name: (values["name"] as? String) ?? "Art",
@@ -611,9 +603,12 @@ extension Ello.Category: Stubbable {
             order: (values["order"] as? Int) ?? 0,
             allowInOnboarding: (values["allowInOnboarding"] as? Bool) ?? true,
             isCreatorType: (values["isCreatorType"] as? Bool) ?? true,
-            level: level,
-            tileImage: tileImage
+            level: level
         )
+
+        if let attachment = values["tileImage"] as? [String: Any] {
+            category.tileImage = Attachment.stub(attachment)
+        }
 
         return category
     }

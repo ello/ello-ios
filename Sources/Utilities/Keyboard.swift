@@ -18,6 +18,7 @@ class Keyboard {
 
     var isActive = false
     var isExternal = false
+    var isAdjusting = false
     var bottomInset: CGFloat = 0.0
     var endFrame: CGRect = .zero
     var curve = UIViewAnimationCurve.linear
@@ -51,6 +52,7 @@ class Keyboard {
 
     @objc
     func didShow(_ notification: Foundation.Notification) {
+        isAdjusting = false
         postNotification(Notifications.KeyboardDidShow, value: self)
     }
 

@@ -42,7 +42,8 @@ class ManageCategoriesViewController: StreamableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         streamViewController.streamKind = .manageCategories
-        streamViewController.isPullToRefreshEnabled = false
+        streamViewController.reloadClosure = { [weak self] in self?.generator?.load(reload: true) }
+
         ElloHUD.showLoadingHudInView(streamViewController.view)
         generator.load(reload: false)
     }
@@ -141,8 +142,8 @@ extension ManageCategoriesViewController: StreamDestination {
                         let category = item.jsonable as? Category,
                         currentUser.subscribedTo(categoryId: category.id)
                     else { continue }
-                    let path = IndexPath(row: row, section: 0)
-                    self.streamViewController.collectionView.selectItem(at: path, animated: false, scrollPosition: [])
+
+                    self.streamViewController.collectionView.selectItem(at: IndexPath(row: row, section: 0), animated: false, scrollPosition: [])
                 }
             }
 

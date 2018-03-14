@@ -56,6 +56,11 @@ protocol SelectedCategoryResponder: class {
 }
 
 @objc
+protocol ChooseCategoryResponder: class {
+    func categoryChosen(_ category: Category)
+}
+
+@objc
 protocol PromotionalHeaderResponder: class {
     func categorySubscribed(categoryId: String)
 }

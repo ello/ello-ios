@@ -30,13 +30,13 @@ final class Category: JSONAble, Groupable {
     var groupId: String { return "Category-\(id)" }
     let name: String
     let slug: String
-    var tileURL: URL? { return tileImage?.url }
-    let tileImage: Attachment?
     let order: Int
     let allowInOnboarding: Bool
     let isCreatorType: Bool
     let level: CategoryLevel
     var isMeta: Bool { return level == .meta }
+    var tileURL: URL? { return tileImage?.url }
+    var tileImage: Attachment?
 
     var visibleOnSeeMore: Bool {
         return level == .primary || level == .secondary
@@ -48,8 +48,7 @@ final class Category: JSONAble, Groupable {
         order: Int,
         allowInOnboarding: Bool,
         isCreatorType: Bool,
-        level: CategoryLevel,
-        tileImage: Attachment?)
+        level: CategoryLevel)
     {
         self.id = id
         self.name = name
@@ -58,7 +57,6 @@ final class Category: JSONAble, Groupable {
         self.allowInOnboarding = allowInOnboarding
         self.isCreatorType = isCreatorType
         self.level = level
-        self.tileImage = tileImage
         super.init(version: CategoryVersion)
     }
 
@@ -102,13 +100,6 @@ final class Category: JSONAble, Groupable {
     class func fromJSON(_ data: [String: Any]) -> Category {
         let json = JSON(data)
         let level: CategoryLevel = CategoryLevel(rawValue: json["level"].stringValue) ?? .unknown
-        let tileImage: Attachment?
-        if let attachmentJson = json["tile_image"]["large"].object as? [String: Any] {
-            tileImage = Attachment.fromJSON(attachmentJson)
-        }
-        else {
-            tileImage = nil
-        }
 
         let category = Category(
             id: json["id"].stringValue,
@@ -117,11 +108,14 @@ final class Category: JSONAble, Groupable {
             order: json["order"].intValue,
             allowInOnboarding: json["allow_in_onboarding"].bool ?? true,
             isCreatorType: json["is_creator_type"].bool ?? true,
-            level: level,
-            tileImage: tileImage
+            level: level
             )
 
         category.links = data["links"] as? [String: Any]
+
+        if let attachmentJson = json["tile_image"]["large"].object as? [String: Any] {
+            category.tileImage = Attachment.fromJSON(attachmentJson)
+        }
 
         return category
     }

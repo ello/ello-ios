@@ -321,6 +321,7 @@ extension StyledButton.Style {
         titleColor: .white,
         cornerRadius: .pill
         )
+
     static let inviteFriend = StyledButton.Style(
         backgroundColor: .greyA,
         titleColor: .white,
