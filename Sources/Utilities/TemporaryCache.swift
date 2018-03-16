@@ -2,43 +2,51 @@
 ///  TemporaryCache.swift
 //
 
-typealias TemporaryCacheEntry = (image: UIImage, expiration: Date)
 
 struct TemporaryCache {
-    typealias Key = Profile.ImageProperty
-    private static var coverImage: TemporaryCacheEntry?
-    private static var avatar: TemporaryCacheEntry?
+    typealias Entry = (data: Any, expiration: Date)
+    enum Key {
+        case avatar
+        case coverImage
+        case categories
+    }
+
+    private static var cache: [Key: Entry] = [:]
 
     static func clear() {
-        TemporaryCache.coverImage = nil
-        TemporaryCache.avatar = nil
+        TemporaryCache.cache = [:]
     }
 
-    static func save(_ key: Key, image: UIImage) {
-        let fiveMinutes: TimeInterval = 5 * 60
+    static func save(_ prop: Profile.ImageProperty, image: UIImage) {
+        let key: Key
+        switch prop {
+        case .avatar: key = .avatar
+        case .coverImage: key = .coverImage
+        }
+        save(key, image)
+    }
+
+    static func save(_ key: Key, _ data: Any, expires: TimeInterval = 5) {
+        let fiveMinutes: TimeInterval = expires * 60
         let date = Date(timeIntervalSinceNow: fiveMinutes)
-        switch key {
-        case .coverImage:
-            TemporaryCache.coverImage = (image: image, expiration: date)
-        case .avatar:
-            TemporaryCache.avatar = (image: image, expiration: date)
-        }
+        cache[key] = (data: data, expiration: date)
     }
 
-    static func load(_ key: Key) -> UIImage? {
-        let date = Globals.now
-        let entry: TemporaryCacheEntry?
-
-        switch key {
-        case .coverImage:
-            entry = TemporaryCache.coverImage
-        case .avatar:
-            entry = TemporaryCache.avatar
+    static func load(_ prop: Profile.ImageProperty) -> UIImage? {
+        let key: Key
+        switch prop {
+        case .avatar: key = .avatar
+        case .coverImage: key = .coverImage
         }
+        return load(key)
+    }
 
-        if let entry = entry, entry.expiration > date {
-            return entry.image
-        }
-        return nil
+    static func load<T>(_ key: Key) -> T? {
+        guard
+            let entry = cache[key],
+            entry.expiration > Globals.now
+        else { return nil }
+
+        return entry.data as? T
     }
 }

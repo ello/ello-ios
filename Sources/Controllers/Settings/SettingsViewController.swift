@@ -204,14 +204,14 @@ class SettingsViewController: BaseElloViewController {
         screen.links = currentUser.externalLinksString
         screen.location = currentUser.location
 
-        if let cachedImage = TemporaryCache.load(.coverImage) {
+        if let cachedImage: UIImage = TemporaryCache.load(.coverImage) {
             screen.setImage(.coverImage, image: cachedImage)
         }
         else if let imageURL = currentUser.coverImageURL(viewsAdultContent: true, animated: true) {
             screen.setImage(.coverImage, url: imageURL)
         }
 
-        if let cachedImage = TemporaryCache.load(.avatar) {
+        if let cachedImage: UIImage = TemporaryCache.load(.avatar) {
             screen.setImage(.avatar, image: cachedImage)
         }
         else if let imageURL = currentUser.avatar?.large?.url {

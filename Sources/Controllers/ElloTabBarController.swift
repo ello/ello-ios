@@ -98,7 +98,7 @@ class ElloTabBarController: BaseElloViewController, BottomBarController {
     override func didSetCurrentUser() {
         super.didSetCurrentUser()
 
-        if let currentUserImage = TemporaryCache.load(.avatar) {
+        if let currentUserImage: UIImage = TemporaryCache.load(.avatar) {
             tabBar.resetImages(profile: currentUserImage)
         }
         else if let imageURL = currentUser?.avatar?.large?.url {

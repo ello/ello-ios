@@ -10,7 +10,7 @@ struct ProfileAvatarPresenter {
         currentUser: User?)
     {
         let isCurrentUser = (user.id == currentUser?.id)
-        if let cachedImage = TemporaryCache.load(.avatar), isCurrentUser
+        if let cachedImage: UIImage = TemporaryCache.load(.avatar), isCurrentUser
         {
             view.avatarImage = cachedImage
         }
