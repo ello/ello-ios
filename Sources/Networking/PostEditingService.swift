@@ -54,7 +54,12 @@ class PostEditingService {
     }
 
     // rawSections is String or UIImage objects
-    func create(content rawContent: [PostContentRegion], buyButtonURL: URL? = nil, artistInviteId: String? = nil) -> Promise<Any> {
+    func create(
+        content rawContent: [PostContentRegion],
+        buyButtonURL: URL? = nil,
+        categoryId: String? = nil,
+        artistInviteId: String? = nil) -> Promise<Any>
+    {
         var textEntries = [(Int, String)]()
         var imageDataEntries = [(Int, ImageRegionData)]()
 
@@ -83,21 +88,26 @@ class PostEditingService {
                         return (index, region as Regionable)
                     }
 
-                    return self.create(self.sortedRegions(indexedRegions), artistInviteId: artistInviteId)
+                    return self.create(self.sortedRegions(indexedRegions), categoryId: categoryId, artistInviteId: artistInviteId)
                 }
         }
         else {
-            return create(sortedRegions(indexedRegions), artistInviteId: artistInviteId)
+            return create(sortedRegions(indexedRegions), categoryId: categoryId, artistInviteId: artistInviteId)
         }
     }
 
-    func create(_ regions: [Regionable], artistInviteId: String?) -> Promise<Any> {
+    func create(_ regions: [Regionable], categoryId: String?, artistInviteId: String?) -> Promise<Any> {
         var body: [[String: Any]] = []
         for region in regions {
             body.append(region.toJSON())
         }
 
         var params: [String: Any]  = ["body": body]
+
+        if let categoryId = categoryId {
+            params["category_id"] = categoryId
+        }
+
         if let artistInviteId = artistInviteId {
             params["artist_invite_id"] = artistInviteId
         }

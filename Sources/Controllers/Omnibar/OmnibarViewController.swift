@@ -446,6 +446,7 @@ extension OmnibarViewController {
         service.create(
             content: content,
             buyButtonURL: buyButtonURL,
+            categoryId: category?.id,
             artistInviteId: artistInvite?.id
             )
             .then { postOrComment -> Void in
