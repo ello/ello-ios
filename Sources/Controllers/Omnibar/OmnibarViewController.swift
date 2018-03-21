@@ -82,8 +82,13 @@ class OmnibarViewController: BaseElloViewController {
         PostService().loadPost(post.id)
             .then { post -> Void in
                 self.rawEditBody = post.body
-                if let body = post.body, self.isViewLoaded {
-                    self.prepareScreenForEditing(body, isComment: false)
+                self.category = post.category
+
+                if self.isViewLoaded {
+                    if let body = post.body {
+                        self.prepareScreenForEditing(body, isComment: false)
+                    }
+                    self.screen.chosenCategory = post.category
                 }
             }
             .ignoreErrors()
@@ -111,12 +116,10 @@ class OmnibarViewController: BaseElloViewController {
         self.view = OmnibarScreen(frame: UIScreen.main.bounds)
 
         screen.canGoBack = canGoBack
-        var defaultRegions: [Regionable] = []
-        if let text = defaultText {
-            defaultRegions = [TextRegion(content: text)]
-        }
 
+        let communityPickerVisible: Bool
         if editPost != nil {
+            communityPickerVisible = true
             screen.title = InterfaceString.Omnibar.EditPostTitle
             screen.submitTitle = InterfaceString.Omnibar.EditPostButton
             screen.isEditing = true
@@ -125,6 +128,7 @@ class OmnibarViewController: BaseElloViewController {
             }
         }
         else if editComment != nil {
+            communityPickerVisible = false
             screen.title = InterfaceString.Omnibar.EditCommentTitle
             screen.submitTitle = InterfaceString.Omnibar.EditCommentButton
             screen.isEditing = true
@@ -135,19 +139,30 @@ class OmnibarViewController: BaseElloViewController {
         else {
             let isComment: Bool
             if parentPostId != nil {
+                communityPickerVisible = false
                 screen.title = InterfaceString.Omnibar.CreateCommentTitle
                 screen.submitTitle = InterfaceString.Omnibar.CreateCommentButton
                 isComment = true
             }
             else if let artistInvite = artistInvite {
+                communityPickerVisible = false
                 screen.title = InterfaceString.Omnibar.CreateArtistInviteSubmission(title: artistInvite.title)
                 screen.submitTitle = InterfaceString.Omnibar.CreatePostButton
                 isComment = false
             }
             else {
+                communityPickerVisible = true
                 screen.title = ""
                 screen.submitTitle = InterfaceString.Omnibar.CreatePostButton
                 isComment = false
+            }
+
+            let defaultRegions: [Regionable]
+            if let text = defaultText {
+                defaultRegions = [TextRegion(content: text)]
+            }
+            else {
+                defaultRegions = []
             }
             prepareScreenForEditing(defaultRegions, isComment: isComment)
 
@@ -166,6 +181,9 @@ class OmnibarViewController: BaseElloViewController {
                 }
             }
         }
+
+        screen.communityPickerVisible = communityPickerVisible
+        screen.chosenCategory = self.category
         screen.delegate = self
     }
 

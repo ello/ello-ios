@@ -24,6 +24,7 @@ protocol OmnibarScreenProtocol: class {
     var isEditing: Bool { get set }
     var isInteractionEnabled: Bool { get set }
     var chosenCategory: Category? { get set }
+    var communityPickerVisible: Bool { get set }
     func resetAfterSuccessfulPost()
     func reportError(_ title: String, error: NSError)
     func reportError(_ title: String, errorMessage: String)

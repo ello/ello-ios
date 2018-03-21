@@ -52,6 +52,9 @@ class OmnibarScreen: Screen, OmnibarScreenProtocol {
     }
     var isEditing = false
     var isReordering = false
+    var communityPickerVisible: Bool = true {
+        didSet { updateChooseCommunityButton() }
+    }
     var chosenCategory: Category? {
         didSet { updateChooseCommunityButton() }
     }
@@ -158,6 +161,9 @@ class OmnibarScreen: Screen, OmnibarScreenProtocol {
     private let submitButton = StyledButton(style: .green)
     private var styleButtonsVisibleConstraint: Constraint!
     private var styleButtonsHiddenConstraint: Constraint!
+    private var communityButtonVisibleConstraint: Constraint!
+    private var communityButtonsStackedConstraint: Constraint!
+    private var communityButtonHiddenConstraint: Constraint!
 
     let regionsTableView = UITableView()
     private let textEditingControl = UIControl()
@@ -396,7 +402,6 @@ class OmnibarScreen: Screen, OmnibarScreenProtocol {
         chooseCommunityButton.addTarget(self, action: #selector(chooseCommunityButtonTapped), for: .touchUpInside)
         currentCommunityButton.addTarget(self, action: #selector(currentCommunityButtonTapped), for: .touchUpInside)
         clearCommunityButton.addTarget(self, action: #selector(clearCommunityButtonTapped), for: .touchUpInside)
-        updateChooseCommunityButton()
 
         submitButton.setImage(.pencil, imageStyle: .white, for: .normal)
         submitButton.setImage(.pencil, imageStyle: .selected, for: .highlighted)
@@ -435,7 +440,8 @@ class OmnibarScreen: Screen, OmnibarScreenProtocol {
         styleButtonsVisibleConstraint.deactivate()
 
         chooseCommunityButton.snp.makeConstraints { make in
-            make.top.leading.trailing.equalTo(keyboardButtonsContainer).inset(Size.keyboardContainerMargin)
+            communityButtonVisibleConstraint = make.top.equalTo(keyboardButtonsContainer).inset(Size.keyboardContainerMargin).constraint
+            make.leading.trailing.equalTo(keyboardButtonsContainer).inset(Size.keyboardContainerMargin)
             make.height.equalTo(Size.keyboardButtonSize.height)
         }
 
@@ -453,13 +459,20 @@ class OmnibarScreen: Screen, OmnibarScreenProtocol {
         }
 
         submitButton.snp.makeConstraints { make in
-            make.top.equalTo(chooseCommunityButton.snp.bottom).offset(Size.keyboardContainerSpacing)
+            communityButtonHiddenConstraint = make.top.equalTo(keyboardButtonsContainer).inset(Size.keyboardContainerMargin).constraint
+            communityButtonsStackedConstraint = make.top.equalTo(chooseCommunityButton.snp.bottom).offset(Size.keyboardContainerSpacing).constraint
             make.bottom.trailing.equalTo(keyboardButtonsContainer).inset(Size.keyboardContainerMargin)
             make.height.equalTo(Size.keyboardButtonSize.height)
         }
+
+        updateChooseCommunityButton()
     }
 
     private func updateChooseCommunityButton() {
+        communityButtonVisibleConstraint.set(isActivated: communityPickerVisible)
+        communityButtonsStackedConstraint.set(isActivated: communityPickerVisible)
+        communityButtonHiddenConstraint.set(isActivated: !communityPickerVisible)
+
         if let chosenCategory = chosenCategory {
             chooseCommunityButton.isHidden = true
             clearCommunityButton.isVisible = true
