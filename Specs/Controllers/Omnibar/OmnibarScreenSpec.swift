@@ -14,11 +14,14 @@ class OmnibarScreenMockDelegate: OmnibarScreenDelegate {
     var didDismissController = false
     var didPushController = false
     var submitted = false
+    var chooseCommunityTappedCount = 0
+    var clearCommunityTappedCount = 0
     var hasBuyButtonURL = false
 
     func cancelTapped() {
         didGoBack = true
     }
+
     func omnibarPushController(_ controller: UIViewController) {
         didPushController = true
     }
@@ -28,10 +31,19 @@ class OmnibarScreenMockDelegate: OmnibarScreenDelegate {
     func omnibarDismissController() {
         didDismissController = true
     }
+
     func submitted(regions: [OmnibarRegion], buyButtonURL: URL?) {
         submitted = true
         hasBuyButtonURL = buyButtonURL != nil
     }
+    func chooseCommunityTapped() {
+        chooseCommunityTappedCount += 1
+    }
+
+    func clearCommunityTapped() {
+        clearCommunityTappedCount += 1
+    }
+
 }
 
 
