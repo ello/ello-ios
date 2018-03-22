@@ -246,10 +246,10 @@ extension CategoryViewController: CategoryStreamDestination, StreamDestination {
         self.subscribedCategories = subscribedCategories
         screen.categoriesLoaded = true
 
-        var info: [CategoryCardListView.CategoryInfo] = [CategoryCardListView.CategoryInfo(title: InterfaceString.Discover.AllCategories, kind: .all, imageURL: nil)]
+        var info: [CategoryCardListView.CategoryInfo] = [.all]
 
         if hasSubscribedCategory {
-            info.append(CategoryCardListView.CategoryInfo(title: InterfaceString.Discover.Subscribed, kind: .subscribed, imageURL: nil))
+            info.append(.subscribed)
             screen.showSubscribed = true
         }
         else {
@@ -257,11 +257,11 @@ extension CategoryViewController: CategoryStreamDestination, StreamDestination {
         }
 
         info += subscribedCategories.map { (category: Category) -> CategoryCardListView.CategoryInfo in
-            return CategoryCardListView.CategoryInfo(title: category.name, kind: .category, imageURL: category.tileURL)
+            return CategoryCardListView.CategoryInfo(category: category)
         }
 
         if !hasSubscribedCategory {
-            info.append(CategoryCardListView.CategoryInfo(title: InterfaceString.Discover.ZeroState, kind: .zeroState, imageURL: nil))
+            info.append(.zeroState)
         }
 
         let pullToRefreshView = streamViewController.pullToRefreshView

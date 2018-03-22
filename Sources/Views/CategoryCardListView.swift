@@ -16,6 +16,10 @@ class CategoryCardListView: View {
     }
 
     struct CategoryInfo {
+        static let all = CategoryInfo(title: InterfaceString.Discover.AllCategories, kind: .all, imageURL: nil)
+        static let subscribed = CategoryInfo(title: InterfaceString.Discover.Subscribed, kind: .subscribed, imageURL: nil)
+        static let zeroState = CategoryInfo(title: InterfaceString.Discover.ZeroState, kind: .zeroState, imageURL: nil)
+
         enum Kind {
             case all
             case subscribed
@@ -29,6 +33,16 @@ class CategoryCardListView: View {
 
         var isAll: Bool { return kind == .all }
         var isZeroState: Bool { return kind == .zeroState }
+
+        init(category: Category) {
+            self.init(title: category.name, kind: .category, imageURL: category.tileURL)
+        }
+
+        init(title: String, kind: Kind, imageURL: URL?) {
+            self.title = title
+            self.kind = kind
+            self.imageURL = imageURL
+        }
     }
 
     weak var delegate: CategoryCardListDelegate?

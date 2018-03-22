@@ -9,7 +9,7 @@ import Nimble
 class DynamicSettingSpec: QuickSpec {
     override func spec() {
         describe("DynamicSetting") {
-            it("static values are comparable") {
+            describe("static values are comparable") {
                 let generators: [(String, () -> DynamicSetting)] = [
                     ("creatorTypeSetting", { return DynamicSetting.creatorTypeSetting }),
                     ("blockedSetting", { return DynamicSetting.blockedSetting }),

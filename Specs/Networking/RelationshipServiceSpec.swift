@@ -5,7 +5,6 @@
 @testable import Ello
 import Quick
 import Nimble
-import Moya
 
 
 class RelationshipServiceSpec: QuickSpec {

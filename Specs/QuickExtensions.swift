@@ -243,32 +243,12 @@ func haveImageRegion<S: OmnibarScreenProtocol>(equal image: UIImage) -> Predicat
     }
 }
 
-private func allSubviews(_ view: UIView) -> [UIView] {
-    return view.subviews + view.subviews.flatMap { allSubviews($0) }
-}
-
-func allSubviews<T>(of view: UIView, thatMatch test: ((T) -> Bool) = { _ in return true }) -> [T] where T: UIView {
-    return allSubviews(view).flatMap { subview -> T? in
-        guard let subview = subview as? T, test(subview) else { return nil}
-        return subview
-    }
-}
-
-func subview<T>(of view: UIView, thatMatches test: ((T) -> Bool) = { _ in return true }) -> T? where T: UIView {
-    for subview in allSubviews(view) {
-        if let subview = subview as? T, test(subview) {
-            return subview
-        }
-    }
-    return nil
-}
-
 func haveSubview<V: UIView>(thatMatches test: @escaping (UIView) -> Bool) -> Predicate<V> {
     return Predicate.define("have subview that matches") { actualExpression, msg in
         let view = try! actualExpression.evaluate()
         if let view = view {
-            let found = subview(of: view, thatMatches: test) != nil
-            return PredicateResult(status: PredicateStatus(bool: found), message: msg)
+            let foundView: UIView? = view.findSubview(test)
+            return PredicateResult(status: PredicateStatus(bool: foundView != nil), message: msg)
         }
         return PredicateResult(status: .fail, message: msg)
     }

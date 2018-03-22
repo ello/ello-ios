@@ -85,14 +85,16 @@ class CategoryScreenSpec: QuickSpec {
 
             describe("CategoryScreenDelegate") {
                 it("informs delegates of all categories selection") {
-                    let categoryList: CategoryCardListView! = subview(of: subject)
-                    let button: UIButton! = allSubviews(of: categoryList).first
+                    let categoryList: CategoryCardListView! = subject.findSubview()
+                    let buttons: [UIButton] = categoryList.findAllSubviews()
+                    let button: UIButton! = buttons.first
                     button.sendActions(for: .touchUpInside)
                     expect(delegate.allCategoriesTappedCount) == 1
                 }
                 it("informs delegates of category selection") {
-                    let categoryList: CategoryCardListView! = subview(of: subject)
-                    let button: UIButton! = allSubviews(of: categoryList).last
+                    let categoryList: CategoryCardListView! = subject.findSubview()
+                    let buttons: [UIButton] = categoryList.findAllSubviews()
+                    let button: UIButton! = buttons.last
                     button.sendActions(for: .touchUpInside)
                     expect(delegate.selectedIndex) == categoryInfo.count - 1
                 }

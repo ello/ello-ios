@@ -35,7 +35,7 @@ class HireScreenSpec: QuickSpec {
 
                 describe("submit button enabled") {
                     beforeEach {
-                        let textView: UITextView! = subview(of: subject)
+                        let textView: UITextView! = subject.findSubview()
                         textView.text = "has text"
                         subject.textViewDidChange(textView)
                     }
@@ -49,10 +49,10 @@ class HireScreenSpec: QuickSpec {
                 var submitButton: UIButton?
                 beforeEach {
                     subject = HireScreen()
-                    submitButton = subview(of: subject, thatMatches: { return $0.tag == HireScreen.Specs.successButtonTag })
+                    submitButton = subject.findSubview { $0.tag == HireScreen.Specs.successButtonTag }
                 }
                 it("submitButton is disabled") {
-                    let textView: UITextView! = subview(of: subject)
+                    let textView: UITextView! = subject.findSubview()
                     textView.text = ""
                     subject.textViewDidChange(textView)
                     expect(submitButton?.isEnabled) == false
@@ -63,8 +63,8 @@ class HireScreenSpec: QuickSpec {
                 var submitButton: UIButton?
                 beforeEach {
                     subject = HireScreen()
-                    submitButton = subview(of: subject)
-                    let textView: UITextView! = subview(of: subject)
+                    submitButton = subject.findSubview()
+                    let textView: UITextView! = subject.findSubview()
                     textView.text = "hey there!"
                     subject.textViewDidChange(textView)
                 }
