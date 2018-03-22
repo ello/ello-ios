@@ -38,7 +38,7 @@ class StreamSelectionCellSpec: QuickSpec {
                     })
                     categoryButton?.sendActions(for: .touchUpInside)
                     expect(responder.categoryTapped) == true
-                    expect(responder.stream) == "featured"
+                    expect(responder.stream) == DiscoverType.featured.rawValue
                 }
             }
 
