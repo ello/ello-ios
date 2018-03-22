@@ -49,7 +49,7 @@ final class Post: JSONAble, Authorable, Groupable {
         return categories.first
     }
     var repostAuthor: User? {
-        return repostSource?.author
+        return repostSource?.author ?? getLinkObject("repost_author") as? User
     }
     var repostSource: Post? {
         return getLinkObject("reposted_source") as? Post

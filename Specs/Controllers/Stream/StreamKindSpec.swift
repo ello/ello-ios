@@ -89,7 +89,6 @@ class StreamKindSpec: QuickSpec {
             describe("endpoint") {
 
                 it("is correct for all cases") {
-                    expect(StreamKind.category(.category("art"), .featured).endpoint.path) == "/api/\(ElloAPI.apiVersion)/categories/art"
                     expect(StreamKind.following.endpoint.path) == "/api/\(ElloAPI.apiVersion)/following/posts/recent"
                     expect(StreamKind.notifications(category: "").endpoint.path) == "/api/\(ElloAPI.apiVersion)/notifications"
                     expect(StreamKind.postDetail(postParam: "param").endpoint.path) == "/api/\(ElloAPI.apiVersion)/posts/param"
@@ -154,6 +153,7 @@ class StreamKindSpec: QuickSpec {
 
                 it("is correct for all cases") {
                     expect(StreamKind.category(.category("art"), .featured).hasGridViewToggle) == true
+                    expect(StreamKind.manageCategories.hasGridViewToggle) == false
                     expect(StreamKind.following.hasGridViewToggle) == true
                     expect(StreamKind.notifications(category: "").hasGridViewToggle) == false
                     expect(StreamKind.postDetail(postParam: "param").hasGridViewToggle) == false

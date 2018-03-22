@@ -160,7 +160,7 @@ class UserSpec: QuickSpec {
                 }
 
                 it("should return true if comment parentPost's repostAuthor is the current user") {
-                    let post: Post = stub(["repostAuthorId": correctId])
+                    let post: Post = stub(["repostAuthor": subject])
                     let comment: ElloComment = stub(["loadedFromPost": post])
                     expect(subject.isAuthorOfParentPost(comment: comment)) == true
                 }
@@ -171,8 +171,14 @@ class UserSpec: QuickSpec {
                     expect(subject.isAuthorOfParentPost(comment: comment)) == false
                 }
 
-                it("should return false if comment parentPost's repostAuthor is not the current user") {
+                it("should return true if comment parentPost's author is the current user, on a repost") {
                     let post: Post = stub(["repostAuthorId": wrongId, "authorId": correctId])
+                    let comment: ElloComment = stub(["loadedFromPost": post])
+                    expect(subject.isAuthorOfParentPost(comment: comment)) == true
+                }
+
+                it("should return false if comment parentPost's author and repostAuthor are not the current user") {
+                    let post: Post = stub(["repostAuthorId": wrongId, "authorId": wrongId])
                     let comment: ElloComment = stub(["loadedFromPost": post])
                     expect(subject.isAuthorOfParentPost(comment: comment)) == false
                 }

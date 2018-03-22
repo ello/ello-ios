@@ -189,6 +189,7 @@ enum StreamKind {
     var hasGridViewToggle: Bool {
         switch self {
         case .following: return true
+        case .category: return true
         case let .simpleStream(endpoint, _):
             switch endpoint {
             case .searchForPosts, .loves, .categoryPosts:
