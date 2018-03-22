@@ -283,6 +283,9 @@ extension Post: Stubbable {
         let author: User = (values["author"] as? User) ?? User.stub(["id": values["authorId"] ?? generateID()])
         ElloLinkedStore.shared.setObject(author, forKey: author.id, type: .usersType)
 
+        let content = (values["content"] as? [Regionable]) ?? [stubbedTextRegion]
+        let summary = values["summary"] as? [Regionable] ?? content
+
         let post = Post(
             id: (values["id"] as? String) ?? generateID(),
             createdAt: (values["createdAt"] as? Date) ?? Globals.now,
@@ -294,7 +297,7 @@ extension Post: Stubbable {
             isReposted: (values["reposted"] as? Bool) ?? false,
             isLoved: (values["loved"] as? Bool) ?? false,
             isWatching: (values["watching"] as? Bool) ?? false,
-            summary: (values["summary"] as? [Regionable]) ?? [stubbedTextRegion]
+            summary: summary
         )
 
         let repostAuthor: User? = values["repostAuthor"] as? User ?? (values["repostAuthorId"] as? String).flatMap { id in
@@ -314,7 +317,7 @@ extension Post: Stubbable {
         }
 
         post.body = (values["body"] as? [Regionable]) ?? [stubbedTextRegion]
-        post.content = (values["content"] as? [Regionable]) ?? [stubbedTextRegion]
+        post.content = content
         post.repostContent = (values["repostContent"] as? [Regionable])
         post.artistInviteId = (values["artistInviteId"] as? String)
         post.viewsCount = values["viewsCount"] as? Int

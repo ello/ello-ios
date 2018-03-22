@@ -83,7 +83,7 @@ class StreamHeaderCellSpec: QuickSpec {
                                 isSubmission = true
                         }
 
-                        let subject = StreamHeaderCell.loadFromNib() as StreamHeaderCell
+                        let subject = StreamHeaderCell()
                         if inGrid {
                             subject.frame = gridFrame
                         }

@@ -65,6 +65,8 @@ class ElloConfiguration: QuickConfiguration {
             AuthenticationManager.shared.queue = nil
             ElloProvider.moya = ElloProvider.StubbingProvider()
             API.sharedManager = StubbedManager()
+
+            StreamKind.following.setIsGridView(false)
         }
         config.afterEach {
             ElloProvider_Specs.errorStatusCode = .status404
