@@ -66,7 +66,7 @@ class StreamImageCell: StreamRegionableCell {
     }
     var serverProvidedAspectRatio: CGFloat?
     var isLargeImage: Bool {
-        get { return !(largeImagePlayButton?.isHidden ?? true) }
+        get { return largeImagePlayButton?.isVisible ?? false }
         set {
             largeImagePlayButton?.interfaceImage = .videoPlay
             largeImagePlayButton?.isVisible = newValue

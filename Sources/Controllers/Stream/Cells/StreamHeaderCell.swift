@@ -214,9 +214,9 @@ class StreamHeaderCell: CollectionViewCell {
         let repostedWidth = max(minimumRepostedWidth, min(repostedByButton.frame.width, maxRepostedWidth))
         let categoryWidth = max(minimumRepostedWidth, min(categoryButton.frame.width, maxUsernameWidth))
 
-        let hasRepostAuthor = !repostedByButton.isHidden
-        let hasCategory = !categoryButton.isHidden
-        let hasAISubmission = !artistInviteSubmissionButton.isHidden
+        let hasRepostAuthor = repostedByButton.isVisible
+        let hasCategory = categoryButton.isVisible
+        let hasAISubmission = artistInviteSubmissionButton.isVisible
         let usernameButtonHeight: CGFloat
         let usernameButtonY: CGFloat
 

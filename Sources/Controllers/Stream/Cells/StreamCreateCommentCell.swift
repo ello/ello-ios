@@ -135,8 +135,8 @@ class StreamCreateCommentCell: CollectionViewCell {
 
     private func updateCreateButtonConstraints() {
         let bothHidden = replyAllButton.isHidden && watchButton.isHidden
-        let onlyReplyHidden = replyAllButton.isHidden && !watchButton.isHidden
-        let noneHidden = !replyAllButton.isHidden && !watchButton.isHidden
+        let onlyReplyHidden = replyAllButton.isHidden && watchButton.isVisible
+        let noneHidden = replyAllButton.isVisible && watchButton.isVisible
         watchButtonHiddenConstraint.set(isActivated: bothHidden)
         replyAllButtonHiddenConstraint.set(isActivated: onlyReplyHidden)
         replyAllButtonVisibleConstraint.set(isActivated: noneHidden)

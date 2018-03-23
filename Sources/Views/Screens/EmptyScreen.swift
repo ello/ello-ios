@@ -7,7 +7,7 @@ import SnapKit
 
 class EmptyScreen: Screen {
     var blackBarIsVisible: Bool {
-        get { return !statusBar.isHidden }
+        get { return statusBar.isVisible }
         set {
             blackBarHeightConstraint.set(isActivated: !newValue)
             statusBar.isVisible = newValue
