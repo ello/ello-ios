@@ -30,7 +30,7 @@ class StreamHeaderCell: CollectionViewCell {
     private let repostIconView = UIImageView()
     private let repostedByButton = StyledButton(style: .clearGray)
     private let categoryButton = StyledButton(style: .clearGray)
-    private let artistInviteSubmissionButton = StyledButton(style: .clearGray)
+    private let artistInviteSubmissionButton = StyledButton(style: .grayUnderlined)
 
     var isGridLayout = false
     var showUsername = true {
@@ -86,6 +86,7 @@ class StreamHeaderCell: CollectionViewCell {
 
         categoryButton.titleLineBreakMode = .byTruncatingTail
         repostedByButton.titleLineBreakMode = .byTruncatingTail
+        artistInviteSubmissionButton.titleLineBreakMode = .byTruncatingTail
         usernameButton.titleLineBreakMode = .byTruncatingTail
         usernameButton.contentHorizontalAlignment = .left
 
@@ -98,8 +99,7 @@ class StreamHeaderCell: CollectionViewCell {
 
         repostIconView.setInterfaceImage(.repost, style: .selected)
 
-        let attributedSubmissionTitle = NSAttributedString(button: InterfaceString.ArtistInvites.PostSubmissionHeader, style: .grayUnderlined)
-        artistInviteSubmissionButton.setAttributedTitle(attributedSubmissionTitle, for: .normal)
+        artistInviteSubmissionButton.setTitle(InterfaceString.ArtistInvites.PostSubmissionHeader, for: .normal)
     }
 
     override func arrange() {
@@ -268,6 +268,7 @@ class StreamHeaderCell: CollectionViewCell {
             x: usernameX,
             y: secondaryLabelY
             )
+        artistInviteSubmissionButton.frame.size.width = maxUsernameWidth
         artistInviteSubmissionButton.frame.size.height = usernameButtonHeight
     }
 
