@@ -352,9 +352,9 @@ extension User {
         return id == comment.authorId
     }
 
-    func isAuthorOfParentPost(comment: ElloComment) -> Bool {
-        if let repostAuthor = comment.loadedFromPost?.repostAuthor, id == repostAuthor.id {
-            return true
+    func isAuthorOfOriginalPost(comment: ElloComment) -> Bool {
+        if let repostAuthor = comment.loadedFromPost?.repostAuthor {
+            return id == repostAuthor.id
         }
         return id == comment.loadedFromPost?.authorId
     }

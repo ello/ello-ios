@@ -23,7 +23,7 @@ struct CommentHeaderCellPresenter {
         config.timestamp = comment.createdAt.timeAgoInWords()
 
         let isLoggedIn = currentUser != nil
-        let isPostAuthor = currentUser?.isAuthorOfParentPost(comment: comment) ?? false
+        let isPostAuthor = currentUser?.isAuthorOfOriginalPost(comment: comment) ?? false
         let isCommentAuthor = currentUser?.isAuthorOf(comment: comment) ?? false
         config.canEdit = isCommentAuthor
         config.canDelete = isCommentAuthor || isPostAuthor || AuthToken().isStaff
