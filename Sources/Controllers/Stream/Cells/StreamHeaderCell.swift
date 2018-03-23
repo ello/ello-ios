@@ -82,6 +82,10 @@ class StreamHeaderCell: CollectionViewCell {
     }
 
     override func style() {
+        contentView.backgroundColor = .white
+
+        categoryButton.titleLineBreakMode = .byTruncatingTail
+        repostedByButton.titleLineBreakMode = .byTruncatingTail
         usernameButton.titleLineBreakMode = .byTruncatingTail
         usernameButton.contentHorizontalAlignment = .left
 
@@ -94,11 +98,7 @@ class StreamHeaderCell: CollectionViewCell {
 
         repostIconView.setInterfaceImage(.repost, style: .selected)
 
-        let attributedSubmissionTitle = NSAttributedString(string: InterfaceString.ArtistInvites.PostSubmissionHeader, attributes: [
-            .font: UIFont.defaultFont(),
-            .foregroundColor: UIColor.greyA,
-            .underlineStyle: NSUnderlineStyle.styleSingle.rawValue,
-            ])
+        let attributedSubmissionTitle = NSAttributedString(button: InterfaceString.ArtistInvites.PostSubmissionHeader, style: .grayUnderlined)
         artistInviteSubmissionButton.setAttributedTitle(attributedSubmissionTitle, for: .normal)
     }
 
@@ -147,16 +147,10 @@ class StreamHeaderCell: CollectionViewCell {
         artistInviteSubmissionButton.isVisible = aiSubmissionVisible
 
         if let category = category, categoryVisible {
-            let attributedString = NSAttributedString(string: "in ", attributes: [
-                .font: UIFont.defaultFont(),
-                .foregroundColor: UIColor.greyA,
-                ])
-            let categoryName = NSAttributedString(string: category.name, attributes: [
-                .font: UIFont.defaultFont(),
-                .foregroundColor: UIColor.greyA,
-                .underlineStyle: NSUnderlineStyle.styleSingle.rawValue,
-                ])
+            let attributedString = NSAttributedString(label: "in ", style: .gray, lineBreakMode: .byTruncatingTail)
+            let categoryName = NSAttributedString(button: category.name, style: .grayUnderlined, lineBreakMode: .byTruncatingTail)
             categoryButton.setAttributedTitle(attributedString + categoryName, for: .normal)
+            categoryButton.titleLineBreakMode = .byTruncatingTail
             categoryButton.sizeToFit()
         }
 

@@ -9,11 +9,13 @@ class PostParser: IdParser {
 
     init() {
         super.init(table: .postsType)
+
         linkArray(.assetsType)
+        linkArray(.categoriesType)
+
         linkObject(.usersType, "author")
         linkObject(.usersType, "repostAuthor")
         linkObject(.postsType, "repostedSource")
-        linkObject(.categoriesType)
         linkObject(.artistInviteSubmissionsType)
     }
 

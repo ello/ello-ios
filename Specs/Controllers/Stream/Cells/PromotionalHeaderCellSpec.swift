@@ -66,12 +66,12 @@ class PromotionalHeaderCellSpec: QuickSpec {
                     ("generic sponsored, narrow", kind: .generic, name: "Art", isSponsored: true, body: shortBody, ctaCaption: shortCtaCaption, style: .narrow),
                     ("generic sponsored, wide", kind: .generic, name: "Art", isSponsored: true, body: shortBody, ctaCaption: shortCtaCaption, style: .wide),
                     ("generic sponsored, iPad", kind: .generic, name: "Art", isSponsored: true, body: shortBody, ctaCaption: shortCtaCaption, style: .iPad),
-                    ("generic long body, narrow", kind: .generic, name: "Art", isSponsored: true, body: longBody, ctaCaption: shortCtaCaption, style: .narrow),
-                    ("generic long body, wide", kind: .generic, name: "Art", isSponsored: true, body: longBody, ctaCaption: shortCtaCaption, style: .wide),
-                    ("generic long body, iPad", kind: .generic, name: "Art", isSponsored: true, body: longBody, ctaCaption: shortCtaCaption, style: .iPad),
-                    ("generic long body, long cta caption, narrow", kind: .generic, name: "Art", isSponsored: true, body: longBody, ctaCaption: longCtaCaption, style: .narrow),
-                    ("generic long body, long cta caption, wide", kind: .generic, name: "Art", isSponsored: true, body: longBody, ctaCaption: longCtaCaption, style: .wide),
-                    ("generic long body, long cta caption, iPad", kind: .generic, name: "Art", isSponsored: true, body: longBody, ctaCaption: longCtaCaption, style: .iPad)
+                    ("generic long body, narrow", kind: .generic, name: "Art", isSponsored: false, body: longBody, ctaCaption: shortCtaCaption, style: .narrow),
+                    ("generic long body, wide", kind: .generic, name: "Art", isSponsored: false, body: longBody, ctaCaption: shortCtaCaption, style: .wide),
+                    ("generic long body, iPad", kind: .generic, name: "Art", isSponsored: false, body: longBody, ctaCaption: shortCtaCaption, style: .iPad),
+                    ("generic long body, long cta caption, narrow", kind: .generic, name: "Art", isSponsored: false, body: longBody, ctaCaption: longCtaCaption, style: .narrow),
+                    ("generic long body, long cta caption, wide", kind: .generic, name: "Art", isSponsored: false, body: longBody, ctaCaption: longCtaCaption, style: .wide),
+                    ("generic long body, long cta caption, iPad", kind: .generic, name: "Art", isSponsored: false, body: longBody, ctaCaption: longCtaCaption, style: .iPad)
                 ]
                 for (desc, kind, name, isSponsored, body, ctaCaption, style) in expectations {
 

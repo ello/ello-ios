@@ -77,6 +77,11 @@ struct Fragment: Equatable {
           content { ...contentProps }
         }
 
+        fragment categoryProps on Category {
+          id name slug order allowInOnboarding isCreatorType level
+          tileImage { ...tshirtProps }
+        }
+
         fragment postSummary on Post {
           id
           token
@@ -116,6 +121,7 @@ struct Fragment: Equatable {
             ...postSummary
             ...postContent
             repostContent { ...contentProps }
+            categories { ...categoryProps }
             currentUserState { loved reposted watching }
             repostedSource {
                 ...postSummary

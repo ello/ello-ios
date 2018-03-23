@@ -15,11 +15,17 @@ class StreamImageCellPresenterSpec: QuickSpec {
         describe("StreamImageCellPresenter") {
 
             context("column number differences") {
-                let post: Post = stub([:])
-                let imageRegion: ImageRegion = stub([:])
+                var post: Post!
+                var imageRegion: ImageRegion!
+                var cell: StreamImageCell!
+                var item: StreamCellItem!
 
-                let cell: StreamImageCell = StreamImageCell.loadFromNib()
-                let item: StreamCellItem = StreamCellItem(jsonable: post, type: .image(data: imageRegion))
+                beforeEach {
+                    post = Post.stub([:])
+                    imageRegion = ImageRegion.stub([:])
+                    cell = StreamImageCell.loadFromNib()
+                    item = StreamCellItem(jsonable: post, type: .image(data: imageRegion))
+                }
 
                 context("single column") {
 

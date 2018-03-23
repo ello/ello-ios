@@ -10,7 +10,7 @@ import Nimble
 class ProfileStatsSizeCalculatorSpec: QuickSpec {
     override func spec() {
         describe("ProfileStatsSizeCalculator") {
-            it("always returns 70") {
+            it("always returns the right number") {
                 let user: User = stub([:])
                 let calc = ProfileStatsSizeCalculator()
                 var height: CGFloat!
