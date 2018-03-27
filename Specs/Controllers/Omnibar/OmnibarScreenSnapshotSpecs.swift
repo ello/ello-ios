@@ -17,7 +17,7 @@ class OmnibarScreenSnapshotSpecs: QuickSpec {
             subject = OmnibarScreen()
         }
 
-        xdescribe("OmnibarScreenSnapshots") {
+        describe("OmnibarScreenSnapshots") {
             context("default layout") {
                 validateAllSnapshots(named: "OmnibarScreenSnapshots") { return subject }
             }

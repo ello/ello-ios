@@ -22,9 +22,6 @@ class OmnibarScreen: Screen, OmnibarScreenProtocol {
         static let toolbarButtonSpacing: CGFloat = 20
         static let additionalBuyPadding: CGFloat = 5
         static let tableTopInset: CGFloat = 22.5
-        static var keyboardContainerHeight: CGFloat {
-            return Size.keyboardContainerMargin.tops + 2 * Size.keyboardButtonSize.height + Size.keyboardContainerSpacing
-        }
         static let keyboardContainerMargin = UIEdgeInsets(all: 10)
         static let clearCommunityMargin: CGFloat = 15
         static let keyboardContainerSpacing: CGFloat = 10
@@ -732,7 +729,15 @@ class OmnibarScreen: Screen, OmnibarScreenProtocol {
         if bottomInset == 0 {
             bottomInset = ElloTabBar.Size.height
         }
-        bottomInset += Size.keyboardContainerHeight
+
+        let keyboardContainerHeight: CGFloat
+        if communityPickerVisible {
+            keyboardContainerHeight = Size.keyboardContainerMargin.tops + 2 * Size.keyboardButtonSize.height + Size.keyboardContainerSpacing
+        }
+        else {
+            keyboardContainerHeight = Size.keyboardContainerMargin.tops + Size.keyboardButtonSize.height
+        }
+        bottomInset += keyboardContainerHeight
 
         regionsTableView.contentInset.bottom = bottomInset
         regionsTableView.scrollIndicatorInsets.bottom = bottomInset
