@@ -1,0 +1,462 @@
+{
+  "data" : {
+    "categoryNav" : [
+      {
+        "isCreatorType" : true,
+        "tileImage" : {
+          "large" : {
+            "metadata" : {
+              "size" : 366917,
+              "height" : 800,
+              "type" : "image\/jpeg",
+              "width" : 800
+            },
+            "url" : "https:\/\/assets1.ello.co\/uploads\/category\/tile_image\/1\/ello-large-e31c72d4.jpg"
+          },
+          "regular" : {
+            "metadata" : {
+              "size" : 229564,
+              "height" : 600,
+              "type" : "image\/jpeg",
+              "width" : 600
+            },
+            "url" : "https:\/\/assets1.ello.co\/uploads\/category\/tile_image\/1\/ello-regular-e31c72d4.jpg"
+          },
+          "original" : {
+            "metadata" : {
+              "size" : null,
+              "height" : null,
+              "type" : null,
+              "width" : null
+            },
+            "url" : "https:\/\/assets2.ello.co\/uploads\/category\/tile_image\/1\/ello-optimized-bf694c45.jpg"
+          }
+        },
+        "name" : "Art",
+        "slug" : "art",
+        "id" : "1",
+        "level" : "primary",
+        "allowInOnboarding" : true,
+        "order" : 3
+      },
+      {
+        "isCreatorType" : true,
+        "tileImage" : {
+          "large" : {
+            "metadata" : {
+              "size" : 519890,
+              "height" : 800,
+              "type" : "image\/jpeg",
+              "width" : 800
+            },
+            "url" : "https:\/\/assets0.ello.co\/uploads\/category\/tile_image\/6\/ello-large-eb791c6c.jpg"
+          },
+          "regular" : {
+            "metadata" : {
+              "size" : 303811,
+              "height" : 600,
+              "type" : "image\/jpeg",
+              "width" : 600
+            },
+            "url" : "https:\/\/assets2.ello.co\/uploads\/category\/tile_image\/6\/ello-regular-eb791c6c.jpg"
+          },
+          "original" : {
+            "metadata" : {
+              "size" : null,
+              "height" : null,
+              "type" : null,
+              "width" : null
+            },
+            "url" : "https:\/\/assets1.ello.co\/uploads\/category\/tile_image\/6\/ello-optimized-353534d2.jpg"
+          }
+        },
+        "name" : "Photography",
+        "slug" : "photography",
+        "id" : "6",
+        "level" : "primary",
+        "allowInOnboarding" : true,
+        "order" : 4
+      },
+      {
+        "isCreatorType" : true,
+        "tileImage" : {
+          "large" : {
+            "metadata" : {
+              "size" : 284089,
+              "height" : 800,
+              "type" : "image\/jpeg",
+              "width" : 800
+            },
+            "url" : "https:\/\/assets0.ello.co\/uploads\/category\/tile_image\/3\/ello-large-08ff6b6a.jpg"
+          },
+          "regular" : {
+            "metadata" : {
+              "size" : 171649,
+              "height" : 600,
+              "type" : "image\/jpeg",
+              "width" : 600
+            },
+            "url" : "https:\/\/assets1.ello.co\/uploads\/category\/tile_image\/3\/ello-regular-08ff6b6a.jpg"
+          },
+          "original" : {
+            "metadata" : {
+              "size" : null,
+              "height" : null,
+              "type" : null,
+              "width" : null
+            },
+            "url" : "https:\/\/assets0.ello.co\/uploads\/category\/tile_image\/3\/ello-optimized-3ce297aa.jpg"
+          }
+        },
+        "name" : "Design",
+        "slug" : "design",
+        "id" : "3",
+        "level" : "primary",
+        "allowInOnboarding" : true,
+        "order" : 5
+      },
+      {
+        "isCreatorType" : true,
+        "tileImage" : {
+          "large" : {
+            "metadata" : {
+              "size" : 295204,
+              "height" : 800,
+              "type" : "image\/jpeg",
+              "width" : 800
+            },
+            "url" : "https:\/\/assets2.ello.co\/uploads\/category\/tile_image\/2\/ello-large-23cb59fe.jpg"
+          },
+          "regular" : {
+            "metadata" : {
+              "size" : 172531,
+              "height" : 600,
+              "type" : "image\/jpeg",
+              "width" : 600
+            },
+            "url" : "https:\/\/assets0.ello.co\/uploads\/category\/tile_image\/2\/ello-regular-23cb59fe.jpg"
+          },
+          "original" : {
+            "metadata" : {
+              "size" : null,
+              "height" : null,
+              "type" : null,
+              "width" : null
+            },
+            "url" : "https:\/\/assets1.ello.co\/uploads\/category\/tile_image\/2\/ello-optimized-8bcedb76.jpg"
+          }
+        },
+        "name" : "Architecture",
+        "slug" : "architecture",
+        "id" : "2",
+        "level" : "primary",
+        "allowInOnboarding" : true,
+        "order" : 14
+      },
+      {
+        "isCreatorType" : false,
+        "tileImage" : {
+          "large" : {
+            "metadata" : {
+              "size" : 629051,
+              "height" : 800,
+              "type" : "image\/jpeg",
+              "width" : 800
+            },
+            "url" : "https:\/\/assets2.ello.co\/uploads\/category\/tile_image\/48\/ello-large-7d27b8f7.jpg"
+          },
+          "regular" : {
+            "metadata" : {
+              "size" : 378254,
+              "height" : 600,
+              "type" : "image\/jpeg",
+              "width" : 600
+            },
+            "url" : "https:\/\/assets1.ello.co\/uploads\/category\/tile_image\/48\/ello-regular-7d27b8f7.jpg"
+          },
+          "original" : {
+            "metadata" : {
+              "size" : null,
+              "height" : null,
+              "type" : null,
+              "width" : null
+            },
+            "url" : "https:\/\/assets0.ello.co\/uploads\/category\/tile_image\/48\/ello-optimized-d3338573.jpg"
+          }
+        },
+        "name" : "Ello Art Giveaways",
+        "slug" : "ello-art-giveaways",
+        "id" : "48",
+        "level" : "promo",
+        "allowInOnboarding" : true,
+        "order" : 0
+      },
+      {
+        "isCreatorType" : false,
+        "tileImage" : {
+          "large" : {
+            "metadata" : {
+              "size" : 425492,
+              "height" : 800,
+              "type" : "image\/jpeg",
+              "width" : 800
+            },
+            "url" : "https:\/\/assets2.ello.co\/uploads\/category\/tile_image\/17\/ello-large-b9340ed7.jpg"
+          },
+          "regular" : {
+            "metadata" : {
+              "size" : 273401,
+              "height" : 600,
+              "type" : "image\/jpeg",
+              "width" : 600
+            },
+            "url" : "https:\/\/assets2.ello.co\/uploads\/category\/tile_image\/17\/ello-regular-b9340ed7.jpg"
+          },
+          "original" : {
+            "metadata" : {
+              "size" : null,
+              "height" : null,
+              "type" : null,
+              "width" : null
+            },
+            "url" : "https:\/\/assets1.ello.co\/uploads\/category\/tile_image\/17\/ello-optimized-be89c576.jpg"
+          }
+        },
+        "name" : "Communities",
+        "slug" : "communities",
+        "id" : "17",
+        "level" : "tertiary",
+        "allowInOnboarding" : true,
+        "order" : 0
+      },
+      {
+        "isCreatorType" : false,
+        "tileImage" : {
+          "large" : {
+            "metadata" : {
+              "size" : 343636,
+              "height" : 800,
+              "type" : "image\/jpeg",
+              "width" : 800
+            },
+            "url" : "https:\/\/assets2.ello.co\/uploads\/category\/tile_image\/65\/ello-large-62ae598f.jpg"
+          },
+          "regular" : {
+            "metadata" : {
+              "size" : 195511,
+              "height" : 600,
+              "type" : "image\/jpeg",
+              "width" : 600
+            },
+            "url" : "https:\/\/assets0.ello.co\/uploads\/category\/tile_image\/65\/ello-regular-62ae598f.jpg"
+          },
+          "original" : {
+            "metadata" : {
+              "size" : null,
+              "height" : null,
+              "type" : null,
+              "width" : null
+            },
+            "url" : "https:\/\/assets0.ello.co\/uploads\/category\/tile_image\/65\/ello-optimized-d590b1aa.jpg"
+          }
+        },
+        "name" : "Blacklisted Magazine",
+        "slug" : "blacklisted-magazine",
+        "id" : "65",
+        "level" : "tertiary",
+        "allowInOnboarding" : false,
+        "order" : 1
+      },
+      {
+        "isCreatorType" : false,
+        "tileImage" : {
+          "large" : {
+            "metadata" : {
+              "size" : 252536,
+              "height" : 800,
+              "type" : "image\/jpeg",
+              "width" : 800
+            },
+            "url" : "https:\/\/assets0.ello.co\/uploads\/category\/tile_image\/49\/ello-large-2985110a.jpg"
+          },
+          "regular" : {
+            "metadata" : {
+              "size" : 138554,
+              "height" : 600,
+              "type" : "image\/jpeg",
+              "width" : 600
+            },
+            "url" : "https:\/\/assets2.ello.co\/uploads\/category\/tile_image\/49\/ello-regular-2985110a.jpg"
+          },
+          "original" : {
+            "metadata" : {
+              "size" : null,
+              "height" : null,
+              "type" : null,
+              "width" : null
+            },
+            "url" : "https:\/\/assets2.ello.co\/uploads\/category\/tile_image\/49\/ello-optimized-dc347555.jpg"
+          }
+        },
+        "name" : "Minimalism",
+        "slug" : "minimalism",
+        "id" : "49",
+        "level" : "tertiary",
+        "allowInOnboarding" : true,
+        "order" : 8
+      },
+      {
+        "isCreatorType" : false,
+        "tileImage" : {
+          "large" : {
+            "metadata" : {
+              "size" : 455188,
+              "height" : 800,
+              "type" : "image\/jpeg",
+              "width" : 800
+            },
+            "url" : "https:\/\/assets2.ello.co\/uploads\/category\/tile_image\/33\/ello-large-2a8382c8.jpg"
+          },
+          "regular" : {
+            "metadata" : {
+              "size" : 264837,
+              "height" : 600,
+              "type" : "image\/jpeg",
+              "width" : 600
+            },
+            "url" : "https:\/\/assets1.ello.co\/uploads\/category\/tile_image\/33\/ello-regular-2a8382c8.jpg"
+          },
+          "original" : {
+            "metadata" : {
+              "size" : null,
+              "height" : null,
+              "type" : null,
+              "width" : null
+            },
+            "url" : "https:\/\/assets1.ello.co\/uploads\/category\/tile_image\/33\/ello-optimized-f4dcb763.jpg"
+          }
+        },
+        "name" : "Modernism is Crap",
+        "slug" : "modernism-is-crap",
+        "id" : "33",
+        "level" : "tertiary",
+        "allowInOnboarding" : true,
+        "order" : 11
+      },
+      {
+        "isCreatorType" : false,
+        "tileImage" : {
+          "large" : {
+            "metadata" : {
+              "size" : 377345,
+              "height" : 800,
+              "type" : "image\/jpeg",
+              "width" : 800
+            },
+            "url" : "https:\/\/assets1.ello.co\/uploads\/category\/tile_image\/39\/ello-large-f691ef54.jpg"
+          },
+          "regular" : {
+            "metadata" : {
+              "size" : 223407,
+              "height" : 600,
+              "type" : "image\/jpeg",
+              "width" : 600
+            },
+            "url" : "https:\/\/assets1.ello.co\/uploads\/category\/tile_image\/39\/ello-regular-f691ef54.jpg"
+          },
+          "original" : {
+            "metadata" : {
+              "size" : null,
+              "height" : null,
+              "type" : null,
+              "width" : null
+            },
+            "url" : "https:\/\/assets0.ello.co\/uploads\/category\/tile_image\/39\/ello-optimized-4d49b6cb.jpg"
+          }
+        },
+        "name" : "LeRadicale",
+        "slug" : "leradicale",
+        "id" : "39",
+        "level" : "tertiary",
+        "allowInOnboarding" : false,
+        "order" : 19
+      },
+      {
+        "isCreatorType" : false,
+        "tileImage" : {
+          "large" : {
+            "metadata" : {
+              "size" : 804324,
+              "height" : 800,
+              "type" : "image\/jpeg",
+              "width" : 800
+            },
+            "url" : "https:\/\/assets2.ello.co\/uploads\/category\/tile_image\/46\/ello-large-a535df40.jpg"
+          },
+          "regular" : {
+            "metadata" : {
+              "size" : 471565,
+              "height" : 600,
+              "type" : "image\/jpeg",
+              "width" : 600
+            },
+            "url" : "https:\/\/assets1.ello.co\/uploads\/category\/tile_image\/46\/ello-regular-a535df40.jpg"
+          },
+          "original" : {
+            "metadata" : {
+              "size" : null,
+              "height" : null,
+              "type" : null,
+              "width" : null
+            },
+            "url" : "https:\/\/assets1.ello.co\/uploads\/category\/tile_image\/46\/ello-optimized-d42def71.jpg"
+          }
+        },
+        "name" : "36 Days of Type",
+        "slug" : "36-days-of-type",
+        "id" : "46",
+        "level" : "tertiary",
+        "allowInOnboarding" : false,
+        "order" : 22
+      },
+      {
+        "isCreatorType" : false,
+        "tileImage" : {
+          "large" : {
+            "metadata" : {
+              "size" : 518942,
+              "height" : 800,
+              "type" : "image\/jpeg",
+              "width" : 800
+            },
+            "url" : "https:\/\/assets1.ello.co\/uploads\/category\/tile_image\/51\/ello-large-2d65c5a3.jpg"
+          },
+          "regular" : {
+            "metadata" : {
+              "size" : 299010,
+              "height" : 600,
+              "type" : "image\/jpeg",
+              "width" : 600
+            },
+            "url" : "https:\/\/assets2.ello.co\/uploads\/category\/tile_image\/51\/ello-regular-2d65c5a3.jpg"
+          },
+          "original" : {
+            "metadata" : {
+              "size" : null,
+              "height" : null,
+              "type" : null,
+              "width" : null
+            },
+            "url" : "https:\/\/assets2.ello.co\/uploads\/category\/tile_image\/51\/ello-optimized-1ab739c9.jpg"
+          }
+        },
+        "name" : "As the Raven Flies",
+        "slug" : "as-the-raven-flies",
+        "id" : "51",
+        "level" : "tertiary",
+        "allowInOnboarding" : false,
+        "order" : 23
+      }
+    ]
+  }
+}

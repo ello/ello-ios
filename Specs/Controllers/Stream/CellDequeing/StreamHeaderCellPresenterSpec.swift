@@ -211,7 +211,7 @@ class StreamHeaderCellPresenterSpec: QuickSpec {
                     StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .category(.all, .featured), indexPath: IndexPath(item: 0, section: 0), currentUser: currentUser)
                     expect(cell.followButtonVisible) == false
                     expect(cell.specs().relationshipControl.isHidden) == true
-                    expect(cell.specs().categoryButton.currentTitle) == "in Art"
+                    expect(cell.specs().categoryButton.title) == "in Art"
                     expect(cell.specs().categoryButton.isHidden) == false
                 }
                 it("hides categoryButton if not in .Featured stream") {

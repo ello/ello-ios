@@ -363,10 +363,6 @@ class ElloAPISpec: QuickSpec {
                     expect(params["per_page"] as? Int) == 10
                 }
 
-                xit("findFriends") {
-
-                }
-
                 it("following") {
                     let params = ElloAPI.following.parameters!
                     expect(params["per_page"] as? Int) == 10

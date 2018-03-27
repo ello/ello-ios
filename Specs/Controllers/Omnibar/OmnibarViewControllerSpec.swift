@@ -63,7 +63,7 @@ class OmnibarViewControllerSpec: QuickSpec {
         var subject: OmnibarViewController!
         var screen: OmnibarMockScreen!
 
-        describe("OmnibarViewController") {
+        xdescribe("OmnibarViewController") {
             context("determining screen isComment") {
                 it("should be false for a new post") {
                     subject = OmnibarViewController()

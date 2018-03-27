@@ -42,7 +42,7 @@ class ElloTabBarControllerSpec: QuickSpec {
         tabBarItem.image = UIImage.imageWithColor(.black)
         tabBarItem.selectedImage = UIImage.imageWithColor(.black)
 
-        describe("ElloTabBarController") {
+        xdescribe("ElloTabBarController") {
 
             beforeEach {
                 subject = ElloTabBarController()

@@ -93,6 +93,7 @@ class SearchScreenSpec: QuickSpec {
                         }
 
                         it("shows find friends text") {
+                            expect(Keyboard.shared.isActive) == false
                             _ = subject.textFieldShouldClear(subject.searchField)
                             expectValidSnapshot(subject)
                         }

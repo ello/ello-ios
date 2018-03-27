@@ -117,22 +117,26 @@ class CategoryCardView: View {
             let attributedString1 = NSAttributedString(
                 button: InterfaceString.Discover.ZeroState1,
                 style: .clearWhite,
-                state: .normal)
+                state: .normal
+                )
             let attributedString2 = NSAttributedString(
                 button: InterfaceString.Discover.ZeroState2,
                 style: .whiteUnderlined,
-                state: .normal)
+                state: .normal
+                )
             let attributedString3 = NSAttributedString(
                 button: InterfaceString.Discover.ZeroState3,
                 style: .clearWhite,
-                state: .normal)
+                state: .normal
+                )
             attributedString = attributedString1 + attributedString2 + attributedString3
         }
         else {
             attributedString = NSAttributedString(
                 button: info.title,
                 style: isSelected ? .whiteBoldUnderlined : .clearWhite,
-                state: .normal)
+                state: .normal
+                )
         }
         button.setAttributedTitle(attributedString, for: .normal)
     }

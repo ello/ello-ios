@@ -104,10 +104,14 @@ final class CategoryViewController: StreamableViewController {
         screen.delegate = self
         screen.showEditButton = currentUser != nil
         screen.isGridView = generator.streamKind.isGridView
-        screen.setupNavBar(back: showBackButton, animated: false)
 
         view = screen
         viewContainer = screen.streamContainer
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        screen.setupNavBar(back: showBackButton, animated: false)
     }
 
     override func viewDidLoad() {
@@ -260,7 +264,7 @@ extension CategoryViewController: CategoryStreamDestination, StreamDestination {
             return CategoryCardListView.CategoryInfo(category: category)
         }
 
-        if !hasSubscribedCategory {
+        if !hasSubscribedCategory && currentUser != nil {
             info.append(.zeroState)
         }
 

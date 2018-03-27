@@ -59,10 +59,6 @@ class CategoryViewControllerSpec: QuickSpec {
                 showController(subject)
             }
 
-            it("has a nice looking nav bar") {
-                expectValidSnapshot(subject, device: .phone6_Portrait)
-            }
-
             it("shows the back button when necessary") {
                 let category: Ello.Category = Ello.Category.stub([:])
                 subject = CategoryViewController(currentUser: currentUser, slug: category.slug)
@@ -84,7 +80,7 @@ class CategoryViewControllerSpec: QuickSpec {
                         subject.set(subscribedCategories: [
                             Category.stub(["name": "Art"])
                             ])
-                        expect(screen.categoryTitles) == [""]
+                        expect(screen.categoryTitles) == ["All", "Art"]
                     }
                     it("is logged in with subscribed categories") {
                         subject = CategoryViewController(currentUser: User.stub(["followedCategoryIds": ["1"]]), slug: "art")
@@ -93,7 +89,7 @@ class CategoryViewControllerSpec: QuickSpec {
                         subject.set(subscribedCategories: [
                             Category.stub(["name": "Art"])
                             ])
-                        expect(screen.categoryTitles) == [""]
+                        expect(screen.categoryTitles) == ["All", "Subscribed", "Art"]
                     }
                     it("is logged in with no subscribed categories") {
                         subject = CategoryViewController(currentUser: User.stub([:]), slug: "art")
@@ -102,7 +98,7 @@ class CategoryViewControllerSpec: QuickSpec {
                         subject.set(subscribedCategories: [
                             Category.stub(["name": "Art"])
                             ])
-                        expect(screen.categoryTitles) == [""]
+                        expect(screen.categoryTitles) == ["All", "Art", InterfaceString.Discover.ZeroState]
                     }
                 }
             }

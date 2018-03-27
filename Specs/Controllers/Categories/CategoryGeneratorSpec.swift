@@ -30,6 +30,44 @@ class CategoryGeneratorSpec: QuickSpec {
             }
 
             describe("load()") {
+                beforeEach {
+                    StubbedManager.current.addStub { request, sender in
+                        guard
+                            let sender = sender as? GraphQLRequest<[PageHeader]>,
+                            sender.endpointName == "pageHeaders"
+                        else { return nil }
+
+                        return stubbedData("pageHeaders")
+                    }
+
+                    StubbedManager.current.addStub { request, sender in
+                        guard
+                            let sender = sender as? GraphQLRequest<[Ello.Category]>,
+                            sender.endpointName == "categoryNav"
+                        else { return nil }
+
+                        return stubbedData("categoryNav")
+                    }
+
+                    StubbedManager.current.addStub { request, sender in
+                        guard
+                            let sender = sender as? GraphQLRequest<(PageConfig, [Post])>
+                        else { return nil }
+
+                        if sender.endpointName == "subscribedPostStream" {
+                            return stubbedData("subscribedPostStream")
+                        }
+                        else if sender.endpointName == "globalPostStream" {
+                            return stubbedData("globalPostStream")
+                        }
+                        else if sender.endpointName == "categoryPostStream" {
+                            return stubbedData("categoryPostStream")
+                        }
+                        else {
+                            return nil
+                        }
+                    }
+                }
 
                 it("sets 2 placeholders") {
                     subject.load(reloadPosts: false, reloadHeader: false, reloadCategories: false)
@@ -82,6 +120,8 @@ class CategoryDestination: CategoryStreamDestination {
             headerItems = items
         case .streamItems:
             postItems = items
+        case .streamSelection:
+            break
         default:
             otherPlaceHolderLoaded = true
         }

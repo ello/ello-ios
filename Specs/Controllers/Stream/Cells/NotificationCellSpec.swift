@@ -51,24 +51,15 @@ class NotificationCellSpec: QuickSpec {
                 let createdAt = Date(timeIntervalSinceNow: -86_460)
                 let aspectRatio: CGFloat = 1
                 let image = UIImage.imageWithColor(.blue, size: CGSize(width: 300, height: 300))!
-                let message = "<p>This is a notification!</p>"
 
-                let expectations: [(hasMessage: Bool, hasImage: Bool, canReply: Bool, buyButton: Bool)] = [
-                    (hasMessage: true, hasImage: false, canReply: false, buyButton: false),
-                    (hasMessage: true, hasImage: false, canReply: true, buyButton: false),
-                    (hasMessage: false, hasImage: true, canReply: false, buyButton: false),
-                    (hasMessage: false, hasImage: true, canReply: false, buyButton: true),
-                    (hasMessage: false, hasImage: true, canReply: true, buyButton: false),
-                    (hasMessage: false, hasImage: true, canReply: true, buyButton: true),
-                    (hasMessage: true, hasImage: true, canReply: false, buyButton: false),
-                    (hasMessage: true, hasImage: true, canReply: false, buyButton: true),
-                    (hasMessage: true, hasImage: true, canReply: true, buyButton: false),
-                    (hasMessage: true, hasImage: true, canReply: true, buyButton: true),
+                let expectations: [(hasImage: Bool, canReply: Bool, buyButton: Bool)] = [
+                    (hasImage: true, canReply: false, buyButton: false),
+                    (hasImage: true, canReply: false, buyButton: true),
+                    (hasImage: true, canReply: true, buyButton: false),
+                    (hasImage: true, canReply: true, buyButton: true),
                 ]
-                for (hasMessage, hasImage, canReply, buyButton) in expectations {
-                    // this is a huge bummer, waitUntil is not working correctly so these specs
-                    // occasionally fail in Xcode 8. Hopefully Swift 3 fixes this
-                    xit("notification\(hasMessage ? " with message" : "")\(hasImage ? " with image" : "")\(canReply ? " with reply button" : "")\(buyButton ? " with buy button" : "")") {
+                for (hasImage, canReply, buyButton) in expectations {
+                    it("notification\(hasImage ? " with image" : "")\(canReply ? " with reply button" : "")\(buyButton ? " with buy button" : "")") {
                         let subject = NotificationCell()
                         subject.title = title
                         subject.createdAt = createdAt
@@ -84,14 +75,6 @@ class NotificationCellSpec: QuickSpec {
                             subject.notificationImageView.image = image
                         }
 
-                        if hasMessage {
-                            waitUntil(timeout: 30) { done in
-                                subject.onWebContentReady { _ in
-                                    done()
-                                }
-                                subject.messageHtml = message
-                            }
-                        }
                         expectValidSnapshot(subject, device: .phone6_Portrait)
                     }
                 }

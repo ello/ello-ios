@@ -10,7 +10,6 @@ import MobileCoreServices
 
 class NSItemProviderExtensionsSpec: QuickSpec {
     override func spec() {
-
         describe("NSItemProviderExtensions") {
 
             describe("isURL()") {
@@ -54,7 +53,7 @@ class NSItemProviderExtensionsSpec: QuickSpec {
 
             describe("loadText(_:completion)") {
 
-                xit("returns text") {
+                it("returns text") {
                     let item = NSItemProvider(item: "it is text!" as NSSecureCoding?, typeIdentifier: String(kUTTypeText))
                     waitUntil(timeout: 30) { done in
                         item.loadText(nil) { (item, error) in
@@ -69,7 +68,7 @@ class NSItemProviderExtensionsSpec: QuickSpec {
 
             describe("loadURL(_:completion)") {
 
-                xit("returns a url") {
+                it("returns a url") {
                     let item = NSItemProvider(item: URL(string: "https://ello.co") as NSSecureCoding?, typeIdentifier: String(kUTTypeURL))
                     waitUntil(timeout: 30) { done in
                         item.loadURL(nil) { (item, error) in
@@ -87,7 +86,7 @@ class NSItemProviderExtensionsSpec: QuickSpec {
 
             describe("loadImage(_:completion)") {
 
-                xit("returns an image") {
+                it("returns an image") {
                     let expectedImage = UIImage()
                     let item = NSItemProvider(item: expectedImage, typeIdentifier: String(kUTTypeImage))
                     waitUntil(timeout: 30) { done in
@@ -99,10 +98,6 @@ class NSItemProviderExtensionsSpec: QuickSpec {
                         }
                     }
                 }
-            }
-
-            xdescribe("loadPreview(_:completion)") {
-                // no idea how to create an NSItemProvider to test against here
             }
         }
     }

@@ -126,7 +126,7 @@ class GraphQLRequest<T>: AuthenticationEndpoint {
         do {
             urlRequest.httpBody = try httpBody()
 
-            let task = manager.request(urlRequest) { response in
+            let task = manager.request(urlRequest, sender: self) { response in
                 if let data = response.data, let statusCode = response.response?.statusCode {
                     resolve((data, statusCode))
                 }

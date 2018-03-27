@@ -62,28 +62,6 @@ class HireViewControllerSpec: QuickSpec {
                 it("should show the success screen") {
                     expect(mockScreen.successVisible) == true
                 }
-                // test manually, because this spec never passes in xcode
-                xit("should hide the success screen after 3.3 seconds") {
-                    expect(mockScreen.successVisible).toEventually(beFalse(), timeout: 4)
-                    expect(mockScreen.successCalled).toEventually(beTrue(), timeout: 4)
-                }
-                // test manually, because this spec never passes in xcode
-                xit("should pop the controller") {
-                    expect(navigationController.popped).toEventually(beTrue(), timeout: 4)
-                }
-            }
-            describe("submit(body:\"test\") failure") {
-                beforeEach {
-                    ElloProvider.moya = ElloProvider.ErrorStubbingProvider()
-                    subject.submit(body: "test!")
-                    showController(subject)
-                }
-                xit("should pop the controller") {
-                    waitUntil(timeout: 4) { done in
-                        delay(3.1) { done() }
-                    }
-                    expect(navigationController.popped) == false
-                }
             }
         }
     }

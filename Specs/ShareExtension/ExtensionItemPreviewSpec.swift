@@ -8,7 +8,6 @@ import Nimble
 
 class ExtensionItemPreviewSpec: QuickSpec {
     override func spec() {
-
         describe("ExtensionItemPreview") {
 
             describe("==") {

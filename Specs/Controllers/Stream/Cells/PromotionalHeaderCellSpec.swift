@@ -22,10 +22,10 @@ class PromotionalHeaderCellSpec: QuickSpec {
             case .iPad: return 768
             }
         }
+
         func frame(_ height: CGFloat)  -> CGRect {
             return CGRect(x: 0, y: 0, width: self.width, height: height)
         }
-
     }
 
     override func spec() {

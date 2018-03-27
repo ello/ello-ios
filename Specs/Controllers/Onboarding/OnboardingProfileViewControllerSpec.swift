@@ -198,9 +198,6 @@ class OnboardingProfileViewControllerSpec: QuickSpec {
                     expect(props["external_links"] as? String) == "http://my.links"
                     expect(props["unsanitized_short_bio"] as? String) == "my bio"
                 }
-                // ElloS3 doesn't support/use the shared provider paradigm
-                xit("changed avatar") {}
-                xit("changed avatar,name") {}
             }
         }
     }

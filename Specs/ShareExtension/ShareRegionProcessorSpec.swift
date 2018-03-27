@@ -8,7 +8,7 @@ import Nimble
 
 class ShareRegionProcessorSpec: QuickSpec {
     override func spec() {
-        describe("ShareRegionProcessor") {
+        xdescribe("ShareRegionProcessor") {
 
             describe("prepContent(_:itemPreviews)") {
 

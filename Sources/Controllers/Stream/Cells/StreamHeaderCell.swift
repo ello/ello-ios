@@ -87,6 +87,7 @@ class StreamHeaderCell: CollectionViewCell {
         categoryButton.titleLineBreakMode = .byTruncatingTail
         repostedByButton.titleLineBreakMode = .byTruncatingTail
         artistInviteSubmissionButton.titleLineBreakMode = .byTruncatingTail
+        artistInviteSubmissionButton.contentHorizontalAlignment = .left
         usernameButton.titleLineBreakMode = .byTruncatingTail
         usernameButton.contentHorizontalAlignment = .left
 
@@ -148,7 +149,7 @@ class StreamHeaderCell: CollectionViewCell {
 
         if let category = category, categoryVisible {
             let attributedString = NSAttributedString(label: "in ", style: .gray, lineBreakMode: .byTruncatingTail)
-            let categoryName = NSAttributedString(button: category.name, style: .grayUnderlined, lineBreakMode: .byTruncatingTail)
+            let categoryName = NSAttributedString(button: category.name, style: .grayUnderlined, alignment: .left, lineBreakMode: .byTruncatingTail)
             categoryButton.setAttributedTitle(attributedString + categoryName, for: .normal)
             categoryButton.titleLineBreakMode = .byTruncatingTail
             categoryButton.sizeToFit()

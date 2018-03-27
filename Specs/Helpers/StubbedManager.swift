@@ -7,7 +7,7 @@
 class StubbedManager: Ello.RequestManager {
     static var current: StubbedManager!
 
-    typealias Stub = (URLRequest) -> StubbedTask?
+    typealias Stub = (URLRequest, Any) -> Data?
     var stubs: [Stub] = []
 
     init() {
@@ -18,25 +18,27 @@ class StubbedManager: Ello.RequestManager {
         stubs.append(stub)
     }
 
-    func request(_ request: URLRequest, _ handler: @escaping RequestHandler) -> RequestTask {
+    func request(_ request: URLRequest, sender: Any, _ handler: @escaping RequestHandler) -> RequestTask {
         var newStubs: [Stub] = []
-        var matchingTask: StubbedTask?
+        var matchingData: Data?
         for stub in stubs {
-            guard matchingTask == nil, let task = stub(request) else {
+            if matchingData == nil, let task = stub(request, sender) {
+                matchingData = task
+            }
+            else {
                 newStubs.append(stub)
-                continue
             }
 
-            matchingTask = task
         }
         stubs = newStubs
 
-        return matchingTask ?? StubbedTask(request: request, handler: handler)
+        return StubbedTask(request: request, data: matchingData ?? Data(), handler: handler)
     }
 }
 
 struct StubbedTask: Ello.RequestTask {
     let request: URLRequest
+    let data: Data
     let handler: RequestHandler
 
     func resume() {
@@ -49,7 +51,7 @@ struct StubbedTask: Ello.RequestTask {
         let response = StubbedResponse(
                     request: request,
                     response: httpResponse,
-                    data: Data(),
+                    data: data,
                     error: nil
                 )
         self.handler(response)

@@ -72,8 +72,11 @@ class CategoryScreen: HomeSubviewScreen, CategoryScreenProtocol {
 
     private var navBarVisible = true
     private var categoryCardListTop: CGFloat {
-        if navBarVisible {
-            return self.navigationBar.frame.height
+        if navBarVisible && usage == .largeNav {
+            return ElloNavigationBar.Size.discoverLargeHeight
+        }
+        else if navBarVisible {
+            return ElloNavigationBar.Size.height
         }
         else if Globals.isIphoneX {
             return Globals.statusBarHeight
@@ -142,7 +145,7 @@ class CategoryScreen: HomeSubviewScreen, CategoryScreenProtocol {
         }
 
         categoryCardList.snp.makeConstraints { make in
-            categoryCardTopConstraint = make.top.equalTo(self).constraint
+            categoryCardTopConstraint = make.top.equalTo(self).offset(categoryCardListTop).constraint
             make.leading.trailing.equalTo(self)
             make.height.equalTo(CategoryCardListView.Size.height)
         }

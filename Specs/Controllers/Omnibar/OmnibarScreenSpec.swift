@@ -88,8 +88,8 @@ class OmnibarScreenSpec: QuickSpec {
             showController(controller)
         }
 
-        describe("OmnibarScreen") {
-            it("should use the '.Twitter' keyboard") {
+        xdescribe("OmnibarScreen") {
+            it("should use the '.twitter' keyboard") {
                 expect(subject.textView.keyboardType) == UIKeyboardType.twitter
             }
 

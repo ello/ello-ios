@@ -57,7 +57,7 @@ extension NSAttributedString {
         self.init(string, color: style.textColor, font: style.font, alignment: alignment, lineBreakMode: lineBreakMode)
     }
 
-    convenience init(button string: String, style: StyledButton.Style, state: UIControlState = .normal, selected: Bool = false, lineBreakMode: NSLineBreakMode? = nil) {
+    convenience init(button string: String, style: StyledButton.Style, state: UIControlState = .normal, selected: Bool = false, alignment: NSTextAlignment = .center, lineBreakMode: NSLineBreakMode? = nil) {
         let stateColor: UIColor?
         if state == .disabled {
             stateColor = style.disabledTitleColor
@@ -76,7 +76,7 @@ extension NSAttributedString {
         }
 
         let color = stateColor ?? style.titleColor ?? .black
-        self.init(string, color: color, underlineStyle: style.underline ? .styleSingle : .styleNone, font: style.font, lineBreakMode: lineBreakMode)
+        self.init(string, color: color, underlineStyle: style.underline ? .styleSingle : .styleNone, font: style.font, alignment: alignment, lineBreakMode: lineBreakMode)
     }
 
     convenience init(primaryHeader: String, secondaryHeader: String) {

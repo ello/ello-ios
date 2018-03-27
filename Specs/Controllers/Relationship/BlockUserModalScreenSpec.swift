@@ -8,7 +8,7 @@ import Nimble
 
 
 class BlockUserModalScreenSpec: QuickSpec {
-    class FakeBlockUserModalController: UIViewController, RelationshipResponder {
+    class FakeBlockUserModalController: UIViewController, RelationshipResponder, BlockUserModalScreenDelegate {
         func relationshipTapped(_ userId: String, prev prevRelationshipPriority: RelationshipPriorityWrapper, relationshipPriority: RelationshipPriorityWrapper, complete: @escaping RelationshipChangeCompletion) {
             //
         }
