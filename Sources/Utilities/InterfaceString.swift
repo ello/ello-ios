@@ -254,9 +254,8 @@ struct InterfaceString {
         static let RelatedPosts: String = NSLocalizedString("Related Posts", comment: "Related posts title")
         static let LoadMoreComments: String = NSLocalizedString("Load More", comment: "Load More Comments title")
 
-        static let Edit: String = NSLocalizedString("Edit", comment: "Edit Post Button Title")
+        static let Feature: String = NSLocalizedString("Feature", comment: "")
         static let CreateComment: String = NSLocalizedString("Comment...", comment: "Create Comment Button Prompt")
-        static let Delete: String = NSLocalizedString("Delete", comment: "Delete Post Button Title")
         static let DeletePostConfirm: String = NSLocalizedString("Delete Post?", comment: "Delete Post confirmation")
         static let DeleteCommentConfirm: String = NSLocalizedString("Delete Comment?", comment: "Delete Comment confirmation")
         static let RepostConfirm: String = NSLocalizedString("Repost?", comment: "Repost confirmation")
