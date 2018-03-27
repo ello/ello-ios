@@ -96,7 +96,6 @@
 		12224E581A72CEC300D087EC /* PostbarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12224E571A72CEC300D087EC /* PostbarController.swift */; };
 		12241CEF1E60CAC700100C41 /* create_post_selected.svg in Resources */ = {isa = PBXBuildFile; fileRef = 12241CEE1E60CAC700100C41 /* create_post_selected.svg */; };
 		122454AE1D9F1BC700D930E0 /* ElloCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 122454AD1D9F1BC700D930E0 /* ElloCollectionView.swift */; };
-		122943271C6BF465003FCD20 /* ShareViewControllerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1291CE2D1C6A91C600EB5A55 /* ShareViewControllerSpec.swift */; };
 		122943281C6BF509003FCD20 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 124CFB991C5976E500727D11 /* ShareViewController.swift */; };
 		122943291C6BF534003FCD20 /* ExtensionItemPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 127D26531C655C87001F2E3E /* ExtensionItemPreview.swift */; };
 		1229432A1C6BF53C003FCD20 /* ShareAttachmentProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F7EB7E1C69686A0090209A /* ShareAttachmentProcessor.swift */; };
@@ -1592,7 +1591,6 @@
 		128FDF3A1DD13EAC00DBADD0 /* specs-category-image.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "specs-category-image.jpg"; sourceTree = "<group>"; };
 		128FDF3B1DD13EAC00DBADD0 /* specs-category-tile.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "specs-category-tile.jpg"; sourceTree = "<group>"; };
 		12916A411B7AA88D005B9CCF /* StreamKindSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreamKindSpec.swift; sourceTree = "<group>"; };
-		1291CE2D1C6A91C600EB5A55 /* ShareViewControllerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShareViewControllerSpec.swift; sourceTree = "<group>"; };
 		1292C0BE1AA6B41500803B1A /* FakeStreamNotificationCellSizeCalculator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeStreamNotificationCellSizeCalculator.swift; sourceTree = "<group>"; };
 		12931BCB1BFE8E30009B26F9 /* checkmini_normal.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = checkmini_normal.svg; sourceTree = "<group>"; };
 		12931BCC1BFE8E30009B26F9 /* checkmini_selected.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = checkmini_selected.svg; sourceTree = "<group>"; };
@@ -2929,7 +2927,6 @@
 				1229432D1C6C101E003FCD20 /* ExtensionItemPreviewSpec.swift */,
 				1229432F1C6C355A003FCD20 /* NSItemProviderExtensionsSpec.swift */,
 				120FF6CA1C6D903D00D5BABD /* ShareRegionProcessorSpec.swift */,
-				1291CE2D1C6A91C600EB5A55 /* ShareViewControllerSpec.swift */,
 			);
 			path = ShareExtension;
 			sourceTree = "<group>";
@@ -5387,7 +5384,6 @@
 				1DF984061D9B0C1E0055EFC7 /* OnboardingViewControllerSpec.swift in Sources */,
 				127535211B73F7B2006B9A0F /* DateSpecs.swift in Sources */,
 				1D9225541C3B23E000553BAE /* ExperienceUpdateSpec.swift in Sources */,
-				122943271C6BF465003FCD20 /* ShareViewControllerSpec.swift in Sources */,
 				1DBFD9F01DFB33DC0058843D /* AnnouncementCellSizeCalculatorSpec.swift in Sources */,
 				1D3DED7C1AE1C07800F1D514 /* ElloTextFieldViewSpec.swift in Sources */,
 				1DCB12481B5EAE2A0023664C /* CGSizeSpec.swift in Sources */,

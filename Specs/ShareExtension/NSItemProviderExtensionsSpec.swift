@@ -83,22 +83,6 @@ class NSItemProviderExtensionsSpec: QuickSpec {
                     }
                 }
             }
-
-            describe("loadImage(_:completion)") {
-
-                it("returns an image") {
-                    let expectedImage = UIImage()
-                    let item = NSItemProvider(item: expectedImage, typeIdentifier: String(kUTTypeImage))
-                    waitUntil(timeout: 30) { done in
-                        item.loadImage(nil) { (item, error) in
-                            if let image = item as? UIImage {
-                                expect(image) == expectedImage
-                            }
-                            done()
-                        }
-                    }
-                }
-            }
         }
     }
 }

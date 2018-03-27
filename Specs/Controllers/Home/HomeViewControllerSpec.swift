@@ -9,7 +9,7 @@ import Nimble
 
 class HomeViewControllerSpec: QuickSpec {
     override func spec() {
-        xdescribe("HomeViewController") {
+        describe("HomeViewController") {
             var subject: HomeViewController!
 
             beforeEach {

@@ -34,7 +34,6 @@ class HireViewControllerSpec: QuickSpec {
     }
 
     override func spec() {
-        var navigationController: FakeNavigationController!
         var subject: HireViewController!
         var mockScreen: MockScreen!
 
@@ -43,7 +42,6 @@ class HireViewControllerSpec: QuickSpec {
             let user: User = stub([:])
             subject = HireViewController(user: user, type: .hire)
             subject.screen = mockScreen
-            navigationController = FakeNavigationController(rootViewController: subject)
         }
 
         describe("HireViewController") {
