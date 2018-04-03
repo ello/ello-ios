@@ -17,6 +17,7 @@ class PostFeaturedControlCell: CollectionViewCell {
     override var isSelected: Bool {
         didSet {
             icon.isSelected = isSelected
+            label.text = isSelected ? InterfaceString.Post.Featured : InterfaceString.Post.Feature
         }
     }
 

@@ -116,6 +116,17 @@ enum StreamKind {
         }
     }
 
+    var isCategoryStream: Bool {
+        switch self {
+        case let .category(selection, _):
+            switch selection {
+            case .category: return true
+            default: return false
+            }
+        default: return false
+        }
+    }
+
     var endpoint: ElloAPI {
         switch self {
         case .announcements: return .announcements

@@ -365,6 +365,11 @@ extension User {
     func subscribedTo(categoryId: String) -> Bool {
         return followedCategoryIds.contains(categoryId)
     }
+
+    func isCuratorOf(category: Category) -> Bool {
+        return true
+    }
+
 }
 
 extension User {
