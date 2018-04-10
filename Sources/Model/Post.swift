@@ -54,6 +54,10 @@ final class Post: JSONAble, Authorable, Groupable {
     var repostSource: Post? {
         return getLinkObject("reposted_source") as? Post
     }
+    var featuredBy: User? {
+        return author
+    }
+
     // nested resources
     var comments: [ElloComment]? {
         if let nestedComments = getLinkArray("comments") as? [ElloComment] {

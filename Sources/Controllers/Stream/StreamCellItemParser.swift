@@ -84,12 +84,17 @@ struct StreamCellItemParser {
         if let submission = submission, submission.actions.count > 0 {
             cellItems.append(StreamCellItem(jsonable: submission, type: .artistInviteAdminControls))
         }
-        else if streamKind.isCategoryStream,
+
+        if streamKind.isCategoryStream,
             let category = post.category,
             let currentUser = currentUser,
             currentUser.isCuratorOf(category: category)
         {
             cellItems.append(StreamCellItem(jsonable: post, type: .postFeaturedControl))
+        }
+
+        if let featuredBy = post.featuredBy {
+            cellItems.append(StreamCellItem(jsonable: post, type: .postFeaturedBy))
         }
 
         cellItems += postToggleItems(post)
