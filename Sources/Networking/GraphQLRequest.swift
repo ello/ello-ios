@@ -75,7 +75,7 @@ class GraphQLRequest<T>: AuthenticationEndpoint {
     var endpointName: String
     var parser: ((JSON) throws -> T)
     var variables: [Variable]
-    var fragments: [Fragment]
+    var fragments: [Fragments]
     var body: String
 
     var manager: RequestManager
@@ -83,7 +83,7 @@ class GraphQLRequest<T>: AuthenticationEndpoint {
     private var url: URL { return URL(string: "\(ElloURI.baseURL)/api/v3/graphql")! }
     private var uuid: UUID!
 
-    init(endpointName: String, parser: @escaping ((JSON) throws -> T), variables: [Variable] = [], fragments: [Fragment] = [], body: String) {
+    init(endpointName: String, parser: @escaping ((JSON) throws -> T), variables: [Variable] = [], fragments: [Fragments] = [], body: String) {
         self.endpointName = endpointName
         self.parser = parser
         self.variables = variables
@@ -248,10 +248,10 @@ extension GraphQLRequest {
     }
 
     private func httpBody() throws -> Data {
-        var query: String = ""
+        var query = ""
 
         if fragments.count > 0 {
-            let fragmentsQuery = Fragment.flatten(fragments)
+            let fragmentsQuery = Fragments.flatten(fragments)
             query += fragmentsQuery + "\n"
         }
 

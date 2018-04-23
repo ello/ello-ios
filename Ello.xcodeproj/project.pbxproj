@@ -845,9 +845,9 @@
 		1D808791203C9F950081E8FE /* PageHeaderParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D80878D20376AD50081E8FE /* PageHeaderParser.swift */; };
 		1D808792203C9F960081E8FE /* PageHeaderParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D80878D20376AD50081E8FE /* PageHeaderParser.swift */; };
 		1D808794203C9FE30081E8FE /* StubbedManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D808793203C9FE30081E8FE /* StubbedManager.swift */; };
-		1D808797203CB08C0081E8FE /* Fragment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D808795203CAE800081E8FE /* Fragment.swift */; };
-		1D808798203CB08D0081E8FE /* Fragment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D808795203CAE800081E8FE /* Fragment.swift */; };
-		1D808799203CB08E0081E8FE /* Fragment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D808795203CAE800081E8FE /* Fragment.swift */; };
+		1D808797203CB08C0081E8FE /* Fragments.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D808795203CAE800081E8FE /* Fragments.swift */; };
+		1D808798203CB08D0081E8FE /* Fragments.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D808795203CAE800081E8FE /* Fragments.swift */; };
+		1D808799203CB08E0081E8FE /* Fragments.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D808795203CAE800081E8FE /* Fragments.swift */; };
 		1D81E1D11C4E8DE6001C63DC /* ReauthenticationSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D81E1D01C4E8DE6001C63DC /* ReauthenticationSpec.swift */; };
 		1D8783161ECCF45E00253602 /* EditorialExternalCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8783131ECCF45E00253602 /* EditorialExternalCell.swift */; };
 		1D8783171ECCF45E00253602 /* EditorialPostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8783141ECCF45E00253602 /* EditorialPostCell.swift */; };
@@ -1992,7 +1992,7 @@
 		1D80878920376AA20081E8FE /* PageHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageHeader.swift; sourceTree = "<group>"; };
 		1D80878D20376AD50081E8FE /* PageHeaderParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageHeaderParser.swift; sourceTree = "<group>"; };
 		1D808793203C9FE30081E8FE /* StubbedManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubbedManager.swift; sourceTree = "<group>"; };
-		1D808795203CAE800081E8FE /* Fragment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Fragment.swift; sourceTree = "<group>"; };
+		1D808795203CAE800081E8FE /* Fragments.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Fragments.swift; sourceTree = "<group>"; };
 		1D81E1D01C4E8DE6001C63DC /* ReauthenticationSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReauthenticationSpec.swift; sourceTree = "<group>"; };
 		1D8783131ECCF45E00253602 /* EditorialExternalCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditorialExternalCell.swift; sourceTree = "<group>"; };
 		1D8783141ECCF45E00253602 /* EditorialPostCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditorialPostCell.swift; sourceTree = "<group>"; };
@@ -2555,7 +2555,7 @@
 				1207C95A1C73FEE000939ADB /* ElloS3.swift */,
 				1207C95B1C73FEE000939ADB /* ElloURI.swift */,
 				1207C95C1C73FEE000939ADB /* ErrorStatusCode.swift */,
-				1D808795203CAE800081E8FE /* Fragment.swift */,
+				1D808795203CAE800081E8FE /* Fragments.swift */,
 				1D0DF90D2023AB1F00019875 /* GraphQLRequest.swift */,
 				1D59EF911D6624DC0029C106 /* HireService.swift */,
 				1D447F141F3BCAD700013384 /* ImageRegionData.swift */,
@@ -5264,7 +5264,7 @@
 				12DEB2511C5BFB6F00D4CDCE /* StringExtensions.swift in Sources */,
 				1D5933921D1492D100EAF03D /* Category.swift in Sources */,
 				122B30DD1C6A3FBF00C1B9D8 /* User.swift in Sources */,
-				1D808797203CB08C0081E8FE /* Fragment.swift in Sources */,
+				1D808797203CB08C0081E8FE /* Fragments.swift in Sources */,
 				122D1B4E1C602337001386CE /* BoxType.swift in Sources */,
 				126F2C031C5C1D8D00D22BAB /* DictionaryExtensions.swift in Sources */,
 				122D1B9E1C61311F001386CE /* AlertCell.swift in Sources */,
@@ -5993,7 +5993,7 @@
 				1DB8C6A51D78DB12007E1447 /* AddressBookController.swift in Sources */,
 				76629C6F1A95067400E1F92B /* BlockUserModalViewController.swift in Sources */,
 				1D7152B41D6E4FCE005998FE /* ValidationState.swift in Sources */,
-				1D808799203CB08E0081E8FE /* Fragment.swift in Sources */,
+				1D808799203CB08E0081E8FE /* Fragments.swift in Sources */,
 				1D2F65BB1D1AE5790099D036 /* UIEdgeInsetsExtensions.swift in Sources */,
 				12B291381DDF5E9F0056C52E /* CategoryCardView.swift in Sources */,
 				1DC78A1E1F17F0B700BE2413 /* OnboardingCreatorTypeProtocols.swift in Sources */,
@@ -6239,7 +6239,7 @@
 				1D447EE81F3BC7A300013384 /* JWT.swift in Sources */,
 				1D447EF11F3BC84D00013384 /* AutoCompleteResult.swift in Sources */,
 				1D0DF8E9202384BE00019875 /* ArtistInviteParser.swift in Sources */,
-				1D808798203CB08D0081E8FE /* Fragment.swift in Sources */,
+				1D808798203CB08D0081E8FE /* Fragments.swift in Sources */,
 				1D447F191F3BCB3400013384 /* NotificationOverrides.swift in Sources */,
 				1D447EF61F3BC92500013384 /* InterfaceImage.swift in Sources */,
 				1D447EF41F3BC8C400013384 /* RegionParser.swift in Sources */,

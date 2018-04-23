@@ -41,8 +41,8 @@ struct API {
                 (.enum("kind", "StreamKind", filter.graphQL)),
                 (.optionalString("before", before)),
             ],
-            fragments: [Fragment.postStream],
-            body: Fragment.postStreamBody
+            fragments: [Fragments.postStream],
+            body: Fragments.postStreamBody
             )
         return request
     }
@@ -56,8 +56,8 @@ struct API {
                 (.string("slug", categorySlug)),
                 (.optionalString("before", before)),
             ],
-            fragments: [Fragment.postStream],
-            body: Fragment.postStreamBody
+            fragments: [Fragments.postStream],
+            body: Fragments.postStreamBody
             )
         return request
     }
@@ -70,8 +70,8 @@ struct API {
                 (.enum("kind", "StreamKind", filter.graphQL)),
                 (.optionalString("before", before)),
             ],
-            fragments: [Fragment.postStream],
-            body: Fragment.postStreamBody
+            fragments: [Fragments.postStream],
+            body: Fragments.postStreamBody
             )
         return request
     }
@@ -81,9 +81,9 @@ struct API {
             endpointName: "allCategories",
             parser: ManyParser<Category>(CategoryParser()).parse,
             fragments: [
-                Fragment.tshirtProps,
+                Fragments.tshirtProps,
             ],
-            body: Fragment.categoriesBody
+            body: Fragments.categoriesBody
             )
         return request
     }
@@ -93,9 +93,9 @@ struct API {
             endpointName: "categoryNav",
             parser: ManyParser<Category>(CategoryParser()).parse,
             fragments: [
-                Fragment.tshirtProps,
+                Fragments.tshirtProps,
             ],
-            body: Fragment.categoriesBody
+            body: Fragments.categoriesBody
             )
         return request
     }
@@ -109,10 +109,10 @@ struct API {
                 (.optionalString("slug", kind.slug)),
             ],
             fragments: [
-                Fragment.responsiveProps,
-                Fragment.pageHeaderUserProps,
+                Fragments.responsiveProps,
+                Fragments.pageHeaderUserProps,
             ],
-            body: Fragment.pageHeaderBody
+            body: Fragments.pageHeaderBody
             )
         return request
     }
@@ -125,8 +125,8 @@ struct API {
                 (.string("username", username)),
                 (.optionalString("before", before)),
             ],
-            fragments: [Fragment.postStream],
-            body: Fragment.postStreamBody
+            fragments: [Fragments.postStream],
+            body: Fragments.postStreamBody
             )
         return request
     }
