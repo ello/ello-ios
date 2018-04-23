@@ -66,8 +66,8 @@ class GraphQLRequest<T>: AuthenticationEndpoint {
         }
     }
 
-    var prevPromise: Promise<T>?
-    var prevSeal: Resolver<T>?
+    private var prevPromise: Promise<T>?
+    private var prevSeal: Resolver<T>?
 
     var requiresAnyToken: Bool = true
     var supportsAnonymousToken: Bool = true
