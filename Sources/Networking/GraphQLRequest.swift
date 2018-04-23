@@ -18,7 +18,7 @@ class GraphQLRequest<T>: AuthenticationEndpoint {
         case bool(String, Bool)
         case optionalBool(String, Bool?)
         case `enum`(String, String, String)
-        case optionalEnum(String, String, String?)
+        case optionalEnum(String, String?, String)
 
         var name: String {
             switch self {
@@ -45,8 +45,8 @@ class GraphQLRequest<T>: AuthenticationEndpoint {
             case .optionalFloat: return "Float"
             case .bool: return "Bool!"
             case .optionalBool: return "Bool"
-            case let .`enum`(_, type, _): return "\(type)!"
-            case let .optionalEnum(_, type, _): return type
+            case let .`enum`(_, _, type): return "\(type)!"
+            case let .optionalEnum(_, _, type): return type
             }
         }
 
@@ -60,8 +60,8 @@ class GraphQLRequest<T>: AuthenticationEndpoint {
             case let .optionalFloat(_, value): return value
             case let .bool(_, value): return value
             case let .optionalBool(_, value): return value
-            case let .`enum`(_, _, value): return value
-            case let .optionalEnum(_, _, value): return value
+            case let .`enum`(_, value, _): return value
+            case let .optionalEnum(_, value, _): return value
             }
         }
     }

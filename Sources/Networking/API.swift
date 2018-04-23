@@ -38,7 +38,7 @@ struct API {
             endpointName: "globalPostStream",
             parser: PageParser<Post>("posts", PostParser()).parse,
             variables: [
-                (.enum("kind", "StreamKind", filter.graphQL)),
+                (.enum("kind", filter.graphQL, "StreamKind")),
                 (.optionalString("before", before)),
             ],
             fragments: [Fragments.postStream],
@@ -52,7 +52,7 @@ struct API {
             endpointName: "categoryPostStream",
             parser: PageParser<Post>("posts", PostParser()).parse,
             variables: [
-                (.enum("kind", "StreamKind", filter.graphQL)),
+                (.enum("kind", filter.graphQL, "StreamKind")),
                 (.string("slug", categorySlug)),
                 (.optionalString("before", before)),
             ],
@@ -67,7 +67,7 @@ struct API {
             endpointName: "subscribedPostStream",
             parser: PageParser<Post>("posts", PostParser()).parse,
             variables: [
-                (.enum("kind", "StreamKind", filter.graphQL)),
+                (.enum("kind", filter.graphQL, "StreamKind")),
                 (.optionalString("before", before)),
             ],
             fragments: [Fragments.postStream],
@@ -105,7 +105,7 @@ struct API {
             endpointName: "pageHeaders",
             parser: ManyParser<PageHeader>(PageHeaderParser()).parse,
             variables: [
-                (.enum("kind", "PageHeaderKind", kind.apiKind)),
+                (.enum("kind", kind.apiKind, "PageHeaderKind")),
                 (.optionalString("slug", kind.slug)),
             ],
             fragments: [
