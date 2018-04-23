@@ -81,18 +81,18 @@ final class ProfileGenerator: StreamGenerator {
         }
     }
 
-    func loadNextPage() -> Promise<[JSONAble]>? {
+    func loadNextPage() -> Promise<[Model]>? {
         guard
             let nextPageRequest = nextPageRequest
         else { return nil }
 
         return nextPageRequest
             .execute()
-            .map { (pageConfig, posts) -> [JSONAble] in
+            .map { (pageConfig, posts) -> [Model] in
                 self.setNextPageConfig(pageConfig)
                 return posts
             }
-            .recover { error -> Promise<[JSONAble]> in
+            .recover { error -> Promise<[Model]> in
                 let errorConfig = PageConfig(next: nil, isLastPage: true)
                 self.destination?.setPagingConfig(responseConfig: ResponseConfig(pageConfig: errorConfig))
                 throw error
@@ -147,7 +147,7 @@ extension ProfileGenerator {
                 doneOperation.run()
             }
             .catch { _ in
-                self.destination?.primaryJSONAbleNotFound()
+                self.destination?.primaryModelNotFound()
                 self.queue.cancelAllOperations()
             }
     }

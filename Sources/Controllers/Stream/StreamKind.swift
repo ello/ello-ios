@@ -143,7 +143,7 @@ enum StreamKind {
         }
     }
 
-    func filter(_ jsonables: [JSONAble], viewsAdultContent: Bool) -> [JSONAble] {
+    func filter(_ jsonables: [Model], viewsAdultContent: Bool) -> [Model] {
         switch self {
         case let .simpleStream(endpoint, _):
             switch endpoint {

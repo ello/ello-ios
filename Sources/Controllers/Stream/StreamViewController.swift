@@ -23,7 +23,7 @@ final class StreamViewController: BaseElloViewController {
         return postbarController
     }
 
-    var currentJSONables = [JSONAble]()
+    var currentJSONables = [Model]()
 
     var dataSource: StreamDataSource!
     var collectionViewDataSource: CollectionViewDataSource!
@@ -377,9 +377,9 @@ final class StreamViewController: BaseElloViewController {
                     switch response {
                     case let .jsonables(jsonables, responseConfig):
                         self.responseConfig = responseConfig
-                        self.showInitialJSONAbles(jsonables)
+                        self.showInitialModels(jsonables)
                     case .empty:
-                        self.showInitialJSONAbles([])
+                        self.showInitialModels([])
                     }
                 }
                 .catch { error in
@@ -390,7 +390,7 @@ final class StreamViewController: BaseElloViewController {
 
     /// This method can be called by a `StreamableViewController` if it wants to
     /// override `loadInitialPage`, but doesn't need to customize the cell generation.
-    func showInitialJSONAbles(_ jsonables: [JSONAble]) {
+    func showInitialModels(_ jsonables: [Model]) {
         clearForInitialLoad()
         currentJSONables = jsonables
 
@@ -404,7 +404,7 @@ final class StreamViewController: BaseElloViewController {
         }
     }
 
-    private func generateStreamCellItems(_ jsonables: [JSONAble]) -> [StreamCellItem] {
+    private func generateStreamCellItems(_ jsonables: [Model]) -> [StreamCellItem] {
         let defaultGenerator: StreamCellItemGenerator = {
             return StreamCellItemParser().parse(jsonables, streamKind: self.streamKind, currentUser: self.currentUser)
         }
@@ -518,7 +518,7 @@ final class StreamViewController: BaseElloViewController {
             }
         }
 
-        jsonableChangedNotification = NotificationObserver(notification: JSONAbleChangedNotification) { [weak self] (jsonable, change) in
+        jsonableChangedNotification = NotificationObserver(notification: ModelChangedNotification) { [weak self] (jsonable, change) in
             guard
                 let `self` = self, self.initialDataLoaded && self.isViewLoaded
             else { return }
@@ -965,12 +965,12 @@ extension StreamViewController: AnnouncementCellResponder {
 
 extension StreamViewController: UICollectionViewDelegate {
 
-    func jsonable(forPath indexPath: IndexPath) -> JSONAble? {
+    func jsonable(forPath indexPath: IndexPath) -> Model? {
         guard let streamCellItem = collectionViewDataSource.streamCellItem(at: indexPath) else { return nil }
         return streamCellItem.jsonable
     }
 
-    func jsonable(forCell cell: UICollectionViewCell) -> JSONAble? {
+    func jsonable(forCell cell: UICollectionViewCell) -> Model? {
         guard let indexPath = collectionView.indexPath(for: cell) else { return nil}
         return jsonable(forPath: indexPath)
     }
@@ -1203,7 +1203,7 @@ extension StreamViewController: UIScrollViewDelegate {
 
         scrollToPaginateGuard = false
 
-        let infiniteScrollGenerator: Promise<[JSONAble]>
+        let infiniteScrollGenerator: Promise<[Model]>
         if let delegateScrollGenerator = streamViewDelegate?.streamViewInfiniteScroll() {
             infiniteScrollGenerator = delegateScrollGenerator
         }
@@ -1211,8 +1211,8 @@ extension StreamViewController: UIScrollViewDelegate {
             guard let nextQuery = responseConfig?.nextQuery else { return .value(Void()) }
             let scrollAPI = ElloAPI.infiniteScroll(query: nextQuery, api: streamKind.endpoint)
             infiniteScrollGenerator = StreamService().loadStream(endpoint: scrollAPI, streamKind: streamKind)
-                .map { response -> [JSONAble] in
-                    let scrollJsonables: [JSONAble]
+                .map { response -> [Model] in
+                    let scrollJsonables: [Model]
                     switch response {
                     case let .jsonables(jsonables, responseConfig):
                         scrollJsonables = jsonables
@@ -1236,7 +1236,7 @@ extension StreamViewController: UIScrollViewDelegate {
     }
 
     @discardableResult
-    private func scrollLoaded(jsonables: [JSONAble] = [], placeholderType: StreamCellType.PlaceholderType? = nil) -> Promise<Void> {
+    private func scrollLoaded(jsonables: [Model] = [], placeholderType: StreamCellType.PlaceholderType? = nil) -> Promise<Void> {
         guard
             let lastIndexPath = collectionView.lastIndexPathForSection(0)
         else { return .value(Void()) }

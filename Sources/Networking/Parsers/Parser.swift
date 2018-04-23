@@ -17,7 +17,7 @@ class Parser {
     private var linkedObjects: [(type: MappingType, jsonKey: String, linkKey: String)] = []
 
     @discardableResult
-    static func saveToDB(parser: Parser, identifier: Identifier, db: inout Database) -> JSONAble? {
+    static func saveToDB(parser: Parser, identifier: Identifier, db: inout Database) -> Model? {
         guard
             var table = db[identifier.table],
             let json = table[identifier.id]
@@ -93,7 +93,7 @@ class Parser {
         db[identifier.table] = table
     }
 
-    func parse(json: JSON) -> JSONAble? {
+    func parse(json: JSON) -> Model? {
         return nil
     }
 }

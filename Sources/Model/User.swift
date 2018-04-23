@@ -16,7 +16,7 @@ import SwiftyJSON
 let UserVersion: Int = 8
 
 @objc(User)
-final class User: JSONAble {
+final class User: Model {
 
     let id: String
     let username: String
@@ -233,7 +233,7 @@ final class User: JSONAble {
         super.encode(with: coder)
     }
 
-    override func merge(_ other: JSONAble) -> JSONAble {
+    override func merge(_ other: Model) -> Model {
         if let otherUser = other as? User {
             if otherUser.formattedShortBio == nil {
                 otherUser.formattedShortBio = formattedShortBio

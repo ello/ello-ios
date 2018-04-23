@@ -184,7 +184,7 @@ class UserSpec: QuickSpec {
                 }
             }
 
-            describe("merge(JSONAble)") {
+            describe("merge(Model)") {
                 it("returns non-User objects") {
                     let post: Post = stub([:])
                     let user: User = stub([:])

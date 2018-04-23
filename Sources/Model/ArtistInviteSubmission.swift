@@ -7,7 +7,7 @@ import Moya
 
 
 @objc(ArtistInviteSubmission)
-final class ArtistInviteSubmission: JSONAble, Groupable, PostActionable {
+final class ArtistInviteSubmission: Model, Groupable, PostActionable {
     // Version 1: initial
     // Version 2: artistInviteId, postId
     static let Version = 2

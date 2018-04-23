@@ -12,7 +12,7 @@ struct StreamLoadedNotifications {
 
 class StreamService {
     enum StreamResponse {
-        case jsonables([JSONAble], ResponseConfig)
+        case jsonables([Model], ResponseConfig)
         case empty
     }
 
@@ -29,7 +29,7 @@ class StreamService {
                     }
                 }
 
-                let jsonables = (data as? [JSONAble]) ?? (data as? JSONAble).map { [$0] }
+                let jsonables = (data as? [Model]) ?? (data as? Model).map { [$0] }
                 if data as? String == "" {
                     return .empty
                 }
@@ -41,7 +41,7 @@ class StreamService {
                     return .jsonables(jsonables, responseConfig)
                 }
                 else {
-                    throw NSError.uncastableJSONAble()
+                    throw NSError.uncastableModel()
                 }
             }
     }

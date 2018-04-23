@@ -20,7 +20,7 @@ struct UserService {
         return ElloProvider.shared.request(.join(email: email, username: username, password: password, invitationCode: invitationCode))
             .then { data, _ -> Promise<User> in
                 guard let user = data as? User else {
-                    throw NSError.uncastableJSONAble()
+                    throw NSError.uncastableModel()
                 }
 
                 let promise: Promise<User> = CredentialsAuthService().authenticate(email: email, password: password)
@@ -40,7 +40,7 @@ struct UserService {
         return ElloProvider.shared.request(.resetPassword(password: password, authToken: authToken))
             .map { user, _ -> User in
                 guard let user = user as? User else {
-                    throw NSError.uncastableJSONAble()
+                    throw NSError.uncastableModel()
                 }
                 return user
             }
@@ -50,7 +50,7 @@ struct UserService {
         return ElloProvider.shared.request(endpoint)
             .map { data, responseConfig -> User in
                 guard let user = data as? User else {
-                    throw NSError.uncastableJSONAble()
+                    throw NSError.uncastableModel()
                 }
                 Preloader().preloadImages([user])
                 return user
@@ -76,7 +76,7 @@ struct UserService {
                     return (posts, responseConfig)
                 }
                 else {
-                    throw NSError.uncastableJSONAble()
+                    throw NSError.uncastableModel()
                 }
             }
     }

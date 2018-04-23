@@ -7,7 +7,7 @@ extension NSError {
         return userInfo[NSLocalizedFailureReasonErrorKey] as? ElloNetworkError
     }
 
-    static func uncastableJSONAble() -> NSError {
+    static func uncastableModel() -> NSError {
         return NSError.networkError(nil, code: .jsonMapping)
     }
 

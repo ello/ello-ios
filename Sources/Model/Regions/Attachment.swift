@@ -8,7 +8,7 @@ import SwiftyJSON
 let AttachmentVersion = 1
 
 @objc(Attachment)
-final class Attachment: JSONAble {
+final class Attachment: Model {
 
     let url: URL
     var size: Int?

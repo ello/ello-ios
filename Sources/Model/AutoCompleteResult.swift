@@ -10,7 +10,7 @@ import SwiftyJSON
 let AutoCompleteResultVersion: Int = 2
 
 @objc(AutoCompleteResult)
-final class AutoCompleteResult: JSONAble {
+final class AutoCompleteResult: Model {
 
     var name: String?
     var url: URL?

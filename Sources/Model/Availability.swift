@@ -8,7 +8,7 @@ import SwiftyJSON
 let AvailabilityVersion = 1
 
 @objc(Availability)
-final class Availability: JSONAble {
+final class Availability: Model {
     let isUsernameAvailable: Bool
     let isEmailAvailable: Bool
     let isInvitationCodeAvailable: Bool

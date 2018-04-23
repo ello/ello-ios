@@ -11,7 +11,7 @@ let CategoryVersion = 4
 
 
 @objc(Category)
-final class Category: JSONAble, Groupable {
+final class Category: Model, Groupable {
     enum Selection {
         case all
         case subscribed

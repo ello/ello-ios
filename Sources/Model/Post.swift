@@ -10,7 +10,7 @@ import SwiftyJSON
 let PostVersion = 2
 
 @objc(Post)
-final class Post: JSONAble, Authorable, Groupable {
+final class Post: Model, Authorable, Groupable {
 
     let id: String
     let createdAt: Date

@@ -4,7 +4,7 @@
 
 struct StreamCellItemParser {
 
-    func parse(_ items: [JSONAble], streamKind: StreamKind, forceGrid: Bool = false, currentUser: User? = nil) -> [StreamCellItem] {
+    func parse(_ items: [Model], streamKind: StreamKind, forceGrid: Bool = false, currentUser: User? = nil) -> [StreamCellItem] {
         let viewsAdultContent = currentUser?.viewsAdultContent ?? false
         let isGridView = forceGrid || streamKind.isGridView
         let filteredItems = streamKind.filter(items, viewsAdultContent: viewsAdultContent)
@@ -47,7 +47,7 @@ struct StreamCellItemParser {
         return streamItems
     }
 
-    private func typicalCellItems(_ jsonable: JSONAble, type: StreamCellType) -> [StreamCellItem] {
+    private func typicalCellItems(_ jsonable: Model, type: StreamCellType) -> [StreamCellItem] {
         return [StreamCellItem(jsonable: jsonable, type: type)]
     }
 
@@ -144,7 +144,7 @@ struct StreamCellItemParser {
         }
     }
 
-    private func regionItems(_ jsonable: JSONAble, content: [Regionable]) -> [StreamCellItem] {
+    private func regionItems(_ jsonable: Model, content: [Regionable]) -> [StreamCellItem] {
         return content.flatMap(regionStreamCells).map { StreamCellItem(jsonable: jsonable, type: $0) }
     }
 
@@ -191,7 +191,7 @@ struct StreamCellItemParser {
 
 // MARK: For Testing
 extension StreamCellItemParser {
-    func testingTypicalCellItems(_ jsonable: JSONAble, type: StreamCellType) -> [StreamCellItem] {
+    func testingTypicalCellItems(_ jsonable: Model, type: StreamCellType) -> [StreamCellItem] {
         return typicalCellItems(jsonable, type: type)
     }
     func testingPostCellItems(_ post: Post, streamKind: StreamKind, isGridView: Bool, currentUser: User?) -> [StreamCellItem] {

@@ -158,7 +158,7 @@ final class CategoryViewController: StreamableViewController {
         userDidScroll = true
     }
 
-    override func streamViewInfiniteScroll() -> Promise<[JSONAble]>? {
+    override func streamViewInfiniteScroll() -> Promise<[Model]>? {
         return generator.loadNextPage()
     }
 }
@@ -229,7 +229,7 @@ extension CategoryViewController: CategoryStreamDestination, StreamDestination {
         streamViewController.clearForInitialLoad(newItems: items)
     }
 
-    func setPrimary(jsonable: JSONAble) {
+    func setPrimary(jsonable: Model) {
         guard let pageHeader = jsonable as? PageHeader else { return }
         self.pageHeader = pageHeader
 
@@ -300,7 +300,7 @@ extension CategoryViewController: CategoryStreamDestination, StreamDestination {
         updateInsets()
     }
 
-    func primaryJSONAbleNotFound() {
+    func primaryModelNotFound() {
     }
 
     func setPagingConfig(responseConfig: ResponseConfig) {

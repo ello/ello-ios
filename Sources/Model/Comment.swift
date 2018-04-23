@@ -8,7 +8,7 @@ import SwiftyJSON
 let CommentVersion = 1
 
 @objc(ElloComment)
-final class ElloComment: JSONAble, Authorable, Groupable {
+final class ElloComment: Model, Authorable, Groupable {
 
     let id: String
     let createdAt: Date

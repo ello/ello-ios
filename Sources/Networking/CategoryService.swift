@@ -15,7 +15,7 @@ class CategoryService {
         return ElloProvider.shared.request(.categories)
             .map { data, _ -> [Category] in
                 guard let categories = data as? [Category] else {
-                    throw NSError.uncastableJSONAble()
+                    throw NSError.uncastableModel()
                 }
                 Globals.cachedCategories = categories
                 Preloader().preloadImages(categories)
@@ -38,7 +38,7 @@ class CategoryService {
         return ElloProvider.shared.request(.category(slug: categorySlug))
             .map { data, _ -> Category in
                 guard let category = data as? Category else {
-                    throw NSError.uncastableJSONAble()
+                    throw NSError.uncastableModel()
                 }
                 Preloader().preloadImages([category])
                 return category

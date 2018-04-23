@@ -6,7 +6,7 @@ import SwiftyJSON
 
 
 @objc(Profile)
-final class Profile: JSONAble {
+final class Profile: Model {
     // version 1: initial
     // version 2: added hasAutoWatchEnabled and moved in notifyOfWatch* settings
     // version 3: added notifyOfAnnouncementsViaPush

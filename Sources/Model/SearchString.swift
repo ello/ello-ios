@@ -5,7 +5,7 @@
 let SearchStringVersion: Int = 1
 
 @objc(SearchString)
-final class SearchString: JSONAble {
+final class SearchString: Model {
     var text: String
 
     init(text: String) {

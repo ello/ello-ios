@@ -10,7 +10,7 @@ class RePostService {
         return ElloProvider.shared.request(.rePost(postId: post.id))
             .map { response -> Post in
                 guard let repost = response.0 as? Post else {
-                    throw NSError.uncastableJSONAble()
+                    throw NSError.uncastableModel()
                 }
                 return repost
             }

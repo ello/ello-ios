@@ -59,7 +59,7 @@ private extension ArtistInviteDetailGenerator {
                 self.setArtistInvite(artistInvite)
             }
             .catch { _ in
-                self.destination?.primaryJSONAbleNotFound()
+                self.destination?.primaryModelNotFound()
             }
     }
 
@@ -98,7 +98,7 @@ private extension ArtistInviteDetailGenerator {
                 guard
                     case let .jsonables(jsonables, responseConfig) = response,
                     let submissions = jsonables as? [ArtistInviteSubmission]
-                else { throw NSError.uncastableJSONAble() }
+                else { throw NSError.uncastableModel() }
 
                 self.destination?.setPagingConfig(responseConfig: responseConfig)
 

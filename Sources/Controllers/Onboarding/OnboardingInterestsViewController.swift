@@ -35,7 +35,7 @@ class OnboardingInterestsViewController: StreamableViewController {
     override func showNavBars(animated: Bool) {}
     override func hideNavBars(animated: Bool) {}
 
-    override func streamViewStreamCellItems(jsonables: [JSONAble], defaultGenerator generator: StreamCellItemGenerator) -> [StreamCellItem]? {
+    override func streamViewStreamCellItems(jsonables: [Model], defaultGenerator generator: StreamCellItemGenerator) -> [StreamCellItem]? {
         let header = NSAttributedString(
             primaryHeader: InterfaceString.Onboard.PickCategoriesPrimary,
             secondaryHeader: InterfaceString.Onboard.PickCategoriesSecondary

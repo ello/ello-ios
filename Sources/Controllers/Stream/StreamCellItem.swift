@@ -11,7 +11,7 @@ enum StreamCellState: String {
 
 
 final class StreamCellItem: NSObject, NSCopying {
-    var jsonable: JSONAble
+    var jsonable: Model
     var type: StreamCellType
     var placeholderType: StreamCellType.PlaceholderType?
     var calculatedCellHeights = CalculatedCellHeights()
@@ -23,19 +23,19 @@ final class StreamCellItem: NSObject, NSCopying {
     }
 
     convenience init(type: StreamCellType) {
-        self.init(jsonable: JSONAble(version: 1), type: type)
+        self.init(jsonable: Model(version: 1), type: type)
     }
 
     convenience init(type: StreamCellType, placeholderType: StreamCellType.PlaceholderType) {
-        self.init(jsonable: JSONAble(version: 1), type: type, placeholderType: placeholderType)
+        self.init(jsonable: Model(version: 1), type: type, placeholderType: placeholderType)
     }
 
-    convenience init(jsonable: JSONAble, type: StreamCellType, placeholderType: StreamCellType.PlaceholderType) {
+    convenience init(jsonable: Model, type: StreamCellType, placeholderType: StreamCellType.PlaceholderType) {
         self.init(jsonable: jsonable, type: type)
         self.placeholderType = placeholderType
     }
 
-    required init(jsonable: JSONAble, type: StreamCellType) {
+    required init(jsonable: Model, type: StreamCellType) {
         self.jsonable = jsonable
         self.type = type
     }

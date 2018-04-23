@@ -9,6 +9,6 @@ class Keyboard {
 }
 
 struct Preloader {
-    func preloadImages(_ jsonables: [JSONAble]) {
+    func preloadImages(_ jsonables: [Model]) {
     }
 }

@@ -8,7 +8,7 @@ import SwiftyJSON
 let WatchVersion: Int = 1
 
 @objc(Watch)
-final class Watch: JSONAble, PostActionable {
+final class Watch: Model, PostActionable {
     let id: String
     let createdAt: Date
     let updatedAt: Date

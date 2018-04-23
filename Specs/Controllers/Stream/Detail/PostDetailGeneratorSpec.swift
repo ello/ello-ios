@@ -107,12 +107,12 @@ class PostDetailDestination: PostDetailStreamDestination {
         }
     }
 
-    func setPrimary(jsonable: JSONAble) {
+    func setPrimary(jsonable: Model) {
         guard let post = jsonable as? Post else { return }
         self.post = post
     }
 
-    func primaryJSONAbleNotFound() {
+    func primaryModelNotFound() {
     }
 
     func setPagingConfig(responseConfig: ResponseConfig) {

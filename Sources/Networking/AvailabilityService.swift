@@ -22,7 +22,7 @@ struct AvailabilityService {
         return ElloProvider.shared.request(endpoint)
             .map { response -> Availability in
                 guard let data = response.0 as? Availability else {
-                    throw NSError.uncastableJSONAble()
+                    throw NSError.uncastableModel()
                 }
                 return data
             }

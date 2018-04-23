@@ -20,7 +20,7 @@ enum EmbedType: String {
 }
 
 @objc(EmbedRegion)
-final class EmbedRegion: JSONAble, Regionable {
+final class EmbedRegion: Model, Regionable {
     var isRepost: Bool = false
 
     let id: String

@@ -14,7 +14,7 @@ struct ProfileService {
         return ElloProvider.shared.request(.currentUserProfile)
             .map { response -> User in
                 guard let user = response.0 as? User else {
-                    throw NSError.uncastableJSONAble()
+                    throw NSError.uncastableModel()
                 }
                 return user
             }
@@ -37,7 +37,7 @@ struct ProfileService {
         return ElloProvider.shared.request(.profileUpdate(body: content))
             .map { response -> User in
                 guard let user = response.0 as? User else {
-                    throw NSError.uncastableJSONAble()
+                    throw NSError.uncastableModel()
                 }
                 return user
             }
@@ -157,7 +157,7 @@ struct ProfileService {
         return S3UploadingService().upload(imageRegionData: image)
             .then { url -> Promise<UploadSuccess> in
                 guard let url = url else {
-                    throw NSError.uncastableJSONAble()
+                    throw NSError.uncastableModel()
                 }
 
                 let urlString = url.absoluteString

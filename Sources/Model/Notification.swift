@@ -43,7 +43,7 @@ enum NotificationFilterType: String {
 let NotificationVersion = 1
 
 @objc(Notification)
-final class Notification: JSONAble, Authorable, Groupable {
+final class Notification: Model, Authorable, Groupable {
 
     let activity: Activity
     var author: User?
@@ -52,7 +52,7 @@ final class Notification: JSONAble, Authorable, Groupable {
     // computed
     var createdAt: Date { return activity.createdAt as Date }
     var groupId: String { return "Notification-\(activity.id)" }
-    var subject: JSONAble? { willSet { attributedTitleStore = nil } }
+    var subject: Model? { willSet { attributedTitleStore = nil } }
 
     // notification specific
     var textRegion: TextRegion?

@@ -8,7 +8,7 @@ import SwiftyJSON
 let AnnouncementVersion = 2
 
 @objc(Announcement)
-final class Announcement: JSONAble, Groupable {
+final class Announcement: Model, Groupable {
     let id: String
     let isStaffPreview: Bool
     let header: String

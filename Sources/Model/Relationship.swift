@@ -8,7 +8,7 @@ import SwiftyJSON
 let RelationshipVersion = 1
 
 @objc(Relationship)
-final class Relationship: JSONAble {
+final class Relationship: Model {
 
     let id: String
     let createdAt: Date

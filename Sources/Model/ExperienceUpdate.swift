@@ -5,7 +5,7 @@
 let CommentChangedNotification = TypedNotification<(ElloComment, ContentChange)>(name: "commentChangedNotification")
 let PostChangedNotification = TypedNotification<(Post, ContentChange)>(name: "postChangedNotification")
 let PostCommentsCountChangedNotification = TypedNotification<(Post, Int)>(name: "postCommentsCountChangedNotification")
-let JSONAbleChangedNotification = TypedNotification<(JSONAble, ContentChange)>(name: "jsonableChangedNotification")
+let ModelChangedNotification = TypedNotification<(Model, ContentChange)>(name: "jsonableChangedNotification")
 let RelationshipChangedNotification = TypedNotification<User>(name: "relationshipChangedNotification")
 let BlockedCountChangedNotification = TypedNotification<(String, Int)>(name: "BlockedCountChangedNotification")
 let MutedCountChangedNotification = TypedNotification<(String, Int)>(name: "MutedCountChangedNotification")

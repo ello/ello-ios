@@ -6,7 +6,7 @@ import SwiftyJSON
 
 
 @objc(PageHeader)
-final class PageHeader: JSONAble {
+final class PageHeader: Model {
     // version 1: initial
     static let Version = 1
 

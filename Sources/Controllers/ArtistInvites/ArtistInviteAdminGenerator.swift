@@ -52,7 +52,7 @@ private extension ArtistInviteAdminGenerator {
                     case let .jsonables(jsonables, responseConfig) = response,
                     let submissions = jsonables as? [ArtistInviteSubmission]
                 else {
-                    self.destination?.primaryJSONAbleNotFound()
+                    self.destination?.primaryModelNotFound()
                     return
                 }
 
@@ -64,7 +64,7 @@ private extension ArtistInviteAdminGenerator {
                 }
             }
             .catch { _ in
-                self.destination?.primaryJSONAbleNotFound()
+                self.destination?.primaryModelNotFound()
             }
     }
 

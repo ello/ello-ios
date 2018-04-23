@@ -78,7 +78,7 @@ extension NewContentService {
             }
     }
 
-    func updateCreatedAt(_ jsonables: [JSONAble], streamKind: StreamKind) {
+    func updateCreatedAt(_ jsonables: [Model], streamKind: StreamKind) {
         guard let storedKey = streamKind.lastViewedCreatedAtKey else { return }
 
         let old = Date(timeIntervalSince1970: 0)
@@ -91,7 +91,7 @@ extension NewContentService {
 
 private extension NewContentService {
 
-    func newestDate(_ jsonables: [JSONAble]) -> Date {
+    func newestDate(_ jsonables: [Model]) -> Date {
         let old = Date(timeIntervalSince1970: 0)
         return jsonables.reduce(old) {
             (date, jsonable) -> Date in

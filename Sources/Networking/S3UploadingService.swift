@@ -52,7 +52,7 @@ class S3UploadingService {
         return ElloProvider.shared.request(endpoint)
             .then { response -> Promise<URL?> in
                 guard let credentials = response.0 as? AmazonCredentials else {
-                    throw NSError.uncastableJSONAble()
+                    throw NSError.uncastableModel()
                 }
 
                 let filename: String

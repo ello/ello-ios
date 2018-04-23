@@ -96,10 +96,10 @@ extension ChooseCategoryViewController: StreamDestination {
         streamViewController.clearForInitialLoad(newItems: items)
     }
 
-    func setPrimary(jsonable: JSONAble) {
+    func setPrimary(jsonable: Model) {
     }
 
-    func primaryJSONAbleNotFound() {
+    func primaryModelNotFound() {
         self.streamViewController.doneLoading()
     }
 

@@ -6,7 +6,7 @@ import SwiftyJSON
 
 
 @objc(Editorial)
-final class Editorial: JSONAble, Groupable {
+final class Editorial: Model, Groupable {
     // Version 3: initial (should have been 1, but copy/paste mistake)
     // Version 4: renderedSubtitle
     static let Version = 4

@@ -8,13 +8,13 @@ import SwiftyJSON
 let ActivityVersion = 1
 
 @objc(Activity)
-final class Activity: JSONAble {
+final class Activity: Model {
 
     let id: String
     let createdAt: Date
     let kind: Kind
     let subjectType: SubjectType
-    var subject: JSONAble? { return getLinkObject("subject") }
+    var subject: Model? { return getLinkObject("subject") }
 
     enum Kind: String {
         // Notifications

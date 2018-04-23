@@ -8,7 +8,7 @@ import SwiftyJSON
 let ImageRegionVersion = 1
 
 @objc(ImageRegion)
-final class ImageRegion: JSONAble, Regionable {
+final class ImageRegion: Model, Regionable {
     var isRepost: Bool  = false
 
     var url: URL?

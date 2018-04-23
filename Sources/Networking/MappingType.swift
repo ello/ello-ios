@@ -2,7 +2,7 @@
 ///  MappingType.swift
 //
 
-typealias FromJSONClosure = ([String: Any]) -> JSONAble
+typealias FromJSONClosure = ([String: Any]) -> Model
 
 enum MappingType: String {
     // these keys define the place in the JSON response where the ElloProvider
@@ -113,15 +113,15 @@ extension MappingType {
     }
 }
 
-let UnknownJSONAbleVersion = 1
+let UnknownModelVersion = 1
 
-@objc(UnknownJSONAble)
-class UnknownJSONAble: JSONAble {
+@objc(UnknownModel)
+class UnknownModel: Model {
     convenience init() {
-        self.init(version: UnknownJSONAbleVersion)
+        self.init(version: UnknownModelVersion)
     }
 
-    class func fromJSON(_ data: [String: Any]) -> UnknownJSONAble {
-        return UnknownJSONAble()
+    class func fromJSON(_ data: [String: Any]) -> UnknownModel {
+        return UnknownModel()
     }
 }

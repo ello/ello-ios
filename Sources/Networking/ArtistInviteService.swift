@@ -14,7 +14,7 @@ class ArtistInviteService {
                     return artistInvite
                 }
                 else {
-                    throw NSError.uncastableJSONAble()
+                    throw NSError.uncastableModel()
                 }
             }
     }
@@ -26,7 +26,7 @@ class ArtistInviteService {
                     return submission
                 }
                 else {
-                    throw NSError.uncastableJSONAble()
+                    throw NSError.uncastableModel()
                 }
             }
     }

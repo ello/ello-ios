@@ -12,7 +12,7 @@ struct LovesService {
         return ElloProvider.shared.request(endpoint)
             .map { response -> Love in
                 guard let love = response.0 as? Love else {
-                    throw NSError.uncastableJSONAble()
+                    throw NSError.uncastableModel()
                 }
                 return love
             }

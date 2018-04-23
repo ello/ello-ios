@@ -8,7 +8,7 @@ import SwiftyJSON
 let LoveVersion: Int = 1
 
 @objc(Love)
-final class Love: JSONAble, PostActionable {
+final class Love: Model, PostActionable {
     let id: String
     let createdAt: Date
     let updatedAt: Date

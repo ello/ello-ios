@@ -17,7 +17,7 @@ struct AutoCompleteService {
                 }
 
                 guard let results = response.0 as? [AutoCompleteResult] else {
-                    throw NSError.uncastableJSONAble()
+                    throw NSError.uncastableModel()
                 }
                 return results
             }
@@ -82,7 +82,7 @@ struct AutoCompleteService {
         return ElloProvider.shared.request(.locationAutoComplete(terms: terms))
             .map { response -> [AutoCompleteResult] in
                 guard let results = response.0 as? [AutoCompleteResult] else {
-                    throw NSError.uncastableJSONAble()
+                    throw NSError.uncastableModel()
                 }
                 return results
             }

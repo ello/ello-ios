@@ -7,7 +7,7 @@
 
 extension StreamCellItemParser {
 
-    func parseAllForTesting(_ items: [JSONAble], currentUser: User?) -> [StreamCellItem] {
+    func parseAllForTesting(_ items: [Model], currentUser: User?) -> [StreamCellItem] {
         var retItems = [StreamCellItem]()
         for item in items {
             if let post = item as? Post {

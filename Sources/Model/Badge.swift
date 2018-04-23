@@ -10,7 +10,7 @@ import SwiftyJSON
 let BadgeVersion: Int = 2
 
 @objc(Badge)
-final class Badge: JSONAble {
+final class Badge: Model {
     var slug: String
     var name: String
     var caption: String

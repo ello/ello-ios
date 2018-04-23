@@ -9,7 +9,7 @@ struct Preloader {
     // exposed so that we can swap out a fake in specs
     var manager = PINRemoteImageManager.shared()
 
-    func preloadImages(_ jsonables: [JSONAble]) {
+    func preloadImages(_ jsonables: [Model]) {
         for jsonable in jsonables {
 
             // activities avatar

@@ -1251,7 +1251,7 @@ class StreamDataSourceSpec: QuickSpec {
                 }
             }
 
-            context("elementsForJSONAble(_:, change:)") {
+            context("elementsForModel(_:, change:)") {
                 let user1: User!
                 let post1: Post!
                 let comment1: ElloComment!

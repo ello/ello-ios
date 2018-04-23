@@ -6,7 +6,7 @@ import SwiftyJSON
 
 
 @objc(ArtistInvite)
-final class ArtistInvite: JSONAble, Groupable {
+final class ArtistInvite: Model, Groupable {
     // Version 1: initial
     static let Version = 1
 

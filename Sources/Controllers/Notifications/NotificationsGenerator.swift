@@ -134,7 +134,7 @@ final class NotificationsGenerator: StreamGenerator {
                 }
             }
             .catch { _ in
-                self.destination?.primaryJSONAbleNotFound()
+                self.destination?.primaryModelNotFound()
             }
     }
 

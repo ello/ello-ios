@@ -565,7 +565,7 @@ extension LocalPerson: Stubbable {
 extension StreamCellItem: Stubbable {
     class func stub(_ values: [String: Any]) -> StreamCellItem {
         return StreamCellItem(
-            jsonable: (values["jsonable"] as? JSONAble) ?? Post.stub([:]),
+            jsonable: (values["jsonable"] as? Model) ?? Post.stub([:]),
             type: (values["type"] as? StreamCellType) ?? .streamHeader
         )
     }

@@ -6,7 +6,7 @@
 let AmazonCredentialsVersion = 2
 
 @objc(AmazonCredentials)
-class AmazonCredentials: JSONAble {
+class AmazonCredentials: Model {
     let accessKey: String
     let endpoint: String
     let policy: String

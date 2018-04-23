@@ -1,5 +1,5 @@
 ////
-///  JSONAble.swift
+///  Model.swift
 //
 
 
@@ -9,15 +9,15 @@ protocol JSONSaveable {
 }
 
 
-enum JSONAbleResult {
-    case one(JSONAble)
-    case many([JSONAble])
+enum ModelResult {
+    case one(Model)
+    case many([Model])
     case none
 }
 
 
-@objc(JSONAble)
-class JSONAble: NSObject, NSCoding {
+@objc(Model)
+class Model: NSObject, NSCoding {
     var links: [String: Any]?
     let version: Int
 
@@ -38,36 +38,36 @@ class JSONAble: NSObject, NSCoding {
         coder.encodeObject(version, forKey: "version")
     }
 
-    func merge(_ other: JSONAble) -> JSONAble {
+    func merge(_ other: Model) -> Model {
         return other
     }
 }
 
-// MARK: get associated JSONAbles via ids in `links`
+// MARK: get associated Models via ids in `links`
 
-extension JSONAble {
-    func getLinkObject(_ identifier: String) -> JSONAble? {
+extension Model {
+    func getLinkObject(_ identifier: String) -> Model? {
         guard let links = links else { return nil }
 
-        var obj: JSONAble?
+        var obj: Model?
         if let linksMap = links[identifier] as? [String: Any],
             let id = linksMap["id"] as? String,
             let collection = linksMap["type"] as? String
         {
             ElloLinkedStore.shared.readConnection.read { transaction in
-                obj = transaction.object(forKey: id, inCollection: collection) as? JSONAble
+                obj = transaction.object(forKey: id, inCollection: collection) as? Model
             }
         }
         else if let id = links[identifier] as? String {
             ElloLinkedStore.shared.readConnection.read { transaction in
-                obj = transaction.object(forKey: id, inCollection: identifier) as? JSONAble
+                obj = transaction.object(forKey: id, inCollection: identifier) as? Model
             }
         }
 
         return obj
     }
 
-    func getLinkArray(_ identifier: String) -> [JSONAble] {
+    func getLinkArray(_ identifier: String) -> [Model] {
         guard let links = links else { return [] }
 
         let linksList = links[identifier] as? [String]
@@ -80,10 +80,10 @@ extension JSONAble {
 
         let collection = (linksMap?["type"] as? String) ?? identifier
 
-        var arr = [JSONAble]()
+        var arr = [Model]()
         ElloLinkedStore.shared.readConnection.read { transaction in
             for key in ids {
-                if let jsonable = transaction.object(forKey: key, inCollection: collection) as? JSONAble {
+                if let jsonable = transaction.object(forKey: key, inCollection: collection) as? Model {
                     arr.append(jsonable)
                 }
             }
@@ -97,7 +97,7 @@ extension JSONAble {
 
     }
 
-    func addLinkObject(_ model: JSONAble, identifier: String, key: String, type: MappingType) {
+    func addLinkObject(_ model: Model, identifier: String, key: String, type: MappingType) {
         addLinkObject(identifier, key: key, type: type)
         ElloLinkedStore.shared.setObject(model, forKey: key, type: type)
     }
