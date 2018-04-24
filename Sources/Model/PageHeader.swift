@@ -29,9 +29,7 @@ final class PageHeader: Model {
     var tileURL: URL? { return image?.oneColumnAttachment?.url }
     var kind: Kind
 
-    var user: User? {
-        return getLinkObject("user") as? User
-    }
+    var user: User? { return getLinkObject("user") }
 
     init(
         id: String,

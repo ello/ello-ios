@@ -22,13 +22,8 @@ final class ArtistInviteSubmission: Model, Groupable, PostActionable {
     let status: Status
     var actions: [Action] = []
 
-    var post: Post? {
-        return getLinkObject("post") as? Post
-    }
-
-    var user: User? {
-        return post?.author
-    }
+    var post: Post? { return getLinkObject("post") }
+    var user: User? { return post?.author }
 
     enum Status: String {
         case approved

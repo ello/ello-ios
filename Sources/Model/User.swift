@@ -54,7 +54,7 @@ final class User: Model {
         return postsCount != nil && lovesCount != nil && followingCount != nil && followersCount != nil && totalViewsCount != nil
     }
 
-    var categories: [Category]? { return getLinkArray("categories") as? [Category] }
+    var categories: [Category]? { return getLinkArray("categories") }
     var hasSubscribedCategory: Bool { return followedCategoryIds.count > 0 }
     var followedCategoryIds: Set<String> = []
     var followedCategories: [Category] {

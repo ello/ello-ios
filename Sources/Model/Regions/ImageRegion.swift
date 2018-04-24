@@ -13,7 +13,7 @@ final class ImageRegion: Model, Regionable {
 
     var url: URL?
     var buyButtonURL: URL?
-    var asset: Asset? { return getLinkObject("assets") as? Asset }
+    var asset: Asset? { return getLinkObject("assets") }
 
     var fullScreenURL: URL? {
         guard let asset = asset else { return url }

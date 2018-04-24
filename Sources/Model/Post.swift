@@ -32,41 +32,24 @@ final class Post: Model, Authorable, Groupable {
     var commentsCount: Int?
     var repostsCount: Int?
     var lovesCount: Int?
-    var assets: [Asset] {
-        return getLinkArray("assets") as? [Asset] ?? []
-    }
-    var firstImageURL: URL? {
-        return assets.first?.largeOrBest?.url
-    }
+    var assets: [Asset] { return getLinkArray("assets") }
+    var firstImageURL: URL? { return assets.first?.largeOrBest?.url }
     var author: User? {
         return ElloLinkedStore.shared.getObject(self.authorId, type: .usersType) as? User
     }
-    var categories: [Category] {
-        let categories = getLinkArray("categories") as? [Category]
-        return categories ?? []
-    }
-    var category: Category? {
-        return categories.first
-    }
-    var repostAuthor: User? {
-        return repostSource?.author ?? getLinkObject("repost_author") as? User
-    }
-    var repostSource: Post? {
-        return getLinkObject("reposted_source") as? Post
-    }
-    var featuredBy: User? {
-        return author
-    }
+    var categories: [Category] { return getLinkArray("categories") }
+    var category: Category? { return categories.first }
+    var repostAuthor: User? { return repostSource?.author ?? getLinkObject("repost_author") }
+    var repostSource: Post? { return getLinkObject("reposted_source") }
+    var featuredBy: User? { return author }
 
     // nested resources
     var comments: [ElloComment]? {
-        if let nestedComments = getLinkArray("comments") as? [ElloComment] {
-            for comment in nestedComments {
-                comment.loadedFromPostId = self.id
-            }
-            return nestedComments
+        let nestedComments: [ElloComment] = getLinkArray("comments")
+        for comment in nestedComments {
+            comment.loadedFromPostId = self.id
         }
-        return nil
+        return nestedComments
     }
     var groupId: String { return "Post-\(id)" }
     var shareLink: String? {

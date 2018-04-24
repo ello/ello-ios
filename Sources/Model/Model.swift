@@ -46,26 +46,26 @@ class Model: NSObject, NSCoding {
 // MARK: get associated Models via ids in `links`
 
 extension Model {
-    func getLinkObject(_ identifier: String) -> Model? {
-        var obj: Model?
+    func getLinkObject<T: Model>(_ identifier: String) -> T? {
+        var obj: T?
         if let linksMap = links[identifier] as? [String: Any],
             let id = linksMap["id"] as? String,
             let collection = linksMap["type"] as? String
         {
             ElloLinkedStore.shared.readConnection.read { transaction in
-                obj = transaction.object(forKey: id, inCollection: collection) as? Model
+                obj = transaction.object(forKey: id, inCollection: collection) as? T
             }
         }
         else if let id = links[identifier] as? String {
             ElloLinkedStore.shared.readConnection.read { transaction in
-                obj = transaction.object(forKey: id, inCollection: identifier) as? Model
+                obj = transaction.object(forKey: id, inCollection: identifier) as? T
             }
         }
 
         return obj
     }
 
-    func getLinkArray(_ identifier: String) -> [Model] {
+    func getLinkArray<T: Model>(_ identifier: String) -> [T] {
         let linksList = links[identifier] as? [String]
         let linksMap = links[identifier] as? [String: Any]
         guard
@@ -76,10 +76,10 @@ extension Model {
 
         let collection = (linksMap?["type"] as? String) ?? identifier
 
-        var arr = [Model]()
+        var arr = [T]()
         ElloLinkedStore.shared.readConnection.read { transaction in
             for key in ids {
-                if let jsonable = transaction.object(forKey: key, inCollection: collection) as? Model {
+                if let jsonable = transaction.object(forKey: key, inCollection: collection) as? T {
                     arr.append(jsonable)
                 }
             }

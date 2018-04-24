@@ -18,9 +18,7 @@ final class ElloComment: Model, Authorable, Groupable {
     var content: [Regionable]
     var body: [Regionable]?
     var summary: [Regionable]?
-    var assets: [Asset] {
-        return getLinkArray("assets") as? [Asset] ?? []
-    }
+    var assets: [Asset] { return getLinkArray("assets") }
     var author: User? {
         return ElloLinkedStore.shared.getObject(self.authorId, type: .usersType) as? User
     }
@@ -45,7 +43,6 @@ final class ElloComment: Model, Authorable, Groupable {
         self.postId = postId
         self.loadedFromPostId = postId
         self.content = content
-        self.loadedFromPostId = postId
         super.init(version: CommentVersion)
     }
 
