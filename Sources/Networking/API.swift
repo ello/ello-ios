@@ -41,7 +41,6 @@ struct API {
                 (.enum("kind", filter.graphQL, "StreamKind")),
                 (.optionalString("before", before)),
             ],
-            fragments: [Fragments.postStream],
             body: Fragments.postStreamBody
             )
         return request
@@ -56,7 +55,6 @@ struct API {
                 (.string("slug", categorySlug)),
                 (.optionalString("before", before)),
             ],
-            fragments: [Fragments.postStream],
             body: Fragments.postStreamBody
             )
         return request
@@ -70,7 +68,6 @@ struct API {
                 (.enum("kind", filter.graphQL, "StreamKind")),
                 (.optionalString("before", before)),
             ],
-            fragments: [Fragments.postStream],
             body: Fragments.postStreamBody
             )
         return request
@@ -80,9 +77,6 @@ struct API {
         let request = GraphQLRequest(
             endpointName: "allCategories",
             parser: ManyParser<Category>(CategoryParser()).parse,
-            fragments: [
-                Fragments.tshirtProps,
-            ],
             body: Fragments.categoriesBody
             )
         return request
@@ -92,9 +86,6 @@ struct API {
         let request = GraphQLRequest(
             endpointName: "categoryNav",
             parser: ManyParser<Category>(CategoryParser()).parse,
-            fragments: [
-                Fragments.tshirtProps,
-            ],
             body: Fragments.categoriesBody
             )
         return request
@@ -107,10 +98,6 @@ struct API {
             variables: [
                 (.enum("kind", kind.apiKind, "PageHeaderKind")),
                 (.optionalString("slug", kind.slug)),
-            ],
-            fragments: [
-                Fragments.responsiveProps,
-                Fragments.pageHeaderUserProps,
             ],
             body: Fragments.pageHeaderBody
             )
@@ -125,7 +112,6 @@ struct API {
                 (.string("username", username)),
                 (.optionalString("before", before)),
             ],
-            fragments: [Fragments.postStream],
             body: Fragments.postStreamBody
             )
         return request

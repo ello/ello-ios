@@ -3,6 +3,9 @@
 //
 
 struct Fragments: Equatable {
+    //|
+    //|  FRAGMENTS
+    //|
     static let imageProps = Fragments("""
         fragment imageProps on Image {
           url
@@ -95,7 +98,10 @@ struct Fragments: Equatable {
         }
         """, needs: [imageProps, tshirtProps, responsiveProps, authorProps])
 
-    static let categoriesBody = """
+    //|
+    //|  REQUEST BODIES
+    //|
+    static let categoriesBody = Fragments("""
         id
         name
         slug
@@ -104,8 +110,8 @@ struct Fragments: Equatable {
         isCreatorType
         level
         tileImage { ...tshirtProps }
-        """
-    static let pageHeaderBody = """
+        """, needs: [Fragments.tshirtProps])
+    static let pageHeaderBody = Fragments("""
         id
         postToken
         category { id }
@@ -115,36 +121,30 @@ struct Fragments: Equatable {
         image { ...responsiveProps }
         ctaLink { text url }
         user { ...pageHeaderUserProps }
-        """
-    static let postStreamBody = """
+        """, needs: [Fragments.responsiveProps, Fragments.pageHeaderUserProps])
+    static let postStreamBody = Fragments("""
         next isLastPage
         posts {
             ...postSummary
             ...postContent
             repostContent { ...contentProps }
             categories { ...categoryProps }
-            currentUserState { loved reposted watching }
             repostedSource {
                 ...postSummary
             }
         }
-        """
+        """, needs: [Fragments.postStream])
 
     let string: String
     let needs: [Fragments]
 
     var dependencies: [Fragments] {
-        return [self] + needs + needs.flatMap { $0.dependencies }
+        return (needs + needs.flatMap { $0.dependencies }).unique()
     }
 
     init(_ string: String, needs: [Fragments] = []) {
         self.string = string
         self.needs = needs
-    }
-
-    static func flatten(_ fragments: [Fragments]) -> String {
-        let dependencies: [Fragments] = fragments.flatMap { frag -> [Fragments] in return frag.dependencies }
-        return dependencies.unique().map { $0.string }.joined(separator: "\n")
     }
 
     static func == (lhs: Fragments, rhs: Fragments) -> Bool {
