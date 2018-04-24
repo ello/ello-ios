@@ -42,7 +42,7 @@ class ElloManagerSpec: QuickSpec {
 
                 it("has a custom Alamofire.Manager") {
                     let defaultManager = SessionManager.default
-                    let elloManager = ElloManager.alamofireManager()
+                    let elloManager = ElloManager.alamofireManager
 
                     expect(elloManager).notTo(beIdenticalTo(defaultManager))
                 }
