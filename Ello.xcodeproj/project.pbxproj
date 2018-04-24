@@ -121,7 +121,7 @@
 		122B30B91C6A3FBB00C1B9D8 /* ElloLinkedStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12C183A11A76DA6D00E7D72A /* ElloLinkedStore.swift */; };
 		122B30BA1C6A3FBB00C1B9D8 /* ElloNetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F6AE361A43392D00493660 /* ElloNetworkError.swift */; };
 		122B30BB1C6A3FBB00C1B9D8 /* ExperienceUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12E83D9E1ADF12120074ECF6 /* ExperienceUpdate.swift */; };
-		122B30BC1C6A3FBB00C1B9D8 /* JSONAble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F6AE371A43392D00493660 /* JSONAble.swift */; };
+		122B30BC1C6A3FBB00C1B9D8 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F6AE371A43392D00493660 /* Model.swift */; };
 		122B30BD1C6A3FBB00C1B9D8 /* LocalPerson.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA68A0EC1AAE166F003F0425 /* LocalPerson.swift */; };
 		122B30BE1C6A3FBB00C1B9D8 /* Love.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12CFF69B1B167841007CE68F /* Love.swift */; };
 		122B30BF1C6A3FBB00C1B9D8 /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF2335B1A94005C0096DA65 /* Notification.swift */; };
@@ -140,7 +140,7 @@
 		122B30CE1C6A3FBC00C1B9D8 /* ElloKeychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = F82B8B6D1AEFFA6E00A9FC97 /* ElloKeychain.swift */; };
 		122B30CF1C6A3FBC00C1B9D8 /* ElloLinkedStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12C183A11A76DA6D00E7D72A /* ElloLinkedStore.swift */; };
 		122B30D11C6A3FBC00C1B9D8 /* ExperienceUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12E83D9E1ADF12120074ECF6 /* ExperienceUpdate.swift */; };
-		122B30D21C6A3FBC00C1B9D8 /* JSONAble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F6AE371A43392D00493660 /* JSONAble.swift */; };
+		122B30D21C6A3FBC00C1B9D8 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F6AE371A43392D00493660 /* Model.swift */; };
 		122B30D31C6A3FBC00C1B9D8 /* LocalPerson.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA68A0EC1AAE166F003F0425 /* LocalPerson.swift */; };
 		122B30D41C6A3FBC00C1B9D8 /* Love.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12CFF69B1B167841007CE68F /* Love.swift */; };
 		122B30D51C6A3FBC00C1B9D8 /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF2335B1A94005C0096DA65 /* Notification.swift */; };
@@ -635,7 +635,7 @@
 		1D447EE31F3BC77000013384 /* TypedNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 127128251A77373300695F15 /* TypedNotifications.swift */; };
 		1D447EE41F3BC77400013384 /* Activity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F6AE351A43392D00493660 /* Activity.swift */; };
 		1D447EE51F3BC78F00013384 /* Badge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D9A12C81EA96623003B3BD7 /* Badge.swift */; };
-		1D447EE61F3BC79600013384 /* JSONAble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F6AE371A43392D00493660 /* JSONAble.swift */; };
+		1D447EE61F3BC79600013384 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F6AE371A43392D00493660 /* Model.swift */; };
 		1D447EE71F3BC79E00013384 /* MultipartRequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1207C9611C73FEE000939ADB /* MultipartRequestBuilder.swift */; };
 		1D447EE81F3BC7A300013384 /* JWT.swift in Sources */ = {isa = PBXBuildFile; fileRef = 120E64131E327B7A00CAF03E /* JWT.swift */; };
 		1D447EE91F3BC7A800013384 /* DateFormatting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1207C9531C73FEE000939ADB /* DateFormatting.swift */; };
@@ -1683,7 +1683,7 @@
 		12F6AE2B1A43390900493660 /* StringExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
 		12F6AE351A43392D00493660 /* Activity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Activity.swift; sourceTree = "<group>"; };
 		12F6AE361A43392D00493660 /* ElloNetworkError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ElloNetworkError.swift; sourceTree = "<group>"; };
-		12F6AE371A43392D00493660 /* JSONAble.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONAble.swift; sourceTree = "<group>"; };
+		12F6AE371A43392D00493660 /* Model.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		12F6AE381A43392D00493660 /* Post.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		12F6AE391A43392D00493660 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		12F6AE431A43397400493660 /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
@@ -3408,7 +3408,7 @@
 				12F6AE361A43392D00493660 /* ElloNetworkError.swift */,
 				12E83D9E1ADF12120074ECF6 /* ExperienceUpdate.swift */,
 				1DA18E1B1DB55D42000231CC /* ExternalLink.swift */,
-				12F6AE371A43392D00493660 /* JSONAble.swift */,
+				12F6AE371A43392D00493660 /* Model.swift */,
 				120E64131E327B7A00CAF03E /* JWT.swift */,
 				EA68A0EC1AAE166F003F0425 /* LocalPerson.swift */,
 				12CFF69B1B167841007CE68F /* Love.swift */,
@@ -5304,7 +5304,7 @@
 				122B30AE1C6A3FBB00C1B9D8 /* Activity.swift in Sources */,
 				1D9309CD1EBCEBAF0099FCF8 /* Badge.swift in Sources */,
 				1D0DF8BB20211E8C00019875 /* AuthenticationManager.swift in Sources */,
-				122B30BC1C6A3FBB00C1B9D8 /* JSONAble.swift in Sources */,
+				122B30BC1C6A3FBB00C1B9D8 /* Model.swift in Sources */,
 				1207C9AA1C752FF000939ADB /* MultipartRequestBuilder.swift in Sources */,
 				120E64151E327D6300CAF03E /* JWT.swift in Sources */,
 				1207C9931C74CD3A00939ADB /* DateFormatting.swift in Sources */,
@@ -6008,7 +6008,7 @@
 				12614C581E705940006FB0E5 /* PINRemoteImageManagerResult.swift in Sources */,
 				1DF0B2D91E8D679E001B9F97 /* ForgotPasswordEmailScreen.swift in Sources */,
 				12F0E3B71A4333EC0012CEA2 /* Globals.swift in Sources */,
-				122B30D21C6A3FBC00C1B9D8 /* JSONAble.swift in Sources */,
+				122B30D21C6A3FBC00C1B9D8 /* Model.swift in Sources */,
 				1D8AFAD01A9691F90034DDAD /* DictionaryExtensions.swift in Sources */,
 				1207C9801C73FEE000939ADB /* ErrorStatusCode.swift in Sources */,
 				1D80877C2032596C0081E8FE /* DynamicSettingCellPresenter.swift in Sources */,
@@ -6149,7 +6149,7 @@
 				1D447EF31F3BC8BB00013384 /* RegexExtensions.swift in Sources */,
 				1D0DF9072023A92600019875 /* PageParser.swift in Sources */,
 				1D0DF8EA202384BE00019875 /* ArtistInviteSubmissionParser.swift in Sources */,
-				1D447EE61F3BC79600013384 /* JSONAble.swift in Sources */,
+				1D447EE61F3BC79600013384 /* Model.swift in Sources */,
 				1D447F051F3BC9C100013384 /* ElloS3.swift in Sources */,
 				1D447ED51F3BC6B500013384 /* AuthState.swift in Sources */,
 				1D447EDD1F3BC70B00013384 /* AmazonCredentials.swift in Sources */,
