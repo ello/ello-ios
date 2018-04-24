@@ -99,7 +99,8 @@ class Parser {
 }
 
 class IdParser: Parser {
-    var table: MappingType
+    let table: MappingType
+
     init(table: MappingType) {
         self.table = table
     }
