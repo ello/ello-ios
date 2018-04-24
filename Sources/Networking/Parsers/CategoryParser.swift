@@ -24,7 +24,7 @@ class CategoryParser: IdParser {
             level: level
         )
 
-        category.links = json["links"].dictionaryObject
+        category.mergeLinks(json["links"].dictionaryObject)
 
         if let attachmentJson = json["tileImage"]["large"].object as? [String: Any] {
             category.tileImage = Attachment.fromJSON(attachmentJson)

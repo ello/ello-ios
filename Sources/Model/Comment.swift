@@ -11,6 +11,7 @@ let CommentVersion = 1
 final class ElloComment: Model, Authorable, Groupable {
 
     let id: String
+    var groupId: String { return "Post-\(postId)" }
     let createdAt: Date
     let authorId: String
     let postId: String
@@ -29,8 +30,6 @@ final class ElloComment: Model, Authorable, Groupable {
     var loadedFromPost: Post? {
         return (ElloLinkedStore.shared.getObject(self.loadedFromPostId, type: .postsType) as? Post) ?? parentPost
     }
-    // computed properties
-    var groupId: String { return "Post-\(postId)" }
     // to show hide in the stream, and for comment replies
     var loadedFromPostId: String
 
@@ -78,10 +77,8 @@ final class ElloComment: Model, Authorable, Groupable {
 
     class func fromJSON(_ data: [String: Any]) -> ElloComment {
         let json = JSON(data)
-        // create comment
         var createdAt: Date
         if let date = json["created_at"].stringValue.toDate() {
-            // good to go
             createdAt = date
         }
         else {
@@ -97,7 +94,8 @@ final class ElloComment: Model, Authorable, Groupable {
         )
         comment.body = RegionParser.jsonRegions(json: json["body"])
         comment.summary = RegionParser.jsonRegions(json: json["summary"])
-        comment.links = data["links"] as? [String: Any]
+
+        comment.mergeLinks(data["links"] as? [String: Any])
 
         return comment
     }

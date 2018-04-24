@@ -70,7 +70,6 @@ final class EmbedRegion: Model, Regionable {
         let json = JSON(data)
         let thumbnailLargeUrl = json["data"]["thumbnail_large_url"].string.flatMap { URL(string: $0) }
 
-        // create region
         let embedRegion = EmbedRegion(
             id: json["data"]["id"].stringValue,
             service: EmbedType(rawValue: json["data"]["service"].stringValue) ?? .unknown,

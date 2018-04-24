@@ -118,7 +118,7 @@ final class Editorial: Model, Groupable {
             postId: postId,
             postStreamURL: postStreamURL,
             url: externalURL ?? internalURL)
-        editorial.links = data["links"] as? [String: Any]
+        editorial.mergeLinks(data["links"] as? [String: Any])
 
         for size in Size.all {
             if let assetData = data[size.rawValue] as? [String: Any] {

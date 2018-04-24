@@ -62,7 +62,6 @@ final class Watch: Model, PostActionable {
         var createdAt: Date
         var updatedAt: Date
         if let date = json["created_at"].stringValue.toDate() {
-            // good to go
             createdAt = date
         }
         else {
@@ -70,14 +69,12 @@ final class Watch: Model, PostActionable {
         }
 
         if let date = json["updated_at"].stringValue.toDate() {
-            // good to go
             updatedAt = date
         }
         else {
             updatedAt = Globals.now
         }
 
-        // create Watch
         let watch = Watch(
             id: json["id"].stringValue,
             createdAt: createdAt,
@@ -85,6 +82,8 @@ final class Watch: Model, PostActionable {
             postId: json["post_id"].stringValue,
             userId: json["user_id"].stringValue
         )
+
+        watch.mergeLinks(data["links"] as? [String: Any])
 
         return watch
     }

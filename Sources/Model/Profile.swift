@@ -388,7 +388,7 @@ final class Profile: Model {
     class func fromJSON(_ data: [String: Any]) -> Profile {
         let json = JSON(data)
         let creatorTypeCategoryIds: [String] = json["creator_type_category_ids"].arrayValue.compactMap { $0.stringValue }
-        // create profile
+
         let profile = Profile(
             id: json["id"].stringValue,
             createdAt: (json["created_at"].stringValue.toDate() ?? Globals.now),

@@ -14,7 +14,6 @@ final class Relationship: Model {
     let createdAt: Date
     let ownerId: String
     let subjectId: String
-    // computed
     var owner: User? {
         return ElloLinkedStore.shared.getObject(self.ownerId, type: .usersType) as? User
     }
@@ -52,7 +51,6 @@ final class Relationship: Model {
         let json = JSON(data)
         var createdAt: Date
         if let date = json["created_at"].stringValue.toDate() {
-            // good to go
             createdAt = date
         }
         else {
@@ -65,6 +63,9 @@ final class Relationship: Model {
             ownerId: json["links"]["owner"]["id"].stringValue,
             subjectId: json["links"]["subject"]["id"].stringValue
         )
+
+        relationship.mergeLinks(json["links"].dictionaryObject)
+
         return relationship
     }
 }

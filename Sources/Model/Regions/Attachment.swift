@@ -54,7 +54,7 @@ final class Attachment: Model {
         if url.hasPrefix("//") {
             url = "https:\(url)"
         }
-        // create attachment
+
         let attachment = Attachment(url: URL(string: url)!)
         attachment.size = json["metadata"]["size"].int
         attachment.width = json["metadata"]["width"].int

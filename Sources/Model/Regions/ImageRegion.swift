@@ -61,7 +61,7 @@ final class ImageRegion: Model, Regionable {
         if let buyLink = json["link_url"].string {
             imageRegion.buyButtonURL = URL(string: buyLink)
         }
-        imageRegion.links = data["links"] as? [String: Any]
+        imageRegion.mergeLinks(data["links"] as? [String: Any])
         return imageRegion
     }
 

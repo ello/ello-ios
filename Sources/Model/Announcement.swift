@@ -91,6 +91,7 @@ final class Announcement: Model, Groupable {
             createdAt: createdAt
             )
         announcement.image = Asset.parseAsset("image_\(id)", node: data["image"] as? [String: Any])
+        announcement.mergeLinks(data["links"] as? [String: Any])
         return announcement
     }
 }

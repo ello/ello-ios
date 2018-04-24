@@ -147,7 +147,7 @@ final class ArtistInvite: Model, Groupable {
             status: status,
             openedAt: openedAt,
             closedAt: closedAt)
-        artistInvite.links = data["links"] as? [String: Any]
+
         artistInvite.headerImage = Asset.parseAsset("artist_invite_header_\(id)", node: data["header_image"] as? [String: Any])
         artistInvite.logoImage = Asset.parseAsset("artist_invite_logo_\(id)", node: data["logo_image"] as? [String: Any])
 
@@ -182,6 +182,7 @@ final class ArtistInvite: Model, Groupable {
             }
         }
 
+        artistInvite.mergeLinks(data["links"] as? [String: Any])
         return artistInvite
     }
 }

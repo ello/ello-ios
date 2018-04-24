@@ -67,7 +67,6 @@ final class Love: Model, PostActionable {
         var createdAt: Date
         var updatedAt: Date
         if let date = json["created_at"].stringValue.toDate() {
-            // good to go
             createdAt = date
         }
         else {
@@ -75,14 +74,12 @@ final class Love: Model, PostActionable {
         }
 
         if let date = json["updated_at"].stringValue.toDate() {
-            // good to go
             updatedAt = date
         }
         else {
             updatedAt = Globals.now
         }
 
-        // create Love
         let love = Love(
             id: json["id"].stringValue,
             createdAt: createdAt,
@@ -91,6 +88,8 @@ final class Love: Model, PostActionable {
             postId: json["post_id"].stringValue,
             userId: json["user_id"].stringValue
         )
+
+        love.mergeLinks(data["links"] as? [String: Any])
 
         return love
     }

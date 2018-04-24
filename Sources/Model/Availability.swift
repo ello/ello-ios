@@ -36,12 +36,12 @@ final class Availability: Model {
 
     class func fromJSON(_ data: [String: Any]) -> Availability {
         let json = JSON(data)
-        let username = json["username"].boolValue
-        let email = json["email"].boolValue
-        let invitationCode = json["invitation_code"].boolValue
-        let usernameSuggestions = json["suggestions"]["username"].arrayValue.map { $0.stringValue }
-        let emailSuggestion = json["suggestions"]["email"]["full"].stringValue
 
-        return Availability(isUsernameAvailable: username, isEmailAvailable: email, isInvitationCodeAvailable: invitationCode, usernameSuggestions: usernameSuggestions, emailSuggestion: emailSuggestion)
+        return Availability(
+            isUsernameAvailable: json["username"].boolValue,
+            isEmailAvailable: json["email"].boolValue,
+            isInvitationCodeAvailable: json["invitation_code"].boolValue,
+            usernameSuggestions: json["suggestions"]["username"].arrayValue.map { $0.stringValue },
+            emailSuggestion: json["suggestions"]["email"]["full"].stringValue)
     }
 }

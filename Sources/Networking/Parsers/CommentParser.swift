@@ -28,7 +28,7 @@ class CommentParser: IdParser {
 
         comment.body = RegionParser.graphQLRegions(json: json["body"])
         comment.summary = RegionParser.graphQLRegions(json: json["summary"])
-        comment.links = json["links"].dictionaryObject
+        comment.mergeLinks(json["links"].dictionaryObject)
 
         return comment
     }

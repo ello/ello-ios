@@ -219,7 +219,7 @@ final class Post: Model, Authorable, Groupable {
         post.commentsCount = json["comments_count"].int
         post.repostsCount = json["reposts_count"].int
         post.lovesCount = json["loves_count"].int
-        post.links = data["links"] as? [String: Any]
+        post.mergeLinks(data["links"] as? [String: Any])
         return post
     }
 

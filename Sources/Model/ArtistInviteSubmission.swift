@@ -13,6 +13,7 @@ final class ArtistInviteSubmission: Model, Groupable, PostActionable {
     static let Version = 2
 
     let id: String
+    var groupId: String { return "ArtistInviteSubmission-\(id)" }
     let artistInviteId: String
     let postId: String
     var artistInvite: ArtistInvite? {
@@ -20,7 +21,6 @@ final class ArtistInviteSubmission: Model, Groupable, PostActionable {
     }
     let status: Status
     var actions: [Action] = []
-    var groupId: String { return "ArtistInviteSubmission-\(id)" }
 
     var post: Post? {
         return getLinkObject("post") as? Post
@@ -157,7 +157,8 @@ final class ArtistInviteSubmission: Model, Groupable, PostActionable {
         }
         let status = Status(rawValue: json["status"].stringValue) ?? .unapproved
         let submission = ArtistInviteSubmission(id: id, artistInviteId: artistInviteId, postId: postId, status: status)
-        submission.links = data["links"] as? [String: Any]
+        submission.mergeLinks(data["links"] as? [String: Any])
+
         if let actions = data["actions"] as? [String: Any] {
             submission.actions = actions.compactMap { key, value in
                 return Action(name: key, json: JSON(value))

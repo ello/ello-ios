@@ -49,7 +49,6 @@ final class Notification: Model, Authorable, Groupable {
     var author: User?
     // if postId is present, this notification is opened using "PostDetailViewController"
     var postId: String?
-    // computed
     var createdAt: Date { return activity.createdAt as Date }
     var groupId: String { return "Notification-\(activity.id)" }
     var subject: Model? { willSet { attributedTitleStore = nil } }

@@ -111,7 +111,7 @@ final class Category: Model, Groupable {
             level: level
             )
 
-        category.links = data["links"] as? [String: Any]
+        category.mergeLinks(data["links"] as? [String: Any])
 
         if let attachmentJson = json["tile_image"]["large"].object as? [String: Any] {
             category.tileImage = Attachment.fromJSON(attachmentJson)

@@ -18,7 +18,7 @@ enum ModelResult {
 
 @objc(Model)
 class Model: NSObject, NSCoding {
-    var links: [String: Any]?
+    var links: [String: Any] = [:]
     let version: Int
 
     init(version: Int) {
@@ -28,7 +28,7 @@ class Model: NSObject, NSCoding {
 
     required init(coder: NSCoder) {
         let decoder = Coder(coder)
-        self.links = decoder.decodeOptionalKey("links")
+        self.links = decoder.decodeOptionalKey("links") ?? [:]
         self.version = decoder.decodeKey("version")
     }
 
@@ -47,8 +47,6 @@ class Model: NSObject, NSCoding {
 
 extension Model {
     func getLinkObject(_ identifier: String) -> Model? {
-        guard let links = links else { return nil }
-
         var obj: Model?
         if let linksMap = links[identifier] as? [String: Any],
             let id = linksMap["id"] as? String,
@@ -68,8 +66,6 @@ extension Model {
     }
 
     func getLinkArray(_ identifier: String) -> [Model] {
-        guard let links = links else { return [] }
-
         let linksList = links[identifier] as? [String]
         let linksMap = links[identifier] as? [String: Any]
         guard
@@ -91,10 +87,19 @@ extension Model {
         return arr
     }
 
-    func addLinkObject(_ identifier: String, key: String, type: MappingType) {
-        if links == nil { links = [String: Any]() }
-        links![identifier] = ["id": key, "type": type.rawValue]
+    func mergeLinks(_ links: [String: Any]?) {
+        guard let links = links else { return }
+        for (key, value) in links {
+            self.links[key] = value
+        }
+    }
 
+    func addLinkObject(_ identifier: String, key: String, type: MappingType) {
+        links[identifier] = ["id": key, "type": type.rawValue]
+    }
+
+    func removeLink(_ identifier: String) {
+        links[identifier] = nil
     }
 
     func addLinkObject(_ model: Model, identifier: String, key: String, type: MappingType) {
@@ -103,12 +108,10 @@ extension Model {
     }
 
     func clearLinkObject(_ identifier: String) {
-        if links == nil { links = [String: Any]() }
-        links![identifier] = nil
+        links[identifier] = nil
     }
 
     func addLinkArray(_ identifier: String, array: [String], type: MappingType) {
-        if links == nil { links = [String: Any]() }
-        links![identifier] = ["ids": array, "type": type.rawValue]
+        links[identifier] = ["ids": array, "type": type.rawValue]
     }
 }
