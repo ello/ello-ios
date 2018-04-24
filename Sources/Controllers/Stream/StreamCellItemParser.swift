@@ -93,9 +93,9 @@ struct StreamCellItemParser {
             cellItems.append(StreamCellItem(jsonable: post, type: .postFeaturedControl))
         }
 
-        if let featuredBy = post.featuredBy {
-            cellItems.append(StreamCellItem(jsonable: post, type: .postFeaturedBy))
-        }
+//        if let featuredBy = post.featuredBy {
+//            cellItems.append(StreamCellItem(jsonable: post, type: .postFeaturedBy))
+//        }
 
         cellItems += postToggleItems(post)
         if post.isRepost {
