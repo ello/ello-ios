@@ -19,17 +19,13 @@ final class ElloComment: Model, Authorable, Groupable {
     var body: [Regionable]?
     var summary: [Regionable]?
     var assets: [Asset] { return getLinkArray("assets") }
-    var author: User? {
-        return ElloLinkedStore.shared.getObject(self.authorId, type: .usersType) as? User
-    }
-    var parentPost: Post? {
-        return ElloLinkedStore.shared.getObject(self.postId, type: .postsType) as? Post
-    }
-    var loadedFromPost: Post? {
-        return (ElloLinkedStore.shared.getObject(self.loadedFromPostId, type: .postsType) as? Post) ?? parentPost
-    }
+    var author: User? { return getLinkObject("author") }
+    var parentPost: Post? { return getLinkObject("parent_post") }
+    var loadedFromPost: Post? { return getLinkObject("loaded_from_post") ?? parentPost }
     // to show hide in the stream, and for comment replies
-    var loadedFromPostId: String
+    var loadedFromPostId: String {
+        didSet { addLinkObject("loaded_from_post", key: loadedFromPostId, type: .postsType) }
+    }
 
     init(id: String,
         createdAt: Date,
@@ -93,6 +89,8 @@ final class ElloComment: Model, Authorable, Groupable {
         comment.summary = RegionParser.jsonRegions(json: json["summary"])
 
         comment.mergeLinks(data["links"] as? [String: Any])
+        comment.addLinkObject("author", key: comment.authorId, type: .usersType)
+        comment.addLinkObject("parent_post", key: comment.postId, type: .postsType)
 
         return comment
     }

@@ -15,13 +15,8 @@ final class Watch: Model, PostActionable {
     let postId: String
     let userId: String
 
-    var post: Post? {
-        return ElloLinkedStore.shared.getObject(self.postId, type: .postsType) as? Post
-    }
-
-    var user: User? {
-        return ElloLinkedStore.shared.getObject(self.userId, type: .usersType) as? User
-    }
+    var post: Post? { return getLinkObject("post") }
+    var user: User? { return getLinkObject("user") }
 
     init(id: String,
         createdAt: Date,
@@ -84,6 +79,8 @@ final class Watch: Model, PostActionable {
         )
 
         watch.mergeLinks(data["links"] as? [String: Any])
+        watch.addLinkObject("post", key: watch.postId, type: .postsType)
+        watch.addLinkObject("user", key: watch.userId, type: .usersType)
 
         return watch
     }

@@ -16,13 +16,8 @@ final class Love: Model, PostActionable {
     let postId: String
     let userId: String
 
-    var post: Post? {
-        return ElloLinkedStore.shared.getObject(self.postId, type: .postsType) as? Post
-    }
-
-    var user: User? {
-        return ElloLinkedStore.shared.getObject(self.userId, type: .usersType) as? User
-    }
+    var post: Post? { return getLinkObject("post") }
+    var user: User? { return getLinkObject("user") }
 
     init(id: String,
         createdAt: Date,
@@ -90,6 +85,8 @@ final class Love: Model, PostActionable {
         )
 
         love.mergeLinks(data["links"] as? [String: Any])
+        love.addLinkObject("post", key: love.postId, type: .postsType)
+        love.addLinkObject("user", key: love.userId, type: .usersType)
 
         return love
     }

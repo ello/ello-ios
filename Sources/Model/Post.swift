@@ -34,9 +34,7 @@ final class Post: Model, Authorable, Groupable {
     var lovesCount: Int?
     var assets: [Asset] { return getLinkArray("assets") }
     var firstImageURL: URL? { return assets.first?.largeOrBest?.url }
-    var author: User? {
-        return ElloLinkedStore.shared.getObject(self.authorId, type: .usersType) as? User
-    }
+    var author: User? { return getLinkObject("author") }
     var categories: [Category] { return getLinkArray("categories") }
     var category: Category? { return categories.first }
     var repostAuthor: User? { return repostSource?.author ?? getLinkObject("repost_author") }
@@ -202,7 +200,10 @@ final class Post: Model, Authorable, Groupable {
         post.commentsCount = json["comments_count"].int
         post.repostsCount = json["reposts_count"].int
         post.lovesCount = json["loves_count"].int
+
         post.mergeLinks(data["links"] as? [String: Any])
+        post.addLinkObject("author", key: post.authorId, type: .usersType)
+
         return post
     }
 

@@ -42,10 +42,7 @@ final class Editorial: Model, Groupable {
     let kind: Kind
     var groupId: String { return "Editorial-\(id)" }
     var postId: String? { return post?.id }
-    var post: Post? {
-        guard let postId = postId else { return nil }
-        return ElloLinkedStore.shared.getObject(postId, type: .postsType) as? Post
-    }
+    var post: Post? { return getLinkObject("post") }
     var postStreamURL: URL?
     var posts: [Post]?
     var images: [Size: Asset] = [:]

@@ -14,12 +14,8 @@ final class Relationship: Model {
     let createdAt: Date
     let ownerId: String
     let subjectId: String
-    var owner: User? {
-        return ElloLinkedStore.shared.getObject(self.ownerId, type: .usersType) as? User
-    }
-    var subject: User? {
-        return ElloLinkedStore.shared.getObject(self.subjectId, type: .usersType) as? User
-    }
+    var owner: User? { return getLinkObject("owner") }
+    var subject: User? { return getLinkObject("subject") }
 
     init(id: String, createdAt: Date, ownerId: String, subjectId: String) {
         self.id = id
