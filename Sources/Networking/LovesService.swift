@@ -10,8 +10,8 @@ struct LovesService {
     func lovePost(postId: String) -> Promise<Love> {
         let endpoint = ElloAPI.createLove(postId: postId)
         return ElloProvider.shared.request(endpoint)
-            .map { response -> Love in
-                guard let love = response.0 as? Love else {
+            .map { (jsonable, _) -> Love in
+                guard let love = jsonable as? Love else {
                     throw NSError.uncastableModel()
                 }
                 return love

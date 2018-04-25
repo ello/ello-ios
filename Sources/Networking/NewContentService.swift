@@ -93,8 +93,7 @@ private extension NewContentService {
 
     func newestDate(_ jsonables: [Model]) -> Date {
         let old = Date(timeIntervalSince1970: 0)
-        return jsonables.reduce(old) {
-            (date, jsonable) -> Date in
+        return jsonables.reduce(old) { (date, jsonable) -> Date in
             if let post = jsonable as? Post {
                 return post.createdAt as Date > date ? post.createdAt as Date : date
             }
@@ -113,12 +112,8 @@ private extension NewContentService {
         let storedDate = GroupDefaults[storedKey].date
 
         return ElloProvider.shared.request(.notificationsNewContent(createdAt: storedDate))
-            .done { response in
-                guard
-                    let statusCode = response.1.statusCode,
-                    statusCode == 204
-                    else { return }
-
+            .done { (_, responseConfig) in
+                guard responseConfig.statusCode == 204 else { return }
                 postNotification(NewContentNotifications.newNotifications, value: ())
             }
     }
@@ -128,12 +123,8 @@ private extension NewContentService {
         let storedDate = GroupDefaults[storedKey].date
 
          return ElloProvider.shared.request(.announcementsNewContent(createdAt: storedDate))
-             .done { response in
-                guard
-                    let statusCode = response.1.statusCode,
-                    statusCode == 204
-                else { return }
-
+             .done { (_, responseConfig) in
+                guard responseConfig.statusCode == 204 else { return }
                 postNotification(NewContentNotifications.newAnnouncements, value: ())
              }
     }
@@ -143,13 +134,12 @@ private extension NewContentService {
         let storedDate = GroupDefaults[storedKey].date
 
         return ElloProvider.shared.request(.followingNewContent(createdAt: storedDate))
-            .done { response in
-                let responseConfig = response.1
+            .done { (_, responseConfig) in
                 if let lastModified = responseConfig.lastModified {
                     GroupDefaults[storedKey] = lastModified.toDate(HTTPDateFormatter)
                 }
 
-                if let statusCode = responseConfig.statusCode, statusCode == 204 {
+                if responseConfig.statusCode == 204 {
                     postNotification(NewContentNotifications.newFollowingContent, value: ())
                 }
             }

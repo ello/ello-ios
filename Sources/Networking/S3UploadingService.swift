@@ -50,8 +50,8 @@ class S3UploadingService {
 
     func upload(_ data: Data, contentType: String, filename overrideFilename: String? = nil) -> Promise<URL?> {
         return ElloProvider.shared.request(endpoint)
-            .then { response -> Promise<URL?> in
-                guard let credentials = response.0 as? AmazonCredentials else {
+            .then { (jsonable, _) -> Promise<URL?> in
+                guard let credentials = jsonable as? AmazonCredentials else {
                     throw NSError.uncastableModel()
                 }
 

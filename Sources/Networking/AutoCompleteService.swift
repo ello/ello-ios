@@ -11,12 +11,12 @@ struct AutoCompleteService {
 
     func loadUsernameResults(_ terms: String) -> Promise<[AutoCompleteResult]> {
         return ElloProvider.shared.request(.userNameAutoComplete(terms: terms))
-            .map { response -> [AutoCompleteResult] in
-                if response.0 as? String == "" {
+            .map { (jsonable, _) -> [AutoCompleteResult] in
+                if jsonable as? String == "" {
                     return []
                 }
 
-                guard let results = response.0 as? [AutoCompleteResult] else {
+                guard let results = jsonable as? [AutoCompleteResult] else {
                     throw NSError.uncastableModel()
                 }
                 return results
@@ -80,8 +80,8 @@ struct AutoCompleteService {
 
     func loadLocationResults(_ terms: String) -> Promise<[AutoCompleteResult]> {
         return ElloProvider.shared.request(.locationAutoComplete(terms: terms))
-            .map { response -> [AutoCompleteResult] in
-                guard let results = response.0 as? [AutoCompleteResult] else {
+            .map { (jsonable, _) -> [AutoCompleteResult] in
+                guard let results = jsonable as? [AutoCompleteResult] else {
                     throw NSError.uncastableModel()
                 }
                 return results

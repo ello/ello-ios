@@ -12,8 +12,8 @@ struct ProfileService {
 
     func loadCurrentUser() -> Promise<User> {
         return ElloProvider.shared.request(.currentUserProfile)
-            .map { response -> User in
-                guard let user = response.0 as? User else {
+            .map { (jsonable, _) -> User in
+                guard let user = jsonable as? User else {
                     throw NSError.uncastableModel()
                 }
                 return user
@@ -35,8 +35,8 @@ struct ProfileService {
             content[key.rawValue] = value
         }
         return ElloProvider.shared.request(.profileUpdate(body: content))
-            .map { response -> User in
-                guard let user = response.0 as? User else {
+            .map { (jsonable, _) -> User in
+                guard let user = jsonable as? User else {
                     throw NSError.uncastableModel()
                 }
                 return user

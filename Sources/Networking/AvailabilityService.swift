@@ -20,8 +20,8 @@ struct AvailabilityService {
     func availability(_ content: [String: String]) -> Promise<Availability> {
         let endpoint = ElloAPI.availability(content: content)
         return ElloProvider.shared.request(endpoint)
-            .map { response -> Availability in
-                guard let data = response.0 as? Availability else {
+            .map { (jsonable, _) -> Availability in
+                guard let data = jsonable as? Availability else {
                     throw NSError.uncastableModel()
                 }
                 return data

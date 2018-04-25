@@ -130,8 +130,8 @@ class PostEditingService {
         }
 
         return ElloProvider.shared.request(endpoint)
-            .map { response -> Any in
-                let data = response.0
+            .map { (jsonable, _) -> Any in
+                let data = jsonable
                 let post: Any = data
 
                 switch endpoint {
