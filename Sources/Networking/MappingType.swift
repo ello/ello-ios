@@ -105,17 +105,17 @@ enum MappingType: String {
 extension MappingType {
     func parser() -> Parser? {
         switch self {
+        // case .artistInvitesType:           return ArtistInviteParser()
+        // case .artistInviteSubmissionsType: return ArtistInviteSubmissionParser()
+        // case .lovesType:                   return LoveParser()
+        // case .profilesType:                return ProfileParser()
+        // case .watchesType:                 return WatchParser()
         case .assetsType:                  return AssetParser()
-        case .artistInvitesType:           return ArtistInviteParser()
-        case .artistInviteSubmissionsType: return ArtistInviteSubmissionParser()
         case .categoriesType:              return CategoryParser()
         case .categoryPostsType:           return CategoryPostParser()
         case .commentsType:                return CommentParser()
-        case .lovesType:                   return LoveParser()
         case .postsType:                   return PostParser()
-        case .profilesType:                return ProfileParser()
         case .usersType:                   return UserParser()
-        case .watchesType:                 return WatchParser()
         default:
             return nil
         }

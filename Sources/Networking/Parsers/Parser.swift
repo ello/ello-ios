@@ -25,8 +25,7 @@ class Parser {
 
         table[identifier.id] = nil
         db[identifier.table] = table
-        guard let jsonable = parser.parse(json: json) else { return nil }
-
+        let jsonable = parser.parse(json: json)
         ElloLinkedStore.shared.setObject(jsonable, forKey: identifier.id, type: identifier.table)
         return jsonable
     }
@@ -93,8 +92,8 @@ class Parser {
         db[identifier.table] = table
     }
 
-    func parse(json: JSON) -> Model? {
-        return nil
+    func parse(json: JSON) -> Model {
+        fatalError("not implemented (in \(self))")
     }
 }
 
