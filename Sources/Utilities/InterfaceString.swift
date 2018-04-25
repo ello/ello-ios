@@ -52,6 +52,7 @@ struct InterfaceString {
     struct ArtistInvites {
         static let Title: String = NSLocalizedString("Artist Invites", comment: "")
         static let Submissions: String = NSLocalizedString("Submissions", comment: "")
+        static let Selections: String = NSLocalizedString("Selections", comment: "")
         static let PostSubmissionHeader: String = NSLocalizedString("Artist Invite Submission", comment: "")
         static let SubmissionsError: String = NSLocalizedString("Error while loading submissions", comment: "")
         static let SeeSubmissions: String = NSLocalizedString("↓ See Submissions", comment: "")

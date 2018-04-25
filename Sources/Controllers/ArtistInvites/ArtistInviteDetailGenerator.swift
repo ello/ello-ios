@@ -79,7 +79,15 @@ private extension ArtistInviteDetailGenerator {
     }
 
     func loadSubmissions(_ artistInvite: ArtistInvite) {
-        guard let endpoint = artistInvite.approvedSubmissionsStream?.endpoint else {
+        let submissionsStream: ArtistInvite.Stream?
+        if artistInvite.status == .closed {
+            submissionsStream = artistInvite.selectedSubmissionsStream
+        }
+        else {
+            submissionsStream = artistInvite.approvedSubmissionsStream
+        }
+
+        guard let endpoint = submissionsStream?.endpoint else {
             showSubmissionsError()
             return
         }
@@ -107,7 +115,13 @@ private extension ArtistInviteDetailGenerator {
                     self.showEmptySubmissions()
                 }
                 else {
-                    let submissionsHeader = StreamCellItem(type: .header(InterfaceString.ArtistInvites.Submissions))
+                    let submissionsHeader: StreamCellItem
+                    if artistInvite.status == .closed {
+                        submissionsHeader = StreamCellItem(type: .header(InterfaceString.ArtistInvites.Selections))
+                    }
+                    else {
+                        submissionsHeader = StreamCellItem(type: .header(InterfaceString.ArtistInvites.Submissions))
+                    }
                     self.destination?.replacePlaceholder(type: .artistInviteSubmissionsHeader, items: [submissionsHeader])
 
                     let button = StreamCellItem(type: .artistInviteSubmissionsButton)
