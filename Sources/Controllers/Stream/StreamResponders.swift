@@ -132,5 +132,5 @@ protocol InviteResponder: class {
 
 @objc
 protocol PostFeaturedResponder: class {
-    func categoryPostTapped(_ categoryPost: CategoryPost)
+    func categoryPostTapped(streamCellItem: StreamCellItem, categoryPost: CategoryPost)
 }

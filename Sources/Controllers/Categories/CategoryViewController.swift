@@ -451,18 +451,26 @@ extension CategoryViewController: PromotionalHeaderResponder {
 }
 
 extension CategoryViewController: PostFeaturedResponder {
-    func categoryPostTapped(_ categoryPost: CategoryPost) {
+    func categoryPostTapped(streamCellItem: StreamCellItem, categoryPost: CategoryPost) {
         guard let action = categoryPost.actions.first else { return }
 
-        ElloHUD.showLoadingHudInView(streamViewController.view)
+        ElloHUD.showLoadingHudInView(self.view)
         ElloProvider.shared.request(action.endpoint)
             .ensure {
-                ElloHUD.hideLoadingHudInView(self.streamViewController.view)
+                ElloHUD.hideLoadingHudInView(self.view)
             }
             .done { (jsonable, _) in
-                print("\(jsonable)")
+                guard
+                    let newCategoryPost = jsonable as? CategoryPost,
+                    let indexPath = self.streamViewController.indexPath(forItem: streamCellItem)
+                else { return }
+
+                streamCellItem.jsonable = newCategoryPost
+                self.streamViewController.performDataUpdate { collectionView in
+                    collectionView.reloadItems(at: [indexPath])
+                }
             }
-            .ignoreErrors()
+           .ignoreErrors()
     }
 }
 

@@ -966,13 +966,15 @@ extension StreamViewController: AnnouncementCellResponder {
 extension StreamViewController: UICollectionViewDelegate {
 
     func jsonable(forPath indexPath: IndexPath) -> Model? {
-        guard let streamCellItem = collectionViewDataSource.streamCellItem(at: indexPath) else { return nil }
-        return streamCellItem.jsonable
+        return collectionViewDataSource.streamCellItem(at: indexPath)?.jsonable
     }
 
     func jsonable(forCell cell: UICollectionViewCell) -> Model? {
-        guard let indexPath = collectionView.indexPath(for: cell) else { return nil}
-        return jsonable(forPath: indexPath)
+        return collectionView.indexPath(for: cell).flatMap { jsonable(forPath: $0) }
+    }
+
+    func indexPath(forItem item: StreamCellItem) -> IndexPath? {
+        return collectionViewDataSource.indexPath(forItem: item)
     }
 
     func footerCell(forPost post: Post) -> StreamFooterCell? {
@@ -1014,7 +1016,6 @@ extension StreamViewController: UICollectionViewDelegate {
             let streamCellItem = collectionViewDataSource.streamCellItem(at: indexPath)
         else { return }
 
-        let tappedCell = collectionView.cellForItem(at: indexPath)
         var makeSelected = false
         if streamCellItem.type == .onboardingCategoryCard || streamCellItem.type == .categorySubscribeCard {
             let paths = collectionView.indexPathsForSelectedItems
@@ -1028,12 +1029,6 @@ extension StreamViewController: UICollectionViewDelegate {
             let responder: ChooseCategoryResponder? = findResponder()
             responder?.categoryChosen(category)
             makeSelected = true
-        }
-        else if tappedCell is PostFeaturedControlCell,
-            let categoryPost = streamCellItem.jsonable as? CategoryPost
-        {
-            let responder: PostFeaturedResponder? = findResponder()
-            responder?.categoryPostTapped(categoryPost)
         }
 
         if makeSelected {
@@ -1116,7 +1111,7 @@ extension StreamViewController: UICollectionViewDelegate {
             let categoryPost = streamCellItem.jsonable as? CategoryPost
         {
             let responder: PostFeaturedResponder? = findResponder()
-            responder?.categoryPostTapped(categoryPost)
+            responder?.categoryPostTapped(streamCellItem: streamCellItem, categoryPost: categoryPost)
         }
         else if let category = streamCellItem.jsonable as? Category {
             if streamCellItem.type == .onboardingCategoryCard || streamCellItem.type == .categorySubscribeCard {

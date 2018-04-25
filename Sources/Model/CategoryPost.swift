@@ -27,7 +27,7 @@ final class CategoryPost: Model, Groupable {
 
     enum Status: String {
         case featured
-        case unfeatured
+        case submitted
         case unspecified
     }
 
@@ -59,7 +59,7 @@ final class CategoryPost: Model, Groupable {
         let name: Name
         let label: String
         let request: ElloRequest
-        var endpoint: ElloAPI { return .customRequest(request, mimics: .artistInviteSubmissions) }
+        var endpoint: ElloAPI { return .customRequest(request, mimics: .categoryPostActions) }
 
         var order: Int {
             switch name {
@@ -127,7 +127,32 @@ final class CategoryPost: Model, Groupable {
 
     class func fromJSON(_ data: [String: Any]) -> CategoryPost {
         let json = JSON(data)
-        return CategoryPostParser().parse(json: json)
+        var actions: [CategoryPost.Action] = []
+        if let actionsJson = json["actions"].dictionary {
+            for (name, actionJson) in actionsJson {
+                guard let action = CategoryPost.Action(name: name, json: actionJson) else { continue }
+                actions.append(action)
+            }
+        }
+
+        let submittedAt = json["submitted_at"].stringValue.toDate() ?? Globals.now
+        let featuredAt = json["featured_at"].stringValue.toDate() ?? Globals.now
+        let unfeaturedAt = json["unfeatured_at"].stringValue.toDate() ?? Globals.now
+        let removedAt = json["removed_at"].stringValue.toDate() ?? Globals.now
+
+        let categoryPost = CategoryPost(
+            id: json["id"].stringValue,
+            status: CategoryPost.Status(rawValue: json["status"].stringValue) ?? .unspecified,
+            actions: actions,
+            submittedAt: submittedAt,
+            featuredAt: featuredAt,
+            unfeaturedAt: unfeaturedAt,
+            removedAt: removedAt
+        )
+
+        categoryPost.mergeLinks(json["links"].dictionaryObject)
+
+        return categoryPost
     }
 }
 

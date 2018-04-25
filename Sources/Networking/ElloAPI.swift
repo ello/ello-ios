@@ -30,6 +30,7 @@ indirect enum ElloAPI {
     case categories
     case category(slug: String)
     case categoryPosts(slug: String)
+    case categoryPostActions
     case commentDetail(postId: String, commentId: String)
     case createComment(parentPostId: String, body: [String: Any])
     case createLove(postId: String)
@@ -141,6 +142,8 @@ indirect enum ElloAPI {
         case .categories,
              .category:
             return .categoriesType
+        case .categoryPostActions:
+            return .categoryPostsType
         case .artistInvites, .artistInviteDetail:
             return .artistInvitesType
         case .artistInviteSubmissions:
@@ -237,6 +240,7 @@ extension ElloAPI: AuthenticationEndpoint {
              .categories,
              .category,
              .categoryPosts,
+             .categoryPostActions,
              .deleteSubscriptions,
              .editorials,
              .join,
@@ -376,6 +380,8 @@ extension ElloAPI: Moya.TargetType {
             return "\(defaultPrefix)/posts/\(postId)/comments/\(commentId)"
         case .categories:
             return "\(defaultPrefix)/categories"
+        case .categoryPostActions:
+            return "\(defaultPrefix)/category_posts"
         case let .category(slug):
             return "\(defaultPrefix)/categories/\(slug)"
         case let .categoryPosts(slug):
@@ -523,6 +529,8 @@ extension ElloAPI: Moya.TargetType {
             return stubbedData("categories")
         case .category:
             return stubbedData("category")
+        case .categoryPostActions:
+            return stubbedData("empty")
         case .announcementsNewContent,
              .markAnnouncementAsRead,
              .deleteComment,

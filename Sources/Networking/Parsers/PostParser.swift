@@ -11,7 +11,7 @@ class PostParser: IdParser {
         super.init(table: .postsType)
 
         linkArray(.assetsType)
-        linkArray(.categoriesType)
+        linkArray(.categoryPostsType)
 
         linkObject(.usersType, "author")
         linkObject(.usersType, "repostAuthor")
