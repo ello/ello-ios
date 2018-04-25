@@ -191,6 +191,7 @@ final class StreamViewController: BaseElloViewController {
         let pullToRefreshView = SSPullToRefreshView(scrollView: collectionView, delegate: self)!
         pullToRefreshView.contentView = ElloPullToRefreshView()
         pullToRefreshView.isVisible = isPullToRefreshVisible
+        pullToRefreshView.expandedHeight = 100
         self.pullToRefreshView = pullToRefreshView
 
         setupCollectionView()
