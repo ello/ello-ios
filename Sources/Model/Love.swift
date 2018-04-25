@@ -33,6 +33,9 @@ final class Love: Model, PostActionable {
         self.postId = postId
         self.userId = userId
         super.init(version: LoveVersion)
+
+        addLinkObject("post", key: postId, type: .postsType)
+        addLinkObject("user", key: userId, type: .usersType)
     }
 
     required init(coder: NSCoder) {

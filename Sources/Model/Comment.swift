@@ -40,6 +40,10 @@ final class ElloComment: Model, Authorable, Groupable {
         self.loadedFromPostId = postId
         self.content = content
         super.init(version: CommentVersion)
+
+        addLinkObject("parent_post", key: postId, type: .postsType)
+        addLinkObject("loaded_from_post", key: postId, type: .postsType)
+        addLinkObject("author", key: authorId, type: .usersType)
     }
 
     required init(coder: NSCoder) {

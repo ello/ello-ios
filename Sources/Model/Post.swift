@@ -23,7 +23,6 @@ final class Post: Model, Authorable, Groupable {
     var isLoved: Bool
     var isWatching: Bool
     let summary: [Regionable]
-
     var content: [Regionable]?
     var body: [Regionable]?
     var repostContent: [Regionable]?
@@ -32,14 +31,15 @@ final class Post: Model, Authorable, Groupable {
     var commentsCount: Int?
     var repostsCount: Int?
     var lovesCount: Int?
+
     var assets: [Asset] { return getLinkArray("assets") }
     var firstImageURL: URL? { return assets.first?.largeOrBest?.url }
     var author: User? { return getLinkObject("author") }
-    var categories: [Category] { return getLinkArray("categories") }
-    var category: Category? { return categories.first }
+    var categoryPosts: [CategoryPost] { return getLinkArray("category_posts") }
+    var category: Category? { return categoryPosts.first?.category ?? getLinkObject("category") }
     var repostAuthor: User? { return repostSource?.author ?? getLinkObject("repost_author") }
     var repostSource: Post? { return getLinkObject("reposted_source") }
-    var featuredBy: User? { return author }
+    var featuredBy: User? { return categoryPosts.first?.featuredBy }
 
     // nested resources
     var comments: [ElloComment]? {
@@ -101,6 +101,8 @@ final class Post: Model, Authorable, Groupable {
                 self.commentsCount = (self.commentsCount ?? 0) + delta
             }
         }
+
+        addLinkObject("author", key: authorId, type: .usersType)
     }
 
     deinit {
@@ -203,6 +205,9 @@ final class Post: Model, Authorable, Groupable {
 
         post.mergeLinks(data["links"] as? [String: Any])
         post.addLinkObject("author", key: post.authorId, type: .usersType)
+        if post.categoryPosts.isEmpty, let category = (post.getLinkArray("categories") as [Category]).first {
+            post.addLinkObject("category", key: category.id, type: .categoriesType)
+        }
 
         return post
     }
