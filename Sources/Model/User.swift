@@ -365,8 +365,8 @@ extension User {
         return followedCategoryIds.contains(categoryId)
     }
 
-    func isCuratorOf(category: Category) -> Bool {
-        return true
+    func isCuratorOf(categoryPost: CategoryPost) -> Bool {
+        return !categoryPost.actions.isEmpty
     }
 
 }

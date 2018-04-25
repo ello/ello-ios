@@ -3,7 +3,7 @@
 //
 
 import SwiftyJSON
-
+import Moya
 
 
 @objc(CategoryPost)
@@ -12,41 +12,157 @@ final class CategoryPost: Model, Groupable {
 
     let id: String
     var groupId: String { return "CategoryPost-\(id)" }
-    var category: Category? { return getLinkObject("category") }
-    var featuredBy: User? { return getLinkObject("featuredBy") }
+    let submittedAt: Date?
+    let featuredAt: Date?
+    let unfeaturedAt: Date?
+    let removedAt: Date?
+    let status: Status
+    var actions: [Action]
 
-    init(id: String)
+    var category: Category? { return getLinkObject("category") }
+    var submittedBy: User? { return getLinkObject("submittedBy") }
+    var featuredBy: User? { return getLinkObject("featuredBy") }
+    var unfeaturedBy: User? { return getLinkObject("unfeaturedBy") }
+    var removedBy: User? { return getLinkObject("removedBy") }
+
+    enum Status: String {
+        case featured
+        case unfeatured
+        case unspecified
+    }
+
+    struct Action {
+        enum Name: Equatable {
+            case feature
+            case unfeature
+            case other(String)
+
+            static func == (lhs: Name, rhs: Name) -> Bool { return lhs.string == rhs.string }
+
+            init(_ name: String) {
+                switch name {
+                case "feature": self = .feature
+                case "unfeature": self = .unfeature
+                default: self = .other(name)
+                }
+            }
+
+            var string: String {
+                switch self {
+                case .feature: return "feature"
+                case .unfeature: return "unfeature"
+                case let .other(string): return string
+                }
+            }
+        }
+
+        let name: Name
+        let label: String
+        let request: ElloRequest
+        var endpoint: ElloAPI { return .customRequest(request, mimics: .artistInviteSubmissions) }
+
+        var order: Int {
+            switch name {
+            case .feature: return 0
+            case .unfeature: return 1
+            case .other: return 2
+            }
+        }
+
+        init(name: Name, label: String, request: ElloRequest) {
+            self.name = name
+            self.label = label
+            self.request = request
+        }
+
+        init?(name nameStr: String, json: JSON) {
+            guard
+                let method = json["method"].string.map({ $0.uppercased() }).flatMap({ Moya.Method(rawValue: $0) }),
+                let url = json["href"].string.flatMap({ URL(string: $0) })
+            else { return nil }
+
+            let label = json["label"].stringValue
+            let parameters = json["body"].object as? [String: Any]
+            self.init(name: Name(nameStr), label: label, request: ElloRequest(url: url, method: method, parameters: parameters))
+        }
+    }
+
+    init(id: String, status: Status, actions: [Action], submittedAt: Date?, featuredAt: Date?, unfeaturedAt: Date?, removedAt: Date?)
     {
         self.id = id
+        self.status = status
+        self.actions = actions
+        self.submittedAt = submittedAt
+        self.featuredAt = featuredAt
+        self.unfeaturedAt = unfeaturedAt
+        self.removedAt = removedAt
         super.init(version: CategoryPost.CategoryPostVersion)
     }
 
     required init(coder: NSCoder) {
         let decoder = Coder(coder)
         id = decoder.decodeKey("id")
+        status = Status(rawValue: decoder.decodeKey("status")) ?? .unspecified
+        let actions: [[String: Any]] = decoder.decodeKey("actions")
+        let version: Int = decoder.decodeKey("version")
+        self.actions = actions.compactMap { Action.decode($0, version: version) }
+        submittedAt = decoder.decodeOptionalKey("submittedAt")
+        featuredAt = decoder.decodeOptionalKey("featuredAt")
+        unfeaturedAt = decoder.decodeOptionalKey("unfeaturedAt")
+        removedAt = decoder.decodeOptionalKey("removedAt")
         super.init(coder: coder)
     }
 
     override func encode(with coder: NSCoder) {
         let encoder = Coder(coder)
         encoder.encodeObject(id, forKey: "id")
+        encoder.encodeObject(status.rawValue, forKey: "status")
+        encoder.encodeObject(actions.map { $0.encodeable }, forKey: "actions")
+        encoder.encodeObject(submittedAt, forKey: "submittedAt")
+        encoder.encodeObject(featuredAt, forKey: "featuredAt")
+        encoder.encodeObject(unfeaturedAt, forKey: "unfeaturedAt")
+        encoder.encodeObject(removedAt, forKey: "removedAt")
         super.encode(with: coder)
     }
 
     class func fromJSON(_ data: [String: Any]) -> CategoryPost {
         let json = JSON(data)
+        return CategoryPostParser().parse(json: json)
+    }
+}
 
-        let categoryPost = CategoryPost(
-            id: json["id"].stringValue
-            )
-
-        categoryPost.mergeLinks(data["links"] as? [String: Any])
-
-        return categoryPost
+extension CategoryPost {
+    func hasAction(_ name: CategoryPost.Action.Name) -> Bool {
+        return actions.any { $0.name == name }
     }
 }
 
 extension CategoryPost: JSONSaveable {
     var uniqueId: String? { return "CategoryPost-\(id)" }
     var tableId: String? { return id }
+}
+
+extension CategoryPost.Action {
+    var encodeable: [String: Any] {
+        let parameters: [String: Any] = request.parameters ?? [:]
+        return [
+            "name": name.string,
+            "label": label,
+            "url": request.url,
+            "method": request.method.rawValue,
+            "parameters": parameters,
+        ]
+    }
+
+    static func decode(_ decodeable: [String: Any], version: Int) -> CategoryPost.Action? {
+        guard
+            let nameStr = decodeable["name"] as? String,
+            let label = decodeable["label"] as? String,
+            let url = decodeable["url"] as? URL,
+            let method = (decodeable["method"] as? String).flatMap({ Moya.Method(rawValue: $0) }),
+            let parameters = decodeable["parameters"] as? [String: String]
+        else { return nil }
+
+        return CategoryPost.Action(name: Name(nameStr), label: label, request: ElloRequest(url: url, method: method, parameters: parameters))
+    }
 }

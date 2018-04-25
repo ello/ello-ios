@@ -13,9 +13,9 @@ struct PostFeaturedControlCellPresenter {
     {
         guard
             let cell = cell as? PostFeaturedControlCell,
-            let post = streamCellItem.jsonable as? Post
+            let categoryPost = streamCellItem.jsonable as? CategoryPost
         else { return }
 
-        cell.isSelected = true
+        cell.isFeatured = categoryPost.hasAction(.unfeature)
     }
 }

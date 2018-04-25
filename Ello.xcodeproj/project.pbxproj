@@ -528,6 +528,12 @@
 		1D242D631DDBCD87000A424C /* grid_view_normal.svg in Resources */ = {isa = PBXBuildFile; fileRef = 1D242D611DDBCD87000A424C /* grid_view_normal.svg */; };
 		1D242D641DDBCD87000A424C /* list_view_normal.svg in Resources */ = {isa = PBXBuildFile; fileRef = 1D242D621DDBCD87000A424C /* list_view_normal.svg */; };
 		1D24AA511B7E8CD5004BAAFA /* DebugController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D24AA501B7E8CD5004BAAFA /* DebugController.swift */; };
+		1D250FC2208F97CE000EB403 /* CategoryPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D250FC1208F97CE000EB403 /* CategoryPost.swift */; };
+		1D250FC3208F97CE000EB403 /* CategoryPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D250FC1208F97CE000EB403 /* CategoryPost.swift */; };
+		1D250FC4208F97CE000EB403 /* CategoryPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D250FC1208F97CE000EB403 /* CategoryPost.swift */; };
+		1D250FC6208F9B0B000EB403 /* CategoryPostParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D250FC5208F9B0B000EB403 /* CategoryPostParser.swift */; };
+		1D250FC7208F9B0B000EB403 /* CategoryPostParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D250FC5208F9B0B000EB403 /* CategoryPostParser.swift */; };
+		1D250FC8208F9B0B000EB403 /* CategoryPostParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D250FC5208F9B0B000EB403 /* CategoryPostParser.swift */; };
 		1D26E1681C52E26D0034448D /* NotificationCellSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D26E1671C52E26D0034448D /* NotificationCellSpec.swift */; };
 		1D273A361D08A480009FD393 /* BlockUserModalConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D273A351D08A480009FD393 /* BlockUserModalConfig.swift */; };
 		1D2896531FA25CBE004661C1 /* CommentHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D2896521FA25CBD004661C1 /* CommentHeaderCell.swift */; };
@@ -1782,6 +1788,8 @@
 		1D242D611DDBCD87000A424C /* grid_view_normal.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grid_view_normal.svg; sourceTree = "<group>"; };
 		1D242D621DDBCD87000A424C /* list_view_normal.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = list_view_normal.svg; sourceTree = "<group>"; };
 		1D24AA501B7E8CD5004BAAFA /* DebugController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DebugController.swift; sourceTree = "<group>"; };
+		1D250FC1208F97CE000EB403 /* CategoryPost.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryPost.swift; sourceTree = "<group>"; };
+		1D250FC5208F9B0B000EB403 /* CategoryPostParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryPostParser.swift; sourceTree = "<group>"; };
 		1D26E1671C52E26D0034448D /* NotificationCellSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationCellSpec.swift; sourceTree = "<group>"; };
 		1D273A351D08A480009FD393 /* BlockUserModalConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockUserModalConfig.swift; sourceTree = "<group>"; };
 		1D2896521FA25CBD004661C1 /* CommentHeaderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentHeaderCell.swift; sourceTree = "<group>"; };
@@ -3398,6 +3406,7 @@
 				1D9A12C81EA96623003B3BD7 /* Badge.swift */,
 				1D59336A1D10ADA600EAF03D /* Category.swift */,
 				1D5933741D10BC8100EAF03D /* CategoryLevel.swift */,
+				1D250FC1208F97CE000EB403 /* CategoryPost.swift */,
 				12CFF69A1B167841007CE68F /* Coder.swift */,
 				12C043651A609A2000E3051A /* Comment.swift */,
 				EA34DABF1AD83CA3002F566D /* DynamicSetting.swift */,
@@ -3408,10 +3417,10 @@
 				12F6AE361A43392D00493660 /* ElloNetworkError.swift */,
 				12E83D9E1ADF12120074ECF6 /* ExperienceUpdate.swift */,
 				1DA18E1B1DB55D42000231CC /* ExternalLink.swift */,
-				12F6AE371A43392D00493660 /* Model.swift */,
 				120E64131E327B7A00CAF03E /* JWT.swift */,
 				EA68A0EC1AAE166F003F0425 /* LocalPerson.swift */,
 				12CFF69B1B167841007CE68F /* Love.swift */,
+				12F6AE371A43392D00493660 /* Model.swift */,
 				1DF2335B1A94005C0096DA65 /* Notification.swift */,
 				1D7A28D01A979BC40050E8A2 /* NotificationAttributedTitle.swift */,
 				1D80878920376AA20081E8FE /* PageHeader.swift */,
@@ -3714,6 +3723,7 @@
 				1D0DF8D520237CDB00019875 /* ArtistInviteSubmissionParser.swift */,
 				1D0DF8D320237CD900019875 /* AssetParser.swift */,
 				1D0DF8D720237CDC00019875 /* CategoryParser.swift */,
+				1D250FC5208F9B0B000EB403 /* CategoryPostParser.swift */,
 				1D0DF8D620237CDB00019875 /* CommentParser.swift */,
 				1D0DF8D120237CD900019875 /* LoveParser.swift */,
 				1D808785203645DA0081E8FE /* ManyParser.swift */,
@@ -5289,6 +5299,7 @@
 				122B30B11C6A3FBB00C1B9D8 /* AmazonCredentials.swift in Sources */,
 				1DA18E1D1DB55D4E000231CC /* ExternalLink.swift in Sources */,
 				122B30E61C6A3FC400C1B9D8 /* EmbedRegion.swift in Sources */,
+				1D250FC3208F97CE000EB403 /* CategoryPost.swift in Sources */,
 				1DF490921FD5ECD500C0ACAC /* TableViewCell.swift in Sources */,
 				122D1B9D1C6130FB001386CE /* NSErrorExtensions.swift in Sources */,
 				120FF6C91C6D8F5500D5BABD /* ShareRegionProcessor.swift in Sources */,
@@ -5337,6 +5348,7 @@
 				122D1B4F1C602337001386CE /* MutableBox.swift in Sources */,
 				1DC29BB81D3824DE0041B1DC /* Defaults.swift in Sources */,
 				122D1B9A1C6130B4001386CE /* NSObjectClassName.swift in Sources */,
+				1D250FC7208F9B0B000EB403 /* CategoryPostParser.swift in Sources */,
 				122D1B991C61308F001386CE /* AlertAction.swift in Sources */,
 				1D0DF9042023A92600019875 /* PageParser.swift in Sources */,
 				122B30B41C6A3FBB00C1B9D8 /* Coder.swift in Sources */,
@@ -5836,6 +5848,7 @@
 				122D1BAE1C6139DA001386CE /* KeyboardWindowExtension.swift in Sources */,
 				1207C97A1C73FEE000939ADB /* ElloManager.swift in Sources */,
 				1D9BF3D01A8E815E00A5F5C2 /* ColorExtensions.swift in Sources */,
+				1D250FC6208F9B0B000EB403 /* CategoryPostParser.swift in Sources */,
 				122B30D81C6A3FBC00C1B9D8 /* Profile.swift in Sources */,
 				12F9EB3D1DEDF40600E127AE /* ProfileLocationPresenter.swift in Sources */,
 				1DDF3C491A9D0D05000D0945 /* ElloNavigationBar.swift in Sources */,
@@ -5858,6 +5871,7 @@
 				1207C9731C73FEE000939ADB /* AutoCompleteService.swift in Sources */,
 				1D71528F1D6CA22C005998FE /* Screen.swift in Sources */,
 				1D0DF8DC20237CDC00019875 /* ArtistInviteParser.swift in Sources */,
+				1D250FC2208F97CE000EB403 /* CategoryPost.swift in Sources */,
 				1D2896551FA2640E004661C1 /* CommentHeaderCellPresenter.swift in Sources */,
 				1DDC23401F3115A200E68B0E /* ArtistInviteAdminScreen.swift in Sources */,
 				76B0B18D1B41AFD2004C2D7B /* UserAvatarsCell.swift in Sources */,
@@ -6182,6 +6196,7 @@
 				1D447EE71F3BC79E00013384 /* MultipartRequestBuilder.swift in Sources */,
 				1D0DF8F2202384BE00019875 /* UserParser.swift in Sources */,
 				1D447EFD1F3BC95C00013384 /* NSObjectClassName.swift in Sources */,
+				1D250FC8208F9B0B000EB403 /* CategoryPostParser.swift in Sources */,
 				1D447F031F3BC9AD00013384 /* Announcement.swift in Sources */,
 				1D447EDA1F3BC6FC00013384 /* Love.swift in Sources */,
 				1D447EEA1F3BC7AD00013384 /* Globals.swift in Sources */,
@@ -6260,6 +6275,7 @@
 				1D0DF8EC202384BE00019875 /* CategoryParser.swift in Sources */,
 				1D447EEE1F3BC80000013384 /* Box.swift in Sources */,
 				1D447EF71F3BC92900013384 /* Groupable.swift in Sources */,
+				1D250FC4208F97CE000EB403 /* CategoryPost.swift in Sources */,
 				1D447EC31F3BC62600013384 /* ImageRegion.swift in Sources */,
 				1D0DF8ED202384BE00019875 /* CommentParser.swift in Sources */,
 				1D447EE21F3BC76900013384 /* TextRegion.swift in Sources */,

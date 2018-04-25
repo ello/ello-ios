@@ -86,11 +86,10 @@ struct StreamCellItemParser {
         }
 
         if streamKind.isCategoryStream,
-            let category = post.category,
             let currentUser = currentUser,
-            currentUser.isCuratorOf(category: category)
+            let categoryPost = post.categoryPosts.first(where: currentUser.isCuratorOf)
         {
-            cellItems.append(StreamCellItem(jsonable: post, type: .postFeaturedControl))
+            cellItems.append(StreamCellItem(jsonable: categoryPost, type: .postFeaturedControl))
         }
 
 //        if let featuredBy = post.featuredBy {

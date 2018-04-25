@@ -230,6 +230,7 @@ enum StreamCellType: Equatable {
              .revealController,
              .seeMoreComments,
              .onboardingCategoryCard,
+             .postFeaturedControl,
              .promotionalHeaderSubscription,
              .streamHeader,
              .toggle,

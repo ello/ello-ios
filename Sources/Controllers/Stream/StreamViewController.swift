@@ -1014,6 +1014,7 @@ extension StreamViewController: UICollectionViewDelegate {
             let streamCellItem = collectionViewDataSource.streamCellItem(at: indexPath)
         else { return }
 
+        let tappedCell = collectionView.cellForItem(at: indexPath)
         var makeSelected = false
         if streamCellItem.type == .onboardingCategoryCard || streamCellItem.type == .categorySubscribeCard {
             let paths = collectionView.indexPathsForSelectedItems
@@ -1027,6 +1028,12 @@ extension StreamViewController: UICollectionViewDelegate {
             let responder: ChooseCategoryResponder? = findResponder()
             responder?.categoryChosen(category)
             makeSelected = true
+        }
+        else if tappedCell is PostFeaturedControlCell,
+            let categoryPost = streamCellItem.jsonable as? CategoryPost
+        {
+            let responder: PostFeaturedResponder? = findResponder()
+            responder?.categoryPostTapped(categoryPost)
         }
 
         if makeSelected {
@@ -1104,6 +1111,12 @@ extension StreamViewController: UICollectionViewDelegate {
         {
             let responder: RevealControllerResponder? = findResponder()
             responder?.revealControllerTapped(info: info)
+        }
+        else if tappedCell is PostFeaturedControlCell,
+            let categoryPost = streamCellItem.jsonable as? CategoryPost
+        {
+            let responder: PostFeaturedResponder? = findResponder()
+            responder?.categoryPostTapped(categoryPost)
         }
         else if let category = streamCellItem.jsonable as? Category {
             if streamCellItem.type == .onboardingCategoryCard || streamCellItem.type == .categorySubscribeCard {

@@ -14,16 +14,23 @@ class PostFeaturedControlCell: CollectionViewCell {
     private let icon = UIButton()
     private let label = StyledLabel(style: .gray)
 
-    override var isSelected: Bool {
-        didSet {
-            icon.isSelected = isSelected
-            label.text = isSelected ? InterfaceString.Post.Featured : InterfaceString.Post.Feature
+    var isFeatured: Bool {
+        get { return icon.isSelected }
+        set {
+            icon.isSelected = newValue
+            label.text = newValue ? InterfaceString.Post.Featured : InterfaceString.Post.Feature
         }
+    }
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        isFeatured = false
     }
 
     override func style() {
         bg.backgroundColor = .greyF2
         icon.setImages(.badgeFeatured)
+        icon.isUserInteractionEnabled = false
         label.text = InterfaceString.Post.Feature
     }
 

@@ -129,3 +129,8 @@ protocol InviteResponder: class {
     func onInviteFriends()
     func sendInvite(person: LocalPerson, isOnboarding: Bool, completion: @escaping Block)
 }
+
+@objc
+protocol PostFeaturedResponder: class {
+    func categoryPostTapped(_ categoryPost: CategoryPost)
+}

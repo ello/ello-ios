@@ -6,6 +6,12 @@ struct Fragments: Equatable {
     //|
     //|  FRAGMENTS
     //|
+    static let categoryPostActions = Fragments("""
+    fragment categoryPostActions on CategoryPostActions {
+        feature { href label method }
+        unfeature { href label method }
+    }
+    """)
     static let imageProps = Fragments("""
         fragment imageProps on Image {
           url
@@ -128,12 +134,17 @@ struct Fragments: Equatable {
             ...postSummary
             ...postContent
             repostContent { ...contentProps }
-            categories { ...categoryProps }
+            categoryPosts {
+                id actions { ...categoryPostActions } status
+                category { ...categoryProps }
+                featuredAt submittedAt removedAt unfeaturedAt
+                featuredBy { id username name } submittedBy { id username name }
+            }
             repostedSource {
                 ...postSummary
             }
         }
-        """, needs: [Fragments.postStream])
+        """, needs: [Fragments.postStream, Fragments.categoryPostActions])
 
     let string: String
     let needs: [Fragments]

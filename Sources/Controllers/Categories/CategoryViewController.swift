@@ -450,6 +450,22 @@ extension CategoryViewController: PromotionalHeaderResponder {
     }
 }
 
+extension CategoryViewController: PostFeaturedResponder {
+    func categoryPostTapped(_ categoryPost: CategoryPost) {
+        guard let action = categoryPost.actions.first else { return }
+
+        ElloHUD.showLoadingHudInView(streamViewController.view)
+        ElloProvider.shared.request(action.endpoint)
+            .ensure {
+                ElloHUD.hideLoadingHudInView(self.streamViewController.view)
+            }
+            .done { (jsonable, _) in
+                print("\(jsonable)")
+            }
+            .ignoreErrors()
+    }
+}
+
 extension CategoryViewController: StreamSelectionCellResponder {
 
     func streamTapped(_ filterName: String) {
