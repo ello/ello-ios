@@ -105,7 +105,7 @@ enum InterfaceImage: String {
     case star = "star"
 
     // "New Posts" arrow
-    case arrow = "arrow"
+    case arrowUp = "arrow_up"
 
     // Generic
     case x = "x"
@@ -183,7 +183,7 @@ enum InterfaceImage: String {
     }
     var whiteImage: UIImage? {
         switch self {
-        case .arrow,
+        case .arrowUp,
              .backChevron,
              .breakLink,
              .bubbleBody,

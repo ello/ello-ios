@@ -1226,9 +1226,9 @@
 		76F8DEAC1B6C0BC4009BCF61 /* abracket_normal.svg in Resources */ = {isa = PBXBuildFile; fileRef = 76F8DE4F1B6C0BC4009BCF61 /* abracket_normal.svg */; };
 		76F8DEAD1B6C0BC4009BCF61 /* abracket_selected.svg in Resources */ = {isa = PBXBuildFile; fileRef = 76F8DE501B6C0BC4009BCF61 /* abracket_selected.svg */; };
 		76F8DEAE1B6C0BC4009BCF61 /* abracket_white.svg in Resources */ = {isa = PBXBuildFile; fileRef = 76F8DE511B6C0BC4009BCF61 /* abracket_white.svg */; };
-		76F8DEAF1B6C0BC4009BCF61 /* arrow_normal.svg in Resources */ = {isa = PBXBuildFile; fileRef = 76F8DE521B6C0BC4009BCF61 /* arrow_normal.svg */; };
-		76F8DEB01B6C0BC4009BCF61 /* arrow_selected.svg in Resources */ = {isa = PBXBuildFile; fileRef = 76F8DE531B6C0BC4009BCF61 /* arrow_selected.svg */; };
-		76F8DEB11B6C0BC4009BCF61 /* arrow_white.svg in Resources */ = {isa = PBXBuildFile; fileRef = 76F8DE541B6C0BC4009BCF61 /* arrow_white.svg */; };
+		76F8DEAF1B6C0BC4009BCF61 /* arrow_up_normal.svg in Resources */ = {isa = PBXBuildFile; fileRef = 76F8DE521B6C0BC4009BCF61 /* arrow_up_normal.svg */; };
+		76F8DEB01B6C0BC4009BCF61 /* arrow_up_selected.svg in Resources */ = {isa = PBXBuildFile; fileRef = 76F8DE531B6C0BC4009BCF61 /* arrow_up_selected.svg */; };
+		76F8DEB11B6C0BC4009BCF61 /* arrow_up_white.svg in Resources */ = {isa = PBXBuildFile; fileRef = 76F8DE541B6C0BC4009BCF61 /* arrow_up_white.svg */; };
 		76F8DEB21B6C0BC4009BCF61 /* bolt_normal.svg in Resources */ = {isa = PBXBuildFile; fileRef = 76F8DE551B6C0BC4009BCF61 /* bolt_normal.svg */; };
 		76F8DEB31B6C0BC4009BCF61 /* bolt_selected.svg in Resources */ = {isa = PBXBuildFile; fileRef = 76F8DE561B6C0BC4009BCF61 /* bolt_selected.svg */; };
 		76F8DEB41B6C0BC4009BCF61 /* library_normal.svg in Resources */ = {isa = PBXBuildFile; fileRef = 76F8DE571B6C0BC4009BCF61 /* library_normal.svg */; };
@@ -2356,9 +2356,9 @@
 		76F8DE4F1B6C0BC4009BCF61 /* abracket_normal.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = abracket_normal.svg; sourceTree = "<group>"; };
 		76F8DE501B6C0BC4009BCF61 /* abracket_selected.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = abracket_selected.svg; sourceTree = "<group>"; };
 		76F8DE511B6C0BC4009BCF61 /* abracket_white.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = abracket_white.svg; sourceTree = "<group>"; };
-		76F8DE521B6C0BC4009BCF61 /* arrow_normal.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = arrow_normal.svg; sourceTree = "<group>"; };
-		76F8DE531B6C0BC4009BCF61 /* arrow_selected.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = arrow_selected.svg; sourceTree = "<group>"; };
-		76F8DE541B6C0BC4009BCF61 /* arrow_white.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = arrow_white.svg; sourceTree = "<group>"; };
+		76F8DE521B6C0BC4009BCF61 /* arrow_up_normal.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = arrow_up_normal.svg; sourceTree = "<group>"; };
+		76F8DE531B6C0BC4009BCF61 /* arrow_up_selected.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = arrow_up_selected.svg; sourceTree = "<group>"; };
+		76F8DE541B6C0BC4009BCF61 /* arrow_up_white.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = arrow_up_white.svg; sourceTree = "<group>"; };
 		76F8DE551B6C0BC4009BCF61 /* bolt_normal.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = bolt_normal.svg; sourceTree = "<group>"; };
 		76F8DE561B6C0BC4009BCF61 /* bolt_selected.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = bolt_selected.svg; sourceTree = "<group>"; };
 		76F8DE571B6C0BC4009BCF61 /* library_normal.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = library_normal.svg; sourceTree = "<group>"; };
@@ -4201,9 +4201,9 @@
 				76F8DE4F1B6C0BC4009BCF61 /* abracket_normal.svg */,
 				76F8DE501B6C0BC4009BCF61 /* abracket_selected.svg */,
 				76F8DE511B6C0BC4009BCF61 /* abracket_white.svg */,
-				76F8DE521B6C0BC4009BCF61 /* arrow_normal.svg */,
-				76F8DE531B6C0BC4009BCF61 /* arrow_selected.svg */,
-				76F8DE541B6C0BC4009BCF61 /* arrow_white.svg */,
+				76F8DE521B6C0BC4009BCF61 /* arrow_up_normal.svg */,
+				76F8DE531B6C0BC4009BCF61 /* arrow_up_selected.svg */,
+				76F8DE541B6C0BC4009BCF61 /* arrow_up_white.svg */,
 				1D7E82441F26A523006ACE7A /* artist_invite_status_closed.svg */,
 				1D313F671F265FED00953EE2 /* artist_invite_status_open.svg */,
 				1D313F681F265FED00953EE2 /* artist_invite_status_preview.svg */,
@@ -4701,7 +4701,7 @@
 				7689B4EF1AD4ED3B00E4A4A3 /* posts_creating_a_repost.json in Resources */,
 				7689B5091AD4ED3B00E4A4A3 /* users_listing_user_followings.json in Resources */,
 				76F8DEEB1B6C0BC4009BCF61 /* relationships_normal.svg in Resources */,
-				76F8DEAF1B6C0BC4009BCF61 /* arrow_normal.svg in Resources */,
+				76F8DEAF1B6C0BC4009BCF61 /* arrow_up_normal.svg in Resources */,
 				EA68A0E81AADF62F003F0425 /* empty.json in Resources */,
 				76F8DEB41B6C0BC4009BCF61 /* library_normal.svg in Resources */,
 				76B0B1911B41B1D0004C2D7B /* UserAvatarsCell.xib in Resources */,
@@ -4732,7 +4732,7 @@
 				1DDC234E1F32439400E68B0E /* star_orange.svg in Resources */,
 				76F8DEB51B6C0BC4009BCF61 /* library_selected.svg in Resources */,
 				1DF4907D1FCCC2D400C0ACAC /* chevron_normal.svg in Resources */,
-				76F8DEB01B6C0BC4009BCF61 /* arrow_selected.svg in Resources */,
+				76F8DEB01B6C0BC4009BCF61 /* arrow_up_selected.svg in Resources */,
 				1D942C091EC3AF8700056761 /* bubble_outline_normal.svg in Resources */,
 				7689B4DA1AD4ED3B00E4A4A3 /* activity_streams__when_a_category_is_specified.json in Resources */,
 				76B53AD61B0AA89B00534548 /* users_searching_without_terms_fails.json in Resources */,
@@ -4780,7 +4780,7 @@
 				1D405D9C1C47166D0059DAFD /* repost_disabled.svg in Resources */,
 				1D313F6C1F265FED00953EE2 /* artist_invite_status_preview.svg in Resources */,
 				76F8DF061B6C0BC4009BCF61 /* xpmcirc_normal.svg in Resources */,
-				76F8DEB11B6C0BC4009BCF61 /* arrow_white.svg in Resources */,
+				76F8DEB11B6C0BC4009BCF61 /* arrow_up_white.svg in Resources */,
 				1D472C231C1F2E0400B61E55 /* embetter_audio_play.svg in Resources */,
 				76B53AD41B0AA89B00534548 /* relationship_batches__when_no_user_ids_are_specified.json in Resources */,
 				76F8DEB81B6C0BC4009BCF61 /* bubble_white.svg in Resources */,

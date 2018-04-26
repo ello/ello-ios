@@ -30,7 +30,7 @@ class NewPostsButton: Control {
     }
 
     override func setText() {
-        arrow.setInterfaceImage(.arrow, style: .white)
+        arrow.setInterfaceImage(.arrowUp, style: .white)
         label.text = InterfaceString.Following.NewPosts
     }
 
