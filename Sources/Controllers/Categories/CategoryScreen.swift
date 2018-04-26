@@ -29,7 +29,14 @@ class CategoryScreen: HomeSubviewScreen, CategoryScreenProtocol {
     typealias Usage = CategoryViewController.Usage
 
     weak var delegate: CategoryScreenDelegate?
-    var topInsetView: UIView { return categoryCardList }
+    var topInsetView: UIView {
+        if usage == .detail {
+            return navigationBar
+        }
+        else {
+            return categoryCardList
+        }
+    }
     var showSubscribed: Bool = false
     var showEditButton: Bool = false { didSet { updateEditButton() } }
     var isGridView = false {
@@ -98,6 +105,7 @@ class CategoryScreen: HomeSubviewScreen, CategoryScreenProtocol {
         shareButton.setImage(.share, imageStyle: .normal, for: .normal)
         editCategoriesButton.contentEdgeInsets = UIEdgeInsets(top: 0, left: 30, bottom: 0, right: 10)
         editCategoriesButton.isHidden = true
+        categoryCardList.isHidden = usage == .detail
     }
 
     override func setText() {
