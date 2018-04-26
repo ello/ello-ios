@@ -56,6 +56,11 @@ protocol SelectedCategoryResponder: class {
 }
 
 @objc
+protocol SubscribedCategoryResponder: class {
+    func categorySubscribeTapped(cell: UICollectionViewCell)
+}
+
+@objc
 protocol ChooseCategoryResponder: class {
     func categoryChosen(_ category: Category)
 }

@@ -122,9 +122,23 @@ class ManageCategoriesViewController: StreamableViewController {
     }
 }
 
-extension ManageCategoriesViewController: SelectedCategoryResponder {
-    func categoriesSelectionChanged(selection: [Category]) {
-        selectedIds = Set(selection.map { $0.id })
+extension ManageCategoriesViewController: SubscribedCategoryResponder {
+    func categorySubscribeTapped(cell: UICollectionViewCell) {
+        let collectionView = streamViewController.collectionView
+        guard let indexPath = collectionView.indexPath(for: cell) else { return }
+        let dataSource = streamViewController.dataSource!
+
+        if cell.isSelected {
+            collectionView.deselectItem(at: indexPath, animated: true)
+        }
+        else {
+            collectionView.selectItem(at: indexPath, animated: true, scrollPosition: [])
+        }
+
+        if let paths = collectionView.indexPathsForSelectedItems {
+            let selection = paths.compactMap { dataSource.jsonable(at: $0) as? Category }
+            selectedIds = Set(selection.map { $0.id })
+        }
     }
 }
 

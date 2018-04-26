@@ -37,11 +37,12 @@ final class CategoryViewController: StreamableViewController {
     var hasSubscribedCategory: Bool {
         return currentUser?.hasSubscribedCategory == true
     }
-    private let usage: Usage
+    let usage: Usage
 
     enum Usage {
         case `default`
         case largeNav
+        case detail
     }
 
     var showBackButton: Bool {
@@ -88,7 +89,7 @@ final class CategoryViewController: StreamableViewController {
         generator.currentUser = currentUser
 
         if isViewLoaded {
-            screen.showEditButton = currentUser != nil
+            screen.showEditButton = currentUser != nil && usage != .detail
 
             if let subscribedCategories = subscribedCategories,
                 let currentUser = currentUser,
@@ -102,7 +103,7 @@ final class CategoryViewController: StreamableViewController {
     override func loadView() {
         let screen = CategoryScreen(usage: usage)
         screen.delegate = self
-        screen.showEditButton = currentUser != nil
+        screen.showEditButton = currentUser != nil && usage != .detail
         screen.isGridView = generator.streamKind.isGridView
 
         view = screen
