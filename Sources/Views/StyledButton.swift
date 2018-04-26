@@ -285,6 +285,11 @@ extension StyledButton.Style {
         titleColor: .greyA,
         underline: true
         )
+    static let smallGrayUnderlined = StyledButton.Style(
+        backgroundColor: .clear,
+        titleColor: .greyA,
+        font: .defaultFont(12), underline: true
+        )
 
     static let roundedBlackOutline = StyledButton.Style(
         backgroundColor: .clear, highlightedBackgroundColor: .black, selectedBackgroundColor: .black,

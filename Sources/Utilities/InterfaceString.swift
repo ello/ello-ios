@@ -258,6 +258,7 @@ struct InterfaceString {
         static let Feature: String = NSLocalizedString("Feature", comment: "")
         static let Featured: String = NSLocalizedString("Featured", comment: "")
         static let FeaturedBy: String = NSLocalizedString("Featured by", comment: "")
+        static let PostedIn: String = NSLocalizedString("Posted in", comment: "")
         static let CreateComment: String = NSLocalizedString("Comment...", comment: "Create Comment Button Prompt")
         static let DeletePostConfirm: String = NSLocalizedString("Delete Post?", comment: "Delete Post confirmation")
         static let DeleteCommentConfirm: String = NSLocalizedString("Delete Comment?", comment: "Delete Comment confirmation")

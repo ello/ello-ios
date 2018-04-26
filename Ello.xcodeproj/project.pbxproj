@@ -1067,6 +1067,11 @@
 		1DE261351B0D38A400475325 /* UIImageViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DE261341B0D38A400475325 /* UIImageViewExtensions.swift */; };
 		1DE3EC4A1D81CC3400BDE16F /* ElloDev.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = 1DE3EC491D81CC3400BDE16F /* ElloDev.entitlements */; };
 		1DE3EC4C1D83245D00BDE16F /* OnePasswordButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DE3EC4B1D83245D00BDE16F /* OnePasswordButton.swift */; };
+		1DE83CB720925F0B00A7E9D6 /* arrow_right_selected.svg in Resources */ = {isa = PBXBuildFile; fileRef = 1DE83CB420925F0900A7E9D6 /* arrow_right_selected.svg */; };
+		1DE83CB820925F0B00A7E9D6 /* arrow_right_normal.svg in Resources */ = {isa = PBXBuildFile; fileRef = 1DE83CB520925F0A00A7E9D6 /* arrow_right_normal.svg */; };
+		1DE83CB920925F0B00A7E9D6 /* arrow_right_white.svg in Resources */ = {isa = PBXBuildFile; fileRef = 1DE83CB620925F0A00A7E9D6 /* arrow_right_white.svg */; };
+		1DE83CBB20926CD700A7E9D6 /* PostPostedInCategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DE83CBA20926CD500A7E9D6 /* PostPostedInCategoryCell.swift */; };
+		1DE83CBD20926CE000A7E9D6 /* PostPostedInCategoryCellPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DE83CBC20926CDD00A7E9D6 /* PostPostedInCategoryCellPresenter.swift */; };
 		1DE87FC61BB2FFB8007A7325 /* Mentionables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DE87FC51BB2FFB8007A7325 /* Mentionables.swift */; };
 		1DE87FC81BB32060007A7325 /* MentionablesSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DE87FC71BB32060007A7325 /* MentionablesSpec.swift */; };
 		1DE991D01FE076670025415A /* LightboxScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DE991CF1FE076670025415A /* LightboxScreen.swift */; };
@@ -2192,6 +2197,11 @@
 		1DE261341B0D38A400475325 /* UIImageViewExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageViewExtensions.swift; sourceTree = "<group>"; };
 		1DE3EC491D81CC3400BDE16F /* ElloDev.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = ElloDev.entitlements; sourceTree = "<group>"; };
 		1DE3EC4B1D83245D00BDE16F /* OnePasswordButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnePasswordButton.swift; sourceTree = "<group>"; };
+		1DE83CB420925F0900A7E9D6 /* arrow_right_selected.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = arrow_right_selected.svg; sourceTree = "<group>"; };
+		1DE83CB520925F0A00A7E9D6 /* arrow_right_normal.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = arrow_right_normal.svg; sourceTree = "<group>"; };
+		1DE83CB620925F0A00A7E9D6 /* arrow_right_white.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = arrow_right_white.svg; sourceTree = "<group>"; };
+		1DE83CBA20926CD500A7E9D6 /* PostPostedInCategoryCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostPostedInCategoryCell.swift; sourceTree = "<group>"; };
+		1DE83CBC20926CDD00A7E9D6 /* PostPostedInCategoryCellPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostPostedInCategoryCellPresenter.swift; sourceTree = "<group>"; };
 		1DE87FC51BB2FFB8007A7325 /* Mentionables.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mentionables.swift; sourceTree = "<group>"; };
 		1DE87FC71BB32060007A7325 /* MentionablesSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MentionablesSpec.swift; sourceTree = "<group>"; };
 		1DE991CF1FE076670025415A /* LightboxScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightboxScreen.swift; sourceTree = "<group>"; };
@@ -2636,6 +2646,7 @@
 				1D7152951D6CBE0E005998FE /* NoPostsCell.swift */,
 				1D3F85AE207C1A490022687A /* PostFeaturedByCell.swift */,
 				1D88E329206ACDC000B496F0 /* PostFeaturedControlCell.swift */,
+				1DE83CBA20926CD500A7E9D6 /* PostPostedInCategoryCell.swift */,
 				12431FF91DBAAF27006808D4 /* PromotionalHeaderCell.swift */,
 				1DB390D72047394200A1B7E7 /* PromotionalHeaderSubscriptionCell.swift */,
 				1DDC23331F30D68F00E68B0E /* RevealControllerCell.swift */,
@@ -2916,6 +2927,7 @@
 				128D36B51A951F4600622833 /* NotificationCellPresenter.swift */,
 				1D3F85B0207C1A550022687A /* PostFeaturedByCellPresenter.swift */,
 				1D88E32B206ACF8B00B496F0 /* PostFeaturedControlCellPresenter.swift */,
+				1DE83CBC20926CDD00A7E9D6 /* PostPostedInCategoryCellPresenter.swift */,
 				12A1D8281DAC036300A327D6 /* ProfileAvatarPresenter.swift */,
 				1D6E43051EA685260029C9B1 /* ProfileBadgesPresenter.swift */,
 				1DA18E031DAD911E000231CC /* ProfileBioPresenter.swift */,
@@ -4201,6 +4213,9 @@
 				76F8DE4F1B6C0BC4009BCF61 /* abracket_normal.svg */,
 				76F8DE501B6C0BC4009BCF61 /* abracket_selected.svg */,
 				76F8DE511B6C0BC4009BCF61 /* abracket_white.svg */,
+				1DE83CB520925F0A00A7E9D6 /* arrow_right_normal.svg */,
+				1DE83CB420925F0900A7E9D6 /* arrow_right_selected.svg */,
+				1DE83CB620925F0A00A7E9D6 /* arrow_right_white.svg */,
 				76F8DE521B6C0BC4009BCF61 /* arrow_up_normal.svg */,
 				76F8DE531B6C0BC4009BCF61 /* arrow_up_selected.svg */,
 				76F8DE541B6C0BC4009BCF61 /* arrow_up_white.svg */,
@@ -4754,9 +4769,11 @@
 				7689B4EC1AD4ED3B00E4A4A3 /* invitations_inviting_users_by_email.json in Resources */,
 				1D209BEE1D9C249400CFBF92 /* watch_normal.svg in Resources */,
 				122034741DE66A4A0059E633 /* ello_logo_grey.svg in Resources */,
+				1DE83CB820925F0B00A7E9D6 /* arrow_right_normal.svg in Resources */,
 				1D7152DF1D74E79D005998FE /* small_check_green.svg in Resources */,
 				1DF490831FCCC7C500C0ACAC /* photo_picker_normal.svg in Resources */,
 				1DA8FD711B98A63600472B1E /* reorder_selected.svg in Resources */,
+				1DE83CB720925F0B00A7E9D6 /* arrow_right_selected.svg in Resources */,
 				76F8DEF61B6C0BC4009BCF61 /* search_selected.svg in Resources */,
 				76B1A6431AE5960F00110D30 /* StreamEmbedCell.xib in Resources */,
 				7689B4E21AD4ED3B00E4A4A3 /* comments_comment_details.json in Resources */,
@@ -4984,6 +5001,7 @@
 				7689B5031AD4ED3B00E4A4A3 /* relationships_blocking_an_abusive_user.json in Resources */,
 				1DF7416B1BFA650E000F5349 /* link_white.svg in Resources */,
 				12F6AE8C1A433F1100493660 /* friends.json in Resources */,
+				1DE83CB920925F0B00A7E9D6 /* arrow_right_white.svg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5929,6 +5947,7 @@
 				122B30D51C6A3FBC00C1B9D8 /* Notification.swift in Sources */,
 				1D7E82411F2692D3006ACE7A /* ArtistInviteControlsCell.swift in Sources */,
 				128D36B91A951F7400622833 /* ProfileHeaderCellPresenter.swift in Sources */,
+				1DE83CBD20926CE000A7E9D6 /* PostPostedInCategoryCellPresenter.swift in Sources */,
 				76B1A63F1AE5864900110D30 /* StreamEmbedCellPresenter.swift in Sources */,
 				1245ED381D1C772400929DD4 /* StreamGenerator.swift in Sources */,
 				1DC78A551F21302300BE2413 /* ArtistInvitesScreen.swift in Sources */,
@@ -6050,6 +6069,7 @@
 				7659FB7F1B29EE0F00DEB6F4 /* StreamInviteFriendsCell.swift in Sources */,
 				1D9A12C71EA95AB3003B3BD7 /* BadgesViewController.swift in Sources */,
 				128D36BC1A952E3E00622833 /* ElloPostToolBarOption.swift in Sources */,
+				1DE83CBB20926CD700A7E9D6 /* PostPostedInCategoryCell.swift in Sources */,
 				1DF0B2D31E8D59DD001B9F97 /* ForgotPasswordEmailViewController.swift in Sources */,
 				1207C9831C73FEE000939ADB /* Mapper.swift in Sources */,
 				1DB8C6A91D7A1BAA007E1447 /* AddressBookHelpers.swift in Sources */,
