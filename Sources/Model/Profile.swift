@@ -17,7 +17,8 @@ final class Profile: Model {
     // version 8: added notifyOfApprovedSubmissionsFromFollowingViaPush
     // version 9: added notifyOfWhatYouMissedViaEmail
     // version 10: added notifyOfApprovedSubmissionsFromFollowingViaEmail
-    static let Version = 10
+    // version 11: added notifyOfFeaturedCategoryPostViaEmail, notifyOfFeaturedCategoryPostViaPush
+    static let Version = 11
 
     enum CreatorType {
         case none
@@ -75,6 +76,8 @@ final class Profile: Model {
         case isHireable = "is_hireable"
         case notifyOfAnnouncementsViaPush = "notify_of_announcements_via_push"
         case notifyOfApprovedSubmissionsFromFollowingViaEmail = "notify_of_approved_submissions_from_following_via_email"
+        case notifyOfFeaturedCategoryPostViaEmail = "notify_of_featured_category_post_via_email"
+        case notifyOfFeaturedCategoryPostViaPush = "notify_of_featured_category_post_via_push"
         case notifyOfApprovedSubmissionsFromFollowingViaPush = "notify_of_approved_submissions_from_following_via_push"
         case notifyOfApprovedSubmissionsViaPush = "notify_of_approved_submissions_via_push"
         case notifyOfCommentsOnPostWatchViaEmail = "notify_of_comments_on_post_watch_via_email"
@@ -124,6 +127,8 @@ final class Profile: Model {
     @objc let notifyOfRepostsViaEmail: Bool
     @objc let notifyOfWhatYouMissedViaEmail: Bool
     @objc var notifyOfApprovedSubmissionsFromFollowingViaEmail: Bool
+    @objc var notifyOfFeaturedCategoryPostViaEmail: Bool
+    @objc var notifyOfFeaturedCategoryPostViaPush: Bool
     @objc let subscribeToUsersEmailList: Bool
     @objc let subscribeToDailyEllo: Bool
     @objc let subscribeToWeeklyEllo: Bool
@@ -169,6 +174,8 @@ final class Profile: Model {
         notifyOfRepostsViaEmail: Bool,
         notifyOfWhatYouMissedViaEmail: Bool,
         notifyOfApprovedSubmissionsFromFollowingViaEmail: Bool,
+        notifyOfFeaturedCategoryPostViaEmail: Bool,
+        notifyOfFeaturedCategoryPostViaPush: Bool,
         subscribeToUsersEmailList: Bool,
         subscribeToDailyEllo: Bool,
         subscribeToWeeklyEllo: Bool,
@@ -211,6 +218,8 @@ final class Profile: Model {
         self.notifyOfRepostsViaEmail = notifyOfRepostsViaEmail
         self.notifyOfWhatYouMissedViaEmail = notifyOfWhatYouMissedViaEmail
         self.notifyOfApprovedSubmissionsFromFollowingViaEmail = notifyOfApprovedSubmissionsFromFollowingViaEmail
+        self.notifyOfFeaturedCategoryPostViaEmail = notifyOfFeaturedCategoryPostViaEmail
+        self.notifyOfFeaturedCategoryPostViaPush = notifyOfFeaturedCategoryPostViaPush
         self.subscribeToUsersEmailList = subscribeToUsersEmailList
         self.subscribeToDailyEllo = subscribeToDailyEllo
         self.subscribeToWeeklyEllo = subscribeToWeeklyEllo
@@ -245,6 +254,15 @@ final class Profile: Model {
         self.blockedCount = decoder.decodeKey("blockedCount")
 
         let version: Int = decoder.decodeKey("version")
+        if version < 11 {
+            self.notifyOfFeaturedCategoryPostViaEmail = true
+            self.notifyOfFeaturedCategoryPostViaPush = true
+        }
+        else {
+            self.notifyOfFeaturedCategoryPostViaEmail = decoder.decodeKey("notifyOfFeaturedCategoryPostViaEmail")
+            self.notifyOfFeaturedCategoryPostViaPush = decoder.decodeKey("notifyOfFeaturedCategoryPostViaPush")
+        }
+
         if version < 10 {
             self.notifyOfApprovedSubmissionsFromFollowingViaEmail = true
         }
@@ -380,6 +398,8 @@ final class Profile: Model {
         coder.encodeObject(notifyOfCommentsOnPostWatchViaEmail, forKey: "notifyOfCommentsOnPostWatchViaEmail")
         coder.encodeObject(notifyOfApprovedSubmissionsFromFollowingViaPush, forKey: "notifyOfApprovedSubmissionsFromFollowingViaPush")
         coder.encodeObject(notifyOfApprovedSubmissionsFromFollowingViaEmail, forKey: "notifyOfApprovedSubmissionsFromFollowingViaEmail")
+        coder.encodeObject(notifyOfFeaturedCategoryPostViaEmail, forKey: "notifyOfFeaturedCategoryPostViaEmail")
+        coder.encodeObject(notifyOfFeaturedCategoryPostViaPush, forKey: "notifyOfFeaturedCategoryPostViaPush")
         coder.encodeObject(hasAnnouncementsEnabled, forKey: "hasAnnouncementsEnabled")
         coder.encodeObject(discoverable, forKey: "discoverable")
         super.encode(with: coder.coder)
@@ -404,32 +424,34 @@ final class Profile: Model {
             hasAdNotificationsEnabled: json["has_ad_notifications_enabled"].boolValue,
             hasAutoWatchEnabled: json["has_auto_watch_enabled"].boolValue,
             allowsAnalytics: json["allows_analytics"].boolValue,
-            notifyOfCommentsViaEmail: json["notify_of_comments_via_email"].boolValue,
-            notifyOfLovesViaEmail: json["notify_of_loves_via_email"].boolValue,
-            notifyOfInvitationAcceptancesViaEmail: json["notify_of_invitation_acceptances_via_email"].boolValue,
-            notifyOfMentionsViaEmail: json["notify_of_mentions_via_email"].boolValue,
-            notifyOfNewFollowersViaEmail: json["notify_of_new_followers_via_email"].boolValue,
-            notifyOfRepostsViaEmail: json["notify_of_reposts_via_email"].boolValue,
-            notifyOfWhatYouMissedViaEmail: json["notify_of_what_you_missed_via_email"].boolValue,
-            notifyOfApprovedSubmissionsFromFollowingViaEmail: json["notify_of_approved_submissions_from_following_via_email"].boolValue,
-            subscribeToUsersEmailList: json["subscribe_to_users_email_list"].boolValue,
-            subscribeToDailyEllo: json["subscribe_to_daily_ello"].boolValue,
-            subscribeToWeeklyEllo: json["subscribe_to_weekly_ello"].boolValue,
-            subscribeToOnboardingDrip: json["subscribe_to_onboarding_drip"].boolValue,
-            notifyOfAnnouncementsViaPush: json["notify_of_announcements_via_push"].boolValue,
-            notifyOfApprovedSubmissionsViaPush: json["notify_of_approved_submissions_via_push"].boolValue,
-            notifyOfCommentsViaPush: json["notify_of_comments_via_push"].boolValue,
-            notifyOfLovesViaPush: json["notify_of_loves_via_push"].boolValue,
-            notifyOfMentionsViaPush: json["notify_of_mentions_via_push"].boolValue,
-            notifyOfRepostsViaPush: json["notify_of_reposts_via_push"].boolValue,
-            notifyOfNewFollowersViaPush: json["notify_of_new_followers_via_push"].boolValue,
-            notifyOfInvitationAcceptancesViaPush: json["notify_of_invitation_acceptances_via_push"].boolValue,
-            notifyOfWatchesViaPush: json["notify_of_watches_via_push"].boolValue,
-            notifyOfWatchesViaEmail: json["notify_of_watches_via_email"].boolValue,
-            notifyOfCommentsOnPostWatchViaPush: json["notify_of_comments_on_post_watch_via_push"].boolValue,
-            notifyOfCommentsOnPostWatchViaEmail: json["notify_of_comments_on_post_watch_via_email"].boolValue,
-            notifyOfApprovedSubmissionsFromFollowingViaPush: json["notify_of_approved_submissions_from_following_via_push"].boolValue,
-            hasAnnouncementsEnabled: json["has_announcements_enabled"].boolValue,
+            notifyOfCommentsViaEmail: json["notify_of_comments_via_email"].bool ?? true,
+            notifyOfLovesViaEmail: json["notify_of_loves_via_email"].bool ?? true,
+            notifyOfInvitationAcceptancesViaEmail: json["notify_of_invitation_acceptances_via_email"].bool ?? true,
+            notifyOfMentionsViaEmail: json["notify_of_mentions_via_email"].bool ?? true,
+            notifyOfNewFollowersViaEmail: json["notify_of_new_followers_via_email"].bool ?? true,
+            notifyOfRepostsViaEmail: json["notify_of_reposts_via_email"].bool ?? true,
+            notifyOfWhatYouMissedViaEmail: json["notify_of_what_you_missed_via_email"].bool ?? true,
+            notifyOfApprovedSubmissionsFromFollowingViaEmail: json["notify_of_approved_submissions_from_following_via_email"].bool ?? true,
+            notifyOfFeaturedCategoryPostViaEmail: json["notify_of_featured_category_post_via_email"].bool ?? true,
+            notifyOfFeaturedCategoryPostViaPush: json["notify_of_featured_category_post_via_push"].bool ?? true,
+            subscribeToUsersEmailList: json["subscribe_to_users_email_list"].bool ?? true,
+            subscribeToDailyEllo: json["subscribe_to_daily_ello"].bool ?? true,
+            subscribeToWeeklyEllo: json["subscribe_to_weekly_ello"].bool ?? true,
+            subscribeToOnboardingDrip: json["subscribe_to_onboarding_drip"].bool ?? true,
+            notifyOfAnnouncementsViaPush: json["notify_of_announcements_via_push"].bool ?? true,
+            notifyOfApprovedSubmissionsViaPush: json["notify_of_approved_submissions_via_push"].bool ?? true,
+            notifyOfCommentsViaPush: json["notify_of_comments_via_push"].bool ?? true,
+            notifyOfLovesViaPush: json["notify_of_loves_via_push"].bool ?? true,
+            notifyOfMentionsViaPush: json["notify_of_mentions_via_push"].bool ?? true,
+            notifyOfRepostsViaPush: json["notify_of_reposts_via_push"].bool ?? true,
+            notifyOfNewFollowersViaPush: json["notify_of_new_followers_via_push"].bool ?? true,
+            notifyOfInvitationAcceptancesViaPush: json["notify_of_invitation_acceptances_via_push"].bool ?? true,
+            notifyOfWatchesViaPush: json["notify_of_watches_via_push"].bool ?? true,
+            notifyOfWatchesViaEmail: json["notify_of_watches_via_email"].bool ?? true,
+            notifyOfCommentsOnPostWatchViaPush: json["notify_of_comments_on_post_watch_via_push"].bool ?? true,
+            notifyOfCommentsOnPostWatchViaEmail: json["notify_of_comments_on_post_watch_via_email"].bool ?? true,
+            notifyOfApprovedSubmissionsFromFollowingViaPush: json["notify_of_approved_submissions_from_following_via_push"].bool ?? true,
+            hasAnnouncementsEnabled: json["has_announcements_enabled"].bool ?? true,
             discoverable: json["discoverable"].boolValue
         )
         profile.gaUniqueId = json["ga_unique_id"].string
