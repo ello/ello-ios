@@ -49,7 +49,7 @@ struct ElloManager: RequestManager {
         return policyDict
     }
 
-    static func alamofireManager() -> SessionManager {
+    static let alamofireManager: SessionManager = {
         let config = URLSessionConfiguration.default
         config.sharedContainerIdentifier = ElloGroupName
         config.timeoutIntervalForRequest = 30
@@ -58,14 +58,12 @@ struct ElloManager: RequestManager {
             configuration: config,
             serverTrustPolicyManager: ServerTrustPolicyManager(policies: ElloManager.serverTrustPolicies)
         )
-    }
+    }()
 
     func request(_ urlRequest: URLRequest, sender: Any, _ handler: @escaping RequestHandler) -> RequestTask {
-        let manager = ElloManager.alamofireManager()
-        var retain: SessionManager? = manager
+        let manager = ElloManager.alamofireManager
         let task = manager.request(urlRequest)
         return task.response { response in
-            retain = nil
             handler(response)
         }
     }

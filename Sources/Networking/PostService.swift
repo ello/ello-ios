@@ -13,7 +13,7 @@ struct PostService {
         return ElloProvider.shared.request(.postDetail(postParam: postParam))
             .map { (data, responseConfig) -> Post in
                 guard let post = data as? Post else {
-                    throw NSError.uncastableJSONAble()
+                    throw NSError.uncastableModel()
                 }
 
                 Preloader().preloadImages([post])
@@ -49,7 +49,7 @@ struct PostService {
                     return ([], responseConfig)
                 }
                 else {
-                    throw NSError.uncastableJSONAble()
+                    throw NSError.uncastableModel()
                 }
             }
     }
@@ -65,7 +65,7 @@ struct PostService {
                     return []
                 }
                 else {
-                    throw NSError.uncastableJSONAble()
+                    throw NSError.uncastableModel()
                 }
             }
     }
@@ -81,7 +81,7 @@ struct PostService {
                     return []
                 }
                 else {
-                    throw NSError.uncastableJSONAble()
+                    throw NSError.uncastableModel()
                 }
         }
     }
@@ -97,7 +97,7 @@ struct PostService {
                     return []
                  }
                 else {
-                    throw NSError.uncastableJSONAble()
+                    throw NSError.uncastableModel()
                 }
             }
     }
@@ -106,7 +106,7 @@ struct PostService {
         return ElloProvider.shared.request(.commentDetail(postId: postId, commentId: commentId))
             .map { (data, _) -> ElloComment in
                 guard let comment = data as? ElloComment else {
-                    throw NSError.uncastableJSONAble()
+                    throw NSError.uncastableModel()
                 }
 
                 comment.loadedFromPostId = postId
@@ -118,7 +118,7 @@ struct PostService {
         return ElloProvider.shared.request(.postReplyAll(postId: postId))
             .map { (usernames, _) -> [String] in
                 guard let usernames = usernames as? [Username] else {
-                    throw NSError.uncastableJSONAble()
+                    throw NSError.uncastableModel()
                 }
 
                 let strings = usernames
@@ -163,7 +163,7 @@ struct PostService {
                     return post
                 }
                 else {
-                    throw NSError.uncastableJSONAble()
+                    throw NSError.uncastableModel()
                 }
             }
     }
@@ -183,7 +183,7 @@ struct PostService {
                     return []
                 }
                 else {
-                    throw NSError.uncastableJSONAble()
+                    throw NSError.uncastableModel()
                 }
             }
     }

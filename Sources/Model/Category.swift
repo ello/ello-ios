@@ -11,7 +11,7 @@ let CategoryVersion = 4
 
 
 @objc(Category)
-final class Category: JSONAble, Groupable {
+final class Category: Model, Groupable {
     enum Selection {
         case all
         case subscribed
@@ -111,7 +111,7 @@ final class Category: JSONAble, Groupable {
             level: level
             )
 
-        category.links = data["links"] as? [String: Any]
+        category.mergeLinks(data["links"] as? [String: Any])
 
         if let attachmentJson = json["tile_image"]["large"].object as? [String: Any] {
             category.tileImage = Attachment.fromJSON(attachmentJson)

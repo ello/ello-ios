@@ -115,7 +115,7 @@ extension ArtistInviteDetailController: StreamDestination {
         streamViewController.clearForInitialLoad(newItems: items)
     }
 
-    func setPrimary(jsonable: JSONAble) {
+    func setPrimary(jsonable: Model) {
         guard let artistInvite = jsonable as? ArtistInvite else { return }
 
         self.artistInvite = artistInvite
@@ -128,7 +128,7 @@ extension ArtistInviteDetailController: StreamDestination {
         streamViewController.responseConfig = responseConfig
     }
 
-    func primaryJSONAbleNotFound() {
+    func primaryModelNotFound() {
         self.showGenericLoadFailure()
         self.streamViewController.doneLoading()
     }
@@ -145,7 +145,7 @@ extension ArtistInviteDetailController: ArtistInviteResponder {
     }
 
     func tappedArtistInviteSubmissionsButton() {
-        streamViewController.scrollTo(placeholderType: .artistInviteSubmissionsHeader)
+        streamViewController.scrollTo(placeholderType: .artistInviteSelections)
     }
 
     func tappedArtistInviteSubmitButton() {

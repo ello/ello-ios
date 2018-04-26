@@ -29,7 +29,7 @@ class ManyParser<T> {
             parser.flatten(json: object, identifier: identifier, db: &db)
         }
 
-        let many: [JSONAble]? = (ids.count > 0 ? ids.compactMap { identifier in
+        let many: [Model]? = (ids.count > 0 ? ids.compactMap { identifier in
             return Parser.saveToDB(parser: parser, identifier: identifier, db: &db)
             } : nil)
 

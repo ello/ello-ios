@@ -7,7 +7,7 @@
 let LocalPersonVersion = 2
 
 @objc(LocalPerson)
-final class LocalPerson: JSONAble {
+final class LocalPerson: Model {
     let name: String
     let emails: [String]
     let id: String

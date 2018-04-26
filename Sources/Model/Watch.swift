@@ -8,20 +8,15 @@ import SwiftyJSON
 let WatchVersion: Int = 1
 
 @objc(Watch)
-final class Watch: JSONAble, PostActionable {
+final class Watch: Model, PostActionable {
     let id: String
     let createdAt: Date
     let updatedAt: Date
     let postId: String
     let userId: String
 
-    var post: Post? {
-        return ElloLinkedStore.shared.getObject(self.postId, type: .postsType) as? Post
-    }
-
-    var user: User? {
-        return ElloLinkedStore.shared.getObject(self.userId, type: .usersType) as? User
-    }
+    var post: Post? { return getLinkObject("post") }
+    var user: User? { return getLinkObject("user") }
 
     init(id: String,
         createdAt: Date,
@@ -35,6 +30,9 @@ final class Watch: JSONAble, PostActionable {
         self.postId = postId
         self.userId = userId
         super.init(version: WatchVersion)
+
+        addLinkObject("post", key: postId, type: .postsType)
+        addLinkObject("user", key: userId, type: .usersType)
     }
 
     required init(coder: NSCoder) {
@@ -62,7 +60,6 @@ final class Watch: JSONAble, PostActionable {
         var createdAt: Date
         var updatedAt: Date
         if let date = json["created_at"].stringValue.toDate() {
-            // good to go
             createdAt = date
         }
         else {
@@ -70,14 +67,12 @@ final class Watch: JSONAble, PostActionable {
         }
 
         if let date = json["updated_at"].stringValue.toDate() {
-            // good to go
             updatedAt = date
         }
         else {
             updatedAt = Globals.now
         }
 
-        // create Watch
         let watch = Watch(
             id: json["id"].stringValue,
             createdAt: createdAt,
@@ -85,6 +80,10 @@ final class Watch: JSONAble, PostActionable {
             postId: json["post_id"].stringValue,
             userId: json["user_id"].stringValue
         )
+
+        watch.mergeLinks(data["links"] as? [String: Any])
+        watch.addLinkObject("post", key: watch.postId, type: .postsType)
+        watch.addLinkObject("user", key: watch.userId, type: .usersType)
 
         return watch
     }

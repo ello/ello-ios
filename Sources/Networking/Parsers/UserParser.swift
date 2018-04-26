@@ -40,8 +40,8 @@ class UserParser: IdParser {
         user.totalViewsCount = json["stats"]["totalViewsCount"].int
         user.location = json["location"].string
 
-        if let links = json["externalLinksList"].array {
-            let externalLinks = links.compactMap { $0.dictionaryObject as? [String: String] }
+        if let jsonLinks = json["externalLinksList"].array {
+            let externalLinks = jsonLinks.compactMap { $0.dictionaryObject as? [String: String] }
             user.externalLinksList = externalLinks.compactMap { ExternalLink.fromDict($0) }
         }
 
@@ -59,7 +59,7 @@ class UserParser: IdParser {
         user.followersCount = json["userStats"]["followersCount"].string
         user.followingCount = json["userStats"]["followingCount"].int
 
-        user.links = json["links"].dictionaryObject
+        user.mergeLinks(json["links"].dictionaryObject)
 
         return user
     }

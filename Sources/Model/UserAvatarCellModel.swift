@@ -5,7 +5,7 @@
 let UserAvatarCellModelVersion = 2
 
 @objc(UserAvatarCellModel)
-final class UserAvatarCellModel: JSONAble {
+final class UserAvatarCellModel: Model {
     enum EndpointType {
         case lovers
         case reposters

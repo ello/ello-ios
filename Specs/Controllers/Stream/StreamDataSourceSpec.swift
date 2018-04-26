@@ -1251,20 +1251,29 @@ class StreamDataSourceSpec: QuickSpec {
                 }
             }
 
-            context("elementsForJSONAble(_:, change:)") {
-                let user1 = User.stub([:])
-                let post1 = Post.stub([:])
-                let comment1 = ElloComment.stub(["parentPost": post1])
-                let user2 = User.stub([:])
-                let post2 = Post.stub([:])
-                let comment2 = ElloComment.stub(["parentPost": post2])
+            context("elementsForModel(_:, change:)") {
+                let user1: User!
+                let post1: Post!
+                let comment1: ElloComment!
+                let user2: User!
+                let post2: Post!
+                let comment2: ElloComment!
+
                 beforeEach {
+                    user1 = User.stub([:])
+                    post1 = Post.stub([:])
+                    comment1 = ElloComment.stub(["parentPost": post1])
+                    user2 = User.stub([:])
+                    post2 = Post.stub([:])
+                    comment2 = ElloComment.stub(["parentPost": post2])
+
                     let cellItems = StreamCellItemParser().parseAllForTesting([
                         user1, post1, comment1,
                         user2, post2, comment2
-                        ])
+                        ], currentUser: nil)
                     subject.appendStreamCellItems(cellItems)
                 }
+
                 it("should return a post (object equality)") {
                     let items = subject.testingElementsFor(jsonable: post1, change: .create).1
                     for item in items {

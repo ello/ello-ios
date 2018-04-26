@@ -18,7 +18,7 @@ class GraphQLRequest<T>: AuthenticationEndpoint {
         case bool(String, Bool)
         case optionalBool(String, Bool?)
         case `enum`(String, String, String)
-        case optionalEnum(String, String, String?)
+        case optionalEnum(String, String?, String)
 
         var name: String {
             switch self {
@@ -45,8 +45,8 @@ class GraphQLRequest<T>: AuthenticationEndpoint {
             case .optionalFloat: return "Float"
             case .bool: return "Bool!"
             case .optionalBool: return "Bool"
-            case let .`enum`(_, type, _): return "\(type)!"
-            case let .optionalEnum(_, type, _): return type
+            case let .`enum`(_, _, type): return "\(type)!"
+            case let .optionalEnum(_, _, type): return type
             }
         }
 
@@ -60,14 +60,14 @@ class GraphQLRequest<T>: AuthenticationEndpoint {
             case let .optionalFloat(_, value): return value
             case let .bool(_, value): return value
             case let .optionalBool(_, value): return value
-            case let .`enum`(_, _, value): return value
-            case let .optionalEnum(_, _, value): return value
+            case let .`enum`(_, value, _): return value
+            case let .optionalEnum(_, value, _): return value
             }
         }
     }
 
-    var prevPromise: Promise<T>?
-    var prevSeal: Resolver<T>?
+    private var prevPromise: Promise<T>?
+    private var prevSeal: Resolver<T>?
 
     var requiresAnyToken: Bool = true
     var supportsAnonymousToken: Bool = true
@@ -75,19 +75,19 @@ class GraphQLRequest<T>: AuthenticationEndpoint {
     var endpointName: String
     var parser: ((JSON) throws -> T)
     var variables: [Variable]
-    var fragments: [Fragment]
-    var body: String
+    var fragments: [Fragments]
+    var body: Fragments
 
     var manager: RequestManager
 
     private var url: URL { return URL(string: "\(ElloURI.baseURL)/api/v3/graphql")! }
     private var uuid: UUID!
 
-    init(endpointName: String, parser: @escaping ((JSON) throws -> T), variables: [Variable] = [], fragments: [Fragment] = [], body: String) {
+    init(endpointName: String, parser: @escaping ((JSON) throws -> T), variables: [Variable] = [], body: Fragments) {
         self.endpointName = endpointName
         self.parser = parser
         self.variables = variables
-        self.fragments = fragments
+        self.fragments = body.dependencies
         self.body = body
         self.manager = API.sharedManager
     }
@@ -248,10 +248,10 @@ extension GraphQLRequest {
     }
 
     private func httpBody() throws -> Data {
-        var query: String = ""
+        var query = ""
 
         if fragments.count > 0 {
-            let fragmentsQuery = Fragment.flatten(fragments)
+            let fragmentsQuery = fragments.map { $0.string }.joined(separator: "\n")
             query += fragmentsQuery + "\n"
         }
 
@@ -263,7 +263,7 @@ extension GraphQLRequest {
         if variables.count > 0 {
             query += "(\(endpointVariables()))"
         }
-        query += "\n  {\n\(body)\n  }\n}"
+        query += "\n  {\n\(body.string)\n  }\n}"
 
         var httpBody: [String: Any] = [
             "query": query,

@@ -36,12 +36,12 @@ protocol StreamEditingResponder: class {
 
 typealias StreamCellItemGenerator = () -> [StreamCellItem]
 protocol StreamViewDelegate: class {
-    func streamViewStreamCellItems(jsonables: [JSONAble], defaultGenerator: StreamCellItemGenerator) -> [StreamCellItem]?
+    func streamViewStreamCellItems(jsonables: [Model], defaultGenerator: StreamCellItemGenerator) -> [StreamCellItem]?
     func streamWillPullToRefresh()
     func streamViewDidScroll(scrollView: UIScrollView)
     func streamViewWillBeginDragging(scrollView: UIScrollView)
     func streamViewDidEndDragging(scrollView: UIScrollView, willDecelerate: Bool)
-    func streamViewInfiniteScroll() -> Promise<[JSONAble]>?
+    func streamViewInfiniteScroll() -> Promise<[Model]>?
 }
 
 @objc
@@ -128,4 +128,9 @@ protocol CreatePostResponder: class {
 protocol InviteResponder: class {
     func onInviteFriends()
     func sendInvite(person: LocalPerson, isOnboarding: Bool, completion: @escaping Block)
+}
+
+@objc
+protocol PostFeaturedResponder: class {
+    func categoryPostTapped(streamCellItem: StreamCellItem, categoryPost: CategoryPost)
 }

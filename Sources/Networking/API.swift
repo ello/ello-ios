@@ -38,11 +38,10 @@ struct API {
             endpointName: "globalPostStream",
             parser: PageParser<Post>("posts", PostParser()).parse,
             variables: [
-                (.enum("kind", "StreamKind", filter.graphQL)),
+                (.enum("kind", filter.graphQL, "StreamKind")),
                 (.optionalString("before", before)),
             ],
-            fragments: [Fragment.postStream],
-            body: Fragment.postStreamBody
+            body: Fragments.postStreamBody
             )
         return request
     }
@@ -52,12 +51,11 @@ struct API {
             endpointName: "categoryPostStream",
             parser: PageParser<Post>("posts", PostParser()).parse,
             variables: [
-                (.enum("kind", "StreamKind", filter.graphQL)),
+                (.enum("kind", filter.graphQL, "StreamKind")),
                 (.string("slug", categorySlug)),
                 (.optionalString("before", before)),
             ],
-            fragments: [Fragment.postStream],
-            body: Fragment.postStreamBody
+            body: Fragments.postStreamBody
             )
         return request
     }
@@ -67,11 +65,10 @@ struct API {
             endpointName: "subscribedPostStream",
             parser: PageParser<Post>("posts", PostParser()).parse,
             variables: [
-                (.enum("kind", "StreamKind", filter.graphQL)),
+                (.enum("kind", filter.graphQL, "StreamKind")),
                 (.optionalString("before", before)),
             ],
-            fragments: [Fragment.postStream],
-            body: Fragment.postStreamBody
+            body: Fragments.postStreamBody
             )
         return request
     }
@@ -80,10 +77,7 @@ struct API {
         let request = GraphQLRequest(
             endpointName: "allCategories",
             parser: ManyParser<Category>(CategoryParser()).parse,
-            fragments: [
-                Fragment.tshirtProps,
-            ],
-            body: Fragment.categoriesBody
+            body: Fragments.categoriesBody
             )
         return request
     }
@@ -92,10 +86,7 @@ struct API {
         let request = GraphQLRequest(
             endpointName: "categoryNav",
             parser: ManyParser<Category>(CategoryParser()).parse,
-            fragments: [
-                Fragment.tshirtProps,
-            ],
-            body: Fragment.categoriesBody
+            body: Fragments.categoriesBody
             )
         return request
     }
@@ -105,14 +96,10 @@ struct API {
             endpointName: "pageHeaders",
             parser: ManyParser<PageHeader>(PageHeaderParser()).parse,
             variables: [
-                (.enum("kind", "PageHeaderKind", kind.apiKind)),
+                (.enum("kind", kind.apiKind, "PageHeaderKind")),
                 (.optionalString("slug", kind.slug)),
             ],
-            fragments: [
-                Fragment.responsiveProps,
-                Fragment.pageHeaderUserProps,
-            ],
-            body: Fragment.pageHeaderBody
+            body: Fragments.pageHeaderBody
             )
         return request
     }
@@ -125,8 +112,7 @@ struct API {
                 (.string("username", username)),
                 (.optionalString("before", before)),
             ],
-            fragments: [Fragment.postStream],
-            body: Fragment.postStreamBody
+            body: Fragments.postStreamBody
             )
         return request
     }

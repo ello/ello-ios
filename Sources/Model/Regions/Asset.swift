@@ -8,7 +8,7 @@ import SwiftyJSON
 let AssetVersion = 1
 
 @objc(Asset)
-final class Asset: JSONAble {
+final class Asset: Model {
     enum AttachmentType {
         case optimized
         case mdpi

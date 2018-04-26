@@ -32,10 +32,10 @@ class NotificationsGeneratorSpec: QuickSpec {
             }
         }
 
-        func setPrimary(jsonable: JSONAble) {
+        func setPrimary(jsonable: Model) {
         }
 
-        func primaryJSONAbleNotFound() {
+        func primaryModelNotFound() {
         }
 
         func setPagingConfig(responseConfig: ResponseConfig) {

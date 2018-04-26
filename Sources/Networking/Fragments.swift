@@ -1,16 +1,25 @@
 ////
-///  Fragment.swift
+///  Fragments.swift
 //
 
-struct Fragment: Equatable {
-    static let imageProps = Fragment("""
+struct Fragments: Equatable {
+    //|
+    //|  FRAGMENTS
+    //|
+    static let categoryPostActions = Fragments("""
+    fragment categoryPostActions on CategoryPostActions {
+        feature { href label method }
+        unfeature { href label method }
+    }
+    """)
+    static let imageProps = Fragments("""
         fragment imageProps on Image {
           url
           metadata { height width type size }
         }
         """)
 
-    static let tshirtProps = Fragment("""
+    static let tshirtProps = Fragments("""
         fragment tshirtProps on TshirtImageVersions {
           regular { ...imageProps }
           large { ...imageProps }
@@ -18,7 +27,7 @@ struct Fragment: Equatable {
         }
         """, needs: [imageProps])
 
-    static let responsiveProps = Fragment("""
+    static let responsiveProps = Fragments("""
         fragment responsiveProps on ResponsiveImageVersions {
           mdpi { ...imageProps }
           hdpi { ...imageProps }
@@ -27,7 +36,7 @@ struct Fragment: Equatable {
         }
         """, needs: [imageProps])
 
-    static let authorProps = Fragment("""
+    static let authorProps = Fragments("""
         fragment authorProps on User {
           id
           username
@@ -46,7 +55,7 @@ struct Fragment: Equatable {
         }
         """, needs: [tshirtProps, responsiveProps])
 
-    static let pageHeaderUserProps = Fragment("""
+    static let pageHeaderUserProps = Fragments("""
         fragment pageHeaderUserProps on User {
           id
           username
@@ -60,7 +69,7 @@ struct Fragment: Equatable {
         }
         """, needs: [tshirtProps, responsiveProps])
 
-    static let postStream = Fragment("""
+    static let postStream = Fragments("""
         fragment contentProps on ContentBlocks {
           linkUrl
           kind
@@ -95,7 +104,10 @@ struct Fragment: Equatable {
         }
         """, needs: [imageProps, tshirtProps, responsiveProps, authorProps])
 
-    static let categoriesBody = """
+    //|
+    //|  REQUEST BODIES
+    //|
+    static let categoriesBody = Fragments("""
         id
         name
         slug
@@ -104,8 +116,8 @@ struct Fragment: Equatable {
         isCreatorType
         level
         tileImage { ...tshirtProps }
-        """
-    static let pageHeaderBody = """
+        """, needs: [Fragments.tshirtProps])
+    static let pageHeaderBody = Fragments("""
         id
         postToken
         category { id }
@@ -115,39 +127,38 @@ struct Fragment: Equatable {
         image { ...responsiveProps }
         ctaLink { text url }
         user { ...pageHeaderUserProps }
-        """
-    static let postStreamBody = """
+        """, needs: [Fragments.responsiveProps, Fragments.pageHeaderUserProps])
+    static let postStreamBody = Fragments("""
         next isLastPage
         posts {
             ...postSummary
             ...postContent
             repostContent { ...contentProps }
-            categories { ...categoryProps }
-            currentUserState { loved reposted watching }
+            categoryPosts {
+                id actions { ...categoryPostActions } status
+                category { ...categoryProps }
+                featuredAt submittedAt removedAt unfeaturedAt
+                featuredBy { id username name } submittedBy { id username name }
+            }
             repostedSource {
                 ...postSummary
             }
         }
-        """
+        """, needs: [Fragments.postStream, Fragments.categoryPostActions])
 
     let string: String
-    let needs: [Fragment]
+    let needs: [Fragments]
 
-    var dependencies: [Fragment] {
-        return [self] + needs + needs.flatMap { $0.dependencies }
+    var dependencies: [Fragments] {
+        return (needs + needs.flatMap { $0.dependencies }).unique()
     }
 
-    init(_ string: String, needs: [Fragment] = []) {
+    init(_ string: String, needs: [Fragments] = []) {
         self.string = string
         self.needs = needs
     }
 
-    static func flatten(_ fragments: [Fragment]) -> String {
-        let dependencies: [Fragment] = fragments.flatMap { frag -> [Fragment] in return frag.dependencies }
-        return dependencies.unique().map { $0.string }.joined(separator: "\n")
-    }
-
-    static func == (lhs: Fragment, rhs: Fragment) -> Bool {
+    static func == (lhs: Fragments, rhs: Fragments) -> Bool {
         return lhs.string == rhs.string
     }
 }

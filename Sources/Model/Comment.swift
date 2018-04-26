@@ -8,31 +8,24 @@ import SwiftyJSON
 let CommentVersion = 1
 
 @objc(ElloComment)
-final class ElloComment: JSONAble, Authorable, Groupable {
+final class ElloComment: Model, Authorable, Groupable {
 
     let id: String
+    var groupId: String { return "Post-\(postId)" }
     let createdAt: Date
     let authorId: String
     let postId: String
     var content: [Regionable]
     var body: [Regionable]?
     var summary: [Regionable]?
-    var assets: [Asset] {
-        return getLinkArray("assets") as? [Asset] ?? []
-    }
-    var author: User? {
-        return ElloLinkedStore.shared.getObject(self.authorId, type: .usersType) as? User
-    }
-    var parentPost: Post? {
-        return ElloLinkedStore.shared.getObject(self.postId, type: .postsType) as? Post
-    }
-    var loadedFromPost: Post? {
-        return (ElloLinkedStore.shared.getObject(self.loadedFromPostId, type: .postsType) as? Post) ?? parentPost
-    }
-    // computed properties
-    var groupId: String { return "Post-\(postId)" }
+    var assets: [Asset] { return getLinkArray("assets") }
+    var author: User? { return getLinkObject("author") }
+    var parentPost: Post? { return getLinkObject("parent_post") }
+    var loadedFromPost: Post? { return getLinkObject("loaded_from_post") ?? parentPost }
     // to show hide in the stream, and for comment replies
-    var loadedFromPostId: String
+    var loadedFromPostId: String {
+        didSet { addLinkObject("loaded_from_post", key: loadedFromPostId, type: .postsType) }
+    }
 
     init(id: String,
         createdAt: Date,
@@ -46,8 +39,11 @@ final class ElloComment: JSONAble, Authorable, Groupable {
         self.postId = postId
         self.loadedFromPostId = postId
         self.content = content
-        self.loadedFromPostId = postId
         super.init(version: CommentVersion)
+
+        addLinkObject("parent_post", key: postId, type: .postsType)
+        addLinkObject("loaded_from_post", key: postId, type: .postsType)
+        addLinkObject("author", key: authorId, type: .usersType)
     }
 
     required init(coder: NSCoder) {
@@ -78,10 +74,8 @@ final class ElloComment: JSONAble, Authorable, Groupable {
 
     class func fromJSON(_ data: [String: Any]) -> ElloComment {
         let json = JSON(data)
-        // create comment
         var createdAt: Date
         if let date = json["created_at"].stringValue.toDate() {
-            // good to go
             createdAt = date
         }
         else {
@@ -97,7 +91,10 @@ final class ElloComment: JSONAble, Authorable, Groupable {
         )
         comment.body = RegionParser.jsonRegions(json: json["body"])
         comment.summary = RegionParser.jsonRegions(json: json["summary"])
-        comment.links = data["links"] as? [String: Any]
+
+        comment.mergeLinks(data["links"] as? [String: Any])
+        comment.addLinkObject("author", key: comment.authorId, type: .usersType)
+        comment.addLinkObject("parent_post", key: comment.postId, type: .postsType)
 
         return comment
     }

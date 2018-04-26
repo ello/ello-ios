@@ -8,7 +8,7 @@ import SwiftyJSON
 let AnnouncementVersion = 2
 
 @objc(Announcement)
-final class Announcement: JSONAble, Groupable {
+final class Announcement: Model, Groupable {
     let id: String
     let isStaffPreview: Bool
     let header: String
@@ -91,6 +91,7 @@ final class Announcement: JSONAble, Groupable {
             createdAt: createdAt
             )
         announcement.image = Asset.parseAsset("image_\(id)", node: data["image"] as? [String: Any])
+        announcement.mergeLinks(data["links"] as? [String: Any])
         return announcement
     }
 }

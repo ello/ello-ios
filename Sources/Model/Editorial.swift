@@ -6,7 +6,7 @@ import SwiftyJSON
 
 
 @objc(Editorial)
-final class Editorial: JSONAble, Groupable {
+final class Editorial: Model, Groupable {
     // Version 3: initial (should have been 1, but copy/paste mistake)
     // Version 4: renderedSubtitle
     static let Version = 4
@@ -41,11 +41,8 @@ final class Editorial: JSONAble, Groupable {
     let url: URL?
     let kind: Kind
     var groupId: String { return "Editorial-\(id)" }
-    let postId: String?
-    var post: Post? {
-        guard let postId = postId else { return nil }
-        return ElloLinkedStore.shared.getObject(postId, type: .postsType) as? Post
-    }
+    var postId: String? { return post?.id }
+    var post: Post? { return getLinkObject("post") }
     var postStreamURL: URL?
     var posts: [Post]?
     var images: [Size: Asset] = [:]
@@ -56,7 +53,6 @@ final class Editorial: JSONAble, Groupable {
         title: String,
         subtitle: String? = nil,
         renderedSubtitle: String? = nil,
-        postId: String? = nil,
         postStreamURL: URL? = nil,
         url: URL? = nil)
     {
@@ -65,7 +61,6 @@ final class Editorial: JSONAble, Groupable {
         self.title = title
         self.subtitle = subtitle
         self.renderedSubtitle = renderedSubtitle
-        self.postId = postId
         self.postStreamURL = postStreamURL
         self.url = url
         super.init(version: Editorial.Version)
@@ -78,7 +73,6 @@ final class Editorial: JSONAble, Groupable {
         title = decoder.decodeKey("title")
         subtitle = decoder.decodeOptionalKey("subtitle")
         renderedSubtitle = decoder.decodeOptionalKey("renderedSubtitle")
-        postId = decoder.decodeOptionalKey("postId")
         postStreamURL = decoder.decodeOptionalKey("postStreamURL")
         url = decoder.decodeOptionalKey("url")
         super.init(coder: coder)
@@ -91,7 +85,6 @@ final class Editorial: JSONAble, Groupable {
         encoder.encodeObject(title, forKey: "title")
         encoder.encodeObject(subtitle, forKey: "subtitle")
         encoder.encodeObject(renderedSubtitle, forKey: "renderedSubtitle")
-        encoder.encodeObject(postId, forKey: "postId")
         encoder.encodeObject(postStreamURL, forKey: "postStreamURL")
         encoder.encodeObject(url, forKey: "url")
         super.encode(with: coder)
@@ -104,7 +97,6 @@ final class Editorial: JSONAble, Groupable {
         let title = json["title"].stringValue
         let subtitle = json["subtitle"].string
         let renderedSubtitle = json["rendered_subtitle"].string
-        let postId = json["links"]["post"]["id"].id
         let postStreamURL = json["links"]["post_stream"]["href"].string.flatMap { URL(string: $0) }
         let externalURL: URL? = json["url"].string.flatMap { URL(string: $0) }
         let internalURL: URL? = json["path"].string.flatMap { URL(string: "\(ElloURI.baseURL)\($0)") }
@@ -115,10 +107,9 @@ final class Editorial: JSONAble, Groupable {
             title: title,
             subtitle: subtitle,
             renderedSubtitle: renderedSubtitle,
-            postId: postId,
             postStreamURL: postStreamURL,
             url: externalURL ?? internalURL)
-        editorial.links = data["links"] as? [String: Any]
+        editorial.mergeLinks(data["links"] as? [String: Any])
 
         for size in Size.all {
             if let assetData = data[size.rawValue] as? [String: Any] {

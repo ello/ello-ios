@@ -6,7 +6,7 @@ import SwiftyJSON
 
 
 @objc(PageHeader)
-final class PageHeader: JSONAble {
+final class PageHeader: Model {
     // version 1: initial
     static let Version = 1
 
@@ -29,9 +29,7 @@ final class PageHeader: JSONAble {
     var tileURL: URL? { return image?.oneColumnAttachment?.url }
     var kind: Kind
 
-    var user: User? {
-        return getLinkObject("user") as? User
-    }
+    var user: User? { return getLinkObject("user") }
 
     init(
         id: String,

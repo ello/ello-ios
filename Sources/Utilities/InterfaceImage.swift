@@ -38,11 +38,6 @@ enum InterfaceImage: String {
 
     // Badges
     case badgeFeatured = "badge_featured"
-    case badgeCommunity = "badge_community"
-    case badgeExperimental = "badge_experimental"
-    case badgeStaff = "badge_staff"
-    case badgeSpam = "badge_spam"
-    case badgeNsfw = "badge_nsfw"
 
     // Location Marker Icon
     case marker = "marker"

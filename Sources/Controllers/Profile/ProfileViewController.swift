@@ -229,7 +229,7 @@ final class ProfileViewController: StreamableViewController {
         super.streamViewDidScroll(scrollView: scrollView)
     }
 
-    override func streamViewInfiniteScroll() -> Promise<[JSONAble]>? {
+    override func streamViewInfiniteScroll() -> Promise<[Model]>? {
         return generator?.loadNextPage()
     }
 }
@@ -449,7 +449,7 @@ extension ProfileViewController: StreamDestination {
         setupNavigationItems()
     }
 
-    func setPrimary(jsonable: JSONAble) {
+    func setPrimary(jsonable: Model) {
         guard let user = jsonable as? User else { return }
 
         self.user = user
@@ -475,7 +475,7 @@ extension ProfileViewController: StreamDestination {
         streamViewController.responseConfig = responseConfig
     }
 
-    func primaryJSONAbleNotFound() {
+    func primaryModelNotFound() {
         if let deeplinkPath = self.deeplinkPath,
             let deeplinkURL = URL(string: deeplinkPath)
         {

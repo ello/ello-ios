@@ -7,7 +7,7 @@ import SwiftyJSON
 let ElloNetworkErrorVersion = 1
 
 @objc(ElloNetworkError)
-class ElloNetworkError: JSONAble {
+class ElloNetworkError: Model {
 
     enum CodeType: String {
         case blacklisted = "blacklisted"

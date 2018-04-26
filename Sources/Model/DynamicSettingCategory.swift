@@ -19,7 +19,7 @@ enum DynamicSettingsSection: Int {
 
 
 @objc(DynamicSettingCategory)
-final class DynamicSettingCategory: JSONAble {
+final class DynamicSettingCategory: Model {
     static let Version = 2
 
     let label: String

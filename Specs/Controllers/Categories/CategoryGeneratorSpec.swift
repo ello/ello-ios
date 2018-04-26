@@ -125,7 +125,7 @@ class CategoryDestination: CategoryStreamDestination {
         }
     }
 
-    func setPrimary(jsonable: JSONAble) {
+    func setPrimary(jsonable: Model) {
         self.pageHeader = jsonable as? PageHeader
     }
 
@@ -133,7 +133,7 @@ class CategoryDestination: CategoryStreamDestination {
         self.subscribedCategories = subscribedCategories
     }
 
-    func primaryJSONAbleNotFound() {
+    func primaryModelNotFound() {
     }
 
     func setPagingConfig(responseConfig: ResponseConfig) {

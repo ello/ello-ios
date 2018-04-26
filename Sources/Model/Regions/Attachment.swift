@@ -8,7 +8,7 @@ import SwiftyJSON
 let AttachmentVersion = 1
 
 @objc(Attachment)
-final class Attachment: JSONAble {
+final class Attachment: Model {
 
     let url: URL
     var size: Int?
@@ -54,7 +54,7 @@ final class Attachment: JSONAble {
         if url.hasPrefix("//") {
             url = "https:\(url)"
         }
-        // create attachment
+
         let attachment = Attachment(url: URL(string: url)!)
         attachment.size = json["metadata"]["size"].int
         attachment.width = json["metadata"]["width"].int

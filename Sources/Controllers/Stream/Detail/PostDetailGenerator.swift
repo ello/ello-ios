@@ -153,7 +153,7 @@ private extension PostDetailGenerator {
                 doneOperation.run()
             }
             .catch { _ in
-                self.destination?.primaryJSONAbleNotFound()
+                self.destination?.primaryModelNotFound()
                 self.queue.cancelAllOperations()
             }
     }

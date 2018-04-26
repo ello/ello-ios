@@ -66,7 +66,7 @@ private extension ArtistInvitesGenerator {
                 }
             }
             .catch { _ in
-                self.destination?.primaryJSONAbleNotFound()
+                self.destination?.primaryModelNotFound()
             }
     }
 }

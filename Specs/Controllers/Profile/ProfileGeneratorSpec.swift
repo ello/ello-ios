@@ -32,12 +32,12 @@ class ProfileGeneratorSpec: QuickSpec {
             }
         }
 
-        func setPrimary(jsonable: JSONAble) {
+        func setPrimary(jsonable: Model) {
             guard let user = jsonable as? User else { return }
             self.user = user
         }
 
-        func primaryJSONAbleNotFound() {
+        func primaryModelNotFound() {
         }
 
         func setPagingConfig(responseConfig: ResponseConfig) {

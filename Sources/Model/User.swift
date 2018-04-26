@@ -16,7 +16,7 @@ import SwiftyJSON
 let UserVersion: Int = 8
 
 @objc(User)
-final class User: JSONAble {
+final class User: Model {
 
     let id: String
     let username: String
@@ -54,7 +54,7 @@ final class User: JSONAble {
         return postsCount != nil && lovesCount != nil && followingCount != nil && followersCount != nil && totalViewsCount != nil
     }
 
-    var categories: [Category]? { return getLinkArray("categories") as? [Category] }
+    var categories: [Category]? { return getLinkArray("categories") }
     var hasSubscribedCategory: Bool { return followedCategoryIds.count > 0 }
     var followedCategoryIds: Set<String> = []
     var followedCategories: [Category] {
@@ -74,7 +74,6 @@ final class User: JSONAble {
     }
     var profile: Profile?
 
-    // computed
     var isCurrentUser: Bool { return self.profile != nil }
     var atName: String { return "@\(username)"}
     var displayName: String {
@@ -233,7 +232,7 @@ final class User: JSONAble {
         super.encode(with: coder)
     }
 
-    override func merge(_ other: JSONAble) -> JSONAble {
+    override func merge(_ other: Model) -> Model {
         if let otherUser = other as? User {
             if otherUser.formattedShortBio == nil {
                 otherUser.formattedShortBio = formattedShortBio
@@ -289,8 +288,8 @@ final class User: JSONAble {
             user.followedCategoryIds = Set(ids.compactMap { $0.id })
         }
 
-        if let links = json["external_links_list"].array {
-            let externalLinks = links.compactMap { $0.dictionaryObject as? [String: String] }
+        if let jsonLinks = json["external_links_list"].array {
+            let externalLinks = jsonLinks.compactMap { $0.dictionaryObject as? [String: String] }
             user.externalLinksList = externalLinks.compactMap { ExternalLink.fromDict($0) }
         }
 
@@ -299,7 +298,7 @@ final class User: JSONAble {
                 .compactMap { Badge.lookup(slug: $0) }
         }
 
-        user.links = data["links"] as? [String: Any]
+        user.mergeLinks(data["links"] as? [String: Any])
 
         if json["relationship_priority"].string == "self" {
             user.profile = Profile.fromJSON(data)
@@ -365,6 +364,11 @@ extension User {
     func subscribedTo(categoryId: String) -> Bool {
         return followedCategoryIds.contains(categoryId)
     }
+
+    func isCuratorOf(categoryPost: CategoryPost) -> Bool {
+        return !categoryPost.actions.isEmpty
+    }
+
 }
 
 extension User {

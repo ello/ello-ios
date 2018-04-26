@@ -8,7 +8,7 @@ import SwiftyJSON
 let LoveVersion: Int = 1
 
 @objc(Love)
-final class Love: JSONAble, PostActionable {
+final class Love: Model, PostActionable {
     let id: String
     let createdAt: Date
     let updatedAt: Date
@@ -16,13 +16,8 @@ final class Love: JSONAble, PostActionable {
     let postId: String
     let userId: String
 
-    var post: Post? {
-        return ElloLinkedStore.shared.getObject(self.postId, type: .postsType) as? Post
-    }
-
-    var user: User? {
-        return ElloLinkedStore.shared.getObject(self.userId, type: .usersType) as? User
-    }
+    var post: Post? { return getLinkObject("post") }
+    var user: User? { return getLinkObject("user") }
 
     init(id: String,
         createdAt: Date,
@@ -38,6 +33,9 @@ final class Love: JSONAble, PostActionable {
         self.postId = postId
         self.userId = userId
         super.init(version: LoveVersion)
+
+        addLinkObject("post", key: postId, type: .postsType)
+        addLinkObject("user", key: userId, type: .usersType)
     }
 
     required init(coder: NSCoder) {
@@ -67,7 +65,6 @@ final class Love: JSONAble, PostActionable {
         var createdAt: Date
         var updatedAt: Date
         if let date = json["created_at"].stringValue.toDate() {
-            // good to go
             createdAt = date
         }
         else {
@@ -75,14 +72,12 @@ final class Love: JSONAble, PostActionable {
         }
 
         if let date = json["updated_at"].stringValue.toDate() {
-            // good to go
             updatedAt = date
         }
         else {
             updatedAt = Globals.now
         }
 
-        // create Love
         let love = Love(
             id: json["id"].stringValue,
             createdAt: createdAt,
@@ -91,6 +86,10 @@ final class Love: JSONAble, PostActionable {
             postId: json["post_id"].stringValue,
             userId: json["user_id"].stringValue
         )
+
+        love.mergeLinks(data["links"] as? [String: Any])
+        love.addLinkObject("post", key: love.postId, type: .postsType)
+        love.addLinkObject("user", key: love.userId, type: .usersType)
 
         return love
     }

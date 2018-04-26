@@ -93,7 +93,7 @@ private extension EditorialsGenerator {
                 EditorialsGenerator.loadPostStreamEditorials(postStreamEditorials, afterAll: afterAll)
             }
             .catch { _ in
-                self.destination?.primaryJSONAbleNotFound()
+                self.destination?.primaryModelNotFound()
             }
             .finally {
                 receivedEditorials()

@@ -257,7 +257,7 @@ class StreamDataSource: ElloDataSource {
         return nil
     }
 
-    func modifyItems(_ jsonable: JSONAble, change: ContentChange, streamViewController: StreamViewController) {
+    func modifyItems(_ jsonable: Model, change: ContentChange, streamViewController: StreamViewController) {
         // get items that match id and type -> [IndexPath]
         // based on change decide to update/remove those items
         switch change {
@@ -415,7 +415,7 @@ class StreamDataSource: ElloDataSource {
         }
     }
 
-    func mergeAndReloadElementsFor(jsonable: JSONAble, change: ContentChange, streamViewController: StreamViewController) {
+    func mergeAndReloadElementsFor(jsonable: Model, change: ContentChange, streamViewController: StreamViewController) {
         let (indexPaths, items) = elementsFor(jsonable: jsonable, change: change)
         let T = type(of: jsonable)
         var modified = false
@@ -514,7 +514,7 @@ class StreamDataSource: ElloDataSource {
     }
 
     @discardableResult
-    func removeItemsFor(jsonable: JSONAble, change: ContentChange) -> [IndexPath] {
+    func removeItemsFor(jsonable: Model, change: ContentChange) -> [IndexPath] {
         let indexPaths = self.elementsFor(jsonable: jsonable, change: change).0
         temporarilyUnfilter {
             // these paths might be different depending on the filter
@@ -533,7 +533,7 @@ class StreamDataSource: ElloDataSource {
 
     // the IndexPaths returned are guaranteed to be in order, so that the first
     // item has the lowest row/item value.
-    private func elementsFor(jsonable: JSONAble, change: ContentChange) -> ([IndexPath], [StreamCellItem]) {
+    private func elementsFor(jsonable: Model, change: ContentChange) -> ([IndexPath], [StreamCellItem]) {
         var indexPaths = [IndexPath]()
         var items = [StreamCellItem]()
         if let post = jsonable as? Post {
@@ -713,7 +713,7 @@ extension StreamDataSource {
 
 // MARK: For Testing
 extension StreamDataSource {
-    func testingElementsFor(jsonable: JSONAble, change: ContentChange) -> ([IndexPath], [StreamCellItem]) {
+    func testingElementsFor(jsonable: Model, change: ContentChange) -> ([IndexPath], [StreamCellItem]) {
         return elementsFor(jsonable: jsonable, change: change)
     }
 }

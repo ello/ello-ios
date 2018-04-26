@@ -6,7 +6,7 @@ import SwiftyJSON
 
 
 @objc(ArtistInvite)
-final class ArtistInvite: JSONAble, Groupable {
+final class ArtistInvite: Model, Groupable {
     // Version 1: initial
     static let Version = 1
 
@@ -147,7 +147,7 @@ final class ArtistInvite: JSONAble, Groupable {
             status: status,
             openedAt: openedAt,
             closedAt: closedAt)
-        artistInvite.links = data["links"] as? [String: Any]
+
         artistInvite.headerImage = Asset.parseAsset("artist_invite_header_\(id)", node: data["header_image"] as? [String: Any])
         artistInvite.logoImage = Asset.parseAsset("artist_invite_logo_\(id)", node: data["logo_image"] as? [String: Any])
 
@@ -182,6 +182,7 @@ final class ArtistInvite: JSONAble, Groupable {
             }
         }
 
+        artistInvite.mergeLinks(data["links"] as? [String: Any])
         return artistInvite
     }
 }

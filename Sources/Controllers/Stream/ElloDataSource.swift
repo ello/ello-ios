@@ -64,7 +64,7 @@ class ElloDataSource: NSObject {
         return visibleCellItems[indexPath.item]
     }
 
-    func jsonable(at indexPath: IndexPath) -> JSONAble? {
+    func jsonable(at indexPath: IndexPath) -> Model? {
         let item = streamCellItem(at: indexPath)
         return item?.jsonable
     }

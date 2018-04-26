@@ -44,8 +44,8 @@ private extension ArtistInviteDetailGenerator {
             StreamCellItem(type: .placeholder, placeholderType: .artistInviteSubmissionsButton),
             StreamCellItem(type: .placeholder, placeholderType: .artistInviteDetails),
             StreamCellItem(type: .placeholder, placeholderType: .artistInviteAdmin),
-            StreamCellItem(type: .placeholder, placeholderType: .artistInviteSubmissionsHeader),
-            StreamCellItem(type: .placeholder, placeholderType: .streamItems),
+            StreamCellItem(type: .placeholder, placeholderType: .artistInviteSelections),
+            StreamCellItem(type: .placeholder, placeholderType: .artistInviteSubmissions),
         ])
     }
 
@@ -59,7 +59,7 @@ private extension ArtistInviteDetailGenerator {
                 self.setArtistInvite(artistInvite)
             }
             .catch { _ in
-                self.destination?.primaryJSONAbleNotFound()
+                self.destination?.primaryModelNotFound()
             }
     }
 
@@ -75,7 +75,32 @@ private extension ArtistInviteDetailGenerator {
         let postsSpinner = StreamCellItem(type: .streamLoading, placeholderType: .streamItems)
         destination?.replacePlaceholder(type: .artistInviteDetails, items: [postsSpinner])
 
+        loadSelections(artistInvite)
         loadSubmissions(artistInvite)
+    }
+
+    func loadSelections(_ artistInvite: ArtistInvite) {
+        guard
+            artistInvite.status == .closed,
+            let endpoint = artistInvite.selectedSubmissionsStream?.endpoint
+        else { return }
+
+        StreamService().loadStream(endpoint: endpoint)
+            .done { response in
+                guard
+                    self.loadingToken.isValidInitialPageLoadingToken(self.localToken),
+                    case let .jsonables(jsonables, responseConfig) = response,
+                    let submissions = jsonables as? [ArtistInviteSubmission]
+                else { return }
+
+                self.destination?.setPagingConfig(responseConfig: responseConfig)
+
+                let posts = submissions.compactMap { $0.post }
+                let submissionsHeader = StreamCellItem(type: .header(InterfaceString.ArtistInvites.Selections))
+                let items = self.parse(jsonables: posts)
+                self.destination?.replacePlaceholder(type: .artistInviteSelections, items: [submissionsHeader] + items)
+            }
+            .ignoreErrors()
     }
 
     func loadSubmissions(_ artistInvite: ArtistInvite) {
@@ -98,7 +123,7 @@ private extension ArtistInviteDetailGenerator {
                 guard
                     case let .jsonables(jsonables, responseConfig) = response,
                     let submissions = jsonables as? [ArtistInviteSubmission]
-                else { throw NSError.uncastableJSONAble() }
+                else { throw NSError.uncastableModel() }
 
                 self.destination?.setPagingConfig(responseConfig: responseConfig)
 
@@ -107,14 +132,12 @@ private extension ArtistInviteDetailGenerator {
                     self.showEmptySubmissions()
                 }
                 else {
-                    let submissionsHeader = StreamCellItem(type: .header(InterfaceString.ArtistInvites.Submissions))
-                    self.destination?.replacePlaceholder(type: .artistInviteSubmissionsHeader, items: [submissionsHeader])
-
                     let button = StreamCellItem(type: .artistInviteSubmissionsButton)
                     self.destination?.replacePlaceholder(type: .artistInviteSubmissionsButton, items: [button])
 
+                    let submissionsHeader = StreamCellItem(type: .header(InterfaceString.ArtistInvites.Submissions))
                     let items = self.parse(jsonables: posts)
-                    self.destination?.replacePlaceholder(type: .streamItems, items: items)
+                    self.destination?.replacePlaceholder(type: .artistInviteSubmissions, items: [submissionsHeader] + items)
 
                     self.destination?.isPagingEnabled = responseConfig.nextQuery != nil
                 }
@@ -130,8 +153,7 @@ private extension ArtistInviteDetailGenerator {
 
     func showEmptySubmissions() {
         destination?.replacePlaceholder(type: .artistInviteSubmissionsButton, items: [])
-        destination?.replacePlaceholder(type: .artistInviteSubmissionsHeader, items: [])
-        destination?.replacePlaceholder(type: .streamItems, items: [])
+        destination?.replacePlaceholder(type: .artistInviteSubmissions, items: [])
     }
 
     func showSubmissionsError() {

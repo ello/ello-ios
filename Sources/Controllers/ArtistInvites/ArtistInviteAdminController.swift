@@ -150,14 +150,14 @@ extension ArtistInviteAdminController: StreamDestination {
         streamViewController.clearForInitialLoad(newItems: items)
     }
 
-    func setPrimary(jsonable: JSONAble) {
+    func setPrimary(jsonable: Model) {
     }
 
     func setPagingConfig(responseConfig: ResponseConfig) {
         streamViewController.responseConfig = responseConfig
     }
 
-    func primaryJSONAbleNotFound() {
+    func primaryModelNotFound() {
         self.showGenericLoadFailure()
         self.streamViewController.doneLoading()
     }

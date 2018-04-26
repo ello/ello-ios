@@ -11,7 +11,7 @@ class PostParser: IdParser {
         super.init(table: .postsType)
 
         linkArray(.assetsType)
-        linkArray(.categoriesType)
+        linkArray(.categoryPostsType)
 
         linkObject(.usersType, "author")
         linkObject(.usersType, "repostAuthor")
@@ -58,7 +58,7 @@ class PostParser: IdParser {
         post.repostsCount = json["postStats"]["repostsCount"].int
         post.lovesCount = json["postStats"]["lovesCount"].int
 
-        post.links = json["links"].dictionaryObject
+        post.mergeLinks(json["links"].dictionaryObject)
 
         return post
     }

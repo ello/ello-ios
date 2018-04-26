@@ -230,7 +230,7 @@ class PostbarController: UIResponder {
                     id: "", createdAt: now, updatedAt: now,
                     isDeleted: true, postId: post.id, userId: currentUser.id
                 )
-                postNotification(JSONAbleChangedNotification, value: (love, .delete))
+                postNotification(ModelChangedNotification, value: (love, .delete))
             }
             .ensure {
                 cell?.toggleLoveControl(enabled: true)
@@ -257,7 +257,7 @@ class PostbarController: UIResponder {
 
         LovesService().lovePost(postId: post.id)
             .done { love in
-                postNotification(JSONAbleChangedNotification, value: (love, .create))
+                postNotification(ModelChangedNotification, value: (love, .create))
             }
             .ensure {
                 cell?.toggleLoveControl(enabled: true)
@@ -472,7 +472,7 @@ class PostbarController: UIResponder {
             }
     }
 
-    private func commentLoadSuccess(_ post: Post, comments jsonables: [JSONAble], indexPath: IndexPath, cell: StreamFooterCell) {
+    private func commentLoadSuccess(_ post: Post, comments jsonables: [Model], indexPath: IndexPath, cell: StreamFooterCell) {
         let createCommentNow = jsonables.count == 0
         self.appendCreateCommentItem(post, at: indexPath)
 

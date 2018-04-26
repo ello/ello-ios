@@ -102,21 +102,21 @@ final class CategoryGenerator: StreamGenerator {
         destination?.replacePlaceholder(type: .streamItems, items: parse(jsonables: posts))
     }
 
-    func loadNextPage() -> Promise<[JSONAble]>? {
+    func loadNextPage() -> Promise<[Model]>? {
         guard
             let nextPageRequest = nextPageRequest
         else { return nil }
 
         return nextPageRequest
             .execute()
-            .map { pageConfig, posts -> [JSONAble] in
+            .map { pageConfig, posts -> [Model] in
                 self.setNextPageConfig(pageConfig)
                 if posts.count == 0 {
                     self.destination?.isPagingEnabled = false
                 }
                 return posts
             }
-            .recover { error -> Promise<[JSONAble]> in
+            .recover { error -> Promise<[Model]> in
                 let errorConfig = PageConfig(next: nil, isLastPage: true)
                 self.destination?.setPagingConfig(responseConfig: ResponseConfig(pageConfig: errorConfig))
                 self.destination?.isPagingEnabled = false
@@ -153,13 +153,13 @@ extension CategoryGenerator {
                     self.destination?.setPrimary(jsonable: pageHeader)
                 }
                 else {
-                    self.destination?.primaryJSONAbleNotFound()
+                    self.destination?.primaryModelNotFound()
                 }
 
                 self.destination?.replacePlaceholder(type: .promotionalHeader, items: self.headerItems())
             }
             .catch { _ in
-                self.destination?.primaryJSONAbleNotFound()
+                self.destination?.primaryModelNotFound()
             }
             .finally {
                 doneOperation.run()
@@ -224,7 +224,7 @@ extension CategoryGenerator {
                 }
             }
             .catch { _ in
-                self.destination?.primaryJSONAbleNotFound()
+                self.destination?.primaryModelNotFound()
             }
     }
 

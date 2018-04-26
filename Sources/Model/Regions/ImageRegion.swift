@@ -8,12 +8,12 @@ import SwiftyJSON
 let ImageRegionVersion = 1
 
 @objc(ImageRegion)
-final class ImageRegion: JSONAble, Regionable {
+final class ImageRegion: Model, Regionable {
     var isRepost: Bool  = false
 
     var url: URL?
     var buyButtonURL: URL?
-    var asset: Asset? { return getLinkObject("assets") as? Asset }
+    var asset: Asset? { return getLinkObject("assets") }
 
     var fullScreenURL: URL? {
         guard let asset = asset else { return url }
@@ -61,7 +61,7 @@ final class ImageRegion: JSONAble, Regionable {
         if let buyLink = json["link_url"].string {
             imageRegion.buyButtonURL = URL(string: buyLink)
         }
-        imageRegion.links = data["links"] as? [String: Any]
+        imageRegion.mergeLinks(data["links"] as? [String: Any])
         return imageRegion
     }
 

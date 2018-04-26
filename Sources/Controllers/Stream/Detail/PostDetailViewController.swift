@@ -212,7 +212,7 @@ extension PostDetailViewController: PostDetailStreamDestination {
         streamViewController.clearForInitialLoad(newItems: items)
     }
 
-    func setPrimary(jsonable: JSONAble) {
+    func setPrimary(jsonable: Model) {
         guard let post = jsonable as? Post else { return }
 
         self.post = post
@@ -249,7 +249,7 @@ extension PostDetailViewController: PostDetailStreamDestination {
         streamViewController.appendPlaceholder(.postComments, with: commentItems)
     }
 
-    func primaryJSONAbleNotFound() {
+    func primaryModelNotFound() {
         if let deeplinkPath = self.deeplinkPath,
             let deeplinkURL = URL(string: deeplinkPath)
         {

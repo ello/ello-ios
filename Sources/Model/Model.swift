@@ -1,5 +1,5 @@
 ////
-///  JSONAble.swift
+///  Model.swift
 //
 
 
@@ -9,16 +9,16 @@ protocol JSONSaveable {
 }
 
 
-enum JSONAbleResult {
-    case one(JSONAble)
-    case many([JSONAble])
+enum ModelResult {
+    case one(Model)
+    case many([Model])
     case none
 }
 
 
-@objc(JSONAble)
-class JSONAble: NSObject, NSCoding {
-    var links: [String: Any]?
+@objc(Model)
+class Model: NSObject, NSCoding {
+    var links: [String: Any] = [:]
     let version: Int
 
     init(version: Int) {
@@ -28,7 +28,7 @@ class JSONAble: NSObject, NSCoding {
 
     required init(coder: NSCoder) {
         let decoder = Coder(coder)
-        self.links = decoder.decodeOptionalKey("links")
+        self.links = decoder.decodeOptionalKey("links") ?? [:]
         self.version = decoder.decodeKey("version")
     }
 
@@ -38,38 +38,34 @@ class JSONAble: NSObject, NSCoding {
         coder.encodeObject(version, forKey: "version")
     }
 
-    func merge(_ other: JSONAble) -> JSONAble {
+    func merge(_ other: Model) -> Model {
         return other
     }
 }
 
-// MARK: get associated JSONAbles via ids in `links`
+// MARK: get associated Models via ids in `links`
 
-extension JSONAble {
-    func getLinkObject(_ identifier: String) -> JSONAble? {
-        guard let links = links else { return nil }
-
-        var obj: JSONAble?
+extension Model {
+    func getLinkObject<T: Model>(_ identifier: String) -> T? {
+        var obj: T?
         if let linksMap = links[identifier] as? [String: Any],
             let id = linksMap["id"] as? String,
             let collection = linksMap["type"] as? String
         {
             ElloLinkedStore.shared.readConnection.read { transaction in
-                obj = transaction.object(forKey: id, inCollection: collection) as? JSONAble
+                obj = transaction.object(forKey: id, inCollection: collection) as? T
             }
         }
         else if let id = links[identifier] as? String {
             ElloLinkedStore.shared.readConnection.read { transaction in
-                obj = transaction.object(forKey: id, inCollection: identifier) as? JSONAble
+                obj = transaction.object(forKey: id, inCollection: identifier) as? T
             }
         }
 
         return obj
     }
 
-    func getLinkArray(_ identifier: String) -> [JSONAble] {
-        guard let links = links else { return [] }
-
+    func getLinkArray<T: Model>(_ identifier: String) -> [T] {
         let linksList = links[identifier] as? [String]
         let linksMap = links[identifier] as? [String: Any]
         guard
@@ -80,10 +76,10 @@ extension JSONAble {
 
         let collection = (linksMap?["type"] as? String) ?? identifier
 
-        var arr = [JSONAble]()
+        var arr = [T]()
         ElloLinkedStore.shared.readConnection.read { transaction in
             for key in ids {
-                if let jsonable = transaction.object(forKey: key, inCollection: collection) as? JSONAble {
+                if let jsonable = transaction.object(forKey: key, inCollection: collection) as? T {
                     arr.append(jsonable)
                 }
             }
@@ -91,24 +87,31 @@ extension JSONAble {
         return arr
     }
 
-    func addLinkObject(_ identifier: String, key: String, type: MappingType) {
-        if links == nil { links = [String: Any]() }
-        links![identifier] = ["id": key, "type": type.rawValue]
-
+    func mergeLinks(_ links: [String: Any]?) {
+        guard let links = links else { return }
+        for (key, value) in links {
+            self.links[key] = value
+        }
     }
 
-    func addLinkObject(_ model: JSONAble, identifier: String, key: String, type: MappingType) {
+    func addLinkObject(_ identifier: String, key: String, type: MappingType) {
+        links[identifier] = ["id": key, "type": type.rawValue]
+    }
+
+    func removeLink(_ identifier: String) {
+        links[identifier] = nil
+    }
+
+    func addLinkObject(_ model: Model, identifier: String, key: String, type: MappingType) {
         addLinkObject(identifier, key: key, type: type)
         ElloLinkedStore.shared.setObject(model, forKey: key, type: type)
     }
 
     func clearLinkObject(_ identifier: String) {
-        if links == nil { links = [String: Any]() }
-        links![identifier] = nil
+        links[identifier] = nil
     }
 
     func addLinkArray(_ identifier: String, array: [String], type: MappingType) {
-        if links == nil { links = [String: Any]() }
-        links![identifier] = ["ids": array, "type": type.rawValue]
+        links[identifier] = ["ids": array, "type": type.rawValue]
     }
 }

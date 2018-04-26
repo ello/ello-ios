@@ -7,28 +7,21 @@ import Moya
 
 
 @objc(ArtistInviteSubmission)
-final class ArtistInviteSubmission: JSONAble, Groupable, PostActionable {
+final class ArtistInviteSubmission: Model, Groupable, PostActionable {
     // Version 1: initial
     // Version 2: artistInviteId, postId
     static let Version = 2
 
     let id: String
+    var groupId: String { return "ArtistInviteSubmission-\(id)" }
     let artistInviteId: String
     let postId: String
-    var artistInvite: ArtistInvite? {
-        return ElloLinkedStore.shared.getObject(self.artistInviteId, type: .artistInvitesType) as? ArtistInvite
-    }
     let status: Status
     var actions: [Action] = []
-    var groupId: String { return "ArtistInviteSubmission-\(id)" }
 
-    var post: Post? {
-        return getLinkObject("post") as? Post
-    }
-
-    var user: User? {
-        return post?.author
-    }
+    var artistInvite: ArtistInvite? { return getLinkObject("artist_invite") }
+    var post: Post? { return getLinkObject("post") }
+    var user: User? { return post?.author }
 
     enum Status: String {
         case approved
@@ -157,7 +150,9 @@ final class ArtistInviteSubmission: JSONAble, Groupable, PostActionable {
         }
         let status = Status(rawValue: json["status"].stringValue) ?? .unapproved
         let submission = ArtistInviteSubmission(id: id, artistInviteId: artistInviteId, postId: postId, status: status)
-        submission.links = data["links"] as? [String: Any]
+        submission.mergeLinks(data["links"] as? [String: Any])
+        submission.addLinkObject("artist_invite", key: artistInviteId, type: .artistInvitesType)
+
         if let actions = data["actions"] as? [String: Any] {
             submission.actions = actions.compactMap { key, value in
                 return Action(name: key, json: JSON(value))

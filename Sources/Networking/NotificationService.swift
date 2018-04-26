@@ -17,7 +17,7 @@ class NotificationService {
                     return nil
                 }
                 else {
-                    throw NSError.uncastableJSONAble()
+                    throw NSError.uncastableModel()
                 }
             }
     }

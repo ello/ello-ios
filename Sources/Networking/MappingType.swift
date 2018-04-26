@@ -2,7 +2,7 @@
 ///  MappingType.swift
 //
 
-typealias FromJSONClosure = ([String: Any]) -> JSONAble
+typealias FromJSONClosure = ([String: Any]) -> Model
 
 enum MappingType: String {
     // these keys define the place in the JSON response where the ElloProvider
@@ -16,6 +16,7 @@ enum MappingType: String {
     case autoCompleteResultType = "autocomplete_results"
     case availabilityType = "availability"
     case categoriesType = "categories"
+    case categoryPostsType = "category_posts"
     case commentsType = "comments"
     case dynamicSettingsType = "settings"
     case editorials = "editorials"
@@ -33,8 +34,13 @@ enum MappingType: String {
 
     var pluralKey: String {
         switch self {
-        case .availabilityType: return "availabilities"
-        case .errorType: return "errors"
+        case .artistInvitesType:           return "artistInvites"
+        case .artistInviteSubmissionsType: return "artistInviteSubmissions"
+        case .autoCompleteResultType:      return "autocompleteResults"
+        case .availabilityType:            return "availabilities"
+        case .categoryPostsType:           return "categoryPosts"
+        case .errorType:                   return "errors"
+        case .pageHeadersType:             return "pageHeaders"
         default: return rawValue
         }
     }
@@ -44,19 +50,20 @@ enum MappingType: String {
         case .activitiesType:              return "activity"
         case .amazonCredentialsType:       return "credentials"
         case .announcementsType:           return "announcement"
-        case .artistInvitesType:           return "artist_invite"
-        case .artistInviteSubmissionsType: return "artist_invite_submission"
+        case .artistInvitesType:           return "artistInvite"
+        case .artistInviteSubmissionsType: return "artistInviteSubmission"
         case .assetsType:                  return "asset"
-        case .autoCompleteResultType:      return "autocomplete_result"
+        case .autoCompleteResultType:      return "autocompleteResult"
         case .availabilityType:            return "availability"
         case .categoriesType:              return "category"
+        case .categoryPostsType:           return "categoryPost"
         case .commentsType:                return "comment"
         case .dynamicSettingsType:         return "setting"
         case .editorials:                  return "editorial"
         case .errorsType, .errorType:      return "error"
         case .lovesType:                   return "love"
         case .noContentType:               return "204"
-        case .pageHeadersType:             return "page_header"
+        case .pageHeadersType:             return "pageHeader"
         case .postsType:                   return "post"
         case .profilesType:                return "profile"
         case .relationshipsType:           return "relationship"
@@ -77,6 +84,7 @@ enum MappingType: String {
         case .autoCompleteResultType:      return AutoCompleteResult.fromJSON
         case .availabilityType:            return Availability.fromJSON
         case .categoriesType:              return Category.fromJSON
+        case .categoryPostsType:           return CategoryPost.fromJSON
         case .commentsType:                return ElloComment.fromJSON
         case .dynamicSettingsType:         return DynamicSettingCategory.fromJSON
         case .editorials:                  return Editorial.fromJSON
@@ -97,31 +105,32 @@ enum MappingType: String {
 extension MappingType {
     func parser() -> Parser? {
         switch self {
+        // case .artistInvitesType:           return ArtistInviteParser()
+        // case .artistInviteSubmissionsType: return ArtistInviteSubmissionParser()
+        // case .lovesType:                   return LoveParser()
+        // case .profilesType:                return ProfileParser()
+        // case .watchesType:                 return WatchParser()
         case .assetsType:                  return AssetParser()
-        case .artistInvitesType:           return ArtistInviteParser()
-        case .artistInviteSubmissionsType: return ArtistInviteSubmissionParser()
         case .categoriesType:              return CategoryParser()
+        case .categoryPostsType:           return CategoryPostParser()
         case .commentsType:                return CommentParser()
-        case .lovesType:                   return LoveParser()
         case .postsType:                   return PostParser()
-        case .profilesType:                return ProfileParser()
         case .usersType:                   return UserParser()
-        case .watchesType:                 return WatchParser()
         default:
             return nil
         }
     }
 }
 
-let UnknownJSONAbleVersion = 1
+let UnknownModelVersion = 1
 
-@objc(UnknownJSONAble)
-class UnknownJSONAble: JSONAble {
+@objc(UnknownModel)
+class UnknownModel: Model {
     convenience init() {
-        self.init(version: UnknownJSONAbleVersion)
+        self.init(version: UnknownModelVersion)
     }
 
-    class func fromJSON(_ data: [String: Any]) -> UnknownJSONAble {
-        return UnknownJSONAble()
+    class func fromJSON(_ data: [String: Any]) -> UnknownModel {
+        return UnknownModel()
     }
 }

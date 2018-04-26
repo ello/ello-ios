@@ -15,7 +15,7 @@ class NotificationAttributedTitleSpec: QuickSpec {
                 let post: Post = stub(["author": user])
                 let love: Love = stub(["user": user])
                 let comment: ElloComment = stub(["parentPost": post, "author": user])
-                let expectations: [(Activity.Kind, JSONAble, String)] = [
+                let expectations: [(Activity.Kind, Model, String)] = [
                     (.repostNotification, post, "@ello reposted your post."),
                     (.newFollowedUserPost, post, "You started following @ello."),
                     (.newFollowerPost, user, "@ello started following you."),

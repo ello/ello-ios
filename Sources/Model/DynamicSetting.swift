@@ -9,7 +9,7 @@ let DynamicSettingVersion = 1
 let DynamicSetAnotherVersion = 1
 
 @objc(DynamicSetAnother)
-final class DynamicSetAnother: JSONAble {
+final class DynamicSetAnother: Model {
     let when: Bool?
     let key: String
     let value: Bool
@@ -50,7 +50,7 @@ final class DynamicSetAnother: JSONAble {
 }
 
 @objc(DynamicSetting)
-final class DynamicSetting: JSONAble {
+final class DynamicSetting: Model {
     let label: String
     let key: String
     let info: String?

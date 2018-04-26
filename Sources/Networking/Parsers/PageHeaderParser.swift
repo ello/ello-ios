@@ -29,7 +29,7 @@ class PageHeaderParser: IdParser {
             kind: kind
         )
 
-        header.links = json["links"].dictionaryObject
+        header.mergeLinks(json["links"].dictionaryObject)
 
         return header
     }

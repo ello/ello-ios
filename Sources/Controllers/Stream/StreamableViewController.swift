@@ -189,7 +189,7 @@ class StreamableViewController: BaseElloViewController {
         }
     }
 
-    func streamViewInfiniteScroll() -> Promise<[JSONAble]>? {
+    func streamViewInfiniteScroll() -> Promise<[Model]>? {
         return nil
     }
 }
@@ -328,7 +328,7 @@ extension StreamableViewController: CreatePostResponder {
 
 extension StreamableViewController: StreamViewDelegate {
     @objc
-    func streamViewStreamCellItems(jsonables: [JSONAble], defaultGenerator generator: StreamCellItemGenerator) -> [StreamCellItem]? {
+    func streamViewStreamCellItems(jsonables: [Model], defaultGenerator generator: StreamCellItemGenerator) -> [StreamCellItem]? {
         return nil
     }
 

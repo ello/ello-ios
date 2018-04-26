@@ -169,6 +169,7 @@ extension ElloAPI: CustomStringConvertible, CustomDebugStringConvertible {
         case .deleteSubscriptions: return "deleteSubscriptions"
         case .category: return "category"
         case .categoryPosts: return "categoryPosts"
+        case .categoryPostActions: return "categoryPostActions"
         case .editorials: return "editorials"
         case .emojiAutoComplete: return "emojiAutoComplete"
         case .findFriends: return "findFriends"

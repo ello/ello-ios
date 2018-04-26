@@ -160,10 +160,10 @@ extension ManageCategoriesViewController: StreamDestination {
         streamViewController.clearForInitialLoad(newItems: items)
     }
 
-    func setPrimary(jsonable: JSONAble) {
+    func setPrimary(jsonable: Model) {
     }
 
-    func primaryJSONAbleNotFound() {
+    func primaryModelNotFound() {
         self.streamViewController.doneLoading()
     }
 

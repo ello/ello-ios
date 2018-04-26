@@ -4,18 +4,17 @@
 
 struct StreamCellItemParser {
 
-    func parse(_ items: [JSONAble], streamKind: StreamKind, forceGrid: Bool = false, currentUser: User? = nil) -> [StreamCellItem] {
+    func parse(_ items: [Model], streamKind: StreamKind, forceGrid: Bool = false, currentUser: User? = nil) -> [StreamCellItem] {
         let viewsAdultContent = currentUser?.viewsAdultContent ?? false
+        let isGridView = forceGrid || streamKind.isGridView
         let filteredItems = streamKind.filter(items, viewsAdultContent: viewsAdultContent)
         var streamItems: [StreamCellItem] = []
         for item in filteredItems {
             if let post = item as? Post {
-                streamItems += postCellItems(post, streamKind: streamKind, forceGrid: forceGrid)
+                streamItems += postCellItems(post, streamKind: streamKind, isGridView: isGridView, currentUser: currentUser)
             }
-            else if let submission = item as? ArtistInviteSubmission,
-                let post = submission.post
-            {
-                streamItems += postCellItems(post, streamKind: streamKind, forceGrid: forceGrid, submission: submission)
+            else if let submission = item as? ArtistInviteSubmission {
+                streamItems += submissionCellItems(submission, streamKind: streamKind, isGridView: isGridView, currentUser: currentUser)
             }
             else if let comment = item as? ElloComment {
                 streamItems += commentCellItems(comment)
@@ -48,7 +47,7 @@ struct StreamCellItemParser {
         return streamItems
     }
 
-    private func typicalCellItems(_ jsonable: JSONAble, type: StreamCellType) -> [StreamCellItem] {
+    private func typicalCellItems(_ jsonable: Model, type: StreamCellType) -> [StreamCellItem] {
         return [StreamCellItem(jsonable: jsonable, type: type)]
     }
 
@@ -66,9 +65,14 @@ struct StreamCellItemParser {
         + [StreamCellItem(jsonable: artistInvite, type: .spacer(height: 30), placeholderType: .artistInviteDetails)]
     }
 
-    private func postCellItems(_ post: Post, streamKind: StreamKind, forceGrid: Bool, submission: ArtistInviteSubmission? = nil) -> [StreamCellItem] {
+    private func submissionCellItems(_ submission: ArtistInviteSubmission, streamKind: StreamKind, isGridView: Bool, currentUser: User?) -> [StreamCellItem] {
+        guard let post = submission.post else { return [] }
+
+        return postCellItems(post, streamKind: streamKind, isGridView: isGridView, currentUser: currentUser, submission: submission)
+    }
+
+    private func postCellItems(_ post: Post, streamKind: StreamKind, isGridView: Bool, currentUser: User?, submission: ArtistInviteSubmission? = nil) -> [StreamCellItem] {
         var cellItems: [StreamCellItem] = []
-        let isGridView = streamKind.isGridView || forceGrid
 
         if !streamKind.isProfileStream || post.isRepost {
             cellItems.append(StreamCellItem(jsonable: post, type: .streamHeader))
@@ -80,6 +84,17 @@ struct StreamCellItemParser {
         if let submission = submission, submission.actions.count > 0 {
             cellItems.append(StreamCellItem(jsonable: submission, type: .artistInviteAdminControls))
         }
+
+        if streamKind.isCategoryStream,
+            let currentUser = currentUser,
+            let categoryPost = post.categoryPosts.first(where: currentUser.isCuratorOf)
+        {
+            cellItems.append(StreamCellItem(jsonable: categoryPost, type: .postFeaturedControl))
+        }
+
+//        if let featuredBy = post.featuredBy {
+//            cellItems.append(StreamCellItem(jsonable: post, type: .postFeaturedBy))
+//        }
 
         cellItems += postToggleItems(post)
         if post.isRepost {
@@ -128,7 +143,7 @@ struct StreamCellItemParser {
         }
     }
 
-    private func regionItems(_ jsonable: JSONAble, content: [Regionable]) -> [StreamCellItem] {
+    private func regionItems(_ jsonable: Model, content: [Regionable]) -> [StreamCellItem] {
         return content.flatMap(regionStreamCells).map { StreamCellItem(jsonable: jsonable, type: $0) }
     }
 
@@ -175,11 +190,11 @@ struct StreamCellItemParser {
 
 // MARK: For Testing
 extension StreamCellItemParser {
-    func testingTypicalCellItems(_ jsonable: JSONAble, type: StreamCellType) -> [StreamCellItem] {
+    func testingTypicalCellItems(_ jsonable: Model, type: StreamCellType) -> [StreamCellItem] {
         return typicalCellItems(jsonable, type: type)
     }
-    func testingPostCellItems(_ post: Post, streamKind: StreamKind, forceGrid: Bool) -> [StreamCellItem] {
-        return postCellItems(post, streamKind: streamKind, forceGrid: forceGrid)
+    func testingPostCellItems(_ post: Post, streamKind: StreamKind, isGridView: Bool, currentUser: User?) -> [StreamCellItem] {
+        return postCellItems(post, streamKind: streamKind, isGridView: isGridView, currentUser: currentUser)
     }
     func testingCommentCellItems(_ comment: ElloComment) -> [StreamCellItem] {
         return commentCellItems(comment)

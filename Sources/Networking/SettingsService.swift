@@ -11,7 +11,7 @@ class SettingsService {
             .map { jsonables, _ -> [DynamicSettingCategory] in
                 guard let categories = jsonables as? [DynamicSettingCategory]
                 else {
-                    throw NSError.uncastableJSONAble()
+                    throw NSError.uncastableModel()
                 }
 
                 return categories.filter { category in

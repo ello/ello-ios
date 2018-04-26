@@ -80,7 +80,6 @@ struct RegionParser {
     static private func parseEmbedRegion(json: JSON) -> EmbedRegion {
         let thumbnailLargeUrl = json["data"]["thumbnailLargeUrl"].string.flatMap { URL(string: $0) }
 
-        // create region
         let embedRegion = EmbedRegion(
             id: json["data"]["id"].stringValue,
             service: EmbedType(rawValue: json["data"]["service"].stringValue) ?? .unknown,

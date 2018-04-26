@@ -8,19 +8,14 @@ import SwiftyJSON
 let RelationshipVersion = 1
 
 @objc(Relationship)
-final class Relationship: JSONAble {
+final class Relationship: Model {
 
     let id: String
     let createdAt: Date
     let ownerId: String
     let subjectId: String
-    // computed
-    var owner: User? {
-        return ElloLinkedStore.shared.getObject(self.ownerId, type: .usersType) as? User
-    }
-    var subject: User? {
-        return ElloLinkedStore.shared.getObject(self.subjectId, type: .usersType) as? User
-    }
+    var owner: User? { return getLinkObject("owner") }
+    var subject: User? { return getLinkObject("subject") }
 
     init(id: String, createdAt: Date, ownerId: String, subjectId: String) {
         self.id = id
@@ -52,7 +47,6 @@ final class Relationship: JSONAble {
         let json = JSON(data)
         var createdAt: Date
         if let date = json["created_at"].stringValue.toDate() {
-            // good to go
             createdAt = date
         }
         else {
@@ -65,6 +59,9 @@ final class Relationship: JSONAble {
             ownerId: json["links"]["owner"]["id"].stringValue,
             subjectId: json["links"]["subject"]["id"].stringValue
         )
+
+        relationship.mergeLinks(json["links"].dictionaryObject)
+
         return relationship
     }
 }

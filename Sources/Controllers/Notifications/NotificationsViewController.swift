@@ -242,14 +242,14 @@ extension NotificationsViewController: StreamDestination {
         streamViewController.clearForInitialLoad(newItems: items)
     }
 
-    func setPrimary(jsonable: JSONAble) {
+    func setPrimary(jsonable: Model) {
     }
 
     func setPagingConfig(responseConfig: ResponseConfig) {
         streamViewController.responseConfig = responseConfig
     }
 
-    func primaryJSONAbleNotFound() {
+    func primaryModelNotFound() {
         self.streamViewController.doneLoading()
     }
 }
@@ -258,10 +258,10 @@ extension NotificationsViewController: AnnouncementResponder {
     func markAnnouncementAsRead(announcement: Announcement) {
         Tracker.shared.announcementDismissed(announcement)
         generator?.markAnnouncementAsRead(announcement)
-        postNotification(JSONAbleChangedNotification, value: (announcement, .delete))
+        postNotification(ModelChangedNotification, value: (announcement, .delete))
     }
 
-    public func track(jsonables: [JSONAble]) {
+    public func track(jsonables: [Model]) {
         let announcements: [Announcement] = jsonables.compactMap { $0 as? Announcement }
         for announcement in announcements {
             Tracker.shared.announcementViewed(announcement)

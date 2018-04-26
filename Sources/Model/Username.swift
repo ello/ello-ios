@@ -7,7 +7,7 @@ import SwiftyJSON
 let UsernameVersion: Int = 1
 
 @objc(Username)
-final class Username: JSONAble {
+final class Username: Model {
     let username: String
     var atName: String { return "@\(username)"}
 

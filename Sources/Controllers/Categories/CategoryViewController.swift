@@ -158,7 +158,7 @@ final class CategoryViewController: StreamableViewController {
         userDidScroll = true
     }
 
-    override func streamViewInfiniteScroll() -> Promise<[JSONAble]>? {
+    override func streamViewInfiniteScroll() -> Promise<[Model]>? {
         return generator.loadNextPage()
     }
 }
@@ -229,7 +229,7 @@ extension CategoryViewController: CategoryStreamDestination, StreamDestination {
         streamViewController.clearForInitialLoad(newItems: items)
     }
 
-    func setPrimary(jsonable: JSONAble) {
+    func setPrimary(jsonable: Model) {
         guard let pageHeader = jsonable as? PageHeader else { return }
         self.pageHeader = pageHeader
 
@@ -300,7 +300,7 @@ extension CategoryViewController: CategoryStreamDestination, StreamDestination {
         updateInsets()
     }
 
-    func primaryJSONAbleNotFound() {
+    func primaryModelNotFound() {
     }
 
     func setPagingConfig(responseConfig: ResponseConfig) {
@@ -446,6 +446,36 @@ extension CategoryViewController: PromotionalHeaderResponder {
                 currentUser.followedCategoryIds = newCategoryIds
                 self.appViewController?.currentUser = currentUser
             }
+            .ignoreErrors()
+    }
+}
+
+extension CategoryViewController: PostFeaturedResponder {
+    func categoryPostTapped(streamCellItem: StreamCellItem, categoryPost: CategoryPost) {
+        guard
+            streamCellItem.state == .none,
+            let action = categoryPost.actions.first
+        else { return }
+
+        if let indexPath = self.streamViewController.indexPath(forItem: streamCellItem) {
+            streamCellItem.state = .loading
+            self.streamViewController.performDataUpdate { collectionView in
+                collectionView.reloadItems(at: [indexPath])
+            }
+        }
+
+         ElloProvider.shared.request(action.endpoint)
+             .done { (jsonable, _) in
+                 guard let newCategoryPost = jsonable as? CategoryPost else { return }
+                 streamCellItem.jsonable = newCategoryPost
+             }
+             .ensure {
+                guard let indexPath = self.streamViewController.indexPath(forItem: streamCellItem) else { return }
+                streamCellItem.state = .none
+                self.streamViewController.performDataUpdate { collectionView in
+                    collectionView.reloadItems(at: [indexPath])
+                }
+             }
             .ignoreErrors()
     }
 }

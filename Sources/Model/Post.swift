@@ -10,7 +10,7 @@ import SwiftyJSON
 let PostVersion = 2
 
 @objc(Post)
-final class Post: JSONAble, Authorable, Groupable {
+final class Post: Model, Authorable, Groupable {
 
     let id: String
     let createdAt: Date
@@ -23,7 +23,6 @@ final class Post: JSONAble, Authorable, Groupable {
     var isLoved: Bool
     var isWatching: Bool
     let summary: [Regionable]
-
     var content: [Regionable]?
     var body: [Regionable]?
     var repostContent: [Regionable]?
@@ -32,37 +31,23 @@ final class Post: JSONAble, Authorable, Groupable {
     var commentsCount: Int?
     var repostsCount: Int?
     var lovesCount: Int?
-    var assets: [Asset] {
-        return getLinkArray("assets") as? [Asset] ?? []
-    }
-    var firstImageURL: URL? {
-        return assets.first?.largeOrBest?.url
-    }
-    var author: User? {
-        return ElloLinkedStore.shared.getObject(self.authorId, type: .usersType) as? User
-    }
-    var categories: [Category] {
-        let categories = getLinkArray("categories") as? [Category]
-        return categories ?? []
-    }
-    var category: Category? {
-        return categories.first
-    }
-    var repostAuthor: User? {
-        return repostSource?.author ?? getLinkObject("repost_author") as? User
-    }
-    var repostSource: Post? {
-        return getLinkObject("reposted_source") as? Post
-    }
+
+    var assets: [Asset] { return getLinkArray("assets") }
+    var firstImageURL: URL? { return assets.first?.largeOrBest?.url }
+    var author: User? { return getLinkObject("author") }
+    var categoryPosts: [CategoryPost] { return getLinkArray("category_posts") }
+    var category: Category? { return categoryPosts.first?.category ?? getLinkObject("category") }
+    var repostAuthor: User? { return repostSource?.author ?? getLinkObject("repost_author") }
+    var repostSource: Post? { return getLinkObject("reposted_source") }
+    var featuredBy: User? { return categoryPosts.first?.featuredBy }
+
     // nested resources
     var comments: [ElloComment]? {
-        if let nestedComments = getLinkArray("comments") as? [ElloComment] {
-            for comment in nestedComments {
-                comment.loadedFromPostId = self.id
-            }
-            return nestedComments
+        let nestedComments: [ElloComment] = getLinkArray("comments")
+        for comment in nestedComments {
+            comment.loadedFromPostId = self.id
         }
-        return nil
+        return nestedComments
     }
     var groupId: String { return "Post-\(id)" }
     var shareLink: String? {
@@ -116,6 +101,8 @@ final class Post: JSONAble, Authorable, Groupable {
                 self.commentsCount = (self.commentsCount ?? 0) + delta
             }
         }
+
+        addLinkObject("author", key: authorId, type: .usersType)
     }
 
     deinit {
@@ -215,7 +202,13 @@ final class Post: JSONAble, Authorable, Groupable {
         post.commentsCount = json["comments_count"].int
         post.repostsCount = json["reposts_count"].int
         post.lovesCount = json["loves_count"].int
-        post.links = data["links"] as? [String: Any]
+
+        post.mergeLinks(data["links"] as? [String: Any])
+        post.addLinkObject("author", key: post.authorId, type: .usersType)
+        if post.categoryPosts.isEmpty, let category = (post.getLinkArray("categories") as [Category]).first {
+            post.addLinkObject("category", key: category.id, type: .categoriesType)
+        }
+
         return post
     }
 

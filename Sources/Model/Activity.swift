@@ -8,13 +8,13 @@ import SwiftyJSON
 let ActivityVersion = 1
 
 @objc(Activity)
-final class Activity: JSONAble {
+final class Activity: Model {
 
     let id: String
     let createdAt: Date
     let kind: Kind
     let subjectType: SubjectType
-    var subject: JSONAble? { return getLinkObject("subject") }
+    var subject: Model? { return getLinkObject("subject") }
 
     enum Kind: String {
         // Notifications
@@ -91,21 +91,19 @@ final class Activity: JSONAble {
         let id = json["created_at"].stringValue
         var createdAt: Date
         if let date = id.toDate() {
-            // good to go
             createdAt = date
         }
         else {
             createdAt = Globals.now
         }
 
-        // create activity
         let activity = Activity(
             id: id,
             createdAt: createdAt,
             kind: Kind(rawValue: json["kind"].stringValue) ?? Kind.unknown,
             subjectType: SubjectType(rawValue: json["subject_type"].stringValue) ?? SubjectType.unknown
         )
-        activity.links = data["links"] as? [String: Any]
+        activity.mergeLinks(data["links"] as? [String: Any])
 
         return activity
     }
