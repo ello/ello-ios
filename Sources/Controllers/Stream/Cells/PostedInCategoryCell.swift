@@ -1,9 +1,9 @@
 ////
-///  PostPostedInCategoryCell.swift
+///  PostedInCategoryCell.swift
 //
 
-class PostPostedInCategoryCell: CollectionViewCell {
-    static let reuseIdentifier = "PostPostedInCategoryCell"
+class PostedInCategoryCell: CollectionViewCell {
+    static let reuseIdentifier = "PostedInCategoryCell"
     struct Size {
         static let height: CGFloat = 40
         static let iconSpacing: CGFloat = 5
@@ -33,6 +33,7 @@ class PostPostedInCategoryCell: CollectionViewCell {
 
     override func style() {
         contentView.backgroundColor = .white
+        categoryLabel.isUserInteractionEnabled = false
     }
 
     override func arrange() {

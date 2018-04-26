@@ -116,7 +116,7 @@ struct StreamCellItemParser {
         }
 
         if streamKind.isDetail(post: post), post.category != nil {
-            cellItems.append(StreamCellItem(jsonable: post, type: .postPostedInCategory))
+            cellItems.append(StreamCellItem(jsonable: post, type: .postedInCategory))
         }
 
         cellItems += [StreamCellItem(jsonable: post, type: .streamFooter)]

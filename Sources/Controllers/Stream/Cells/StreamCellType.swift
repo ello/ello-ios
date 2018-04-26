@@ -37,7 +37,7 @@ enum StreamCellType: Equatable {
     case onboardingInviteFriends
     case placeholder
     case postFeaturedBy
-    case postPostedInCategory
+    case postedInCategory
     case postFeaturedControl
     case profileHeader
     case profileHeaderGhost
@@ -126,7 +126,7 @@ enum StreamCellType: Equatable {
         .onboardingInviteFriends,
         .placeholder,
         .postFeaturedBy,
-        .postPostedInCategory,
+        .postedInCategory,
         .postFeaturedControl,
         .profileHeader,
         .profileHeaderGhost,
@@ -195,7 +195,7 @@ enum StreamCellType: Equatable {
         case .notification: return NotificationCell.reuseIdentifier
         case .placeholder: return "Placeholder"
         case .postFeaturedBy: return PostFeaturedByCell.reuseIdentifier
-        case .postPostedInCategory: return PostPostedInCategoryCell.reuseIdentifier
+        case .postedInCategory: return PostedInCategoryCell.reuseIdentifier
         case .postFeaturedControl: return PostFeaturedControlCell.reuseIdentifier
         case .profileHeader: return ProfileHeaderCell.reuseIdentifier
         case .profileHeaderGhost: return ProfileHeaderGhostCell.reuseIdentifier
@@ -232,7 +232,7 @@ enum StreamCellType: Equatable {
              .notification,
              .onboardingCategoryCard,
              .onboardingInviteFriends,
-             .postPostedInCategory,
+             .postedInCategory,
              .postFeaturedControl,
              .promotionalHeaderSubscription,
              .revealController,
@@ -278,7 +278,7 @@ enum StreamCellType: Equatable {
         case .noPosts: return NoPostsCellPresenter.configure
         case .notification: return NotificationCellPresenter.configure
         case .postFeaturedBy: return PostFeaturedByCellPresenter.configure
-        case .postPostedInCategory: return PostPostedInCategoryCellPresenter.configure
+        case .postedInCategory: return PostedInCategoryCellPresenter.configure
         case .postFeaturedControl: return PostFeaturedControlCellPresenter.configure
         case .profileHeader: return ProfileHeaderCellPresenter.configure
         case .promotionalHeader: return PromotionalHeaderCellPresenter.configure
@@ -324,7 +324,7 @@ enum StreamCellType: Equatable {
         case .notification: return NotificationCell.self
         case .placeholder: return UICollectionViewCell.self
         case .postFeaturedBy: return PostFeaturedByCell.self
-        case .postPostedInCategory: return PostPostedInCategoryCell.self
+        case .postedInCategory: return PostedInCategoryCell.self
         case .postFeaturedControl: return PostFeaturedControlCell.self
         case .profileHeader: return ProfileHeaderCell.self
         case .profileHeaderGhost: return ProfileHeaderGhostCell.self
@@ -390,8 +390,8 @@ enum StreamCellType: Equatable {
             return 117
         case .postFeaturedBy:
             return PostFeaturedByCell.Size.height
-        case .postPostedInCategory:
-            return PostPostedInCategoryCell.Size.height
+        case .postedInCategory:
+            return PostedInCategoryCell.Size.height
         case .postFeaturedControl:
             return PostFeaturedControlCell.Size.height
         case .promotionalHeaderSubscription:
@@ -494,7 +494,7 @@ enum StreamCellType: Equatable {
              .image,
              .placeholder,
              .postFeaturedBy,
-             .postPostedInCategory,
+             .postedInCategory,
              .postFeaturedControl,
              .onboardingCategoryCard,
              .spacer,
@@ -552,7 +552,7 @@ enum StreamCellType: Equatable {
             .notification,
             .placeholder,
             .postFeaturedBy,
-            .postPostedInCategory,
+            .postedInCategory,
             .postFeaturedControl,
             .profileHeader,
             .profileHeaderGhost,

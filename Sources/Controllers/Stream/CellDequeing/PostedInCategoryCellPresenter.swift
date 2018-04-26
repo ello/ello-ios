@@ -1,8 +1,8 @@
 ////
-///  PostPostedInCategoryCellPresenter.swift
+///  PostedInCategoryCellPresenter.swift
 //
 
-struct PostPostedInCategoryCellPresenter {
+struct PostedInCategoryCellPresenter {
 
     static func configure(
         _ cell: UICollectionViewCell,
@@ -12,7 +12,7 @@ struct PostPostedInCategoryCellPresenter {
         currentUser: User?)
     {
         guard
-            let cell = cell as? PostPostedInCategoryCell,
+            let cell = cell as? PostedInCategoryCell,
             let post = streamCellItem.jsonable as? Post,
             let category = post.category
         else { return }

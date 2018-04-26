@@ -1065,7 +1065,7 @@ extension StreamViewController: UICollectionViewDelegate {
         {
             userTapped(user: user)
         }
-        else if tappedCell is PostPostedInCategoryCell,
+        else if tappedCell is PostedInCategoryCell,
             let category = (streamCellItem.jsonable as? Post)?.category
         {
             showCategoryViewController(category: category)
