@@ -70,13 +70,16 @@ class CategoryCardCell: CollectionViewCell {
         label.textAlignment = .center
         subscribedCheckbox.isHidden = true
         subscribedCheckbox.setInterfaceImage(.circleCheckLarge, style: .green)
-        subscribeButton.isUserInteractionEnabled = false
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         mainContentView.backgroundColor = .black
         mainContentView.alpha = 0.4
         selectedImageView.isHidden = true
         selectedImageView.interfaceImage = .smallCheck
+    }
+
+    override func bindActions() {
+        subscribeButton.addTarget(self, action: #selector(subscribeButtonTapped), for: .touchUpInside)
     }
 
     override func arrange() {
@@ -169,5 +172,11 @@ class CategoryCardCell: CollectionViewCell {
             mainContentView.alpha = isSelected ? 0.8 : 0.4
             label.style = isSelected ? .boldWhite : .white
         }
+    }
+
+    @objc
+    private func subscribeButtonTapped() {
+        let responder: SubscribedCategoryResponder? = findResponder()
+        responder?.categorySubscribeTapped(cell: self)
     }
 }
