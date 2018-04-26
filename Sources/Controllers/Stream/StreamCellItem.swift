@@ -2,11 +2,11 @@
 ///  StreamCellItem.swift
 //
 
-enum StreamCellState: String {
-    case none = "None"
-    case loading = "Loading"
-    case expanded = "Expanded"
-    case collapsed = "Collapsed"
+enum StreamCellState {
+    case none
+    case loading
+    case expanded
+    case collapsed
 }
 
 

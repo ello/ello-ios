@@ -17,5 +17,6 @@ struct PostFeaturedControlCellPresenter {
         else { return }
 
         cell.isFeatured = categoryPost.hasAction(.unfeature)
+        cell.isBusy = streamCellItem.state != .none
     }
 }

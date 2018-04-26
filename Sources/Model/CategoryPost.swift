@@ -8,7 +8,7 @@ import Moya
 
 @objc(CategoryPost)
 final class CategoryPost: Model, Groupable {
-    static let CategoryPostVersion = 1
+    static let Version = 1
 
     let id: String
     var groupId: String { return "CategoryPost-\(id)" }
@@ -96,7 +96,7 @@ final class CategoryPost: Model, Groupable {
         self.featuredAt = featuredAt
         self.unfeaturedAt = unfeaturedAt
         self.removedAt = removedAt
-        super.init(version: CategoryPost.CategoryPostVersion)
+        super.init(version: CategoryPost.Version)
     }
 
     required init(coder: NSCoder) {

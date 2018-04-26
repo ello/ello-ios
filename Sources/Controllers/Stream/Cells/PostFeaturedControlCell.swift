@@ -13,6 +13,18 @@ class PostFeaturedControlCell: CollectionViewCell {
     private let bg = UIView()
     private let icon = UIButton()
     private let label = StyledLabel(style: .gray)
+    private let loader = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+
+    var isBusy: Bool {
+        get { return loader.isVisible }
+        set {
+            loader.isVisible = newValue
+            icon.isVisible = !newValue
+            if newValue {
+                loader.startAnimating()
+            }
+        }
+    }
 
     var isFeatured: Bool {
         get { return icon.isSelected }
@@ -24,6 +36,7 @@ class PostFeaturedControlCell: CollectionViewCell {
 
     override func prepareForReuse() {
         super.prepareForReuse()
+        isBusy = false
         isFeatured = false
     }
 
@@ -32,12 +45,14 @@ class PostFeaturedControlCell: CollectionViewCell {
         icon.setImages(.badgeFeatured)
         icon.isUserInteractionEnabled = false
         label.text = InterfaceString.Post.Feature
+        loader.isVisible = false
     }
 
     override func arrange() {
         contentView.addSubview(bg)
         contentView.addSubview(icon)
         contentView.addSubview(label)
+        contentView.addSubview(loader)
 
         let centerLayoutGuide = UILayoutGuide()
         contentView.addLayoutGuide(centerLayoutGuide)
@@ -57,6 +72,10 @@ class PostFeaturedControlCell: CollectionViewCell {
 
         centerLayoutGuide.snp.makeConstraints { make in
             make.center.equalTo(contentView)
+        }
+
+        loader.snp.makeConstraints { make in
+            make.center.equalTo(icon)
         }
     }
 }

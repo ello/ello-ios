@@ -452,25 +452,31 @@ extension CategoryViewController: PromotionalHeaderResponder {
 
 extension CategoryViewController: PostFeaturedResponder {
     func categoryPostTapped(streamCellItem: StreamCellItem, categoryPost: CategoryPost) {
-        guard let action = categoryPost.actions.first else { return }
+        guard
+            streamCellItem.state == .none,
+            let action = categoryPost.actions.first
+        else { return }
 
-        ElloHUD.showLoadingHudInView(self.view)
-        ElloProvider.shared.request(action.endpoint)
-            .ensure {
-                ElloHUD.hideLoadingHudInView(self.view)
+        if let indexPath = self.streamViewController.indexPath(forItem: streamCellItem) {
+            streamCellItem.state = .loading
+            self.streamViewController.performDataUpdate { collectionView in
+                collectionView.reloadItems(at: [indexPath])
             }
-            .done { (jsonable, _) in
-                guard
-                    let newCategoryPost = jsonable as? CategoryPost,
-                    let indexPath = self.streamViewController.indexPath(forItem: streamCellItem)
-                else { return }
+        }
 
-                streamCellItem.jsonable = newCategoryPost
+         ElloProvider.shared.request(action.endpoint)
+             .done { (jsonable, _) in
+                 guard let newCategoryPost = jsonable as? CategoryPost else { return }
+                 streamCellItem.jsonable = newCategoryPost
+             }
+             .ensure {
+                guard let indexPath = self.streamViewController.indexPath(forItem: streamCellItem) else { return }
+                streamCellItem.state = .none
                 self.streamViewController.performDataUpdate { collectionView in
                     collectionView.reloadItems(at: [indexPath])
                 }
-            }
-           .ignoreErrors()
+             }
+            .ignoreErrors()
     }
 }
 
