@@ -54,7 +54,7 @@ extension NSAttributedString {
     }
 
     convenience init(label string: String, style: StyledLabel.Style, alignment: NSTextAlignment = .left, lineBreakMode: NSLineBreakMode? = nil) {
-        self.init(string, color: style.textColor, font: style.font, alignment: alignment, lineBreakMode: lineBreakMode)
+        self.init(string, color: style.textColor, underlineStyle: style.underline ? .styleSingle : .styleNone, font: style.font, alignment: alignment, lineBreakMode: lineBreakMode)
     }
 
     convenience init(button string: String, style: StyledButton.Style, state: UIControlState = .normal, selected: Bool = false, alignment: NSTextAlignment = .center, lineBreakMode: NSLineBreakMode? = nil) {

@@ -36,6 +36,7 @@ class StyledLabel: UILabel {
     struct Style {
         let backgroundColor: UIColor
         let textColor: UIColor
+        let underline: Bool
         let fontFamily: FontFamily
 
         var font: UIFont {
@@ -45,11 +46,12 @@ class StyledLabel: UILabel {
         init(
             textColor: UIColor,
             backgroundColor: UIColor = .clear,
+            underline: Bool = false,
             fontFamily: FontFamily = .normal
         ) {
             self.textColor = textColor
             self.backgroundColor = backgroundColor
-
+            self.underline = underline
             self.fontFamily = fontFamily
         }
     }
@@ -176,6 +178,11 @@ extension StyledLabel.Style {
         )
     static let smallGray = StyledLabel.Style(
         textColor: .greyA,
+        fontFamily: .small
+        )
+    static let smallGrayUnderlined = StyledLabel.Style(
+        textColor: .greyA,
+        underline: true,
         fontFamily: .small
         )
     static let largeGrayHeader = StyledLabel.Style(
