@@ -172,6 +172,9 @@ class ElloNavigationBar: UIView {
     private let persistentBackButton = PersistentBackButton()
     private let statusBar = StatusBar()
 
+    var hasBackButton: Bool? {
+        didSet { updateBackButton() }
+    }
     var showBackButton: Bool = false {
         didSet { updateBackButton() }
     }
@@ -311,7 +314,7 @@ class ElloNavigationBar: UIView {
     }
 
     private func updateBackButton() {
-        let hasBackButton = leftItems.contains(where: { $0 == .back })
+        let hasBackButton = self.hasBackButton ?? leftItems.contains(where: { $0 == .back })
         if hasBackButton && showBackButton {
             persistentBackButton.isVisible = true
         }
