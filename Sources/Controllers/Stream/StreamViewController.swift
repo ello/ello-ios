@@ -1065,6 +1065,11 @@ extension StreamViewController: UICollectionViewDelegate {
         {
             userTapped(user: user)
         }
+        else if tappedCell is PostPostedInCategoryCell,
+            let category = (streamCellItem.jsonable as? Post)?.category
+        {
+            showCategoryViewController(category: category)
+        }
         else if tappedCell is BadgeCell,
             let badge = streamCellItem.jsonable as? Badge,
             let url = badge.url
