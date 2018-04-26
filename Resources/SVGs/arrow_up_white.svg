@@ -1,5 +1,6 @@
 <svg class="svg-arrow svg-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
     <g stroke="#fff" fill="none" stroke-width="1.25" transform="translate(10, 4.09)">
         <polyline points="-4.75 4.75 0 0 4.75 4.75"></polyline>
-        <path d="M0,0 L0,11.81818181"></path></g>
+        <polyline points="0 0 11.81818181 0"></polyline>
+    </g>
 </svg>

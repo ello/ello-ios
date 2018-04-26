@@ -112,6 +112,7 @@ final class CategoryViewController: StreamableViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        screen.navigationBar.hasBackButton = showBackButton
         screen.setupNavBar(back: showBackButton, animated: false)
     }
 

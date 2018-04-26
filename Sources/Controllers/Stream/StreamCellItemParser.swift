@@ -92,9 +92,9 @@ struct StreamCellItemParser {
             cellItems.append(StreamCellItem(jsonable: categoryPost, type: .postFeaturedControl))
         }
 
-//        if let featuredBy = post.featuredBy {
-//            cellItems.append(StreamCellItem(jsonable: post, type: .postFeaturedBy))
-//        }
+        // if let featuredBy = post.featuredBy {
+        //     cellItems.append(StreamCellItem(jsonable: post, type: .postFeaturedBy))
+        // }
 
         cellItems += postToggleItems(post)
         if post.isRepost {
@@ -114,6 +114,11 @@ struct StreamCellItemParser {
         else if let content = post.contentFor(gridView: isGridView) {
             cellItems += regionItems(post, content: content)
         }
+
+        if streamKind.isDetail(post: post), post.category != nil {
+            cellItems.append(StreamCellItem(jsonable: post, type: .postedInCategory))
+        }
+
         cellItems += [StreamCellItem(jsonable: post, type: .streamFooter)]
         cellItems += [StreamCellItem(jsonable: post, type: .spacer(height: 10))]
 

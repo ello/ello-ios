@@ -214,7 +214,7 @@ enum StreamKind {
 
     func isDetail(post: Post) -> Bool {
         switch self {
-        case let .postDetail(postParam): return postParam == post.id || postParam == post.token
+        case let .postDetail(postParam): return postParam == post.id || postParam == "~\(post.token)"
         default: return false
         }
     }
