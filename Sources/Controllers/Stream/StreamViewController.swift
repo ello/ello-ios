@@ -262,12 +262,12 @@ final class StreamViewController: BaseElloViewController {
 
     func hideLoadingSpinner() {
         ElloHUD.hideLoadingHudInView(view)
+        pullToRefreshView?.finishLoading()
     }
 
     func doneLoading() {
         hideLoadingSpinner()
         internalIsPullToRefreshEnabled = true
-        pullToRefreshView?.finishLoading()
         initialDataLoaded = true
     }
 
