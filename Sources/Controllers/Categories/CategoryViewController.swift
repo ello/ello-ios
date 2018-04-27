@@ -311,6 +311,12 @@ extension CategoryViewController: CategoryStreamDestination, StreamDestination {
 }
 
 extension CategoryViewController: CategoryScreenDelegate {
+    func searchButtonTapped() {
+        let search = SearchViewController()
+        search.currentUser = currentUser
+        self.navigationController?.pushViewController(search, animated: true)
+    }
+
     func scrollToTop() {
         streamViewController.scrollToTop(animated: true)
     }

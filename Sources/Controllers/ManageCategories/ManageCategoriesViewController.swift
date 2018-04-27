@@ -64,6 +64,15 @@ class ManageCategoriesViewController: StreamableViewController {
         updateInsets()
     }
 
+    override func goingBackNow(proceed: @escaping Block) {
+        guard hasPendingChanges() else {
+            proceed()
+            return
+        }
+
+        saveAndExit { proceed() }
+    }
+
     override func backButtonTapped() {
         guard hasPendingChanges() else {
             super.backButtonTapped()
@@ -71,7 +80,7 @@ class ManageCategoriesViewController: StreamableViewController {
         }
 
         Tracker.shared.categoriesEdited()
-        saveAndExit()
+        saveAndExit { super.backButtonTapped() }
     }
 
     override func closeButtonTapped() {
@@ -99,7 +108,7 @@ class ManageCategoriesViewController: StreamableViewController {
         return selectedIds != currentUser.followedCategoryIds
     }
 
-    private func saveAndExit() {
+    private func saveAndExit(onSuccess: @escaping Block) {
         guard let selectedIds = selectedIds else { return }
 
         view.isUserInteractionEnabled = false
@@ -111,7 +120,7 @@ class ManageCategoriesViewController: StreamableViewController {
                     currentUser.followedCategoryIds = selectedIds
                     self.appViewController?.currentUser = currentUser
                 }
-                super.backButtonTapped()
+                onSuccess()
             }
             .catch { _ in
                 self.view.isUserInteractionEnabled = true
