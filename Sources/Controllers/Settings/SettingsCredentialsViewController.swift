@@ -58,6 +58,16 @@ class SettingsCredentialsViewController: BaseElloViewController {
         keyboardWillHideObserver = nil
     }
 
+    override func goingBackNow(proceed: @escaping Block) {
+        let profileUpdates = pendingChanges()
+        guard profileUpdates.count > 0 else {
+            proceed()
+            return
+        }
+
+        saveAndExit(profileUpdates) { proceed() }
+    }
+
     override func backButtonTapped() {
         if let responder = view.firstResponder {
             _ = responder.resignFirstResponder()
@@ -69,7 +79,7 @@ class SettingsCredentialsViewController: BaseElloViewController {
             return
         }
 
-        saveAndExit(profileUpdates)
+        saveAndExit(profileUpdates) { super.backButtonTapped() }
     }
 
     override func closeButtonTapped() {
@@ -107,7 +117,7 @@ class SettingsCredentialsViewController: BaseElloViewController {
         return profileUpdates
     }
 
-    private func saveAndExit(_ _profileUpdates: [Profile.Property: Any]) {
+    private func saveAndExit(_ _profileUpdates: [Profile.Property: Any], onSuccess: @escaping Block) {
         guard
             let oldPassword = screen.oldPassword,
             !oldPassword.isEmpty
@@ -130,7 +140,7 @@ class SettingsCredentialsViewController: BaseElloViewController {
             }
             .done { user in
                 self.appViewController?.currentUser = user
-                super.backButtonTapped()
+                onSuccess()
             }
             .catch { error in
                 if let error = (error as NSError).elloError,

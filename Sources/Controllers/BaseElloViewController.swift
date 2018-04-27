@@ -7,7 +7,10 @@ protocol ControllerThatMightHaveTheCurrentUser {
     var currentUser: User? { get set }
 }
 
-class BaseElloViewController: UIViewController, HasAppController, ControllerThatMightHaveTheCurrentUser {
+class BaseElloViewController: UIViewController,
+    HasAppController, HasBackButton, HasCloseButton,
+    ControllerThatMightHaveTheCurrentUser
+{
     override var prefersStatusBarHidden: Bool {
         let visible = appViewController?.statusBarShouldBeVisible ?? true
         return !visible
@@ -156,17 +159,12 @@ class BaseElloViewController: UIViewController, HasAppController, ControllerThat
         guard let navigationController = navigationController else { return true }
         return navigationController.viewControllers.first == self
     }
-}
 
-extension BaseElloViewController {
-    func searchButtonTapped() {
-        let search = SearchViewController()
-        search.currentUser = currentUser
-        self.navigationController?.pushViewController(search, animated: true)
+    // called from ElloTabBarController
+    func goingBackNow(proceed: @escaping Block) {
+        proceed()
     }
-}
 
-extension BaseElloViewController: HasBackButton {
     func backButtonTapped() {
         guard
             let navigationController = navigationController, navigationController.childViewControllers.count > 1
@@ -174,9 +172,7 @@ extension BaseElloViewController: HasBackButton {
 
         _ = navigationController.popViewController(animated: true)
     }
-}
 
-extension BaseElloViewController: HasCloseButton {
     func closeButtonTapped() {
         dismiss(animated: true, completion: nil)
     }

@@ -280,7 +280,13 @@ extension ElloTabBarController: ElloTabBarDelegate {
             if let navigationViewController = selectedViewController as? UINavigationController,
                 navigationViewController.childViewControllers.count > 1
             {
-                _ = navigationViewController.popToRootViewController(animated: true)
+                let pop: Block = { _ = navigationViewController.popToRootViewController(animated: true) }
+                if let viewController = navigationViewController.visibleViewController as? BaseElloViewController {
+                    viewController.goingBackNow(proceed: pop)
+                }
+                else {
+                    pop()
+                }
             }
             else {
                 if let scrollView = findScrollView(selectedViewController.view) {

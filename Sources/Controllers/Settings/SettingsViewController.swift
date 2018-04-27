@@ -129,14 +129,28 @@ class SettingsViewController: BaseElloViewController {
         }
     }
 
+    override func goingBackNow(proceed: @escaping Block) {
+        let profileUpdates = pendingChanges()
+        guard profileUpdates.count > 0 else {
+            proceed()
+            return
+        }
+
+        saveAndExit(profileUpdates) { proceed() }
+    }
+
     override func backButtonTapped() {
+        if let responder = view.firstResponder {
+            _ = responder.resignFirstResponder()
+        }
+
         let profileUpdates = pendingChanges()
         guard profileUpdates.count > 0 else {
             super.backButtonTapped()
             return
         }
 
-        saveAndExit(profileUpdates)
+        saveAndExit(profileUpdates) { super.backButtonTapped() }
     }
 
     private func pendingChanges() -> [Profile.Property: Any] {
@@ -162,14 +176,14 @@ class SettingsViewController: BaseElloViewController {
         return profileUpdates
     }
 
-    private func saveAndExit(_ profileUpdates: [Profile.Property: Any]) {
+    private func saveAndExit(_ profileUpdates: [Profile.Property: Any], onSuccess: @escaping Block) {
         view.isUserInteractionEnabled = false
         ElloHUD.showLoadingHudInView(view)
 
         ProfileService().updateUserProfile(profileUpdates)
             .done { user in
                 self.appViewController?.currentUser = user
-                super.backButtonTapped()
+                onSuccess()
             }
             .catch { error in
                 if let error = (error as NSError).elloError,
