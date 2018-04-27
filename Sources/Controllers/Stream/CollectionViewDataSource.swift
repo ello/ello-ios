@@ -79,10 +79,10 @@ class CollectionViewDataSource: ElloDataSource, UICollectionViewDataSource {
     func group(at indexPath: IndexPath) -> String? {
         guard
             let item = streamCellItem(at: indexPath),
-            let groupable = item.jsonable as? Groupable
+            let groupId = item.groupId
         else { return nil }
 
-        return groupable.groupId
+        return groupId
     }
 
 }

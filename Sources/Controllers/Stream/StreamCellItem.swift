@@ -12,6 +12,7 @@ enum StreamCellState {
 
 final class StreamCellItem: NSObject, NSCopying {
     var jsonable: Model
+    var groupId: String?
     var type: StreamCellType
     var placeholderType: StreamCellType.PlaceholderType?
     var calculatedCellHeights = CalculatedCellHeights()
@@ -30,14 +31,15 @@ final class StreamCellItem: NSObject, NSCopying {
         self.init(jsonable: Model(version: 1), type: type, placeholderType: placeholderType)
     }
 
-    convenience init(jsonable: Model, type: StreamCellType, placeholderType: StreamCellType.PlaceholderType) {
+    convenience init(jsonable: Model, type: StreamCellType, placeholderType: StreamCellType.PlaceholderType, groupId: String? = nil) {
         self.init(jsonable: jsonable, type: type)
         self.placeholderType = placeholderType
     }
 
-    required init(jsonable: Model, type: StreamCellType) {
+    required init(jsonable: Model, type: StreamCellType, groupId: String? = nil) {
         self.jsonable = jsonable
         self.type = type
+        self.groupId = groupId
     }
 
     func copy(with zone: NSZone?) -> Any {

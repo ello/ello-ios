@@ -7,11 +7,10 @@ import Moya
 
 
 @objc(CategoryPost)
-final class CategoryPost: Model, Groupable {
+final class CategoryPost: Model {
     static let Version = 1
 
     let id: String
-    var groupId: String { return "CategoryPost-\(id)" }
     let submittedAt: Date?
     let featuredAt: Date?
     let unfeaturedAt: Date?

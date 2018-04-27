@@ -158,8 +158,6 @@ extension Love: Stubbable {
 
         let love = Love(
             id: (values["id"] as? String) ?? generateID(),
-            createdAt: (values["createdAt"] as? Date) ?? Globals.now,
-            updatedAt: (values["updatedAt"] as? Date) ?? Globals.now,
             isDeleted: (values["deleted"] as? Bool) ?? true,
             postId: post.id,
             userId: user.id
@@ -182,8 +180,6 @@ extension Watch: Stubbable {
 
         let watch = Watch(
             id: (values["id"] as? String) ?? generateID(),
-            createdAt: (values["createdAt"] as? Date) ?? Globals.now,
-            updatedAt: (values["updatedAt"] as? Date) ?? Globals.now,
             postId: post.id,
             userId: user.id
         )
@@ -543,7 +539,6 @@ extension Relationship: Stubbable {
 
         return Relationship(
             id: (values["id"] as? String) ?? generateID(),
-            createdAt: (values["createdAt"] as? Date) ?? Globals.now,
             ownerId: owner.id,
             subjectId: subject.id
         )
@@ -631,8 +626,7 @@ extension Announcement: Stubbable {
             header: (values["header"] as? String) ?? "Announcing Not For Print, Ello’s new publication",
             body: (values["body"] as? String) ?? "Submissions for Issue 01 — Censorship will be open from 11/7 – 11/23",
             ctaURL: urlFromValue(values["ctaURL"]),
-            ctaCaption: (values["ctaCaption"] as? String) ?? "Learn More",
-            createdAt: (values["createdAt"] as? Date) ?? Globals.now
+            ctaCaption: (values["ctaCaption"] as? String) ?? "Learn More"
         )
 
         if let asset = values["image"] as? Asset {
@@ -653,7 +647,6 @@ extension Editorial: Stubbable {
 
     class func stub(_ values: [String: Any]) -> Editorial {
         let kind = Editorial.Kind(rawValue: values["kind"] as? String ?? "unknown")!
-        let postId: String? = (values["postId"] as? String) ?? (values["post"] as? Post)?.id
         let postStreamURL: URL? = (values["postStreamURL"] as? URL) ?? (values["postStreamURL"] as? String).flatMap { URL(string: $0) }
         let url: URL? = (values["url"] as? URL) ?? (values["url"] as? String).flatMap { URL(string: $0) }
 
@@ -666,7 +659,6 @@ extension Editorial: Stubbable {
             kind: kind,
             title: (values["title"] as? String) ?? "Title",
             subtitle: values["subtitle"] as? String,
-            postId: postId,
             postStreamURL: postStreamURL,
             url: url
             )

@@ -10,7 +10,7 @@ import SwiftyJSON
 let PostVersion = 2
 
 @objc(Post)
-final class Post: Model, Authorable, Groupable {
+final class Post: Model, Authorable {
 
     let id: String
     let createdAt: Date
@@ -49,7 +49,6 @@ final class Post: Model, Authorable, Groupable {
         }
         return nestedComments
     }
-    var groupId: String { return "Post-\(id)" }
     var shareLink: String? {
         return author.map { "\(ElloURI.baseURL)/\($0.username)/post/\(self.token)" }
     }

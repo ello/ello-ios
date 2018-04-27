@@ -154,7 +154,7 @@ class CollectionViewDataSourceSpec: QuickSpec {
                         let indexPath = IndexPath(item: index, section: 0)
                         let groupId = subject.group(at: indexPath)
                         if item.jsonable is Post || item.jsonable is ElloComment {
-                            expect(groupId) == post.groupId
+                            expect(groupId) == "Post-\(post.id)"
                         }
                     }
                 }

@@ -7,13 +7,12 @@ import Moya
 
 
 @objc(ArtistInviteSubmission)
-final class ArtistInviteSubmission: Model, Groupable, PostActionable {
+final class ArtistInviteSubmission: Model, PostActionable {
     // Version 1: initial
     // Version 2: artistInviteId, postId
     static let Version = 2
 
     let id: String
-    var groupId: String { return "ArtistInviteSubmission-\(id)" }
     let artistInviteId: String
     let postId: String
     let status: Status

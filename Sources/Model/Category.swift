@@ -11,7 +11,7 @@ let CategoryVersion = 4
 
 
 @objc(Category)
-final class Category: Model, Groupable {
+final class Category: Model {
     enum Selection {
         case all
         case subscribed
@@ -27,7 +27,6 @@ final class Category: Model, Groupable {
     }
 
     let id: String
-    var groupId: String { return "Category-\(id)" }
     let name: String
     let slug: String
     let order: Int

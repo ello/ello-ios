@@ -6,7 +6,7 @@ import SwiftyJSON
 
 
 @objc(Editorial)
-final class Editorial: Model, Groupable {
+final class Editorial: Model {
     // Version 3: initial (should have been 1, but copy/paste mistake)
     // Version 4: renderedSubtitle
     static let Version = 4
@@ -42,7 +42,6 @@ final class Editorial: Model, Groupable {
     let url: URL?
     var join: JoinInfo?
     var invite: InviteInfo?
-    var groupId: String { return "Editorial-\(id)" }
     var postId: String? { return post?.id }
     var post: Post? { return getLinkObject("post") }
     var posts: [Post]?

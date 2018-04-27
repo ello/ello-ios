@@ -63,9 +63,3 @@ final class Attachment: Model {
         return attachment
     }
 }
-
-extension Attachment: JSONSaveable {
-    var uniqueId: String? { if let id = tableId { return "Attachment-\(id)" } ; return nil }
-    var tableId: String? { return url.absoluteString }
-
-}

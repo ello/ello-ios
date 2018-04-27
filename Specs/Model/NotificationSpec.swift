@@ -22,7 +22,6 @@ class NotificationSpec: QuickSpec {
 
                 expect(notification.author?.id) == user.id
                 expect(notification.createdAt) == createdAtDate
-                expect(notification.groupId) == "Notification-\(activity.id)"
                 expect(notification.activity.kind) == Activity.Kind.repostNotification
                 expect(notification.activity.subjectType) == Activity.SubjectType.post
                 expect((notification.subject as? Post)?.id) == post.id
@@ -51,7 +50,6 @@ class NotificationSpec: QuickSpec {
 
                 expect(notification.author?.id) == user.id
                 expect(notification.createdAt) == createdAtDate
-                expect(notification.groupId) == "Notification-\(activity.id)"
                 expect(notification.activity.kind) == Activity.Kind.repostNotification
                 expect(notification.activity.subjectType) == Activity.SubjectType.post
                 expect((notification.subject as? Post)?.id) == post.id
@@ -77,7 +75,6 @@ class NotificationSpec: QuickSpec {
 
                 expect(notification.author?.id) == user.id
                 expect(notification.createdAt) == createdAtDate
-                expect(notification.groupId) == "Notification-\(activity.id)"
                 expect(notification.activity.kind) == Activity.Kind.commentMentionNotification
                 expect(notification.activity.subjectType) == Activity.SubjectType.comment
                 expect((notification.subject as? ElloComment)?.id) == comment.id
@@ -118,7 +115,6 @@ class NotificationSpec: QuickSpec {
 
                 expect(notification.author?.id) == user.id
                 expect(notification.createdAt) == createdAtDate
-                expect(notification.groupId) == "Notification-\(activity.id)"
                 expect(notification.activity.kind) == Activity.Kind.commentMentionNotification
                 expect(notification.activity.subjectType) == Activity.SubjectType.comment
                 expect((notification.subject as? ElloComment)?.id) == comment.id

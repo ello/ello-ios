@@ -6,7 +6,7 @@ import SwiftyJSON
 
 
 @objc(ArtistInvite)
-final class ArtistInvite: Model, Groupable {
+final class ArtistInvite: Model {
     // Version 1: initial
     static let Version = 1
 
@@ -53,7 +53,6 @@ final class ArtistInvite: Model, Groupable {
     var headerImage: Asset?
     var logoImage: Asset?
     var guide: [Guide] = []
-    var groupId: String { return "ArtistInvite-\(id)" }
     var shareLink: String {
         return "\(ElloURI.baseURL)/artist-invite/\(slug)"
     }

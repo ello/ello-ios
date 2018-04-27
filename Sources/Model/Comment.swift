@@ -8,10 +8,9 @@ import SwiftyJSON
 let CommentVersion = 1
 
 @objc(ElloComment)
-final class ElloComment: Model, Authorable, Groupable {
+final class ElloComment: Model, Authorable {
 
     let id: String
-    var groupId: String { return "Post-\(postId)" }
     let createdAt: Date
     let authorId: String
     let postId: String
