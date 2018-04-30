@@ -223,8 +223,7 @@ class PostEditingService {
                                 asset = Asset(url: url, image: image)
                             }
 
-                            ElloLinkedStore.shared.setObject(asset, forKey: asset.id, type: .assetsType)
-                            imageRegion.addLinkObject("assets", key: asset.id, type: .assetsType)
+                            imageRegion.storeLinkObject(asset, key: "assets", id: asset.id, type: .assetsType)
                         }
 
                         uploaded.append((imageIndex, imageRegion))

@@ -151,7 +151,7 @@ final class ArtistInviteSubmission: Model, Groupable, PostActionable {
         let status = Status(rawValue: json["status"].stringValue) ?? .unapproved
         let submission = ArtistInviteSubmission(id: id, artistInviteId: artistInviteId, postId: postId, status: status)
         submission.mergeLinks(data["links"] as? [String: Any])
-        submission.addLinkObject("artist_invite", key: artistInviteId, type: .artistInvitesType)
+        submission.addLinkObject("artist_invite", id: artistInviteId, type: .artistInvitesType)
 
         if let actions = data["actions"] as? [String: Any] {
             submission.actions = actions.compactMap { key, value in

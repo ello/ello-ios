@@ -108,7 +108,7 @@ final class Post: Model, Authorable, Groupable {
             }
         }
 
-        addLinkObject("author", key: authorId, type: .usersType)
+        addLinkObject("author", id: authorId, type: .usersType)
     }
 
     deinit {
@@ -217,9 +217,9 @@ final class Post: Model, Authorable, Groupable {
         post.lovesCount = json["loves_count"].int
 
         post.mergeLinks(data["links"] as? [String: Any])
-        post.addLinkObject("author", key: post.authorId, type: .usersType)
+        post.addLinkObject("author", id: post.authorId, type: .usersType)
         if post.categoryPosts.isEmpty, let category = (post.getLinkArray("categories") as [Category]).first {
-            post.addLinkObject("category", key: category.id, type: .categoriesType)
+            post.addLinkObject("category", id: category.id, type: .categoriesType)
         }
 
         return post

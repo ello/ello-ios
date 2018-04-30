@@ -25,7 +25,7 @@ final class ElloComment: Model, Authorable, Groupable {
     var loadedFromPost: Post? { return getLinkObject("loaded_from_post") ?? parentPost }
     // to show hide in the stream, and for comment replies
     var loadedFromPostId: String {
-        didSet { addLinkObject("loaded_from_post", key: loadedFromPostId, type: .postsType) }
+        didSet { addLinkObject("loaded_from_post", id: loadedFromPostId, type: .postsType) }
     }
 
     init(id: String,
@@ -46,9 +46,9 @@ final class ElloComment: Model, Authorable, Groupable {
         self.summary = summary
         super.init(version: CommentVersion)
 
-        addLinkObject("parent_post", key: postId, type: .postsType)
-        addLinkObject("loaded_from_post", key: postId, type: .postsType)
-        addLinkObject("author", key: authorId, type: .usersType)
+        addLinkObject("parent_post", id: postId, type: .postsType)
+        addLinkObject("loaded_from_post", id: postId, type: .postsType)
+        addLinkObject("author", id: authorId, type: .usersType)
     }
 
     required init(coder: NSCoder) {
@@ -98,8 +98,8 @@ final class ElloComment: Model, Authorable, Groupable {
         )
 
         comment.mergeLinks(data["links"] as? [String: Any])
-        comment.addLinkObject("author", key: comment.authorId, type: .usersType)
-        comment.addLinkObject("parent_post", key: comment.postId, type: .postsType)
+        comment.addLinkObject("author", id: comment.authorId, type: .usersType)
+        comment.addLinkObject("parent_post", id: comment.postId, type: .postsType)
 
         return comment
     }

@@ -319,8 +319,7 @@ extension Post: Stubbable {
         }
 
         if let repostAuthor = repostAuthor {
-            ElloLinkedStore.shared.setObject(repostAuthor, forKey: repostAuthor.id, type: .usersType)
-            post.addLinkObject("repost_author", key: repostAuthor.id, type: .usersType)
+            post.storeLinkObject(repostAuthor, key: "repost_author", id: repostAuthor.id, type: .usersType)
         }
 
         if let categories = values["categories"] as? [Ello.Category] {
@@ -414,8 +413,7 @@ extension ImageRegion: Stubbable {
         let imageRegion = ImageRegion(url: urlFromValue(values["url"]))
         imageRegion.buyButtonURL = urlFromValue(values["buyButtonURL"])
         if let asset = values["asset"] as? Asset {
-            imageRegion.addLinkObject("assets", key: asset.id, type: .assetsType)
-            ElloLinkedStore.shared.setObject(asset, forKey: asset.id, type: .assetsType)
+            imageRegion.storeLinkObject(asset, key: "assets", id: asset.id, type: .assetsType)
         }
         return imageRegion
     }
@@ -481,16 +479,13 @@ extension Activity: Stubbable {
         )
 
         if let user = values["subject"] as? User {
-            activity.addLinkObject("subject", key: user.id, type: .usersType)
-            ElloLinkedStore.shared.setObject(user, forKey: user.id, type: .usersType)
+            activity.storeLinkObject(user, key: "subject", id: user.id, type: .usersType)
         }
         else if let post = values["subject"] as? Post {
-            activity.addLinkObject("subject", key: post.id, type: .postsType)
-            ElloLinkedStore.shared.setObject(post, forKey: post.id, type: .postsType)
+            activity.storeLinkObject(post, key: "subject", id: post.id, type: .postsType)
         }
         else if let comment = values["subject"] as? ElloComment {
-            activity.addLinkObject("subject", key: comment.id, type: .commentsType)
-            ElloLinkedStore.shared.setObject(comment, forKey: comment.id, type: .commentsType)
+            activity.storeLinkObject(comment, key: "subject", id: comment.id, type: .commentsType)
         }
         ElloLinkedStore.shared.setObject(activity, forKey: activity.id, type: .activitiesType)
         return activity
@@ -590,8 +585,7 @@ extension PageHeader: Stubbable {
         )
 
         if let user = values["user"] as? User {
-            pageHeader.addLinkObject("user", key: user.id, type: .usersType)
-            ElloLinkedStore.shared.setObject(user, forKey: user.id, type: .usersType)
+            pageHeader.storeLinkObject(user, "user", key: user.id, type: .usersType)
         }
 
         return pageHeader

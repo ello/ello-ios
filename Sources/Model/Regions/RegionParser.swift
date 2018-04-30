@@ -71,7 +71,7 @@ struct RegionParser {
         }
 
         if let id = json["links"]["assets"].string {
-            imageRegion.addLinkObject("assets", key: id, type: .assetsType)
+            imageRegion.addLinkObject("assets", id: id, type: .assetsType)
         }
 
         return imageRegion
