@@ -24,7 +24,7 @@ final class Love: Model, PostActionable {
         updatedAt: Date,
         isDeleted: Bool,
         postId: String,
-        userId: String )
+        userId: String)
     {
         self.id = id
         self.createdAt = createdAt

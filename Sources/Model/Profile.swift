@@ -194,7 +194,8 @@ final class Profile: Model {
         notifyOfCommentsOnPostWatchViaEmail: Bool,
         notifyOfApprovedSubmissionsFromFollowingViaPush: Bool,
         hasAnnouncementsEnabled: Bool,
-        discoverable: Bool)
+        discoverable: Bool,
+        gaUniqueId: String?)
     {
         self.id = id
         self.createdAt = createdAt
@@ -239,6 +240,7 @@ final class Profile: Model {
         self.notifyOfApprovedSubmissionsFromFollowingViaPush = notifyOfApprovedSubmissionsFromFollowingViaPush
         self.hasAnnouncementsEnabled = hasAnnouncementsEnabled
         self.discoverable = discoverable
+        self.gaUniqueId = gaUniqueId
         super.init(version: Profile.Version)
     }
 
@@ -354,6 +356,7 @@ final class Profile: Model {
         self.notifyOfNewFollowersViaPush = decoder.decodeKey("notifyOfNewFollowersViaPush")
         self.notifyOfInvitationAcceptancesViaPush = decoder.decodeKey("notifyOfInvitationAcceptancesViaPush")
         self.discoverable = decoder.decodeKey("discoverable")
+        self.gaUniqueId = decoder.decodeOptionalKey("gaUniqueId")
         super.init(coder: coder)
     }
 
@@ -402,6 +405,7 @@ final class Profile: Model {
         coder.encodeObject(notifyOfFeaturedCategoryPostViaPush, forKey: "notifyOfFeaturedCategoryPostViaPush")
         coder.encodeObject(hasAnnouncementsEnabled, forKey: "hasAnnouncementsEnabled")
         coder.encodeObject(discoverable, forKey: "discoverable")
+        coder.encodeObject(gaUniqueId, forKey: "gaUniqueId")
         super.encode(with: coder.coder)
     }
 
@@ -420,10 +424,10 @@ final class Profile: Model {
             mutedCount: json["muted_count"].intValue,
             blockedCount: json["blocked_count"].intValue,
             creatorTypeCategoryIds: creatorTypeCategoryIds,
-            hasSharingEnabled: json["has_sharing_enabled"].boolValue,
-            hasAdNotificationsEnabled: json["has_ad_notifications_enabled"].boolValue,
-            hasAutoWatchEnabled: json["has_auto_watch_enabled"].boolValue,
-            allowsAnalytics: json["allows_analytics"].boolValue,
+            hasSharingEnabled: json["has_sharing_enabled"].bool ?? false,
+            hasAdNotificationsEnabled: json["has_ad_notifications_enabled"].bool ?? false,
+            hasAutoWatchEnabled: json["has_auto_watch_enabled"].bool ?? false,
+            allowsAnalytics: json["allows_analytics"].bool ?? false,
             notifyOfCommentsViaEmail: json["notify_of_comments_via_email"].bool ?? true,
             notifyOfLovesViaEmail: json["notify_of_loves_via_email"].bool ?? true,
             notifyOfInvitationAcceptancesViaEmail: json["notify_of_invitation_acceptances_via_email"].bool ?? true,
@@ -452,9 +456,9 @@ final class Profile: Model {
             notifyOfCommentsOnPostWatchViaEmail: json["notify_of_comments_on_post_watch_via_email"].bool ?? true,
             notifyOfApprovedSubmissionsFromFollowingViaPush: json["notify_of_approved_submissions_from_following_via_push"].bool ?? true,
             hasAnnouncementsEnabled: json["has_announcements_enabled"].bool ?? true,
-            discoverable: json["discoverable"].boolValue
+            discoverable: json["discoverable"].bool ?? true,
+            gaUniqueId: json["ga_unique_id"].string
         )
-        profile.gaUniqueId = json["ga_unique_id"].string
         return profile
     }
 }

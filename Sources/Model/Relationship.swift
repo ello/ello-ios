@@ -14,6 +14,7 @@ final class Relationship: Model {
     let createdAt: Date
     let ownerId: String
     let subjectId: String
+
     var owner: User? { return getLinkObject("owner") }
     var subject: User? { return getLinkObject("subject") }
 

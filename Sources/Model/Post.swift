@@ -145,6 +145,12 @@ final class Post: Model, Authorable, Groupable {
         self.lovesCount = decoder.decodeOptionalKey("lovesCount")
         super.init(coder: coder)
 
+        lovedChangedNotification = NotificationObserver(notification: PostChangedNotification) { [unowned self] (post, change) in
+            if post.id == self.id && change == .loved {
+                self.isLoved = post.isLoved
+            }
+        }
+
         commentsCountChangedNotification = NotificationObserver(notification: PostCommentsCountChangedNotification) { (post, delta) in
             if post.id == self.id {
                 self.commentsCount = (self.commentsCount ?? 0) + delta

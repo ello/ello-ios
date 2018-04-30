@@ -236,6 +236,7 @@ extension Profile: Stubbable {
         let notifyOfApprovedSubmissionsFromFollowingViaPush: Bool = (values["notifyOfApprovedSubmissionsFromFollowingViaPush"] as? Bool) ?? true
         let hasAnnouncementsEnabled: Bool = (values["hasAnnouncementsEnabled"] as? Bool) ?? true
         let discoverable: Bool = (values["discoverable"] as? Bool) ?? true
+        let gaUniqueId: String? = values["gaUniqueId"] as? String
         let creatorTypeCategoryIds: [String] = []
 
         let profile = Profile(
@@ -281,7 +282,8 @@ extension Profile: Stubbable {
             notifyOfCommentsOnPostWatchViaEmail: notifyOfCommentsOnPostWatchViaEmail,
             notifyOfApprovedSubmissionsFromFollowingViaPush: notifyOfApprovedSubmissionsFromFollowingViaPush,
             hasAnnouncementsEnabled: hasAnnouncementsEnabled,
-            discoverable: discoverable
+            discoverable: discoverable,
+            gaUniqueId: gaUniqueId
         )
         return profile
     }

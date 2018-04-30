@@ -10,12 +10,6 @@ let ActivityVersion = 1
 @objc(Activity)
 final class Activity: Model {
 
-    let id: String
-    let createdAt: Date
-    let kind: Kind
-    let subjectType: SubjectType
-    var subject: Model? { return getLinkObject("subject") }
-
     enum Kind: String {
         // Notifications
         case newFollowerPost = "new_follower_post" // someone started following you
@@ -53,6 +47,13 @@ final class Activity: Model {
         case comment = "Comment"
         case unknown = "Unknown"
     }
+
+    let id: String
+    let createdAt: Date
+    let kind: Kind
+    let subjectType: SubjectType
+
+    var subject: Model? { return getLinkObject("subject") }
 
     init(id: String,
         createdAt: Date,

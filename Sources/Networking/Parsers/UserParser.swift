@@ -33,7 +33,6 @@ class UserParser: IdParser {
         user.avatar = Asset.parseAsset("user_avatar_\(user.id)", node: json["avatar"].dictionaryObject)
         user.coverImage = Asset.parseAsset("user_cover_image_\(user.id)", node: json["coverImage"].dictionaryObject)
 
-        // user.experimentalFeatures = json["experimental_features"].bool
         // user.identifiableBy = json["identifiable_by"].string
         user.formattedShortBio = json["formattedShortBio"].string
         // user.onboardingVersion = json["web_onboarding_version"].id.flatMap { Int($0) }
