@@ -39,13 +39,6 @@ extension Int {
         return "\(strNum)\(suffix)"
     }
 
-    func localizedStringFromNumber() -> String {
-        if self == 0 {
-            return ""
-        }
-        return NumberFormatter.localizedString(from: NSNumber(value: self as Int), number: NumberFormatter.Style.decimal)
-    }
-
 }
 
 public extension Double {
