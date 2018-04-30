@@ -98,17 +98,13 @@ struct StreamCellItemParser {
 
         cellItems += postToggleItems(post)
         if post.isRepost {
-            // add repost content
-            // this is weird, but the post summary is actually the repost summary on reposts
             if isGridView {
+                // the post summary is actually the repost summary on reposts
                 cellItems += regionItems(post, content: post.summary)
             }
-            else if let repostContent = post.repostContent {
-                cellItems += regionItems(post, content: repostContent)
-                // add additional content
-                if let content = post.content {
-                    cellItems += regionItems(post, content: content)
-                }
+            else {
+                cellItems += regionItems(post, content: post.repostContent)
+                cellItems += regionItems(post, content: post.content)
             }
         }
         else if let content = post.contentFor(gridView: isGridView) {

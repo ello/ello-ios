@@ -132,7 +132,7 @@ private extension PostDetailGenerator {
         guard let post = post else { return }
 
         destination?.setPrimary(jsonable: post)
-        if (post.content?.count)! > 0 || (post.repostContent?.count)! > 0 {
+        if post.content.count > 0 || post.repostContent.count > 0 {
             let postItems = parse(jsonables: [post])
             destination?.replacePlaceholder(type: .postHeader, items: postItems)
             doneOperation.run()

@@ -140,7 +140,7 @@ class PostEditingService {
                     comment.content = self.replaceLocalImageRegions(comment.content, regions: regions)
                 case .createPost, .updatePost:
                     let post = data as! Post
-                    post.content = self.replaceLocalImageRegions(post.content ?? [], regions: regions)
+                    post.content = self.replaceLocalImageRegions(post.content, regions: regions)
                 default:
                     break
                 }

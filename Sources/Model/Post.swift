@@ -23,9 +23,10 @@ final class Post: Model, Authorable, Groupable {
     var isLoved: Bool
     var isWatching: Bool
     let summary: [Regionable]
-    var content: [Regionable]?
-    var body: [Regionable]?
-    var repostContent: [Regionable]?
+    var content: [Regionable]
+    let body: [Regionable]
+    let repostContent: [Regionable]
+
     var artistInviteId: String?
     var viewsCount: Int?
     var commentsCount: Int?
@@ -41,7 +42,6 @@ final class Post: Model, Authorable, Groupable {
     var repostSource: Post? { return getLinkObject("reposted_source") }
     var featuredBy: User? { return categoryPosts.first?.featuredBy }
 
-    // nested resources
     var comments: [ElloComment]? {
         let nestedComments: [ElloComment] = getLinkArray("comments")
         for comment in nestedComments {
@@ -55,7 +55,7 @@ final class Post: Model, Authorable, Groupable {
     }
     var isCollapsed: Bool { return !contentWarning.isEmpty }
     var isRepost: Bool {
-        return (repostContent?.count ?? 0) > 0
+        return repostContent.count > 0
     }
     var notificationContent: [Regionable]? {
         if isRepost { return repostContent }
@@ -74,7 +74,10 @@ final class Post: Model, Authorable, Groupable {
         isReposted: Bool,
         isLoved: Bool,
         isWatching: Bool,
-        summary: [Regionable]
+        summary: [Regionable],
+        content: [Regionable],
+        body: [Regionable],
+        repostContent: [Regionable]
         )
     {
         self.id = id
@@ -88,6 +91,9 @@ final class Post: Model, Authorable, Groupable {
         self.isLoved = isLoved
         self.isWatching = isWatching
         self.summary = summary
+        self.content = content
+        self.body = body
+        self.repostContent = repostContent
         super.init(version: PostVersion)
 
         lovedChangedNotification = NotificationObserver(notification: PostChangedNotification) { [unowned self] (post, change) in
@@ -129,9 +135,9 @@ final class Post: Model, Authorable, Groupable {
         else {
             self.isWatching = false
         }
-        self.content = decoder.decodeOptionalKey("content")
-        self.body = decoder.decodeOptionalKey("body")
-        self.repostContent = decoder.decodeOptionalKey("repostContent")
+        self.content = decoder.decodeOptionalKey("content") ?? []
+        self.body = decoder.decodeOptionalKey("body") ?? []
+        self.repostContent = decoder.decodeOptionalKey("repostContent") ?? []
         self.artistInviteId = decoder.decodeOptionalKey("artistInviteId")
         self.viewsCount = decoder.decodeOptionalKey("viewsCount")
         self.commentsCount = decoder.decodeOptionalKey("commentsCount")
@@ -192,11 +198,12 @@ final class Post: Model, Authorable, Groupable {
             isReposted: json["reposted"].bool ?? false,
             isLoved: json["loved"].bool ?? false,
             isWatching: json["watching"].bool ?? false,
-            summary: RegionParser.jsonRegions(json: json["summary"])
+            summary: RegionParser.jsonRegions(json: json["summary"]),
+            content: RegionParser.jsonRegions(json: json["content"], isRepostContent: repostContent.count > 0),
+            body: RegionParser.jsonRegions(json: json["body"], isRepostContent: repostContent.count > 0),
+            repostContent: repostContent
         )
-        post.content = RegionParser.jsonRegions(json: json["content"], isRepostContent: repostContent.count > 0)
-        post.body = RegionParser.jsonRegions(json: json["body"], isRepostContent: repostContent.count > 0)
-        post.repostContent = repostContent
+
         post.artistInviteId = json["artist_invite_id"].id
         post.viewsCount = json["views_count"].int
         post.commentsCount = json["comments_count"].int

@@ -109,12 +109,8 @@ final class Notification: Model, Authorable, Groupable {
         }
         else if let comment = activity.subject as? ElloComment {
             let parentSummary = comment.parentPost?.summary
-            if let summary = comment.summary {
-                assignRegionsFromContent(summary, parentSummary: parentSummary)
-            }
-            else {
-                assignRegionsFromContent(comment.content, parentSummary: parentSummary)
-            }
+            let content = !comment.summary.isEmpty ? comment.summary : comment.content
+            assignRegionsFromContent(content, parentSummary: parentSummary)
         }
         else if let post = (activity.subject as? PostActionable)?.post {
             assignRegionsFromContent(post.summary)
