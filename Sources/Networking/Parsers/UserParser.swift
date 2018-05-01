@@ -9,12 +9,13 @@ class UserParser: IdParser {
 
     init() {
         super.init(table: .usersType)
-        linkObject(.profilesType, "profile")
+        linkObject(.profilesType)
         linkArray(.categoriesType)
     }
 
     override func parse(json: JSON) -> User {
         let relationshipPriority = RelationshipPriority(stringValue: json["currentUserState"]["relationshipPriority"].stringValue)
+
         let user = User(
             id: json["id"].stringValue,
             username: json["username"].stringValue,

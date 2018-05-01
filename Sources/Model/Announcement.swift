@@ -15,7 +15,8 @@ final class Announcement: Model {
     let body: String
     let ctaURL: URL?
     let ctaCaption: String
-    var image: Asset?
+    let image: Asset?
+
     var preferredAttachment: Attachment? { return image?.hdpi }
     var imageURL: URL? { return preferredAttachment?.url }
 
@@ -25,7 +26,8 @@ final class Announcement: Model {
         header: String,
         body: String,
         ctaURL: URL?,
-        ctaCaption: String
+        ctaCaption: String,
+        image: Asset?
         ) {
         self.id = id
         self.isStaffPreview = isStaffPreview
@@ -33,6 +35,7 @@ final class Announcement: Model {
         self.body = body
         self.ctaURL = ctaURL
         self.ctaCaption = ctaCaption
+        self.image = image
         super.init(version: AnnouncementVersion)
     }
 
@@ -80,10 +83,12 @@ final class Announcement: Model {
             header: header,
             body: body,
             ctaURL: ctaURL,
-            ctaCaption: ctaCaption
+            ctaCaption: ctaCaption,
+            image: Asset.parseAsset("image_\(id)", node: data["image"] as? [String: Any])
             )
-        announcement.image = Asset.parseAsset("image_\(id)", node: data["image"] as? [String: Any])
+
         announcement.mergeLinks(data["links"] as? [String: Any])
+
         return announcement
     }
 }

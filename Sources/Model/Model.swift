@@ -118,13 +118,9 @@ extension Model.Link {
 
     static func decode(_ key: String, _ rawData: Any) -> Model.Link? {
         if let id = rawData as? String {
-            print("=============== \(#file) line \(#line) ===============")
-            print("stupid .one data")
             return decode(key, ["id": id, "type": key])
         }
         else if let ids = rawData as? [String] {
-            print("=============== \(#file) line \(#line) ===============")
-            print("stupid .many data")
             return decode(key, ["ids": ids, "type": key])
         }
 

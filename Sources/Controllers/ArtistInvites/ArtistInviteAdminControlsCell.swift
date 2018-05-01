@@ -112,7 +112,7 @@ extension ArtistInviteSubmission.Action {
         case .unapprove: return InterfaceString.ArtistInvites.AdminUnapproveAction
         case .unselect: return InterfaceString.ArtistInvites.AdminUnselectAction
         case .decline: return InterfaceString.ArtistInvites.AdminDeclineAction
-        default: return NSLocalizedString(label, comment: "")
+        default: return NSLocalizedString(label ?? "", comment: "")
         }
     }
 

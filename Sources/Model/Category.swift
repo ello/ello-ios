@@ -33,9 +33,10 @@ final class Category: Model {
     let allowInOnboarding: Bool
     let isCreatorType: Bool
     let level: CategoryLevel
+    let tileImage: Attachment?
+
     var isMeta: Bool { return level == .meta }
     var tileURL: URL? { return tileImage?.url }
-    var tileImage: Attachment?
 
     var visibleOnSeeMore: Bool {
         return level == .primary || level == .secondary
@@ -47,7 +48,9 @@ final class Category: Model {
         order: Int,
         allowInOnboarding: Bool,
         isCreatorType: Bool,
-        level: CategoryLevel)
+        level: CategoryLevel,
+        tileImage: Attachment?
+        )
     {
         self.id = id
         self.name = name
@@ -56,6 +59,7 @@ final class Category: Model {
         self.allowInOnboarding = allowInOnboarding
         self.isCreatorType = isCreatorType
         self.level = level
+        self.tileImage = tileImage
         super.init(version: CategoryVersion)
     }
 
@@ -99,6 +103,7 @@ final class Category: Model {
     class func fromJSON(_ data: [String: Any]) -> Category {
         let json = JSON(data)
         let level: CategoryLevel = CategoryLevel(rawValue: json["level"].stringValue) ?? .unknown
+        let tileImage = (json["tile_image"]["large"].object as? [String: Any]).map { Attachment.fromJSON($0) }
 
         let category = Category(
             id: json["id"].stringValue,
@@ -107,14 +112,11 @@ final class Category: Model {
             order: json["order"].intValue,
             allowInOnboarding: json["allow_in_onboarding"].bool ?? true,
             isCreatorType: json["is_creator_type"].bool ?? true,
-            level: level
+            level: level,
+            tileImage: tileImage
             )
 
         category.mergeLinks(data["links"] as? [String: Any])
-
-        if let attachmentJson = json["tile_image"]["large"].object as? [String: Any] {
-            category.tileImage = Attachment.fromJSON(attachmentJson)
-        }
 
         return category
     }

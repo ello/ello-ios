@@ -211,9 +211,8 @@ class PostEditingService {
 
                 promise
                     .done { url in
-                        let imageRegion = ImageRegion(url: url)
-                        imageRegion.buyButtonURL = buyButtonURL
-
+                        let imageRegion = ImageRegion(url: url, buyButtonURL: buyButtonURL)
+                        
                         if let url = url {
                             let asset: Asset
                             if let data = data {

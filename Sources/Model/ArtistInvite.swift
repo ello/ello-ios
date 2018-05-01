@@ -53,15 +53,15 @@ final class ArtistInvite: Model {
     var headerImage: Asset?
     var logoImage: Asset?
     var guide: [Guide] = []
-    var shareLink: String {
-        return "\(ElloURI.baseURL)/artist-invite/\(slug)"
-    }
-    override var description: String { return longDescription }
-
     var approvedSubmissionsStream: Stream?
     var selectedSubmissionsStream: Stream?
     var unapprovedSubmissionsStream: Stream?
     var declinedSubmissionsStream: Stream?
+    override var description: String { return longDescription }
+
+    var shareLink: String {
+        return "\(ElloURI.baseURL)/artist-invite/\(slug)"
+    }
     var hasAdminLinks: Bool {
         return approvedSubmissionsStream != nil && unapprovedSubmissionsStream != nil
     }

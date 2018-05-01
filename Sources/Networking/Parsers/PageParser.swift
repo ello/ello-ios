@@ -6,10 +6,6 @@ import SwiftyJSON
 
 
 class PageParser<T> {
-    enum Error: Swift.Error {
-        case notAnArray
-    }
-
     let parser: ManyParser<T>
     let resultsKey: String
 

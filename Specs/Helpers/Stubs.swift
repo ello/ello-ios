@@ -417,10 +417,10 @@ extension ImageRegion: Stubbable {
 
 extension EmbedRegion: Stubbable {
     class func stub(_ values: [String: Any]) -> EmbedRegion {
-        let serviceString = (values["service"] as? String) ?? EmbedType.youtube.rawValue
+        let serviceString = (values["service"] as? String) ?? Service.youtube.rawValue
         let embedRegion = EmbedRegion(
             id: (values["id"] as? String) ?? generateID(),
-            service: EmbedType(rawValue: serviceString)!,
+            service: Service(rawValue: serviceString)!,
             url: urlFromValue(values["url"]) ?? URL(string: "http://www.google.com")!,
             thumbnailLargeUrl: urlFromValue(values["thumbnailLargeUrl"])
         )
@@ -589,6 +589,7 @@ extension PageHeader: Stubbable {
 
 extension Ello.Category: Stubbable {
     class func stub(_ values: [String: Any]) -> Ello.Category {
+        let tileImage = (values["tileImage"] as? [String: Any])?.map { Attachment.fromJSON($0) }
         let level: CategoryLevel
         if let levelAsString = values["level"] as? String,
             let rawLevel = CategoryLevel(rawValue: levelAsString)
@@ -606,12 +607,9 @@ extension Ello.Category: Stubbable {
             order: (values["order"] as? Int) ?? 0,
             allowInOnboarding: (values["allowInOnboarding"] as? Bool) ?? true,
             isCreatorType: (values["isCreatorType"] as? Bool) ?? true,
-            level: level
+            level: level,
+            tileImage: tileImage
         )
-
-        if let attachment = values["tileImage"] as? [String: Any] {
-            category.tileImage = Attachment.stub(attachment)
-        }
 
         return category
     }
@@ -619,6 +617,16 @@ extension Ello.Category: Stubbable {
 
 extension Announcement: Stubbable {
     class func stub(_ values: [String: Any]) -> Announcement {
+        let asset: Asset
+        if let asset = values["image"] as? Asset {
+            asset = asset
+        }
+        else if let asset = values["image"] as? [String: Any] {
+            asset = Asset.stub(asset)
+        }
+        else {
+            asset = Asset(url: URL(string: "http://media.colinta.com/minime.png")!)
+        }
 
         let announcement = Announcement(
             id: (values["id"] as? String) ?? generateID(),
@@ -626,18 +634,10 @@ extension Announcement: Stubbable {
             header: (values["header"] as? String) ?? "Announcing Not For Print, Ello’s new publication",
             body: (values["body"] as? String) ?? "Submissions for Issue 01 — Censorship will be open from 11/7 – 11/23",
             ctaURL: urlFromValue(values["ctaURL"]),
-            ctaCaption: (values["ctaCaption"] as? String) ?? "Learn More"
+            ctaCaption: (values["ctaCaption"] as? String) ?? "Learn More",
+            asset: asset
         )
 
-        if let asset = values["image"] as? Asset {
-            announcement.image = asset
-        }
-        else if let asset = values["image"] as? [String: Any] {
-            announcement.image = Asset.stub(asset)
-        }
-        else {
-            announcement.image = Asset(url: URL(string: "http://media.colinta.com/minime.png")!)
-        }
 
         return announcement
     }

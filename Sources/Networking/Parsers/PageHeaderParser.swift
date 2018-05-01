@@ -8,12 +8,12 @@ import SwiftyJSON
 class PageHeaderParser: IdParser {
 
     init() {
-        super.init(table: .categoriesType)
+        super.init(table: .pageHeadersType)
         linkObject(.usersType)
     }
 
     override func parse(json: JSON) -> PageHeader {
-        let kind: PageHeader.Kind = PageHeader.Kind(rawValue: json["kind"].stringValue) ?? .generic
+        let kind = PageHeader.Kind(rawValue: json["kind"].stringValue) ?? .generic
         let image = Asset.parseAsset("page_header_\(json["id"].stringValue)", node: json["image"].dictionaryObject)
 
         let header = PageHeader(

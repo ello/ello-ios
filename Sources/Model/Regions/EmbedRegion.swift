@@ -7,33 +7,35 @@ import SwiftyJSON
 
 let EmbedRegionVersion = 1
 
-enum EmbedType: String {
-    case codepen = "codepen"
-    case dailymotion = "dailymotion"
-    case mixcloud = "mixcloud"
-    case soundcloud = "soundcloud"
-    case youtube = "youtube"
-    case vimeo = "vimeo"
-    case uStream = "ustream"
-    case bandcamp = "bandcamp"
-    case unknown = "unknown"
-}
-
 @objc(EmbedRegion)
 final class EmbedRegion: Model, Regionable {
-    var isRepost: Bool = false
+    enum Service: String {
+        case codepen = "codepen"
+        case dailymotion = "dailymotion"
+        case mixcloud = "mixcloud"
+        case soundcloud = "soundcloud"
+        case youtube = "youtube"
+        case vimeo = "vimeo"
+        case uStream = "ustream"
+        case bandcamp = "bandcamp"
+        case unknown = "unknown"
+    }
 
     let id: String
-    let service: EmbedType
+    let service: Service
     let url: URL
     let thumbnailLargeUrl: URL?
+
+    var isRepost: Bool = false
+    let kind: RegionKind = .embed
+
     var isAudioEmbed: Bool {
-        return service == EmbedType.mixcloud || service == EmbedType.soundcloud || service == EmbedType.bandcamp
+        return service == Service.mixcloud || service == Service.soundcloud || service == Service.bandcamp
     }
 
     init(
         id: String,
-        service: EmbedType,
+        service: Service,
         url: URL,
         thumbnailLargeUrl: URL?
         )
@@ -50,7 +52,7 @@ final class EmbedRegion: Model, Regionable {
         self.id = decoder.decodeKey("id")
         self.isRepost = decoder.decodeKey("isRepost")
         let serviceRaw: String = decoder.decodeKey("serviceRaw")
-        self.service = EmbedType(rawValue: serviceRaw) ?? EmbedType.unknown
+        self.service = Service(rawValue: serviceRaw) ?? Service.unknown
         self.url = decoder.decodeKey("url")
         self.thumbnailLargeUrl = decoder.decodeOptionalKey("thumbnailLargeUrl")
         super.init(coder: coder)
@@ -72,14 +74,12 @@ final class EmbedRegion: Model, Regionable {
 
         let embedRegion = EmbedRegion(
             id: json["data"]["id"].stringValue,
-            service: EmbedType(rawValue: json["data"]["service"].stringValue) ?? .unknown,
+            service: Service(rawValue: json["data"]["service"].stringValue) ?? .unknown,
             url: URL(string: json["data"]["url"].stringValue) ?? URL(string: "https://ello.co/404")!,
             thumbnailLargeUrl: thumbnailLargeUrl
         )
         return embedRegion
     }
-
-    let kind: RegionKind = .embed
 
     func coding() -> NSCoding {
         return self

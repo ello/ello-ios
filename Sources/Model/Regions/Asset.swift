@@ -25,22 +25,6 @@ final class Asset: Model {
     var hdpi: Attachment?
     var xhdpi: Attachment?
     var original: Attachment?
-    // optional avatar
-    var largeOrBest: Attachment? {
-        if isGif, let original = original {
-            return original
-        }
-
-        if DeviceScreen.isRetina {
-            if let large = large { return large }
-            if let xhdpi = xhdpi { return xhdpi }
-            if let optimized = optimized { return optimized }
-        }
-        if let hdpi = hdpi { return hdpi }
-        if let regular = regular { return regular }
-
-        return nil
-    }
     var large: Attachment?
     var regular: Attachment?
     var allAttachments: [(AttachmentType, Attachment)] {
@@ -63,17 +47,33 @@ final class Asset: Model {
     }
 
     var isLargeGif: Bool {
-        if isGif, let size = self.optimized?.size {
+        if isGif, let size = optimized?.size {
             return size >= 3_145_728
         }
         return false
     }
 
     var isSmallGif: Bool {
-        if isGif, let size = self.optimized?.size {
+        if isGif, let size = optimized?.size {
             return size <= 1_000_000
         }
         return false
+    }
+
+    var largeOrBest: Attachment? {
+        if isGif, let original = original {
+            return original
+        }
+
+        if DeviceScreen.isRetina {
+            if let large = large { return large }
+            if let xhdpi = xhdpi { return xhdpi }
+            if let optimized = optimized { return optimized }
+        }
+        if let hdpi = hdpi { return hdpi }
+        if let regular = regular { return regular }
+
+        return nil
     }
 
     var oneColumnAttachment: Attachment? {
@@ -144,8 +144,7 @@ final class Asset: Model {
         self.optimized = optimized
     }
 
-    init(id: String)
-    {
+    init(id: String) {
         self.id = id
         super.init(version: AssetVersion)
     }

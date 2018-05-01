@@ -63,7 +63,7 @@ final class ArtistInviteSubmission: Model, PostActionable {
         }
 
         let name: Name
-        let label: String
+        let label: String?
         let request: ElloRequest
         var endpoint: ElloAPI { return .customRequest(request, mimics: .artistInviteSubmissions) }
 
@@ -78,7 +78,7 @@ final class ArtistInviteSubmission: Model, PostActionable {
             }
         }
 
-        init(name: Name, label: String, request: ElloRequest) {
+        init(name: Name, label: String?, request: ElloRequest) {
             self.name = name
             self.label = label
             self.request = request
@@ -86,12 +86,12 @@ final class ArtistInviteSubmission: Model, PostActionable {
 
         init?(name nameStr: String, json: JSON) {
             guard
-                let parameters = json["body"].object as? [String: Any],
-                let label = json["label"].string,
                 let method = json["method"].string.map({ $0.uppercased() }).flatMap({ Moya.Method(rawValue: $0) }),
                 let url = json["href"].string.flatMap({ URL(string: $0) })
             else { return nil }
 
+            let label = json["label"].stringValue
+            let parameters = json["body"].object as? [String: Any]
             self.init(name: Name(nameStr), label: label, request: ElloRequest(url: url, method: method, parameters: parameters))
         }
     }
@@ -174,7 +174,7 @@ extension ArtistInviteSubmission.Action {
         let parameters: [String: Any] = request.parameters ?? [:]
         return [
             "name": name.string,
-            "label": label,
+            "label": label ?? "",
             "url": request.url,
             "method": request.method.rawValue,
             "parameters": parameters,
@@ -184,12 +184,12 @@ extension ArtistInviteSubmission.Action {
     static func decode(_ decodeable: [String: Any], version: Int) -> ArtistInviteSubmission.Action? {
         guard
             let nameStr = decodeable["name"] as? String,
-            let label = decodeable["label"] as? String,
             let url = decodeable["url"] as? URL,
             let method = (decodeable["method"] as? String).flatMap({ Moya.Method(rawValue: $0) }),
             let parameters = decodeable["parameters"] as? [String: String]
         else { return nil }
 
+        let label = decodeable["label"] as? String
         return ArtistInviteSubmission.Action(name: Name(nameStr), label: label, request: ElloRequest(url: url, method: method, parameters: parameters))
     }
 }

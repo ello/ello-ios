@@ -25,14 +25,7 @@ extension ExternalLink {
             return nil
         }
 
-        let iconURL: URL?
-        if let iconURLStr = link["icon"] {
-            iconURL = URL(string: iconURLStr)
-        }
-        else {
-            iconURL = nil
-        }
-        return ExternalLink(url: url, text: text, iconURL: iconURL)
+        return ExternalLink(url: url, text: text, iconURL: link["icon"].flatMap { URL(string: $0) })
     }
 
     func toDict() -> [String: String] {

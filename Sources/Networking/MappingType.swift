@@ -103,7 +103,7 @@ enum MappingType: String {
 }
 
 extension MappingType {
-    func parser() -> Parser? {
+    var parser: Parser? {
         switch self {
         // case .artistInvitesType:           return ArtistInviteParser()
         // case .artistInviteSubmissionsType: return ArtistInviteSubmissionParser()

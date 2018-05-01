@@ -9,9 +9,9 @@ let TextRegionVersion = 1
 
 @objc(TextRegion)
 final class TextRegion: Model, Regionable {
-    var isRepost: Bool = false
-
     let content: String
+    var isRepost: Bool = false
+    let kind: RegionKind = .text
 
     init(content: String) {
         self.content = content
@@ -37,8 +37,6 @@ final class TextRegion: Model, Regionable {
         let content = json["data"].stringValue
         return TextRegion(content: content)
     }
-
-    let kind: RegionKind = .text
 
     func coding() -> NSCoding {
         return self
