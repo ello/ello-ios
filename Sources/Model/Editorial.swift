@@ -23,6 +23,7 @@ final class Editorial: Model, Groupable {
         case join
         case unknown
     }
+
     enum Size: String {
         case size1x1 = "one_by_one_image"
         // case size2x1 = "two_by_one_image"
@@ -33,17 +34,17 @@ final class Editorial: Model, Groupable {
     }
 
     let id: String
+    let kind: Kind
     let title: String
     let subtitle: String?
     let renderedSubtitle: String?
+    var postStreamURL: URL?
+    let url: URL?
     var join: JoinInfo?
     var invite: InviteInfo?
-    let url: URL?
-    let kind: Kind
     var groupId: String { return "Editorial-\(id)" }
     var postId: String? { return post?.id }
     var post: Post? { return getLinkObject("post") }
-    var postStreamURL: URL?
     var posts: [Post]?
     var images: [Size: Asset] = [:]
 
@@ -109,13 +110,14 @@ final class Editorial: Model, Groupable {
             renderedSubtitle: renderedSubtitle,
             postStreamURL: postStreamURL,
             url: externalURL ?? internalURL)
+
         editorial.mergeLinks(data["links"] as? [String: Any])
 
         for size in Size.all {
-            if let assetData = data[size.rawValue] as? [String: Any] {
-                let asset = Asset.parseAsset("", node: assetData)
-                editorial.images[size] = asset
-            }
+            guard let assetData = data[size.rawValue] as? [String: Any] else { continue }
+
+            let asset = Asset.parseAsset("", node: assetData)
+            editorial.images[size] = asset
         }
         return editorial
     }

@@ -140,7 +140,7 @@ class PostEditingService {
                     comment.content = self.replaceLocalImageRegions(comment.content, regions: regions)
                 case .createPost, .updatePost:
                     let post = data as! Post
-                    post.content = self.replaceLocalImageRegions(post.content ?? [], regions: regions)
+                    post.content = self.replaceLocalImageRegions(post.content, regions: regions)
                 default:
                     break
                 }
@@ -223,8 +223,7 @@ class PostEditingService {
                                 asset = Asset(url: url, image: image)
                             }
 
-                            ElloLinkedStore.shared.setObject(asset, forKey: asset.id, type: .assetsType)
-                            imageRegion.addLinkObject("assets", key: asset.id, type: .assetsType)
+                            imageRegion.storeLinkObject(asset, key: "assets", id: asset.id, type: .assetsType)
                         }
 
                         uploaded.append((imageIndex, imageRegion))

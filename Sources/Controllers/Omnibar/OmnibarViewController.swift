@@ -69,8 +69,8 @@ class OmnibarViewController: BaseElloViewController {
             .done { [weak self] comment in
                 guard let `self` = self else { return }
                 self.rawEditBody = comment.body
-                if let body = comment.body, self.isViewLoaded {
-                    self.prepareScreenForEditing(body, isComment: true)
+                if self.isViewLoaded {
+                    self.prepareScreenForEditing(comment.body, isComment: true)
                 }
             }
             .ignoreErrors()
@@ -85,9 +85,7 @@ class OmnibarViewController: BaseElloViewController {
                 self.category = post.category
 
                 if self.isViewLoaded {
-                    if let body = post.body {
-                        self.prepareScreenForEditing(body, isComment: false)
-                    }
+                    self.prepareScreenForEditing(post.body, isComment: false)
                     self.screen.chosenCategory = post.category
                 }
             }

@@ -24,7 +24,7 @@ final class Love: Model, PostActionable {
         updatedAt: Date,
         isDeleted: Bool,
         postId: String,
-        userId: String )
+        userId: String)
     {
         self.id = id
         self.createdAt = createdAt
@@ -34,8 +34,8 @@ final class Love: Model, PostActionable {
         self.userId = userId
         super.init(version: LoveVersion)
 
-        addLinkObject("post", key: postId, type: .postsType)
-        addLinkObject("user", key: userId, type: .usersType)
+        addLinkObject("post", id: postId, type: .postsType)
+        addLinkObject("user", id: userId, type: .usersType)
     }
 
     required init(coder: NSCoder) {
@@ -88,8 +88,8 @@ final class Love: Model, PostActionable {
         )
 
         love.mergeLinks(data["links"] as? [String: Any])
-        love.addLinkObject("post", key: love.postId, type: .postsType)
-        love.addLinkObject("user", key: love.userId, type: .usersType)
+        love.addLinkObject("post", id: love.postId, type: .postsType)
+        love.addLinkObject("user", id: love.userId, type: .usersType)
 
         return love
     }

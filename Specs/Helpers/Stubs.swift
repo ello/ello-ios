@@ -236,6 +236,7 @@ extension Profile: Stubbable {
         let notifyOfApprovedSubmissionsFromFollowingViaPush: Bool = (values["notifyOfApprovedSubmissionsFromFollowingViaPush"] as? Bool) ?? true
         let hasAnnouncementsEnabled: Bool = (values["hasAnnouncementsEnabled"] as? Bool) ?? true
         let discoverable: Bool = (values["discoverable"] as? Bool) ?? true
+        let gaUniqueId: String? = values["gaUniqueId"] as? String
         let creatorTypeCategoryIds: [String] = []
 
         let profile = Profile(
@@ -281,7 +282,8 @@ extension Profile: Stubbable {
             notifyOfCommentsOnPostWatchViaEmail: notifyOfCommentsOnPostWatchViaEmail,
             notifyOfApprovedSubmissionsFromFollowingViaPush: notifyOfApprovedSubmissionsFromFollowingViaPush,
             hasAnnouncementsEnabled: hasAnnouncementsEnabled,
-            discoverable: discoverable
+            discoverable: discoverable,
+            gaUniqueId: gaUniqueId
         )
         return profile
     }
@@ -295,9 +297,6 @@ extension Post: Stubbable {
         let author: User = (values["author"] as? User) ?? User.stub(["id": values["authorId"] ?? generateID()])
         ElloLinkedStore.shared.setObject(author, forKey: author.id, type: .usersType)
 
-        let content = (values["content"] as? [Regionable]) ?? [stubbedTextRegion]
-        let summary = values["summary"] as? [Regionable] ?? content
-
         let post = Post(
             id: (values["id"] as? String) ?? generateID(),
             createdAt: (values["createdAt"] as? Date) ?? Globals.now,
@@ -309,7 +308,10 @@ extension Post: Stubbable {
             isReposted: (values["reposted"] as? Bool) ?? false,
             isLoved: (values["loved"] as? Bool) ?? false,
             isWatching: (values["watching"] as? Bool) ?? false,
-            summary: summary
+            summary: summary,
+            content: (values["content"] as? [Regionable]) ?? [stubbedTextRegion],
+            body: (values["body"] as? [Regionable]) ?? [stubbedTextRegion],
+            repostContent: (values["repostContent"] as? [Regionable])
         )
 
         let repostAuthor: User? = values["repostAuthor"] as? User ?? (values["repostAuthorId"] as? String).flatMap { id in
@@ -317,8 +319,7 @@ extension Post: Stubbable {
         }
 
         if let repostAuthor = repostAuthor {
-            ElloLinkedStore.shared.setObject(repostAuthor, forKey: repostAuthor.id, type: .usersType)
-            post.addLinkObject("repost_author", key: repostAuthor.id, type: .usersType)
+            post.storeLinkObject(repostAuthor, key: "repost_author", id: repostAuthor.id, type: .usersType)
         }
 
         if let categories = values["categories"] as? [Ello.Category] {
@@ -328,9 +329,6 @@ extension Post: Stubbable {
             post.addLinkArray("categories", array: categories.map { $0.id }, type: .categoriesType)
         }
 
-        post.body = (values["body"] as? [Regionable]) ?? [stubbedTextRegion]
-        post.content = content
-        post.repostContent = (values["repostContent"] as? [Regionable])
         post.artistInviteId = (values["artistInviteId"] as? String)
         post.viewsCount = values["viewsCount"] as? Int
         post.commentsCount = values["commentsCount"] as? Int
@@ -383,11 +381,11 @@ extension ElloComment: Stubbable {
             createdAt: (values["createdAt"] as? Date) ?? Globals.now,
             authorId: author.id,
             postId: parentPost.id,
-            content: (values["content"] as? [Regionable]) ?? [stubbedTextRegion]
+            content: (values["content"] as? [Regionable]) ?? [stubbedTextRegion],
+            summary: values["summary"] as? [Regionable] ?? comment.content
         )
 
         comment.loadedFromPostId = loadedFromPost.id
-        comment.summary = values["summary"] as? [Regionable] ?? comment.content
 
         if let assets = values["assets"] as? [Asset] {
             var assetIds = [String]()
@@ -415,8 +413,7 @@ extension ImageRegion: Stubbable {
         let imageRegion = ImageRegion(url: urlFromValue(values["url"]))
         imageRegion.buyButtonURL = urlFromValue(values["buyButtonURL"])
         if let asset = values["asset"] as? Asset {
-            imageRegion.addLinkObject("assets", key: asset.id, type: .assetsType)
-            ElloLinkedStore.shared.setObject(asset, forKey: asset.id, type: .assetsType)
+            imageRegion.storeLinkObject(asset, key: "assets", id: asset.id, type: .assetsType)
         }
         return imageRegion
     }
@@ -482,16 +479,13 @@ extension Activity: Stubbable {
         )
 
         if let user = values["subject"] as? User {
-            activity.addLinkObject("subject", key: user.id, type: .usersType)
-            ElloLinkedStore.shared.setObject(user, forKey: user.id, type: .usersType)
+            activity.storeLinkObject(user, key: "subject", id: user.id, type: .usersType)
         }
         else if let post = values["subject"] as? Post {
-            activity.addLinkObject("subject", key: post.id, type: .postsType)
-            ElloLinkedStore.shared.setObject(post, forKey: post.id, type: .postsType)
+            activity.storeLinkObject(post, key: "subject", id: post.id, type: .postsType)
         }
         else if let comment = values["subject"] as? ElloComment {
-            activity.addLinkObject("subject", key: comment.id, type: .commentsType)
-            ElloLinkedStore.shared.setObject(comment, forKey: comment.id, type: .commentsType)
+            activity.storeLinkObject(comment, key: "subject", id: comment.id, type: .commentsType)
         }
         ElloLinkedStore.shared.setObject(activity, forKey: activity.id, type: .activitiesType)
         return activity
@@ -591,8 +585,7 @@ extension PageHeader: Stubbable {
         )
 
         if let user = values["user"] as? User {
-            pageHeader.addLinkObject("user", key: user.id, type: .usersType)
-            ElloLinkedStore.shared.setObject(user, forKey: user.id, type: .usersType)
+            pageHeader.storeLinkObject(user, "user", key: user.id, type: .usersType)
         }
 
         return pageHeader

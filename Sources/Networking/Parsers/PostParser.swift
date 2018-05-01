@@ -45,14 +45,13 @@ class PostParser: IdParser {
             isReposted: json["currentUserState"]["reposted"].bool ?? false,
             isLoved: json["currentUserState"]["loved"].bool ?? false,
             isWatching: json["currentUserState"]["watching"].bool ?? false,
-            summary: RegionParser.graphQLRegions(json: json["summary"])
-        )
+            summary: RegionParser.graphQLRegions(json: json["summary"]),
+            content: RegionParser.graphQLRegions(json: json["content"], isRepostContent: repostContent.count > 0),
+            body: RegionParser.graphQLRegions(json: json["body"], isRepostContent: repostContent.count > 0),
+            repostContent: repostContent
+            )
 
-        post.content = RegionParser.graphQLRegions(json: json["content"], isRepostContent: repostContent.count > 0)
-        post.body = RegionParser.graphQLRegions(json: json["body"], isRepostContent: repostContent.count > 0)
-        post.repostContent = repostContent
         post.artistInviteId = json["artistInviteSubmission"]["artistInvite"]["id"].id
-
         post.viewsCount = json["postStats"]["viewsCount"].int
         post.commentsCount = json["postStats"]["commentsCount"].int
         post.repostsCount = json["postStats"]["repostsCount"].int

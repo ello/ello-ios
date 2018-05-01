@@ -16,22 +16,25 @@ final class ElloComment: Model, Authorable, Groupable {
     let authorId: String
     let postId: String
     var content: [Regionable]
-    var body: [Regionable]?
-    var summary: [Regionable]?
+    var body: [Regionable]
+    var summary: [Regionable]
+
     var assets: [Asset] { return getLinkArray("assets") }
     var author: User? { return getLinkObject("author") }
     var parentPost: Post? { return getLinkObject("parent_post") }
     var loadedFromPost: Post? { return getLinkObject("loaded_from_post") ?? parentPost }
     // to show hide in the stream, and for comment replies
     var loadedFromPostId: String {
-        didSet { addLinkObject("loaded_from_post", key: loadedFromPostId, type: .postsType) }
+        didSet { addLinkObject("loaded_from_post", id: loadedFromPostId, type: .postsType) }
     }
 
     init(id: String,
         createdAt: Date,
         authorId: String,
         postId: String,
-        content: [Regionable])
+        content: [Regionable],
+        body: [Regionable],
+        summary: [Regionable])
     {
         self.id = id
         self.createdAt = createdAt
@@ -39,11 +42,13 @@ final class ElloComment: Model, Authorable, Groupable {
         self.postId = postId
         self.loadedFromPostId = postId
         self.content = content
+        self.body = body
+        self.summary = summary
         super.init(version: CommentVersion)
 
-        addLinkObject("parent_post", key: postId, type: .postsType)
-        addLinkObject("loaded_from_post", key: postId, type: .postsType)
-        addLinkObject("author", key: authorId, type: .usersType)
+        addLinkObject("parent_post", id: postId, type: .postsType)
+        addLinkObject("loaded_from_post", id: postId, type: .postsType)
+        addLinkObject("author", id: authorId, type: .usersType)
     }
 
     required init(coder: NSCoder) {
@@ -54,8 +59,8 @@ final class ElloComment: Model, Authorable, Groupable {
         self.postId = decoder.decodeKey("postId")
         self.content = decoder.decodeKey("content")
         self.loadedFromPostId = decoder.decodeKey("loadedFromPostId")
-        self.body = decoder.decodeOptionalKey("body")
-        self.summary = decoder.decodeOptionalKey("summary")
+        self.body = decoder.decodeOptionalKey("body") ?? []
+        self.summary = decoder.decodeOptionalKey("summary") ?? []
         super.init(coder: coder)
     }
 
@@ -87,27 +92,28 @@ final class ElloComment: Model, Authorable, Groupable {
             createdAt: createdAt,
             authorId: json["author_id"].stringValue,
             postId: json["post_id"].stringValue,
-            content: RegionParser.jsonRegions(json: json["content"])
+            content: RegionParser.jsonRegions(json: json["content"]),
+            body: RegionParser.jsonRegions(json: json["body"]),
+            summary: RegionParser.jsonRegions(json: json["summary"])
         )
-        comment.body = RegionParser.jsonRegions(json: json["body"])
-        comment.summary = RegionParser.jsonRegions(json: json["summary"])
 
         comment.mergeLinks(data["links"] as? [String: Any])
-        comment.addLinkObject("author", key: comment.authorId, type: .usersType)
-        comment.addLinkObject("parent_post", key: comment.postId, type: .postsType)
+        comment.addLinkObject("author", id: comment.authorId, type: .usersType)
+        comment.addLinkObject("parent_post", id: comment.postId, type: .postsType)
 
         return comment
     }
 
     class func newCommentForPost(_ post: Post, currentUser: User) -> ElloComment {
-        let comment = ElloComment(
+        return ElloComment(
             id: UUID().uuidString,
             createdAt: Globals.now,
             authorId: currentUser.id,
             postId: post.id,
-            content: [Regionable]()
-        )
-        return comment
+            content: [],
+            body: [],
+            summary: []
+            )
     }
 }
 

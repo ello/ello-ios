@@ -31,8 +31,8 @@ final class Watch: Model, PostActionable {
         self.userId = userId
         super.init(version: WatchVersion)
 
-        addLinkObject("post", key: postId, type: .postsType)
-        addLinkObject("user", key: userId, type: .usersType)
+        addLinkObject("post", id: postId, type: .postsType)
+        addLinkObject("user", id: userId, type: .usersType)
     }
 
     required init(coder: NSCoder) {
@@ -82,8 +82,8 @@ final class Watch: Model, PostActionable {
         )
 
         watch.mergeLinks(data["links"] as? [String: Any])
-        watch.addLinkObject("post", key: watch.postId, type: .postsType)
-        watch.addLinkObject("user", key: watch.userId, type: .usersType)
+        watch.addLinkObject("post", id: watch.postId, type: .postsType)
+        watch.addLinkObject("user", id: watch.userId, type: .usersType)
 
         return watch
     }

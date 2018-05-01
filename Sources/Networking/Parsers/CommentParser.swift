@@ -23,11 +23,11 @@ class CommentParser: IdParser {
             createdAt: createdAt,
             authorId: json["author_id"].stringValue,
             postId: json["post_id"].stringValue,
-            content: RegionParser.graphQLRegions(json: json["content"])
+            content: RegionParser.graphQLRegions(json: json["content"]),
+            body: RegionParser.graphQLRegions(json: json["body"]),
+            summary: RegionParser.graphQLRegions(json: json["summary"])
         )
 
-        comment.body = RegionParser.graphQLRegions(json: json["body"])
-        comment.summary = RegionParser.graphQLRegions(json: json["summary"])
         comment.mergeLinks(json["links"].dictionaryObject)
 
         return comment

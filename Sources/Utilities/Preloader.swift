@@ -67,22 +67,18 @@ struct Preloader {
     }
 
     private func preloadUserAvatar(_ post: Post, streamKind: StreamKind) {
-        if let content = post.content {
-            for region in content {
-                if let imageRegion = region as? ImageRegion,
-                    let asset = imageRegion.asset,
-                    let attachment = asset.oneColumnAttachment
-                {
-                    preloadUrl(attachment.url)
-                }
+        for region in post.content {
+            if let imageRegion = region as? ImageRegion,
+                let asset = imageRegion.asset,
+                let attachment = asset.oneColumnAttachment
+            {
+                preloadUrl(attachment.url)
             }
         }
     }
 
     private func preloadImagesinPost(_ post: Post) {
-        if let content = post.content {
-            preloadImagesInRegions(content)
-        }
+        preloadImagesInRegions(post.content)
     }
 
     private func preloadImagesInRegions(_ regions: [Regionable]) {
