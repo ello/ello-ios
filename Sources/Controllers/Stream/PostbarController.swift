@@ -225,9 +225,8 @@ class PostbarController: UIResponder {
             .done { _ in
                 guard let currentUser = self.currentUser else { return }
 
-                let now = Globals.now
                 let love = Love(
-                    id: "", createdAt: now, updatedAt: now,
+                    id: "",
                     isDeleted: true, postId: post.id, userId: currentUser.id
                 )
                 postNotification(ModelChangedNotification, value: (love, .delete))

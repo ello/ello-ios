@@ -45,8 +45,7 @@ class BadgesViewController: StreamableViewController {
 
         let items: [StreamCellItem] = user.badges.map { badge in
             let badgeModel = Badge(badge: badge, categories: user.categories)
-            let item = StreamCellItem(jsonable: badgeModel, type: .badge)
-            return item
+            return StreamCellItem(jsonable: badgeModel, type: .badge)
         }
         streamViewController.appendStreamCellItems(items)
     }

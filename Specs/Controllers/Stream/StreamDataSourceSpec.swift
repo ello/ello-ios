@@ -1252,12 +1252,12 @@ class StreamDataSourceSpec: QuickSpec {
             }
 
             context("elementsForModel(_:, change:)") {
-                let user1: User!
-                let post1: Post!
-                let comment1: ElloComment!
-                let user2: User!
-                let post2: Post!
-                let comment2: ElloComment!
+                var user1: User!
+                var post1: Post!
+                var comment1: ElloComment!
+                var user2: User!
+                var post2: Post!
+                var comment2: ElloComment!
 
                 beforeEach {
                     user1 = User.stub([:])

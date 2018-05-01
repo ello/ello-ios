@@ -7,11 +7,10 @@ import Moya
 
 
 @objc(CategoryPost)
-final class CategoryPost: Model, Groupable {
+final class CategoryPost: Model {
     static let Version = 1
 
     let id: String
-    var groupId: String { return "CategoryPost-\(id)" }
     let submittedAt: Date?
     let featuredAt: Date?
     let unfeaturedAt: Date?
@@ -32,42 +31,15 @@ final class CategoryPost: Model, Groupable {
     }
 
     struct Action {
-        enum Name: Equatable {
+        enum Name: String {
             case feature
             case unfeature
-            case other(String)
-
-            static func == (lhs: Name, rhs: Name) -> Bool { return lhs.string == rhs.string }
-
-            init(_ name: String) {
-                switch name {
-                case "feature": self = .feature
-                case "unfeature": self = .unfeature
-                default: self = .other(name)
-                }
-            }
-
-            var string: String {
-                switch self {
-                case .feature: return "feature"
-                case .unfeature: return "unfeature"
-                case let .other(string): return string
-                }
-            }
         }
 
         let name: Name
         let label: String
         let request: ElloRequest
         var endpoint: ElloAPI { return .customRequest(request, mimics: .categoryPostActions) }
-
-        var order: Int {
-            switch name {
-            case .feature: return 0
-            case .unfeature: return 1
-            case .other: return 2
-            }
-        }
 
         init(name: Name, label: String, request: ElloRequest) {
             self.name = name
@@ -78,12 +50,13 @@ final class CategoryPost: Model, Groupable {
         init?(name nameStr: String, json: JSON) {
             guard
                 let method = json["method"].string.map({ $0.uppercased() }).flatMap({ Moya.Method(rawValue: $0) }),
-                let url = json["href"].string.flatMap({ URL(string: $0) })
+                let url = json["href"].string.flatMap({ URL(string: $0) }),
+                let name = Name(rawValue: nameStr)
             else { return nil }
 
             let label = json["label"].stringValue
             let parameters = json["body"].object as? [String: Any]
-            self.init(name: Name(nameStr), label: label, request: ElloRequest(url: url, method: method, parameters: parameters))
+            self.init(name: name, label: label, request: ElloRequest(url: url, method: method, parameters: parameters))
         }
     }
 
@@ -171,7 +144,7 @@ extension CategoryPost.Action {
     var encodeable: [String: Any] {
         let parameters: [String: Any] = request.parameters ?? [:]
         return [
-            "name": name.string,
+            "name": name.rawValue,
             "label": label,
             "url": request.url,
             "method": request.method.rawValue,
@@ -185,9 +158,10 @@ extension CategoryPost.Action {
             let label = decodeable["label"] as? String,
             let url = decodeable["url"] as? URL,
             let method = (decodeable["method"] as? String).flatMap({ Moya.Method(rawValue: $0) }),
-            let parameters = decodeable["parameters"] as? [String: String]
+            let parameters = decodeable["parameters"] as? [String: String],
+            let name = Name(rawValue: nameStr)
         else { return nil }
 
-        return CategoryPost.Action(name: Name(nameStr), label: label, request: ElloRequest(url: url, method: method, parameters: parameters))
+        return CategoryPost.Action(name: name, label: label, request: ElloRequest(url: url, method: method, parameters: parameters))
     }
 }

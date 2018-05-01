@@ -655,7 +655,6 @@
 		1D447EF41F3BC8C400013384 /* RegionParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1247E4EB1A8B8CFB00DDC24A /* RegionParser.swift */; };
 		1D447EF51F3BC8C800013384 /* ArrayExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8A3B6441AC457CA00806224 /* ArrayExtensions.swift */; };
 		1D447EF61F3BC92500013384 /* InterfaceImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D15C2761C7D12890013B192 /* InterfaceImage.swift */; };
-		1D447EF71F3BC92900013384 /* Groupable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DDC851E1D91F5E500C29552 /* Groupable.swift */; };
 		1D447EF81F3BC93B00013384 /* ElloAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1207C9541C73FEE000939ADB /* ElloAPI.swift */; };
 		1D447EF91F3BC94200013384 /* AuthToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1207C94E1C73FEE000939ADB /* AuthToken.swift */; };
 		1D447EFA1F3BC94900013384 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 760F66181AD843990071F633 /* Profile.swift */; };
@@ -1056,8 +1055,6 @@
 		1DDC851B1D91D52D00C29552 /* Watch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DDC85161D91D4D200C29552 /* Watch.swift */; };
 		1DDC85231D91F5ED00C29552 /* Authorable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DDC851D1D91F5E500C29552 /* Authorable.swift */; };
 		1DDC85241D91F5F500C29552 /* Authorable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DDC851D1D91F5E500C29552 /* Authorable.swift */; };
-		1DDC85251D91F5FA00C29552 /* Groupable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DDC851E1D91F5E500C29552 /* Groupable.swift */; };
-		1DDC85261D91F5FB00C29552 /* Groupable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DDC851E1D91F5E500C29552 /* Groupable.swift */; };
 		1DDC85271D91F60000C29552 /* PostActionable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DDC851F1D91F5E500C29552 /* PostActionable.swift */; };
 		1DDC85281D91F60000C29552 /* PostActionable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DDC851F1D91F5E500C29552 /* PostActionable.swift */; };
 		1DDF39E71D072FCD00C1A75E /* BlockUserModalScreenSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DDF39E61D072FCD00C1A75E /* BlockUserModalScreenSpec.swift */; };
@@ -2189,7 +2186,6 @@
 		1DDC85161D91D4D200C29552 /* Watch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Watch.swift; sourceTree = "<group>"; };
 		1DDC85181D91D4E400C29552 /* watches_creating_a_watch.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = watches_creating_a_watch.json; sourceTree = "<group>"; };
 		1DDC851D1D91F5E500C29552 /* Authorable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Authorable.swift; sourceTree = "<group>"; };
-		1DDC851E1D91F5E500C29552 /* Groupable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Groupable.swift; sourceTree = "<group>"; };
 		1DDC851F1D91F5E500C29552 /* PostActionable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostActionable.swift; sourceTree = "<group>"; };
 		1DDF39E61D072FCD00C1A75E /* BlockUserModalScreenSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockUserModalScreenSpec.swift; sourceTree = "<group>"; };
 		1DDF3C481A9D0D05000D0945 /* ElloNavigationBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ElloNavigationBar.swift; sourceTree = "<group>"; };
@@ -4139,7 +4135,6 @@
 			isa = PBXGroup;
 			children = (
 				1DDC851D1D91F5E500C29552 /* Authorable.swift */,
-				1DDC851E1D91F5E500C29552 /* Groupable.swift */,
 				1DDC851F1D91F5E500C29552 /* PostActionable.swift */,
 			);
 			path = Protocols;
@@ -5378,7 +5373,6 @@
 				1207C9A61C752F6400939ADB /* ElloProviderErrors.swift in Sources */,
 				1207C9941C74CD4A00939ADB /* PostEditingService.swift in Sources */,
 				122B30BD1C6A3FBB00C1B9D8 /* LocalPerson.swift in Sources */,
-				1DDC85251D91F5FA00C29552 /* Groupable.swift in Sources */,
 				1D0DF8F9202384BF00019875 /* LoveParser.swift in Sources */,
 				1DBFD9F31DFB50410058843D /* Announcement.swift in Sources */,
 				122D1BBA1C640398001386CE /* CGSizeExtensions.swift in Sources */,
@@ -5694,7 +5688,6 @@
 				1DE991D61FE077550025415A /* LightboxProtocols.swift in Sources */,
 				122B30F21C6A3FC500C1B9D8 /* RegionParser.swift in Sources */,
 				1D2F65AE1D186E7F0099D036 /* CategoryCardCellPresenter.swift in Sources */,
-				1DDC85261D91F5FB00C29552 /* Groupable.swift in Sources */,
 				1D5A90201D3D74B300C2AEFF /* ElloAPISharingHeaders.swift in Sources */,
 				1DDC23441F32250600E68B0E /* ArtistInviteAdminControlsCell.swift in Sources */,
 				1D971CF31E1ED2BD00A167A2 /* DebugTrackingController.swift in Sources */,
@@ -6298,7 +6291,6 @@
 				1D2C09D12072A63D00DEE61A /* LoadingGradientLayer.swift in Sources */,
 				1D0DF8EC202384BE00019875 /* CategoryParser.swift in Sources */,
 				1D447EEE1F3BC80000013384 /* Box.swift in Sources */,
-				1D447EF71F3BC92900013384 /* Groupable.swift in Sources */,
 				1D250FC4208F97CE000EB403 /* CategoryPost.swift in Sources */,
 				1D447EC31F3BC62600013384 /* ImageRegion.swift in Sources */,
 				1D0DF8ED202384BE00019875 /* CommentParser.swift in Sources */,

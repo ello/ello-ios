@@ -5,14 +5,13 @@
 let NotificationVersion = 1
 
 @objc(Notification)
-final class Notification: Model, Authorable, Groupable {
+final class Notification: Model, Authorable {
 
     let activity: Activity
     var author: User?
     // if postId is present, this notification is opened using "PostDetailViewController"
     var postId: String?
     var createdAt: Date { return activity.createdAt as Date }
-    var groupId: String { return "Notification-\(activity.id)" }
     var subject: Model? { willSet { attributedTitleStore = nil } }
 
     // notification specific

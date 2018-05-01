@@ -599,7 +599,9 @@ class StreamDataSource: ElloDataSource {
             let identifier = jsonable.uniqueId
         {
             for (index, item) in visibleCellItems.enumerated() {
-                if let itemJsonable = item.jsonable as? JSONSaveable, let itemIdentifier = itemJsonable.uniqueId, identifier == itemIdentifier
+                if
+                    let itemJsonable = item.jsonable as? JSONSaveable,
+                    identifier == itemJsonable.uniqueId
                 {
                     indexPaths.append(IndexPath(item: index, section: 0))
                     items.append(item)
