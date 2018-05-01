@@ -505,7 +505,7 @@ struct InterfaceString {
         static let JPEGCompress: String = NSLocalizedString("Could not compress image as JPEG", comment: "")
     }
 
-    static let GenericError: String = NSLocalizedString("Something went wrong. Thank you for your patience with Ello Beta!", comment: "Generic error message")
+    static let GenericError: String = NSLocalizedString("Something went wrong. Thank you for your patience with Ello!", comment: "Generic error message")
     static let UnknownError: String = NSLocalizedString("Unknown error", comment: "Unknown error message")
 
     static let EmptyStreamText: String = NSLocalizedString("Nothing To See Here", comment: "")
