@@ -62,5 +62,4 @@ final class Relationship: Model {
 extension Relationship: JSONSaveable {
     var uniqueId: String? { return "Relationship-\(id)" }
     var tableId: String? { return id }
-
 }

@@ -222,5 +222,4 @@ extension Asset {
 extension Asset: JSONSaveable {
     var uniqueId: String? { return "Asset-\(id)" }
     var tableId: String? { return id }
-
 }

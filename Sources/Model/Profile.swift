@@ -466,5 +466,4 @@ final class Profile: Model {
 extension Profile: JSONSaveable {
     var uniqueId: String? { return "Profile-\(id)" }
     var tableId: String? { return id }
-
 }

@@ -113,5 +113,4 @@ final class Activity: Model {
 extension Activity: JSONSaveable {
     var uniqueId: String? { return "Activity-\(id)" }
     var tableId: String? { return id }
-
 }

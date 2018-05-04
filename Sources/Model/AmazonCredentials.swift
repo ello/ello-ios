@@ -65,5 +65,4 @@ class AmazonCredentials: Model {
 extension AmazonCredentials: JSONSaveable {
     var uniqueId: String? { return "AmazonCredentials-\(accessKey)" }
     var tableId: String? { return accessKey }
-
 }

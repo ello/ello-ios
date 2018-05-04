@@ -129,5 +129,4 @@ final class Notification: Model, Authorable {
 extension Notification: JSONSaveable {
     var uniqueId: String? { return "Notification-\(activity.id)" }
     var tableId: String? { return activity.id }
-
 }

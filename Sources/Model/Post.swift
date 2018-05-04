@@ -232,5 +232,4 @@ final class Post: Model, Authorable {
 extension Post: JSONSaveable {
     var uniqueId: String? { return "Post-\(id)" }
     var tableId: String? { return id }
-
 }

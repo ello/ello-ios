@@ -71,5 +71,4 @@ final class Love: Model, PostActionable {
 extension Love: JSONSaveable {
     var uniqueId: String? { return "Love-\(id)" }
     var tableId: String? { return id }
-
 }

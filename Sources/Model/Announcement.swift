@@ -96,5 +96,4 @@ final class Announcement: Model {
 extension Announcement: JSONSaveable {
     var uniqueId: String? { return "Announcement-\(id)" }
     var tableId: String? { return id }
-
 }

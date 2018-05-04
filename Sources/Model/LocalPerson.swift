@@ -55,5 +55,4 @@ final class LocalPerson: Model {
 extension LocalPerson: JSONSaveable {
     var uniqueId: String? { return "LocalPerson-\(id)" }
     var tableId: String? { return id }
-
 }

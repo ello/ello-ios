@@ -65,5 +65,4 @@ final class Watch: Model, PostActionable {
 extension Watch: JSONSaveable {
     var uniqueId: String? { return "Watch-\(id)" }
     var tableId: String? { return id }
-
 }

@@ -119,5 +119,4 @@ final class ElloComment: Model, Authorable {
 extension ElloComment: JSONSaveable {
     var uniqueId: String? { return "ElloComment-\(id)" }
     var tableId: String? { return id }
-
 }
