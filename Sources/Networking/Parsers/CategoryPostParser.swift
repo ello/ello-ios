@@ -9,11 +9,11 @@ class CategoryPostParser: IdParser {
 
     init() {
         super.init(table: .categoryPostsType)
+        linkObject(.categoriesType)
         linkObject(.usersType, "submittedBy")
         linkObject(.usersType, "featuredBy")
         linkObject(.usersType, "unfeaturedBy")
         linkObject(.usersType, "removedBy")
-        linkObject(.categoriesType)
     }
 
     override func parse(json: JSON) -> CategoryPost {

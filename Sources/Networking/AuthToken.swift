@@ -34,7 +34,7 @@ struct AuthToken {
     }
 
     var isPresent: Bool {
-        return !(token ?? "").isEmpty
+        return !(token?.isEmpty ?? true)
     }
 
     var isPasswordBased: Bool {

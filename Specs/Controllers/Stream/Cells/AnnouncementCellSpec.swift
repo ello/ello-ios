@@ -34,7 +34,7 @@ class AnnouncementCellSpec: QuickSpec {
                 ]
                 for (description, config) in expectations {
                     it("should have valid snapshot for \(description)") {
-                        let announcement = Announcement(id: "1", isStaffPreview: false, header: config.title!, body: config.body!, ctaURL: nil, ctaCaption: config.callToAction!)
+                        let announcement = Announcement(id: "1", isStaffPreview: false, header: config.title!, body: config.body!, ctaURL: nil, ctaCaption: config.callToAction!, asset: nil)
                         let width: CGFloat = 375
                         let height = AnnouncementCellSizeCalculator.calculateAnnouncementHeight(announcement, cellWidth: width)
                         let subject = AnnouncementCell(frame: CGRect(origin: .zero, size: CGSize(width: width, height: height)))

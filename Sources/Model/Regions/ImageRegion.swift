@@ -9,24 +9,26 @@ let ImageRegionVersion = 1
 
 @objc(ImageRegion)
 final class ImageRegion: Model, Regionable {
+    let url: URL?
+    let buyButtonURL: URL?
     var isRepost: Bool  = false
+    let kind: RegionKind = .image
 
-    var url: URL?
-    var buyButtonURL: URL?
     var asset: Asset? { return getLinkObject("assets") }
 
     var fullScreenURL: URL? {
         guard let asset = asset else { return url }
 
         let assetURL: URL?
-        if asset.isGif { assetURL =  asset.optimized?.url }
-        else { assetURL =  asset.oneColumnAttachment?.url }
+        if asset.isGif { assetURL = asset.optimized?.url }
+        else { assetURL = asset.oneColumnAttachment?.url }
 
         return assetURL ?? url
     }
 
-    init(url: URL?) {
+    init(url: URL?, buyButtonURL: URL?) {
         self.url = url
+        self.buyButtonURL = buyButtonURL
         super.init(version: ImageRegionVersion)
     }
 
@@ -57,15 +59,11 @@ final class ImageRegion: Model, Regionable {
             url = URL(string: urlStr)
         }
 
-        let imageRegion = ImageRegion(url: url)
-        if let buyLink = json["link_url"].string {
-            imageRegion.buyButtonURL = URL(string: buyLink)
-        }
+        let buyButtonURL = json["linkUrl"].string.flatMap { URL(string: $0) }
+        let imageRegion = ImageRegion(url: url, buyButtonURL: buyButtonURL)
         imageRegion.mergeLinks(data["links"] as? [String: Any])
         return imageRegion
     }
-
-    let kind: RegionKind = .image
 
     func coding() -> NSCoding {
         return self

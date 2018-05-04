@@ -24,6 +24,9 @@ class AuthenticationManager {
     var isUndetermined: Bool { return authState.isUndetermined }
     var isTransitioning: Bool { return authState.isTransitioning }
 
+    // set queue to nil in specs, and reauth requests are sent synchronously.
+    var queue: DispatchQueue? = DispatchQueue(label: "com.ello.ReauthQueue", attributes: [])
+
     func attemptRequest(_ target: AuthenticationEndpoint, retry: @escaping Block, proceed: (UUID) -> Void, cancel: @escaping Block) {
         let uuid = AuthState.uuid
 
@@ -78,11 +81,8 @@ class AuthenticationManager {
         waitList.append(request)
     }
 
-    // set queue to nil in specs, and reauth requests are sent synchronously.
-    var queue: DispatchQueue? = DispatchQueue(label: "com.ello.ReauthQueue", attributes: [])
-
     func attemptAuthentication(uuid: UUID, request: RequestAttempt? = nil) {
-        attemptAuthenticationQueue {
+        inBackground {
             let shouldResendRequest = uuid != AuthState.uuid
             if let (_, request, _) = request, shouldResendRequest {
                 request()
@@ -113,8 +113,7 @@ class AuthenticationManager {
             case .authenticated, .shouldTryRefreshToken:
                 self.authState = .refreshTokenSent
 
-                let authService = ReAuthService()
-                authService.reAuthenticateToken(success: {
+                ReAuthService().reAuthenticateToken(success: {
                     self.advanceAuthState(.authenticated)
                 },
                 failure: { _ in
@@ -125,8 +124,7 @@ class AuthenticationManager {
             case .shouldTryUserCreds:
                 self.authState = .userCredsSent
 
-                let authService = ReAuthService()
-                authService.reAuthenticateUserCreds(success: {
+                ReAuthService().reAuthenticateUserCreds(success: {
                     self.advanceAuthState(.authenticated)
                 },
                 failure: { _ in
@@ -137,8 +135,7 @@ class AuthenticationManager {
             case .shouldTryAnonymousCreds, .noToken:
                 self.authState = .anonymousCredsSent
 
-                let authService = AnonymousAuthService()
-                authService.authenticateAnonymously(success: {
+                AnonymousAuthService().authenticateAnonymously(success: {
                     self.advanceAuthState(.anonymous)
                 }, failure: { _ in
                     self.advanceAuthState(.noToken)
@@ -151,17 +148,17 @@ class AuthenticationManager {
         }
     }
 
-    private func attemptAuthenticationQueue(_ closure: @escaping () -> Void) {
+    private func inBackground(_ block: @escaping () -> Void) {
         if let queue = queue {
-            queue.async(execute: closure)
+            queue.async(execute: block)
         }
         else {
-            closure()
+            block()
         }
     }
 
     private func advanceAuthState(_ nextState: AuthState) {
-        let closure = {
+        let block = {
             self.authState = nextState
 
             if nextState == .noToken {
@@ -173,7 +170,7 @@ class AuthenticationManager {
                     self.postInvalidTokenNotification()
                 }
             }
-            else if nextState == .anonymous {
+            else if nextState == .anonymous || nextState.isAuthenticated {
                 // if you were using the app, but got logged out, you will
                 // quickly receive an anonymous token.  If any Requests don't
                 // support this flow , we should kick you out and present the
@@ -185,11 +182,6 @@ class AuthenticationManager {
                 // Controllers & Services
 
                 AuthState.uuid = UUID()
-
-                self.flushWaitList()
-            }
-            else if nextState.isAuthenticated {
-                AuthState.uuid = UUID()
                 self.flushWaitList()
             }
             else {
@@ -198,12 +190,7 @@ class AuthenticationManager {
             }
         }
 
-        if let queue = queue {
-            queue.async(execute: closure)
-        }
-        else {
-            closure()
-        }
+        inBackground(block)
     }
 
     private func flushWaitList() {

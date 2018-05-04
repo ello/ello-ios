@@ -34,7 +34,7 @@ class ManyParser<T> {
             } : nil)
 
         for (table, objects) in db {
-            guard let tableParser = table.parser() else { continue }
+            guard let tableParser = table.parser else { continue }
 
             for (_, json) in objects {
                 guard let identifier = tableParser.identifier(json: json) else { continue }
@@ -46,7 +46,7 @@ class ManyParser<T> {
             return many
         }
         else {
-            return [T]()
+            return []
         }
     }
 }

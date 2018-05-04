@@ -30,7 +30,7 @@ class OneParser<T> {
         let one = Parser.saveToDB(parser: parser, identifier: identifier, db: &db)
 
         for (table, objects) in db {
-            guard let tableParser = table.parser() else { continue }
+            guard let tableParser = table.parser else { continue }
 
             for (_, json) in objects {
                 guard let identifier = tableParser.identifier(json: json) else { continue }
