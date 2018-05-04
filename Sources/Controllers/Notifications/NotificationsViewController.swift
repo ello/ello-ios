@@ -190,7 +190,6 @@ extension NotificationsViewController: NotificationResponder {
         navigationController?.pushViewController(vc, animated: true)
     }
 
-
     // userTapped(_ user: _) defined in StreamableViewController
     // postTapped(_ post: _) defined in StreamableViewController
 }

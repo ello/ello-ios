@@ -1065,6 +1065,9 @@
 		1DE261351B0D38A400475325 /* UIImageViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DE261341B0D38A400475325 /* UIImageViewExtensions.swift */; };
 		1DE3EC4A1D81CC3400BDE16F /* ElloDev.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = 1DE3EC491D81CC3400BDE16F /* ElloDev.entitlements */; };
 		1DE3EC4C1D83245D00BDE16F /* OnePasswordButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DE3EC4B1D83245D00BDE16F /* OnePasswordButton.swift */; };
+		1DE6E3BE209CDBC800C7FC45 /* CategoryPartial.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DE6E3BD209CDBC800C7FC45 /* CategoryPartial.swift */; };
+		1DE6E3BF209CDBD000C7FC45 /* CategoryPartial.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DE6E3BD209CDBC800C7FC45 /* CategoryPartial.swift */; };
+		1DE6E3C0209CDBD100C7FC45 /* CategoryPartial.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DE6E3BD209CDBC800C7FC45 /* CategoryPartial.swift */; };
 		1DE83CB720925F0B00A7E9D6 /* arrow_right_selected.svg in Resources */ = {isa = PBXBuildFile; fileRef = 1DE83CB420925F0900A7E9D6 /* arrow_right_selected.svg */; };
 		1DE83CB820925F0B00A7E9D6 /* arrow_right_normal.svg in Resources */ = {isa = PBXBuildFile; fileRef = 1DE83CB520925F0A00A7E9D6 /* arrow_right_normal.svg */; };
 		1DE83CB920925F0B00A7E9D6 /* arrow_right_white.svg in Resources */ = {isa = PBXBuildFile; fileRef = 1DE83CB620925F0A00A7E9D6 /* arrow_right_white.svg */; };
@@ -2195,6 +2198,7 @@
 		1DE261341B0D38A400475325 /* UIImageViewExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageViewExtensions.swift; sourceTree = "<group>"; };
 		1DE3EC491D81CC3400BDE16F /* ElloDev.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = ElloDev.entitlements; sourceTree = "<group>"; };
 		1DE3EC4B1D83245D00BDE16F /* OnePasswordButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnePasswordButton.swift; sourceTree = "<group>"; };
+		1DE6E3BD209CDBC800C7FC45 /* CategoryPartial.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryPartial.swift; sourceTree = "<group>"; };
 		1DE83CB420925F0900A7E9D6 /* arrow_right_selected.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = arrow_right_selected.svg; sourceTree = "<group>"; };
 		1DE83CB520925F0A00A7E9D6 /* arrow_right_normal.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = arrow_right_normal.svg; sourceTree = "<group>"; };
 		1DE83CB620925F0A00A7E9D6 /* arrow_right_white.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = arrow_right_white.svg; sourceTree = "<group>"; };
@@ -3416,6 +3420,7 @@
 				1D9A12C81EA96623003B3BD7 /* Badge.swift */,
 				1D59336A1D10ADA600EAF03D /* Category.swift */,
 				1D5933741D10BC8100EAF03D /* CategoryLevel.swift */,
+				1DE6E3BD209CDBC800C7FC45 /* CategoryPartial.swift */,
 				1D250FC1208F97CE000EB403 /* CategoryPost.swift */,
 				12CFF69A1B167841007CE68F /* Coder.swift */,
 				12C043651A609A2000E3051A /* Comment.swift */,
@@ -5361,6 +5366,7 @@
 				1207C9961C74CD5C00939ADB /* ElloAPI.swift in Sources */,
 				1207C9951C74CD5100939ADB /* AuthToken.swift in Sources */,
 				122B30C21C6A3FBB00C1B9D8 /* Profile.swift in Sources */,
+				1DE6E3BF209CDBD000C7FC45 /* CategoryPartial.swift in Sources */,
 				122D1B4F1C602337001386CE /* MutableBox.swift in Sources */,
 				1DC29BB81D3824DE0041B1DC /* Defaults.swift in Sources */,
 				122D1B9A1C6130B4001386CE /* NSObjectClassName.swift in Sources */,
@@ -5807,6 +5813,7 @@
 				1DB390C8203F8C9100A1B7E7 /* ManageCategoriesProtocols.swift in Sources */,
 				1DF0B2D51E8D59DD001B9F97 /* ForgotPasswordResetViewController.swift in Sources */,
 				1D70DE5B1DF6106B008AF216 /* AnnouncementCell.swift in Sources */,
+				1DE6E3BE209CDBC800C7FC45 /* CategoryPartial.swift in Sources */,
 				12F6ADFF1A43380C00493660 /* ProfileViewController.swift in Sources */,
 				1DCA942B1AA138AE0033C0EC /* ElloAttributedString.swift in Sources */,
 				1D513E081ED8DA660081BB2D /* PromiseKitExtensions.swift in Sources */,
@@ -6275,6 +6282,7 @@
 				1D447F191F3BCB3400013384 /* NotificationOverrides.swift in Sources */,
 				1D447EF61F3BC92500013384 /* InterfaceImage.swift in Sources */,
 				1D447EF41F3BC8C400013384 /* RegionParser.swift in Sources */,
+				1DE6E3C0209CDBD100C7FC45 /* CategoryPartial.swift in Sources */,
 				1D808788203646350081E8FE /* ManyParser.swift in Sources */,
 				1D447EB71F3BC3D900013384 /* Editorial.swift in Sources */,
 				1D447ED21F3BC69C00013384 /* S3UploadingService.swift in Sources */,

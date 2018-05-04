@@ -13,27 +13,24 @@ enum ElloAttributedObject {
     case attributedArtistInvite(artistInvite: ArtistInvite)
     case attributedUser(user: User)
     case attributedCategory(category: Category)
-    case attributedFollowers(user: User)
-    case attributedFollowing(user: User)
+    case attributedCategoryPartial(category: CategoryPartial)
     case attributedUserId(userId: String)
     case unknown
 
     static func generate(_ link: String, _ object: Any?) -> ElloAttributedObject {
         switch link {
+        case "user", "followers", "following":
+            if let user = object as? User { return ElloAttributedObject.attributedUser(user: user) }
         case "post":
             if let post = object as? Post { return ElloAttributedObject.attributedPost(post: post) }
         case "comment":
             if let comment = object as? ElloComment { return ElloAttributedObject.attributedComment(comment: comment) }
         case "artistInvite":
             if let artistInvite = object as? ArtistInvite { return ElloAttributedObject.attributedArtistInvite(artistInvite: artistInvite) }
-        case "user":
-            if let user = object as? User { return ElloAttributedObject.attributedUser(user: user) }
         case "category":
             if let category = object as? Category { return ElloAttributedObject.attributedCategory(category: category) }
-        case "followers":
-            if let user = object as? User { return ElloAttributedObject.attributedFollowers(user: user) }
-        case "following":
-            if let user = object as? User { return ElloAttributedObject.attributedFollowing(user: user) }
+        case "categoryPartial":
+            if let category = object as? CategoryPartial { return ElloAttributedObject.attributedCategoryPartial(category: category) }
         case "userId":
             if let userId = object as? String { return ElloAttributedObject.attributedUserId(userId: userId) }
         default: break

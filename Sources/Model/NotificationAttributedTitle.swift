@@ -56,6 +56,24 @@ struct NotificationAttributedTitle {
         return NSAttributedString(string: artistInvite.title, attributes: attrs)
     }
 
+    static private func styleCategory(_ category: Category) -> NSAttributedString {
+        let attrs = self.attrs([
+            ElloAttributedText.Link: "category",
+            ElloAttributedText.Object: category,
+            .underlineStyle: NSUnderlineStyle.styleSingle.rawValue,
+        ])
+        return NSAttributedString(string: category.name, attributes: attrs)
+    }
+
+    static private func styleCategory(partial: CategoryPartial) -> NSAttributedString {
+        let attrs = self.attrs([
+            ElloAttributedText.Link: "categoryPartial",
+            ElloAttributedText.Object: partial,
+            .underlineStyle: NSUnderlineStyle.styleSingle.rawValue,
+        ])
+        return NSAttributedString(string: partial.name, attributes: attrs)
+    }
+
     static func from(notification: Notification) -> NSAttributedString {
         let kind = notification.activity.kind
         let author = notification.author
@@ -260,6 +278,60 @@ struct NotificationAttributedTitle {
             }
             else {
                 return styleText("A followers submission has been accepted!")
+            }
+        case .categoryPostFeatured:
+            if let submission = subject as? CategoryPost,
+                let featuredBy = submission.featuredBy,
+                let categoryText = submission.category.map(({ styleCategory($0) })) ?? submission.categoryPartial.map({ styleCategory(partial: $0) }),
+                let post = submission.post
+            {
+                return styleUser(featuredBy)
+                    .appending(styleText(" featured your "))
+                    .appending(stylePost("post", post))
+                    .appending(styleText(" in "))
+                    .appending(categoryText)
+                    .appending(styleText("."))
+            }
+            else {
+                return styleText("Someone featured your post.")
+            }
+        case .categoryRepostFeatured:
+            if let submission = subject as? CategoryPost,
+                let featuredBy = submission.featuredBy,
+                let categoryText = submission.category.map(({ styleCategory($0) })) ?? submission.categoryPartial.map({ styleCategory(partial: $0) }),
+                let post = submission.post
+            {
+                return styleUser(featuredBy)
+                    .appending(styleText(" featured your "))
+                    .appending(stylePost("repost", post))
+                    .appending(styleText(" in "))
+                    .appending(categoryText)
+                    .appending(styleText("."))
+            }
+            else {
+                return styleText("Someone featured your repost.")
+            }
+        case .categoryPostViaRepostFeatured:
+            if let submission = subject as? CategoryPost,
+                let featuredBy = submission.featuredBy,
+                let categoryText = submission.category.map(({ styleCategory($0) })) ?? submission.categoryPartial.map({ styleCategory(partial: $0) }),
+                let repost = submission.post,
+                let repostAuthor = repost.author,
+                let source = repost.repostSource
+            {
+                return styleUser(featuredBy)
+                    .appending(styleText(" featured "))
+                    .appending(styleUser(repostAuthor))
+                    .appending(styleText("’s "))
+                    .appending(stylePost("repost", repost))
+                    .appending(styleText(" of your "))
+                    .appending(stylePost("post", source))
+                    .appending(styleText(" in "))
+                    .appending(categoryText)
+                    .appending(styleText("."))
+            }
+            else {
+                return styleText("Someone featured a repost of your post.")
             }
         case .welcomeNotification:
             return styleText("Welcome to Ello!")

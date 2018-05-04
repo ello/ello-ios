@@ -9,9 +9,12 @@ import TimeAgoInWords
 @objc
 protocol NotificationResponder: class {
     func userTapped(_ user: User)
+    func userTapped(userId: String)
+    func postTapped(_ post: Post)
     func commentTapped(_ comment: ElloComment)
     func artistInviteTapped(_ artistInvite: ArtistInvite)
-    func postTapped(_ post: Post)
+    func categoryTapped(_ category: Category)
+    func categoryTapped(slug: String, name: String)
 }
 
 enum NotificationCellMode {
@@ -357,6 +360,12 @@ class NotificationCell: UICollectionViewCell, UIWebViewDelegate {
 extension NotificationCell: ElloTextViewDelegate {
     func textViewTapped(_ link: String, object: ElloAttributedObject) {
         switch object {
+        case let .attributedUser(user):
+            let responder: NotificationResponder? = findResponder()
+            responder?.userTapped(user)
+        case let .attributedUserId(userId):
+            let responder: NotificationResponder? = findResponder()
+            responder?.userTapped(userId: userId)
         case let .attributedPost(post):
             let responder: NotificationResponder? = findResponder()
             responder?.postTapped(post)
@@ -366,10 +375,13 @@ extension NotificationCell: ElloTextViewDelegate {
         case let .attributedArtistInvite(artistInvite):
             let responder: NotificationResponder? = findResponder()
             responder?.artistInviteTapped(artistInvite)
-        case let .attributedUser(user):
+        case let .attributedCategory(category):
             let responder: NotificationResponder? = findResponder()
-            responder?.userTapped(user)
-        default: break
+            responder?.categoryTapped(category)
+        case let .attributedCategoryPartial(partial):
+            let responder: NotificationResponder? = findResponder()
+            responder?.categoryTapped(slug: partial.slug, name: partial.name)
+        case .unknown: break
         }
     }
 
