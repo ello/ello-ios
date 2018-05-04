@@ -37,6 +37,10 @@ final class Activity: Model {
         case approvedArtistInviteSubmission = "approved_artist_invite_submission" // your submission has been accepted
         case approvedArtistInviteSubmissionNotificationForFollowers = "approved_artist_invite_submission_notification_for_followers" // a person you follow had their submission accepted
 
+        case categoryPostFeatured = "category_post_featured"
+        case categoryRepostFeatured = "category_repost_featured"
+        case categoryPostViaRepostFeatured = "category_post_via_repost_featured"
+
         // Fallback for not defined types
         case unknown = "Unknown"
     }
@@ -45,6 +49,7 @@ final class Activity: Model {
         case user = "User"
         case post = "Post"
         case comment = "Comment"
+        case categoryPost = "CategoryPost"
         case unknown = "Unknown"
     }
 

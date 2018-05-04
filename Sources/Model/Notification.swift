@@ -56,6 +56,11 @@ final class Notification: Model, Authorable {
         else if let user = activity.subject as? User {
             self.author = user
         }
+        else if let submission = activity.subject as? CategoryPost,
+            let featuredBy = submission.featuredBy
+        {
+            self.author = featuredBy
+        }
         else if let actionable = activity.subject as? PostActionable,
             let user = actionable.user
         {
@@ -65,16 +70,29 @@ final class Notification: Model, Authorable {
 
         super.init(version: NotificationVersion)
 
+        var postSummary: [Regionable]?
+        var postParentSummary: [Regionable]?
+
         if let post = activity.subject as? Post {
-            assignRegionsFromContent(post.summary)
+            postSummary = post.summary
+        }
+        else if let submission = activity.subject as? CategoryPost,
+            let post = submission.post
+        {
+            postSummary = post.summary
         }
         else if let comment = activity.subject as? ElloComment {
-            let parentSummary = comment.parentPost?.summary
             let content = !comment.summary.isEmpty ? comment.summary : comment.content
-            assignRegionsFromContent(content, parentSummary: parentSummary)
+            let parentSummary = comment.parentPost?.summary
+            postSummary = content
+            postParentSummary = parentSummary
         }
         else if let post = (activity.subject as? PostActionable)?.post {
-            assignRegionsFromContent(post.summary)
+            postSummary = post.summary
+        }
+
+        if let postSummary = postSummary {
+            assignRegionsFromContent(postSummary, parentSummary: postParentSummary)
         }
 
         subject = activity.subject

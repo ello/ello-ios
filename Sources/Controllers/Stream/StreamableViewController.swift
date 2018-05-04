@@ -245,6 +245,25 @@ extension StreamableViewController: UserTappedResponder {
         userParamTapped(user.id, username: user.username)
     }
 
+    @objc
+    func userTapped(userId: String) {
+        let vc = ProfileViewController(userParam: userId)
+        vc.currentUser = currentUser
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+
+    @objc
+    func categoryTapped(_ category: Category) {
+        let controller = CategoryViewController(currentUser: currentUser, category: category, usage: .detail)
+        navigationController?.pushViewController(controller, animated: true)
+    }
+
+    @objc
+    func categoryTapped(slug: String, name: String) {
+        let controller = CategoryViewController(currentUser: currentUser, slug: slug, name: name, usage: .detail)
+        navigationController?.pushViewController(controller, animated: true)
+    }
+
     func userParamTapped(_ param: String, username: String?) {
         guard !DeepLinking.alreadyOnUserProfile(navVC: navigationController, userParam: param)
             else { return }

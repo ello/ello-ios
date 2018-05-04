@@ -11,6 +11,7 @@ final class CategoryPost: Model {
     static let Version = 1
 
     let id: String
+    let categoryPartial: CategoryPartial?
     let submittedAt: Date?
     let featuredAt: Date?
     let unfeaturedAt: Date?
@@ -18,11 +19,12 @@ final class CategoryPost: Model {
     let status: Status
     var actions: [Action]
 
+    var post: Post? { return getLinkObject("post") }
     var category: Category? { return getLinkObject("category") }
-    var submittedBy: User? { return getLinkObject("submittedBy") }
-    var featuredBy: User? { return getLinkObject("featuredBy") }
-    var unfeaturedBy: User? { return getLinkObject("unfeaturedBy") }
-    var removedBy: User? { return getLinkObject("removedBy") }
+    var submittedBy: User? { return getLinkObject("submitted_by") }
+    var featuredBy: User? { return getLinkObject("featured_by") }
+    var unfeaturedBy: User? { return getLinkObject("unfeatured_by") }
+    var removedBy: User? { return getLinkObject("removed_by") }
 
     enum Status: String {
         case featured
@@ -60,9 +62,10 @@ final class CategoryPost: Model {
         }
     }
 
-    init(id: String, status: Status, actions: [Action], submittedAt: Date?, featuredAt: Date?, unfeaturedAt: Date?, removedAt: Date?)
+    init(id: String, categoryPartial: CategoryPartial?, status: Status, actions: [Action], submittedAt: Date?, featuredAt: Date?, unfeaturedAt: Date?, removedAt: Date?)
     {
         self.id = id
+        self.categoryPartial = categoryPartial
         self.status = status
         self.actions = actions
         self.submittedAt = submittedAt
@@ -83,6 +86,7 @@ final class CategoryPost: Model {
         featuredAt = decoder.decodeOptionalKey("featuredAt")
         unfeaturedAt = decoder.decodeOptionalKey("unfeaturedAt")
         removedAt = decoder.decodeOptionalKey("removedAt")
+        categoryPartial = decoder.decodeOptionalKey("categoryPartial")
         super.init(coder: coder)
     }
 
@@ -95,6 +99,7 @@ final class CategoryPost: Model {
         encoder.encodeObject(featuredAt, forKey: "featuredAt")
         encoder.encodeObject(unfeaturedAt, forKey: "unfeaturedAt")
         encoder.encodeObject(removedAt, forKey: "removedAt")
+        encoder.encodeObject(categoryPartial, forKey: "categoryPartial")
         super.encode(with: coder)
     }
 
@@ -113,8 +118,17 @@ final class CategoryPost: Model {
         let unfeaturedAt = json["unfeatured_at"].stringValue.toDate() ?? Globals.now
         let removedAt = json["removed_at"].stringValue.toDate() ?? Globals.now
 
+        var categoryPartial: CategoryPartial?
+        if let categoryId = json["category_id"].string,
+            let categoryName = json["category_name"].string,
+            let categorySlug = json["category_slug"].string
+        {
+            categoryPartial = CategoryPartial(id: categoryId, name: categoryName, slug: categorySlug)
+        }
+
         let categoryPost = CategoryPost(
             id: json["id"].stringValue,
+            categoryPartial: categoryPartial,
             status: CategoryPost.Status(rawValue: json["status"].stringValue) ?? .unspecified,
             actions: actions,
             submittedAt: submittedAt,
