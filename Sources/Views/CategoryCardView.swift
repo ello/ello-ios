@@ -6,7 +6,7 @@ class CategoryCardView: View {
     struct Size {
         static let cardSize: CGSize = CGSize(width: 100, height: 68)
         static let smallCardSize: CGSize = CGSize(width: 50, height: 68)
-        static let largeCardSize: CGSize = CGSize(width: 300, height: 68)
+        static let zeroStateCardSize: CGSize = CGSize(width: 300, height: 68)
     }
 
     static let selectedAlpha: CGFloat = 0.8
@@ -22,8 +22,8 @@ class CategoryCardView: View {
         set { overlay.alpha = newValue }
     }
 
-    let button = UIButton()
     private let overlay = UIView()
+    let button = UIButton()
 
     init(info: CategoryCardListView.CategoryInfo) {
         self.info = info
@@ -74,11 +74,11 @@ class CategoryCardView: View {
             }
         case .zeroState:
             let gradient = CategoryCardView.generateGradientLayer()
-            gradient.frame.size = Size.largeCardSize
+            gradient.frame.size = Size.zeroStateCardSize
             layer.addSublayer(gradient)
 
             snp.makeConstraints { make in
-                make.size.equalTo(Size.largeCardSize)
+                make.size.equalTo(Size.zeroStateCardSize)
             }
         case .category:
             snp.makeConstraints { make in
