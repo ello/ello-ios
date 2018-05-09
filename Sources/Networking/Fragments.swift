@@ -7,11 +7,12 @@ struct Fragments: Equatable {
     //|  FRAGMENTS
     //|
     static let categoryPostActions = Fragments("""
-    fragment categoryPostActions on CategoryPostActions {
-        feature { href label method }
-        unfeature { href label method }
-    }
-    """)
+        fragment categoryPostActions on CategoryPostActions {
+            feature { href label method }
+            unfeature { href label method }
+        }
+        """)
+
     static let imageProps = Fragments("""
         fragment imageProps on Image {
           url
