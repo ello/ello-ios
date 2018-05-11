@@ -82,7 +82,7 @@ struct StreamCellItemParser {
             cellItems.append(StreamCellItem(jsonable: submission, type: .artistInviteAdminControls, groupId: groupId))
         }
 
-        if streamKind.isCategoryStream,
+        if streamKind.showsCurationTool,
             let currentUser = currentUser,
             let categoryPost = post.categoryPosts.first(where: currentUser.isCuratorOf)
         {

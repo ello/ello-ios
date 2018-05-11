@@ -116,13 +116,15 @@ enum StreamKind {
         }
     }
 
-    var isCategoryStream: Bool {
+    var showsCurationTool: Bool {
         switch self {
         case let .category(selection, _):
             switch selection {
             case .category: return true
             default: return false
             }
+        case .postDetail:
+            return true
         default: return false
         }
     }
