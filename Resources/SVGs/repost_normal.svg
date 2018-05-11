@@ -1,3 +1,8 @@
-<svg class="svg-icon svg-repost" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><g stroke-width="1.25" fill="none" stroke="#aaa"><path d="M15.2,6.7H5 c-0.5,0-1,0.4-1,1V10"></path>
-<path d="M4.8,14.4H15 c0.6,0,1-0.4,1-1v-2.3"></path></g><g stroke-width="1.25" fill="none" stroke="#aaa"><polyline points="13.3,4 16,6.7 13.2,9.5"></polyline>
-<polyline points="6.7,17.1 4,14.4 6.8,11.7"></polyline></g></svg>
+<svg class="svg-icon svg-repost" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+    <g stroke-width="1.25" fill="none" stroke="#aaa">
+        <path d="M15.2,6.7H5 c-0.5,0-1,0.4-1,1V10" />
+        <path d="M4.8,14.4H15 c0.6,0,1-0.4,1-1v-2.3" />
+        <polyline points="13.3,4 16,6.7 13.2,9.5" />
+        <polyline points="6.7,17.1 4,14.4 6.8,11.7" />
+    </g>
+</svg>
