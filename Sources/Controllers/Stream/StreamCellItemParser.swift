@@ -104,7 +104,8 @@ struct StreamCellItemParser {
                 cellItems += regionItems(post, groupId: groupId, content: post.content)
             }
         }
-        else if let content = post.contentFor(gridView: isGridView) {
+        else {
+            let content = post.contentFor(gridView: isGridView)
             cellItems += regionItems(post, groupId: groupId, content: content)
         }
 
