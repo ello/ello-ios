@@ -20,6 +20,7 @@ enum StreamCellType: Equatable {
     case artistInviteSubmissionsButton
     case badge
     case categoryChooseCard(isSubscribed: Bool, isSelected: Bool)
+    case categoryPostHistory(CategoryPost?)
     case categorySubscribeCard
     case commentHeader
     case createComment
@@ -36,8 +37,6 @@ enum StreamCellType: Equatable {
     case notification
     case onboardingInviteFriends
     case placeholder
-    case postFeaturedBy
-    case postedInCategory
     case postFeaturedControl
     case profileHeader
     case profileHeaderGhost
@@ -104,6 +103,7 @@ enum StreamCellType: Equatable {
         .artistInviteSubmissionsButton,
         .badge,
         .categoryChooseCard(isSubscribed: true, isSelected: true),
+        .categoryPostHistory(nil),
         .categorySubscribeCard,
         .commentHeader,
         .createComment,
@@ -125,8 +125,6 @@ enum StreamCellType: Equatable {
         .notification,
         .onboardingInviteFriends,
         .placeholder,
-        .postFeaturedBy,
-        .postedInCategory,
         .postFeaturedControl,
         .profileHeader,
         .profileHeaderGhost,
@@ -153,6 +151,7 @@ enum StreamCellType: Equatable {
     var data: Any? {
         switch self {
         case let .artistInviteGuide(data): return data
+        case let .categoryPostHistory(categoryPost): return categoryPost
         case let .embed(data): return data
         case let .header(data): return data
         case let .image(data): return data
@@ -179,6 +178,7 @@ enum StreamCellType: Equatable {
         case .artistInviteSubmissionsButton: return ArtistInviteSubmissionsButtonCell.reuseIdentifier
         case .badge: return BadgeCell.reuseIdentifier
         case .categoryChooseCard, .categorySubscribeCard: return CategoryCardCell.reuseIdentifier
+        case .categoryPostHistory: return CategoryPostHistoryCell.reuseIdentifier
         case .commentHeader: return CommentHeaderCell.reuseIdentifier
         case .streamHeader: return StreamHeaderCell.reuseIdentifier
         case .createComment: return StreamCreateCommentCell.reuseIdentifier
@@ -194,8 +194,6 @@ enum StreamCellType: Equatable {
         case .noPosts: return NoPostsCell.reuseIdentifier
         case .notification: return NotificationCell.reuseIdentifier
         case .placeholder: return "Placeholder"
-        case .postFeaturedBy: return PostFeaturedByCell.reuseIdentifier
-        case .postedInCategory: return PostedInCategoryCell.reuseIdentifier
         case .postFeaturedControl: return PostFeaturedControlCell.reuseIdentifier
         case .profileHeader: return ProfileHeaderCell.reuseIdentifier
         case .profileHeaderGhost: return ProfileHeaderGhostCell.reuseIdentifier
@@ -225,6 +223,7 @@ enum StreamCellType: Equatable {
              .artistInviteBubble,
              .badge,
              .categoryChooseCard,
+             .categoryPostHistory,
              .categorySubscribeCard,
              .createComment,
              .inviteFriends,
@@ -232,7 +231,6 @@ enum StreamCellType: Equatable {
              .notification,
              .onboardingCategoryCard,
              .onboardingInviteFriends,
-             .postedInCategory,
              .postFeaturedControl,
              .promotionalHeaderSubscription,
              .revealController,
@@ -264,6 +262,7 @@ enum StreamCellType: Equatable {
         case .artistInviteHeader: return ArtistInviteCellPresenter.configure
         case .badge: return BadgeCellPresenter.configure
         case .categoryChooseCard, .categorySubscribeCard, .onboardingCategoryCard: return CategoryCardCellPresenter.configure
+        case .categoryPostHistory: return CategoryPostHistoryCellPresenter.configure
         case .commentHeader: return CommentHeaderCellPresenter.configure
         case .streamHeader: return StreamHeaderCellPresenter.configure
         case .createComment: return StreamCreateCommentCellPresenter.configure
@@ -277,8 +276,6 @@ enum StreamCellType: Equatable {
         case .inviteFriends, .onboardingInviteFriends: return StreamInviteFriendsCellPresenter.configure
         case .noPosts: return NoPostsCellPresenter.configure
         case .notification: return NotificationCellPresenter.configure
-        case .postFeaturedBy: return PostFeaturedByCellPresenter.configure
-        case .postedInCategory: return PostedInCategoryCellPresenter.configure
         case .postFeaturedControl: return PostFeaturedControlCellPresenter.configure
         case .profileHeader: return ProfileHeaderCellPresenter.configure
         case .promotionalHeader: return PromotionalHeaderCellPresenter.configure
@@ -309,6 +306,7 @@ enum StreamCellType: Equatable {
         case .artistInviteSubmissionsButton: return ArtistInviteSubmissionsButtonCell.self
         case .badge: return BadgeCell.self
         case .categoryChooseCard, .categorySubscribeCard, .onboardingCategoryCard: return CategoryCardCell.self
+        case .categoryPostHistory: return CategoryPostHistoryCell.self
         case .commentHeader: return CommentHeaderCell.self
         case .streamHeader: return StreamHeaderCell.self
         case .createComment: return StreamCreateCommentCell.self
@@ -323,8 +321,6 @@ enum StreamCellType: Equatable {
         case .noPosts: return NoPostsCell.self
         case .notification: return NotificationCell.self
         case .placeholder: return UICollectionViewCell.self
-        case .postFeaturedBy: return PostFeaturedByCell.self
-        case .postedInCategory: return PostedInCategoryCell.self
         case .postFeaturedControl: return PostFeaturedControlCell.self
         case .profileHeader: return ProfileHeaderCell.self
         case .profileHeaderGhost: return ProfileHeaderGhostCell.self
@@ -358,6 +354,8 @@ enum StreamCellType: Equatable {
             return 64
         case .categoryChooseCard, .categorySubscribeCard:
             return CategoryCardCell.Size.calculateHeight(columnCount: 1, subscribing: true)
+        case .categoryPostHistory:
+            return CategoryPostHistoryCell.Size.height
         case .onboardingCategoryCard:
             return CategoryCardCell.Size.calculateHeight(columnCount: 1, subscribing: false)
         case .commentHeader:
@@ -388,10 +386,6 @@ enum StreamCellType: Equatable {
             return 215
         case .notification:
             return 117
-        case .postFeaturedBy:
-            return PostFeaturedByCell.Size.height
-        case .postedInCategory:
-            return PostedInCategoryCell.Size.height
         case .postFeaturedControl:
             return PostFeaturedControlCell.Size.height
         case .promotionalHeaderSubscription:
@@ -489,12 +483,11 @@ enum StreamCellType: Equatable {
              .userListItem:
             return true
         case .categoryChooseCard,
+             .categoryPostHistory,
              .categorySubscribeCard,
              .embed,
              .image,
              .placeholder,
-             .postFeaturedBy,
-             .postedInCategory,
              .postFeaturedControl,
              .onboardingCategoryCard,
              .spacer,
@@ -534,6 +527,7 @@ enum StreamCellType: Equatable {
             .artistInviteSubmissionsButton,
             .badge,
             .categoryChooseCard(isSubscribed: true, isSelected: true),
+            .categoryPostHistory(nil),
             .categorySubscribeCard,
             .commentHeader,
             .createComment,
@@ -551,8 +545,6 @@ enum StreamCellType: Equatable {
             .noPosts,
             .notification,
             .placeholder,
-            .postFeaturedBy,
-            .postedInCategory,
             .postFeaturedControl,
             .profileHeader,
             .profileHeaderGhost,
