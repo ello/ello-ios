@@ -18,16 +18,19 @@ struct CategoryPostHistoryCellPresenter {
         else { return }
 
         var labels: [CategoryPostHistoryCell.Label] = []
+        var image: UIImage = InterfaceImage.arrowRight.normalImage
         // Featured by ___ in ___
         if let category = categoryPost.category,
             let featuredBy = categoryPost.featuredBy,
             featuredBy.id == categoryPost.submittedBy?.id
         {
             labels.append(.featuredByIn(featuredBy, category))
+            image = InterfaceImage.badgeFeatured.selectedImage
         }
         // Featured by ___
         else if let featuredBy = categoryPost.featuredBy {
             labels.append(.featuredBy(featuredBy))
+            image = InterfaceImage.badgeFeatured.selectedImage
         }
 
         // Posted into ___
@@ -39,6 +42,7 @@ struct CategoryPostHistoryCellPresenter {
             labels.append(.addedToBy(category, submittedBy))
         }
 
+        cell.image = image
         cell.labels = labels
     }
 

@@ -18,6 +18,10 @@ class CategoryPostHistoryCell: CollectionViewCell {
         case addedToBy(Category, User)
     }
 
+    var image: UIImage? {
+        get { return icon.image }
+        set { icon.image = newValue }
+    }
     var labels: [Label] = [] {
         didSet { updateLabels() }
     }
