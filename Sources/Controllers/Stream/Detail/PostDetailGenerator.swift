@@ -142,20 +142,27 @@ private extension PostDetailGenerator {
     func loadPost(_ doneOperation: AsyncOperation, reload: Bool = false) {
         guard !doneOperation.isFinished || reload else { return }
 
-        // load the post with no comments
-        PostService().loadPost(postParam)
+        let postToken: API.PostToken
+        if postParam.hasPrefix("~") {
+            postToken = .token(String(postParam.dropFirst()))
+        }
+        else {
+            postToken = .id(postParam)
+        }
+
+        let username = post?.author?.username
+        API().postDetail(token: postToken, username: username)
+            .execute()
             .done { post in
                 guard self.loadingToken.isValidInitialPageLoadingToken(self.localToken) else { return }
+
                 self.post = post
                 self.destination?.setPrimary(jsonable: post)
                 let postItems = self.parse(jsonables: [post])
                 self.destination?.replacePlaceholder(type: .postHeader, items: postItems)
                 doneOperation.run()
             }
-            .catch { _ in
-                self.destination?.primaryModelNotFound()
-                self.queue.cancelAllOperations()
-            }
+            .ignoreErrors()
     }
 
     func displayCommentBar(_ doneOperation: AsyncOperation) {
