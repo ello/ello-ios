@@ -70,7 +70,23 @@ struct Fragments: Equatable {
         }
         """, needs: [tshirtProps, responsiveProps])
 
-    static let postStream = Fragments("""
+    static let postDetails = Fragments("""
+        fragment postDetails on Post {
+            ...postSummary
+            ...postContent
+            repostContent { ...contentProps }
+            categoryPosts {
+                id actions { ...categoryPostActions } status
+                category { ...categoryProps }
+                featuredAt submittedAt removedAt unfeaturedAt
+                featuredBy { id username name } submittedBy { id username name }
+            }
+            repostedSource {
+                ...postSummary
+            }
+        }
+        """, needs: [.postSummary, .categoryPostActions])
+    static let postSummary = Fragments("""
         fragment contentProps on ContentBlocks {
           linkUrl
           kind
@@ -117,7 +133,7 @@ struct Fragments: Equatable {
         isCreatorType
         level
         tileImage { ...tshirtProps }
-        """, needs: [Fragments.tshirtProps])
+        """, needs: [.tshirtProps])
     static let pageHeaderBody = Fragments("""
         id
         postToken
@@ -128,24 +144,16 @@ struct Fragments: Equatable {
         image { ...responsiveProps }
         ctaLink { text url }
         user { ...pageHeaderUserProps }
-        """, needs: [Fragments.responsiveProps, Fragments.pageHeaderUserProps])
+        """, needs: [.responsiveProps, .pageHeaderUserProps])
     static let postStreamBody = Fragments("""
         next isLastPage
         posts {
-            ...postSummary
-            ...postContent
-            repostContent { ...contentProps }
-            categoryPosts {
-                id actions { ...categoryPostActions } status
-                category { ...categoryProps }
-                featuredAt submittedAt removedAt unfeaturedAt
-                featuredBy { id username name } submittedBy { id username name }
-            }
-            repostedSource {
-                ...postSummary
-            }
+            ...postDetails
         }
-        """, needs: [Fragments.postStream, Fragments.categoryPostActions])
+        """, needs: [.postDetails])
+    static let postBody = Fragments("""
+        ...postDetails
+        """, needs: [.postDetails])
 
     let string: String
     let needs: [Fragments]
