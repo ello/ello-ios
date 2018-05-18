@@ -38,8 +38,8 @@ struct API {
             endpointName: "globalPostStream",
             parser: PageParser<Post>("posts", PostParser()).parse,
             variables: [
-                (.enum("kind", filter.graphQL, "StreamKind")),
-                (.optionalString("before", before)),
+                .enum("StreamKind", "kind", filter.graphQL),
+                .optionalString("before", before),
             ],
             body: Fragments.postStreamBody
             )
@@ -51,9 +51,9 @@ struct API {
             endpointName: "categoryPostStream",
             parser: PageParser<Post>("posts", PostParser()).parse,
             variables: [
-                (.enum("kind", filter.graphQL, "StreamKind")),
-                (.string("slug", categorySlug)),
-                (.optionalString("before", before)),
+                .enum("StreamKind", "kind", filter.graphQL),
+                .string("slug", categorySlug),
+                .optionalString("before", before),
             ],
             body: Fragments.postStreamBody
             )
@@ -65,8 +65,8 @@ struct API {
             endpointName: "subscribedPostStream",
             parser: PageParser<Post>("posts", PostParser()).parse,
             variables: [
-                (.enum("kind", filter.graphQL, "StreamKind")),
-                (.optionalString("before", before)),
+                .enum("StreamKind", "kind", filter.graphQL),
+                .optionalString("before", before),
             ],
             body: Fragments.postStreamBody
             )
@@ -96,8 +96,8 @@ struct API {
             endpointName: "pageHeaders",
             parser: ManyParser<PageHeader>(PageHeaderParser()).parse,
             variables: [
-                (.enum("kind", kind.apiKind, "PageHeaderKind")),
-                (.optionalString("slug", kind.slug)),
+                .enum("PageHeaderKind", "kind", kind.apiKind),
+                .optionalString("slug", kind.slug),
             ],
             body: Fragments.pageHeaderBody
             )
@@ -109,11 +109,36 @@ struct API {
             endpointName: "userPostStream",
             parser: PageParser<Post>("posts", PostParser()).parse,
             variables: [
-                (.string("username", username)),
-                (.optionalString("before", before)),
+                .string("username", username),
+                .optionalString("before", before),
             ],
             body: Fragments.postStreamBody
             )
+        return request
+    }
+
+    enum PostToken {
+        case id(String)
+        case token(String)
+
+        var variable: GQLVariable {
+            switch self {
+            case let .id(id): return .optionalID("id", id)
+            case let .token(token): return .optionalString("token", token)
+            }
+        }
+    }
+
+    func postDetail(token: PostToken, username: String?) -> GraphQLRequest<Post> {
+        let request = GraphQLRequest(
+            endpointName: "post",
+            parser: OneParser<Post>("post", PostParser()).parse,
+            variables: [
+                token.variable,
+                .optionalString("username", username),
+            ],
+            body: Fragments.postBody
+        )
         return request
     }
 }
