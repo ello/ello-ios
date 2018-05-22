@@ -142,9 +142,9 @@ private extension PostDetailGenerator {
     func loadPost(_ doneOperation: AsyncOperation, reload: Bool = false) {
         guard !doneOperation.isFinished || reload else { return }
 
-        let postToken: API.PostToken
+        let postToken: Token
         if postParam.hasPrefix("~") {
-            postToken = .token(String(postParam.dropFirst()))
+            postToken = .slug(String(postParam.dropFirst()))
         }
         else {
             postToken = .id(postParam)

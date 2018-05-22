@@ -117,19 +117,7 @@ struct API {
         return request
     }
 
-    enum PostToken {
-        case id(String)
-        case token(String)
-
-        var variable: GQLVariable {
-            switch self {
-            case let .id(id): return .optionalID("id", id)
-            case let .token(token): return .optionalString("token", token)
-            }
-        }
-    }
-
-    func postDetail(token: PostToken, username: String?) -> GraphQLRequest<Post> {
+    func postDetail(token: Token, username: String?) -> GraphQLRequest<Post> {
         let request = GraphQLRequest(
             endpointName: "post",
             parser: OneParser<Post>("post", PostParser()).parse,

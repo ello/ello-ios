@@ -1068,6 +1068,12 @@
 		1DE6E3C0209CDBD100C7FC45 /* CategoryPartial.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DE6E3BD209CDBC800C7FC45 /* CategoryPartial.swift */; };
 		1DE83C1B20AE0BF6009109E6 /* CategoryPostHistoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DE83C1A20AE0BF6009109E6 /* CategoryPostHistoryCell.swift */; };
 		1DE83C1D20AE0F90009109E6 /* CategoryPostHistoryPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DE83C1C20AE0F8E009109E6 /* CategoryPostHistoryPresenter.swift */; };
+		1DE83C2020B47DB2009109E6 /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DE83C1E20B47DAE009109E6 /* Token.swift */; };
+		1DE83C2120B47DB2009109E6 /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DE83C1E20B47DAE009109E6 /* Token.swift */; };
+		1DE83C2220B47DB2009109E6 /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DE83C1E20B47DAE009109E6 /* Token.swift */; };
+		1DE83C2320B47DB2009109E6 /* GQLVariable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DE83C1F20B47DAF009109E6 /* GQLVariable.swift */; };
+		1DE83C2420B47DB2009109E6 /* GQLVariable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DE83C1F20B47DAF009109E6 /* GQLVariable.swift */; };
+		1DE83C2520B47DB2009109E6 /* GQLVariable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DE83C1F20B47DAF009109E6 /* GQLVariable.swift */; };
 		1DE83CB720925F0B00A7E9D6 /* arrow_right_selected.svg in Resources */ = {isa = PBXBuildFile; fileRef = 1DE83CB420925F0900A7E9D6 /* arrow_right_selected.svg */; };
 		1DE83CB820925F0B00A7E9D6 /* arrow_right_normal.svg in Resources */ = {isa = PBXBuildFile; fileRef = 1DE83CB520925F0A00A7E9D6 /* arrow_right_normal.svg */; };
 		1DE83CB920925F0B00A7E9D6 /* arrow_right_white.svg in Resources */ = {isa = PBXBuildFile; fileRef = 1DE83CB620925F0A00A7E9D6 /* arrow_right_white.svg */; };
@@ -2197,6 +2203,8 @@
 		1DE6E3BD209CDBC800C7FC45 /* CategoryPartial.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryPartial.swift; sourceTree = "<group>"; };
 		1DE83C1A20AE0BF6009109E6 /* CategoryPostHistoryCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryPostHistoryCell.swift; sourceTree = "<group>"; };
 		1DE83C1C20AE0F8E009109E6 /* CategoryPostHistoryPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryPostHistoryPresenter.swift; sourceTree = "<group>"; };
+		1DE83C1E20B47DAE009109E6 /* Token.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
+		1DE83C1F20B47DAF009109E6 /* GQLVariable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GQLVariable.swift; sourceTree = "<group>"; };
 		1DE83CB420925F0900A7E9D6 /* arrow_right_selected.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = arrow_right_selected.svg; sourceTree = "<group>"; };
 		1DE83CB520925F0A00A7E9D6 /* arrow_right_normal.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = arrow_right_normal.svg; sourceTree = "<group>"; };
 		1DE83CB620925F0A00A7E9D6 /* arrow_right_white.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = arrow_right_white.svg; sourceTree = "<group>"; };
@@ -2572,6 +2580,7 @@
 				1207C95B1C73FEE000939ADB /* ElloURI.swift */,
 				1207C95C1C73FEE000939ADB /* ErrorStatusCode.swift */,
 				1D808795203CAE800081E8FE /* Fragments.swift */,
+				1DE83C1F20B47DAF009109E6 /* GQLVariable.swift */,
 				1D0DF90D2023AB1F00019875 /* GraphQLRequest.swift */,
 				1D59EF911D6624DC0029C106 /* HireService.swift */,
 				1D447F141F3BCAD700013384 /* ImageRegionData.swift */,
@@ -2596,6 +2605,7 @@
 				1207C96B1C73FEE000939ADB /* S3UploadingService.swift */,
 				1D0DF925202A695000019875 /* SettingsService.swift */,
 				1207C96C1C73FEE000939ADB /* StreamService.swift */,
+				1DE83C1E20B47DAE009109E6 /* Token.swift */,
 				1207C96D1C73FEE000939ADB /* UserService.swift */,
 			);
 			path = Networking;
@@ -5259,6 +5269,7 @@
 				1DABC7142077A02300F7B782 /* GradientLoadingView.swift in Sources */,
 				1D0DF8F4202384BF00019875 /* ArtistInviteParser.swift in Sources */,
 				126F2C011C5C1D7400D22BAB /* DateExtensions.swift in Sources */,
+				1DE83C2120B47DB2009109E6 /* Token.swift in Sources */,
 				1DB390D12045DC0000A1B7E7 /* SwiftyJSONExtensions.swift in Sources */,
 				1207C9A11C752F1300939ADB /* ElloURI.swift in Sources */,
 				122B30B61C6A3FBB00C1B9D8 /* DynamicSetting.swift in Sources */,
@@ -5346,6 +5357,7 @@
 				122D1BAB1C613976001386CE /* AlertPresentationController.swift in Sources */,
 				122D1BAC1C6139A4001386CE /* CGRectExtensions.swift in Sources */,
 				1D0DF8CC2022396F00019875 /* UserParser.swift in Sources */,
+				1DE83C2420B47DB2009109E6 /* GQLVariable.swift in Sources */,
 				12DEB24A1C5BED4600D4CDCE /* RegexExtensions.swift in Sources */,
 				1D80878B20376AC00081E8FE /* PageHeader.swift in Sources */,
 				1D70DE591DF23C36008AF216 /* StyledLabel.swift in Sources */,
@@ -5737,6 +5749,7 @@
 				1D55ADA91FBCF95A00018195 /* OmnibarScreenTextViewDelegate.swift in Sources */,
 				1D71529A1D6CBFE2005998FE /* NoPostsCellPresenter.swift in Sources */,
 				1DB390D42047392800A1B7E7 /* PromotionalHeaderSubscriptionCellPresenter.swift in Sources */,
+				1DE83C2020B47DB2009109E6 /* Token.swift in Sources */,
 				1DDC233A1F30EB2D00E68B0E /* ArtistInviteAdminGenerator.swift in Sources */,
 				F8158C491ACDD4C1008C15A1 /* AlertAction.swift in Sources */,
 				1D1AF6231A83ED7F00E06C93 /* PostDetailViewController.swift in Sources */,
@@ -6153,6 +6166,7 @@
 				12F6AE6C1A4339EF00493660 /* ElloTabBar.swift in Sources */,
 				762EE9EB1A840E4A00A3B805 /* AvatarButton.swift in Sources */,
 				1D7152961D6CBE0E005998FE /* NoPostsCell.swift in Sources */,
+				1DE83C2320B47DB2009109E6 /* GQLVariable.swift in Sources */,
 				76C050A71AA8C8780094E69A /* UserListItemCellPresenter.swift in Sources */,
 				1D70DE581DF23862008AF216 /* StyledLabel.swift in Sources */,
 				1275351F1B73D1D1006B9A0F /* NSStringExtensions.swift in Sources */,
@@ -6246,6 +6260,7 @@
 				1D0DF8F0202384BE00019875 /* PostParser.swift in Sources */,
 				1D447F0E1F3BCA1D00013384 /* Mapper.swift in Sources */,
 				1D0DF8BC20211E8D00019875 /* AuthenticationManager.swift in Sources */,
+				1DE83C2520B47DB2009109E6 /* GQLVariable.swift in Sources */,
 				1D447EE51F3BC78F00013384 /* Badge.swift in Sources */,
 				1D447F1A1F3BCC3100013384 /* AnonymousAuthService.swift in Sources */,
 				1D0DF9092023A92600019875 /* PageConfig.swift in Sources */,
@@ -6272,6 +6287,7 @@
 				1D0DF8E9202384BE00019875 /* ArtistInviteParser.swift in Sources */,
 				1D808798203CB08D0081E8FE /* Fragments.swift in Sources */,
 				1D447F191F3BCB3400013384 /* NotificationOverrides.swift in Sources */,
+				1DE83C2220B47DB2009109E6 /* Token.swift in Sources */,
 				1D447EF61F3BC92500013384 /* InterfaceImage.swift in Sources */,
 				1D447EF41F3BC8C400013384 /* RegionParser.swift in Sources */,
 				1DE6E3C0209CDBD100C7FC45 /* CategoryPartial.swift in Sources */,
