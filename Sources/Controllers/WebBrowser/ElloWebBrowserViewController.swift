@@ -136,6 +136,9 @@ extension ElloWebBrowserViewController: WebLinkResponder {
             break // this is handled in ElloWebViewHelper/KINWebBrowserViewController
         case .discover:
             DeepLinking.showDiscover(navVC: navigationController, currentUser: ElloWebBrowserViewController.currentUser)
+        case .pushNotificationCategory:
+            guard let slug = data else { return }
+            DeepLinking.showCategory(navVC: navigationController, currentUser: ElloWebBrowserViewController.currentUser, slug: slug)
         case .category,
              .discoverRandom,
              .discoverRecent,
