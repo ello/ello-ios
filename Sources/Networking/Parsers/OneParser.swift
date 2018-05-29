@@ -12,11 +12,9 @@ class OneParser<T> {
     }
 
     let parser: Parser
-    let resultsKey: String
 
-    init(_ resultsKey: String, _ parser: Parser) {
+    init(_ parser: Parser) {
         self.parser = parser
-        self.resultsKey = resultsKey
     }
 
     func parse(json: JSON) throws -> T {

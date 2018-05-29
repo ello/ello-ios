@@ -120,7 +120,7 @@ struct API {
     func postDetail(token: Token, username: String?) -> GraphQLRequest<Post> {
         let request = GraphQLRequest(
             endpointName: "post",
-            parser: OneParser<Post>("post", PostParser()).parse,
+            parser: OneParser<Post>(PostParser()).parse,
             variables: [
                 token.variable,
                 .optionalString("username", username),
