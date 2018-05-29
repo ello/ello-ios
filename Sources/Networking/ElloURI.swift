@@ -263,6 +263,12 @@ enum ElloURI {
 
     // Order matters: [most specific ... most generic]
     static let all: [ElloURI] = [
+        .pushNotificationArtistInvite,
+        .pushNotificationCategory,
+        .pushNotificationComment,
+        .pushNotificationPost,
+        .pushNotificationURL,
+        .pushNotificationUser,
         .email,
         .subdomain,
         .post,
@@ -298,12 +304,6 @@ enum ElloURI {
         .manifesto,
         .nativeRedirect,
         .noise,
-        .pushNotificationArtistInvite,
-        .pushNotificationCategory,
-        .pushNotificationComment,
-        .pushNotificationPost,
-        .pushNotificationURL,
-        .pushNotificationUser,
         .notifications,
         .onboarding,
         .passwordResetError,
