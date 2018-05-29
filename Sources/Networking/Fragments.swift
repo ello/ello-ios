@@ -70,22 +70,6 @@ struct Fragments: Equatable {
         }
         """, needs: [tshirtProps, responsiveProps])
 
-    static let postDetails = Fragments("""
-        fragment postDetails on Post {
-            ...postSummary
-            ...postContent
-            repostContent { ...contentProps }
-            categoryPosts {
-                id actions { ...categoryPostActions } status
-                category { ...categoryProps }
-                featuredAt submittedAt removedAt unfeaturedAt
-                featuredBy { id username name } submittedBy { id username name }
-            }
-            repostedSource {
-                ...postSummary
-            }
-        }
-        """, needs: [.postSummary, .categoryPostActions])
     static let postSummary = Fragments("""
         fragment contentProps on ContentBlocks {
           linkUrl
@@ -121,6 +105,23 @@ struct Fragments: Equatable {
         }
         """, needs: [imageProps, tshirtProps, responsiveProps, authorProps])
 
+    static let postDetails = Fragments("""
+        fragment postDetails on Post {
+            ...postSummary
+            ...postContent
+            repostContent { ...contentProps }
+            categoryPosts {
+                id actions { ...categoryPostActions } status
+                category { ...categoryProps }
+                featuredAt submittedAt removedAt unfeaturedAt
+                featuredBy { id username name } submittedBy { id username name }
+            }
+            repostedSource {
+                ...postSummary
+            }
+        }
+        """, needs: [postSummary, categoryPostActions])
+
     //|
     //|  REQUEST BODIES
     //|
@@ -133,7 +134,7 @@ struct Fragments: Equatable {
         isCreatorType
         level
         tileImage { ...tshirtProps }
-        """, needs: [.tshirtProps])
+        """, needs: [tshirtProps])
     static let pageHeaderBody = Fragments("""
         id
         postToken
@@ -144,16 +145,16 @@ struct Fragments: Equatable {
         image { ...responsiveProps }
         ctaLink { text url }
         user { ...pageHeaderUserProps }
-        """, needs: [.responsiveProps, .pageHeaderUserProps])
+        """, needs: [responsiveProps, pageHeaderUserProps])
     static let postStreamBody = Fragments("""
         next isLastPage
         posts {
             ...postDetails
         }
-        """, needs: [.postDetails])
+        """, needs: [postDetails])
     static let postBody = Fragments("""
         ...postDetails
-        """, needs: [.postDetails])
+        """, needs: [postDetails])
 
     let string: String
     let needs: [Fragments]
