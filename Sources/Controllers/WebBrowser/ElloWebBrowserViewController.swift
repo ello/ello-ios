@@ -121,6 +121,7 @@ extension ElloWebBrowserViewController: WebLinkResponder {
              .profileFollowers,
              .profileFollowing,
              .profileLoves,
+             .pushNotificationURL,
              .randomSearch,
              .requestInvite,
              .requestInvitation,

@@ -655,6 +655,9 @@ extension AppViewController {
         case .profile:
             guard let userId = data else { return }
             showProfileScreen(userParam: userId, isSlug: true, path: path)
+        case .pushNotificationURL:
+            guard let path = data else { return }
+            showExternalWebView("\(ElloURI.baseURL)/\(path)")
         case .pushNotificationUser:
             guard let userId = data else { return }
             showProfileScreen(userParam: userId, isSlug: false, path: path)

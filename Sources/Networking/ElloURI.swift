@@ -54,6 +54,7 @@ enum ElloURI {
     case pushNotificationCategory
     case pushNotificationComment
     case pushNotificationPost
+    case pushNotificationURL
     case pushNotificationUser
     case randomSearch
     case requestInvitation
@@ -81,6 +82,7 @@ enum ElloURI {
         case .pushNotificationCategory:     return "notifications/category/([^/]+)$"
         case .pushNotificationComment:      return "notifications/posts/([^/]+)/comments/([^/]+)$"
         case .pushNotificationPost:         return "notifications/posts/([^/]+)/?$"
+        case .pushNotificationURL:          return "notifications/ello\\.co/(.+)$"
         case .pushNotificationUser:         return "notifications/users/([^/]+)/?$"
 
         case .post:             return "\(ElloURI.userPathRegex)post/([^/]+)/?$"
@@ -244,7 +246,7 @@ enum ElloURI {
              .profileFollowers, .profileFollowing, .profileLoves,
              .pushNotificationArtistInvite, .pushNotificationCategory,
              .pushNotificationComment, .pushNotificationPost,
-             .pushNotificationUser,
+             .pushNotificationURL, .pushNotificationUser,
              .profile,
              .resetMyPassword:
             return regex?.matchingGroups(url).safeValue(1)
@@ -300,6 +302,7 @@ enum ElloURI {
         .pushNotificationCategory,
         .pushNotificationComment,
         .pushNotificationPost,
+        .pushNotificationURL,
         .pushNotificationUser,
         .notifications,
         .onboarding,
