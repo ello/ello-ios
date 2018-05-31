@@ -4,9 +4,9 @@
 
 class CategoryCardView: View {
     struct Size {
-        static let cardSize: CGSize = CGSize(width: 100, height: 68)
-        static let smallCardSize: CGSize = CGSize(width: 50, height: 68)
-        static let zeroStateCardSize: CGSize = CGSize(width: 300, height: 68)
+        static let cardSize: CGSize = CGSize(width: 100, height: 44)
+        static let allCardSize: CGSize = CGSize(width: 50, height: 44)
+        static let zeroStateCardSize: CGSize = CGSize(width: 300, height: 44)
     }
 
     static let selectedAlpha: CGFloat = 0.8
@@ -60,7 +60,7 @@ class CategoryCardView: View {
         switch info.kind {
         case .all:
             snp.makeConstraints { make in
-                make.size.equalTo(Size.smallCardSize)
+                make.size.equalTo(Size.allCardSize)
             }
         case .subscribed:
             let imageView = UIImageView(image: UIImage(named: "subscribed-background"))
