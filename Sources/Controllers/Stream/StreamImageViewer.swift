@@ -38,7 +38,7 @@ extension StreamImageViewer: LightboxControllerDelegate {
         AppDelegate.restrictRotation = true
 
         if let prevSize = prevWindowSize, prevSize != UIWindow.windowSize() {
-            postNotification(Application.Notifications.ViewSizeWillChange, value: UIWindow.windowSize())
+            postNotification(Application.Notifications.WindowSizeWillChange, value: UIWindow.windowSize())
         }
     }
 }

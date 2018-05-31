@@ -471,7 +471,7 @@ final class StreamViewController: BaseElloViewController {
             guard let `self` = self else { return }
             self.reloadCells()
         }
-        sizeChangedNotification = NotificationObserver(notification: Application.Notifications.ViewSizeWillChange) { [weak self] size in
+        sizeChangedNotification = NotificationObserver(notification: Application.Notifications.WindowSizeWillChange) { [weak self] size in
             guard let `self` = self else { return }
 
             let columnCount = Window.columnCountFor(width: size.width)

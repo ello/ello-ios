@@ -72,6 +72,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         Tracker.shared.sessionStarted()
+
+        NotificationObserver(notification: Application.Notifications.WindowSizeWillChange) { size in
+            Globals.windowSize = size
+        }
+
         return true
     }
 
