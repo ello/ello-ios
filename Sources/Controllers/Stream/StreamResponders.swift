@@ -71,6 +71,11 @@ protocol PromotionalHeaderResponder: class {
 }
 
 @objc
+protocol CategoryHeaderResponder: class {
+    func categoryHeaderTapped(cell: UICollectionViewCell, header: PageHeader)
+}
+
+@objc
 protocol UserResponder: class {
     func userTappedAuthor(cell: UICollectionViewCell)
     func userTappedReposter(cell: UICollectionViewCell)

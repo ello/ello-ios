@@ -39,10 +39,9 @@ class StyledButton: UIButton {
         let disabledBorderColor: UIColor?
         let borderColor: UIColor?
 
+        let font: UIFont
         let cornerRadius: CornerRadius
         let underline: Bool  // used by NSAttributedString
-
-        let font: UIFont
 
         init(
             backgroundColor: UIColor? = nil,
@@ -88,12 +87,7 @@ class StyledButton: UIButton {
             self.cornerRadius = cornerRadius
             self.underline = underline
 
-            if let font = font {
-                self.font = font
-            }
-            else {
-                self.font = .defaultFont()
-            }
+            self.font = font ?? .defaultFont()
         }
     }
 
@@ -347,6 +341,12 @@ extension StyledButton.Style {
     static let invited = StyledButton.Style(
         backgroundColor: .greyE5,
         titleColor: .grey6,
+        cornerRadius: .pill
+        )
+    static let categoryInfo = StyledButton.Style(
+        backgroundColor: .dimmedBlackBackground, disabledBackgroundColor: .greyF2,
+        titleColor: .white, highlightedTitleColor: .grey6, disabledTitleColor: .greyC,
+        font: .defaultFont(12),
         cornerRadius: .pill
         )
     static let editorialJoin = StyledButton.Style(

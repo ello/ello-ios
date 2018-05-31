@@ -116,7 +116,7 @@ class CategoryDestination: CategoryStreamDestination {
 
     func replacePlaceholder(type: StreamCellType.PlaceholderType, items: [StreamCellItem], completion: @escaping Block) {
         switch type {
-        case .promotionalHeader:
+        case .pageHeader:
             headerItems = items
         case .streamItems:
             postItems = items

@@ -209,7 +209,7 @@ extension CategoryViewController: CategoryStreamDestination, StreamDestination {
 
     func replacePlaceholder(type: StreamCellType.PlaceholderType, items: [StreamCellItem], completion: @escaping Block) {
         streamViewController.replacePlaceholder(type: type, items: items) {
-            if self.streamViewController.hasCellItems(for: .promotionalHeader) && !self.streamViewController.hasCellItems(for: .streamItems) {
+            if self.streamViewController.hasCellItems(for: .pageHeader) && !self.streamViewController.hasCellItems(for: .streamItems) {
                 self.streamViewController.replacePlaceholder(type: .streamItems, items: [StreamCellItem(type: .streamLoading)])
             }
 
@@ -436,6 +436,12 @@ extension CategoryViewController: CategoryScreenDelegate {
 
 }
 
+extension CategoryViewController: CategoryHeaderResponder {
+    func categoryHeaderTapped(cell: UICollectionViewCell, header: PageHeader) {
+        print("=============== \(#file) line \(#line) ===============")
+        print("header: \(header)")
+    }
+}
 extension CategoryViewController: PromotionalHeaderResponder {
     func categorySubscribed(categoryId: String) {
         guard

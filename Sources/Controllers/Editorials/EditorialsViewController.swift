@@ -186,7 +186,7 @@ extension EditorialsViewController: StreamDestination {
     }
 
     func replacePlaceholder(type: StreamCellType.PlaceholderType, items: [StreamCellItem], completion: @escaping Block) {
-        if type == .promotionalHeader,
+        if type == .pageHeader,
             let pageHeader = items.compactMap({ $0.jsonable as? PageHeader }).first,
             let trackingPostToken = pageHeader.postToken
         {
@@ -195,7 +195,7 @@ extension EditorialsViewController: StreamDestination {
         }
 
         streamViewController.replacePlaceholder(type: type, items: items) {
-            if self.streamViewController.hasCellItems(for: .promotionalHeader) && !self.streamViewController.hasCellItems(for: .editorials) {
+            if self.streamViewController.hasCellItems(for: .pageHeader) && !self.streamViewController.hasCellItems(for: .editorials) {
                 self.streamViewController.replacePlaceholder(type: .editorials, items: [StreamCellItem(type: .streamLoading)])
             }
 

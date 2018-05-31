@@ -38,7 +38,7 @@ class PromotionalHeaderCellSizeCalculator: NSObject {
     }
 
     static func calculatePageHeaderHeight(_ pageHeader: PageHeader, htmlHeight: CGFloat?, cellWidth: CGFloat) -> CGFloat {
-        let config = PromotionalHeaderCell.Config(pageHeader: pageHeader, isSubscribed: false)
+        let config = PromotionalHeaderCell.Config(pageHeader: pageHeader)
         var calcHeight: CGFloat = 0
         let textWidth = cellWidth - 2 * PromotionalHeaderCell.Size.defaultMargin
         let boundingSize = CGSize(width: textWidth, height: CGFloat.greatestFiniteMagnitude)

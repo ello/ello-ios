@@ -10,6 +10,7 @@ class StyledLabel: UILabel {
         case large
         case largeBold
         case bold
+        case categoryHeader
         case editorialHeader
         case editorialSuccess
         case editorialCaption
@@ -24,6 +25,7 @@ class StyledLabel: UILabel {
             case .large: return UIFont.defaultFont(18)
             case .largeBold: return UIFont.defaultBoldFont(18)
             case .bold: return UIFont.defaultBoldFont()
+            case .categoryHeader: return UIFont.regularBlackFont(64)
             case .editorialHeader: return UIFont.regularBlackFont(32)
             case .editorialSuccess: return UIFont.regularBlackFont(24)
             case .editorialCaption: return UIFont.defaultFont(16)
@@ -207,6 +209,10 @@ extension StyledLabel.Style {
 
     static let chosenCommunityButton = StyledLabel.Style(
         textColor: .white, backgroundColor: UIColor.black.withAlphaComponent(0.5)
+        )
+    static let categoryHeader = StyledLabel.Style(
+        textColor: .white,
+        fontFamily: .categoryHeader
         )
     static let editorialHeader = StyledLabel.Style(
         textColor: .white,

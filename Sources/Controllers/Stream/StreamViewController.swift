@@ -1163,6 +1163,12 @@ extension StreamViewController: UICollectionViewDelegate {
             responder?.categorySubscribed(categoryId: categoryId)
             keepSelected = true
         }
+        else if let tappedCell = tappedCell as? CategoryHeaderCell,
+            let pageHeader = streamCellItem.jsonable as? PageHeader
+        {
+            let responder: CategoryHeaderResponder? = findResponder()
+            responder?.categoryHeaderTapped(cell: tappedCell, header: pageHeader)
+        }
 
         if !keepSelected {
             collectionView.deselectItem(at: indexPath, animated: false)

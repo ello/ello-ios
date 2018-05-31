@@ -530,4 +530,5 @@ struct InterfaceString {
     static let Send: String = NSLocalizedString("Send", comment: "")
     static let Save: String = NSLocalizedString("Save", comment: "")
     static let Edit: String = NSLocalizedString("Edit", comment: "")
+    static let Info: String = NSLocalizedString("Info", comment: "")
 }
