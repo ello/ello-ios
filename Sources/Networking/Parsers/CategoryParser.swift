@@ -13,7 +13,7 @@ class CategoryParser: IdParser {
 
     override func parse(json: JSON) -> Category {
         let level: CategoryLevel = CategoryLevel(rawValue: json["level"].stringValue) ?? .unknown
-        let tileImage = (json["tile_image"]["large"].object as? [String: Any]).map { Attachment.fromJSON($0) }
+        let tileImage = (json["tileImage"]["large"].object as? [String: Any]).map { Attachment.fromJSON($0) }
 
         let category = Category(
             id: json["id"].stringValue,
