@@ -17,6 +17,7 @@ enum MappingType: String {
     case availabilityType = "availability"
     case categoriesType = "categories"
     case categoryPostsType = "category_posts"
+    case categoryUsersType = "category_users"
     case commentsType = "comments"
     case dynamicSettingsType = "settings"
     case editorials = "editorials"
@@ -39,6 +40,7 @@ enum MappingType: String {
         case .autoCompleteResultType:      return "autocompleteResults"
         case .availabilityType:            return "availabilities"
         case .categoryPostsType:           return "categoryPosts"
+        case .categoryUsersType:           return "categoryUsers"
         case .errorType:                   return "errors"
         case .pageHeadersType:             return "pageHeaders"
         default: return rawValue
@@ -57,6 +59,7 @@ enum MappingType: String {
         case .availabilityType:            return "availability"
         case .categoriesType:              return "category"
         case .categoryPostsType:           return "categoryPost"
+        case .categoryUsersType:           return "categoryUser"
         case .commentsType:                return "comment"
         case .dynamicSettingsType:         return "setting"
         case .editorials:                  return "editorial"
@@ -85,6 +88,7 @@ enum MappingType: String {
         case .availabilityType:            return Availability.fromJSON
         case .categoriesType:              return Category.fromJSON
         case .categoryPostsType:           return CategoryPost.fromJSON
+        case .categoryUsersType:           return CategoryUser.fromJSON
         case .commentsType:                return ElloComment.fromJSON
         case .dynamicSettingsType:         return DynamicSettingCategory.fromJSON
         case .editorials:                  return Editorial.fromJSON
@@ -113,6 +117,7 @@ extension MappingType {
         case .assetsType:                  return AssetParser()
         case .categoriesType:              return CategoryParser()
         case .categoryPostsType:           return CategoryPostParser()
+        case .categoryUsersType:           return CategoryUserParser()
         case .commentsType:                return CommentParser()
         case .postsType:                   return PostParser()
         case .usersType:                   return UserParser()

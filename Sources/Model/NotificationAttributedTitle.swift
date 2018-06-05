@@ -316,13 +316,10 @@ struct NotificationAttributedTitle {
                 let featuredBy = submission.featuredBy,
                 let categoryText = submission.category.map(({ styleCategory($0) })) ?? submission.categoryPartial.map({ styleCategory(partial: $0) }),
                 let repost = submission.post,
-                let repostAuthor = repost.author,
                 let source = repost.repostSource
             {
                 return styleUser(featuredBy)
-                    .appending(styleText(" featured "))
-                    .appending(styleUser(repostAuthor))
-                    .appending(styleText("’s "))
+                    .appending(styleText(" featured a "))
                     .appending(stylePost("repost", repost))
                     .appending(styleText(" of your "))
                     .appending(stylePost("post", source))
@@ -332,6 +329,45 @@ struct NotificationAttributedTitle {
             }
             else {
                 return styleText("Someone featured a repost of your post.")
+            }
+        case .userAddedAsFeatured:
+            if let submission = subject as? CategoryUser,
+                let featuredBy = submission.featuredBy,
+                let category = submission.category
+            {
+                return styleUser(featuredBy)
+                    .appending(styleText(" has featured you in "))
+                    .appending(styleCategory(category))
+                    .appending(styleText("."))
+            }
+            else {
+                return styleText("Someone has featured you in a category.")
+            }
+        case .userAddedAsCurator:
+            if let submission = subject as? CategoryUser,
+                let curatorBy = submission.curatorBy,
+                let category = submission.category
+            {
+                return styleUser(curatorBy)
+                    .appending(styleText(" has invited you to help curate "))
+                    .appending(styleCategory(category))
+                    .appending(styleText("."))
+            }
+            else {
+                return styleText("Someone has invited you to help curate a category.")
+            }
+        case .userAddedAsModerator:
+            if let submission = subject as? CategoryUser,
+                let moderatorBy = submission.moderatorBy,
+                let category = submission.category
+            {
+                return styleUser(moderatorBy)
+                    .appending(styleText(" has invited you to help moderate "))
+                    .appending(styleCategory(category))
+                    .appending(styleText("."))
+            }
+            else {
+                return styleText("Someone has invited you to help moderate a category.")
             }
         case .welcomeNotification:
             return styleText("Welcome to Ello!")
