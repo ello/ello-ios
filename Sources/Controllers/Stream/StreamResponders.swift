@@ -46,8 +46,12 @@ protocol StreamViewDelegate: class {
 
 @objc
 protocol CategoryResponder: class {
-    func categoryCellTapped(cell: UICollectionViewCell)
     func categoryTapped(_ category: Category)
+}
+
+@objc
+protocol CategoryCellResponder: class {
+    func categoryCellTapped(cell: UICollectionViewCell)
 }
 
 @objc

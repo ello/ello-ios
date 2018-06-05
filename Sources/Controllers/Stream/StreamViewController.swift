@@ -850,13 +850,6 @@ extension StreamViewController: CategoryCellResponder {
             navigationController?.pushViewController(vc, animated: true)
         }
     }
-}
-
-extension StreamViewController: CategoryResponder {
-
-    func categoryTapped(_ category: Category) {
-        showCategoryViewController(slug: category.slug, name: category.name)
-    }
 
     func categoryCellTapped(cell: UICollectionViewCell) {
         guard

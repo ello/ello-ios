@@ -291,7 +291,7 @@ class StreamHeaderCell: CollectionViewCell {
 
     @objc
     func categoryTapped() {
-        let responder: CategoryResponder? = findResponder()
+        let responder: CategoryCellResponder? = findResponder()
         responder?.categoryCellTapped(cell: self)
     }
 
