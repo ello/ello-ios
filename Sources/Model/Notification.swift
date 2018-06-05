@@ -61,6 +61,18 @@ final class Notification: Model, Authorable {
         {
             self.author = featuredBy
         }
+        else if let submission = activity.subject as? CategoryUser {
+            switch submission.role {
+            case .featured:
+                self.author = submission.featuredBy
+            case .curator:
+                self.author = submission.curatorBy
+            case .moderator:
+                self.author = submission.moderatorBy
+            case .unspecified:
+                break
+            }
+        }
         else if let actionable = activity.subject as? PostActionable,
             let user = actionable.user
         {

@@ -808,6 +808,12 @@
 		1D73AB8A1C56A01E00D708B9 /* SafariActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D73AB881C569EB600D708B9 /* SafariActivity.swift */; };
 		1D73AB901C57C85600D708B9 /* AuthenticationManagerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D73AB8F1C57C85600D708B9 /* AuthenticationManagerSpec.swift */; };
 		1D73AB921C58145600D708B9 /* AnonymousAuthenticationSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D73AB911C58145600D708B9 /* AnonymousAuthenticationSpec.swift */; };
+		1D7672DA20C721A30057E03F /* CategoryUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7672D920C721A20057E03F /* CategoryUser.swift */; };
+		1D7672DB20C721A30057E03F /* CategoryUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7672D920C721A20057E03F /* CategoryUser.swift */; };
+		1D7672DC20C721A30057E03F /* CategoryUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7672D920C721A20057E03F /* CategoryUser.swift */; };
+		1D7672DE20C721AB0057E03F /* CategoryUserParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7672DD20C721AB0057E03F /* CategoryUserParser.swift */; };
+		1D7672DF20C721AB0057E03F /* CategoryUserParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7672DD20C721AB0057E03F /* CategoryUserParser.swift */; };
+		1D7672E020C721AB0057E03F /* CategoryUserParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7672DD20C721AB0057E03F /* CategoryUserParser.swift */; };
 		1D7750F01AB9F0D900D92191 /* BaseElloViewControllerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7750EF1AB9F0D900D92191 /* BaseElloViewControllerSpec.swift */; };
 		1D7750F21ABA48F200D92191 /* Tmp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7750F11ABA48F200D92191 /* Tmp.swift */; };
 		1D7750F41ABB391500D92191 /* TmpSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7750F31ABB391500D92191 /* TmpSpec.swift */; };
@@ -1976,6 +1982,8 @@
 		1D73AB881C569EB600D708B9 /* SafariActivity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SafariActivity.swift; sourceTree = "<group>"; };
 		1D73AB8F1C57C85600D708B9 /* AuthenticationManagerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticationManagerSpec.swift; sourceTree = "<group>"; };
 		1D73AB911C58145600D708B9 /* AnonymousAuthenticationSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnonymousAuthenticationSpec.swift; sourceTree = "<group>"; };
+		1D7672D920C721A20057E03F /* CategoryUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryUser.swift; sourceTree = "<group>"; };
+		1D7672DD20C721AB0057E03F /* CategoryUserParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryUserParser.swift; sourceTree = "<group>"; };
 		1D7750EF1AB9F0D900D92191 /* BaseElloViewControllerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseElloViewControllerSpec.swift; sourceTree = "<group>"; };
 		1D7750F11ABA48F200D92191 /* Tmp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tmp.swift; sourceTree = "<group>"; };
 		1D7750F31ABB391500D92191 /* TmpSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TmpSpec.swift; sourceTree = "<group>"; };
@@ -3426,6 +3434,7 @@
 				1D5933741D10BC8100EAF03D /* CategoryLevel.swift */,
 				1DE6E3BD209CDBC800C7FC45 /* CategoryPartial.swift */,
 				1D250FC1208F97CE000EB403 /* CategoryPost.swift */,
+				1D7672D920C721A20057E03F /* CategoryUser.swift */,
 				12CFF69A1B167841007CE68F /* Coder.swift */,
 				12C043651A609A2000E3051A /* Comment.swift */,
 				EA34DABF1AD83CA3002F566D /* DynamicSetting.swift */,
@@ -3744,6 +3753,7 @@
 				1D0DF8D320237CD900019875 /* AssetParser.swift */,
 				1D0DF8D720237CDC00019875 /* CategoryParser.swift */,
 				1D250FC5208F9B0B000EB403 /* CategoryPostParser.swift */,
+				1D7672DD20C721AB0057E03F /* CategoryUserParser.swift */,
 				1D0DF8D620237CDB00019875 /* CommentParser.swift */,
 				1D0DF8D120237CD900019875 /* LoveParser.swift */,
 				1D808785203645DA0081E8FE /* ManyParser.swift */,
@@ -5326,11 +5336,13 @@
 				1DA18E1D1DB55D4E000231CC /* ExternalLink.swift in Sources */,
 				122B30E61C6A3FC400C1B9D8 /* EmbedRegion.swift in Sources */,
 				1D250FC3208F97CE000EB403 /* CategoryPost.swift in Sources */,
+				1D7672DB20C721A30057E03F /* CategoryUser.swift in Sources */,
 				1DF490921FD5ECD500C0ACAC /* TableViewCell.swift in Sources */,
 				122D1B9D1C6130FB001386CE /* NSErrorExtensions.swift in Sources */,
 				120FF6C91C6D8F5500D5BABD /* ShareRegionProcessor.swift in Sources */,
 				122D1B9B1C6130D9001386CE /* AlertHeaderView.swift in Sources */,
 				122B30B51C6A3FBB00C1B9D8 /* Comment.swift in Sources */,
+				1D7672DF20C721AB0057E03F /* CategoryUserParser.swift in Sources */,
 				1D0DF9062023A92600019875 /* PageConfig.swift in Sources */,
 				122D1BA11C613161001386CE /* Colors.swift in Sources */,
 				122B30EA1C6A3FC400C1B9D8 /* TextRegion.swift in Sources */,
@@ -5695,6 +5707,7 @@
 				1D15C2791C7D12890013B192 /* InterfaceString.swift in Sources */,
 				1D87831C1ECCF5B300253602 /* EditorialInviteCell.swift in Sources */,
 				128D36AA1A951A6400622833 /* StreamFooterCellPresenter.swift in Sources */,
+				1D7672DA20C721A30057E03F /* CategoryUser.swift in Sources */,
 				1D6E42FC1EA672C60029C9B1 /* ProfileBadgesView.swift in Sources */,
 				1DB271171F547A0F0044D475 /* UserFlag.swift in Sources */,
 				1DE991D61FE077550025415A /* LightboxProtocols.swift in Sources */,
@@ -6106,6 +6119,7 @@
 				1220347F1DECCE890059E633 /* ProfileLocationView.swift in Sources */,
 				1D70DE611DF6229B008AF216 /* NotificationsGenerator.swift in Sources */,
 				126E05311B152DD70036DFA6 /* AlertHeaderView.swift in Sources */,
+				1D7672DE20C721AB0057E03F /* CategoryUserParser.swift in Sources */,
 				1D7152B01D6E4782005998FE /* ClearTextField.swift in Sources */,
 				1207C98C1C73FEE000939ADB /* RelationshipService.swift in Sources */,
 				1D1AF6281A84437B00E06C93 /* StreamableViewController.swift in Sources */,
@@ -6221,6 +6235,7 @@
 				1D447ED11F3BC69400013384 /* ArtistInviteSubmission.swift in Sources */,
 				1D808792203C9F960081E8FE /* PageHeaderParser.swift in Sources */,
 				1D447EEB1F3BC7B200013384 /* ElloLinkedStore.swift in Sources */,
+				1D7672DC20C721A30057E03F /* CategoryUser.swift in Sources */,
 				1D447EFA1F3BC94900013384 /* Profile.swift in Sources */,
 				1D447EBC1F3BC5D900013384 /* NSStringExtensions.swift in Sources */,
 				1D447EE71F3BC79E00013384 /* MultipartRequestBuilder.swift in Sources */,
@@ -6233,6 +6248,7 @@
 				1D447EB51F3BC3A000013384 /* DynamicSetting.swift in Sources */,
 				1D447F0F1F3BCA2600013384 /* ElloRequest.swift in Sources */,
 				1D447EDF1F3BC73F00013384 /* EmbedRegion.swift in Sources */,
+				1D7672E020C721AB0057E03F /* CategoryUserParser.swift in Sources */,
 				1D0DF8EE202384BE00019875 /* LoveParser.swift in Sources */,
 				1D447EE31F3BC77000013384 /* TypedNotifications.swift in Sources */,
 				1D447ECC1F3BC67400013384 /* BoxType.swift in Sources */,

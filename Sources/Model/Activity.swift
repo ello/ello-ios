@@ -41,6 +41,10 @@ final class Activity: Model {
         case categoryRepostFeatured = "category_repost_featured"
         case categoryPostViaRepostFeatured = "category_post_via_repost_featured"
 
+        case userAddedAsFeatured = "user_added_as_featured_notification"
+        case userAddedAsCurator = "user_added_as_curator_notification"
+        case userAddedAsModerator = "user_added_as_moderator_notification"
+
         // Fallback for not defined types
         case unknown = "Unknown"
     }
