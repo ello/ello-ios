@@ -9,8 +9,6 @@ class StreamHeaderCell: CollectionViewCell {
     static let reuseIdentifier = "StreamHeaderCell"
     struct Size {
         static let height: CGFloat = 70
-        static let gridAvatarHeight: CGFloat = 30
-        static let listAvatarHeight: CGFloat = 40
     }
 
     var followButtonVisible = false {
@@ -161,7 +159,7 @@ class StreamHeaderCell: CollectionViewCell {
 
         let minimumUsernameWidth: CGFloat = 44
         let minimumRepostedWidth: CGFloat = 44
-        let avatarSize = isGridView ? CGSize(width: Size.gridAvatarHeight, height: Size.gridAvatarHeight) : CGSize(width: Size.listAvatarHeight, height: Size.listAvatarHeight)
+        let avatarSize = isGridView ? AvatarButton.Size.smallSize : AvatarButton.Size.normalSize
 
         avatarButton.frame = CGRect(
             x: leftSidePadding,

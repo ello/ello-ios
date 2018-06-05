@@ -41,7 +41,7 @@ class UserAvatarsCell: UICollectionViewCell {
         var startX: CGFloat = 0
         for user in usersToDisplay {
             let ab = AvatarButton()
-            ab.frame = CGRect(x: startX, y: 0, width: 30, height: 30)
+            ab.frame = CGRect(origin: CGPoint(x: startX, y: 0), size: AvatarButton.Size.smallSize)
             ab.setUserAvatarURL(user.avatarURL())
             ab.addTarget(self, action: #selector(UserAvatarsCell.avatarTapped(_:)), for: UIControlEvents.touchUpInside)
             avatarsView.addSubview(ab)

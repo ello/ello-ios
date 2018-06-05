@@ -38,7 +38,6 @@ class PromotionalHeaderCell: CollectionViewCell {
         static let lineHeight: CGFloat = 2
         static let lineInset: CGFloat = 0
         static let avatarMargin: CGFloat = 10
-        static let avatarSize: CGFloat = 30
         static let minBodyHeight: CGFloat = 30
         static let circleBottomInset: CGFloat = 10
         static let failImageWidth: CGFloat = 140
@@ -171,7 +170,7 @@ class PromotionalHeaderCell: CollectionViewCell {
         }
 
         postedByAvatar.snp.makeConstraints { make in
-            make.width.height.equalTo(Size.avatarSize)
+            make.size.equalTo(AvatarButton.Size.smallSize)
             make.trailing.equalTo(contentView).inset(Size.avatarMargin)
             make.bottom.equalTo(contentView).inset(Size.avatarMargin)
         }

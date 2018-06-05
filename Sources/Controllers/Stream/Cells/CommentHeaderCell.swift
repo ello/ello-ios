@@ -9,7 +9,6 @@ class CommentHeaderCell: CollectionViewCell {
     static let reuseIdentifier = "CommentHeaderCell"
     struct Size {
         static let height: CGFloat = 60
-        static let avatarHeight: CGFloat = 30
         static let margins: CGFloat = 15
         static let avatarRightSpace: CGFloat = 15
         static let buttonWidth: CGFloat = 40
@@ -133,7 +132,7 @@ class CommentHeaderCell: CollectionViewCell {
         avatarButton.snp.makeConstraints { make in
             make.leading.equalTo(foregroundBackground).offset(Size.margins)
             make.centerY.equalTo(foregroundBackground)
-            make.width.height.equalTo(Size.avatarHeight)
+            make.size.equalTo(AvatarButton.Size.smallSize)
         }
 
         usernameButton.snp.makeConstraints { make in

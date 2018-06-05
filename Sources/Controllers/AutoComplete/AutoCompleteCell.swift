@@ -8,7 +8,6 @@ class AutoCompleteCell: TableViewCell {
         static let height: CGFloat = 49
         static let avatarLeading: CGFloat = 15
         static let nameLeading: CGFloat = 10
-        static let avatarSize = CGSize(width: 30, height: 30)
     }
 
     var name: String? {
@@ -34,7 +33,7 @@ class AutoCompleteCell: TableViewCell {
         avatar.snp.makeConstraints { make in
             make.leading.equalTo(contentView).offset(Size.avatarLeading)
             make.centerY.equalTo(contentView)
-            make.size.equalTo(Size.avatarSize)
+            make.size.equalTo(AvatarButton.Size.smallSize)
         }
 
         nameLabel.snp.makeConstraints { make in

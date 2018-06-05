@@ -21,7 +21,6 @@ class CategoryHeaderCell: CollectionViewCell {
         static let height = calculateHeight()
         static let defaultMargin: CGFloat = 10
         static let titleMargin: CGFloat = 15
-        static let avatarSize: CGFloat = 30
         static let subscribeIconSpacing: CGFloat = 0
         static let subscribeIconVerticalOffset: CGFloat = -20
 
@@ -41,16 +40,8 @@ class CategoryHeaderCell: CollectionViewCell {
     private let failImage = UIImageView()
     private let failBackgroundView = UIView()
 
-    private var imageSize: CGSize?
-    private var aspectRatio: CGFloat? {
-        guard let imageSize = imageSize else { return nil }
-        return imageSize.width / imageSize.height
-    }
-
     var config: Config = Config() {
-        didSet {
-            updateConfig()
-        }
+        didSet { updateConfig() }
     }
 
     override func style() {
@@ -60,7 +51,7 @@ class CategoryHeaderCell: CollectionViewCell {
         titleLabel.numberOfLines = 0
         imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFill
-        imageOverlay.backgroundColor = UIColor.black.withAlphaComponent(0.6)
+        imageOverlay.backgroundColor = UIColor.black.withAlphaComponent(0.4)
         failBackgroundView.backgroundColor = .white
     }
 
@@ -112,7 +103,7 @@ class CategoryHeaderCell: CollectionViewCell {
         }
 
         postedByAvatar.snp.makeConstraints { make in
-            make.width.height.equalTo(Size.avatarSize)
+            make.size.equalTo(AvatarButton.Size.smallSize)
             make.trailing.bottom.equalTo(contentView).inset(Size.defaultMargin)
         }
 
