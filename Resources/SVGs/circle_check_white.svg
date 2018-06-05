@@ -1,5 +1,5 @@
 <svg width="22px" height="17px" viewBox="0 0 22 17" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <g stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(4.500000, 1.000000)" stroke="#AAAAAA">
+    <g stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(4.500000, 1.000000)" stroke="#ffffff">
         <circle cx="6.5" cy="6.5" r="6.5"></circle>
         <polyline stroke-linejoin="bevel" points="4.23913043 6.43143913 6.09134783 8.7607 8.76086957 4.23896087"></polyline>
     </g>
