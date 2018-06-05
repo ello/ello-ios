@@ -11,7 +11,7 @@ protocol CategoryCardListDelegate: class {
 
 class CategoryCardListView: View {
     struct Size {
-        static let height: CGFloat = 70
+        static let height: CGFloat = CategoryCardView.Size.cardSize.height + 2
         static let spacing: CGFloat = 1
     }
 

@@ -76,8 +76,7 @@ class BaseElloViewController: UIViewController,
             }
         )
 
-        let relationshipController = RelationshipController()
-        relationshipController.responderChainable = chainableController
+        let relationshipController = RelationshipController(responderChainable: chainableController)
         relationshipController.currentUser = self.currentUser
         self.relationshipController = relationshipController
     }
@@ -176,4 +175,163 @@ class BaseElloViewController: UIViewController,
     func closeButtonTapped() {
         dismiss(animated: true, completion: nil)
     }
+}
+
+extension BaseElloViewController: HasHamburgerButton {
+    func hamburgerButtonTapped() {
+        let responder: DrawerResponder? = findResponder()
+        responder?.showDrawerViewController()
+    }
+}
+
+extension BaseElloViewController: PostTappedResponder {
+
+    func postTapped(_ post: Post) {
+        postTapped(postId: post.id, scrollToComment: nil)
+    }
+
+    func postTapped(_ post: Post, scrollToComment comment: ElloComment?) {
+        postTapped(postId: post.id, scrollToComment: comment)
+    }
+
+    func postTapped(postId: String) {
+        postTapped(postId: postId, scrollToComment: nil)
+    }
+
+    func postTapped(_ post: Post, scrollToComments: Bool) {
+        let vc = postTapped(postId: post.id, scrollToComment: nil)
+        vc.scrollToComments = scrollToComments
+    }
+
+    @discardableResult
+    private func postTapped(postId: String, scrollToComment comment: ElloComment?) -> PostDetailViewController {
+        let vc = PostDetailViewController(postParam: postId)
+        vc.scrollToComment = comment
+        vc.currentUser = currentUser
+        navigationController?.pushViewController(vc, animated: true)
+        return vc
+    }
+}
+
+extension BaseElloViewController: CategoryResponder {
+    @objc
+    func categoryTapped(_ category: Category) {
+        let controller = CategoryViewController(currentUser: currentUser, category: category, usage: .detail)
+        navigationController?.pushViewController(controller, animated: true)
+    }
+
+    @objc
+    func categoryTapped(slug: String, name: String) {
+        let controller = CategoryViewController(currentUser: currentUser, slug: slug, name: name, usage: .detail)
+        navigationController?.pushViewController(controller, animated: true)
+    }
+}
+
+extension BaseElloViewController: UserTappedResponder {
+
+    @objc
+    func userTapped(_ user: User) {
+        guard user.relationshipPriority != .block else { return }
+        userParamTapped(user.id, username: user.username)
+    }
+
+    @objc
+    func userTapped(userId: String) {
+        let vc = ProfileViewController(userParam: userId)
+        vc.currentUser = currentUser
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+
+
+    func userParamTapped(_ param: String, username: String?) {
+        guard !DeepLinking.alreadyOnUserProfile(navVC: navigationController, userParam: param)
+            else { return }
+
+        let vc = ProfileViewController(userParam: param, username: username)
+        vc.currentUser = currentUser
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+
+    private func alreadyOnUserProfile(_ user: User) -> Bool {
+        if let profileVC = self.navigationController?.topViewController as? ProfileViewController
+        {
+            let param = profileVC.userParam
+            if param.hasPrefix("~") {
+                let usernamePart = param[param.index(after: param.startIndex)...]
+                return user.username == usernamePart
+            }
+            else {
+                return user.id == profileVC.userParam
+            }
+        }
+        return false
+    }
+}
+
+extension BaseElloViewController: CreatePostResponder {
+    func createPost(text: String?, fromController: UIViewController) {
+        let vc = OmnibarViewController(defaultText: text)
+        vc.currentUser = self.currentUser
+        vc.onPostSuccess { _ in
+            _ = self.navigationController?.popViewController(animated: true)
+        }
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+
+    func createComment(_ postId: String, text: String?, fromController: UIViewController) {
+        let vc = OmnibarViewController(parentPostId: postId, defaultText: text)
+        vc.currentUser = self.currentUser
+        vc.onCommentSuccess { _ in
+            _ = self.navigationController?.popViewController(animated: true)
+        }
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+
+    func editComment(_ comment: ElloComment, fromController: UIViewController) {
+        if OmnibarViewController.canEditRegions(comment.content) {
+            let vc = OmnibarViewController(editComment: comment)
+            vc.currentUser = self.currentUser
+            vc.onCommentSuccess { _ in
+                _ = self.navigationController?.popViewController(animated: true)
+            }
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+        else {
+            let message = InterfaceString.Post.CannotEditComment
+            let alertController = AlertViewController(message: message)
+            let action = AlertAction(title: InterfaceString.ThatIsOK, style: .dark, handler: nil)
+            alertController.addAction(action)
+            self.present(alertController, animated: true, completion: nil)
+        }
+    }
+
+    func editPost(_ post: Post, fromController: UIViewController) {
+        if OmnibarViewController.canEditRegions(post.content) {
+            let vc = OmnibarViewController(editPost: post)
+            vc.currentUser = self.currentUser
+            vc.onPostSuccess { _ in
+                _ = self.navigationController?.popViewController(animated: true)
+            }
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+        else {
+            let message = InterfaceString.Post.CannotEditPost
+            let alertController = AlertViewController(message: message)
+            let action = AlertAction(title: InterfaceString.ThatIsOK, style: .dark, handler: nil)
+            alertController.addAction(action)
+            self.present(alertController, animated: true, completion: nil)
+        }
+    }
+}
+
+extension BaseElloViewController {
+
+    func showGenericLoadFailure() {
+        let message = InterfaceString.GenericError
+        let alertController = AlertViewController(confirmation: message) { _ in
+            _ = self.navigationController?.popViewController(animated: true)
+        }
+        self.present(alertController, animated: true, completion: nil)
+    }
+
 }

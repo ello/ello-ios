@@ -19,6 +19,7 @@ class CategoryParser: IdParser {
             id: json["id"].stringValue,
             name: json["name"].stringValue,
             slug: json["slug"].stringValue,
+            description: json["description"].string,
             order: json["order"].intValue,
             allowInOnboarding: json["allowInOnboarding"].bool ?? true,
             isCreatorType: json["isCreatorType"].bool ?? true,

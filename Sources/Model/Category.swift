@@ -29,6 +29,8 @@ final class Category: Model {
     let id: String
     let name: String
     let slug: String
+    override var description: String { return categoryDescription ?? super.description }
+    let categoryDescription: String?
     let order: Int
     let allowInOnboarding: Bool
     let isCreatorType: Bool
@@ -45,6 +47,7 @@ final class Category: Model {
     init(id: String,
         name: String,
         slug: String,
+        description: String?,
         order: Int,
         allowInOnboarding: Bool,
         isCreatorType: Bool,
@@ -55,6 +58,7 @@ final class Category: Model {
         self.id = id
         self.name = name
         self.slug = slug
+        self.categoryDescription = description
         self.order = order
         self.allowInOnboarding = allowInOnboarding
         self.isCreatorType = isCreatorType
@@ -68,6 +72,7 @@ final class Category: Model {
         id = decoder.decodeKey("id")
         name = decoder.decodeKey("name")
         slug = decoder.decodeKey("slug")
+        categoryDescription = decoder.decodeOptionalKey("description")
         order = decoder.decodeKey("order")
         level = CategoryLevel(rawValue: decoder.decodeKey("level"))!
         let version: Int = decoder.decodeKey("version")
@@ -92,6 +97,7 @@ final class Category: Model {
         encoder.encodeObject(id, forKey: "id")
         encoder.encodeObject(name, forKey: "name")
         encoder.encodeObject(slug, forKey: "slug")
+        encoder.encodeObject(categoryDescription, forKey: "description")
         encoder.encodeObject(order, forKey: "order")
         encoder.encodeObject(allowInOnboarding, forKey: "allowInOnboarding")
         encoder.encodeObject(isCreatorType, forKey: "isCreatorType")
@@ -109,6 +115,7 @@ final class Category: Model {
             id: json["id"].stringValue,
             name: json["name"].stringValue,
             slug: json["slug"].stringValue,
+            description: json["description"].string,
             order: json["order"].intValue,
             allowInOnboarding: json["allow_in_onboarding"].bool ?? true,
             isCreatorType: json["is_creator_type"].bool ?? true,

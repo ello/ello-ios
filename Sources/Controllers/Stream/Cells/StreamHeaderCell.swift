@@ -9,12 +9,6 @@ class StreamHeaderCell: CollectionViewCell {
     static let reuseIdentifier = "StreamHeaderCell"
     struct Size {
         static let height: CGFloat = 70
-        static let gridAvatarHeight: CGFloat = 30
-        static let listAvatarHeight: CGFloat = 40
-    }
-
-    static func avatarHeight(isGridView: Bool) -> CGFloat {
-        return isGridView ? Size.gridAvatarHeight : Size.listAvatarHeight
     }
 
     var followButtonVisible = false {
@@ -32,21 +26,20 @@ class StreamHeaderCell: CollectionViewCell {
     private let categoryButton = StyledButton(style: .clearGray)
     private let artistInviteSubmissionButton = StyledButton(style: .grayUnderlined)
 
-    var isGridLayout = false
     var showUsername = true {
         didSet {
             setNeedsLayout()
         }
     }
 
-    var avatarHeight: CGFloat = 60.0 {
+    var isGridView = true {
         didSet { setNeedsDisplay() }
     }
 
     var timeStamp: String {
         get { return self.timestampLabel.text ?? "" }
         set {
-            if isGridLayout {
+            if isGridView {
                 timestampLabel.text = ""
             }
             else {
@@ -166,12 +159,13 @@ class StreamHeaderCell: CollectionViewCell {
 
         let minimumUsernameWidth: CGFloat = 44
         let minimumRepostedWidth: CGFloat = 44
+        let avatarSize = isGridView ? AvatarButton.Size.smallSize : AvatarButton.Size.normalSize
 
         avatarButton.frame = CGRect(
             x: leftSidePadding,
-            y: contentView.frame.midY - avatarHeight/2,
-            width: avatarHeight,
-            height: avatarHeight
+            y: contentView.frame.midY - avatarSize.height / 2,
+            width: avatarSize.height,
+            height: avatarSize.height
             )
         let usernameX = avatarButton.frame.maxX + avatarPadding
 
@@ -203,7 +197,7 @@ class StreamHeaderCell: CollectionViewCell {
             )
 
         var maxUsernameWidth: CGFloat = 0
-        if isGridLayout {
+        if isGridView {
             maxUsernameWidth = contentView.frame.width - usernameX - rightSidePadding
         }
         else {
@@ -297,7 +291,7 @@ class StreamHeaderCell: CollectionViewCell {
 
     @objc
     func categoryTapped() {
-        let responder: CategoryResponder? = findResponder()
+        let responder: CategoryCellResponder? = findResponder()
         responder?.categoryCellTapped(cell: self)
     }
 

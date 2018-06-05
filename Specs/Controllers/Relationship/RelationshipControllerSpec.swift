@@ -21,8 +21,8 @@ class RelationshipControllerSpec: QuickSpec {
                 next: { return presentingController.next }
             )
             showController(presentingController)
-            subject = RelationshipController()
-            subject.responderChainable = chainable
+
+            subject = RelationshipController(responderChainable: chainable)
 
         })
 

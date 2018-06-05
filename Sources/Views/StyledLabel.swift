@@ -10,6 +10,7 @@ class StyledLabel: UILabel {
         case large
         case largeBold
         case bold
+        case categoryHeader
         case editorialHeader
         case editorialSuccess
         case editorialCaption
@@ -24,6 +25,7 @@ class StyledLabel: UILabel {
             case .large: return UIFont.defaultFont(18)
             case .largeBold: return UIFont.defaultBoldFont(18)
             case .bold: return UIFont.defaultBoldFont()
+            case .categoryHeader: return UIFont.regularBlackFont(64)
             case .editorialHeader: return UIFont.regularBlackFont(32)
             case .editorialSuccess: return UIFont.regularBlackFont(24)
             case .editorialCaption: return UIFont.defaultFont(16)
@@ -133,11 +135,29 @@ extension StyledLabel {
 }
 
 extension StyledLabel.Style {
-    static let `default` = StyledLabel.Style(
+    static let black = StyledLabel.Style(
         textColor: .black
+        )
+    static let `default` = black
+    static let bold = StyledLabel.Style(
+        textColor: .black,
+        fontFamily: .bold
+        )
+    static let large = StyledLabel.Style(
+        textColor: .black,
+        fontFamily: .large
+        )
+    static let largeBold = StyledLabel.Style(
+        textColor: .black,
+        fontFamily: .largeBold
         )
     static let smallWhite = StyledLabel.Style(
         textColor: .white,
+        fontFamily: .small
+        )
+    static let smallWhiteUnderlined = StyledLabel.Style(
+        textColor: .white,
+        underline: true,
         fontFamily: .small
         )
     static let white = StyledLabel.Style(
@@ -157,17 +177,6 @@ extension StyledLabel.Style {
         )
     static let largeBoldWhite = StyledLabel.Style(
         textColor: .white,
-        fontFamily: .largeBold
-        )
-    static let black = StyledLabel.Style(
-        textColor: .black
-        )
-    static let large = StyledLabel.Style(
-        textColor: .black,
-        fontFamily: .large
-        )
-    static let largeBold = StyledLabel.Style(
-        textColor: .black,
         fontFamily: .largeBold
         )
     static let gray = StyledLabel.Style(
@@ -207,6 +216,10 @@ extension StyledLabel.Style {
 
     static let chosenCommunityButton = StyledLabel.Style(
         textColor: .white, backgroundColor: UIColor.black.withAlphaComponent(0.5)
+        )
+    static let categoryHeader = StyledLabel.Style(
+        textColor: .white,
+        fontFamily: .categoryHeader
         )
     static let editorialHeader = StyledLabel.Style(
         textColor: .white,

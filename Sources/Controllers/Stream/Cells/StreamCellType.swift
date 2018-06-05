@@ -20,6 +20,7 @@ enum StreamCellType: Equatable {
     case artistInviteSubmissionsButton
     case badge
     case categoryChooseCard(isSubscribed: Bool, isSelected: Bool)
+    case categoryHeader
     case categoryPostHistory(CategoryPost?)
     case categorySubscribeCard
     case commentHeader
@@ -65,7 +66,7 @@ enum StreamCellType: Equatable {
 
     enum PlaceholderType {
         case streamItems
-        case promotionalHeader
+        case pageHeader
 
         case peopleToFollow
 
@@ -103,6 +104,7 @@ enum StreamCellType: Equatable {
         .artistInviteSubmissionsButton,
         .badge,
         .categoryChooseCard(isSubscribed: true, isSelected: true),
+        .categoryHeader,
         .categoryPostHistory(nil),
         .categorySubscribeCard,
         .commentHeader,
@@ -177,6 +179,7 @@ enum StreamCellType: Equatable {
         case .artistInviteHeader: return ArtistInviteHeaderCell.reuseIdentifier
         case .artistInviteSubmissionsButton: return ArtistInviteSubmissionsButtonCell.reuseIdentifier
         case .badge: return BadgeCell.reuseIdentifier
+        case .categoryHeader: return CategoryHeaderCell.reuseIdentifier
         case .categoryChooseCard, .categorySubscribeCard: return CategoryCardCell.reuseIdentifier
         case .categoryPostHistory: return CategoryPostHistoryCell.reuseIdentifier
         case .commentHeader: return CommentHeaderCell.reuseIdentifier
@@ -223,6 +226,7 @@ enum StreamCellType: Equatable {
              .artistInviteBubble,
              .badge,
              .categoryChooseCard,
+             .categoryHeader,
              .categoryPostHistory,
              .categorySubscribeCard,
              .createComment,
@@ -261,6 +265,7 @@ enum StreamCellType: Equatable {
         case .artistInviteGuide: return ArtistInviteCellPresenter.configureGuide
         case .artistInviteHeader: return ArtistInviteCellPresenter.configure
         case .badge: return BadgeCellPresenter.configure
+        case .categoryHeader: return CategoryHeaderCellPresenter.configure
         case .categoryChooseCard, .categorySubscribeCard, .onboardingCategoryCard: return CategoryCardCellPresenter.configure
         case .categoryPostHistory: return CategoryPostHistoryCellPresenter.configure
         case .commentHeader: return CommentHeaderCellPresenter.configure
@@ -305,6 +310,7 @@ enum StreamCellType: Equatable {
         case .artistInviteHeader: return ArtistInviteHeaderCell.self
         case .artistInviteSubmissionsButton: return ArtistInviteSubmissionsButtonCell.self
         case .badge: return BadgeCell.self
+        case .categoryHeader: return CategoryHeaderCell.self
         case .categoryChooseCard, .categorySubscribeCard, .onboardingCategoryCard: return CategoryCardCell.self
         case .categoryPostHistory: return CategoryPostHistoryCell.self
         case .commentHeader: return CommentHeaderCell.self
@@ -352,6 +358,8 @@ enum StreamCellType: Equatable {
             return ArtistInviteSubmissionsButtonCell.Size.height
         case .badge:
             return 64
+        case .categoryHeader:
+            return CategoryHeaderCell.Size.height
         case .categoryChooseCard, .categorySubscribeCard:
             return CategoryCardCell.Size.calculateHeight(columnCount: 1, subscribing: true)
         case .categoryPostHistory:
@@ -456,6 +464,7 @@ enum StreamCellType: Equatable {
              .artistInviteHeader,
              .artistInviteSubmissionsButton,
              .badge,
+             .categoryHeader,
              .commentHeader,
              .createComment,
              .editorial,
@@ -527,6 +536,7 @@ enum StreamCellType: Equatable {
             .artistInviteSubmissionsButton,
             .badge,
             .categoryChooseCard(isSubscribed: true, isSelected: true),
+            .categoryHeader,
             .categoryPostHistory(nil),
             .categorySubscribeCard,
             .commentHeader,

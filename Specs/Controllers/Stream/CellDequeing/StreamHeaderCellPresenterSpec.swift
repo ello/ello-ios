@@ -55,30 +55,18 @@ class StreamHeaderCellPresenterSpec: QuickSpec {
                         StreamKind.following.setIsGridView(true)
                     }
 
-                    it("sets isGridLayout") {
-                        cell.isGridLayout = false
+                    it("sets isGridView") {
+                        cell.isGridView = false
                         StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: currentUser)
-                        expect(cell.isGridLayout) == true
-                    }
-
-                    it("sets avatarHeight") {
-                        cell.avatarHeight = 0
-                        StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: currentUser)
-                        expect(cell.avatarHeight) == 30.0
+                        expect(cell.isGridView) == true
                     }
                 }
 
                 context("not-gridLayout streamKind") {
-                    it("sets isGridLayout") {
-                        cell.isGridLayout = true
+                    it("sets isGridView") {
+                        cell.isGridView = true
                         StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: currentUser)
-                        expect(cell.isGridLayout) == false
-                    }
-
-                    it("sets avatarHeight") {
-                        cell.avatarHeight = 0
-                        StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: currentUser)
-                        expect(cell.avatarHeight) == 40
+                        expect(cell.isGridView) == false
                     }
                 }
             }

@@ -101,7 +101,7 @@ class AppViewController: BaseElloViewController {
 
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
-        postNotification(Application.Notifications.ViewSizeWillChange, value: size)
+        postNotification(Application.Notifications.WindowSizeWillChange, value: size)
     }
 
     override func didSetCurrentUser() {

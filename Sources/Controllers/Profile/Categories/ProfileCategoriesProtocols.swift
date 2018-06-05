@@ -4,7 +4,7 @@
 
 protocol ProfileCategoriesDelegate: class {
     func learnMoreTapped()
-    func categoryTapped(_ category: Category)
+    func profileCategoryTapped(_ category: Category)
     func dismiss()
 }
 

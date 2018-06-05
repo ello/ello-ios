@@ -471,7 +471,7 @@ final class StreamViewController: BaseElloViewController {
             guard let `self` = self else { return }
             self.reloadCells()
         }
-        sizeChangedNotification = NotificationObserver(notification: Application.Notifications.ViewSizeWillChange) { [weak self] size in
+        sizeChangedNotification = NotificationObserver(notification: Application.Notifications.WindowSizeWillChange) { [weak self] size in
             guard let `self` = self else { return }
 
             let columnCount = Window.columnCountFor(width: size.width)
@@ -830,7 +830,7 @@ extension StreamViewController: StreamPostTappedResponder {
 
 }
 
-extension StreamViewController {
+extension StreamViewController: CategoryCellResponder {
 
     func showCategoryViewController(slug: String, name: String) {
         showCategoryViewController(categoryViewController: CategoryViewController(currentUser: currentUser, slug: slug, name: name, usage: .detail), slug: slug)
@@ -849,13 +849,6 @@ extension StreamViewController {
             let vc = categoryViewControllerGenerator()
             navigationController?.pushViewController(vc, animated: true)
         }
-    }
-}
-
-extension StreamViewController: CategoryResponder {
-
-    func categoryTapped(_ category: Category) {
-        showCategoryViewController(slug: category.slug, name: category.name)
     }
 
     func categoryCellTapped(cell: UICollectionViewCell) {
@@ -1162,6 +1155,12 @@ extension StreamViewController: UICollectionViewDelegate {
             let responder: PromotionalHeaderResponder? = findResponder()
             responder?.categorySubscribed(categoryId: categoryId)
             keepSelected = true
+        }
+        else if let tappedCell = tappedCell as? CategoryHeaderCell,
+            let pageHeader = streamCellItem.jsonable as? PageHeader
+        {
+            let responder: CategoryHeaderResponder? = findResponder()
+            responder?.categoryHeaderTapped(cell: tappedCell, header: pageHeader)
         }
 
         if !keepSelected {

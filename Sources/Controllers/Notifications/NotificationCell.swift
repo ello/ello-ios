@@ -40,7 +40,6 @@ class NotificationCell: UICollectionViewCell, UIWebViewDelegate {
         static let ButtonMargin: CGFloat = 15
         static let WebHeightCorrection: CGFloat = -10
         static let SideMargins: CGFloat = 15
-        static let AvatarSize: CGFloat = 30
         static let ImageWidth: CGFloat = 87
         static let InnerMargin: CGFloat = 10
         static let MessageMargin: CGFloat = 0
@@ -49,7 +48,7 @@ class NotificationCell: UICollectionViewCell, UIWebViewDelegate {
         static let CreatedAtFixedHeight = CreatedAtHeight + InnerMargin
 
         static func messageHtmlWidth(forCellWidth cellWidth: CGFloat, hasImage: Bool) -> CGFloat {
-            let messageLeftMargin: CGFloat = SideMargins + AvatarSize + InnerMargin
+            let messageLeftMargin: CGFloat = SideMargins + AvatarButton.Size.smallSize.width + InnerMargin
             var messageRightMargin: CGFloat = SideMargins
             if hasImage {
                 messageRightMargin += InnerMargin + ImageWidth
@@ -247,7 +246,7 @@ class NotificationCell: UICollectionViewCell, UIWebViewDelegate {
         let titleWidth = Size.messageHtmlWidth(forCellWidth: self.frame.width, hasImage: mode.hasImage)
         separator.frame = contentView.bounds.fromBottom().grow(up: 1)
 
-        avatarButton.frame = outerFrame.with(size: CGSize(width: Size.AvatarSize, height: Size.AvatarSize))
+        avatarButton.frame = outerFrame.with(size: AvatarButton.Size.smallSize)
 
         notificationImageView.frame = outerFrame.fromRight()
             .grow(left: Size.ImageWidth)

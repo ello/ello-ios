@@ -26,3 +26,13 @@ protocol CategoryScreenProtocol: StreamableScreenProtocol {
     func selectCategory(_ index: CategoryScreen.Selection)
     func setupNavBar(back: Bool, animated: Bool)
 }
+
+protocol CategoryDetailDelegate: class {
+    func closeController()
+    func adminsLoaded(moderators: [User], curators: [User])
+}
+
+protocol CategoryDetailScreenProtocol {
+    var headerView: UIView { get }
+    func updateUsers(moderators: [User], curators: [User])
+}

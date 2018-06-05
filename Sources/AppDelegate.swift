@@ -15,6 +15,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     static var restrictRotation = true
 
     var window: UIWindow?
+    var windowSizeChangedNotification: NotificationObserver?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         if let debugServer = DebugServer.fromDefaults {
@@ -72,6 +73,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         Tracker.shared.sessionStarted()
+
+        windowSizeChangedNotification = NotificationObserver(notification: Application.Notifications.WindowSizeWillChange) { size in
+            Globals.windowSize = size
+        }
+
         return true
     }
 

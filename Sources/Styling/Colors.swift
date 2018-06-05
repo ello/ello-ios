@@ -47,4 +47,5 @@ extension UIColor {
 
     // explains itself
     static let dimmedModalBackground = UIColor(white: 0x0, alpha: 0.7)
+    static let dimmedBlackBackground = UIColor(white: 0x0, alpha: 0.5)
 }

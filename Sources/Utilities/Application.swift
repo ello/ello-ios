@@ -23,7 +23,7 @@ class Application {
         static let WillTerminate = TypedNotification<Application>(name: "com.Ello.Application.WillTerminate")
         static let SizeCategoryDidChange = TypedNotification<Application>(name: "com.Ello.Application.SizeCategoryDidChange")
         static let TraitCollectionDidChange = TypedNotification<UITraitCollection>(name: "com.Ello.Application.TraitCollectionDidChange")
-        static let ViewSizeWillChange = TypedNotification<CGSize>(name: "com.Ello.Application.ViewSizeWillChange")
+        static let WindowSizeWillChange = TypedNotification<CGSize>(name: "com.Ello.Application.WindowSizeWillChange")
     }
 
     class func shared() -> Application {

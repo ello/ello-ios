@@ -1,6 +1,8 @@
 <svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <g stroke-width="1" fill="none" fill-rule="evenodd" stroke="#00D100">
+    <g stroke-width="1" fill-rule="evenodd" fill="#00D100">
         <circle cx="10" cy="10" r="9.5"></circle>
+    </g>
+    <g stroke-width="1" fill="none" fill-rule="evenodd" stroke="#fff">
         <g transform="translate(2, 1.5) scale(1.25)">
             <polyline stroke-linejoin="bevel" points="4.23913043 6.43143913 6.09134783 8.7607 8.76086957 4.23896087"></polyline>
         </g>

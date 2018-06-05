@@ -3,6 +3,10 @@
 //
 
 class AvatarButton: Button {
+    struct Size {
+        static let normalSize = CGSize(width: 40, height: 40)
+        static let smallSize = CGSize(width: 30, height: 30)
+    }
     // for specs; ensure the correct URL is assigned
     var imageURL: URL?
 

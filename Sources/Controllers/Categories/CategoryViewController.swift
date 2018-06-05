@@ -30,6 +30,7 @@ final class CategoryViewController: StreamableViewController {
     var categorySelection: Category.Selection = .all
     var filter: CategoryFilter = .featured
     private var prevSelection: Category.Selection?
+    private var presentingCell: UICollectionViewCell?
     var subscribedCategories: [Category]?
     var pageHeader: PageHeader?
     var generator: CategoryGenerator!
@@ -163,6 +164,14 @@ final class CategoryViewController: StreamableViewController {
     override func streamViewInfiniteScroll() -> Promise<[Model]>? {
         return generator.loadNextPage()
     }
+
+    override func categoryTapped(_ category: Category) {
+        selectCategoryFor(slug: category.slug)
+    }
+
+    override func categoryTapped(slug: String, name: String) {
+        selectCategoryFor(slug: slug)
+    }
 }
 
 private extension CategoryViewController {
@@ -209,7 +218,7 @@ extension CategoryViewController: CategoryStreamDestination, StreamDestination {
 
     func replacePlaceholder(type: StreamCellType.PlaceholderType, items: [StreamCellItem], completion: @escaping Block) {
         streamViewController.replacePlaceholder(type: type, items: items) {
-            if self.streamViewController.hasCellItems(for: .promotionalHeader) && !self.streamViewController.hasCellItems(for: .streamItems) {
+            if self.streamViewController.hasCellItems(for: .pageHeader) && !self.streamViewController.hasCellItems(for: .streamItems) {
                 self.streamViewController.replacePlaceholder(type: .streamItems, items: [StreamCellItem(type: .streamLoading)])
             }
 
@@ -433,7 +442,23 @@ extension CategoryViewController: CategoryScreenDelegate {
 
         showShareActivity(sender: sender, url: shareURL)
     }
+}
 
+extension CategoryViewController: CategoryHeaderResponder {
+    func categoryHeaderTapped(cell: UICollectionViewCell, header: PageHeader) {
+        guard case let .category(slug) = categorySelection,
+            let category = categoryFor(slug: slug)
+        else { return }
+
+        let vc = CategoryDetailViewController(category: category, pageHeader: header)
+        vc.currentUser = currentUser
+
+        let navVC = ElloNavigationController(rootViewController: vc)
+        navVC.modalPresentationStyle = .custom
+        navVC.transitioningDelegate = self
+        self.presentingCell = cell
+        present(navVC, animated: true, completion: nil)
+    }
 }
 
 extension CategoryViewController: PromotionalHeaderResponder {
@@ -498,4 +523,29 @@ extension CategoryViewController: StreamSelectionCellResponder {
         trackScreenAppeared()
     }
 
+}
+
+extension CategoryViewController: UIViewControllerTransitioningDelegate {
+    func animationController(forPresented presented: UIViewController,
+        presenting: UIViewController,
+        source: UIViewController) -> UIViewControllerAnimatedTransitioning?
+    {
+        guard
+            let navigationController = presented as? UINavigationController,
+            let categoryViewController = navigationController.topViewController as? CategoryDetailViewController,
+            let categoryCell = presentingCell
+        else { return nil }
+
+        return CategoryPresentAnimation(categoryViewController: categoryViewController, categoryCell: categoryCell)
+    }
+
+    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        guard
+            let navigationController = dismissed as? UINavigationController,
+            let categoryViewController = navigationController.topViewController as? CategoryDetailViewController,
+            let categoryCell = presentingCell
+        else { return nil }
+
+        return CategoryDismissAnimation(categoryViewController: categoryViewController, categoryCell: categoryCell)
+    }
 }

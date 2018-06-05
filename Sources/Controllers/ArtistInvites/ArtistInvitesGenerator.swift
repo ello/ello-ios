@@ -30,7 +30,7 @@ private extension ArtistInvitesGenerator {
 
     func setPlaceHolders() {
         destination?.setPlaceholders(items: [
-            StreamCellItem(type: .placeholder, placeholderType: .promotionalHeader),
+            StreamCellItem(type: .placeholder, placeholderType: .pageHeader),
             StreamCellItem(type: .placeholder, placeholderType: .artistInvites),
         ])
     }
@@ -41,7 +41,7 @@ private extension ArtistInvitesGenerator {
             .done { pageHeaders in
                 guard let pageHeader = pageHeaders.randomItem() else { return }
 
-                self.destination?.replacePlaceholder(type: .promotionalHeader, items: [
+                self.destination?.replacePlaceholder(type: .pageHeader, items: [
                     StreamCellItem(jsonable: pageHeader, type: .promotionalHeader),
                     StreamCellItem(type: .spacer(height: ArtistInviteBubbleCell.Size.bubbleMargins.bottom)),
                 ])

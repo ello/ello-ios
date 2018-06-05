@@ -38,15 +38,15 @@ class UserAvatarsCell: UICollectionViewCell {
         let numToDisplay = min(users.count, maxAvatars)
         seeAllButton.isHidden = users.count <= numToDisplay
         let usersToDisplay = users[0..<numToDisplay]
-        var startX = 0.0
+        var startX: CGFloat = 0
         for user in usersToDisplay {
             let ab = AvatarButton()
-            ab.frame = CGRect(x: startX, y: 0.0, width: 30.0, height: 30.0)
+            ab.frame = CGRect(origin: CGPoint(x: startX, y: 0), size: AvatarButton.Size.smallSize)
             ab.setUserAvatarURL(user.avatarURL())
             ab.addTarget(self, action: #selector(UserAvatarsCell.avatarTapped(_:)), for: UIControlEvents.touchUpInside)
             avatarsView.addSubview(ab)
             avatarButtons.append(ab)
-            startX += 40.0
+            startX += 40
         }
     }
 

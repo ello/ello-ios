@@ -90,11 +90,10 @@ class StreamHeaderCellSpec: QuickSpec {
                         else {
                             subject.frame = detailFrame
                         }
-                        subject.isGridLayout = inGrid
+                        subject.isGridView = inGrid
                         subject.followButtonVisible = hasFollow
 
                         subject.showUsername = !inDetail
-                        subject.avatarHeight = inGrid ? 30 : 40
                         subject.chevronHidden = true
 
                         let user: User?

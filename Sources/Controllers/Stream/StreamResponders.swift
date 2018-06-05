@@ -46,8 +46,12 @@ protocol StreamViewDelegate: class {
 
 @objc
 protocol CategoryResponder: class {
-    func categoryCellTapped(cell: UICollectionViewCell)
     func categoryTapped(_ category: Category)
+}
+
+@objc
+protocol CategoryCellResponder: class {
+    func categoryCellTapped(cell: UICollectionViewCell)
 }
 
 @objc
@@ -68,6 +72,11 @@ protocol ChooseCategoryResponder: class {
 @objc
 protocol PromotionalHeaderResponder: class {
     func categorySubscribed(categoryId: String)
+}
+
+@objc
+protocol CategoryHeaderResponder: class {
+    func categoryHeaderTapped(cell: UICollectionViewCell, header: PageHeader)
 }
 
 @objc

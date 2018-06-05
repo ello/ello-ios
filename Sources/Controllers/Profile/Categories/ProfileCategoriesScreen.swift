@@ -85,7 +85,7 @@ extension ProfileCategoriesScreen: ElloTextViewDelegate {
     func textViewTapped(_ link: String, object: ElloAttributedObject) {
         switch object {
         case let .attributedCategory(category):
-            delegate?.categoryTapped(category)
+            delegate?.profileCategoryTapped(category)
         default: break
         }
     }

@@ -44,7 +44,14 @@ final class CategoryGenerator: StreamGenerator {
     func headerItems() -> [StreamCellItem] {
         guard let pageHeader = pageHeader else { return [] }
 
-        var items = [StreamCellItem(jsonable: pageHeader, type: .promotionalHeader)]
+        var items: [StreamCellItem] = []
+        if case .category = categorySelection {
+            items.append(StreamCellItem(jsonable: pageHeader, type: .categoryHeader))
+        }
+        else {
+            items.append(StreamCellItem(jsonable: pageHeader, type: .promotionalHeader))
+        }
+
         if pageHeader.categoryId != nil, currentUser != nil {
             items.append(StreamCellItem(jsonable: pageHeader, type: .promotionalHeaderSubscription))
         }
@@ -76,7 +83,7 @@ final class CategoryGenerator: StreamGenerator {
         }
 
         if reloadHeader {
-            self.destination?.replacePlaceholder(type: .promotionalHeader, items: [])
+            self.destination?.replacePlaceholder(type: .pageHeader, items: [])
         }
 
         if isInitialLoad || reloadHeader {
@@ -129,7 +136,7 @@ extension CategoryGenerator {
 
     private func setPlaceHolders() {
         destination?.setPlaceholders(items: [
-            StreamCellItem(type: .placeholder, placeholderType: .promotionalHeader),
+            StreamCellItem(type: .placeholder, placeholderType: .pageHeader),
             StreamCellItem(type: .placeholder, placeholderType: .streamItems)
         ])
     }
@@ -152,11 +159,8 @@ extension CategoryGenerator {
                     self.pageHeader = pageHeader
                     self.destination?.setPrimary(jsonable: pageHeader)
                 }
-                else {
-                    self.destination?.primaryModelNotFound()
-                }
 
-                self.destination?.replacePlaceholder(type: .promotionalHeader, items: self.headerItems())
+                self.destination?.replacePlaceholder(type: .pageHeader, items: self.headerItems())
             }
             .catch { _ in
                 self.destination?.primaryModelNotFound()
@@ -223,9 +227,7 @@ extension CategoryGenerator {
                     } }
                 }
             }
-            .catch { _ in
-                self.destination?.primaryModelNotFound()
-            }
+            .ignoreErrors()
     }
 
     private func setNextPageConfig(_ pageConfig: PageConfig) {
