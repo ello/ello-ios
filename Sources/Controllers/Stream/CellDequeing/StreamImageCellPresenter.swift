@@ -44,7 +44,6 @@ struct StreamImageCellPresenter {
         else { return }
 
         var attachmentToLoad: Attachment?
-        var imageToLoad: URL?
         var showGifInThisCell = false
         let isGridView = streamCellItem.isGridView(streamKind: streamKind)
 
@@ -56,7 +55,6 @@ struct StreamImageCellPresenter {
 
             if showGifInThisCell {
                 attachmentToLoad = asset.optimized
-                imageToLoad = asset.optimized?.url
             }
             else {
                 cell.isLargeImage = true
@@ -72,8 +70,8 @@ struct StreamImageCellPresenter {
             attachmentToLoad = attachmentToLoad ?? imageRegion.asset?.oneColumnAttachment
         }
 
-        let imageToShow = attachmentToLoad?.image
-        imageToLoad = imageToLoad ?? attachmentToLoad?.url
+        let cachedImage = attachmentToLoad?.image
+        let imageURL = attachmentToLoad?.url
 
         let cellMargin = calculateStreamImageMargin(cell, imageRegion: imageRegion, streamCellItem: streamCellItem)
         cell.marginType = cellMargin
@@ -93,10 +91,10 @@ struct StreamImageCellPresenter {
             postNotification(StreamNotification.UpdateCellHeightNotification, value: streamCellItem)
         }
 
-        if let image = imageToShow, !showGifInThisCell {
+        if let image = cachedImage, !showGifInThisCell {
             cell.setImage(image)
         }
-        else if let imageURL = imageToLoad {
+        else if let imageURL = imageURL {
             cell.serverProvidedAspectRatio = StreamImageCellSizeCalculator.aspectRatioForImageRegion(imageRegion)
             cell.setImageURL(imageURL)
         }

@@ -304,10 +304,10 @@ extension Post: Stubbable {
             isReposted: (values["reposted"] as? Bool) ?? false,
             isLoved: (values["loved"] as? Bool) ?? false,
             isWatching: (values["watching"] as? Bool) ?? false,
-            summary: summary,
+            summary: (values["summary"] as? [Regionable]) ?? [stubbedTextRegion],
             content: (values["content"] as? [Regionable]) ?? [stubbedTextRegion],
             body: (values["body"] as? [Regionable]) ?? [stubbedTextRegion],
-            repostContent: (values["repostContent"] as? [Regionable])
+            repostContent: (values["repostContent"] as? [Regionable]) ?? []
         )
 
         let repostAuthor: User? = values["repostAuthor"] as? User ?? (values["repostAuthorId"] as? String).flatMap { id in
@@ -378,7 +378,8 @@ extension ElloComment: Stubbable {
             authorId: author.id,
             postId: parentPost.id,
             content: (values["content"] as? [Regionable]) ?? [stubbedTextRegion],
-            summary: values["summary"] as? [Regionable] ?? comment.content
+            body: (values["body"] as? [Regionable]) ?? [stubbedTextRegion],
+            summary: (values["summary"] as? [Regionable]) ?? [stubbedTextRegion]
         )
 
         comment.loadedFromPostId = loadedFromPost.id
@@ -406,8 +407,7 @@ extension TextRegion: Stubbable {
 
 extension ImageRegion: Stubbable {
     class func stub(_ values: [String: Any]) -> ImageRegion {
-        let imageRegion = ImageRegion(url: urlFromValue(values["url"]))
-        imageRegion.buyButtonURL = urlFromValue(values["buyButtonURL"])
+        let imageRegion = ImageRegion(url: urlFromValue(values["url"]), buyButtonURL: urlFromValue(values["buyButtonURL"]))
         if let asset = values["asset"] as? Asset {
             imageRegion.storeLinkObject(asset, key: "assets", id: asset.id, type: .assetsType)
         }
@@ -580,7 +580,7 @@ extension PageHeader: Stubbable {
         )
 
         if let user = values["user"] as? User {
-            pageHeader.storeLinkObject(user, "user", key: user.id, type: .usersType)
+            pageHeader.storeLinkObject(user, key: "user", id: user.id, type: .usersType)
         }
 
         return pageHeader
@@ -589,7 +589,14 @@ extension PageHeader: Stubbable {
 
 extension Ello.Category: Stubbable {
     class func stub(_ values: [String: Any]) -> Ello.Category {
-        let tileImage = (values["tileImage"] as? [String: Any])?.map { Attachment.fromJSON($0) }
+        let tileImage: Attachment?
+        if let json = values["tileImage"] as? [String: Any] {
+            tileImage = Attachment.fromJSON(json)
+        }
+        else {
+            tileImage = nil
+        }
+
         let level: CategoryLevel
         if let levelAsString = values["level"] as? String,
             let rawLevel = CategoryLevel(rawValue: levelAsString)
@@ -617,15 +624,15 @@ extension Ello.Category: Stubbable {
 
 extension Announcement: Stubbable {
     class func stub(_ values: [String: Any]) -> Announcement {
-        let asset: Asset
-        if let asset = values["image"] as? Asset {
-            asset = asset
+        let image: Asset
+        if let _image = values["image"] as? Asset {
+            image = _image
         }
-        else if let asset = values["image"] as? [String: Any] {
-            asset = Asset.stub(asset)
+        else if let imageValues = values["image"] as? [String: Any] {
+            image = Asset.stub(imageValues)
         }
         else {
-            asset = Asset(url: URL(string: "http://media.colinta.com/minime.png")!)
+            image = Asset(url: URL(string: "http://media.colinta.com/minime.png")!)
         }
 
         let announcement = Announcement(
@@ -635,9 +642,8 @@ extension Announcement: Stubbable {
             body: (values["body"] as? String) ?? "Submissions for Issue 01 — Censorship will be open from 11/7 – 11/23",
             ctaURL: urlFromValue(values["ctaURL"]),
             ctaCaption: (values["ctaCaption"] as? String) ?? "Learn More",
-            asset: asset
+            image: image
         )
-
 
         return announcement
     }

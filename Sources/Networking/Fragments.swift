@@ -7,11 +7,12 @@ struct Fragments: Equatable {
     //|  FRAGMENTS
     //|
     static let categoryPostActions = Fragments("""
-    fragment categoryPostActions on CategoryPostActions {
-        feature { href label method }
-        unfeature { href label method }
-    }
-    """)
+        fragment categoryPostActions on CategoryPostActions {
+            feature { href label method }
+            unfeature { href label method }
+        }
+        """)
+
     static let imageProps = Fragments("""
         fragment imageProps on Image {
           url
@@ -69,7 +70,7 @@ struct Fragments: Equatable {
         }
         """, needs: [tshirtProps, responsiveProps])
 
-    static let postStream = Fragments("""
+    static let postSummary = Fragments("""
         fragment contentProps on ContentBlocks {
           linkUrl
           kind
@@ -104,33 +105,8 @@ struct Fragments: Equatable {
         }
         """, needs: [imageProps, tshirtProps, responsiveProps, authorProps])
 
-    //|
-    //|  REQUEST BODIES
-    //|
-    static let categoriesBody = Fragments("""
-        id
-        name
-        slug
-        order
-        allowInOnboarding
-        isCreatorType
-        level
-        tileImage { ...tshirtProps }
-        """, needs: [Fragments.tshirtProps])
-    static let pageHeaderBody = Fragments("""
-        id
-        postToken
-        category { id }
-        kind
-        header
-        subheader
-        image { ...responsiveProps }
-        ctaLink { text url }
-        user { ...pageHeaderUserProps }
-        """, needs: [Fragments.responsiveProps, Fragments.pageHeaderUserProps])
-    static let postStreamBody = Fragments("""
-        next isLastPage
-        posts {
+    static let postDetails = Fragments("""
+        fragment postDetails on Post {
             ...postSummary
             ...postContent
             repostContent { ...contentProps }
@@ -144,7 +120,41 @@ struct Fragments: Equatable {
                 ...postSummary
             }
         }
-        """, needs: [Fragments.postStream, Fragments.categoryPostActions])
+        """, needs: [postSummary, categoryPostActions])
+
+    //|
+    //|  REQUEST BODIES
+    //|
+    static let categoriesBody = Fragments("""
+        id
+        name
+        slug
+        order
+        allowInOnboarding
+        isCreatorType
+        level
+        tileImage { ...tshirtProps }
+        """, needs: [tshirtProps])
+    static let pageHeaderBody = Fragments("""
+        id
+        postToken
+        category { id }
+        kind
+        header
+        subheader
+        image { ...responsiveProps }
+        ctaLink { text url }
+        user { ...pageHeaderUserProps }
+        """, needs: [responsiveProps, pageHeaderUserProps])
+    static let postStreamBody = Fragments("""
+        next isLastPage
+        posts {
+            ...postDetails
+        }
+        """, needs: [postDetails])
+    static let postBody = Fragments("""
+        ...postDetails
+        """, needs: [postDetails])
 
     let string: String
     let needs: [Fragments]

@@ -205,16 +205,16 @@ extension CategoryGenerator {
                 self.posts = posts
                 var items = self.parse(jsonables: posts)
                 let isPagingEnabled = items.count > 0
-                let metaItem = StreamCellItem(type: .streamSelection)
+                let streamSelectionItem = StreamCellItem(type: .streamSelection)
                 if items.count == 0 {
-                    self.destination?.replacePlaceholder(type: .streamItems, items: [metaItem, StreamCellItem(type: .emptyStream(height: 182))])
+                    self.destination?.replacePlaceholder(type: .streamItems, items: [streamSelectionItem, StreamCellItem(type: .emptyStream(height: 182))])
                     self.destination?.isPagingEnabled = isPagingEnabled
                     displayPostsOperation.run()
                 }
                 else {
                     displayPostsOperation.run { inForeground {
                         if isPagingEnabled {
-                            items.insert(metaItem, at: 0)
+                            items.insert(streamSelectionItem, at: 0)
                         }
 
                         self.destination?.replacePlaceholder(type: .streamItems, items: items) {

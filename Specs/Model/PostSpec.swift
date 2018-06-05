@@ -34,11 +34,11 @@ class PostSpec: QuickSpec {
 
 
                 it("is correct for list mode") {
-                    expect(post.contentFor(gridView: false)?.count) == 2
+                    expect(post.contentFor(gridView: false).count) == 2
                 }
 
                 it("is correct for grid mode") {
-                    expect(post.contentFor(gridView: true)?.count) == 1
+                    expect(post.contentFor(gridView: true).count) == 1
                 }
             }
         }

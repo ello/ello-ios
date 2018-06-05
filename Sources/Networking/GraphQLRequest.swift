@@ -8,64 +8,6 @@ import Alamofire
 
 
 class GraphQLRequest<T>: AuthenticationEndpoint {
-    enum Variable {
-        case string(String, String)
-        case optionalString(String, String?)
-        case int(String, Int)
-        case optionalInt(String, Int?)
-        case float(String, Float)
-        case optionalFloat(String, Float?)
-        case bool(String, Bool)
-        case optionalBool(String, Bool?)
-        case `enum`(String, String, String)
-        case optionalEnum(String, String?, String)
-
-        var name: String {
-            switch self {
-            case let .string(name, _): return name
-            case let .optionalString(name, _): return name
-            case let .int(name, _): return name
-            case let .optionalInt(name, _): return name
-            case let .float(name, _): return name
-            case let .optionalFloat(name, _): return name
-            case let .bool(name, _): return name
-            case let .optionalBool(name, _): return name
-            case let .`enum`(name, _, _): return name
-            case let .optionalEnum(name, _, _): return name
-            }
-        }
-
-        var type: String {
-            switch self {
-            case .string: return "String!"
-            case .optionalString: return "String"
-            case .int: return "Int!"
-            case .optionalInt: return "Int"
-            case .float: return "Float!"
-            case .optionalFloat: return "Float"
-            case .bool: return "Bool!"
-            case .optionalBool: return "Bool"
-            case let .`enum`(_, _, type): return "\(type)!"
-            case let .optionalEnum(_, _, type): return type
-            }
-        }
-
-        var value: Any? {
-            switch self {
-            case let .string(_, value): return value
-            case let .optionalString(_, value): return value
-            case let .int(_, value): return value
-            case let .optionalInt(_, value): return value
-            case let .float(_, value): return value
-            case let .optionalFloat(_, value): return value
-            case let .bool(_, value): return value
-            case let .optionalBool(_, value): return value
-            case let .`enum`(_, value, _): return value
-            case let .optionalEnum(_, value, _): return value
-            }
-        }
-    }
-
     private var prevPromise: Promise<T>?
     private var prevSeal: Resolver<T>?
 
@@ -74,7 +16,7 @@ class GraphQLRequest<T>: AuthenticationEndpoint {
 
     var endpointName: String
     var parser: ((JSON) throws -> T)
-    var variables: [Variable]
+    var variables: [GQLVariable]
     var fragments: [Fragments]
     var body: Fragments
 
@@ -83,7 +25,7 @@ class GraphQLRequest<T>: AuthenticationEndpoint {
     private var url: URL { return URL(string: "\(ElloURI.baseURL)/api/v3/graphql")! }
     private var uuid: UUID!
 
-    init(endpointName: String, parser: @escaping ((JSON) throws -> T), variables: [Variable] = [], body: Fragments) {
+    init(endpointName: String, parser: @escaping ((JSON) throws -> T), variables: [GQLVariable] = [], body: Fragments) {
         self.endpointName = endpointName
         self.parser = parser
         self.variables = variables

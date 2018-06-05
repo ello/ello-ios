@@ -51,8 +51,10 @@ enum ElloURI {
     case profileFollowing
     case profileLoves
     case pushNotificationArtistInvite
+    case pushNotificationCategory
     case pushNotificationComment
     case pushNotificationPost
+    case pushNotificationURL
     case pushNotificationUser
     case randomSearch
     case requestInvitation
@@ -77,8 +79,10 @@ enum ElloURI {
         case .email:                        return "(.+)@(.+)\\.([a-z]{2,})/?$"
         case .external:                     return "https?://.{3,}"
         case .pushNotificationArtistInvite: return "notifications/artist-invites/([^/]+)$"
+        case .pushNotificationCategory:     return "notifications/category/([^/]+)$"
         case .pushNotificationComment:      return "notifications/posts/([^/]+)/comments/([^/]+)$"
         case .pushNotificationPost:         return "notifications/posts/([^/]+)/?$"
+        case .pushNotificationURL:          return "notifications/ello\\.co/(.+)$"
         case .pushNotificationUser:         return "notifications/users/([^/]+)/?$"
 
         case .post:             return "\(ElloURI.userPathRegex)post/([^/]+)/?$"
@@ -231,31 +235,20 @@ enum ElloURI {
             return "related"
         case .discoverTrending:
             return "trending"
-        case .artistInvitesDetail:
-            return regex?.matchingGroups(url).safeValue(1)
-        case .category:
-            return regex?.matchingGroups(url).safeValue(1)
-        case .invite:
-            return regex?.matchingGroups(url).safeValue(1)
-        case .notifications:
-            return regex?.matchingGroups(url).safeValue(1)
-        case .profileFollowers, .profileFollowing, .profileLoves:
-            return regex?.matchingGroups(url).safeValue(1)
         case .post:
             let last = regex?.matchingGroups(url).safeValue(2)
             let lastArr = last?.split { $0 == "?" }.map { String($0) }
             return lastArr?.first ?? last
-        case .pushNotificationArtistInvite:
-            return regex?.matchingGroups(url).safeValue(1)
-        case .pushNotificationComment:
-            return regex?.matchingGroups(url).safeValue(1)
-        case .pushNotificationPost:
-            return regex?.matchingGroups(url).safeValue(1)
-        case .pushNotificationUser:
-            return regex?.matchingGroups(url).safeValue(1)
-        case .profile:
-            return regex?.matchingGroups(url).safeValue(1)
-        case .resetMyPassword:
+        case .artistInvitesDetail,
+             .category,
+             .invite,
+             .notifications,
+             .profileFollowers, .profileFollowing, .profileLoves,
+             .pushNotificationArtistInvite, .pushNotificationCategory,
+             .pushNotificationComment, .pushNotificationPost,
+             .pushNotificationURL, .pushNotificationUser,
+             .profile,
+             .resetMyPassword:
             return regex?.matchingGroups(url).safeValue(1)
         case .search, .searchPosts, .searchPeople:
             guard let urlComponents = URLComponents(string: url),
@@ -270,6 +263,12 @@ enum ElloURI {
 
     // Order matters: [most specific ... most generic]
     static let all: [ElloURI] = [
+        .pushNotificationArtistInvite,
+        .pushNotificationCategory,
+        .pushNotificationComment,
+        .pushNotificationPost,
+        .pushNotificationURL,
+        .pushNotificationUser,
         .email,
         .subdomain,
         .post,
@@ -305,10 +304,6 @@ enum ElloURI {
         .manifesto,
         .nativeRedirect,
         .noise,
-        .pushNotificationArtistInvite,
-        .pushNotificationComment,
-        .pushNotificationPost,
-        .pushNotificationUser,
         .notifications,
         .onboarding,
         .passwordResetError,

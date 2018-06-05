@@ -224,7 +224,7 @@ final class Post: Model, Authorable {
         return post
     }
 
-    func contentFor(gridView: Bool) -> [Regionable]? {
+    func contentFor(gridView: Bool) -> [Regionable] {
         return gridView ? summary : content
     }
 }
