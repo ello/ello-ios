@@ -227,7 +227,9 @@ extension CategoryGenerator {
                     } }
                 }
             }
-            .ignoreErrors()
+            .catch { _ in
+                self.destination?.replacePlaceholder(type: .streamItems, items: [StreamCellItem(type: .error(message: InterfaceString.GenericError))])
+            }
     }
 
     private func setNextPageConfig(_ pageConfig: PageConfig) {
