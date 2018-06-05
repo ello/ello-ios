@@ -21,7 +21,7 @@ enum InterfaceImage: String {
     case elloLogoGrey = "ello_logo_grey"
     case elloGrayLineLogo = "ello_gray_line_logo"
 
-    // Postbar Icons
+    // Post Action Icons
     case eye = "eye"
     case heart = "hearts"
     case heartOutline = "hearts_outline"
@@ -32,6 +32,7 @@ enum InterfaceImage: String {
     case pencil = "pencil"
     case reply = "reply"
     case flag = "flag"
+    case featurePost = "feature_post"
 
     // Social logos
     case logoMedium = "logo_medium"
