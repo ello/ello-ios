@@ -159,9 +159,6 @@ extension CategoryGenerator {
                     self.pageHeader = pageHeader
                     self.destination?.setPrimary(jsonable: pageHeader)
                 }
-                else {
-                    self.destination?.primaryModelNotFound()
-                }
 
                 self.destination?.replacePlaceholder(type: .pageHeader, items: self.headerItems())
             }
@@ -230,9 +227,7 @@ extension CategoryGenerator {
                     } }
                 }
             }
-            .catch { _ in
-                self.destination?.primaryModelNotFound()
-            }
+            .ignoreErrors()
     }
 
     private func setNextPageConfig(_ pageConfig: PageConfig) {

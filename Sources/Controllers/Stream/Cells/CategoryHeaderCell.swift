@@ -189,8 +189,6 @@ private extension CategoryHeaderCell {
                 return
             }
 
-            self.imageSize = result.imageSize
-
             if result.resultType != .memoryCache {
                 self.imageView.alpha = 0
                 elloAnimate {
@@ -212,7 +210,6 @@ private extension CategoryHeaderCell {
         failImage.isVisible = true
         failBackgroundView.isVisible = true
         circle.stopPulse()
-        imageSize = nil
         UIView.animate(withDuration: 0.15, animations: {
             self.failImage.alpha = 1.0
             self.imageView.backgroundColor = UIColor.greyF1

@@ -830,7 +830,7 @@ extension StreamViewController: StreamPostTappedResponder {
 
 }
 
-extension StreamViewController {
+extension StreamViewController: CategoryCellResponder {
 
     func showCategoryViewController(slug: String, name: String) {
         showCategoryViewController(categoryViewController: CategoryViewController(currentUser: currentUser, slug: slug, name: name, usage: .detail), slug: slug)

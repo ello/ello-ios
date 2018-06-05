@@ -20,8 +20,6 @@ struct StreamHeaderCellPresenter {
 
         let isGridView = streamCellItem.isGridView(streamKind: streamKind)
 
-        cell.isGridLayout = isGridView
-
         switch streamKind {
         case .postDetail:
             cell.showUsername = false
@@ -32,7 +30,7 @@ struct StreamHeaderCellPresenter {
         var author = post.author
         var repostedBy: User? = nil
 
-        cell.avatarHeight = StreamHeaderCell.avatarHeight(isGridView: isGridView)
+        cell.isGridView = isGridView
         cell.chevronHidden = true
 
         if let repostAuthor = post.repostAuthor {
