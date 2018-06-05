@@ -135,11 +135,29 @@ extension StyledLabel {
 }
 
 extension StyledLabel.Style {
-    static let `default` = StyledLabel.Style(
+    static let black = StyledLabel.Style(
         textColor: .black
+        )
+    static let `default` = black
+    static let bold = StyledLabel.Style(
+        textColor: .black,
+        fontFamily: .bold
+        )
+    static let large = StyledLabel.Style(
+        textColor: .black,
+        fontFamily: .large
+        )
+    static let largeBold = StyledLabel.Style(
+        textColor: .black,
+        fontFamily: .largeBold
         )
     static let smallWhite = StyledLabel.Style(
         textColor: .white,
+        fontFamily: .small
+        )
+    static let smallWhiteUnderlined = StyledLabel.Style(
+        textColor: .white,
+        underline: true,
         fontFamily: .small
         )
     static let white = StyledLabel.Style(
@@ -159,17 +177,6 @@ extension StyledLabel.Style {
         )
     static let largeBoldWhite = StyledLabel.Style(
         textColor: .white,
-        fontFamily: .largeBold
-        )
-    static let black = StyledLabel.Style(
-        textColor: .black
-        )
-    static let large = StyledLabel.Style(
-        textColor: .black,
-        fontFamily: .large
-        )
-    static let largeBold = StyledLabel.Style(
-        textColor: .black,
         fontFamily: .largeBold
         )
     static let gray = StyledLabel.Style(

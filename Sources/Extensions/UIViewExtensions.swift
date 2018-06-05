@@ -50,4 +50,8 @@ extension UIView {
         return nil
     }
 
+    func convertFrame(of view: UIView) -> CGRect {
+        let rect = CGRect.zero.with(size: view.frame.size)
+        return convert(rect, from: view)
+    }
 }

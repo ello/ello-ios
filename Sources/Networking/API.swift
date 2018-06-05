@@ -60,6 +60,35 @@ struct API {
         return request
     }
 
+    func categoryAdmins(categorySlug: String) -> GraphQLRequest<(moderators: [User], curators: [User])> {
+        let request = GraphQLRequest(
+            endpointName: "category",
+            parser: { (json: JSON) -> (moderators: [User], curators: [User]) in
+                guard let categoryUsers = json["categoryUsers"].array else { throw Parser.Error.parsingError }
+
+                let userParser = UserParser()
+                var moderators: [User] = []
+                var curators: [User] = []
+                for role in categoryUsers {
+                    let user = userParser.parse(json: role["user"])
+                    if role["role"].string == "MODERATOR" {
+                        moderators.append(user)
+                    }
+                    else if role["role"].string == "CURATOR" {
+                        curators.append(user)
+                    }
+                }
+
+                return (moderators: moderators, curators: curators)
+            },
+            variables: [
+                .string("slug", categorySlug),
+            ],
+            body: Fragments.categoryAdminsBody
+            )
+        return request
+    }
+
     func subscribedPostStream(filter: CategoryFilter, before: String? = nil) -> GraphQLRequest<(PageConfig, [Post])> {
         let request = GraphQLRequest(
             endpointName: "subscribedPostStream",

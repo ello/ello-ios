@@ -88,7 +88,7 @@ struct Fragments: Equatable {
         }
 
         fragment categoryProps on Category {
-          id name slug order allowInOnboarding isCreatorType level
+          id name slug order allowInOnboarding isCreatorType level description
           tileImage { ...tshirtProps }
         }
 
@@ -129,12 +129,18 @@ struct Fragments: Equatable {
         id
         name
         slug
+        description
         order
         allowInOnboarding
         isCreatorType
         level
         tileImage { ...tshirtProps }
         """, needs: [tshirtProps])
+    static let categoryAdminsBody = Fragments("""
+        categoryUsers(roles: [CURATOR, MODERATOR]) {
+            role user { ...pageHeaderUserProps }
+        }
+        """, needs: [pageHeaderUserProps])
     static let pageHeaderBody = Fragments("""
         id
         postToken

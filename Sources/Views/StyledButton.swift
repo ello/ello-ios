@@ -236,6 +236,9 @@ extension StyledButton.Style {
     static let clearBlack = StyledButton.Style(
         titleColor: .black, disabledTitleColor: .greyC
         )
+    static let clearBlackLarge = StyledButton.Style(
+        titleColor: .black, disabledTitleColor: .greyC, font: .defaultFont(18)
+        )
     static let clearGray = StyledButton.Style(
         titleColor: .greyA, highlightedTitleColor: .black, disabledTitleColor: .greyC
         )
@@ -267,6 +270,11 @@ extension StyledButton.Style {
         backgroundColor: .clear,
         titleColor: .white,
         underline: true
+        )
+    static let smallWhiteUnderlined = StyledButton.Style(
+        backgroundColor: .clear,
+        titleColor: .white,
+        font: .defaultFont(12), underline: true
         )
     static let whiteBoldUnderlined = StyledButton.Style(
         backgroundColor: .clear,
@@ -330,6 +338,13 @@ extension StyledButton.Style {
     static let grayPill = StyledButton.Style(
         backgroundColor: .greyA,
         titleColor: .white,
+        cornerRadius: .pill
+        )
+    static let subscribePill = StyledButton.Style(
+        backgroundColor: .greenD1,
+        selectedBackgroundColor: .greyA,
+        titleColor: .white,
+        font: .defaultFont(12),
         cornerRadius: .pill
         )
 

@@ -179,8 +179,11 @@ struct InterfaceString {
     }
 
     struct Category {
-        static let SponsoredBy: String = NSLocalizedString("Sponsored by ", comment: "")
-        static let PostedBy: String = NSLocalizedString("Posted by ", comment: "")
+        static let Moderators: String = NSLocalizedString("Moderators", comment: "")
+        static let Curators: String = NSLocalizedString("Curators", comment: "")
+        static let SponsoredBy: String = NSLocalizedString("Sponsored by", comment: "")
+        static let PostedBy: String = NSLocalizedString("Posted by", comment: "")
+        static let HeaderBy: String = NSLocalizedString("Header by", comment: "")
     }
 
     struct Settings {

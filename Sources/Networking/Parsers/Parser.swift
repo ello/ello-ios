@@ -6,6 +6,10 @@ import SwiftyJSON
 
 
 class Parser {
+    enum Error: Swift.Error {
+        case parsingError
+    }
+
     typealias Id = String
     struct Identifier {
         let id: Id
