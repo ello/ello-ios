@@ -11,19 +11,25 @@ import Moya
 class BlockUserModalViewControllerSpec: QuickSpec {
     override func spec() {
         describe("BlockUserModalViewController") {
-            let currentUser: User = stub([:])
+            var currentUser: User!
             var subject: BlockUserModalViewController!
-            let controller = UIViewController()
-            let chainable = ResponderChainableController(
-                controller: controller,
-                next: {
-                    return controller.next
-                }
-            )
+            var controller: UIViewController!
 
-            let relationshipController = RelationshipController()
-            relationshipController.currentUser = currentUser
-            relationshipController.responderChainable = chainable
+            var relationshipController: RelationshipController!
+            beforeEach {
+                currentUser = stub([:])
+                controller = UIViewController()
+
+                let chainable = ResponderChainableController(
+                    controller: controller,
+                    next: {
+                        return controller.next
+                    }
+                )
+
+                relationshipController = RelationshipController(responderChainable: chainable)
+                relationshipController.currentUser = currentUser
+            }
 
             describe("initialization") {
 

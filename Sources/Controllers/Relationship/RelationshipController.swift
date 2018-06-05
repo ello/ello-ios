@@ -24,12 +24,16 @@ protocol RelationshipResponder: class {
 
 class RelationshipController: UIResponder {
     var currentUser: User?
-    var responderChainable: ResponderChainableController?
+    let responderChainable: ResponderChainableController
 
     override var canBecomeFirstResponder: Bool { return false }
 
     override var next: UIResponder? {
-        return responderChainable?.next()
+        return responderChainable.next()
+    }
+
+    init(responderChainable: ResponderChainableController) {
+        self.responderChainable = responderChainable
     }
 
 }
@@ -62,7 +66,7 @@ extension RelationshipController: RelationshipResponder {
     {
         let vc = BlockUserModalViewController(config: BlockUserModalConfig(userId: userId, userAtName: userAtName, relationshipPriority: relationshipPriority.priority, changeClosure: changeClosure))
         vc.currentUser = currentUser
-        responderChainable?.controller?.present(vc, animated: true, completion: nil)
+        responderChainable.controller?.present(vc, animated: true, completion: nil)
     }
 
     func updateRelationship(

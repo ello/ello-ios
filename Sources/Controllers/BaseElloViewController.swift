@@ -76,8 +76,7 @@ class BaseElloViewController: UIViewController,
             }
         )
 
-        let relationshipController = RelationshipController()
-        relationshipController.responderChainable = chainableController
+        let relationshipController = RelationshipController(responderChainable: chainableController)
         relationshipController.currentUser = self.currentUser
         self.relationshipController = relationshipController
     }
