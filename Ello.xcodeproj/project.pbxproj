@@ -2635,7 +2635,7 @@
 			isa = PBXGroup;
 			children = (
 				1D70DE6A1DF73869008AF216 /* Calculators */,
-				12F47DCF1AD7137000A73B5F /* CellDequeing */,
+				12F47DCF1AD7137000A73B5F /* Presenters */,
 				12F47DCE1AD7134200A73B5F /* Cells */,
 				1DB2711B1F585F4D0044D475 /* CollectionViewDataSourceSpec.swift */,
 				1266E50F1A9E2BDF00270E1C /* ContentFlaggerSpec.swift */,
@@ -2930,7 +2930,7 @@
 			path = Box;
 			sourceTree = "<group>";
 		};
-		128D36A81A95192300622833 /* CellDequeing */ = {
+		128D36A81A95192300622833 /* Presenters */ = {
 			isa = PBXGroup;
 			children = (
 				1D70DE6F1DF77D66008AF216 /* AnnouncementCellPresenter.swift */,
@@ -2961,7 +2961,7 @@
 				76B0B18E1B41B06C004C2D7B /* UserAvatarsCellPresenter.swift */,
 				76C050A61AA8C8780094E69A /* UserListItemCellPresenter.swift */,
 			);
-			path = CellDequeing;
+			path = Presenters;
 			sourceTree = "<group>";
 		};
 		1291CE2C1C6A912300EB5A55 /* ShareExtension */ = {
@@ -2989,7 +2989,7 @@
 			children = (
 				1DA18E111DB187DF000231CC /* CalculatedCellHeights.swift */,
 				1D1BCA531BACBAAE009075E8 /* Calculators */,
-				128D36A81A95192300622833 /* CellDequeing */,
+				128D36A81A95192300622833 /* Presenters */,
 				122B18CC1A867BCE00247A05 /* Cells */,
 				1DB271101F509D9F0044D475 /* CollectionViewDataSource.swift */,
 				1266E50C1A9E2B9E00270E1C /* ContentFlagger.swift */,
@@ -3267,7 +3267,7 @@
 			path = Cells;
 			sourceTree = "<group>";
 		};
-		12F47DCF1AD7137000A73B5F /* CellDequeing */ = {
+		12F47DCF1AD7137000A73B5F /* Presenters */ = {
 			isa = PBXGroup;
 			children = (
 				1D2F65BE1D1D88DD0099D036 /* CategoryCardCellPresenterSpec.swift */,
@@ -3282,8 +3282,7 @@
 				76BE9C581B2B85CF007575AA /* StreamInviteFriendsCellPresenterSpec.swift */,
 				76BE9C561B2B77D7007575AA /* UserListItemCellPresenterSpec.swift */,
 			);
-			name = CellDequeing;
-			path = ../../../Specs/Controllers/Stream/CellDequeing;
+			path = Presenters;
 			sourceTree = "<group>";
 		};
 		12F6ADF51A4337CE00493660 /* Controllers */ = {
