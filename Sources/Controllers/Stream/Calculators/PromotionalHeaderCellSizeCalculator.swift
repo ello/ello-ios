@@ -3,38 +3,37 @@
 //
 
 
-class PromotionalHeaderCellSizeCalculator: NSObject {
+class PromotionalHeaderCellSizeCalculator: CellSizeCalculator {
     struct Size {
         static let minIpadHeight: CGFloat = 300
         static let minPhoneHeight: CGFloat = 150
     }
 
-    let webView: UIWebView
+    private let minHeight: CGFloat
 
-    private typealias CellJob = (cellItems: [StreamCellItem], width: CGFloat, completion: Block)
-    private var cellJobs: [CellJob] = []
-    private var cellWidth: CGFloat = 0.0
-    private var cellItems: [StreamCellItem] = []
-    private var cellItem: StreamCellItem?
-    private var completion: Block = {}
-
-    init(webView: UIWebView = ElloWebView()) {
-        self.webView = webView
-        super.init()
-        self.webView.delegate = self
+    var webWidth: CGFloat {
+        var webWidth = width
+        webWidth -= 2 * PromotionalHeaderCell.Size.defaultMargin
+        return webWidth
     }
 
-    func processCells(_ cellItems: [StreamCellItem], withWidth width: CGFloat, completion: @escaping Block) {
-        guard cellItems.count > 0 else {
-            completion()
-            return
+    var webView: UIWebView = ElloWebView() { didSet { didSetWebView() } }
+
+    override init(item: StreamCellItem, width: CGFloat, columnCount: Int) {
+        if Globals.isIpad {
+            minHeight = Size.minIpadHeight
+        }
+        else {
+            minHeight = Size.minPhoneHeight
         }
 
-        let job: CellJob = (cellItems: cellItems, width: width, completion: completion)
-        cellJobs.append(job)
-        if cellJobs.count == 1 {
-            processJob(job)
-        }
+        super.init(item: item, width: width, columnCount: columnCount)
+        didSetWebView()
+    }
+
+    private func didSetWebView() {
+        webView.frame = CGRect(x: 0, y: 0, width: webWidth, height: 0)
+        webView.delegate = self
     }
 
     static func calculatePageHeaderHeight(_ pageHeader: PageHeader, htmlHeight: CGFloat?, cellWidth: CGFloat) -> CGFloat {
@@ -83,89 +82,35 @@ class PromotionalHeaderCellSizeCalculator: NSObject {
         return calcHeight
     }
 
-    private func processJob(_ job: CellJob) {
-        self.completion = {
-            if self.cellJobs.count > 0 {
-                self.cellJobs.remove(at: 0)
-            }
-            job.completion()
-            if let nextJob = self.cellJobs.safeValue(0) {
-                self.processJob(nextJob)
-            }
-        }
-        self.cellItems = job.cellItems
-        self.cellWidth = job.width
-        var webWidth = job.width
-        webWidth -= 2 * PromotionalHeaderCell.Size.defaultMargin
-        webView.frame = webView.frame.with(width: webWidth)
-        loadNext()
-    }
-
-    private func loadNext() {
-        guard !self.cellItems.isEmpty else {
-            self.cellItem = nil
-            completion()
+    override func process() {
+        guard let pageHeader = cellItem.jsonable as? PageHeader else {
+            finish()
             return
         }
 
-        let item = cellItems.remove(at: 0)
-        self.cellItem = item
-
-        let minHeight: CGFloat
-        if Globals.isIpad {
-            minHeight = Size.minIpadHeight
-        }
-        else {
-            minHeight = Size.minPhoneHeight
-        }
-
-        var calcHeight: CGFloat?
-        if let pageHeader = item.jsonable as? PageHeader {
-            if pageHeader.kind == .category {
-                calcHeight = PromotionalHeaderCellSizeCalculator.calculatePageHeaderHeight(pageHeader, htmlHeight: nil, cellWidth: cellWidth)
-            }
-            else {
-                let text = pageHeader.subheader
-                let html = StreamTextCellHTML.editorialHTML(text)
-                webView.loadHTMLString(html, baseURL: URL(string: "/"))
-            }
-        }
-        else {
-            loadNext()
-            return
-        }
-
-        if let calcHeight = calcHeight {
+        if pageHeader.kind == .category {
+            let calcHeight = PromotionalHeaderCellSizeCalculator.calculatePageHeaderHeight(pageHeader, htmlHeight: nil, cellWidth: width)
             let height = max(minHeight, calcHeight)
-            assignHeight(height)
+            assignCellHeight(all: height)
         }
-    }
-
-    private func assignHeight(_ height: CGFloat) {
-        guard let item = cellItem else { return }
-        item.calculatedCellHeights.oneColumn = height
-        item.calculatedCellHeights.multiColumn = height
-        loadNext()
+        else {
+            let text = pageHeader.subheader
+            let html = StreamTextCellHTML.editorialHTML(text)
+            webView.loadHTMLString(html, baseURL: URL(string: "/"))
+        }
     }
 }
 
 extension PromotionalHeaderCellSizeCalculator: UIWebViewDelegate {
     func webViewDidFinishLoad(_ webView: UIWebView) {
-        guard
-            let item = cellItem,
-            let pageHeader = item.jsonable as? PageHeader
-        else { return }
+        guard let pageHeader = cellItem.jsonable as? PageHeader else {
+            finish()
+            return
+        }
 
         let textHeight = webView.windowContentSize()?.height
-        let calcHeight = PromotionalHeaderCellSizeCalculator.calculatePageHeaderHeight(pageHeader, htmlHeight: textHeight, cellWidth: cellWidth)
-        let minHeight: CGFloat
-        if Globals.isIpad {
-            minHeight = Size.minIpadHeight
-        }
-        else {
-            minHeight = Size.minPhoneHeight
-        }
-        let actualHeight = max(minHeight, calcHeight)
-        assignHeight(actualHeight)
+        let calcHeight = PromotionalHeaderCellSizeCalculator.calculatePageHeaderHeight(pageHeader, htmlHeight: textHeight, cellWidth: width)
+        let height = max(minHeight, calcHeight)
+        assignCellHeight(all: height)
     }
 }

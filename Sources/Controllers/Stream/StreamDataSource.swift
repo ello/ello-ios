@@ -22,24 +22,6 @@ class StreamDataSource: ElloDataSource {
         return item.state != .collapsed
     }
 
-    var textSizeCalculator = StreamTextCellSizeCalculator()
-    var notificationSizeCalculator = StreamNotificationCellSizeCalculator()
-    var announcementSizeCalculator = AnnouncementCellSizeCalculator()
-    var profileHeaderSizeCalculator = ProfileHeaderCellSizeCalculator()
-    var categoryHeaderSizeCalculator = PromotionalHeaderCellSizeCalculator()
-    var imageSizeCalculator = StreamImageCellSizeCalculator()
-    var editorialDownloader = EditorialDownloader()
-    var artistInviteCalculator = ArtistInviteCellSizeCalculator()
-
-    override init(streamKind: StreamKind) {
-        super.init(streamKind: streamKind)
-        imageSizeCalculator.streamKind = streamKind
-    }
-
-    override func didSetStreamKind() {
-        imageSizeCalculator.streamKind = streamKind
-    }
-
     // MARK: Adding items
 
     @discardableResult
@@ -614,85 +596,25 @@ class StreamDataSource: ElloDataSource {
 
 extension StreamDataSource {
 
-    func calculateCellItems(_ cellItems: [StreamCellItem], withWidth: CGFloat, completion: @escaping Block) {
-        let textCells = filterTextCells(cellItems)
-        let imageCells = filterImageCells(cellItems)
-        let notificationElements = cellItems.filter {
-            return $0.type == .notification
-        }
-        let announcementElements = cellItems.filter {
-            return $0.type == .announcement
-        }
-        let profileHeaderItems = cellItems.filter {
-            return $0.type == .profileHeader
+    func calculateCellItems(_ cellItems: [StreamCellItem], withWidth width: CGFloat, completion: @escaping Block) {
+        let (afterAll, done) = afterN(on: DispatchQueue.main, execute: completion)
+
+        for item in cellItems {
+            guard let calculator = item.sizeCalculator(streamKind: streamKind, width: width, columnCount: columnCount) else { continue }
+            let unmanaged = Unmanaged.passRetained(calculator)
+            let completion = afterAll()
+            calculator.begin {
+                completion()
+                unmanaged.release()
+            }
         }
 
-        let pageHeaderItems = cellItems.filter {
-            return $0.type == .promotionalHeader
-        }
         let editorialItems = cellItems.filter {
             return $0.jsonable is Editorial
         }
-
-        let artistInviteItems = cellItems.filter {
-            return $0.jsonable is ArtistInvite
-        }
-
-        let (afterAll, done) = afterN(on: DispatchQueue.main, execute: completion)
-        // -30.0 acounts for the 15 on either side for constraints
-        let textLeftRightConstraintWidth = (StreamTextCell.Size.postMargin * 2)
-        textSizeCalculator.processCells(textCells.normal, withWidth: withWidth - textLeftRightConstraintWidth, columnCount: columnCount, completion: afterAll())
-        // extra -30.0 acounts for the left indent on a repost with the black line
-        let repostLeftRightConstraintWidth = textLeftRightConstraintWidth + StreamTextCell.Size.repostMargin
-        textSizeCalculator.processCells(textCells.repost, withWidth: withWidth - repostLeftRightConstraintWidth, columnCount: columnCount, completion: afterAll())
-        imageSizeCalculator.processCells(imageCells.normal + imageCells.repost, withWidth: withWidth, columnCount: columnCount, completion: afterAll())
-        notificationSizeCalculator.processCells(notificationElements, withWidth: withWidth, completion: afterAll())
-        announcementSizeCalculator.processCells(announcementElements, withWidth: withWidth, completion: afterAll())
-        profileHeaderSizeCalculator.processCells(profileHeaderItems, withWidth: withWidth, columnCount: columnCount, completion: afterAll())
-        categoryHeaderSizeCalculator.processCells(pageHeaderItems, withWidth: withWidth, completion: afterAll())
+        let editorialDownloader = EditorialDownloader()
         editorialDownloader.processCells(editorialItems, completion: afterAll())
-        artistInviteCalculator.processCells(artistInviteItems, withWidth: withWidth, hasCurrentUser: true, completion: afterAll())
         done()
-    }
-
-    private func filterTextCells(_ cellItems: [StreamCellItem]) -> (normal: [StreamCellItem], repost: [StreamCellItem]) {
-        var cells = [StreamCellItem]()
-        var repostCells = [StreamCellItem]()
-        for item in cellItems {
-            if let textRegion = item.type.data as? TextRegion {
-                if textRegion.isRepost {
-                    repostCells.append(item)
-                }
-                else {
-                    cells.append(item)
-                }
-            }
-        }
-        return (cells, repostCells)
-    }
-
-    private func filterImageCells(_ cellItems: [StreamCellItem]) -> (normal: [StreamCellItem], repost: [StreamCellItem]) {
-        var cells = [StreamCellItem]()
-        var repostCells = [StreamCellItem]()
-        for item in cellItems {
-            if let imageRegion = item.type.data as? ImageRegion {
-                if imageRegion.isRepost {
-                    repostCells.append(item)
-                }
-                else {
-                    cells.append(item)
-                }
-            }
-            else if let embedRegion = item.type.data as? EmbedRegion {
-                if embedRegion.isRepost {
-                    repostCells.append(item)
-                }
-                else {
-                    cells.append(item)
-                }
-            }
-        }
-        return (cells, repostCells)
     }
 
     private func temporarilyUnfilter(_ block: Block) {

@@ -132,7 +132,7 @@ final class ProfileViewController: StreamableViewController {
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        let ratio: CGFloat = ProfileHeaderCellSizeCalculator.ratio
+        let ratio: CGFloat = ProfileHeaderAvatarCell.Size.ratio
         let headerHeight: CGFloat = view.frame.width / ratio
         let scrollAdjustedHeight = headerHeight - streamViewController.collectionView.contentOffset.y
         let maxHeaderHeight = max(scrollAdjustedHeight, headerHeight)

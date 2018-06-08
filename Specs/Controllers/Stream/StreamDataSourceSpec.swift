@@ -43,7 +43,7 @@ class StreamDataSourceSpec: QuickSpec {
 
             subject = StreamDataSource(streamKind: .following)
             subject.textSizeCalculator = FakeStreamTextCellSizeCalculator(webView: ElloWebView())
-            subject.notificationSizeCalculator = FakeStreamNotificationCellSizeCalculator(webView: ElloWebView())
+            subject.notificationSizeCalculator = FakeNotificationCellSizeCalculator(webView: ElloWebView())
             subject.announcementSizeCalculator = FakeAnnouncementCellSizeCalculator()
             subject.profileHeaderSizeCalculator = FakeProfileHeaderCellSizeCalculator()
 

@@ -78,6 +78,38 @@ final class StreamCellItem: NSObject, NSCopying {
         return description
     }
 
+    func sizeCalculator(streamKind: StreamKind, width: CGFloat, columnCount: Int) -> CellSizeCalculator? {
+        if type.data is TextRegion {
+            return StreamTextCellSizeCalculator(streamKind: streamKind, item: self, width: width, columnCount: columnCount)
+        }
+        else if type.data is ImageRegion || type.data is EmbedRegion {
+            return StreamImageCellSizeCalculator(streamKind: streamKind, item: self, width: width, columnCount: columnCount)
+        }
+        else if type == .notification {
+            return NotificationCellSizeCalculator(item: self, width: width, columnCount: columnCount)
+        }
+        else if type == .announcement {
+            return AnnouncementCellSizeCalculator(item: self, width: width, columnCount: columnCount)
+        }
+        else if type == .promotionalHeader {
+            return PromotionalHeaderCellSizeCalculator(item: self, width: width, columnCount: columnCount)
+        }
+        else if type == .profileHeaderName {
+            return ProfileHeaderNamesSizeCalculator(item: self, width: width, columnCount: columnCount)
+        }
+        else if type == .profileHeaderBio {
+            return ProfileHeaderBioSizeCalculator(item: self, width: width, columnCount: columnCount)
+        }
+        else if type == .profileHeaderLinks {
+            return ProfileHeaderLinksSizeCalculator(item: self, width: width, columnCount: columnCount)
+        }
+        else if jsonable is ArtistInvite {
+            return ArtistInviteCellSizeCalculator(item: self, width: width, columnCount: columnCount)
+        }
+
+        return nil
+    }
+
 }
 
 

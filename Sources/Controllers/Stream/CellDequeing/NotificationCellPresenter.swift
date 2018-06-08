@@ -21,7 +21,7 @@ struct NotificationCellPresenter {
                 let webContent = streamCellItem.calculatedCellHeights.webContent,
                 ceil(actualHeight) != ceil(webContent)
             {
-                StreamNotificationCellSizeCalculator.assignTotalHeight(actualHeight, cellItem: streamCellItem, cellWidth: cell.frame.width)
+                NotificationCellSizeCalculator.assignTotalHeight(actualHeight, item: streamCellItem, cellWidth: cell.frame.width)
                 postNotification(StreamNotification.UpdateCellHeightNotification, value: streamCellItem)
             }
         }

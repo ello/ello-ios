@@ -47,6 +47,34 @@ struct StreamCellItemParser {
         return streamItems
     }
 
+    func userProfileItems(_ user: User) -> [StreamCellItem] {
+        var items = [
+            StreamCellItem(jsonable: user, type: .profileHeaderAvatar),
+            StreamCellItem(jsonable: user, type: .profileHeaderName),
+            ]
+
+        if user.badges.count > 0 ||
+            user.hasProfileData && user.totalViewsCount.map({ $0 > 0 }) == true
+        {
+            items.append(StreamCellItem(jsonable: user, type: .profileHeaderTotalAndBadges))
+        }
+
+        items.append(StreamCellItem(jsonable: user, type: .profileHeaderStats))
+
+        if user.formattedShortBio?.isEmpty == false {
+            items.append(StreamCellItem(jsonable: user, type: .profileHeaderBio))
+        }
+
+        if user.location?.isEmpty == false {
+            items.append(StreamCellItem(jsonable: user, type: .profileHeaderLocation))
+        }
+
+        if (user.externalLinksList?.count).map({ $0 > 0 }) == true {
+            items.append(StreamCellItem(jsonable: user, type: .profileHeaderLinks))
+        }
+        return items
+    }
+
     private func typicalCellItems(_ jsonable: Model, type: StreamCellType) -> [StreamCellItem] {
         return [StreamCellItem(jsonable: jsonable, type: type)]
     }

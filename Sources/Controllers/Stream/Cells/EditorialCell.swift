@@ -46,6 +46,13 @@ class EditorialCell: CollectionViewCell {
         static let minFieldHeight: CGFloat = 45
         static let maxFieldHeight: CGFloat = 64
         static let minInviteTextHeight: CGFloat = 60
+
+        static func calculateHeight(windowSize: CGSize) -> CGFloat {
+            let aspect = EditorialCell.Size.aspect
+            let maxHeight: CGFloat = windowSize.height - 256
+            let height = min(ceil(windowSize.width / aspect), maxHeight)
+            return height + bgMargins.bottom
+        }
     }
 
     struct Config {

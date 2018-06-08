@@ -39,7 +39,13 @@ enum StreamCellType: Equatable {
     case onboardingInviteFriends
     case placeholder
     case postFeaturedControl
-    case profileHeader
+    case profileHeaderAvatar
+    case profileHeaderName
+    case profileHeaderTotalAndBadges
+    case profileHeaderStats
+    case profileHeaderBio
+    case profileHeaderLocation
+    case profileHeaderLinks
     case profileHeaderGhost
     case promotionalHeader
     case promotionalHeaderSubscription
@@ -128,7 +134,13 @@ enum StreamCellType: Equatable {
         .onboardingInviteFriends,
         .placeholder,
         .postFeaturedControl,
-        .profileHeader,
+        .profileHeaderAvatar,
+        .profileHeaderName,
+        .profileHeaderTotalAndBadges,
+        .profileHeaderStats,
+        .profileHeaderBio,
+        .profileHeaderLocation,
+        .profileHeaderLinks,
         .profileHeaderGhost,
         .promotionalHeader,
         .promotionalHeaderSubscription,
@@ -198,7 +210,13 @@ enum StreamCellType: Equatable {
         case .notification: return NotificationCell.reuseIdentifier
         case .placeholder: return "Placeholder"
         case .postFeaturedControl: return PostFeaturedControlCell.reuseIdentifier
-        case .profileHeader: return ProfileHeaderCell.reuseIdentifier
+        case .profileHeaderAvatar: return ProfileHeaderAvatarCell.reuseIdentifier
+        case .profileHeaderName: return ProfileHeaderNamesCell.reuseIdentifier
+        case .profileHeaderTotalAndBadges: return ProfileHeaderTotalCountCell.reuseIdentifier
+        case .profileHeaderStats: return ProfileHeaderStatsCell.reuseIdentifier
+        case .profileHeaderBio: return ProfileHeaderBioCell.reuseIdentifier
+        case .profileHeaderLocation: return ProfileHeaderLocationCell.reuseIdentifier
+        case .profileHeaderLinks: return ProfileHeaderLinksCell.reuseIdentifier
         case .profileHeaderGhost: return ProfileHeaderGhostCell.reuseIdentifier
         case .promotionalHeader: return PromotionalHeaderCell.reuseIdentifier
         case .promotionalHeaderSubscription: return PromotionalHeaderSubscriptionCell.reuseIdentifier
@@ -282,7 +300,13 @@ enum StreamCellType: Equatable {
         case .noPosts: return NoPostsCellPresenter.configure
         case .notification: return NotificationCellPresenter.configure
         case .postFeaturedControl: return PostFeaturedControlCellPresenter.configure
-        case .profileHeader: return ProfileHeaderCellPresenter.configure
+        case .profileHeaderAvatar: return ProfileHeaderCellPresenter.configure
+        case .profileHeaderName: return ProfileHeaderCellPresenter.configure
+        case .profileHeaderTotalAndBadges: return ProfileHeaderCellPresenter.configure
+        case .profileHeaderStats: return ProfileHeaderCellPresenter.configure
+        case .profileHeaderBio: return ProfileHeaderCellPresenter.configure
+        case .profileHeaderLocation: return ProfileHeaderCellPresenter.configure
+        case .profileHeaderLinks: return ProfileHeaderCellPresenter.configure
         case .promotionalHeader: return PromotionalHeaderCellPresenter.configure
         case .promotionalHeaderSubscription: return PromotionalHeaderSubscriptionCellPresenter.configure
         case .revealController: return RevealControllerCellPresenter.configure
@@ -328,7 +352,13 @@ enum StreamCellType: Equatable {
         case .notification: return NotificationCell.self
         case .placeholder: return UICollectionViewCell.self
         case .postFeaturedControl: return PostFeaturedControlCell.self
-        case .profileHeader: return ProfileHeaderCell.self
+        case .profileHeaderAvatar: return ProfileHeaderAvatarCell.self
+        case .profileHeaderName: return ProfileHeaderNamesCell.self
+        case .profileHeaderTotalAndBadges: return ProfileHeaderTotalCountCell.self
+        case .profileHeaderStats: return ProfileHeaderStatsCell.self
+        case .profileHeaderBio: return ProfileHeaderBioCell.self
+        case .profileHeaderLocation: return ProfileHeaderLocationCell.self
+        case .profileHeaderLinks: return ProfileHeaderLinksCell.self
         case .profileHeaderGhost: return ProfileHeaderGhostCell.self
         case .promotionalHeader: return PromotionalHeaderCell.self
         case .promotionalHeaderSubscription: return PromotionalHeaderSubscriptionCell.self
@@ -375,11 +405,7 @@ enum StreamCellType: Equatable {
         case .createComment:
             return 75
         case .editorial:
-            let width = Globals.windowSize.width
-            let aspect = EditorialCell.Size.aspect
-            let maxHeight: CGFloat = Globals.windowSize.height - 256
-            let height = min(ceil(width / aspect), maxHeight)
-            return height + EditorialCell.Size.bgMargins.bottom
+            return EditorialCell.Size.calculateHeight(windowSize: Globals.windowSize)
         case let .emptyStream(height):
             return height
         case .error:
@@ -422,6 +448,14 @@ enum StreamCellType: Equatable {
             return 40
         case .userListItem:
             return PromotionalHeaderSubscriptionCell.Size.height
+        case .profileHeaderAvatar:
+            return ProfileHeaderAvatarCell.Size.calculateHeight(width: Globals.windowSize.width)
+        case .profileHeaderTotalAndBadges:
+            return ProfileHeaderTotalCountCell.Size.height
+        case .profileHeaderStats:
+            return ProfileHeaderStatsCell.Size.height
+        case .profileHeaderLocation:
+            return ProfileHeaderLocationCell.Size.height
         case .artistInviteBubble,
              .artistInviteControls,
              .artistInviteGuide,
@@ -429,7 +463,9 @@ enum StreamCellType: Equatable {
              .embed,
              .image,
              .placeholder,
-             .profileHeader,
+             .profileHeaderName,
+             .profileHeaderBio,
+             .profileHeaderLinks,
              .profileHeaderGhost,
              .promotionalHeader,
              .text,
@@ -477,7 +513,13 @@ enum StreamCellType: Equatable {
              .noPosts,
              .notification,
              .onboardingInviteFriends,
-             .profileHeader,
+             .profileHeaderAvatar,
+             .profileHeaderName,
+             .profileHeaderTotalAndBadges,
+             .profileHeaderStats,
+             .profileHeaderBio,
+             .profileHeaderLocation,
+             .profileHeaderLinks,
              .profileHeaderGhost,
              .promotionalHeader,
              .promotionalHeaderSubscription,
@@ -556,7 +598,13 @@ enum StreamCellType: Equatable {
             .notification,
             .placeholder,
             .postFeaturedControl,
-            .profileHeader,
+            .profileHeaderAvatar,
+            .profileHeaderName,
+            .profileHeaderTotalAndBadges,
+            .profileHeaderStats,
+            .profileHeaderBio,
+            .profileHeaderLocation,
+            .profileHeaderLinks,
             .profileHeaderGhost,
             .promotionalHeader,
             .promotionalHeaderSubscription,
