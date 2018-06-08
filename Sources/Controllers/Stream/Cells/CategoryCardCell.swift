@@ -138,8 +138,9 @@ class CategoryCardCell: CollectionViewCell {
     }
 
     private func updateStyle() {
-        subscribeContentConstraint.set(isActivated: usage == .subscribing)
-        onboardingContentConstraint.set(isActivated: usage != .subscribing)
+        let isSubscribing = usage == .subscribing || (usage == .choosing && isSubscribed)
+        subscribeContentConstraint.set(isActivated: isSubscribing)
+        onboardingContentConstraint.set(isActivated: !isSubscribing)
 
         if usage == .subscribing {
             insetContentView.layer.cornerRadius = Size.cornerRadius
