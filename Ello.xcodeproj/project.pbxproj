@@ -211,7 +211,7 @@
 		123375861DA6ECEC0019CFAD /* ProfileHeaderBioCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1233757F1DA6ECEC0019CFAD /* ProfileHeaderBioCell.swift */; };
 		123375871DA6ECEC0019CFAD /* ProfileHeaderLinksCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 123375801DA6ECEC0019CFAD /* ProfileHeaderLinksCell.swift */; };
 		123375881DA6ECEC0019CFAD /* ProfileHeaderNamesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 123375811DA6ECEC0019CFAD /* ProfileHeaderNamesCell.swift */; };
-		123375891DA6ECEC0019CFAD /* ProfileHeaderTotalCountCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 123375821DA6ECEC0019CFAD /* ProfileHeaderTotalCountCell.swift */; };
+		123375891DA6ECEC0019CFAD /* ProfileHeaderTotalCountAndBadgesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 123375821DA6ECEC0019CFAD /* ProfileHeaderTotalCountAndBadgesCell.swift */; };
 		1233758F1DA6F0F20019CFAD /* ProfileHeaderBioSizeCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1233758E1DA6F0F20019CFAD /* ProfileHeaderBioSizeCalculator.swift */; };
 		123375911DA6F1180019CFAD /* ProfileHeaderLinksSizeCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 123375901DA6F1180019CFAD /* ProfileHeaderLinksSizeCalculator.swift */; };
 		123375931DA6F13C0019CFAD /* ProfileHeaderNamesSizeCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 123375921DA6F13C0019CFAD /* ProfileHeaderNamesSizeCalculator.swift */; };
@@ -319,7 +319,7 @@
 		12A1D82B1DAC1A1800A327D6 /* ProfileHeaderAvatarCellSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12A1D82A1DAC1A1800A327D6 /* ProfileHeaderAvatarCellSpec.swift */; };
 		12A1D82F1DAD4D0F00A327D6 /* badge_featured_normal.svg in Resources */ = {isa = PBXBuildFile; fileRef = 12A1D82E1DAD4D0F00A327D6 /* badge_featured_normal.svg */; };
 		12A1D8311DAD511A00A327D6 /* badge_featured_selected.svg in Resources */ = {isa = PBXBuildFile; fileRef = 12A1D8301DAD511A00A327D6 /* badge_featured_selected.svg */; };
-		12A1D8331DAD747500A327D6 /* ProfileHeaderTotalCountCellSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12A1D8321DAD747500A327D6 /* ProfileHeaderTotalCountCellSpec.swift */; };
+		12A1D8331DAD747500A327D6 /* ProfileHeaderTotalCountAndBadgesCellSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12A1D8321DAD747500A327D6 /* ProfileHeaderTotalCountAndBadgesCellSpec.swift */; };
 		12A1D83A1DAE7AE900A327D6 /* NumberExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F6AE281A43390900493660 /* NumberExtensions.swift */; };
 		12A313D91C73ECAA009727DD /* unselected-pixel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 12A313D81C73ECAA009727DD /* unselected-pixel@2x.png */; };
 		12A3A46F1AB348FB00D2AFB0 /* ElloPullToRefreshView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12A3A46E1AB348FB00D2AFB0 /* ElloPullToRefreshView.swift */; };
@@ -728,7 +728,6 @@
 		1D6D8E6E1EF2ED4600472434 /* HomeProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6D8E6B1EF2ED4600472434 /* HomeProtocols.swift */; };
 		1D6D8E6F1EF2ED4600472434 /* HomeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6D8E6C1EF2ED4600472434 /* HomeScreen.swift */; };
 		1D6D8E701EF2ED4600472434 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6D8E6D1EF2ED4600472434 /* HomeViewController.swift */; };
-		1D6E42FC1EA672C60029C9B1 /* ProfileHeaderBadgesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6E42FB1EA672C60029C9B1 /* ProfileHeaderBadgesCell.swift */; };
 		1D6E43101EA68AEA0029C9B1 /* badge_community_normal.svg in Resources */ = {isa = PBXBuildFile; fileRef = 1D6E43071EA68AEA0029C9B1 /* badge_community_normal.svg */; };
 		1D6E43111EA68AEA0029C9B1 /* badge_community_selected.svg in Resources */ = {isa = PBXBuildFile; fileRef = 1D6E43081EA68AEA0029C9B1 /* badge_community_selected.svg */; };
 		1D6E43121EA68AEA0029C9B1 /* badge_experimental_normal.svg in Resources */ = {isa = PBXBuildFile; fileRef = 1D6E43091EA68AEA0029C9B1 /* badge_experimental_normal.svg */; };
@@ -800,8 +799,7 @@
 		1D7672E420C730770057E03F /* feature_post_normal.svg in Resources */ = {isa = PBXBuildFile; fileRef = 1D7672E220C730770057E03F /* feature_post_normal.svg */; };
 		1D7672E620C99BD70057E03F /* EditorialDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7672E520C99BD60057E03F /* EditorialDownloader.swift */; };
 		1D7672E820C9CFA70057E03F /* CellSizeCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7672E720C9CFA70057E03F /* CellSizeCalculator.swift */; };
-		1D7672F320C9DD1B0057E03F /* ProfileHeaderTotalCountPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7672EA20C9DD1A0057E03F /* ProfileHeaderTotalCountPresenter.swift */; };
-		1D7672F420C9DD1B0057E03F /* ProfileHeaderBadgesPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7672EB20C9DD1A0057E03F /* ProfileHeaderBadgesPresenter.swift */; };
+		1D7672F320C9DD1B0057E03F /* ProfileHeaderTotalCountAndBadgesPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7672EA20C9DD1A0057E03F /* ProfileHeaderTotalCountAndBadgesPresenter.swift */; };
 		1D7672F520C9DD1B0057E03F /* ProfileHeaderLinksPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7672EC20C9DD1A0057E03F /* ProfileHeaderLinksPresenter.swift */; };
 		1D7672F620C9DD1B0057E03F /* ProfileHeaderLocationPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7672ED20C9DD1A0057E03F /* ProfileHeaderLocationPresenter.swift */; };
 		1D7672F720C9DD1B0057E03F /* ProfileHeaderBioPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7672EE20C9DD1A0057E03F /* ProfileHeaderBioPresenter.swift */; };
@@ -809,8 +807,7 @@
 		1D7672F920C9DD1B0057E03F /* ProfileHeaderCellPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7672F020C9DD1A0057E03F /* ProfileHeaderCellPresenter.swift */; };
 		1D7672FA20C9DD1B0057E03F /* ProfileHeaderNamesPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7672F120C9DD1A0057E03F /* ProfileHeaderNamesPresenter.swift */; };
 		1D7672FB20C9DD1B0057E03F /* ProfileHeaderStatsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7672F220C9DD1B0057E03F /* ProfileHeaderStatsPresenter.swift */; };
-		1D76731520C9E0B20057E03F /* ProfileHeaderBadgesPresenterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D76730D20C9E0B10057E03F /* ProfileHeaderBadgesPresenterSpec.swift */; };
-		1D76731620C9E0B20057E03F /* ProfileHeaderTotalCountPresenterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D76730E20C9E0B10057E03F /* ProfileHeaderTotalCountPresenterSpec.swift */; };
+		1D76731620C9E0B20057E03F /* ProfileHeaderTotalCountAndBadgesPresenterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D76730E20C9E0B10057E03F /* ProfileHeaderTotalCountAndBadgesPresenterSpec.swift */; };
 		1D76731720C9E0B20057E03F /* ProfileHeaderBioPresenterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D76730F20C9E0B10057E03F /* ProfileHeaderBioPresenterSpec.swift */; };
 		1D76731820C9E0B20057E03F /* ProfileHeaderHeaderCellPresenterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D76731020C9E0B10057E03F /* ProfileHeaderHeaderCellPresenterSpec.swift */; };
 		1D76731920C9E0B20057E03F /* ProfileHeaderAvatarPresenterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D76731120C9E0B20057E03F /* ProfileHeaderAvatarPresenterSpec.swift */; };
@@ -933,6 +930,7 @@
 		1DA18E491DB959B2000231CC /* ProfileHeaderGhostCellSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DA18E481DB959B2000231CC /* ProfileHeaderGhostCellSpec.swift */; };
 		1DA18E4D1DC7DE07000231CC /* post_detail__watching.json in Resources */ = {isa = PBXBuildFile; fileRef = 1DA18E4C1DC7DE07000231CC /* post_detail__watching.json */; };
 		1DA18E581DD12FE8000231CC /* CategoryCardListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DA18E571DD12FE8000231CC /* CategoryCardListView.swift */; };
+		1DA5877620CB32B000CACFB7 /* ProfileHeaderSeparatorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DA5877520CB32AF00CACFB7 /* ProfileHeaderSeparatorCell.swift */; };
 		1DA809C21B8F6DE9000BB590 /* OmnibarScreenSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DA809C11B8F6DE9000BB590 /* OmnibarScreenSpec.swift */; };
 		1DA8FD701B98A63600472B1E /* reorder_normal.svg in Resources */ = {isa = PBXBuildFile; fileRef = 1DA8FD6E1B98A63600472B1E /* reorder_normal.svg */; };
 		1DA8FD711B98A63600472B1E /* reorder_selected.svg in Resources */ = {isa = PBXBuildFile; fileRef = 1DA8FD6F1B98A63600472B1E /* reorder_selected.svg */; };
@@ -1518,7 +1516,7 @@
 		1233757F1DA6ECEC0019CFAD /* ProfileHeaderBioCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileHeaderBioCell.swift; sourceTree = "<group>"; };
 		123375801DA6ECEC0019CFAD /* ProfileHeaderLinksCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileHeaderLinksCell.swift; sourceTree = "<group>"; };
 		123375811DA6ECEC0019CFAD /* ProfileHeaderNamesCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileHeaderNamesCell.swift; sourceTree = "<group>"; };
-		123375821DA6ECEC0019CFAD /* ProfileHeaderTotalCountCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileHeaderTotalCountCell.swift; sourceTree = "<group>"; };
+		123375821DA6ECEC0019CFAD /* ProfileHeaderTotalCountAndBadgesCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileHeaderTotalCountAndBadgesCell.swift; sourceTree = "<group>"; };
 		1233758E1DA6F0F20019CFAD /* ProfileHeaderBioSizeCalculator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileHeaderBioSizeCalculator.swift; sourceTree = "<group>"; };
 		123375901DA6F1180019CFAD /* ProfileHeaderLinksSizeCalculator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileHeaderLinksSizeCalculator.swift; sourceTree = "<group>"; };
 		123375921DA6F13C0019CFAD /* ProfileHeaderNamesSizeCalculator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileHeaderNamesSizeCalculator.swift; sourceTree = "<group>"; };
@@ -1622,7 +1620,7 @@
 		12A1D82A1DAC1A1800A327D6 /* ProfileHeaderAvatarCellSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileHeaderAvatarCellSpec.swift; sourceTree = "<group>"; };
 		12A1D82E1DAD4D0F00A327D6 /* badge_featured_normal.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = badge_featured_normal.svg; sourceTree = "<group>"; };
 		12A1D8301DAD511A00A327D6 /* badge_featured_selected.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = badge_featured_selected.svg; sourceTree = "<group>"; };
-		12A1D8321DAD747500A327D6 /* ProfileHeaderTotalCountCellSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileHeaderTotalCountCellSpec.swift; sourceTree = "<group>"; };
+		12A1D8321DAD747500A327D6 /* ProfileHeaderTotalCountAndBadgesCellSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileHeaderTotalCountAndBadgesCellSpec.swift; sourceTree = "<group>"; };
 		12A2C93E1AEFDC90002DFD75 /* PreloaderSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreloaderSpec.swift; sourceTree = "<group>"; };
 		12A313D81C73ECAA009727DD /* unselected-pixel@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "unselected-pixel@2x.png"; sourceTree = "<group>"; };
 		12A3A46E1AB348FB00D2AFB0 /* ElloPullToRefreshView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ElloPullToRefreshView.swift; sourceTree = "<group>"; };
@@ -1906,7 +1904,6 @@
 		1D6D8E6B1EF2ED4600472434 /* HomeProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeProtocols.swift; sourceTree = "<group>"; };
 		1D6D8E6C1EF2ED4600472434 /* HomeScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeScreen.swift; sourceTree = "<group>"; };
 		1D6D8E6D1EF2ED4600472434 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
-		1D6E42FB1EA672C60029C9B1 /* ProfileHeaderBadgesCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileHeaderBadgesCell.swift; sourceTree = "<group>"; };
 		1D6E43071EA68AEA0029C9B1 /* badge_community_normal.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = badge_community_normal.svg; sourceTree = "<group>"; };
 		1D6E43081EA68AEA0029C9B1 /* badge_community_selected.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = badge_community_selected.svg; sourceTree = "<group>"; };
 		1D6E43091EA68AEA0029C9B1 /* badge_experimental_normal.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = badge_experimental_normal.svg; sourceTree = "<group>"; };
@@ -1971,8 +1968,7 @@
 		1D7672E220C730770057E03F /* feature_post_normal.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = feature_post_normal.svg; sourceTree = "<group>"; };
 		1D7672E520C99BD60057E03F /* EditorialDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditorialDownloader.swift; sourceTree = "<group>"; };
 		1D7672E720C9CFA70057E03F /* CellSizeCalculator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellSizeCalculator.swift; sourceTree = "<group>"; };
-		1D7672EA20C9DD1A0057E03F /* ProfileHeaderTotalCountPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileHeaderTotalCountPresenter.swift; sourceTree = "<group>"; };
-		1D7672EB20C9DD1A0057E03F /* ProfileHeaderBadgesPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileHeaderBadgesPresenter.swift; sourceTree = "<group>"; };
+		1D7672EA20C9DD1A0057E03F /* ProfileHeaderTotalCountAndBadgesPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileHeaderTotalCountAndBadgesPresenter.swift; sourceTree = "<group>"; };
 		1D7672EC20C9DD1A0057E03F /* ProfileHeaderLinksPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileHeaderLinksPresenter.swift; sourceTree = "<group>"; };
 		1D7672ED20C9DD1A0057E03F /* ProfileHeaderLocationPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileHeaderLocationPresenter.swift; sourceTree = "<group>"; };
 		1D7672EE20C9DD1A0057E03F /* ProfileHeaderBioPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileHeaderBioPresenter.swift; sourceTree = "<group>"; };
@@ -1980,8 +1976,7 @@
 		1D7672F020C9DD1A0057E03F /* ProfileHeaderCellPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileHeaderCellPresenter.swift; sourceTree = "<group>"; };
 		1D7672F120C9DD1A0057E03F /* ProfileHeaderNamesPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileHeaderNamesPresenter.swift; sourceTree = "<group>"; };
 		1D7672F220C9DD1B0057E03F /* ProfileHeaderStatsPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileHeaderStatsPresenter.swift; sourceTree = "<group>"; };
-		1D76730D20C9E0B10057E03F /* ProfileHeaderBadgesPresenterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileHeaderBadgesPresenterSpec.swift; sourceTree = "<group>"; };
-		1D76730E20C9E0B10057E03F /* ProfileHeaderTotalCountPresenterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileHeaderTotalCountPresenterSpec.swift; sourceTree = "<group>"; };
+		1D76730E20C9E0B10057E03F /* ProfileHeaderTotalCountAndBadgesPresenterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileHeaderTotalCountAndBadgesPresenterSpec.swift; sourceTree = "<group>"; };
 		1D76730F20C9E0B10057E03F /* ProfileHeaderBioPresenterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileHeaderBioPresenterSpec.swift; sourceTree = "<group>"; };
 		1D76731020C9E0B10057E03F /* ProfileHeaderHeaderCellPresenterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileHeaderHeaderCellPresenterSpec.swift; sourceTree = "<group>"; };
 		1D76731120C9E0B20057E03F /* ProfileHeaderAvatarPresenterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileHeaderAvatarPresenterSpec.swift; sourceTree = "<group>"; };
@@ -2091,6 +2086,7 @@
 		1DA18E481DB959B2000231CC /* ProfileHeaderGhostCellSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileHeaderGhostCellSpec.swift; sourceTree = "<group>"; };
 		1DA18E4C1DC7DE07000231CC /* post_detail__watching.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = post_detail__watching.json; sourceTree = "<group>"; };
 		1DA18E571DD12FE8000231CC /* CategoryCardListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = CategoryCardListView.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		1DA5877520CB32AF00CACFB7 /* ProfileHeaderSeparatorCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileHeaderSeparatorCell.swift; sourceTree = "<group>"; };
 		1DA809C11B8F6DE9000BB590 /* OmnibarScreenSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OmnibarScreenSpec.swift; sourceTree = "<group>"; };
 		1DA8FD6E1B98A63600472B1E /* reorder_normal.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = reorder_normal.svg; sourceTree = "<group>"; };
 		1DA8FD6F1B98A63600472B1E /* reorder_selected.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = reorder_selected.svg; sourceTree = "<group>"; };
@@ -2661,7 +2657,6 @@
 				1DE83C1A20AE0BF6009109E6 /* CategoryPostHistoryCell.swift */,
 				1D2896521FA25CBD004661C1 /* CommentHeaderCell.swift */,
 				1DB8C6B01D7F1BE4007E1447 /* DismissableCell.swift */,
-				1D9309D91EC1349C0099FCF8 /* EditorialCell.swift */,
 				1D8783121ECCF45100253602 /* Editorials */,
 				128D36BB1A952E3E00622833 /* ElloPostToolBarOption.swift */,
 				1D7152951D6CBE0E005998FE /* NoPostsCell.swift */,
@@ -2730,13 +2725,13 @@
 			isa = PBXGroup;
 			children = (
 				1233757D1DA6ECEC0019CFAD /* ProfileHeaderAvatarCell.swift */,
-				1D6E42FB1EA672C60029C9B1 /* ProfileHeaderBadgesCell.swift */,
 				1233757F1DA6ECEC0019CFAD /* ProfileHeaderBioCell.swift */,
 				123375801DA6ECEC0019CFAD /* ProfileHeaderLinksCell.swift */,
 				1220347E1DECCE890059E633 /* ProfileHeaderLocationCell.swift */,
 				123375811DA6ECEC0019CFAD /* ProfileHeaderNamesCell.swift */,
+				1DA5877520CB32AF00CACFB7 /* ProfileHeaderSeparatorCell.swift */,
 				1233757C1DA6ECEC0019CFAD /* ProfileHeaderStatsCell.swift */,
-				123375821DA6ECEC0019CFAD /* ProfileHeaderTotalCountCell.swift */,
+				123375821DA6ECEC0019CFAD /* ProfileHeaderTotalCountAndBadgesCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -3763,6 +3758,49 @@
 			path = Parsers;
 			sourceTree = "<group>";
 		};
+		1D14B45E20CADC63000D5386 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		1D14B45F20CADC71000D5386 /* Presenters */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Presenters;
+			sourceTree = "<group>";
+		};
+		1D14B46020CADC7B000D5386 /* Calculators */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Calculators;
+			sourceTree = "<group>";
+		};
+		1D14B46120CADC85000D5386 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				1D21EC641EF9B8CF00995ECF /* EditorialInternalCell.swift */,
+				1D8783131ECCF45E00253602 /* EditorialExternalCell.swift */,
+				1D8783191ECCF5B300253602 /* EditorialInviteCell.swift */,
+				1D87831A1ECCF5B300253602 /* EditorialJoinCell.swift */,
+				1D8783141ECCF45E00253602 /* EditorialPostCell.swift */,
+				1D8783151ECCF45E00253602 /* EditorialPostStreamCell.swift */,
+				1D87831B1ECCF5B300253602 /* EditorialTitledCell.swift */,
+				1D9309D91EC1349C0099FCF8 /* EditorialCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		1D14B46220CADD20000D5386 /* Presenters */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Presenters;
+			sourceTree = "<group>";
+		};
 		1D1AF61E1A83ED6600E06C93 /* Detail */ = {
 			isa = PBXGroup;
 			children = (
@@ -3969,14 +4007,13 @@
 			isa = PBXGroup;
 			children = (
 				1D7672EF20C9DD1A0057E03F /* ProfileHeaderAvatarPresenter.swift */,
-				1D7672EB20C9DD1A0057E03F /* ProfileHeaderBadgesPresenter.swift */,
 				1D7672EE20C9DD1A0057E03F /* ProfileHeaderBioPresenter.swift */,
 				1D7672F020C9DD1A0057E03F /* ProfileHeaderCellPresenter.swift */,
 				1D7672EC20C9DD1A0057E03F /* ProfileHeaderLinksPresenter.swift */,
 				1D7672ED20C9DD1A0057E03F /* ProfileHeaderLocationPresenter.swift */,
 				1D7672F120C9DD1A0057E03F /* ProfileHeaderNamesPresenter.swift */,
 				1D7672F220C9DD1B0057E03F /* ProfileHeaderStatsPresenter.swift */,
-				1D7672EA20C9DD1A0057E03F /* ProfileHeaderTotalCountPresenter.swift */,
+				1D7672EA20C9DD1A0057E03F /* ProfileHeaderTotalCountAndBadgesPresenter.swift */,
 			);
 			path = Presenters;
 			sourceTree = "<group>";
@@ -3985,13 +4022,12 @@
 			isa = PBXGroup;
 			children = (
 				1D76731120C9E0B20057E03F /* ProfileHeaderAvatarPresenterSpec.swift */,
-				1D76730D20C9E0B10057E03F /* ProfileHeaderBadgesPresenterSpec.swift */,
 				1D76730F20C9E0B10057E03F /* ProfileHeaderBioPresenterSpec.swift */,
 				1D76731020C9E0B10057E03F /* ProfileHeaderHeaderCellPresenterSpec.swift */,
 				1D76731220C9E0B20057E03F /* ProfileHeaderLinksPresenterSpec.swift */,
 				1D76731420C9E0B20057E03F /* ProfileHeaderNamesPresenterSpec.swift */,
 				1D76731320C9E0B20057E03F /* ProfileHeaderStatsPresenterSpec.swift */,
-				1D76730E20C9E0B10057E03F /* ProfileHeaderTotalCountPresenterSpec.swift */,
+				1D76730E20C9E0B10057E03F /* ProfileHeaderTotalCountAndBadgesPresenterSpec.swift */,
 			);
 			path = Presenters;
 			sourceTree = "<group>";
@@ -3999,13 +4035,6 @@
 		1D8783121ECCF45100253602 /* Editorials */ = {
 			isa = PBXGroup;
 			children = (
-				1D21EC641EF9B8CF00995ECF /* EditorialInternalCell.swift */,
-				1D8783131ECCF45E00253602 /* EditorialExternalCell.swift */,
-				1D8783191ECCF5B300253602 /* EditorialInviteCell.swift */,
-				1D87831A1ECCF5B300253602 /* EditorialJoinCell.swift */,
-				1D8783141ECCF45E00253602 /* EditorialPostCell.swift */,
-				1D8783151ECCF45E00253602 /* EditorialPostStreamCell.swift */,
-				1D87831B1ECCF5B300253602 /* EditorialTitledCell.swift */,
 			);
 			path = Editorials;
 			sourceTree = "<group>";
@@ -4013,6 +4042,8 @@
 		1D9309CF1EC109170099FCF8 /* Editorials */ = {
 			isa = PBXGroup;
 			children = (
+				1D14B46220CADD20000D5386 /* Presenters */,
+				1D14B46120CADC85000D5386 /* Cells */,
 				1D513E051ED735910081BB2D /* EditorialsGenerator.swift */,
 				1D9309D01EC1093B0099FCF8 /* EditorialsProtocols.swift */,
 				1D9309D11EC1093B0099FCF8 /* EditorialsScreen.swift */,
@@ -4050,7 +4081,7 @@
 				12F9EB3E1DEDFD4B00E127AE /* ProfileHeaderLocationCellSpec.swift */,
 				1DA18DF91DA84978000231CC /* ProfileHeaderNamesCellSpec.swift */,
 				1DA18DFD1DAC3B64000231CC /* ProfileHeaderStatsCellSpec.swift */,
-				12A1D8321DAD747500A327D6 /* ProfileHeaderTotalCountCellSpec.swift */,
+				12A1D8321DAD747500A327D6 /* ProfileHeaderTotalCountAndBadgesCellSpec.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -4106,6 +4137,9 @@
 		1DC78A4E1F21300800BE2413 /* ArtistInvites */ = {
 			isa = PBXGroup;
 			children = (
+				1D14B46020CADC7B000D5386 /* Calculators */,
+				1D14B45F20CADC71000D5386 /* Presenters */,
+				1D14B45E20CADC63000D5386 /* Cells */,
 				1DDC23371F30EB2D00E68B0E /* ArtistInviteAdminController.swift */,
 				1DDC23411F32250600E68B0E /* ArtistInviteAdminControlsCell.swift */,
 				1DDC23421F32250600E68B0E /* ArtistInviteAdminControlsPresenter.swift */,
@@ -5565,7 +5599,7 @@
 				1D81E1D11C4E8DE6001C63DC /* ReauthenticationSpec.swift in Sources */,
 				1D613E251F0D521200677D3D /* EditorialsScreenSpec.swift in Sources */,
 				EAC6054A1ADDA64B009B9426 /* DynamicSettingCellPresenterSpec.swift in Sources */,
-				1D76731620C9E0B20057E03F /* ProfileHeaderTotalCountPresenterSpec.swift in Sources */,
+				1D76731620C9E0B20057E03F /* ProfileHeaderTotalCountAndBadgesPresenterSpec.swift in Sources */,
 				1DF984031D9B0C1E0055EFC7 /* OnboardingProfileScreenSpec.swift in Sources */,
 				12F9EB3F1DEDFD4B00E127AE /* ProfileHeaderLocationCellSpec.swift in Sources */,
 				1D8AFACD1A9664480034DDAD /* NotificationSpec.swift in Sources */,
@@ -5606,7 +5640,6 @@
 				122034771DE9E7300059E633 /* SimpleMessageCellPresenterSpec.swift in Sources */,
 				1D447E641F338A2000013384 /* ProfileBadgesSizeCalculatorSpec.swift in Sources */,
 				1D7152AD1D6E12A5005998FE /* AppScreenSpec.swift in Sources */,
-				1D76731520C9E0B20057E03F /* ProfileHeaderBadgesPresenterSpec.swift in Sources */,
 				1D4168B61B6C222D0075C8F3 /* TagSpec.swift in Sources */,
 				1DF984021D9B0C1E0055EFC7 /* OnboardingInterestsViewControllerSpec.swift in Sources */,
 				76A628D71B04F93600640B6D /* StreamSeeMoreCommentsCellSpec.swift in Sources */,
@@ -5656,7 +5689,7 @@
 				1DF942351A9FC92D00838E9C /* NotificationsFilterBarSpec.swift in Sources */,
 				1D2C12AA1D4FD727007C4981 /* OmnibarScreenSnapshotSpecs.swift in Sources */,
 				1D066FF31B8BA19E002B303D /* ArraySpec.swift in Sources */,
-				12A1D8331DAD747500A327D6 /* ProfileHeaderTotalCountCellSpec.swift in Sources */,
+				12A1D8331DAD747500A327D6 /* ProfileHeaderTotalCountAndBadgesCellSpec.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5729,7 +5762,6 @@
 				1D87831C1ECCF5B300253602 /* EditorialInviteCell.swift in Sources */,
 				128D36AA1A951A6400622833 /* StreamFooterCellPresenter.swift in Sources */,
 				1D7672DA20C721A30057E03F /* CategoryUser.swift in Sources */,
-				1D6E42FC1EA672C60029C9B1 /* ProfileHeaderBadgesCell.swift in Sources */,
 				1DB271171F547A0F0044D475 /* UserFlag.swift in Sources */,
 				1DE991D61FE077550025415A /* LightboxProtocols.swift in Sources */,
 				122B30F21C6A3FC500C1B9D8 /* RegionParser.swift in Sources */,
@@ -5889,7 +5921,7 @@
 				1DF50C991C614E0700C62D89 /* OmnibarProtocols.swift in Sources */,
 				1D7750FA1ABB68E700D92191 /* ToData.swift in Sources */,
 				1207C97E1C73FEE000939ADB /* ElloS3.swift in Sources */,
-				1D7672F320C9DD1B0057E03F /* ProfileHeaderTotalCountPresenter.swift in Sources */,
+				1D7672F320C9DD1B0057E03F /* ProfileHeaderTotalCountAndBadgesPresenter.swift in Sources */,
 				1D061B501AAA196100493435 /* Keyboard.swift in Sources */,
 				1D73AB8A1C56A01E00D708B9 /* SafariActivity.swift in Sources */,
 				122B30CF1C6A3FBC00C1B9D8 /* ElloLinkedStore.swift in Sources */,
@@ -6038,7 +6070,7 @@
 				1DDF3C501A9D2592000D0945 /* ElloScrollLogic.swift in Sources */,
 				F8D160681AB75B1D00575B25 /* DrawerViewDataSource.swift in Sources */,
 				1DB390CA203F8C9100A1B7E7 /* ManageCategoriesViewController.swift in Sources */,
-				123375891DA6ECEC0019CFAD /* ProfileHeaderTotalCountCell.swift in Sources */,
+				123375891DA6ECEC0019CFAD /* ProfileHeaderTotalCountAndBadgesCell.swift in Sources */,
 				1DB2710D1F4F882D0044D475 /* StreamResponders.swift in Sources */,
 				76B0B18F1B41B06C004C2D7B /* UserAvatarsCellPresenter.swift in Sources */,
 				1D7E82471F2A7249006ACE7A /* ArtistInviteSubmission.swift in Sources */,
@@ -6157,6 +6189,7 @@
 				122B30F01C6A3FC500C1B9D8 /* ImageRegion.swift in Sources */,
 				EAF43D941AB0DE080016E110 /* ObjectCache.swift in Sources */,
 				122454AE1D9F1BC700D930E0 /* ElloCollectionView.swift in Sources */,
+				1DA5877620CB32B000CACFB7 /* ProfileHeaderSeparatorCell.swift in Sources */,
 				1D0DF926202A695200019875 /* SettingsService.swift in Sources */,
 				1D0A390A205AE07100AE9109 /* ChooseCategoryProtocols.swift in Sources */,
 				76FF80551A966B6300617A1E /* RelationshipController.swift in Sources */,
@@ -6191,7 +6224,6 @@
 				1D9B74CA1BB1E3EF00ACD028 /* CommentsIcon.swift in Sources */,
 				1DF4040A1B150DB40073460B /* NarrationView.swift in Sources */,
 				1DFF7BF4202D0B92002DC33E /* UIResponderExtensions.swift in Sources */,
-				1D7672F420C9DD1B0057E03F /* ProfileHeaderBadgesPresenter.swift in Sources */,
 				1DA18E1C1DB55D42000231CC /* ExternalLink.swift in Sources */,
 				1D7152D91D74C7FD005998FE /* OnboardingProtocols.swift in Sources */,
 				1D7750F21ABA48F200D92191 /* Tmp.swift in Sources */,

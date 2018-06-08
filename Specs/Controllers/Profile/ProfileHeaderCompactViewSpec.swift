@@ -19,7 +19,7 @@ class ProfileHeaderCompactViewSpec: QuickSpec {
             let defaultBioHeight: CGFloat = 50
             let defaultLocationHeight: CGFloat = ProfileHeaderLocationCell.Size.height
             let defaultLinksHeight: CGFloat = 100
-            let defaultCountHeight: CGFloat = ProfileHeaderTotalCountCell.Size.height
+            let defaultCountHeight: CGFloat = ProfileHeaderTotalCountAndBadgesCell.Size.height
 
             let expectations: [(String, bioHeight: CGFloat, locationHeight: CGFloat, linksHeight: CGFloat, hasTotal: Bool, hasBadges: Bool)] = [
                 ("no bio", bioHeight: 0, locationHeight: defaultLocationHeight, linksHeight: defaultLinksHeight, hasTotal: true, hasBadges: true),

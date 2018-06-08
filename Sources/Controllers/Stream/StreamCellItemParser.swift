@@ -56,21 +56,21 @@ struct StreamCellItemParser {
         if user.badges.count > 0 ||
             user.hasProfileData && user.totalViewsCount.map({ $0 > 0 }) == true
         {
-            items.append(StreamCellItem(jsonable: user, type: .profileHeaderTotalAndBadges))
+            items += [StreamCellItem(type: .profileHeaderSeparator), StreamCellItem(jsonable: user, type: .profileHeaderTotalAndBadges)]
         }
 
-        items.append(StreamCellItem(jsonable: user, type: .profileHeaderStats))
+        items += [StreamCellItem(type: .profileHeaderSeparator), StreamCellItem(jsonable: user, type: .profileHeaderStats)]
 
         if user.formattedShortBio?.isEmpty == false {
-            items.append(StreamCellItem(jsonable: user, type: .profileHeaderBio))
+            items += [StreamCellItem(type: .profileHeaderSeparator), StreamCellItem(jsonable: user, type: .profileHeaderBio)]
         }
 
         if user.location?.isEmpty == false {
-            items.append(StreamCellItem(jsonable: user, type: .profileHeaderLocation))
+            items += [StreamCellItem(type: .profileHeaderSeparator), StreamCellItem(jsonable: user, type: .profileHeaderLocation)]
         }
 
         if (user.externalLinksList?.count).map({ $0 > 0 }) == true {
-            items.append(StreamCellItem(jsonable: user, type: .profileHeaderLinks))
+            items += [StreamCellItem(type: .profileHeaderSeparator), StreamCellItem(jsonable: user, type: .profileHeaderLinks)]
         }
         return items
     }

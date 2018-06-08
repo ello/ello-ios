@@ -46,6 +46,7 @@ enum StreamCellType: Equatable {
     case profileHeaderBio
     case profileHeaderLocation
     case profileHeaderLinks
+    case profileHeaderSeparator
     case profileHeaderGhost
     case promotionalHeader
     case promotionalHeaderSubscription
@@ -141,6 +142,7 @@ enum StreamCellType: Equatable {
         .profileHeaderBio,
         .profileHeaderLocation,
         .profileHeaderLinks,
+        .profileHeaderSeparator,
         .profileHeaderGhost,
         .promotionalHeader,
         .promotionalHeaderSubscription,
@@ -212,11 +214,12 @@ enum StreamCellType: Equatable {
         case .postFeaturedControl: return PostFeaturedControlCell.reuseIdentifier
         case .profileHeaderAvatar: return ProfileHeaderAvatarCell.reuseIdentifier
         case .profileHeaderName: return ProfileHeaderNamesCell.reuseIdentifier
-        case .profileHeaderTotalAndBadges: return ProfileHeaderTotalCountCell.reuseIdentifier
+        case .profileHeaderTotalAndBadges: return ProfileHeaderTotalCountAndBadgesCell.reuseIdentifier
         case .profileHeaderStats: return ProfileHeaderStatsCell.reuseIdentifier
         case .profileHeaderBio: return ProfileHeaderBioCell.reuseIdentifier
         case .profileHeaderLocation: return ProfileHeaderLocationCell.reuseIdentifier
         case .profileHeaderLinks: return ProfileHeaderLinksCell.reuseIdentifier
+        case .profileHeaderSeparator: return ProfileHeaderSeparatorCell.reuseIdentifier
         case .profileHeaderGhost: return ProfileHeaderGhostCell.reuseIdentifier
         case .promotionalHeader: return PromotionalHeaderCell.reuseIdentifier
         case .promotionalHeaderSubscription: return PromotionalHeaderSubscriptionCell.reuseIdentifier
@@ -354,11 +357,12 @@ enum StreamCellType: Equatable {
         case .postFeaturedControl: return PostFeaturedControlCell.self
         case .profileHeaderAvatar: return ProfileHeaderAvatarCell.self
         case .profileHeaderName: return ProfileHeaderNamesCell.self
-        case .profileHeaderTotalAndBadges: return ProfileHeaderTotalCountCell.self
+        case .profileHeaderTotalAndBadges: return ProfileHeaderTotalCountAndBadgesCell.self
         case .profileHeaderStats: return ProfileHeaderStatsCell.self
         case .profileHeaderBio: return ProfileHeaderBioCell.self
         case .profileHeaderLocation: return ProfileHeaderLocationCell.self
         case .profileHeaderLinks: return ProfileHeaderLinksCell.self
+        case .profileHeaderSeparator: return ProfileHeaderSeparatorCell.self
         case .profileHeaderGhost: return ProfileHeaderGhostCell.self
         case .promotionalHeader: return PromotionalHeaderCell.self
         case .promotionalHeaderSubscription: return PromotionalHeaderSubscriptionCell.self
@@ -451,11 +455,13 @@ enum StreamCellType: Equatable {
         case .profileHeaderAvatar:
             return ProfileHeaderAvatarCell.Size.calculateHeight(width: Globals.windowSize.width)
         case .profileHeaderTotalAndBadges:
-            return ProfileHeaderTotalCountCell.Size.height
+            return ProfileHeaderTotalCountAndBadgesCell.Size.height
         case .profileHeaderStats:
             return ProfileHeaderStatsCell.Size.height
         case .profileHeaderLocation:
             return ProfileHeaderLocationCell.Size.height
+        case .profileHeaderSeparator:
+            return ProfileHeaderSeparatorCell.Size.height
         case .artistInviteBubble,
              .artistInviteControls,
              .artistInviteGuide,
@@ -520,6 +526,7 @@ enum StreamCellType: Equatable {
              .profileHeaderBio,
              .profileHeaderLocation,
              .profileHeaderLinks,
+             .profileHeaderSeparator,
              .profileHeaderGhost,
              .promotionalHeader,
              .promotionalHeaderSubscription,
@@ -605,6 +612,7 @@ enum StreamCellType: Equatable {
             .profileHeaderBio,
             .profileHeaderLocation,
             .profileHeaderLinks,
+            .profileHeaderSeparator,
             .profileHeaderGhost,
             .promotionalHeader,
             .promotionalHeaderSubscription,

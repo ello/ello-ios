@@ -9,7 +9,6 @@ class ProfileHeaderNamesCell: ProfileHeaderCell {
         static let horizNameMargin: CGFloat = 10
         static let vertNameMargin: CGFloat = 5
         static let outerMargins = UIEdgeInsets(top: 19, left: 15, bottom: 20, right: 15)
-        static let grayInsets: CGFloat = 15
     }
 
     static func preferredHeight(nameSize: CGSize, usernameSize: CGSize, width: CGFloat) -> (CGFloat, isVertical: Bool) {
@@ -46,24 +45,14 @@ class ProfileHeaderNamesCell: ProfileHeaderCell {
 
     private let nameLabel = StyledLabel(style: .large)
     private let usernameLabel = StyledLabel(style: .gray)
-    private let grayLine = UIView()
 
     override func style() {
         backgroundColor = .white
-        grayLine.backgroundColor = .greyE5
     }
 
     override func arrange() {
-        addSubview(grayLine)
-
-        grayLine.snp.makeConstraints { make in
-            make.height.equalTo(1)
-            make.bottom.equalTo(self)
-            make.leading.trailing.equalTo(self).inset(Size.grayInsets)
-        }
-
-        addSubview(nameLabel)
-        addSubview(usernameLabel)
+        contentView.addSubview(nameLabel)
+        contentView.addSubview(usernameLabel)
     }
 
     override func layoutSubviews() {

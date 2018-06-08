@@ -10,7 +10,6 @@ class ProfileHeaderLocationCell: ProfileHeaderCell {
         static let markerHeight: CGFloat = 14
         static let leadingMargin: CGFloat = 12
         static let markerLocationMargin: CGFloat = 6
-        static let grayInsets: CGFloat = 15
     }
 
     var location: String {
@@ -33,30 +32,16 @@ class ProfileHeaderLocationCell: ProfileHeaderCell {
     private let locationLabel = UILabel()
     private let markerImageView = UIImageView(image: InterfaceImage.marker.normalImage)
 
-    private let grayLine = UIView()
-    var grayLineVisible: Bool {
-        get { return !grayLine.isHidden }
-        set { grayLine.isVisible = newValue }
-    }
-
     override func style() {
         clipsToBounds = true
         backgroundColor = .white
         locationLabel.font = .defaultFont()
         locationLabel.textColor = .greyA
-        grayLine.backgroundColor = .greyE5
     }
 
     override func arrange() {
-        addSubview(grayLine)
-        addSubview(locationLabel)
-        addSubview(markerImageView)
-
-        grayLine.snp.makeConstraints { make in
-            make.height.equalTo(1)
-            make.bottom.equalTo(self)
-            make.leading.trailing.equalTo(self).inset(Size.grayInsets)
-        }
+        contentView.addSubview(locationLabel)
+        contentView.addSubview(markerImageView)
 
         markerImageView.snp.makeConstraints { make in
             make.width.height.equalTo(Size.markerHeight)

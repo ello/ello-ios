@@ -10,7 +10,6 @@ class ProfileHeaderBioCell: ProfileHeaderCell {
 
     struct Size {
         static let margins = UIEdgeInsets(top: 15, left: 15, bottom: 10, right: 15)
-        static let grayInsets: CGFloat = 15
     }
 
     var bio: String = "" {
@@ -19,33 +18,20 @@ class ProfileHeaderBioCell: ProfileHeaderCell {
         }
     }
     private let bioView = ElloWebView()
-    private let grayLine = UIView()
-    var grayLineVisible: Bool {
-        get { return !grayLine.isHidden }
-        set { grayLine.isVisible = newValue }
-    }
 
     override func style() {
         backgroundColor = .white
         bioView.scrollView.isScrollEnabled = false
         bioView.scrollView.scrollsToTop = false
         bioView.delegate = self
-        grayLine.backgroundColor = .greyE5
     }
 
     override func arrange() {
-        addSubview(bioView)
-        addSubview(grayLine)
+        contentView.addSubview(bioView)
 
         bioView.snp.makeConstraints { make in
             make.top.leading.trailing.equalTo(self).inset(Size.margins)
             make.bottom.equalTo(self)
-        }
-
-        grayLine.snp.makeConstraints { make in
-            make.height.equalTo(1)
-            make.bottom.equalTo(self)
-            make.leading.trailing.equalTo(self).inset(Size.grayInsets)
         }
     }
 }
@@ -54,7 +40,6 @@ extension ProfileHeaderBioCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         self.bio = ""
-        grayLine.isVisible = true
     }
 }
 

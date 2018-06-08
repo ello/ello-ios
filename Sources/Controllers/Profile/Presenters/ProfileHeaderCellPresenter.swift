@@ -30,11 +30,8 @@ struct ProfileHeaderCellPresenter {
         else if let cell = cell as? ProfileHeaderStatsCell {
             ProfileHeaderStatsPresenter.configure(cell, user: user, currentUser: currentUser)
         }
-        else if let cell = cell as? ProfileHeaderTotalCountCell {
-            ProfileHeaderTotalCountPresenter.configure(cell, user: user, currentUser: currentUser)
-        }
-        else if let cell = cell as? ProfileHeaderBadgesCell {
-            ProfileHeaderBadgesPresenter.configure(cell, user: user, currentUser: currentUser)
+        else if let cell = cell as? ProfileHeaderTotalCountAndBadgesCell {
+            ProfileHeaderTotalCountAndBadgesPresenter.configure(cell, user: user, currentUser: currentUser)
         }
         else if let cell = cell as? ProfileHeaderBioCell {
             ProfileHeaderBioPresenter.configure(cell, user: user, currentUser: currentUser)

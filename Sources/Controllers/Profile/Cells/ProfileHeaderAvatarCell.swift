@@ -44,10 +44,8 @@ class ProfileHeaderAvatarCell: ProfileHeaderCell {
     }
 
     override func arrange() {
-        super.arrange()
-
-        addSubview(whiteBar)
-        addSubview(avatarImageView)
+        contentView.addSubview(whiteBar)
+        contentView.addSubview(avatarImageView)
 
         avatarImageView.snp.makeConstraints { make in
             make.width.height.equalTo(Size.avatarSize)

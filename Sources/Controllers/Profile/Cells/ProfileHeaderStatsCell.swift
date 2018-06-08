@@ -13,7 +13,6 @@ class ProfileHeaderStatsCell: ProfileHeaderCell {
         static let verticalMargin: CGFloat = 1
         static let countVerticalOffset: CGFloat = 15
         static let captionVerticalOffset: CGFloat = 3
-        static let grayInsets: CGFloat = 15
     }
 
     var postsCount: String {
@@ -63,11 +62,6 @@ class ProfileHeaderStatsCell: ProfileHeaderCell {
         (lovesCountLabel,     lovesCaptionLabel,     lovesButton),
     ]}
 
-    private let grayLine = UIView()
-    var grayLineVisible: Bool {
-        get { return !grayLine.isHidden }
-        set { grayLine.isVisible = newValue }
-    }
 
     override func style() {
         backgroundColor = .white
@@ -83,8 +77,6 @@ class ProfileHeaderStatsCell: ProfileHeaderCell {
             captionLabel.textColor = .greyA
             captionLabel.textAlignment = .center
         }
-
-        grayLine.backgroundColor = .greyE5
     }
 
     override func bindActions() {
@@ -112,14 +104,6 @@ class ProfileHeaderStatsCell: ProfileHeaderCell {
     }
 
     override func arrange() {
-        addSubview(grayLine)
-
-        grayLine.snp.makeConstraints { make in
-            make.height.equalTo(1)
-            make.bottom.equalTo(self)
-            make.leading.trailing.equalTo(self).inset(Size.grayInsets)
-        }
-
         var prevCountLabel: UIView?
         let spaceBetween: CGFloat = (UIScreen.main.bounds.width - (Size.horizontalMargin * 2)) / CGFloat(allThreeViews.count - 1)
         for (index, (count: countLabel, caption: captionLabel, button: button)) in allThreeViews.enumerated() {
@@ -158,7 +142,6 @@ extension ProfileHeaderStatsCell {
         for countLabel in countLabels {
             countLabel.text = ""
         }
-        grayLine.isVisible = true
     }
 
     @objc

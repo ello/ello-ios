@@ -37,8 +37,8 @@ class ProfileHeaderLinksCell: ProfileHeaderCell {
     }
 
     override func arrange() {
-        addSubview(linksBox)
-        addSubview(iconsBox)
+        contentView.addSubview(linksBox)
+        contentView.addSubview(iconsBox)
 
         linksBox.snp.makeConstraints { make in
             make.leading.top.bottom.equalTo(self).inset(Size.margins)
