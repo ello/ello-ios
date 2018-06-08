@@ -63,7 +63,7 @@ struct AlertAction {
             return 25
         case .message:
             let width = tableWidth - 40
-            let attributedString = NSAttributedString(title)
+            let attributedString = NSAttributedString(label: title, style: .black)
             let height = attributedString.heightForWidth(width) + 20
             return height
         default:

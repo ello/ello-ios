@@ -82,6 +82,7 @@ class AlertCell: TableViewCell {
 
         label.snp.makeConstraints { make in
             make.leading.centerY.equalTo(contentView)
+            make.trailing.lessThanOrEqualTo(contentView)
         }
 
         button.snp.makeConstraints { make in
