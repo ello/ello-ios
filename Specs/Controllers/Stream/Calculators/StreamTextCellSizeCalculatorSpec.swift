@@ -9,13 +9,12 @@ import Nimble
 
 class StreamTextCellSizeCalculatorSpec: QuickSpec {
     override func spec() {
-        var subject: StreamTextCellSizeCalculator!
+        var webView: MockUIWebView!
         let mockHeight: CGFloat = 50
 
         beforeEach {
-            let webView = MockUIWebView()
+            webView = MockUIWebView()
             webView.mockHeight = mockHeight
-            subject = StreamTextCellSizeCalculator(webView: webView)
         }
 
         describe("StreamTextCellSizeCalculator") {
@@ -28,12 +27,15 @@ class StreamTextCellSizeCalculatorSpec: QuickSpec {
                     StreamCellItem(jsonable: post, type: .text(data: TextRegion(content: ""))),
                     StreamCellItem(jsonable: post, type: .text(data: TextRegion(content: ""))),
                 ]
-                var completed = false
-                subject.processCells(items, withWidth: 100, columnCount: 1) {
-                    completed = true
-                }
-                expect(completed) == true
                 for item in items {
+                    let calculator = item.sizeCalculator(streamKind: .following, width: Globals.windowSize.width, columnCount: 1) as! StreamTextCellSizeCalculator
+                    calculator.webView = webView
+                    
+                    var completed = false
+                    calculator.begin {
+                        completed = true
+                    }
+                    expect(completed) == true
                     expect(item.calculatedCellHeights.oneColumn) == mockHeight
                 }
             }

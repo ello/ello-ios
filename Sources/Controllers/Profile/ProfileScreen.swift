@@ -140,7 +140,7 @@ class ProfileScreen: StreamableScreen, ProfileScreenProtocol {
 
         coverImageView.snp.makeConstraints { make in
             coverImageHeight = make.height.equalTo(Size.whiteTopOffset).constraint
-            make.width.equalTo(coverImageView.snp.height).multipliedBy(ProfileHeaderCellSizeCalculator.ratio)
+            make.width.equalTo(coverImageView.snp.height).multipliedBy(ProfileHeaderAvatarCell.Size.ratio)
             make.top.equalTo(streamContainer.snp.top)
             make.centerX.equalTo(self)
         }

@@ -10,7 +10,7 @@ class ArtistInviteControlsCell: CollectionViewCell, ArtistInviteConfigurableCell
 
     struct Size {
         static let controlsHeight: CGFloat = 130
-        static let loggedOutControlsHeight: CGFloat = 50
+        static let closedControlsHeight: CGFloat = 50
 
         static let margins = UIEdgeInsets(top: 0, left: 15, bottom: 60, right: 15)
         static let submitHeight: CGFloat = 80
@@ -72,7 +72,7 @@ class ArtistInviteControlsCell: CollectionViewCell, ArtistInviteConfigurableCell
 
         let isOpen = config.status == .open
 
-        let showSubmit = config.hasCurrentUser && isOpen
+        let showSubmit = isOpen
         submitVisibleConstraint.set(isActivated: showSubmit)
         submitHiddenConstraint.set(isActivated: !showSubmit)
         submitButton.isVisible = showSubmit

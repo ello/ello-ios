@@ -1,5 +1,5 @@
 ////
-///  ProfileLinksSizeCalculatorSpec.swift
+///  ProfileHeaderLinksSizeCalculatorSpec.swift
 //
 
 @testable import Ello
@@ -7,15 +7,15 @@ import Quick
 import Nimble
 
 
-class ProfileLinksSizeCalculatorSpec: QuickSpec {
+class ProfileHeaderLinksSizeCalculatorSpec: QuickSpec {
     override func spec() {
-        describe("ProfileLinksSizeCalculator") {
+        describe("ProfileHeaderLinksSizeCalculator") {
             it("should return sensible size for zero links") {
                 let user: User = stub([:])
                 user.externalLinksList = []
-                let calc = ProfileLinksSizeCalculator()
+                let calc = ProfileHeaderLinksSizeCalculator()
                 var height: CGFloat?
-                calc.calculate(StreamCellItem(jsonable: user, type: .streamHeader), maxWidth: 375)
+                calc.calculate(StreamCellItem(jsonable: user, type: .streamHeader), width: 375)
                     .done { h in height = h }
                     .catch { _ in }
                 expect(height) == 0
@@ -24,9 +24,9 @@ class ProfileLinksSizeCalculatorSpec: QuickSpec {
             it("should return sensible size for nil links") {
                 let user: User = stub([:])
                 user.externalLinksList = nil
-                let calc = ProfileLinksSizeCalculator()
+                let calc = ProfileHeaderLinksSizeCalculator()
                 var height: CGFloat?
-                calc.calculate(StreamCellItem(jsonable: user, type: .streamHeader), maxWidth: 375)
+                calc.calculate(StreamCellItem(jsonable: user, type: .streamHeader), width: 375)
                     .done { h in height = h }
                     .catch { _ in }
                 expect(height) == 0
@@ -37,9 +37,9 @@ class ProfileLinksSizeCalculatorSpec: QuickSpec {
                     ["url": "http://ello.co", "text": "ello.co"],
                 ]
                 let user: User = stub(["externalLinksList": links])
-                let calc = ProfileLinksSizeCalculator()
+                let calc = ProfileHeaderLinksSizeCalculator()
                 var height: CGFloat?
-                calc.calculate(StreamCellItem(jsonable: user, type: .streamHeader), maxWidth: 375)
+                calc.calculate(StreamCellItem(jsonable: user, type: .streamHeader), width: 375)
                     .done { h in height = h }
                     .catch { _ in }
                 expect(height) == 53
@@ -52,9 +52,9 @@ class ProfileLinksSizeCalculatorSpec: QuickSpec {
                     ["url": "http://ello.co", "text": "ello.co", "icon": "http://social-icons.ello.co/ello.png"],
                 ]
                 let user: User = stub(["externalLinksList": links])
-                let calc = ProfileLinksSizeCalculator()
+                let calc = ProfileHeaderLinksSizeCalculator()
                 var height: CGFloat?
-                calc.calculate(StreamCellItem(jsonable: user, type: .streamHeader), maxWidth: 375)
+                calc.calculate(StreamCellItem(jsonable: user, type: .streamHeader), width: 375)
                     .done { h in height = h }
                     .catch { _ in }
                 expect(height) == 82
@@ -71,9 +71,9 @@ class ProfileLinksSizeCalculatorSpec: QuickSpec {
                     ["url": "http://ello.co", "text": "ello.co", "icon": "http://social-icons.ello.co/ello.png"],
                     ]
                 let user: User = stub(["externalLinksList": links])
-                let calc = ProfileLinksSizeCalculator()
+                let calc = ProfileHeaderLinksSizeCalculator()
                 var height: CGFloat?
-                calc.calculate(StreamCellItem(jsonable: user, type: .streamHeader), maxWidth: 375)
+                calc.calculate(StreamCellItem(jsonable: user, type: .streamHeader), width: 375)
                     .done { h in height = h }
                     .catch { _ in }
                 expect(height) == 198
@@ -86,9 +86,9 @@ class ProfileLinksSizeCalculatorSpec: QuickSpec {
                     ["url": "http://ello.co", "text": "ello.co", "icon": "http://social-icons.ello.co/ello.png"],
                 ]
                 let user: User = stub(["externalLinksList": links])
-                let calc = ProfileLinksSizeCalculator()
+                let calc = ProfileHeaderLinksSizeCalculator()
                 var height: CGFloat?
-                calc.calculate(StreamCellItem(jsonable: user, type: .streamHeader), maxWidth: 375)
+                calc.calculate(StreamCellItem(jsonable: user, type: .streamHeader), width: 375)
                     .done { h in height = h }
                     .catch { _ in }
                 expect(height) == 53
@@ -105,9 +105,9 @@ class ProfileLinksSizeCalculatorSpec: QuickSpec {
                     ["url": "http://ello.co", "text": "ello.co", "icon": "http://social-icons.ello.co/ello.png"],
                     ]
                 let user: User = stub(["externalLinksList": links])
-                let calc = ProfileLinksSizeCalculator()
+                let calc = ProfileHeaderLinksSizeCalculator()
                 var height: CGFloat?
-                calc.calculate(StreamCellItem(jsonable: user, type: .streamHeader), maxWidth: 375)
+                calc.calculate(StreamCellItem(jsonable: user, type: .streamHeader), width: 375)
                     .done { h in height = h }
                     .catch { _ in }
                 expect(height) == 81
@@ -118,9 +118,9 @@ class ProfileLinksSizeCalculatorSpec: QuickSpec {
                     ["url": "http://ello.co", "text": "ello.co", "icon": "http://social-icons.ello.co/ello.png"],
                 ]
                 let user: User = stub(["externalLinksList": links])
-                let calc = ProfileLinksSizeCalculator()
+                let calc = ProfileHeaderLinksSizeCalculator()
                 var height: CGFloat?
-                calc.calculate(StreamCellItem(jsonable: user, type: .streamHeader), maxWidth: 375)
+                calc.calculate(StreamCellItem(jsonable: user, type: .streamHeader), width: 375)
                     .done { h in height = h }
                     .catch { _ in }
                 expect(height) == 49

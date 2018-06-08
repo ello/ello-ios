@@ -23,27 +23,6 @@ protocol ProfileHeaderResponder {
 }
 
 class ProfileHeaderCell: CollectionViewCell {
-    static let reuseIdentifier = "ProfileHeaderCell"
-
-    let headerView = ProfileHeaderCompactView()
-    var calculatedCellHeights: CalculatedCellHeights? {
-        didSet {
-            headerView.calculatedCellHeights = calculatedCellHeights
-        }
-    }
-
-    var avatarView: ProfileAvatarView { return headerView.avatarView }
-    var namesView: ProfileNamesView { return headerView.namesView }
-    var totalCountView: ProfileTotalCountView { return headerView.totalCountView }
-    var badgesView: ProfileBadgesView { return headerView.badgesView }
-    var statsView: ProfileStatsView { return headerView.statsView }
-    var bioView: ProfileBioView { return headerView.bioView }
-    var locationView: ProfileLocationView { return headerView.locationView }
-    var linksView: ProfileLinksView { return headerView.linksView }
-
-    var user: User?
-    var currentUser: User?
-
     var onHeightMismatch: OnCalculatedCellHeightsMismatch?
 
     // this little hack prevents constraints from breaking on initial load
@@ -53,67 +32,10 @@ class ProfileHeaderCell: CollectionViewCell {
         }
     }
 
-    override func style() {
-        backgroundColor = .clear
-        contentView.backgroundColor = .clear
-    }
-
-    override func bindActions() {
-        avatarView.onHeightMismatch = { avatarHeight in
-            guard var calculatedCellHeights = self.calculatedCellHeights else { return }
-            calculatedCellHeights.profileAvatar = avatarHeight
-            self.recalculateHeight(calculatedCellHeights)
-        }
-
-        totalCountView.onHeightMismatch = { totalCountHeight in
-            guard var calculatedCellHeights = self.calculatedCellHeights else { return }
-            calculatedCellHeights.profileTotalCount = totalCountHeight
-            self.recalculateHeight(calculatedCellHeights)
-        }
-
-        bioView.onHeightMismatch = { bioHeight in
-            guard var calculatedCellHeights = self.calculatedCellHeights else { return }
-            calculatedCellHeights.profileBio = bioHeight
-            self.recalculateHeight(calculatedCellHeights)
-        }
-
-        linksView.onHeightMismatch = { linkHeight in
-            guard var calculatedCellHeights = self.calculatedCellHeights else { return }
-            calculatedCellHeights.profileLinks = linkHeight
-            self.recalculateHeight(calculatedCellHeights)
-        }
-
-        locationView.onHeightMismatch = { linkHeight in
-            guard var calculatedCellHeights = self.calculatedCellHeights else { return }
-            calculatedCellHeights.profileLocation = linkHeight
-            self.recalculateHeight(calculatedCellHeights)
-        }
-    }
-
-    override func arrange() {
-        contentView.addSubview(headerView)
-
-        headerView.snp.makeConstraints { make in
-            make.edges.equalTo(self.contentView)
-        }
-    }
-
-    override func prepareForReuse() {
-        onHeightMismatch = nil
-
-        avatarView.prepareForReuse()
-        statsView.prepareForReuse()
-        totalCountView.prepareForReuse()
-        namesView.prepareForReuse()
-        bioView.prepareForReuse()
-        locationView.prepareForReuse()
-        linksView.prepareForReuse()
-    }
-
-    private func recalculateHeight(_ _calculatedCellHeights: CalculatedCellHeights) {
-        var calculatedCellHeights = _calculatedCellHeights
-        calculatedCellHeights.oneColumn = ProfileHeaderCellSizeCalculator.calculateHeightFromCellHeights(calculatedCellHeights)
-        self.calculatedCellHeights = calculatedCellHeights
+    func heightMismatchOccurred(_ height: CGFloat) {
+        var calculatedCellHeights = CalculatedCellHeights()
+        calculatedCellHeights.oneColumn = height
+        calculatedCellHeights.multiColumn = height
         onHeightMismatch?(calculatedCellHeights)
     }
 }

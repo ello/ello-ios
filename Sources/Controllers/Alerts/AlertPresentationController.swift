@@ -70,7 +70,7 @@ extension AlertPresentationController {
     @objc
     func dismiss() {
         let alertViewController = presentedViewController as? AlertViewController
-        guard (alertViewController?.isDismissable ?? true) else { return }
+        guard alertViewController?.isDismissable ?? true else { return }
 
         presentedViewController.dismiss(animated: true, completion: nil)
     }

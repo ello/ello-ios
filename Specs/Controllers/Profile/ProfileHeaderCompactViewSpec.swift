@@ -12,14 +12,14 @@ class ProfileHeaderCompactViewSpec: QuickSpec {
     override func spec() {
         describe("ProfileHeaderCompactView") {
             let width: CGFloat = 375
-            let avatarHeight: CGFloat = ProfileAvatarSizeCalculator.calculateHeight(maxWidth: width)
-            let statsHeight: CGFloat = ProfileStatsView.Size.height
+            let avatarHeight: CGFloat = ProfileHeaderAvatarCell.Size.calculateHeight(width: width)
+            let statsHeight: CGFloat = ProfileHeaderStatsCell.Size.height
             let namesHeight: CGFloat = 75
 
             let defaultBioHeight: CGFloat = 50
-            let defaultLocationHeight: CGFloat = ProfileLocationView.Size.height
+            let defaultLocationHeight: CGFloat = ProfileHeaderLocationCell.Size.height
             let defaultLinksHeight: CGFloat = 100
-            let defaultCountHeight: CGFloat = ProfileTotalCountView.Size.height
+            let defaultCountHeight: CGFloat = ProfileHeaderTotalCountAndBadgesCell.Size.height
 
             let expectations: [(String, bioHeight: CGFloat, locationHeight: CGFloat, linksHeight: CGFloat, hasTotal: Bool, hasBadges: Bool)] = [
                 ("no bio", bioHeight: 0, locationHeight: defaultLocationHeight, linksHeight: defaultLinksHeight, hasTotal: true, hasBadges: true),
@@ -70,7 +70,7 @@ class ProfileHeaderCompactViewSpec: QuickSpec {
                     let size = CGSize(width: width, height: totalHeight)
                     cell.frame.size = size
                     // we need to force the cell to layout so that view bounds are calculated before configure is called
-                    // (ProfileLinksView needs bounds.width > 0)
+                    // (ProfileHeaderLinksCell needs bounds.width > 0)
                     prepareForSnapshot(cell, size: size)
 
                     ProfileHeaderCellPresenter.configure(cell,

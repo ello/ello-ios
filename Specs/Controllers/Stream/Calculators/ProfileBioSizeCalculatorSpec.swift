@@ -1,5 +1,5 @@
 ////
-///  ProfileBioSizeCalculatorSpec.swift
+///  ProfileHeaderBioSizeCalculatorSpec.swift
 //
 
 @testable import Ello
@@ -7,16 +7,16 @@ import Quick
 import Nimble
 
 
-class ProfileBioSizeCalculatorSpec: QuickSpec {
+class ProfileHeaderBioSizeCalculatorSpec: QuickSpec {
     override func spec() {
-        describe("ProfileBioSizeCalculator") {
+        describe("ProfileHeaderBioSizeCalculator") {
             it("should return sensible size for an empty bio") {
                 let user: User = stub([
                     "formattedShortBio": "",
                 ])
-                let calc = ProfileBioSizeCalculator()
+                let calc = ProfileHeaderBioSizeCalculator()
                 var height: CGFloat?
-                calc.calculate(StreamCellItem(jsonable: user, type: .streamHeader), maxWidth: 320)
+                calc.calculate(StreamCellItem(jsonable: user, type: .streamHeader), width: 320)
                     .done { h in height = h }
                     .catch { _ in }
                 expect(height) == 0
@@ -25,9 +25,9 @@ class ProfileBioSizeCalculatorSpec: QuickSpec {
             it("should return sensible size for a nil bio") {
                 let user: User = stub([:])
                 user.formattedShortBio = nil
-                let calc = ProfileBioSizeCalculator()
+                let calc = ProfileHeaderBioSizeCalculator()
                 var height: CGFloat?
-                calc.calculate(StreamCellItem(jsonable: user, type: .streamHeader), maxWidth: 320)
+                calc.calculate(StreamCellItem(jsonable: user, type: .streamHeader), width: 320)
                     .done { h in height = h }
                     .catch { _ in }
                 expect(height) == 0
@@ -37,9 +37,9 @@ class ProfileBioSizeCalculatorSpec: QuickSpec {
                 let user: User = stub([
                     "formattedShortBio": "<p>bio</p>",
                 ])
-                let calc = ProfileBioSizeCalculator()
+                let calc = ProfileHeaderBioSizeCalculator()
                 var height: CGFloat?
-                calc.calculate(StreamCellItem(jsonable: user, type: .streamHeader), maxWidth: 320)
+                calc.calculate(StreamCellItem(jsonable: user, type: .streamHeader), width: 320)
                     .done { h in height = h }
                     .catch { _ in }
                 expect(height).toEventually(beGreaterThan(40))

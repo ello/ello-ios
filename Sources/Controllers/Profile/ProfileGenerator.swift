@@ -25,9 +25,8 @@ final class ProfileGenerator: StreamGenerator {
     func headerItems() -> [StreamCellItem] {
         guard let user = user else { return [] }
 
-        var items = [
-            StreamCellItem(jsonable: user, type: .profileHeader),
-        ]
+        let parser = StreamCellItemParser()
+        var items = parser.userProfileItems(user)
         if hasPosts != false {
             items += [
                 StreamCellItem(jsonable: user, type: .fullWidthSpacer(height: 5))
