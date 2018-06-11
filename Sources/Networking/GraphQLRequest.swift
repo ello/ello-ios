@@ -14,16 +14,16 @@ class GraphQLRequest<T>: AuthenticationEndpoint {
     var requiresAnyToken: Bool = true
     var supportsAnonymousToken: Bool = true
 
-    var endpointName: String
-    var parser: ((JSON) throws -> T)
-    var variables: [GQLVariable]
-    var fragments: [Fragments]
-    var body: Fragments
-
-    var manager: RequestManager
+    let endpointName: String
+    let parser: ((JSON) throws -> T)
+    let variables: [GQLVariable]
+    let fragments: [Fragments]
+    let body: Fragments
+    let manager: RequestManager
 
     private var url: URL { return URL(string: "\(ElloURI.baseURL)/api/v3/graphql")! }
     private var uuid: UUID!
+    private var memoHttpBody: Data?
 
     init(endpointName: String, parser: @escaping ((JSON) throws -> T), variables: [GQLVariable] = [], body: Fragments) {
         self.endpointName = endpointName
@@ -79,7 +79,8 @@ class GraphQLRequest<T>: AuthenticationEndpoint {
         urlRequest.allHTTPHeaderFields = headers()
 
         do {
-            urlRequest.httpBody = try httpBody()
+            let httpBody = try self.httpBody()
+            urlRequest.httpBody = httpBody
 
             let task = manager.request(urlRequest, sender: self) { response in
                 if let data = response.data, let statusCode = response.response?.statusCode {
@@ -136,6 +137,13 @@ class GraphQLRequest<T>: AuthenticationEndpoint {
 
     private func handleServerError(data: Data, statusCode: Int, reject: (Error) -> Void) {
         let elloError = ElloProvider.generateElloError(data, statusCode: statusCode)
+
+        if let string = String(data: data, encoding: .utf8), let httpBody = try? httpBody() {
+            print("--------------------------------------------")
+            print("body: \(String(data: httpBody, encoding: .utf8) ?? "---")")
+            print("error: \(string)")
+        }
+
         reject(elloError)
     }
 
@@ -190,6 +198,10 @@ extension GraphQLRequest {
     }
 
     private func httpBody() throws -> Data {
+        if let memoHttpBody = memoHttpBody {
+            return memoHttpBody
+        }
+
         var query = ""
 
         if fragments.count > 0 {
