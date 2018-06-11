@@ -257,8 +257,7 @@ extension BaseElloViewController: UserTappedResponder {
         {
             let param = profileVC.userParam
             if param.hasPrefix("~") {
-                let usernamePart = param[param.index(after: param.startIndex)...]
-                return user.username == usernamePart
+                return user.username == param.dropFirst()
             }
             else {
                 return user.id == profileVC.userParam

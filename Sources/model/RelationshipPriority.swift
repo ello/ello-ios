@@ -20,12 +20,15 @@ enum RelationshipPriority: String {
 
     static let all = [following, block, mute, inactive, none, null, me]
 
-    init(stringValue: String) {
+    init(stringValue: String?) {
         if stringValue == "noise" {
             self = .following
         }
-        else {
+        else if let stringValue = stringValue {
             self = RelationshipPriority(rawValue: stringValue) ?? .none
+        }
+        else {
+            self = .null
         }
     }
 

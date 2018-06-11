@@ -12,9 +12,6 @@ extension ElloProvider {
         {
             elloNetworkError = Mapper.mapToObject(node, type: .errorType) as? ElloNetworkError
         }
-        else if let string = String(data: data, encoding: .utf8) {
-            print("error: \(string)")
-        }
 
         let errorCodeType: ElloErrorCode = statusCode.map { .statusCode($0) } ?? .data
         return NSError.networkError(elloNetworkError, code: errorCodeType)

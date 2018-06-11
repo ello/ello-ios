@@ -14,7 +14,7 @@ class UserParser: IdParser {
     }
 
     override func parse(json: JSON) -> User {
-        let relationshipPriority = RelationshipPriority(stringValue: json["currentUserState"]["relationshipPriority"].stringValue)
+        let relationshipPriority = RelationshipPriority(stringValue: json["currentUserState"]["relationshipPriority"].string)
 
         let user = User(
             id: json["id"].stringValue,
@@ -37,7 +37,6 @@ class UserParser: IdParser {
         // user.identifiableBy = json["identifiable_by"].string
         user.formattedShortBio = json["formattedShortBio"].string
         // user.onboardingVersion = json["web_onboarding_version"].id.flatMap { Int($0) }
-        user.totalViewsCount = json["stats"]["totalViewsCount"].int
         user.location = json["location"].string
 
         if let jsonLinks = json["externalLinksList"].array {
@@ -50,13 +49,10 @@ class UserParser: IdParser {
                 .compactMap { Badge.lookup(slug: $0) }
         }
 
-        if relationshipPriority == .me, json["profile"].exists() {
-            user.profile = ProfileParser().parse(json: json["profile"]) as? Profile
-        }
-
+        user.totalViewsCount = json["userStats"]["totalViewsCount"].int
         user.postsCount = json["userStats"]["postsCount"].int
         user.lovesCount = json["userStats"]["lovesCount"].int
-        user.followersCount = json["userStats"]["followersCount"].string
+        user.followersCount = json["userStats"]["followersCount"].int.map { "\($0)" }
         user.followingCount = json["userStats"]["followingCount"].int
 
         user.mergeLinks(json["links"].dictionaryObject)

@@ -122,6 +122,31 @@ struct Fragments: Equatable {
         }
         """, needs: [postSummary, categoryPostActions])
 
+    static let userDetails = Fragments("""
+        fragment userDetails on User {
+          id
+          username
+          name
+          formattedShortBio
+          location
+          badges
+          externalLinksList { url text icon }
+          # isCommunity
+          userStats { totalViewsCount postsCount lovesCount followersCount followingCount }
+          currentUserState { relationshipPriority }
+          settings {
+            hasCommentingEnabled hasLovesEnabled hasRepostingEnabled hasSharingEnabled
+            isCollaborateable isHireable
+          }
+          avatar {
+            ...tshirtProps
+          }
+          coverImage {
+            ...responsiveProps
+          }
+        }
+        """, needs: [tshirtProps, responsiveProps])
+
     //|
     //|  REQUEST BODIES
     //|
@@ -161,6 +186,9 @@ struct Fragments: Equatable {
     static let postBody = Fragments("""
         ...postDetails
         """, needs: [postDetails])
+    static let userBody = Fragments("""
+        ...userDetails
+        """, needs: [userDetails])
 
     let string: String
     let needs: [Fragments]

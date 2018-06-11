@@ -29,7 +29,6 @@ final class ProfileViewController: StreamableViewController {
     var headerItems: [StreamCellItem]?
     var userParam: String
     var coverImageHeightStart: CGFloat?
-    let initialStreamKind: StreamKind
     var currentUserChangedNotification: NotificationObserver?
     var relationshipChangedNotification: NotificationObserver?
     var deeplinkPath: String?
@@ -38,7 +37,6 @@ final class ProfileViewController: StreamableViewController {
 
     init(userParam: String, username: String? = nil) {
         self.userParam = userParam
-        self.initialStreamKind = .userStream(userParam: self.userParam)
         super.init(nibName: nil, bundle: nil)
 
         if let username = username {
@@ -65,7 +63,6 @@ final class ProfileViewController: StreamableViewController {
         // this user must have the profile property assigned (since it is currentUser)
         user = currentUser
         userParam = currentUser.id
-        initialStreamKind = .userStream(userParam: currentUser.id)
         super.init(nibName: nil, bundle: nil)
 
         self.currentUser = currentUser
@@ -77,7 +74,7 @@ final class ProfileViewController: StreamableViewController {
     }
 
     private func sharedInit() {
-        streamViewController.streamKind = initialStreamKind
+        streamViewController.streamKind = .userStream(userParam: userParam)
         streamViewController.initialLoadClosure = { [weak self] in self?.loadProfile() }
         streamViewController.reloadClosure = { [weak self] in self?.reloadEntireProfile() }
         streamViewController.toggleClosure = { [weak self] isGridView in self?.toggleGrid(isGridView) }
@@ -86,7 +83,6 @@ final class ProfileViewController: StreamableViewController {
             currentUser: currentUser,
             userParam: userParam,
             user: user,
-            streamKind: initialStreamKind,
             destination: self
         )
     }

@@ -151,10 +151,22 @@ struct API {
             endpointName: "post",
             parser: OneParser<Post>(PostParser()).parse,
             variables: [
-                token.variable,
+                token.toVariable(token: "token"),
                 .optionalString("username", username),
             ],
             body: Fragments.postBody
+        )
+        return request
+    }
+
+    func userDetail(token: Token) -> GraphQLRequest<User> {
+        let request = GraphQLRequest(
+            endpointName: "findUser",
+            parser: OneParser<User>(UserParser()).parse,
+            variables: [
+                token.toVariable(token: "username")
+            ],
+            body: Fragments.userBody
         )
         return request
     }
