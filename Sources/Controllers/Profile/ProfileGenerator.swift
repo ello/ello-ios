@@ -134,7 +134,8 @@ extension ProfileGenerator {
         guard !doneOperation.isFinished || user?.hasProfileData == false || reload else { return }
 
         // load the user with no posts
-        UserService().loadUser(streamKind.endpoint)
+        API().userDetail(token: .fromParam(userParam))
+            .execute()
             .done { user in
                 guard self.loadingToken.isValidInitialPageLoadingToken(self.localToken) else { return }
 
