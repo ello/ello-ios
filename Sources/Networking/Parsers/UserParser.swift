@@ -14,7 +14,7 @@ class UserParser: IdParser {
     }
 
     override func parse(json: JSON) -> User {
-        let relationshipPriority = RelationshipPriority(stringValue: json["currentUserState"]["relationshipPriority"].stringValue)
+        let relationshipPriority = RelationshipPriority(stringValue: json["currentUserState"]["relationshipPriority"].string)
 
         let user = User(
             id: json["id"].stringValue,
