@@ -142,16 +142,8 @@ private extension PostDetailGenerator {
     func loadPost(_ doneOperation: AsyncOperation, reload: Bool = false) {
         guard !doneOperation.isFinished || reload else { return }
 
-        let postToken: Token
-        if postParam.hasPrefix("~") {
-            postToken = .slug(String(postParam.dropFirst()))
-        }
-        else {
-            postToken = .id(postParam)
-        }
-
         let username = post?.author?.username
-        API().postDetail(token: postToken, username: username)
+        API().postDetail(token: .fromParam(postParam), username: username)
             .execute()
             .done { post in
                 guard self.loadingToken.isValidInitialPageLoadingToken(self.localToken) else { return }

@@ -6,6 +6,15 @@ enum Token {
     case id(String)
     case slug(String)
 
+    static func fromParam(_ param: String) -> Token {
+        if param.hasPrefix("~") {
+            return .slug(String(param.dropFirst()))
+        }
+        else {
+            return .id(param)
+        }
+    }
+
     func matches(id matchId: String, slug matchSlug: String) -> Bool {
         switch self {
         case let .id(id): return id == matchId
