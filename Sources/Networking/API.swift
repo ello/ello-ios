@@ -151,7 +151,7 @@ struct API {
             endpointName: "post",
             parser: OneParser<Post>(PostParser()).parse,
             variables: [
-                token.variable,
+                token.toVariable(token: "token"),
                 .optionalString("username", username),
             ],
             body: Fragments.postBody
