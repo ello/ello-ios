@@ -2648,12 +2648,8 @@
 		122B18CC1A867BCE00247A05 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
-				1D2F65AB1D186E7A0099D036 /* CategoryCardCell.swift */,
-				1DE0F08820C07EC400AAD63F /* CategoryHeaderCell.swift */,
-				1DE83C1A20AE0BF6009109E6 /* CategoryPostHistoryCell.swift */,
 				1D2896521FA25CBD004661C1 /* CommentHeaderCell.swift */,
 				1DB8C6B01D7F1BE4007E1447 /* DismissableCell.swift */,
-				1D8783121ECCF45100253602 /* Editorials */,
 				128D36BB1A952E3E00622833 /* ElloPostToolBarOption.swift */,
 				1D7152951D6CBE0E005998FE /* NoPostsCell.swift */,
 				1D88E329206ACDC000B496F0 /* PostFeaturedControlCell.swift */,
@@ -2795,6 +2791,8 @@
 				12431FF51DBAA7B2006808D4 /* CategoryProtocols.swift */,
 				12431FF31DBAA6E4006808D4 /* CategoryScreen.swift */,
 				12431FF11DBAA6D3006808D4 /* CategoryViewController.swift */,
+				1D66A14020D4270B00113C2B /* Cells */,
+				1D66A14120D4271400113C2B /* Presenters */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -2925,9 +2923,6 @@
 			isa = PBXGroup;
 			children = (
 				1D70DE6F1DF77D66008AF216 /* AnnouncementCellPresenter.swift */,
-				1D2F65AD1D186E7F0099D036 /* CategoryCardCellPresenter.swift */,
-				1DE0F08A20C07ECF00AAD63F /* CategoryHeaderCellPresenter.swift */,
-				1DE83C1C20AE0F8E009109E6 /* CategoryPostHistoryPresenter.swift */,
 				1D2896541FA2640E004661C1 /* CommentHeaderCellPresenter.swift */,
 				1D9309DB1EC134A20099FCF8 /* EditorialCellPresenter.swift */,
 				1DF490901FD0A1A900C0ACAC /* LoadingCellPresenter.swift */,
@@ -3755,6 +3750,11 @@
 		1D14B45E20CADC63000D5386 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				1DDC23411F32250600E68B0E /* ArtistInviteAdminControlsCell.swift */,
+				1DC78A5A1F2161E900BE2413 /* ArtistInviteBubbleCell.swift */,
+				1D7E823E1F2692D3006ACE7A /* ArtistInviteControlsCell.swift */,
+				1D7E82401F2692D3006ACE7A /* ArtistInviteGuideCell.swift */,
+				1D7E82491F2BCB9E006ACE7A /* ArtistInviteSubmissionsButtonCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -3762,6 +3762,8 @@
 		1D14B45F20CADC71000D5386 /* Presenters */ = {
 			isa = PBXGroup;
 			children = (
+				1DDC23421F32250600E68B0E /* ArtistInviteAdminControlsPresenter.swift */,
+				1DDC23431F32250600E68B0E /* ArtistInviteCellPresenter.swift */,
 			);
 			path = Presenters;
 			sourceTree = "<group>";
@@ -3769,6 +3771,7 @@
 		1D14B46020CADC7B000D5386 /* Calculators */ = {
 			isa = PBXGroup;
 			children = (
+				1D313F651F264BB200953EE2 /* ArtistInviteCellSizeCalculator.swift */,
 			);
 			path = Calculators;
 			sourceTree = "<group>";
@@ -3808,7 +3811,6 @@
 			isa = PBXGroup;
 			children = (
 				1D70DE6D1DF73ACB008AF216 /* AnnouncementCellSizeCalculator.swift */,
-				1D313F651F264BB200953EE2 /* ArtistInviteCellSizeCalculator.swift */,
 				1D7672E720C9CFA70057E03F /* CellSizeCalculator.swift */,
 				1D70DE621DF730C1008AF216 /* PromotionalHeaderCellSizeCalculator.swift */,
 				1D70DE631DF730C1008AF216 /* StreamImageCellSizeCalculator.swift */,
@@ -3950,6 +3952,26 @@
 			path = Specs/Views;
 			sourceTree = SOURCE_ROOT;
 		};
+		1D66A14020D4270B00113C2B /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				1D2F65AB1D186E7A0099D036 /* CategoryCardCell.swift */,
+				1DE0F08820C07EC400AAD63F /* CategoryHeaderCell.swift */,
+				1DE83C1A20AE0BF6009109E6 /* CategoryPostHistoryCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		1D66A14120D4271400113C2B /* Presenters */ = {
+			isa = PBXGroup;
+			children = (
+				1D2F65AD1D186E7F0099D036 /* CategoryCardCellPresenter.swift */,
+				1DE0F08A20C07ECF00AAD63F /* CategoryHeaderCellPresenter.swift */,
+				1DE83C1C20AE0F8E009109E6 /* CategoryPostHistoryPresenter.swift */,
+			);
+			path = Presenters;
+			sourceTree = "<group>";
+		};
 		1D6D8E6A1EF2ED2F00472434 /* Home */ = {
 			isa = PBXGroup;
 			children = (
@@ -4024,13 +4046,6 @@
 				1D76730E20C9E0B10057E03F /* ProfileHeaderTotalCountAndBadgesPresenterSpec.swift */,
 			);
 			path = Presenters;
-			sourceTree = "<group>";
-		};
-		1D8783121ECCF45100253602 /* Editorials */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Editorials;
 			sourceTree = "<group>";
 		};
 		1D9309CF1EC109170099FCF8 /* Editorials */ = {
@@ -4131,28 +4146,21 @@
 		1DC78A4E1F21300800BE2413 /* ArtistInvites */ = {
 			isa = PBXGroup;
 			children = (
-				1D14B46020CADC7B000D5386 /* Calculators */,
-				1D14B45F20CADC71000D5386 /* Presenters */,
-				1D14B45E20CADC63000D5386 /* Cells */,
 				1DDC23371F30EB2D00E68B0E /* ArtistInviteAdminController.swift */,
-				1DDC23411F32250600E68B0E /* ArtistInviteAdminControlsCell.swift */,
-				1DDC23421F32250600E68B0E /* ArtistInviteAdminControlsPresenter.swift */,
 				1DDC23381F30EB2D00E68B0E /* ArtistInviteAdminGenerator.swift */,
 				1DDC233F1F3115A200E68B0E /* ArtistInviteAdminScreen.swift */,
-				1DC78A5A1F2161E900BE2413 /* ArtistInviteBubbleCell.swift */,
-				1DDC23431F32250600E68B0E /* ArtistInviteCellPresenter.swift */,
-				1D7E823E1F2692D3006ACE7A /* ArtistInviteControlsCell.swift */,
 				1D313F6F1F267FCF00953EE2 /* ArtistInviteDetailController.swift */,
 				1D7E823A1F26885D006ACE7A /* ArtistInviteDetailGenerator.swift */,
 				1D447E7E1F38DB7D00013384 /* ArtistInviteDetailScreen.swift */,
-				1D7E82401F2692D3006ACE7A /* ArtistInviteGuideCell.swift */,
 				1D7E823F1F2692D3006ACE7A /* ArtistInviteHeaderCell.swift */,
 				1DC78A4F1F21302300BE2413 /* ArtistInvitesGenerator.swift */,
 				1DC78A501F21302300BE2413 /* ArtistInvitesProtocols.swift */,
 				1DC78A511F21302300BE2413 /* ArtistInvitesScreen.swift */,
-				1D7E82491F2BCB9E006ACE7A /* ArtistInviteSubmissionsButtonCell.swift */,
 				1D447E791F38D6CD00013384 /* ArtistInviteSubmissionSuccessScreen.swift */,
 				1DC78A521F21302300BE2413 /* ArtistInvitesViewController.swift */,
+				1D14B46020CADC7B000D5386 /* Calculators */,
+				1D14B45E20CADC63000D5386 /* Cells */,
+				1D14B45F20CADC71000D5386 /* Presenters */,
 			);
 			path = ArtistInvites;
 			sourceTree = "<group>";
