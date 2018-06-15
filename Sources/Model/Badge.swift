@@ -28,6 +28,10 @@ final class Badge: Model {
         }
     }
 
+    static func lookup(slug: String) -> Badge? {
+        return Badge.badges[slug]
+    }
+
     init(badge: Badge, categories: [Category]?) {
         self.slug = badge.slug
         self.name = badge.name
@@ -52,10 +56,6 @@ final class Badge: Model {
         self.imageURL = imageURL
         self.categories = nil
         super.init(version: BadgeVersion)
-    }
-
-    static func lookup(slug: String) -> Badge? {
-        return Badge.badges[slug]
     }
 
     required init(coder: NSCoder) {
