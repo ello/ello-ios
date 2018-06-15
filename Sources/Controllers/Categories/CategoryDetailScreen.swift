@@ -8,11 +8,16 @@ import SnapKit
 class CategoryDetailScreen: Screen {
     struct Size {
         static let defaultMargin: CGFloat = 10
+        static let closeButtonMargin: CGFloat = calculateButtonMargin()
         static let lineMargin: CGFloat = 10
         static let closeSize: CGFloat = 30
         static let textSideMargin: CGFloat = 15
         static let sectionSpacing: CGFloat = 35
         static let lineHeight: CGFloat = 1
+
+        static func calculateButtonMargin() -> CGFloat {
+            return Globals.isIphoneX ? 20 : 10
+        }
     }
 
     struct Config {
@@ -111,8 +116,8 @@ class CategoryDetailScreen: Screen {
         curatorsContainer.addSubview(curatorsLine)
 
         closeButton.snp.makeConstraints { make in
-            make.trailing.top.equalTo(self).inset(Size.defaultMargin)
-            make.width.height.equalTo(Size.closeSize)
+            make.top.trailing.equalTo(self).inset(Size.closeButtonMargin)
+            make.size.equalTo(Size.closeSize)
         }
 
         scrollView.snp.makeConstraints { make in

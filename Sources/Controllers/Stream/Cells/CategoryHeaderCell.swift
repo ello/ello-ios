@@ -21,7 +21,7 @@ class CategoryHeaderCell: CollectionViewCell {
         static let height = calculateHeight()
         static let defaultMargin: CGFloat = 10
         static let titleMargin: CGFloat = 15
-        static let subscribeIconSpacing: CGFloat = 0
+        static let subscribeIconWidth: CGFloat = 20
         static let subscribeIconVerticalOffset: CGFloat = -20
 
         static private func calculateHeight() -> CGFloat {
@@ -32,7 +32,7 @@ class CategoryHeaderCell: CollectionViewCell {
 
     private let imageView = FLAnimatedImageView()
     private let imageOverlay = UIView()
-    private let titleLabel = StyledLabel(style: .categoryHeader)
+    private let titleLabel = StyledLabel(style: .categoryHeaderScaledUp)
     private let subscribedIcon = UIImageView()
     private let postedByAvatar = AvatarButton()
     private let infoButton = StyledButton(style: .categoryInfo)
@@ -48,7 +48,10 @@ class CategoryHeaderCell: CollectionViewCell {
         infoButton.title = InterfaceString.Info
         infoButton.contentEdgeInsets = UIEdgeInsets(tops: 10, sides: 20)
         infoButton.isUserInteractionEnabled = false
-        titleLabel.numberOfLines = 0
+        titleLabel.numberOfLines = 1
+        titleLabel.adjustsFontSizeToFitWidth = true
+        titleLabel.minimumScaleFactor = 0.25
+        titleLabel.baselineAdjustment = .alignCenters
         imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFill
         imageOverlay.backgroundColor = UIColor.black.withAlphaComponent(0.4)
@@ -63,7 +66,6 @@ class CategoryHeaderCell: CollectionViewCell {
         contentView.addSubview(circle)
         contentView.addSubview(failBackgroundView)
         contentView.addSubview(failImage)
-
         contentView.addSubview(imageView)
         contentView.addSubview(imageOverlay)
         contentView.addSubview(titleLabel)
@@ -93,12 +95,15 @@ class CategoryHeaderCell: CollectionViewCell {
 
         titleLabel.snp.makeConstraints { make in
             make.leading.equalTo(contentView).inset(Size.titleMargin)
-            make.trailing.lessThanOrEqualTo(contentView).inset(Size.titleMargin)
+            make.trailing.lessThanOrEqualTo(contentView).inset(Size.titleMargin + Size.subscribeIconWidth).priority(Priority.required)
             make.centerY.equalTo(contentView)
+
+            make.top.greaterThanOrEqualTo(contentView).offset(Size.titleMargin).priority(Priority.required)
+            make.bottom.lessThanOrEqualTo(contentView).offset(-Size.titleMargin).priority(Priority.required)
         }
 
         subscribedIcon.snp.makeConstraints { make in
-            make.leading.equalTo(titleLabel.snp.trailing).offset(-Size.subscribeIconSpacing)
+            make.leading.equalTo(titleLabel.snp.trailing)
             make.centerY.equalTo(titleLabel).offset(Size.subscribeIconVerticalOffset)
         }
 

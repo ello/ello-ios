@@ -90,6 +90,7 @@ class CategoryDismissAnimation: CategoryAnimation, UIViewControllerAnimatedTrans
         let categoryView = categoryViewInfo?.view
 
         let containerView = transitionContext.containerView
+        fromVC.view.isHidden = true
 
         if let categoryView = categoryView {
             containerView.addSubview(categoryView)
@@ -99,16 +100,17 @@ class CategoryDismissAnimation: CategoryAnimation, UIViewControllerAnimatedTrans
 
         if let categoryCell = categoryCell, let frame = categoryCellFrame {
             containerView.addSubview(categoryCell)
-            categoryCell.alpha = 0
             categoryCell.frame.origin = .zero
             categoryCell.frame.size = frame.size
         }
 
+        categoryCell?.alpha = 0
+
         animate(duration: transitionDuration) {
-            fromVC.view.alpha = 0
-            if let categoryCell = categoryCell, let frame = categoryCellFrame {
-                categoryCell.alpha = 1
-                categoryCell.frame.origin = frame.origin
+            categoryCell?.alpha = 1
+
+            if let frame = categoryCellFrame {
+                categoryCell?.frame.origin = frame.origin
                 categoryView?.frame = frame
             }
         }.done {

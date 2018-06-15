@@ -11,7 +11,7 @@ class CategoryDetailHeaderView: View {
         static let height = calculateHeight()
         static let defaultMargin: CGFloat = 10
         static let textSpacing: CGFloat = 3
-        static let titleTopMargin: CGFloat = 22
+        static let titleTopMargin: CGFloat = calculateTopMargin()
         static let textSideMargin: CGFloat = 15
         static let subscribeTopMargin: CGFloat = 10
         static let avatarMargin: CGFloat = 10
@@ -19,6 +19,10 @@ class CategoryDetailHeaderView: View {
         static private func calculateHeight() -> CGFloat {
             let aspect: CGFloat = 375.0 / 280.0
             return Globals.windowSize.width / aspect
+        }
+
+        static private func calculateTopMargin() -> CGFloat {
+            return Globals.isIphoneX ? Globals.statusBarHeight : 22
         }
     }
 
@@ -38,7 +42,7 @@ class CategoryDetailHeaderView: View {
 
     private let imageView = FLAnimatedImageView()
     private let imageOverlay = UIView()
-    private let titleLabel = StyledLabel(style: .categoryHeader)
+    private let titleLabel = StyledLabel(style: .categoryHeaderScaledUp)
     private let subscribedButton = StyledButton(style: .subscribePill)
     private let headerByLabel = StyledLabel(style: .smallWhite)
     private let usernameButton = StyledButton(style: .smallWhiteUnderlined)
@@ -65,7 +69,10 @@ class CategoryDetailHeaderView: View {
 
     override func style() {
         clipsToBounds = true
-        titleLabel.numberOfLines = 0
+        titleLabel.numberOfLines = 1
+        titleLabel.adjustsFontSizeToFitWidth = true
+        titleLabel.minimumScaleFactor = 0.25
+        titleLabel.baselineAdjustment = .alignCenters
         subscribedButton.contentEdgeInsets = UIEdgeInsets(top: 7, left: 5, bottom: 7, right: 15)
         subscribedButton.titleEdgeInsets = UIEdgeInsets(top: 2)
         subscribedButton.imageEdgeInsets = UIEdgeInsets(top: 2)
