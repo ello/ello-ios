@@ -8,12 +8,11 @@ class NestedTabBarView: View {
         static let tabSpacing: CGFloat = 1
         static let margins = UIEdgeInsets(top: 5, left: 15, bottom: 15, right: 15)
         static let buttonHeight: CGFloat = 40
-        static let lineThickness: CGFloat = 1
     }
 
     class Tab {
         fileprivate let button = StyledButton(style: .clearGray)
-        fileprivate let line = UIView()
+        fileprivate let line = Line()
 
         static func == (lhs: Tab, rhs: Tab) -> Bool {
             return lhs.button == rhs.button
@@ -107,7 +106,6 @@ class NestedTabBarView: View {
 
             tab.line.snp.makeConstraints { make in
                 make.leading.trailing.bottom.equalTo(tab.button)
-                make.height.equalTo(Size.lineThickness)
             }
         }
 

@@ -14,7 +14,7 @@ class SearchTextField: UITextField {
             }
         }
     }
-    private var line = UIView()
+    private var line = Line()
 
     override required init(frame: CGRect) {
         super.init(frame: frame)
@@ -45,7 +45,6 @@ class SearchTextField: UITextField {
         line.snp.makeConstraints { make in
             make.leading.trailing.equalTo(self)
             make.bottom.equalTo(self).offset(-10)
-            make.height.equalTo(1)
         }
     }
 

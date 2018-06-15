@@ -12,7 +12,6 @@ class DrawerCell: TableViewCell {
         static let height: CGFloat = 60
         static let spacerHeight: CGFloat = 20
         static let inset = UIEdgeInsets(sides: 15)
-        static let lineHeight: CGFloat = 1
     }
 
     enum Style {
@@ -40,7 +39,7 @@ class DrawerCell: TableViewCell {
 
     private let label = StyledLabel(style: .white)
     private let logoView = UIImageView()
-    private let line = UIView()
+    private let line = Line()
     private var hasImageConstraint: Constraint!
     private var noImageConstraint: Constraint!
 
@@ -73,7 +72,6 @@ class DrawerCell: TableViewCell {
 
         line.snp.makeConstraints { make in
             make.bottom.leading.trailing.equalTo(self)
-            make.height.equalTo(Size.lineHeight)
         }
     }
 

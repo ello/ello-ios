@@ -475,7 +475,7 @@ extension SettingsScreen {
         let label = StyledLabel(style: .largeBold)
         label.text = settings.label
 
-        let line = UIView()
+        let line = Line()
         line.backgroundColor = .greyF2
 
         let chevron = UIImageView()
@@ -485,6 +485,7 @@ extension SettingsScreen {
         view.addSubview(label)
         view.addSubview(line)
         view.addSubview(chevron)
+
         label.snp.makeConstraints { make in
             make.leading.equalTo(view).inset(Size.defaultMargin)
             make.centerY.equalTo(view)
@@ -492,7 +493,6 @@ extension SettingsScreen {
         line.snp.makeConstraints { make in
             make.leading.trailing.equalTo(view).inset(Size.defaultMargin)
             make.bottom.equalTo(view)
-            make.height.equalTo(1)
         }
         chevron.snp.makeConstraints { make in
             make.centerY.equalTo(view)

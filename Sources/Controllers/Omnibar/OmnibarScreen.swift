@@ -276,7 +276,7 @@ class OmnibarScreen: Screen, OmnibarScreenProtocol {
         cancelImageButton.addTarget(self, action: #selector(cancelImageButtonTapped), for: .touchUpInside)
         cancelImageButton.isHidden = true
 
-        let line = UIView()
+        let line = Line()
         line.backgroundColor = .greyF2
 
         addSubview(toolbarContainer)
@@ -314,7 +314,6 @@ class OmnibarScreen: Screen, OmnibarScreenProtocol {
         line.snp.makeConstraints { make in
             make.leading.trailing.equalTo(toolbarContainer)
             make.bottom.equalTo(toolbarContainer)
-            make.height.equalTo(1)
         }
     }
 

@@ -6,7 +6,6 @@ class ModeratorView: View {
     struct Size {
         static let height: CGFloat = 80
         static let outerMargin: CGFloat = 15
-        static let lineHeight: CGFloat = 1
         static let avatarSpacing: CGFloat = 30
         static let nameSpacing: CGFloat = 5
     }
@@ -16,7 +15,7 @@ class ModeratorView: View {
     private let usernameButton = StyledButton(style: .clearBlackLarge)
     private let nameLabel = StyledLabel(style: .gray)
     private let relationshipControl = RelationshipControl()
-    private let line = UIView()
+    private let line = Line()
 
     override var intrinsicContentSize: CGSize {
         return CGSize(width: UIViewNoIntrinsicMetric, height: Size.height)
@@ -93,7 +92,6 @@ class ModeratorView: View {
         line.snp.makeConstraints { make in
             make.leading.equalTo(usernameButton)
             make.trailing.bottom.equalTo(self)
-            make.height.equalTo(Size.lineHeight)
         }
     }
 

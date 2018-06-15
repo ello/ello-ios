@@ -47,7 +47,7 @@ class ClearTextView: UITextView {
         }
     }
 
-    private var line = UIView()
+    private let line = Line()
     private let placeholderLabel = StyledLabel()
     private var placeholderTopConstraint: Constraint?
     private let rightView = UIImageView()
@@ -78,15 +78,15 @@ class ClearTextView: UITextView {
         updateTextStyle()
 
         addSubview(placeholderLabel)
+        addSubview(line)
+        addSubview(rightView)
+
         placeholderLabel.snp.makeConstraints { make in
             placeholderTopConstraint = make.top.equalTo(self).offset(textContainerInset.top).constraint
             make.leading.trailing.equalTo(self)
         }
 
-        addSubview(line)
         line.backgroundColor = lineColor
-
-        addSubview(rightView)
     }
 
     func textDidChange() {
