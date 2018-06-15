@@ -332,13 +332,14 @@ class ProfileScreen: StreamableScreen, ProfileScreenProtocol {
         coverImageView.image = nil
     }
 
-    func showNavBars(animated: Bool) {
+    override func showNavBars(animated: Bool) {
         elloAnimate(animated: animated) {
             let effectsTop = self.navigationBar.frame.height
             let effectsHeight = Size.profileButtonsContainerViewHeight
 
             self.updateNavBars(effectsTop: effectsTop, effectsHeight: effectsHeight)
             self.showBackButton = false
+            super.showNavBars(animated: false)
         }
     }
 
@@ -357,6 +358,7 @@ class ProfileScreen: StreamableScreen, ProfileScreenProtocol {
 
             self.updateNavBars(effectsTop: effectsTop, effectsHeight: effectsHeight)
             self.showBackButton = true
+            super.hideNavBars(animated: false)
         }
     }
 

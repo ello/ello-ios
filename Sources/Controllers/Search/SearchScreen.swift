@@ -151,7 +151,7 @@ class SearchScreen: StreamableScreen, SearchScreenProtocol {
         persistentBackButton.setContentHuggingPriority(UILayoutPriority.required, for: .horizontal)
         persistentBackButton.snp.makeConstraints { make in
             make.leading.equalTo(searchControlsContainer).offset(Size.backButtonMargin)
-            make.bottom.equalTo(searchControlsContainer).offset(-Size.bottomMargin)
+            make.centerY.equalTo(searchControlsContainer)
             make.height.equalTo(Size.searchButtonsHeight)
         }
 
@@ -194,11 +194,8 @@ class SearchScreen: StreamableScreen, SearchScreenProtocol {
 
         super.keyboardWillChange(keyboard, animated: animated)
     }
-}
 
-extension SearchScreen {
-
-    func showNavBars(animated: Bool) {
+    override func showNavBars(animated: Bool) {
         elloAnimate(animated: animated) {
             self.searchControlsContainerTop.update(offset: ElloNavigationBar.Size.height)
             if Globals.isIphoneX {
@@ -209,7 +206,7 @@ extension SearchScreen {
         }
     }
 
-    func hideNavBars(animated: Bool) {
+    override func hideNavBars(animated: Bool) {
         elloAnimate(animated: animated) {
             self.searchControlsContainerTop.update(offset: 0)
             if Globals.isIphoneX {
@@ -219,6 +216,9 @@ extension SearchScreen {
             self.layoutIfNeeded()
         }
     }
+}
+
+extension SearchScreen {
 
     private func updateSearchControlsHeight(_ newHeight: CGFloat) {
         let delta = searchControlsContainer.frame.height - newHeight

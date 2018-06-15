@@ -5,7 +5,7 @@
 import SnapKit
 
 
-class SettingsCredentialsScreen: Screen, SettingsCredentialsScreenProtocol {
+class SettingsCredentialsScreen: NavBarScreen, SettingsCredentialsScreenProtocol {
     struct Size {
         static let defaultMargin: CGFloat = 15
         static let credentialsDescriptionHeight: CGFloat = 100
@@ -33,7 +33,6 @@ class SettingsCredentialsScreen: Screen, SettingsCredentialsScreenProtocol {
     private var navigationInsets: UIEdgeInsets = .zero { didSet { updateInsets() }}
     private var bottomInset: CGFloat = 0 { didSet { updateInsets() }}
 
-    private let navigationBar = ElloNavigationBar()
     private var widthConstraint: Constraint!
     private let scrollView = UIScrollView()
     private let credentialsDescription = StyledLabel(style: .lightGray)
@@ -68,19 +67,13 @@ class SettingsCredentialsScreen: Screen, SettingsCredentialsScreenProtocol {
     }
 
     override func arrange() {
-        addSubview(scrollView)
-        addSubview(navigationBar)
+        arrange(contentView: scrollView)
 
         scrollView.addSubview(credentialsDescription)
         scrollView.addSubview(oldPasswordField)
         scrollView.addSubview(usernameField)
         scrollView.addSubview(emailField)
         scrollView.addSubview(passwordField)
-
-        navigationBar.snp.makeConstraints { make in
-            make.leading.trailing.equalTo(self)
-            make.top.equalTo(self)
-        }
 
         scrollView.snp.makeConstraints { make in
             make.edges.equalTo(self)

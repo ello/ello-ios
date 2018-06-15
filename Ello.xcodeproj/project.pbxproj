@@ -1004,6 +1004,7 @@
 		1DC10FA51C3DEB7600846ED6 /* availability__error.json in Resources */ = {isa = PBXBuildFile; fileRef = 1DC10FA31C3DEB7600846ED6 /* availability__error.json */; };
 		1DC10FA61C3DEB7600846ED6 /* availability.json in Resources */ = {isa = PBXBuildFile; fileRef = 1DC10FA41C3DEB7600846ED6 /* availability.json */; };
 		1DC2402620D441A8009B07D5 /* Line.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC2402520D441A7009B07D5 /* Line.swift */; };
+		1DC2402820D45665009B07D5 /* NavBarScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC2402720D45664009B07D5 /* NavBarScreen.swift */; };
 		1DC29BB71D3824D30041B1DC /* Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC29BB61D3824D30041B1DC /* Defaults.swift */; };
 		1DC29BB81D3824DE0041B1DC /* Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC29BB61D3824D30041B1DC /* Defaults.swift */; };
 		1DC309FC1B03F29300EAD920 /* communities.json in Resources */ = {isa = PBXBuildFile; fileRef = 1DC309FB1B03F29300EAD920 /* communities.json */; };
@@ -2146,6 +2147,7 @@
 		1DC10FA31C3DEB7600846ED6 /* availability__error.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = availability__error.json; sourceTree = "<group>"; };
 		1DC10FA41C3DEB7600846ED6 /* availability.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = availability.json; sourceTree = "<group>"; };
 		1DC2402520D441A7009B07D5 /* Line.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Line.swift; sourceTree = "<group>"; };
+		1DC2402720D45664009B07D5 /* NavBarScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavBarScreen.swift; sourceTree = "<group>"; };
 		1DC29BB61D3824D30041B1DC /* Defaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Defaults.swift; sourceTree = "<group>"; };
 		1DC309FB1B03F29300EAD920 /* communities.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = communities.json; sourceTree = "<group>"; };
 		1DC546361FA3E8CD00B06592 /* CommentHeaderCellPresenterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentHeaderCellPresenterSpec.swift; sourceTree = "<group>"; };
@@ -3869,6 +3871,7 @@
 			children = (
 				1D71529D1D6D1040005998FE /* EmptyScreen.swift */,
 				1DB2710A1F4C95BF0044D475 /* HomeSubviewScreen.swift */,
+				1DC2402720D45664009B07D5 /* NavBarScreen.swift */,
 				1D71528E1D6CA22C005998FE /* Screen.swift */,
 				1D5933901D14855B00EAF03D /* StreamableScreen.swift */,
 			);
@@ -5845,6 +5848,7 @@
 				122B30CB1C6A3FBC00C1B9D8 /* Comment.swift in Sources */,
 				1D80877B2032596C0081E8FE /* SettingsScreen.swift in Sources */,
 				1207C9AD1C75314300939ADB /* OmnibarRegion.swift in Sources */,
+				1DC2402820D45665009B07D5 /* NavBarScreen.swift in Sources */,
 				1DC29BB71D3824D30041B1DC /* Defaults.swift in Sources */,
 				1207C9771C73FEE000939ADB /* DateFormatting.swift in Sources */,
 				1DE0F09320C0A8FD00AAD63F /* CategoryDetailHeaderView.swift in Sources */,
