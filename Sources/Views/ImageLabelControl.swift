@@ -47,7 +47,7 @@ class ImageLabelControl: Control {
     }
 
     let titleFont = UIFont.defaultFont()
-    let contentContainer = UIView(frame: .zero)
+    let contentContainer = Container(frame: .zero)
     let label = UILabel(frame: .zero)
     var icon: ImageLabelAnimatable
 

@@ -23,7 +23,7 @@ class ArtistInviteAdminControlsCell: CollectionViewCell {
         }
     }
 
-    private let buttonContainer = UIView()
+    private let buttonContainer = Container()
     private var buttons: [StyledButton] = []
 
     override func style() {

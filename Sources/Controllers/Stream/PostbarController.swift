@@ -302,7 +302,7 @@ class PostbarController: UIResponder {
         alertController.resetActions()
         alertController.isDismissable = false
 
-        let spinnerContainer = UIView(frame: CGRect(x: 0, y: 0, width: alertController.view.frame.size.width, height: 200))
+        let spinnerContainer = Container(frame: CGRect(x: 0, y: 0, width: alertController.view.frame.size.width, height: 200))
         let spinner = GradientLoadingView(frame: CGRect(origin: .zero, size: GradientLoadingView.Size.size))
         spinner.center = spinnerContainer.bounds.center
         spinnerContainer.addSubview(spinner)

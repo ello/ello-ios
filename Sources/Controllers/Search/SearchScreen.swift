@@ -42,14 +42,14 @@ class SearchScreen: StreamableScreen, SearchScreenProtocol {
     // for specs
     let searchField = SearchNavBarField()
 
-    private let searchControlsContainer = UIView()
+    private let searchControlsContainer = Container()
     private let debounced: ThrottledBlock = debounce(0.8)
     private let backButton = UIButton()
     private let persistentBackButton = PersistentBackButton()
     private let toggleButtonsLeadingGuide = UILayoutGuide()
     private let postsToggleButton = SearchToggleButton()
     private let peopleToggleButton = SearchToggleButton()
-    private let findFriendsContainer = UIView()
+    private let findFriendsContainer = Container()
     private var findFriendsPinToKeyboard: Constraint!
     private var findFriendsPinToBottom: Constraint!
     private let findFriendsButton = StyledButton(style: .green)

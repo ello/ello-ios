@@ -8,8 +8,8 @@ class OnboardingScreen: EmptyScreen {
         static let buttonInset: CGFloat = 10
         static let abortButtonWidth: CGFloat = 70
     }
-    var controllerContainer = UIView()
-    private var buttonContainer = UIView()
+    var controllerContainer = Container()
+    private var buttonContainer = Container()
     private var promptButton = StyledButton(style: .roundedGrayOutline)
     private var nextButton = StyledButton(style: .green)
     private var abortButton = StyledButton(style: .grayText)

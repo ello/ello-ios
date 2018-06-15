@@ -45,12 +45,12 @@ class CategoryDetailScreen: Screen {
     private let categoryHeaderView = CategoryDetailHeaderView()
     private let aboutLabel = StyledLabel(style: .bold)
 
-    private let moderatorsContainer = UIView()
+    private let moderatorsContainer = Container()
     private let moderatorsLabel = StyledLabel(style: .largeBoldGray)
     private var moderatorViews: [UIView] = []
     private var moderatorsContainerCollapsed: Constraint!
 
-    private let curatorsContainer = UIView()
+    private let curatorsContainer = Container()
     private let curatorsLabel = StyledLabel(style: .largeBoldGray)
     private var curatorViews: [UIView] = []
     private var curatorsContainerSpacing: Constraint!

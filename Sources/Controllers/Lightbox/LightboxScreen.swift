@@ -28,7 +28,7 @@ class LightboxScreen: Screen, LightboxScreenProtocol {
         case next = 1
     }
 
-    private let imagesContainer = UIView()
+    private let imagesContainer = Container()
     let toolbar = PostToolbar()
     private let toolbarBlackBar = UIView()
     private let toolbarGradientLayer = LightboxScreen.generateGradientLayer()

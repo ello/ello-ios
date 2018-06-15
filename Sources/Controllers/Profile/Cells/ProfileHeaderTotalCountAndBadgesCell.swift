@@ -11,10 +11,10 @@ private let maxBadges = 3
 class ProfileHeaderTotalCountAndBadgesCell: ProfileHeaderCell {
     static let reuseIdentifier = "ProfileHeaderTotalCountAndBadgesCell"
 
-    private let totalCountContainer = UIView()
+    private let totalCountContainer = Container()
     private let totalLabel = UILabel()
-    private let badgesContainer = UIView()
-    private let badgeButtonsContainer = UIView()
+    private let badgesContainer = Container()
+    private let badgeButtonsContainer = Container()
     private let moreBadgesButton = UIButton()
     private let midGrayLine = UIView()
     private var showBothConstraint: Constraint!

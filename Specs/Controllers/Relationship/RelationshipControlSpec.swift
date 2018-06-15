@@ -21,7 +21,7 @@ class RelationshipControlSpec: QuickSpec {
             var subject: RelationshipControl!
             var presentingController: StreamableViewController!
             var relationshipController: RelationshipController!
-            let viewContainer = UIView()
+            let viewContainer = Container()
 
             beforeEach {
                 subject = RelationshipControl()
