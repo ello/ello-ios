@@ -269,6 +269,10 @@ extension Tracker {
         track("completed categories in onboarding")
     }
 
+    func onboardingCreatorTypeSelected(_ creatorType: Profile.CreatorType) {
+        track("completed creator type in onboarding", properties: ["creatorType": creatorType.trackerName])
+    }
+
     func onboardingCategorySelected(_ category: Category) {
         track("onboarding category chosen", properties: ["category": category.name])
     }

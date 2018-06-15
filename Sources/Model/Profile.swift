@@ -35,6 +35,17 @@ final class Profile: Model {
                 return selections.count > 0
             }
         }
+
+        var trackerName: String {
+            switch self {
+            case .none:
+                return "skipped"
+            case .fan:
+                return "fan"
+            case let .artist(selections):
+                return "artist, \(selections.count) selections"
+            }
+        }
     }
 
     enum ImageProperty: String {

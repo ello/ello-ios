@@ -142,10 +142,14 @@ extension OnboardingCreatorTypeViewController: OnboardingStepController {
     }
 
     func onboardingWillProceed(abort: Bool, proceedClosure: @escaping (_ success: OnboardingViewController.OnboardingProceed) -> Void) {
-        guard creatorType.isValid else { return }
+        guard creatorType.isValid else {
+            proceedClosure(.error)
+            return
+        }
 
         saveCreatorType()
             .done { _ in
+                Tracker.shared.onboardingCreatorTypeSelected(self.creatorType)
                 self.onboardingData.creatorType = self.creatorType
                 proceedClosure(.continue)
             }

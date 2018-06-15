@@ -176,7 +176,9 @@ extension OnboardingProfileViewController: OnboardingStepController {
 
     func goToNextStep(_ abort: Bool, proceedClosure: @escaping (_ success: OnboardingViewController.OnboardingProceed) -> Void) {
         guard
-            let presenter = onboardingViewController?.appViewController, !abort else {
+            let presenter = onboardingViewController?.appViewController,
+            !abort
+        else {
             proceedClosure(.abort)
             return
         }
