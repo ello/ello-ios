@@ -321,7 +321,6 @@
 		12A1D8311DAD511A00A327D6 /* badge_featured_selected.svg in Resources */ = {isa = PBXBuildFile; fileRef = 12A1D8301DAD511A00A327D6 /* badge_featured_selected.svg */; };
 		12A1D8331DAD747500A327D6 /* ProfileHeaderTotalCountAndBadgesCellSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12A1D8321DAD747500A327D6 /* ProfileHeaderTotalCountAndBadgesCellSpec.swift */; };
 		12A1D83A1DAE7AE900A327D6 /* NumberExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F6AE281A43390900493660 /* NumberExtensions.swift */; };
-		12A313D91C73ECAA009727DD /* unselected-pixel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 12A313D81C73ECAA009727DD /* unselected-pixel@2x.png */; };
 		12A3A46F1AB348FB00D2AFB0 /* ElloPullToRefreshView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12A3A46E1AB348FB00D2AFB0 /* ElloPullToRefreshView.swift */; };
 		12A3A4721AB3556F00D2AFB0 /* Math.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12A3A4711AB3556F00D2AFB0 /* Math.swift */; };
 		12AF0AFB1AA7DC6100BADC6D /* FakeStreamTextCellSizeCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12AF0AFA1AA7DC6100BADC6D /* FakeStreamTextCellSizeCalculator.swift */; };
@@ -719,7 +718,6 @@
 		1D652F5A1BC2D66200AF3B06 /* PostbarControllerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D652F591BC2D66200AF3B06 /* PostbarControllerSpec.swift */; };
 		1D652F5E1BC2FDCD00AF3B06 /* ElloTabBarSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D652F5D1BC2FDCD00AF3B06 /* ElloTabBarSpec.swift */; };
 		1D66803D1A8AA7B1003E93C8 /* NotificationsFilterBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D66803C1A8AA7B1003E93C8 /* NotificationsFilterBar.swift */; };
-		1D6680451A8AC8E0003E93C8 /* selected-pixel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D6680431A8AC8E0003E93C8 /* selected-pixel@2x.png */; };
 		1D69BBCF1C3EF5AA00FCBDE0 /* ElloSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D69BBCE1C3EF5AA00FCBDE0 /* ElloSegmentedControl.swift */; };
 		1D6A02431C73CC9B0054603B /* AssetsToRegions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A02421C73CC9B0054603B /* AssetsToRegions.swift */; };
 		1D6A02451C73CD390054603B /* AssetsToRegionsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A02441C73CD390054603B /* AssetsToRegionsSpec.swift */; };
@@ -1622,7 +1620,6 @@
 		12A1D8301DAD511A00A327D6 /* badge_featured_selected.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = badge_featured_selected.svg; sourceTree = "<group>"; };
 		12A1D8321DAD747500A327D6 /* ProfileHeaderTotalCountAndBadgesCellSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileHeaderTotalCountAndBadgesCellSpec.swift; sourceTree = "<group>"; };
 		12A2C93E1AEFDC90002DFD75 /* PreloaderSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreloaderSpec.swift; sourceTree = "<group>"; };
-		12A313D81C73ECAA009727DD /* unselected-pixel@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "unselected-pixel@2x.png"; sourceTree = "<group>"; };
 		12A3A46E1AB348FB00D2AFB0 /* ElloPullToRefreshView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ElloPullToRefreshView.swift; sourceTree = "<group>"; };
 		12A3A4711AB3556F00D2AFB0 /* Math.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Math.swift; sourceTree = "<group>"; };
 		12AF0AFA1AA7DC6100BADC6D /* FakeStreamTextCellSizeCalculator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeStreamTextCellSizeCalculator.swift; sourceTree = "<group>"; };
@@ -1895,7 +1892,6 @@
 		1D652F591BC2D66200AF3B06 /* PostbarControllerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostbarControllerSpec.swift; sourceTree = "<group>"; };
 		1D652F5D1BC2FDCD00AF3B06 /* ElloTabBarSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ElloTabBarSpec.swift; sourceTree = "<group>"; };
 		1D66803C1A8AA7B1003E93C8 /* NotificationsFilterBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationsFilterBar.swift; sourceTree = "<group>"; };
-		1D6680431A8AC8E0003E93C8 /* selected-pixel@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "selected-pixel@2x.png"; sourceTree = "<group>"; };
 		1D69BBCE1C3EF5AA00FCBDE0 /* ElloSegmentedControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ElloSegmentedControl.swift; sourceTree = "<group>"; };
 		1D6A02421C73CC9B0054603B /* AssetsToRegions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssetsToRegions.swift; sourceTree = "<group>"; };
 		1D6A02441C73CD390054603B /* AssetsToRegionsSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssetsToRegionsSpec.swift; sourceTree = "<group>"; };
@@ -3206,9 +3202,7 @@
 				76CBD22D1AB2338F00D144F7 /* SVGs */,
 				12F0E3AA1A4333260012CEA2 /* Images.xcassets */,
 				12F0E3A61A4333150012CEA2 /* LaunchScreen.xib */,
-				1D6680431A8AC8E0003E93C8 /* selected-pixel@2x.png */,
 				12F6AE881A433EF600493660 /* StubbedResponses */,
-				12A313D81C73ECAA009727DD /* unselected-pixel@2x.png */,
 				12F6AEA01A433F3D00493660 /* www */,
 			);
 			path = Resources;
@@ -4944,7 +4938,6 @@
 				12F6AE9C1A433F2700493660 /* 422.json in Resources */,
 				76F8DEC41B6C0BC4009BCF61 /* circ_selected.svg in Resources */,
 				12F6AE9B1A433F2700493660 /* 420.json in Resources */,
-				1D6680451A8AC8E0003E93C8 /* selected-pixel@2x.png in Resources */,
 				123DEBF11D3D5F32007B5F86 /* users_posts.json in Resources */,
 				12F6AE981A433F2700493660 /* 403.json in Resources */,
 				1DF0B2E81E940572001B9F97 /* search_small_selected.svg in Resources */,
@@ -4984,7 +4977,6 @@
 				1220347D1DECCDD80059E633 /* marker.svg in Resources */,
 				1D612BF81D3EA41700B4079C /* $_add_normal.svg in Resources */,
 				76F8DEB61B6C0BC4009BCF61 /* bubble_normal.svg in Resources */,
-				12A313D91C73ECAA009727DD /* unselected-pixel@2x.png in Resources */,
 				7689B4D81AD4ED3B00E4A4A3 /* access_tokens_user_access_token_(refresh_token).json in Resources */,
 				1DF741691BFA61B1000F5349 /* camera_white.svg in Resources */,
 				1DF7416F1BFA65F0000F5349 /* link_selected.svg in Resources */,
