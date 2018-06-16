@@ -10,7 +10,7 @@ class OnboardingProfileViewController: BaseElloViewController {
     }
 
     var onboardingViewController: OnboardingViewController?
-    var onboardingData: OnboardingData!
+    var onboardingData: OnboardingData! { didSet { didSetOnboardingData() }}
     var didSetName = false
     var didSetBio = false
     var didSetLinks = false
@@ -30,6 +30,8 @@ class OnboardingProfileViewController: BaseElloViewController {
         let screen = OnboardingProfileScreen()
         screen.delegate = self
         view = screen
+
+        didSetOnboardingData()
     }
 }
 
@@ -110,6 +112,12 @@ extension OnboardingProfileViewController: OnboardingStepController {
         didUploadCoverImage = (onboardingData.coverImage != nil)
         onboardingViewController?.hasAbortButton = true
         onboardingViewController?.canGoNext = isProfileValid
+
+        didSetOnboardingData()
+    }
+
+    private func didSetOnboardingData() {
+        guard isViewLoaded else { return }
 
         screen.name = onboardingData.name
         screen.bio = onboardingData.bio
