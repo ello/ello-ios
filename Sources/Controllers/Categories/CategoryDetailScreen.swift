@@ -41,7 +41,6 @@ class CategoryDetailScreen: Screen {
 
     private let closeButton = UIButton()
     private let scrollView = UIScrollView()
-    private var scrollViewWidthConstraint: Constraint!
     private let categoryHeaderView = CategoryDetailHeaderView()
     private let aboutLabel = StyledLabel(style: .bold)
 
@@ -66,16 +65,6 @@ class CategoryDetailScreen: Screen {
                 isSubscribed: config.isSubscribed
                 )
         }
-    }
-
-    override func updateConstraints() {
-        super.updateConstraints()
-        scrollViewWidthConstraint.update(offset: frame.size.width)
-    }
-
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        scrollViewWidthConstraint.update(offset: frame.size.width)
     }
 
     override func setText() {
@@ -127,27 +116,27 @@ class CategoryDetailScreen: Screen {
             make.edges.equalTo(self)
         }
 
-        let scrollWidthGuide = UILayoutGuide()
-        scrollView.addLayoutGuide(scrollWidthGuide)
-        scrollWidthGuide.snp.makeConstraints { make in
+        let scrollWidthAnchor = UIView()
+        scrollView.addSubview(scrollWidthAnchor)
+        scrollWidthAnchor.snp.makeConstraints { make in
             make.leading.trailing.equalTo(scrollView)
-            scrollViewWidthConstraint = make.width.equalTo(frame.size.width).priority(Priority.required).constraint
+            make.width.equalTo(self).priority(Priority.required)
         }
 
         categoryHeaderView.snp.makeConstraints { make in
             make.top.equalTo(scrollView)
-            make.leading.trailing.equalTo(scrollWidthGuide)
+            make.leading.trailing.equalTo(scrollView)
             make.height.equalTo(CategoryDetailHeaderView.Size.height)
         }
 
         aboutLabel.snp.makeConstraints { make in
-            make.leading.trailing.equalTo(scrollWidthGuide).inset(Size.textSideMargin)
+            make.leading.trailing.equalTo(scrollView).inset(Size.textSideMargin)
             make.top.equalTo(categoryHeaderView.snp.bottom).offset(Size.textSideMargin)
         }
 
         moderatorsContainer.snp.makeConstraints { make in
             make.top.equalTo(aboutLabel.snp.bottom).offset(Size.sectionSpacing)
-            make.leading.trailing.equalTo(scrollWidthGuide).inset(Size.textSideMargin)
+            make.leading.trailing.equalTo(scrollView).inset(Size.textSideMargin)
             moderatorsContainerCollapsed = make.height.equalTo(0).priority(Priority.required).constraint
         }
         moderatorsContainerCollapsed.deactivate()
@@ -163,7 +152,7 @@ class CategoryDetailScreen: Screen {
 
         curatorsContainer.snp.makeConstraints { make in
             curatorsContainerSpacing = make.top.equalTo(moderatorsContainer.snp.bottom).offset(Size.sectionSpacing).constraint
-            make.leading.trailing.equalTo(scrollWidthGuide).inset(Size.textSideMargin)
+            make.leading.trailing.equalTo(scrollView).inset(Size.textSideMargin)
             curatorsContainerCollapsed = make.height.equalTo(0).priority(Priority.required).constraint
 
             make.bottom.equalTo(scrollView).inset(Size.defaultMargin)
