@@ -62,8 +62,16 @@ class AlertViewController: UIViewController {
 
     var message: String {
         get { return headerView.label.text ?? "" }
-        set(text) {
-            headerView.label.text = text
+        set {
+            headerView.label.text = newValue
+            tableView.reloadData()
+        }
+    }
+
+    var attributedMessage: NSAttributedString? {
+        get { return headerView.label.attributedText }
+        set {
+            headerView.label.attributedText = newValue
             tableView.reloadData()
         }
     }
