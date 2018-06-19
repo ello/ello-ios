@@ -209,6 +209,7 @@ enum InterfaceImage: String {
              .plusSmall,
              .repost,
              .share,
+             .xBox,
              .x:
             return svgNamed("\(self.rawValue)_white")
         default:
