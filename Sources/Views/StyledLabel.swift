@@ -126,6 +126,14 @@ class StyledLabel: UILabel {
         size.height = heightForWidth(size.width) + extraBottomMargin
         return size
     }
+
+    override var intrinsicContentSize: CGSize {
+        var size = super.intrinsicContentSize
+        if size.height != UIViewNoIntrinsicMetric {
+            size.height += 1
+        }
+        return size
+    }
 }
 
 extension StyledLabel {
