@@ -97,7 +97,7 @@ struct AlertCellPresenter {
         cell.background.backgroundColor = .greenD1
     }
 
-    static func configureForRoundedGrayFillAction(_ cell: AlertCell, action: AlertAction, textAlignment: NSTextAlignment) {
+    static func configureForGrayAction(_ cell: AlertCell, action: AlertAction, textAlignment: NSTextAlignment) {
         configureCell(cell)
 
         cell.button.text = action.title
