@@ -17,12 +17,11 @@ class AutoCompleteCell: TableViewCell {
 
     let avatar = AvatarButton()
     private let nameLabel = StyledLabel(style: .white)
-    private let line = Line()
+    private let line = Line(color: .grey3)
 
     override func styleCell() {
         contentView.backgroundColor = .black
         selectionStyle = .none
-        line.backgroundColor = .grey3
     }
 
     override func arrange() {

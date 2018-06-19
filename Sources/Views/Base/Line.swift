@@ -20,13 +20,12 @@ class Line: UIView {
         }
     }
 
-    init(orientation: Orientation) {
+    init(orientation: Orientation = .horizontal, color: UIColor? = nil) {
         self.orientation = orientation
         super.init(frame: .zero)
-    }
-
-    convenience init() {
-        self.init(orientation: .horizontal)
+        if let color = color {
+            self.backgroundColor = color
+        }
     }
 
     override init(frame: CGRect) {

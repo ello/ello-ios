@@ -39,13 +39,12 @@ class DrawerCell: TableViewCell {
 
     private let label = StyledLabel(style: .white)
     private let logoView = UIImageView()
-    private let line = Line()
+    private let line = Line(color: .grey5)
     private var hasImageConstraint: Constraint!
     private var noImageConstraint: Constraint!
 
     override func styleCell() {
         backgroundColor = .grey6
-        line.backgroundColor = .grey5
         selectionStyle = .none
     }
 

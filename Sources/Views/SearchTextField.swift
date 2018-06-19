@@ -14,7 +14,7 @@ class SearchTextField: UITextField {
             }
         }
     }
-    private var line = Line()
+    private var line = Line(color: .greyA)
 
     override required init(frame: CGRect) {
         super.init(frame: frame)
@@ -41,7 +41,6 @@ class SearchTextField: UITextField {
         leftView = UIImageView(image: InterfaceImage.search.normalImage)
 
         addSubview(line)
-        line.backgroundColor = .greyA
         line.snp.makeConstraints { make in
             make.leading.trailing.equalTo(self)
             make.bottom.equalTo(self).offset(-10)

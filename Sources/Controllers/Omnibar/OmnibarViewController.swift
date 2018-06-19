@@ -333,7 +333,6 @@ extension OmnibarViewController {
     }
 }
 
-
 extension OmnibarViewController: ChooseCategoryControllerDelegate {
     func categoryChosen(_ category: Category) {
         Tracker.shared.postIntoCommunityChosen(category)

@@ -37,10 +37,9 @@ class DynamicSettingCell: TableViewCell {
     private let titleLabel = StyledLabel(style: .default)
     private let infoLabel = StyledLabel(style: .smallGray)
     private let toggleButton = SettingsToggleButton()
-    private let line = Line()
+    private let line = Line(color: .greyF2)
 
     override func styleCell() {
-        line.backgroundColor = .greyF2
         infoLabel.isMultiline = true
     }
 

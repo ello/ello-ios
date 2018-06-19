@@ -15,7 +15,7 @@ class ModeratorView: View {
     private let usernameButton = StyledButton(style: .clearBlackLarge)
     private let nameLabel = StyledLabel(style: .gray)
     private let relationshipControl = RelationshipControl()
-    private let line = Line()
+    private let line = Line(color: .greyE5)
 
     override var intrinsicContentSize: CGSize {
         return CGSize(width: UIViewNoIntrinsicMetric, height: Size.height)
@@ -45,10 +45,6 @@ class ModeratorView: View {
     override func bindActions() {
         usernameButton.addTarget(self, action: #selector(userTapped), for: .touchUpInside)
         avatarButton.addTarget(self, action: #selector(userTapped), for: .touchUpInside)
-    }
-
-    override func style() {
-        line.backgroundColor = .greyE5
     }
 
     override func arrange() {

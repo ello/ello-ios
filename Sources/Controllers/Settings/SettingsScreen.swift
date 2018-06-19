@@ -449,8 +449,7 @@ extension SettingsScreen {
         let label = StyledLabel(style: .largeBold)
         label.text = settings.label
 
-        let line = Line()
-        line.backgroundColor = .greyF2
+        let line = Line(color: .greyF2)
 
         let chevron = UIImageView()
         chevron.setInterfaceImage(.forwardChevron, style: .normal)
