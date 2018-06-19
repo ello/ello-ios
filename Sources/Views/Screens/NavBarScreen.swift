@@ -9,8 +9,8 @@ class NavBarScreen: Screen {
     let navigationBar = ElloNavigationBar()
     var navigationBarTopConstraint: Constraint!
 
-    func arrange(contentView: UIView) {
-        addSubview(contentView)
+    func arrange(contentView: UIView?) {
+        contentView.map { addSubview($0) }
         addSubview(navigationBar)
 
         navigationBar.snp.makeConstraints { make in
@@ -19,7 +19,7 @@ class NavBarScreen: Screen {
             make.trailing.equalTo(self)
         }
 
-        contentView.snp.makeConstraints { make in
+        contentView?.snp.makeConstraints { make in
             make.edges.equalTo(self)
         }
     }
