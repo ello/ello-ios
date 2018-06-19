@@ -406,6 +406,7 @@
 		12F9EB431DEF79B800E127AE /* ProfileHeaderCompactViewSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F9EB421DEF79B800E127AE /* ProfileHeaderCompactViewSpec.swift */; };
 		12FCEFDF1BD7F68500B8A7B5 /* Ello.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = 1205B5D01BBB152700B656ED /* Ello.entitlements */; };
 		12FEEB551A60396A00E32248 /* posts.json in Resources */ = {isa = PBXBuildFile; fileRef = 12FEEB541A60396A00E32248 /* posts.json */; };
+		1D00695A20D854DE00DDBE69 /* xbox_white.svg in Resources */ = {isa = PBXBuildFile; fileRef = 1D00695920D854DE00DDBE69 /* xbox_white.svg */; };
 		1D061B501AAA196100493435 /* Keyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D061B4E1AAA192200493435 /* Keyboard.swift */; };
 		1D061B521AAA1C6D00493435 /* StringExtensionSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D061B511AAA1C6D00493435 /* StringExtensionSpec.swift */; };
 		1D066FF31B8BA19E002B303D /* ArraySpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D066FF21B8BA19E002B303D /* ArraySpec.swift */; };
@@ -1723,6 +1724,7 @@
 		12FEBD011A4225F600933A02 /* Ello.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ello.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		12FEEB541A60396A00E32248 /* posts.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = posts.json; sourceTree = "<group>"; };
 		1874F06AFC92C6F62E966AC5 /* Pods_NotificationServiceExtension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NotificationServiceExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1D00695920D854DE00DDBE69 /* xbox_white.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = xbox_white.svg; sourceTree = "<group>"; };
 		1D061B4E1AAA192200493435 /* Keyboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Keyboard.swift; sourceTree = "<group>"; };
 		1D061B511AAA1C6D00493435 /* StringExtensionSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtensionSpec.swift; sourceTree = "<group>"; };
 		1D066FF21B8BA19E002B303D /* ArraySpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArraySpec.swift; sourceTree = "<group>"; };
@@ -4452,6 +4454,7 @@
 				76F8DEA61B6C0BC4009BCF61 /* x_white.svg */,
 				76F8DEA71B6C0BC4009BCF61 /* xbox_normal.svg */,
 				76F8DEA81B6C0BC4009BCF61 /* xbox_selected.svg */,
+				1D00695920D854DE00DDBE69 /* xbox_white.svg */,
 				76F8DEA91B6C0BC4009BCF61 /* xpmcirc_normal.svg */,
 				76F8DEAA1B6C0BC4009BCF61 /* xpmcirc_selected.svg */,
 				12931BD11BFE8E30009B26F9 /* xpmmini_normal.svg */,
@@ -4992,6 +4995,7 @@
 				1D612BF81D3EA41700B4079C /* $_add_normal.svg in Resources */,
 				76F8DEB61B6C0BC4009BCF61 /* bubble_normal.svg in Resources */,
 				7689B4D81AD4ED3B00E4A4A3 /* access_tokens_user_access_token_(refresh_token).json in Resources */,
+				1D00695A20D854DE00DDBE69 /* xbox_white.svg in Resources */,
 				1DF741691BFA61B1000F5349 /* camera_white.svg in Resources */,
 				1DF7416F1BFA65F0000F5349 /* link_selected.svg in Resources */,
 				76F8DEC21B6C0BC4009BCF61 /* checksmall_white.svg in Resources */,

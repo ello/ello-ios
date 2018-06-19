@@ -1,5 +1,5 @@
 <svg class="svg-icon svg-xpmbox x" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-    <g stroke-width="1.25" fill="none" stroke="#aaa">
+    <g stroke-width="1.25" fill="none" stroke="#fff">
         <rect height="12" width="12" x="4" y="4"></rect>
         <line x1="12.5" y1="7.5" x2="7.5" y2="12.5"></line>
         <line x1="12.5" y1="12.5" x2="7.5" y2="7.5"></line>
