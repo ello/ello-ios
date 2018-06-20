@@ -153,6 +153,10 @@ extension StyledLabel.Style {
         textColor: .black,
         fontFamily: .bold
         )
+    static let blackUnderlined = StyledLabel.Style(
+        textColor: .black,
+        underline: true
+        )
     static let large = StyledLabel.Style(
         textColor: .black,
         fontFamily: .large
@@ -176,6 +180,10 @@ extension StyledLabel.Style {
     static let boldWhite = StyledLabel.Style(
         textColor: .white,
         fontFamily: .bold
+        )
+    static let whiteUnderlined = StyledLabel.Style(
+        textColor: .white,
+        underline: true
         )
     static let header = StyledLabel.Style(
         textColor: .black,

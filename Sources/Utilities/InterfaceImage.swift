@@ -89,6 +89,9 @@ enum InterfaceImage: String {
     // Hire me mail button
     case mail = "mail"
 
+    // Profile
+    case roleAdmin = "role_admin"
+
     // Alert
     case question = "question"
 
@@ -208,6 +211,7 @@ enum InterfaceImage: String {
              .pencil,
              .plusSmall,
              .repost,
+             .roleAdmin,
              .share,
              .xBox,
              .x:

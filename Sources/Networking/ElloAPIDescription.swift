@@ -2,7 +2,7 @@
 ///  ElloAPI.swift
 //
 
-extension ElloAPI: CustomStringConvertible, CustomDebugStringConvertible {
+extension ElloAPI: CustomDebugStringConvertible {
     var trackerName: String? {
         switch self {
         case .userStreamFollowers:
@@ -46,14 +46,20 @@ extension ElloAPI: CustomStringConvertible, CustomDebugStringConvertible {
             return "announcementsNewContent(createdAt: \(createdAt ?? Date()))"
         case let .artistInviteDetail(id):
             return "artistInviteDetail(id: \(id))"
+        case let .categoryPosts(slug):
+            return "categoryPosts(slug: \(slug))"
         case let .commentDetail(postId, commentId):
             return "commentDetail(postId: \(postId), commentId: \(commentId))"
+        case let .createCategoryUser(categoryId, userId, role):
+            return "createCategoryUser(categoryId: \(categoryId), userId: \(userId), role: \(role))"
         case let .createComment(parentPostId, _):
             return "createComment(parentPostId: \(parentPostId))"
         case let .createLove(postId):
             return "createLove(postId: \(postId))"
         case let .createWatchPost(postId):
             return "createWatchPost(postId: \(postId))"
+        case let .deleteCategoryUser(id):
+            return "deleteComment(id: \(id))"
         case let .deleteComment(postId, commentId):
             return "deleteComment(postId: \(postId), commentId: \(commentId))"
         case let .deleteLove(postId):
@@ -64,8 +70,8 @@ extension ElloAPI: CustomStringConvertible, CustomDebugStringConvertible {
             return "deleteSubscriptions(tokenData: \(tokenData))"
         case let .deleteWatchPost(postId):
             return "deleteWatchPost(postId: \(postId))"
-        case let .categoryPosts(slug):
-            return "categoryPosts(slug: \(slug))"
+        case let .editCategoryUser(categoryId, userId, role):
+            return "editCategoryUser(categoryId: \(categoryId), userId: \(userId), role: \(role))"
         case let .emojiAutoComplete(terms):
             return "emojiAutoComplete(terms: \(terms))"
         case .flagComment:
@@ -152,6 +158,7 @@ extension ElloAPI: CustomStringConvertible, CustomDebugStringConvertible {
         case .availability: return "availability"
         case .categories: return "categories"
         case .commentDetail: return "commentDetail"
+        case .createCategoryUser: return "createCategoryUser"
         case .createComment: return "createComment"
         case .createLove: return "createLove"
         case .createPost: return "createPost"
@@ -162,11 +169,13 @@ extension ElloAPI: CustomStringConvertible, CustomDebugStringConvertible {
         case .custom: return "custom"
         case .customRequest: return "customRequest"
         case .rePost: return "rePost"
+        case .deleteCategoryUser: return "deleteCategoryUser"
         case .deleteComment: return "deleteComment"
         case .deleteLove: return "deleteLove"
         case .deletePost: return "deletePost"
         case .deleteWatchPost: return "deleteWatchPost"
         case .deleteSubscriptions: return "deleteSubscriptions"
+        case .editCategoryUser: return "editCategoryUser"
         case .category: return "category"
         case .categoryPosts: return "categoryPosts"
         case .categoryPostActions: return "categoryPostActions"

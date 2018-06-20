@@ -8,6 +8,7 @@ protocol ProfileScreenDelegate: class {
     func editTapped()
     func inviteTapped()
     func collaborateTapped()
+    func roleAdminTapped()
 }
 
 protocol ProfileScreenProtocol: StreamableScreenProtocol {
@@ -25,4 +26,5 @@ protocol ProfileScreenProtocol: StreamableScreenProtocol {
     var coverImage: UIImage? { get set }
     var coverImageURL: URL? { get set }
     var hasBackButton: Bool { get set }
+    var hasRoleAdminButton: Bool { get set }
 }

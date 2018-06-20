@@ -55,6 +55,8 @@ final class User: Model {
     }
 
     var categories: [Category]? { return getLinkArray("categories") }
+    var hasCategoryRoles: Bool { return (categoryRoles?.count ?? 0) > 0 }
+    var categoryRoles: [CategoryUser]? { return getLinkArray("category_users") }
     var hasSubscribedCategory: Bool { return followedCategoryIds.count > 0 }
     var followedCategoryIds: Set<String> = []
     var followedCategories: [Category] {
@@ -73,6 +75,28 @@ final class User: Model {
         set { _badges = newValue }
     }
     var profile: Profile?
+
+    var canModifyAnyCategoryRole: Bool {
+        if AuthToken().isStaff { return true }
+        guard let profile = profile else { return false }
+        return !profile.moderatedCategoryIds.isEmpty || !profile.curatedCategoryIds.isEmpty
+    }
+
+    func canModifyCategory(_ category: Category) -> Bool {
+        return canModerateCategory(category) || canCurateCategory(category)
+    }
+
+    func canModerateCategory(_ category: Category) -> Bool {
+        if AuthToken().isStaff { return true }
+        guard let profile = profile else { return false }
+        return profile.moderatedCategoryIds.contains(category.id)
+    }
+
+    func canCurateCategory(_ category: Category) -> Bool {
+        if canModerateCategory(category) { return true }
+        guard let profile = profile else { return false }
+        return profile.curatedCategoryIds.contains(category.id)
+    }
 
     var isCurrentUser: Bool { return self.profile != nil }
     var atName: String { return "@\(username)"}
@@ -233,16 +257,15 @@ final class User: Model {
     }
 
     override func merge(_ other: Model) -> Model {
-        if let otherUser = other as? User {
-            if otherUser.formattedShortBio == nil {
-                otherUser.formattedShortBio = formattedShortBio
-            }
-            if otherUser.externalLinksList == nil {
-                otherUser.externalLinksList = externalLinksList
-            }
-            return otherUser
+        guard let otherUser = other as? User else { return other }
+
+        if otherUser.formattedShortBio == nil {
+            otherUser.formattedShortBio = formattedShortBio
         }
-        return other
+        if otherUser.externalLinksList == nil {
+            otherUser.externalLinksList = externalLinksList
+        }
+        return otherUser
     }
 
     class func fromJSON(_ data: [String: Any]) -> User {

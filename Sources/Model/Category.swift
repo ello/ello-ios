@@ -29,13 +29,12 @@ final class Category: Model {
     let id: String
     let name: String
     let slug: String
-    override var description: String { return categoryDescription ?? super.description }
     let categoryDescription: String?
     let order: Int
     let allowInOnboarding: Bool
     let isCreatorType: Bool
     let level: CategoryLevel
-    let tileImage: Attachment?
+    var tileImage: Attachment?
 
     var isMeta: Bool { return level == .meta }
     var tileURL: URL? { return tileImage?.url }
@@ -90,6 +89,15 @@ final class Category: Model {
         }
         tileImage = decoder.decodeOptionalKey("tileImage")
         super.init(coder: coder)
+    }
+
+    override func merge(_ other: Model) -> Model {
+        guard let otherCategory = other as? Category else { return other }
+
+        if otherCategory.tileImage == nil {
+            otherCategory.tileImage = tileImage
+        }
+        return otherCategory
     }
 
     override func encode(with coder: NSCoder) {

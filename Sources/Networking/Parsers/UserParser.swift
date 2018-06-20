@@ -11,6 +11,7 @@ class UserParser: IdParser {
         super.init(table: .usersType)
         linkObject(.profilesType)
         linkArray(.categoriesType)
+        linkArray(.categoryUsersType)
     }
 
     override func parse(json: JSON) -> User {

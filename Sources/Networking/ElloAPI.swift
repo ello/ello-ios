@@ -32,17 +32,20 @@ indirect enum ElloAPI {
     case categoryPosts(slug: String)
     case categoryPostActions
     case commentDetail(postId: String, commentId: String)
+    case createCategoryUser(categoryId: String, userId: String, role: String)
     case createComment(parentPostId: String, body: [String: Any])
     case createLove(postId: String)
     case createPost(body: [String: Any])
     case createWatchPost(postId: String)
     case custom(url: URL, mimics: ElloAPI)
     case customRequest(ElloRequest, mimics: ElloAPI)
+    case deleteCategoryUser(String)
     case deleteComment(postId: String, commentId: String)
     case deleteLove(postId: String)
     case deletePost(postId: String)
     case deleteSubscriptions(token: Data)
     case deleteWatchPost(postId: String)
+    case editCategoryUser(categoryId: String, userId: String, role: String)
     case editorials
     case emojiAutoComplete(terms: String)
     case findFriends(contacts: [String: [String]])
@@ -129,10 +132,11 @@ indirect enum ElloAPI {
         case .anonymousCredentials,
              .auth,
              .reAuth,
-             .requestPasswordReset,
-             .postViews,
-             .promotionalViews:
+             .requestPasswordReset:
             return .noContentType  // We do not current have a "Credentials" model, we interact directly with the keychain
+        case .editCategoryUser,
+             .createCategoryUser:
+            return .categoryUsersType
         case .announcements:
             return .announcementsType
         case .amazonCredentials, .amazonLoggingCredentials:
@@ -197,6 +201,7 @@ indirect enum ElloAPI {
             return .autoCompleteResultType
         case .announcementsNewContent,
              .collaborate,
+             .deleteCategoryUser,
              .deleteComment,
              .deleteLove,
              .deletePost,
@@ -210,7 +215,9 @@ indirect enum ElloAPI {
              .inviteFriends,
              .markAnnouncementAsRead,
              .notificationsNewContent,
+             .postViews,
              .profileDelete,
+             .promotionalViews,
              .pushSubscriptions,
              .relationshipBatch,
              .userCategories:
@@ -291,9 +298,11 @@ extension ElloAPI: Moya.TargetType {
         case .anonymousCredentials,
              .auth,
              .availability,
+             .createCategoryUser,
              .createComment,
              .createLove,
              .createPost,
+             .editCategoryUser,
              .findFriends,
              .flagComment,
              .flagPost,
@@ -314,12 +323,13 @@ extension ElloAPI: Moya.TargetType {
         case .resetPassword,
              .userCategories:
             return .put
-        case .deleteComment,
+        case .deleteCategoryUser,
+             .deleteComment,
              .deleteLove,
              .deletePost,
              .deleteSubscriptions,
-             .profileDelete,
-             .deleteWatchPost:
+             .deleteWatchPost,
+             .profileDelete:
             return .delete
         case .followingNewContent,
              .announcementsNewContent,
@@ -386,6 +396,8 @@ extension ElloAPI: Moya.TargetType {
             return "\(defaultPrefix)/categories/\(slug)"
         case let .categoryPosts(slug):
             return "\(defaultPrefix)/categories/\(slug)/posts/recent"
+        case .createCategoryUser:
+            return "\(defaultPrefix)/category_users"
         case let .createComment(parentPostId, _):
             return "\(defaultPrefix)/posts/\(parentPostId)/comments"
         case let .createLove(postId):
@@ -395,6 +407,8 @@ extension ElloAPI: Moya.TargetType {
             return "\(defaultPrefix)/posts"
         case let .createWatchPost(postId):
             return "\(defaultPrefix)/posts/\(postId)/watches"
+        case let .deleteCategoryUser(id):
+            return "\(defaultPrefix)/category_users/\(id)"
         case let .deleteComment(postId, commentId):
             return "\(defaultPrefix)/posts/\(postId)/comments/\(commentId)"
         case let .deleteLove(postId):
@@ -405,6 +419,8 @@ extension ElloAPI: Moya.TargetType {
             return "\(ElloAPI.currentUserProfile.path)/push_subscriptions/apns/\(tokenStringFromData(tokenData))"
         case let .deleteWatchPost(postId):
             return "\(defaultPrefix)/posts/\(postId)/watch"
+        case .editCategoryUser:
+            return "\(defaultPrefix)/category_users/"
         case .emojiAutoComplete:
             return "\(defaultPrefix)/emoji/autocomplete"
         case .findFriends:
@@ -533,11 +549,14 @@ extension ElloAPI: Moya.TargetType {
             return stubbedData("empty")
         case .announcementsNewContent,
              .markAnnouncementAsRead,
+             .createCategoryUser,
+             .deleteCategoryUser,
              .deleteComment,
              .deleteLove,
              .deletePost,
              .deleteSubscriptions,
              .deleteWatchPost,
+             .editCategoryUser,
              .followingNewContent,
              .hire,
              .collaborate,
@@ -728,6 +747,12 @@ extension ElloAPI: Moya.TargetType {
             return [
                 "post_count": 0
             ]
+        case let .createCategoryUser(categoryId, userId, role):
+            return [
+                "category_id": categoryId,
+                "user_id": userId,
+                "role": role,
+            ]
         case let .createComment(_, body):
             return body
         case let .createPost(body):
@@ -746,6 +771,12 @@ extension ElloAPI: Moya.TargetType {
         case let .collaborate(_, body):
             return [
                 "body": body
+            ]
+        case let .editCategoryUser(categoryId, userId, role):
+            return [
+                "category_id": categoryId,
+                "user_id": userId,
+                "role": role,
             ]
         case let .findFriends(contacts):
             var hashedContacts = [String: [String]]()

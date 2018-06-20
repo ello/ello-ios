@@ -18,7 +18,8 @@ final class Profile: Model {
     // version 9: added notifyOfWhatYouMissedViaEmail
     // version 10: added notifyOfApprovedSubmissionsFromFollowingViaEmail
     // version 11: added notifyOfFeaturedCategoryPostViaEmail, notifyOfFeaturedCategoryPostViaPush
-    static let Version = 11
+    // version 12: added moderatedCategoryIds, curatedCategoryIds
+    static let Version = 12
 
     enum CreatorType {
         case none
@@ -71,6 +72,8 @@ final class Profile: Model {
         case coverImageURL = "remote_cover_image_url"
         case webOnboardingVersion = "web_onboarding_version"
         case creatorTypeCategoryIds = "creator_type_category_ids"
+        case moderatedCategoryIds = "moderated_category_ids"
+        case curatedCategoryIds = "curated_category_ids"
 
         case currentPassword = "current_password"
         case password
@@ -122,6 +125,8 @@ final class Profile: Model {
     var mutedCount: Int
     var blockedCount: Int
     var creatorTypeCategoryIds: [String]
+    var moderatedCategoryIds: [String]
+    var curatedCategoryIds: [String]
 
     // dynamic settings
     @objc var isPublic: Bool
@@ -173,6 +178,8 @@ final class Profile: Model {
         mutedCount: Int,
         blockedCount: Int,
         creatorTypeCategoryIds: [String],
+        moderatedCategoryIds: [String],
+        curatedCategoryIds: [String],
         hasSharingEnabled: Bool,
         hasAdNotificationsEnabled: Bool,
         hasAutoWatchEnabled: Bool,
@@ -218,6 +225,8 @@ final class Profile: Model {
         self.mutedCount = mutedCount
         self.blockedCount = blockedCount
         self.creatorTypeCategoryIds = creatorTypeCategoryIds
+        self.moderatedCategoryIds = moderatedCategoryIds
+        self.curatedCategoryIds = curatedCategoryIds
         self.hasSharingEnabled = hasSharingEnabled
         self.hasAdNotificationsEnabled = hasAdNotificationsEnabled
         self.hasAutoWatchEnabled = hasAutoWatchEnabled
@@ -267,6 +276,15 @@ final class Profile: Model {
         self.blockedCount = decoder.decodeKey("blockedCount")
 
         let version: Int = decoder.decodeKey("version")
+        if version < 12 {
+            self.moderatedCategoryIds = []
+            self.curatedCategoryIds = []
+        }
+        else {
+            self.moderatedCategoryIds = decoder.decodeKey("moderatedCategoryIds")
+            self.curatedCategoryIds = decoder.decodeKey("curatedCategoryIds")
+        }
+
         if version < 11 {
             self.notifyOfFeaturedCategoryPostViaEmail = true
             self.notifyOfFeaturedCategoryPostViaPush = true
@@ -383,6 +401,8 @@ final class Profile: Model {
         coder.encodeObject(mutedCount, forKey: "mutedCount")
         coder.encodeObject(blockedCount, forKey: "blockedCount")
         coder.encodeObject(creatorTypeCategoryIds, forKey: "creatorTypeCategoryIds")
+        coder.encodeObject(moderatedCategoryIds, forKey: "moderatedCategoryIds")
+        coder.encodeObject(curatedCategoryIds, forKey: "curatedCategoryIds")
         coder.encodeObject(hasSharingEnabled, forKey: "hasSharingEnabled")
         coder.encodeObject(hasAdNotificationsEnabled, forKey: "hasAdNotificationsEnabled")
         coder.encodeObject(hasAutoWatchEnabled, forKey: "hasAutoWatchEnabled")
@@ -423,6 +443,8 @@ final class Profile: Model {
     class func fromJSON(_ data: [String: Any]) -> Profile {
         let json = JSON(data)
         let creatorTypeCategoryIds: [String] = json["creator_type_category_ids"].arrayValue.compactMap { $0.stringValue }
+        let moderatedCategoryIds: [String] = json["moderated_category_ids"].arrayValue.compactMap { $0.stringValue }
+        let curatedCategoryIds: [String] = json["curated_category_ids"].arrayValue.compactMap { $0.stringValue }
 
         let profile = Profile(
             id: json["id"].stringValue,
@@ -435,6 +457,8 @@ final class Profile: Model {
             mutedCount: json["muted_count"].intValue,
             blockedCount: json["blocked_count"].intValue,
             creatorTypeCategoryIds: creatorTypeCategoryIds,
+            moderatedCategoryIds: moderatedCategoryIds,
+            curatedCategoryIds: curatedCategoryIds,
             hasSharingEnabled: json["has_sharing_enabled"].bool ?? false,
             hasAdNotificationsEnabled: json["has_ad_notifications_enabled"].bool ?? false,
             hasAutoWatchEnabled: json["has_auto_watch_enabled"].bool ?? false,
