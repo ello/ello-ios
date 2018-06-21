@@ -20,6 +20,17 @@ struct ProfileService {
             }
     }
 
+    func reloadProfile(currentUser: User) -> Promise<Profile> {
+        return ElloProvider.shared.request(.currentUserProfile)
+            .map { (jsonable, _) -> Profile in
+                guard let user = jsonable as? User, let profile = user.profile else {
+                    throw NSError.uncastableModel()
+                }
+                currentUser.profile = profile
+                return profile
+            }
+    }
+
     func update(categories: [Category], onboarding: Bool) -> Promise<()> {
         return update(categoryIds: Set(categories.map { $0.id }), onboarding: onboarding)
     }

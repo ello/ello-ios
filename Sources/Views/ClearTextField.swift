@@ -22,7 +22,7 @@ class ClearTextField: UITextField {
             }
         }
     }
-    private var line = UIView()
+    private var line = Line()
     var hasOnePassword = false {
         didSet {
             onePasswordButton.isVisible = hasOnePassword
@@ -57,6 +57,8 @@ class ClearTextField: UITextField {
         rightViewMode = .always
 
         addSubview(onePasswordButton)
+        addSubview(line)
+
         onePasswordButton.isVisible = hasOnePassword
         onePasswordButton.snp.makeConstraints { make in
             make.centerY.equalTo(self).offset(-Size.lineMargin / 2)
@@ -64,11 +66,9 @@ class ClearTextField: UITextField {
             make.size.equalTo(CGSize.minButton)
         }
 
-        addSubview(line)
         line.backgroundColor = lineColor
         line.snp.makeConstraints { make in
             make.leading.trailing.bottom.equalTo(self)
-            make.height.equalTo(1)
         }
     }
 

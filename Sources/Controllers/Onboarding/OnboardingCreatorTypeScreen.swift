@@ -64,7 +64,7 @@ class OnboardingCreatorTypeScreen: StreamableScreen {
     private let headerLabel = StyledLabel(style: .black)
     private let scrollView = UIScrollView()
     private let scrollableWidth = UIView()
-    private let creatorTypeContainer = UIView()
+    private let creatorTypeContainer = Container()
     private let hereAsLabel = StyledLabel(style: .gray)
     private let artistButton = StyledButton(style: .roundedGrayOutline)
     private let fanButton = StyledButton(style: .roundedGrayOutline)
@@ -74,7 +74,7 @@ class OnboardingCreatorTypeScreen: StreamableScreen {
     private var creatorTypeContainerTop: Constraint!
     private var creatorTypeContainerIntroTop: Constraint!
     private let creatorLabel = StyledLabel(style: .gray)
-    private let creatorButtonsContainer = UIView()
+    private let creatorButtonsContainer = Container()
     private var creatorButtons: [UIView] = []
 
     override func style() {

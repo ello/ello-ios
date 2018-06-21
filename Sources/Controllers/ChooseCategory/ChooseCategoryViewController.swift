@@ -12,12 +12,19 @@ class ChooseCategoryViewController: StreamableViewController {
     var generator: ChooseCategoryGenerator!
     weak var delegate: ChooseCategoryControllerDelegate?
     var selectedIds: Set<String>?
+    var categoryFilter: ((Category) -> Bool)?
 
-    init(currentUser: User, category: Category?) {
+    enum Usage {
+        case omnibar
+        case roleAdmin
+    }
+
+    init(currentUser: User, category: Category?, usage: Usage) {
         super.init(nibName: nil, bundle: nil)
         self.generator = ChooseCategoryGenerator(
             currentUser: currentUser,
             category: category,
+            usage: usage,
             destination: self
         )
         self.currentUser = currentUser
@@ -70,9 +77,10 @@ class ChooseCategoryViewController: StreamableViewController {
 extension ChooseCategoryViewController: ChooseCategoryResponder {
     func categoryChosen(_ category: Category) {
         delegate?.categoryChosen(category)
-        ElloHUD.showLoadingHudInView(self.view)
-        delay(0.3) {
-            self.backButtonTapped()
+        let shouldGoBack = delegate?.chooseCategoryShouldGoBack?() ?? true
+        if shouldGoBack {
+            ElloHUD.showLoadingHudInView(self.view)
+            delay(0.3, block: backButtonTapped)
         }
     }
 }
@@ -85,7 +93,18 @@ extension ChooseCategoryViewController: StreamDestination {
     }
 
     func replacePlaceholder(type: StreamCellType.PlaceholderType, items: [StreamCellItem], completion: @escaping Block) {
-        streamViewController.replacePlaceholder(type: type, items: items, completion: completion)
+        let filteredItems: [StreamCellItem]
+        if type == .streamItems, let categoryFilter = categoryFilter {
+            filteredItems = items.filter { item in
+                guard let category = item.jsonable as? Category else { return true }
+                return categoryFilter(category)
+            }
+        }
+        else {
+            filteredItems = items
+        }
+
+        streamViewController.replacePlaceholder(type: type, items: filteredItems, completion: completion)
 
         if type == .streamItems {
             streamViewController.doneLoading()

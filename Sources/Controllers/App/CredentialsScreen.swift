@@ -15,17 +15,11 @@ class CredentialsScreen: EmptyScreen {
     }
 
     let scrollView = UIScrollView()
-    var scrollViewWidthConstraint: Constraint!
     let backButton = UIButton()
     let titleLabel = StyledLabel(style: .largeBoldWhite)
     let gradientLayer = StartupGradientLayer()
     let continueButton = StyledButton(style: .roundedGrayOutline)
     let continueBackground = UIView()
-
-    override func updateConstraints() {
-        super.updateConstraints()
-        scrollViewWidthConstraint.update(offset: frame.size.width)
-    }
 
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -64,11 +58,11 @@ class CredentialsScreen: EmptyScreen {
             make.bottom.equalTo(continueBackground.snp.top)
         }
 
-        let scrollViewAnchor = UIView()
-        scrollView.addSubview(scrollViewAnchor)
-        scrollViewAnchor.snp.makeConstraints { make in
-            make.leading.trailing.top.equalTo(scrollView)
-            scrollViewWidthConstraint = make.width.equalTo(frame.size.width).priority(Priority.required).constraint
+        let scrollWidthAnchor = UIView()
+        scrollView.addSubview(scrollWidthAnchor)
+        scrollWidthAnchor.snp.makeConstraints { make in
+            make.leading.trailing.equalTo(scrollView)
+            make.width.equalTo(self).priority(Priority.required)
         }
 
         titleLabel.snp.makeConstraints { make in

@@ -17,12 +17,11 @@ class AutoCompleteCell: TableViewCell {
 
     let avatar = AvatarButton()
     private let nameLabel = StyledLabel(style: .white)
-    let line = UIView()
+    private let line = Line(color: .grey3)
 
     override func styleCell() {
         contentView.backgroundColor = .black
         selectionStyle = .none
-        line.backgroundColor = .grey3
     }
 
     override func arrange() {
@@ -43,7 +42,6 @@ class AutoCompleteCell: TableViewCell {
 
         line.snp.makeConstraints { make in
             make.leading.trailing.bottom.equalTo(contentView)
-            make.height.equalTo(1)
         }
     }
 }

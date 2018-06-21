@@ -301,13 +301,14 @@ extension StyledButton.Style {
         )
     static let roundedGrayOutline = StyledButton.Style(
         backgroundColor: .clear, selectedBackgroundColor: .black,
-        titleColor: .greyA, highlightedTitleColor: .black, unselectHighlightedTitleColor: .greyA, selectedTitleColor: .white,
-        borderColor: .greyA, highlightedBorderColor: .black, unselectHighlightedBorderColor: .greyA, selectedBorderColor: .black,
+        titleColor: .greyA, highlightedTitleColor: .black, unselectHighlightedTitleColor: .greyA, selectedTitleColor: .white, disabledTitleColor: .greyC,
+        borderColor: .greyA, highlightedBorderColor: .black, unselectHighlightedBorderColor: .greyA, selectedBorderColor: .black, disabledBorderColor: .greyC,
         cornerRadius: .rounded
         )
     static let roundedBlack = StyledButton.Style(
-        backgroundColor: .black,
-        titleColor: .white,
+        backgroundColor: .black, disabledBackgroundColor: .grey3,
+        titleColor: .white, disabledTitleColor: .greyC,
+        disabledBorderColor: .greyC,
         cornerRadius: .rounded
         )
     static let roundedGray = StyledButton.Style(

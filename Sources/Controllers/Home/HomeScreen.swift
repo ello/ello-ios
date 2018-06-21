@@ -4,7 +4,7 @@
 
 class HomeScreen: StreamableScreen, HomeScreenProtocol {
     weak var delegate: HomeScreenDelegate?
-    let controllerContainer = UIView()
+    let controllerContainer: UIView = Container()
 
     override func arrange() {
         super.arrange()

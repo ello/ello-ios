@@ -126,6 +126,14 @@ class StyledLabel: UILabel {
         size.height = heightForWidth(size.width) + extraBottomMargin
         return size
     }
+
+    override var intrinsicContentSize: CGSize {
+        var size = super.intrinsicContentSize
+        if size.height != UIViewNoIntrinsicMetric {
+            size.height += 1
+        }
+        return size
+    }
 }
 
 extension StyledLabel {
@@ -144,6 +152,10 @@ extension StyledLabel.Style {
     static let bold = StyledLabel.Style(
         textColor: .black,
         fontFamily: .bold
+        )
+    static let blackUnderlined = StyledLabel.Style(
+        textColor: .black,
+        underline: true
         )
     static let large = StyledLabel.Style(
         textColor: .black,
@@ -168,6 +180,10 @@ extension StyledLabel.Style {
     static let boldWhite = StyledLabel.Style(
         textColor: .white,
         fontFamily: .bold
+        )
+    static let whiteUnderlined = StyledLabel.Style(
+        textColor: .white,
+        underline: true
         )
     static let header = StyledLabel.Style(
         textColor: .black,

@@ -69,7 +69,7 @@ extension AddressBookController {
         alertController.addAction(proceedAction)
 
         let cancelMessage = InterfaceString.Friends.ImportNotNow
-        let cancelAction = AlertAction(title: cancelMessage, style: .roundedGrayFill) { _ in
+        let cancelAction = AlertAction(title: cancelMessage, style: .gray) { _ in
             Tracker.shared.importContactsDenied()
             cancelCompletion()
         }

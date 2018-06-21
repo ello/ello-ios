@@ -69,7 +69,6 @@ class ElloProvider {
 
 }
 
-
 extension ElloProvider {
 
     private func handleRequest(request: RequestFuture, result: MoyaResult, uuid: UUID) {

@@ -14,7 +14,7 @@ class CategoryViewControllerSpec: QuickSpec {
         var categoriesLoaded: Bool = false
 
         let topInsetView = UIView()
-        let streamContainer = UIView()
+        let streamContainer = Container()
         var isGridView = true
         var navigationBarTopConstraint: NSLayoutConstraint!
         let navigationBar = ElloNavigationBar()

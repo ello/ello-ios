@@ -26,7 +26,7 @@ class NotificationsScreen: UIView, NotificationsScreenProtocol {
 
     weak var delegate: NotificationsScreenDelegate?
     let filterBar = NotificationsFilterBar()
-    let streamContainer = UIView()
+    let streamContainer: UIView = Container()
 
     var navBarVisible = true
 

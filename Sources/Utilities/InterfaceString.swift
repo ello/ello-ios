@@ -179,11 +179,16 @@ struct InterfaceString {
     }
 
     struct Category {
+        static let Moderator: String = NSLocalizedString("Moderator", comment: "")
         static let Moderators: String = NSLocalizedString("Moderators", comment: "")
+        static let Curator: String = NSLocalizedString("Curator", comment: "")
         static let Curators: String = NSLocalizedString("Curators", comment: "")
+        static let FeaturedUser: String = NSLocalizedString("Featured User", comment: "")
+        static let NoRoles: String = NSLocalizedString("No existing roles", comment: "")
         static let SponsoredBy: String = NSLocalizedString("Sponsored by", comment: "")
         static let PostedBy: String = NSLocalizedString("Posted by", comment: "")
         static let HeaderBy: String = NSLocalizedString("Header by", comment: "")
+        static let RoleAdmin: String = NSLocalizedString("Role Administrator", comment: "")
     }
 
     struct Settings {
@@ -519,6 +524,7 @@ struct InterfaceString {
     static let OK: String = NSLocalizedString("OK", comment: "")
     static let Yes: String = NSLocalizedString("Yes", comment: "")
     static let No: String = NSLocalizedString("No", comment: "")
+    static let Nevermind: String = NSLocalizedString("Nevermind", comment: "")
     static let Cancel: String = NSLocalizedString("Cancel", comment: "")
     static let Submit: String = NSLocalizedString("Submit", comment: "")
     static let Retry: String = NSLocalizedString("Retry", comment: "")
@@ -534,4 +540,5 @@ struct InterfaceString {
     static let Save: String = NSLocalizedString("Save", comment: "")
     static let Edit: String = NSLocalizedString("Edit", comment: "")
     static let Info: String = NSLocalizedString("Info", comment: "")
+    static let Add: String = NSLocalizedString("Add", comment: "")
 }

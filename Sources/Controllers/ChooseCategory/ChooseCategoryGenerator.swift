@@ -3,15 +3,19 @@
 //
 
 class ChooseCategoryGenerator: StreamGenerator {
+    typealias Usage = ChooseCategoryViewController.Usage
+
     var currentUser: User?
     var category: Category?
+    var usage: Usage
     var streamKind: StreamKind = .chooseCategory
     let searchString = SearchString(text: "")
     weak var destination: StreamDestination?
 
-    init(currentUser: User, category: Category?, destination: StreamDestination?) {
+    init(currentUser: User, category: Category?, usage: Usage, destination: StreamDestination?) {
         self.currentUser = currentUser
         self.category = category
+        self.usage = usage
         self.destination = destination
     }
 
@@ -59,8 +63,13 @@ extension ChooseCategoryGenerator {
 
     private func processCategories(_ categories: [Category]) {
         let items = [StreamCellItem(jsonable: self.searchString, type: .search(placeholder: InterfaceString.Community.Search))] + categories.map { category in
-            let isSubscribed = currentUser?.subscribedTo(categoryId: category.id) == true
             let isSelected = self.category?.id == category.id
+            let isSubscribed: Bool
+            switch usage {
+            case .omnibar: isSubscribed = currentUser?.subscribedTo(categoryId: category.id) == true
+            case .roleAdmin: isSubscribed = false
+            }
+
             return StreamCellItem(jsonable: category, type: .categoryChooseCard(isSubscribed: isSubscribed, isSelected: isSelected))
         }
 

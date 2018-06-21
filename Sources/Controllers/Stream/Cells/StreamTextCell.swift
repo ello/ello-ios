@@ -51,7 +51,7 @@ class StreamTextCell: StreamRegionableCell, UIWebViewDelegate, UIGestureRecogniz
     }
 
     private var webView = ElloWebView()
-    private var webViewContainer = UIView()
+    private var webViewContainer = Container()
     private var leadingConstraint: Constraint!
     private let doubleTapGesture = UITapGestureRecognizer()
     private let longPressGesture = UILongPressGestureRecognizer()

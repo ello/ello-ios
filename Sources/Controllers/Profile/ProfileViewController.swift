@@ -102,6 +102,7 @@ final class ProfileViewController: StreamableViewController {
         let screen = ProfileScreen()
         screen.delegate = self
         screen.clipsToBounds = true
+        screen.hasRoleAdminButton = currentUser?.canModifyAnyCategoryRole ?? false
         view = screen
         viewContainer = screen.streamContainer
     }
@@ -251,6 +252,7 @@ extension ProfileViewController: ProfileScreenDelegate {
 
         Tracker.shared.tappedHire(user)
         let vc = HireViewController(user: user, type: .hire)
+        vc.currentUser = currentUser
         self.navigationController?.pushViewController(vc, animated: true)
     }
 
@@ -276,6 +278,20 @@ extension ProfileViewController: ProfileScreenDelegate {
 
         Tracker.shared.tappedCollaborate(user)
         let vc = HireViewController(user: user, type: .collaborate)
+        vc.currentUser = currentUser
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+
+    func roleAdminTapped() {
+        guard
+            let user = user, let currentUser = currentUser,
+            currentUser.canModifyAnyCategoryRole
+        else { return }
+
+        postNotification(StatusBarNotifications.statusBarVisibility, value: true)
+        showNavBars(animated: true)
+        let vc = RoleAdminViewController(user: user)
+        vc.currentUser = currentUser
         self.navigationController?.pushViewController(vc, animated: true)
     }
 }
@@ -300,7 +316,9 @@ extension ProfileViewController {
     }
 
     func updateUser(_ user: User) {
+        guard isViewLoaded else { return }
         screen.enableButtons()
+        screen.hasRoleAdminButton = currentUser?.canModifyAnyCategoryRole ?? false
 
         guard user.id == self.currentUser?.id else {
             screen.configureButtonsForNonCurrentUser(isHireable: user.isHireable, isCollaborateable: user.isCollaborateable)

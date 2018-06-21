@@ -70,7 +70,7 @@ class CategoryScreen: HomeSubviewScreen, CategoryScreenProtocol {
     private let editCategoriesGradient = CategoryScreen.generateGradientLayer()
     private let gridListButton = UIButton()
     private let shareButton = UIButton()
-    private let navigationContainer = UIView()
+    private let navigationContainer = Container()
 
     private var categoryCardTopConstraint: Constraint!
     private var iPhoneBlackBarTopConstraint: Constraint!

@@ -56,6 +56,13 @@ struct Fragments: Equatable {
         }
         """, needs: [tshirtProps, responsiveProps])
 
+    static let categoryProps = Fragments("""
+        fragment categoryProps on Category {
+          id name slug order allowInOnboarding isCreatorType level description
+          tileImage { ...tshirtProps }
+        }
+        """, needs: [tshirtProps])
+
     static let pageHeaderUserProps = Fragments("""
         fragment pageHeaderUserProps on User {
           id
@@ -87,11 +94,6 @@ struct Fragments: Equatable {
           content { ...contentProps }
         }
 
-        fragment categoryProps on Category {
-          id name slug order allowInOnboarding isCreatorType level description
-          tileImage { ...tshirtProps }
-        }
-
         fragment postSummary on Post {
           id
           token
@@ -120,7 +122,7 @@ struct Fragments: Equatable {
                 ...postSummary
             }
         }
-        """, needs: [postSummary, categoryPostActions])
+        """, needs: [postSummary, categoryPostActions, categoryProps])
 
     static let userDetails = Fragments("""
         fragment userDetails on User {
@@ -144,8 +146,14 @@ struct Fragments: Equatable {
           coverImage {
             ...responsiveProps
           }
+          categoryUsers(roles: [CURATOR, FEATURED, MODERATOR]) {
+            id
+            category { ...categoryProps }
+            createdAt updatedAt
+            role
+          }
         }
-        """, needs: [tshirtProps, responsiveProps])
+        """, needs: [tshirtProps, responsiveProps, categoryProps])
 
     //|
     //|  REQUEST BODIES

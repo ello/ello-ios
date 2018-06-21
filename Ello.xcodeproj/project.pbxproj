@@ -406,6 +406,13 @@
 		12F9EB431DEF79B800E127AE /* ProfileHeaderCompactViewSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F9EB421DEF79B800E127AE /* ProfileHeaderCompactViewSpec.swift */; };
 		12FCEFDF1BD7F68500B8A7B5 /* Ello.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = 1205B5D01BBB152700B656ED /* Ello.entitlements */; };
 		12FEEB551A60396A00E32248 /* posts.json in Resources */ = {isa = PBXBuildFile; fileRef = 12FEEB541A60396A00E32248 /* posts.json */; };
+		1D00695A20D854DE00DDBE69 /* xbox_white.svg in Resources */ = {isa = PBXBuildFile; fileRef = 1D00695920D854DE00DDBE69 /* xbox_white.svg */; };
+		1D00695D20D995EC00DDBE69 /* ChooseRoleScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D00695B20D995EC00DDBE69 /* ChooseRoleScreen.swift */; };
+		1D00695E20D995EC00DDBE69 /* ChooseRoleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D00695C20D995EC00DDBE69 /* ChooseRoleViewController.swift */; };
+		1D00696220DABB3B00DDBE69 /* role_admin_white.svg in Resources */ = {isa = PBXBuildFile; fileRef = 1D00695F20DABB3800DDBE69 /* role_admin_white.svg */; };
+		1D00696320DABB3B00DDBE69 /* role_admin_selected.svg in Resources */ = {isa = PBXBuildFile; fileRef = 1D00696020DABB3800DDBE69 /* role_admin_selected.svg */; };
+		1D00696420DABB3B00DDBE69 /* role_admin_normal.svg in Resources */ = {isa = PBXBuildFile; fileRef = 1D00696120DABB3B00DDBE69 /* role_admin_normal.svg */; };
+		1D00696620DC247200DDBE69 /* RoleAdminPermissions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D00696520DC247100DDBE69 /* RoleAdminPermissions.swift */; };
 		1D061B501AAA196100493435 /* Keyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D061B4E1AAA192200493435 /* Keyboard.swift */; };
 		1D061B521AAA1C6D00493435 /* StringExtensionSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D061B511AAA1C6D00493435 /* StringExtensionSpec.swift */; };
 		1D066FF31B8BA19E002B303D /* ArraySpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D066FF21B8BA19E002B303D /* ArraySpec.swift */; };
@@ -1003,6 +1010,12 @@
 		1DBFD9FE1DFF4A0E0058843D /* NotificationsGeneratorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DBFD9FD1DFF4A0E0058843D /* NotificationsGeneratorSpec.swift */; };
 		1DC10FA51C3DEB7600846ED6 /* availability__error.json in Resources */ = {isa = PBXBuildFile; fileRef = 1DC10FA31C3DEB7600846ED6 /* availability__error.json */; };
 		1DC10FA61C3DEB7600846ED6 /* availability.json in Resources */ = {isa = PBXBuildFile; fileRef = 1DC10FA41C3DEB7600846ED6 /* availability.json */; };
+		1DC2402620D441A8009B07D5 /* Line.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC2402520D441A7009B07D5 /* Line.swift */; };
+		1DC2402820D45665009B07D5 /* NavBarScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC2402720D45664009B07D5 /* NavBarScreen.swift */; };
+		1DC2402E20D46858009B07D5 /* RoleAdminViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC2402A20D46857009B07D5 /* RoleAdminViewController.swift */; };
+		1DC2402F20D46858009B07D5 /* RoleAdminScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC2402B20D46858009B07D5 /* RoleAdminScreen.swift */; };
+		1DC2403020D46858009B07D5 /* RoleAdminGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC2402C20D46858009B07D5 /* RoleAdminGenerator.swift */; };
+		1DC2403120D46858009B07D5 /* RoleAdminProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC2402D20D46858009B07D5 /* RoleAdminProtocols.swift */; };
 		1DC29BB71D3824D30041B1DC /* Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC29BB61D3824D30041B1DC /* Defaults.swift */; };
 		1DC29BB81D3824DE0041B1DC /* Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC29BB61D3824D30041B1DC /* Defaults.swift */; };
 		1DC309FC1B03F29300EAD920 /* communities.json in Resources */ = {isa = PBXBuildFile; fileRef = 1DC309FB1B03F29300EAD920 /* communities.json */; };
@@ -1721,6 +1734,13 @@
 		12FEBD011A4225F600933A02 /* Ello.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ello.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		12FEEB541A60396A00E32248 /* posts.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = posts.json; sourceTree = "<group>"; };
 		1874F06AFC92C6F62E966AC5 /* Pods_NotificationServiceExtension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NotificationServiceExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1D00695920D854DE00DDBE69 /* xbox_white.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = xbox_white.svg; sourceTree = "<group>"; };
+		1D00695B20D995EC00DDBE69 /* ChooseRoleScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChooseRoleScreen.swift; sourceTree = "<group>"; };
+		1D00695C20D995EC00DDBE69 /* ChooseRoleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChooseRoleViewController.swift; sourceTree = "<group>"; };
+		1D00695F20DABB3800DDBE69 /* role_admin_white.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = role_admin_white.svg; sourceTree = "<group>"; };
+		1D00696020DABB3800DDBE69 /* role_admin_selected.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = role_admin_selected.svg; sourceTree = "<group>"; };
+		1D00696120DABB3B00DDBE69 /* role_admin_normal.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = role_admin_normal.svg; sourceTree = "<group>"; };
+		1D00696520DC247100DDBE69 /* RoleAdminPermissions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoleAdminPermissions.swift; sourceTree = "<group>"; };
 		1D061B4E1AAA192200493435 /* Keyboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Keyboard.swift; sourceTree = "<group>"; };
 		1D061B511AAA1C6D00493435 /* StringExtensionSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtensionSpec.swift; sourceTree = "<group>"; };
 		1D066FF21B8BA19E002B303D /* ArraySpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArraySpec.swift; sourceTree = "<group>"; };
@@ -2144,6 +2164,12 @@
 		1DBFD9FD1DFF4A0E0058843D /* NotificationsGeneratorSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationsGeneratorSpec.swift; sourceTree = "<group>"; };
 		1DC10FA31C3DEB7600846ED6 /* availability__error.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = availability__error.json; sourceTree = "<group>"; };
 		1DC10FA41C3DEB7600846ED6 /* availability.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = availability.json; sourceTree = "<group>"; };
+		1DC2402520D441A7009B07D5 /* Line.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Line.swift; sourceTree = "<group>"; };
+		1DC2402720D45664009B07D5 /* NavBarScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavBarScreen.swift; sourceTree = "<group>"; };
+		1DC2402A20D46857009B07D5 /* RoleAdminViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoleAdminViewController.swift; sourceTree = "<group>"; };
+		1DC2402B20D46858009B07D5 /* RoleAdminScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoleAdminScreen.swift; sourceTree = "<group>"; };
+		1DC2402C20D46858009B07D5 /* RoleAdminGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoleAdminGenerator.swift; sourceTree = "<group>"; };
+		1DC2402D20D46858009B07D5 /* RoleAdminProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoleAdminProtocols.swift; sourceTree = "<group>"; };
 		1DC29BB61D3824D30041B1DC /* Defaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Defaults.swift; sourceTree = "<group>"; };
 		1DC309FB1B03F29300EAD920 /* communities.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = communities.json; sourceTree = "<group>"; };
 		1DC546361FA3E8CD00B06592 /* CommentHeaderCellPresenterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentHeaderCellPresenterSpec.swift; sourceTree = "<group>"; };
@@ -2648,12 +2674,8 @@
 		122B18CC1A867BCE00247A05 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
-				1D2F65AB1D186E7A0099D036 /* CategoryCardCell.swift */,
-				1DE0F08820C07EC400AAD63F /* CategoryHeaderCell.swift */,
-				1DE83C1A20AE0BF6009109E6 /* CategoryPostHistoryCell.swift */,
 				1D2896521FA25CBD004661C1 /* CommentHeaderCell.swift */,
 				1DB8C6B01D7F1BE4007E1447 /* DismissableCell.swift */,
-				1D8783121ECCF45100253602 /* Editorials */,
 				128D36BB1A952E3E00622833 /* ElloPostToolBarOption.swift */,
 				1D7152951D6CBE0E005998FE /* NoPostsCell.swift */,
 				1D88E329206ACDC000B496F0 /* PostFeaturedControlCell.swift */,
@@ -2795,6 +2817,8 @@
 				12431FF51DBAA7B2006808D4 /* CategoryProtocols.swift */,
 				12431FF31DBAA6E4006808D4 /* CategoryScreen.swift */,
 				12431FF11DBAA6D3006808D4 /* CategoryViewController.swift */,
+				1D66A14020D4270B00113C2B /* Cells */,
+				1D66A14120D4271400113C2B /* Presenters */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -2925,9 +2949,6 @@
 			isa = PBXGroup;
 			children = (
 				1D70DE6F1DF77D66008AF216 /* AnnouncementCellPresenter.swift */,
-				1D2F65AD1D186E7F0099D036 /* CategoryCardCellPresenter.swift */,
-				1DE0F08A20C07ECF00AAD63F /* CategoryHeaderCellPresenter.swift */,
-				1DE83C1C20AE0F8E009109E6 /* CategoryPostHistoryPresenter.swift */,
 				1D2896541FA2640E004661C1 /* CommentHeaderCellPresenter.swift */,
 				1D9309DB1EC134A20099FCF8 /* EditorialCellPresenter.swift */,
 				1DF490901FD0A1A900C0ACAC /* LoadingCellPresenter.swift */,
@@ -3307,6 +3328,7 @@
 				1D66801E1A89B862003E93C8 /* Profile */,
 				F8D4F60C1AE829C900AF4470 /* PushNotifications */,
 				76E5CBE71A92678500D6483F /* Relationship */,
+				1DC2402420D42AEA009B07D5 /* RoleAdmin */,
 				1D33284C1AE74D6100446591 /* Search */,
 				EA8990161ABB4B0F00339CBE /* Settings */,
 				12B093641A6D874300BF104E /* Stream */,
@@ -3755,6 +3777,11 @@
 		1D14B45E20CADC63000D5386 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				1DDC23411F32250600E68B0E /* ArtistInviteAdminControlsCell.swift */,
+				1DC78A5A1F2161E900BE2413 /* ArtistInviteBubbleCell.swift */,
+				1D7E823E1F2692D3006ACE7A /* ArtistInviteControlsCell.swift */,
+				1D7E82401F2692D3006ACE7A /* ArtistInviteGuideCell.swift */,
+				1D7E82491F2BCB9E006ACE7A /* ArtistInviteSubmissionsButtonCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -3762,6 +3789,8 @@
 		1D14B45F20CADC71000D5386 /* Presenters */ = {
 			isa = PBXGroup;
 			children = (
+				1DDC23421F32250600E68B0E /* ArtistInviteAdminControlsPresenter.swift */,
+				1DDC23431F32250600E68B0E /* ArtistInviteCellPresenter.swift */,
 			);
 			path = Presenters;
 			sourceTree = "<group>";
@@ -3769,6 +3798,7 @@
 		1D14B46020CADC7B000D5386 /* Calculators */ = {
 			isa = PBXGroup;
 			children = (
+				1D313F651F264BB200953EE2 /* ArtistInviteCellSizeCalculator.swift */,
 			);
 			path = Calculators;
 			sourceTree = "<group>";
@@ -3808,7 +3838,6 @@
 			isa = PBXGroup;
 			children = (
 				1D70DE6D1DF73ACB008AF216 /* AnnouncementCellSizeCalculator.swift */,
-				1D313F651F264BB200953EE2 /* ArtistInviteCellSizeCalculator.swift */,
 				1D7672E720C9CFA70057E03F /* CellSizeCalculator.swift */,
 				1D70DE621DF730C1008AF216 /* PromotionalHeaderCellSizeCalculator.swift */,
 				1D70DE631DF730C1008AF216 /* StreamImageCellSizeCalculator.swift */,
@@ -3865,6 +3894,7 @@
 			children = (
 				1D71529D1D6D1040005998FE /* EmptyScreen.swift */,
 				1DB2710A1F4C95BF0044D475 /* HomeSubviewScreen.swift */,
+				1DC2402720D45664009B07D5 /* NavBarScreen.swift */,
 				1D71528E1D6CA22C005998FE /* Screen.swift */,
 				1D5933901D14855B00EAF03D /* StreamableScreen.swift */,
 			);
@@ -3950,6 +3980,26 @@
 			path = Specs/Views;
 			sourceTree = SOURCE_ROOT;
 		};
+		1D66A14020D4270B00113C2B /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				1D2F65AB1D186E7A0099D036 /* CategoryCardCell.swift */,
+				1DE0F08820C07EC400AAD63F /* CategoryHeaderCell.swift */,
+				1DE83C1A20AE0BF6009109E6 /* CategoryPostHistoryCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		1D66A14120D4271400113C2B /* Presenters */ = {
+			isa = PBXGroup;
+			children = (
+				1D2F65AD1D186E7F0099D036 /* CategoryCardCellPresenter.swift */,
+				1DE0F08A20C07ECF00AAD63F /* CategoryHeaderCellPresenter.swift */,
+				1DE83C1C20AE0F8E009109E6 /* CategoryPostHistoryPresenter.swift */,
+			);
+			path = Presenters;
+			sourceTree = "<group>";
+		};
 		1D6D8E6A1EF2ED2F00472434 /* Home */ = {
 			isa = PBXGroup;
 			children = (
@@ -4026,13 +4076,6 @@
 			path = Presenters;
 			sourceTree = "<group>";
 		};
-		1D8783121ECCF45100253602 /* Editorials */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Editorials;
-			sourceTree = "<group>";
-		};
 		1D9309CF1EC109170099FCF8 /* Editorials */ = {
 			isa = PBXGroup;
 			children = (
@@ -4105,6 +4148,7 @@
 				1DBD0BBF1F950ADB00DF9FC5 /* Button.swift */,
 				1DBD0BBC1F950ADB00DF9FC5 /* CollectionViewCell.swift */,
 				1DBD0BBE1F950ADB00DF9FC5 /* Control.swift */,
+				1DC2402520D441A7009B07D5 /* Line.swift */,
 				1DBD0BBD1F950ADB00DF9FC5 /* TableViewCell.swift */,
 				1DBD0BBB1F950ADB00DF9FC5 /* View.swift */,
 			);
@@ -4128,31 +4172,38 @@
 			path = Notifications;
 			sourceTree = "<group>";
 		};
+		1DC2402420D42AEA009B07D5 /* RoleAdmin */ = {
+			isa = PBXGroup;
+			children = (
+				1D00695B20D995EC00DDBE69 /* ChooseRoleScreen.swift */,
+				1D00695C20D995EC00DDBE69 /* ChooseRoleViewController.swift */,
+				1DC2402C20D46858009B07D5 /* RoleAdminGenerator.swift */,
+				1D00696520DC247100DDBE69 /* RoleAdminPermissions.swift */,
+				1DC2402D20D46858009B07D5 /* RoleAdminProtocols.swift */,
+				1DC2402B20D46858009B07D5 /* RoleAdminScreen.swift */,
+				1DC2402A20D46857009B07D5 /* RoleAdminViewController.swift */,
+			);
+			path = RoleAdmin;
+			sourceTree = "<group>";
+		};
 		1DC78A4E1F21300800BE2413 /* ArtistInvites */ = {
 			isa = PBXGroup;
 			children = (
-				1D14B46020CADC7B000D5386 /* Calculators */,
-				1D14B45F20CADC71000D5386 /* Presenters */,
-				1D14B45E20CADC63000D5386 /* Cells */,
 				1DDC23371F30EB2D00E68B0E /* ArtistInviteAdminController.swift */,
-				1DDC23411F32250600E68B0E /* ArtistInviteAdminControlsCell.swift */,
-				1DDC23421F32250600E68B0E /* ArtistInviteAdminControlsPresenter.swift */,
 				1DDC23381F30EB2D00E68B0E /* ArtistInviteAdminGenerator.swift */,
 				1DDC233F1F3115A200E68B0E /* ArtistInviteAdminScreen.swift */,
-				1DC78A5A1F2161E900BE2413 /* ArtistInviteBubbleCell.swift */,
-				1DDC23431F32250600E68B0E /* ArtistInviteCellPresenter.swift */,
-				1D7E823E1F2692D3006ACE7A /* ArtistInviteControlsCell.swift */,
 				1D313F6F1F267FCF00953EE2 /* ArtistInviteDetailController.swift */,
 				1D7E823A1F26885D006ACE7A /* ArtistInviteDetailGenerator.swift */,
 				1D447E7E1F38DB7D00013384 /* ArtistInviteDetailScreen.swift */,
-				1D7E82401F2692D3006ACE7A /* ArtistInviteGuideCell.swift */,
 				1D7E823F1F2692D3006ACE7A /* ArtistInviteHeaderCell.swift */,
 				1DC78A4F1F21302300BE2413 /* ArtistInvitesGenerator.swift */,
 				1DC78A501F21302300BE2413 /* ArtistInvitesProtocols.swift */,
 				1DC78A511F21302300BE2413 /* ArtistInvitesScreen.swift */,
-				1D7E82491F2BCB9E006ACE7A /* ArtistInviteSubmissionsButtonCell.swift */,
 				1D447E791F38D6CD00013384 /* ArtistInviteSubmissionSuccessScreen.swift */,
 				1DC78A521F21302300BE2413 /* ArtistInvitesViewController.swift */,
+				1D14B46020CADC7B000D5386 /* Calculators */,
+				1D14B45E20CADC63000D5386 /* Cells */,
+				1D14B45F20CADC71000D5386 /* Presenters */,
 			);
 			path = ArtistInvites;
 			sourceTree = "<group>";
@@ -4414,6 +4465,9 @@
 				76F8DE951B6C0BC4009BCF61 /* repost_normal.svg */,
 				76F8DE961B6C0BC4009BCF61 /* repost_selected.svg */,
 				76F8DE971B6C0BC4009BCF61 /* repost_white.svg */,
+				1D00696120DABB3B00DDBE69 /* role_admin_normal.svg */,
+				1D00696020DABB3800DDBE69 /* role_admin_selected.svg */,
+				1D00695F20DABB3800DDBE69 /* role_admin_white.svg */,
 				1D3EC0D91E97F5F70092C769 /* search_large_normal.svg */,
 				1D3EC0DA1E97F5F70092C769 /* search_large_selected.svg */,
 				76F8DE981B6C0BC4009BCF61 /* search_normal.svg */,
@@ -4438,6 +4492,7 @@
 				76F8DEA61B6C0BC4009BCF61 /* x_white.svg */,
 				76F8DEA71B6C0BC4009BCF61 /* xbox_normal.svg */,
 				76F8DEA81B6C0BC4009BCF61 /* xbox_selected.svg */,
+				1D00695920D854DE00DDBE69 /* xbox_white.svg */,
 				76F8DEA91B6C0BC4009BCF61 /* xpmcirc_normal.svg */,
 				76F8DEAA1B6C0BC4009BCF61 /* xpmcirc_selected.svg */,
 				12931BD11BFE8E30009B26F9 /* xpmmini_normal.svg */,
@@ -4760,10 +4815,12 @@
 				76B53AD11B0AA89B00534548 /* profile_available_user_profile_toggles.json in Resources */,
 				76F8DEE71B6C0BC4009BCF61 /* plussmall_normal.svg in Resources */,
 				76F8DEC11B6C0BC4009BCF61 /* checksmall_selected.svg in Resources */,
+				1D00696420DABB3B00DDBE69 /* role_admin_normal.svg in Resources */,
 				1D9CF9971D47F6C1004A95B7 /* 422_sparse.json in Resources */,
 				EAD1ABCE1AB9CBD500779A48 /* 410.json in Resources */,
 				1DF0B2E71E940572001B9F97 /* search_small_normal.svg in Resources */,
 				1D7E82451F26A523006ACE7A /* artist_invite_status_closed.svg in Resources */,
+				1D00696320DABB3B00DDBE69 /* role_admin_selected.svg in Resources */,
 				1DDC234B1F32439400E68B0E /* circle_check_green.svg in Resources */,
 				12CFF68B1B16760C007CE68F /* posts_listing_users_who_have_loved_a_post.json in Resources */,
 				1D9CF9A51D4966F7004A95B7 /* $_set_selected.svg in Resources */,
@@ -4835,6 +4892,7 @@
 				1D209BEE1D9C249400CFBF92 /* watch_normal.svg in Resources */,
 				122034741DE66A4A0059E633 /* ello_logo_grey.svg in Resources */,
 				1DE83CB820925F0B00A7E9D6 /* arrow_right_normal.svg in Resources */,
+				1D00696220DABB3B00DDBE69 /* role_admin_white.svg in Resources */,
 				1D7152DF1D74E79D005998FE /* small_check_green.svg in Resources */,
 				1DF490831FCCC7C500C0ACAC /* photo_picker_normal.svg in Resources */,
 				1DA8FD711B98A63600472B1E /* reorder_selected.svg in Resources */,
@@ -4978,6 +5036,7 @@
 				1D612BF81D3EA41700B4079C /* $_add_normal.svg in Resources */,
 				76F8DEB61B6C0BC4009BCF61 /* bubble_normal.svg in Resources */,
 				7689B4D81AD4ED3B00E4A4A3 /* access_tokens_user_access_token_(refresh_token).json in Resources */,
+				1D00695A20D854DE00DDBE69 /* xbox_white.svg in Resources */,
 				1DF741691BFA61B1000F5349 /* camera_white.svg in Resources */,
 				1DF7416F1BFA65F0000F5349 /* link_selected.svg in Resources */,
 				76F8DEC21B6C0BC4009BCF61 /* checksmall_white.svg in Resources */,
@@ -5788,6 +5847,7 @@
 				128D36B31A951F1700622833 /* StreamTextCellPresenter.swift in Sources */,
 				123375871DA6ECEC0019CFAD /* ProfileHeaderLinksCell.swift in Sources */,
 				1D80877D2032596C0081E8FE /* SettingsCredentialsViewController.swift in Sources */,
+				1DC2403120D46858009B07D5 /* RoleAdminProtocols.swift in Sources */,
 				EA587A9F1ACDC6F4002AF389 /* BioTextView.swift in Sources */,
 				123DEBE91D3D4087007B5F86 /* PostDetailGenerator.swift in Sources */,
 				1249AD871D9EC3FC009074FD /* ProfileScreen.swift in Sources */,
@@ -5830,10 +5890,12 @@
 				12F6ADFB1A43380C00493660 /* BaseElloViewController.swift in Sources */,
 				1DC78A5B1F2161E900BE2413 /* ArtistInviteBubbleCell.swift in Sources */,
 				12B2913C1DE4F7090056C52E /* SimpleMessageCellPresenter.swift in Sources */,
+				1D00696620DC247200DDBE69 /* RoleAdminPermissions.swift in Sources */,
 				120E64141E327B7A00CAF03E /* JWT.swift in Sources */,
 				122B30CB1C6A3FBC00C1B9D8 /* Comment.swift in Sources */,
 				1D80877B2032596C0081E8FE /* SettingsScreen.swift in Sources */,
 				1207C9AD1C75314300939ADB /* OmnibarRegion.swift in Sources */,
+				1DC2402820D45665009B07D5 /* NavBarScreen.swift in Sources */,
 				1DC29BB71D3824D30041B1DC /* Defaults.swift in Sources */,
 				1207C9771C73FEE000939ADB /* DateFormatting.swift in Sources */,
 				1DE0F09320C0A8FD00AAD63F /* CategoryDetailHeaderView.swift in Sources */,
@@ -5858,6 +5920,7 @@
 				1DE261351B0D38A400475325 /* UIImageViewExtensions.swift in Sources */,
 				1D447E801F38DB8700013384 /* ArtistInviteDetailScreen.swift in Sources */,
 				1D9D17111AE72394009841A4 /* UIViewControllerExtensions.swift in Sources */,
+				1D00695E20D995EC00DDBE69 /* ChooseRoleViewController.swift in Sources */,
 				122B30E21C6A3FBF00C1B9D8 /* User.swift in Sources */,
 				1D9CF99B1D4800C4004A95B7 /* BuyButtonLinkScreen.swift in Sources */,
 				1D783A2A1B838FDD00BD6BF4 /* OmnibarImageCell.swift in Sources */,
@@ -5987,6 +6050,7 @@
 				1DB4B3FC1E842C770095FECC /* StreamLoadMoreCommentsCell.swift in Sources */,
 				1D59336F1D10ADB800EAF03D /* StreamSelectionCell.swift in Sources */,
 				1247E5051A8C095700DDC24A /* StreamDataSource.swift in Sources */,
+				1DC2402F20D46858009B07D5 /* RoleAdminScreen.swift in Sources */,
 				1D70DE751DF781AC008AF216 /* AnnouncementCellSizeCalculator.swift in Sources */,
 				F8BDA7551AA8F3C800A662B4 /* DrawerViewController.swift in Sources */,
 				1DBD0BC41F950ADC00DF9FC5 /* Button.swift in Sources */,
@@ -6031,6 +6095,7 @@
 				122B30C61C6A3FBC00C1B9D8 /* AddressBookError.swift in Sources */,
 				12F6AE6B1A4339EF00493660 /* ElloHUD.swift in Sources */,
 				1DF50C9B1C614E0F00C62D89 /* OmnibarScreenAutocomplete.swift in Sources */,
+				1DC2403020D46858009B07D5 /* RoleAdminGenerator.swift in Sources */,
 				1DF0B2EC1E94247C001B9F97 /* SearchNavBarField.swift in Sources */,
 				124E344C1B54229300E5A475 /* AutoComplete.swift in Sources */,
 				1D9856421C723EAA00C1BF78 /* DrawerPopControl.swift in Sources */,
@@ -6073,6 +6138,7 @@
 				12F6AE451A43397400493660 /* Colors.swift in Sources */,
 				12F6AE6D1A4339EF00493660 /* ElloUnderlinedTextButton.swift in Sources */,
 				1DA18E581DD12FE8000231CC /* CategoryCardListView.swift in Sources */,
+				1DC2402620D441A8009B07D5 /* Line.swift in Sources */,
 				1DB8C6AD1D7A26B1007E1447 /* SearchStreamCell.swift in Sources */,
 				1D59EF851D5CFC480029C106 /* InterpolatedLoadingView.swift in Sources */,
 				1D9201BC1B6AD7CD007528BF /* Tag.swift in Sources */,
@@ -6219,12 +6285,14 @@
 				1DA18E1C1DB55D42000231CC /* ExternalLink.swift in Sources */,
 				1D7152D91D74C7FD005998FE /* OnboardingProtocols.swift in Sources */,
 				1D7750F21ABA48F200D92191 /* Tmp.swift in Sources */,
+				1D00695D20D995EC00DDBE69 /* ChooseRoleScreen.swift in Sources */,
 				1D971CF11E1ECD3100A167A2 /* Tracker.swift in Sources */,
 				12F6AE6C1A4339EF00493660 /* ElloTabBar.swift in Sources */,
 				762EE9EB1A840E4A00A3B805 /* AvatarButton.swift in Sources */,
 				1D7152961D6CBE0E005998FE /* NoPostsCell.swift in Sources */,
 				1DE83C2320B47DB2009109E6 /* GQLVariable.swift in Sources */,
 				76C050A71AA8C8780094E69A /* UserListItemCellPresenter.swift in Sources */,
+				1DC2402E20D46858009B07D5 /* RoleAdminViewController.swift in Sources */,
 				1D70DE581DF23862008AF216 /* StyledLabel.swift in Sources */,
 				1275351F1B73D1D1006B9A0F /* NSStringExtensions.swift in Sources */,
 				122C66311B424C060035F4CD /* AutoCompleteDataSource.swift in Sources */,

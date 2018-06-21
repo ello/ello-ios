@@ -364,7 +364,7 @@ extension PromotionalHeaderCell.Config {
         guard let user = user else { return nil }
 
         let postedBy = isSponsored == true ? InterfaceString.Category.SponsoredBy : InterfaceString.Category.PostedBy
-        let title = NSAttributedString(postedBy, color: .white) + NSAttributedString(user.atName, color: .white, underlineStyle: .styleSingle)
+        let title = NSAttributedString("\(postedBy) ", color: .white) + NSAttributedString(user.atName, color: .white, underlineStyle: .styleSingle)
         return title
     }
 

@@ -6,11 +6,7 @@ import SnapKit
 
 
 class SearchToggleButton: Button {
-    struct Size {
-        static let lineHeight: CGFloat = 1
-    }
-
-    private let line = UIView()
+    private let line = Line()
     override var isSelected: Bool {
         didSet {
             self.updateLineColor()
@@ -28,7 +24,6 @@ class SearchToggleButton: Button {
         addSubview(line)
         line.snp.makeConstraints { make in
             make.leading.trailing.bottom.equalTo(self)
-            make.height.equalTo(Size.lineHeight)
         }
     }
 

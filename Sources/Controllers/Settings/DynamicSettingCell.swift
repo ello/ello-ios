@@ -37,10 +37,9 @@ class DynamicSettingCell: TableViewCell {
     private let titleLabel = StyledLabel(style: .default)
     private let infoLabel = StyledLabel(style: .smallGray)
     private let toggleButton = SettingsToggleButton()
-    private let line = UIView()
+    private let line = Line(color: .greyF2)
 
     override func styleCell() {
-        line.backgroundColor = .greyF2
         infoLabel.isMultiline = true
     }
 
@@ -88,7 +87,6 @@ class DynamicSettingCell: TableViewCell {
 
         line.snp.makeConstraints { make in
             make.leading.trailing.bottom.equalTo(contentView)
-            make.height.equalTo(1)
         }
     }
 

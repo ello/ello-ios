@@ -24,10 +24,18 @@ final class CategoryUser: Model {
         case curator
         case moderator
         case unspecified
+
+        var title: String {
+            switch self {
+            case .featured: return InterfaceString.Category.FeaturedUser
+            case .curator: return InterfaceString.Category.Curator
+            case .moderator: return InterfaceString.Category.Moderator
+            case .unspecified: return ""
+            }
+        }
     }
 
-    init(id: String, role: Role)
-    {
+    init(id: String, role: Role) {
         self.id = id
         self.role = role
         super.init(version: CategoryUser.Version)

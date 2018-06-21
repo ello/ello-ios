@@ -333,7 +333,6 @@ extension OmnibarViewController {
     }
 }
 
-
 extension OmnibarViewController: ChooseCategoryControllerDelegate {
     func categoryChosen(_ category: Category) {
         Tracker.shared.postIntoCommunityChosen(category)
@@ -353,7 +352,7 @@ extension OmnibarViewController: OmnibarScreenDelegate {
     func chooseCommunityTapped() {
         guard let currentUser = currentUser else { return }
 
-        let controller = ChooseCategoryViewController(currentUser: currentUser, category: category)
+        let controller = ChooseCategoryViewController(currentUser: currentUser, category: category, usage: .omnibar)
         controller.delegate = self
         navigationController?.pushViewController(controller, animated: true)
     }

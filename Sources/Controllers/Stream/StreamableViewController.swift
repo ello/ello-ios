@@ -3,6 +3,7 @@
 //
 
 import PromiseKit
+import SnapKit
 
 
 class StreamableViewController: BaseElloViewController {
@@ -163,7 +164,7 @@ class StreamableViewController: BaseElloViewController {
         streamViewController.contentInset = contentInset
     }
 
-    func positionNavBar(_ navBar: UIView, visible: Bool, withConstraint navigationBarTopConstraint: NSLayoutConstraint? = nil, animated: Bool) {
+    func positionNavBar(_ navBar: UIView, visible: Bool, withConstraint navigationBarTopConstraint: Constraint? = nil, animated: Bool) {
         let upAmount: CGFloat
         if visible {
             upAmount = 0
@@ -173,7 +174,7 @@ class StreamableViewController: BaseElloViewController {
         }
 
         if let navigationBarTopConstraint = navigationBarTopConstraint {
-            navigationBarTopConstraint.constant = -upAmount
+            navigationBarTopConstraint.update(offset: -upAmount)
         }
 
         animate(animated: animated) {

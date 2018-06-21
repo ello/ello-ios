@@ -19,7 +19,7 @@ class CategoryUserParser: IdParser {
     override func parse(json: JSON) -> CategoryUser {
         let categoryUser = CategoryUser(
             id: json["id"].stringValue,
-            role: CategoryUser.Role(rawValue: json["role"].stringValue) ?? .unspecified
+            role: CategoryUser.Role(rawValue: json["role"].stringValue.lowercased()) ?? .unspecified
         )
 
         categoryUser.mergeLinks(json["links"].dictionaryObject)

@@ -8,7 +8,7 @@ class ArtistInviteSubmissionSuccessScreen: Screen {
         static let textSpacing: CGFloat = 24
     }
 
-    private let textContainer = UIView()
+    private let textContainer = Container()
     private let titleLabel = StyledLabel(style: .submissionSuccessTitle)
     private let descriptionLabel = StyledLabel(style: .submissionSuccessDescription)
 

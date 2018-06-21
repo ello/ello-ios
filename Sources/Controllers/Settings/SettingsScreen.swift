@@ -7,7 +7,7 @@ import SnapKit
 import FLAnimatedImage
 
 
-class SettingsScreen: Screen, SettingsScreenProtocol {
+class SettingsScreen: NavBarScreen, SettingsScreenProtocol {
     struct Size {
         static let coverImageHeight: CGFloat = 200
         static let avatarImageSize: CGFloat = 180
@@ -63,10 +63,7 @@ class SettingsScreen: Screen, SettingsScreenProtocol {
         set { locationField.textField.text = newValue }
     }
 
-    private let navigationBar = ElloNavigationBar()
     private let scrollView = UIScrollView()
-    private var navigationBarVisibleConstraint: Constraint!
-    private var navigationBarHiddenConstraint: Constraint!
     private var widthConstraint: Constraint!
     private let coverImageView = FLAnimatedImageView()
     private let coverImageButton = StyledButton(style: .clearWhite)
@@ -153,8 +150,7 @@ class SettingsScreen: Screen, SettingsScreenProtocol {
         spinner.startAnimating()
         dynamicSettingsSpinner.addSubview(spinner)
 
-        addSubview(scrollView)
-        addSubview(navigationBar)
+        arrange(contentView: scrollView)
 
         scrollView.addSubview(coverImageView)
         scrollView.addSubview(coverImageButton)
@@ -177,14 +173,6 @@ class SettingsScreen: Screen, SettingsScreenProtocol {
 
         let marginGuide = UILayoutGuide()
         scrollView.addLayoutGuide(marginGuide)
-
-        navigationBar.snp.makeConstraints { make in
-            make.leading.trailing.equalTo(self)
-            navigationBarVisibleConstraint = make.top.equalTo(self).constraint
-            navigationBarHiddenConstraint = make.top.equalTo(self).offset(-ElloNavigationBar.Size.height).constraint
-        }
-        navigationBarVisibleConstraint.activate()
-        navigationBarHiddenConstraint.deactivate()
 
         scrollView.snp.makeConstraints { make in
             make.edges.equalTo(self)
@@ -287,28 +275,14 @@ class SettingsScreen: Screen, SettingsScreenProtocol {
         avatarImageView.layer.cornerRadius = min(avatarImageView.frame.width, avatarImageView.frame.height) / 2
     }
 
-    func showNavBars(animated: Bool) {
-        elloAnimate(animated: animated) {
-            self.navigationBarVisibleConstraint.activate()
-            self.navigationBarHiddenConstraint.deactivate()
-            if animated {
-                self.layoutIfNeeded()
-            }
-        }
-
+    override func showNavBars(animated: Bool) {
+        super.showNavBars(animated: animated)
         navigationInsets.top = ElloNavigationBar.Size.height
         navigationInsets.bottom = ElloTabBar.Size.height
     }
 
-    func hideNavBars(animated: Bool) {
-        elloAnimate(animated: animated) {
-            self.navigationBarVisibleConstraint.deactivate()
-            self.navigationBarHiddenConstraint.activate()
-            if animated {
-                self.layoutIfNeeded()
-            }
-        }
-
+    override func hideNavBars(animated: Bool) {
+        super.hideNavBars(animated: animated)
         navigationInsets.top = 0
         navigationInsets.bottom = 0
     }
@@ -475,8 +449,7 @@ extension SettingsScreen {
         let label = StyledLabel(style: .largeBold)
         label.text = settings.label
 
-        let line = UIView()
-        line.backgroundColor = .greyF2
+        let line = Line(color: .greyF2)
 
         let chevron = UIImageView()
         chevron.setInterfaceImage(.forwardChevron, style: .normal)
@@ -485,6 +458,7 @@ extension SettingsScreen {
         view.addSubview(label)
         view.addSubview(line)
         view.addSubview(chevron)
+
         label.snp.makeConstraints { make in
             make.leading.equalTo(view).inset(Size.defaultMargin)
             make.centerY.equalTo(view)
@@ -492,7 +466,6 @@ extension SettingsScreen {
         line.snp.makeConstraints { make in
             make.leading.trailing.equalTo(view).inset(Size.defaultMargin)
             make.bottom.equalTo(view)
-            make.height.equalTo(1)
         }
         chevron.snp.makeConstraints { make in
             make.centerY.equalTo(view)

@@ -18,7 +18,7 @@ enum ActionStyle {
     case light
     case dark
     case green
-    case roundedGrayFill
+    case gray
     case okCancel
     case urlInput
 }
@@ -87,8 +87,8 @@ struct AlertAction {
             return AlertCellPresenter.configureForDarkAction
         case .green:
             return AlertCellPresenter.configureForGreenAction
-        case .roundedGrayFill:
-            return AlertCellPresenter.configureForRoundedGrayFillAction
+        case .gray:
+            return AlertCellPresenter.configureForGrayAction
         case .okCancel:
             return AlertCellPresenter.configureForOKCancelAction
         case .urlInput:

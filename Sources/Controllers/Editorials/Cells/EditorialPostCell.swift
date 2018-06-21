@@ -3,7 +3,7 @@
 //
 
 class EditorialPostCell: EditorialTitledCell {
-    private let buttonsContainer = UIView()
+    private let buttonsContainer = Container()
     private let postControlsStack = UIStackView()
     private let lovesButton = UIButton()
     private let commentButton = UIButton()

@@ -73,7 +73,6 @@ class OnboardingProfileScreen: Screen, OnboardingProfileScreenProtocol {
 
     private let scrollView = UIScrollView()
     private var prevOffset: CGPoint = .zero
-    private var scrollViewWidthConstraint: Constraint!
     private let headerLabel = UILabel()
 
     private let coverImageView = FLAnimatedImageView()
@@ -162,8 +161,6 @@ class OnboardingProfileScreen: Screen, OnboardingProfileScreenProtocol {
     override func arrange() {
         addSubview(scrollView)
 
-        let widthAnchor = UIView()
-        scrollView.addSubview(widthAnchor)
         scrollView.addSubview(headerLabel)
         scrollView.addSubview(coverImageView)
         scrollView.addSubview(uploadCoverImageButton)
@@ -179,9 +176,11 @@ class OnboardingProfileScreen: Screen, OnboardingProfileScreenProtocol {
             make.edges.equalTo(self)
         }
 
-        widthAnchor.snp.makeConstraints { make in
+        let scrollViewAnchor = UIView()
+        scrollView.addSubview(scrollViewAnchor)
+        scrollViewAnchor.snp.makeConstraints { make in
             make.leading.trailing.equalTo(scrollView)
-            scrollViewWidthConstraint = make.width.equalTo(bounds.size.width).priority(Priority.required).constraint
+            make.width.equalTo(self).priority(Priority.required)
         }
 
         headerLabel.setContentCompressionResistancePriority(UILayoutPriority.defaultLow, for: .horizontal)
@@ -238,7 +237,6 @@ class OnboardingProfileScreen: Screen, OnboardingProfileScreenProtocol {
     override func layoutSubviews() {
         super.layoutSubviews()
         avatarImageView.layer.cornerRadius = avatarImageView.frame.size.width / 2
-        scrollViewWidthConstraint.update(offset: bounds.size.width)
     }
 
     override func resignFirstResponder() -> Bool {

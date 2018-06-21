@@ -2,7 +2,7 @@
 ///  DynamicSettingsScreen.swift
 //
 
-class DynamicSettingsScreen: Screen, DynamicSettingsScreenProtocol {
+class DynamicSettingsScreen: NavBarScreen, DynamicSettingsScreenProtocol {
     struct Size {
         static let estimatedRowHeight: CGFloat = 50
     }
@@ -15,7 +15,6 @@ class DynamicSettingsScreen: Screen, DynamicSettingsScreenProtocol {
     var contentInset: UIEdgeInsets = .zero { didSet { updateInsets() }}
 
     private let settings: [DynamicSetting]
-    private let navigationBar = ElloNavigationBar()
     private let tableView = UITableView()
 
     init(settings: [DynamicSetting]) {
@@ -53,12 +52,7 @@ class DynamicSettingsScreen: Screen, DynamicSettingsScreenProtocol {
     }
 
     override func arrange() {
-        addSubview(tableView)
-        addSubview(navigationBar)
-
-        navigationBar.snp.makeConstraints { make in
-            make.leading.trailing.top.equalTo(self)
-        }
+        arrange(contentView: tableView)
 
         tableView.snp.makeConstraints { make in
             make.edges.equalTo(self)
