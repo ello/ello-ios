@@ -341,6 +341,7 @@ extension CategoryViewController: CategoryScreenDelegate {
     }
 
     private func categoryFor(slug: String) -> Category? {
+        if category?.slug == slug { return category }
         return subscribedCategories?.find { $0.slug == slug }
     }
 
