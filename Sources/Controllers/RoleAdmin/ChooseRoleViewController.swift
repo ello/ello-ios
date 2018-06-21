@@ -30,7 +30,7 @@ class ChooseRoleViewController: BaseElloViewController {
         screen.navigationBar.leftItems = [.back]
         screen.categoryName = category.name
         screen.categoryImageURL = category.tileURL
-        screen.canModerate = currentUser!.canModerateCategory(category)
+        screen.canModerate = RoleAdminPermissions.userCanAssignAnyRole(currentUser: currentUser, category: category)
 
         view = screen
     }

@@ -22,7 +22,8 @@ class RoleAdminScreen: NavBarScreen, RoleAdminScreenProtocol {
         let categoryName: String
         let imageURL: URL?
         let role: CategoryUser.Role
-        let currentUserIsModerator: Bool
+        let currentUserCanEdit: Bool
+        let currentUserCanDelete: Bool
     }
 
     private let scrollView = UIScrollView()
@@ -122,11 +123,9 @@ class RoleAdminScreen: NavBarScreen, RoleAdminScreenProtocol {
                 editButton.layer.borderWidth = 1
                 editButton.layer.borderColor = UIColor.greyA.cgColor
 
-                if !roleInfo.currentUserIsModerator {
-                    editButton.isEnabled = false
-                    editImage.isHidden = true
-                    removeButton.isEnabled = roleInfo.role == .featured
-                }
+                editImage.isVisible = roleInfo.currentUserCanEdit
+                editButton.isEnabled = roleInfo.currentUserCanEdit
+                removeButton.isEnabled = roleInfo.currentUserCanDelete
 
                 let view = Container()
                 view.addSubview(editButton)

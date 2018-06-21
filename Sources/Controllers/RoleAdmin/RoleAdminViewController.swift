@@ -69,12 +69,14 @@ class RoleAdminViewController: BaseElloViewController {
 
     private func updateRoles() {
         screen.updateRoles(categoryUsers.map { categoryUser in
-            let currentUserIsModerator = categoryUser.category.map { currentUser!.canModerateCategory($0) } ?? false
+            let currentUserCanEdit = RoleAdminPermissions.userCanEdit(currentUser: currentUser, categoryUser: categoryUser)
+            let currentUserCanDelete = RoleAdminPermissions.userCanDelete(currentUser: currentUser, categoryUser: categoryUser)
             let roleInfo = RoleAdminScreen.RoleInfo(
                 categoryName: categoryUser.category?.name ?? "???",
                 imageURL: categoryUser.category?.tileURL,
                 role: categoryUser.role,
-                currentUserIsModerator: currentUserIsModerator
+                currentUserCanEdit: currentUserCanEdit,
+                currentUserCanDelete: currentUserCanDelete
                 )
             return roleInfo
         })
@@ -104,7 +106,7 @@ extension RoleAdminViewController: RoleAdminScreenDelegate {
             if self.categoryUsers.any({ $0.category?.id == category.id }) {
                 return false
             }
-            return currentUser.canModifyCategory(category)
+            return RoleAdminPermissions.userCanAdd(currentUser: currentUser, category: category)
         }
         controller.delegate = self
         navigationController?.pushViewController(controller, animated: true)
@@ -114,7 +116,7 @@ extension RoleAdminViewController: RoleAdminScreenDelegate {
         let categoryUser = categoryUsers[index]
         guard
             let category = categoryUser.category,
-            currentUser!.canModerateCategory(category)
+            RoleAdminPermissions.userCanEdit(currentUser: currentUser, categoryUser: categoryUser)
         else { return }
 
         self.currentCategory = category
@@ -130,7 +132,7 @@ extension RoleAdminViewController: RoleAdminScreenDelegate {
         let categoryUser = categoryUsers[index]
         guard
             let category = categoryUser.category,
-            categoryUser.role == .featured || currentUser!.canModerateCategory(category)
+            RoleAdminPermissions.userCanDelete(currentUser: currentUser, categoryUser: categoryUser)
         else { return }
 
         let alertController = AlertViewController()
@@ -198,6 +200,8 @@ extension RoleAdminViewController: ChooseRoleControllerDelegate {
 
         switch currentAction {
         case .add:
+            guard RoleAdminPermissions.userCanAdd(currentUser: currentUser, category: currentCategory, role: role) else { return }
+
             ElloHUD.showLoadingHudInView(self.view)
             generator.add(categoryId: currentCategory.id, userId: user.id, role: role)
                 .done { newCategoryUser in
@@ -215,6 +219,7 @@ extension RoleAdminViewController: ChooseRoleControllerDelegate {
             if prevCategoryUser.role == role {
                 return
             }
+            guard RoleAdminPermissions.userCanEdit(currentUser: currentUser, categoryUser: prevCategoryUser) else { return }
 
             ElloHUD.showLoadingHudInView(self.view)
             generator.edit(categoryId: currentCategory.id, userId: user.id, role: role)

@@ -412,6 +412,7 @@
 		1D00696220DABB3B00DDBE69 /* role_admin_white.svg in Resources */ = {isa = PBXBuildFile; fileRef = 1D00695F20DABB3800DDBE69 /* role_admin_white.svg */; };
 		1D00696320DABB3B00DDBE69 /* role_admin_selected.svg in Resources */ = {isa = PBXBuildFile; fileRef = 1D00696020DABB3800DDBE69 /* role_admin_selected.svg */; };
 		1D00696420DABB3B00DDBE69 /* role_admin_normal.svg in Resources */ = {isa = PBXBuildFile; fileRef = 1D00696120DABB3B00DDBE69 /* role_admin_normal.svg */; };
+		1D00696620DC247200DDBE69 /* RoleAdminPermissions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D00696520DC247100DDBE69 /* RoleAdminPermissions.swift */; };
 		1D061B501AAA196100493435 /* Keyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D061B4E1AAA192200493435 /* Keyboard.swift */; };
 		1D061B521AAA1C6D00493435 /* StringExtensionSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D061B511AAA1C6D00493435 /* StringExtensionSpec.swift */; };
 		1D066FF31B8BA19E002B303D /* ArraySpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D066FF21B8BA19E002B303D /* ArraySpec.swift */; };
@@ -1739,6 +1740,7 @@
 		1D00695F20DABB3800DDBE69 /* role_admin_white.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = role_admin_white.svg; sourceTree = "<group>"; };
 		1D00696020DABB3800DDBE69 /* role_admin_selected.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = role_admin_selected.svg; sourceTree = "<group>"; };
 		1D00696120DABB3B00DDBE69 /* role_admin_normal.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = role_admin_normal.svg; sourceTree = "<group>"; };
+		1D00696520DC247100DDBE69 /* RoleAdminPermissions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoleAdminPermissions.swift; sourceTree = "<group>"; };
 		1D061B4E1AAA192200493435 /* Keyboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Keyboard.swift; sourceTree = "<group>"; };
 		1D061B511AAA1C6D00493435 /* StringExtensionSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtensionSpec.swift; sourceTree = "<group>"; };
 		1D066FF21B8BA19E002B303D /* ArraySpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArraySpec.swift; sourceTree = "<group>"; };
@@ -4176,6 +4178,7 @@
 				1D00695B20D995EC00DDBE69 /* ChooseRoleScreen.swift */,
 				1D00695C20D995EC00DDBE69 /* ChooseRoleViewController.swift */,
 				1DC2402C20D46858009B07D5 /* RoleAdminGenerator.swift */,
+				1D00696520DC247100DDBE69 /* RoleAdminPermissions.swift */,
 				1DC2402D20D46858009B07D5 /* RoleAdminProtocols.swift */,
 				1DC2402B20D46858009B07D5 /* RoleAdminScreen.swift */,
 				1DC2402A20D46857009B07D5 /* RoleAdminViewController.swift */,
@@ -5887,6 +5890,7 @@
 				12F6ADFB1A43380C00493660 /* BaseElloViewController.swift in Sources */,
 				1DC78A5B1F2161E900BE2413 /* ArtistInviteBubbleCell.swift in Sources */,
 				12B2913C1DE4F7090056C52E /* SimpleMessageCellPresenter.swift in Sources */,
+				1D00696620DC247200DDBE69 /* RoleAdminPermissions.swift in Sources */,
 				120E64141E327B7A00CAF03E /* JWT.swift in Sources */,
 				122B30CB1C6A3FBC00C1B9D8 /* Comment.swift in Sources */,
 				1D80877B2032596C0081E8FE /* SettingsScreen.swift in Sources */,
