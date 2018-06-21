@@ -139,7 +139,7 @@ class CategoryDetailScreen: Screen {
 
         aboutLabel.snp.makeConstraints { make in
             make.leading.trailing.equalTo(scrollWidthGuide).inset(Size.textSideMargin)
-            make.top.equalTo(categoryHeaderView.snp.bottom).offset(Size.defaultMargin)
+            make.top.equalTo(categoryHeaderView.snp.bottom).offset(Size.textSideMargin)
         }
 
         moderatorsContainer.snp.makeConstraints { make in
