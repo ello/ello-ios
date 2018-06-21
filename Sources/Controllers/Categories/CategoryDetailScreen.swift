@@ -84,6 +84,9 @@ class CategoryDetailScreen: Screen {
     }
 
     override func style() {
+        if #available(iOS 11.0, *) {
+            scrollView.contentInsetAdjustmentBehavior = .never
+        }
         backgroundColor = .white
 
         closeButton.setImage(.x, imageStyle: .white, for: .normal)
@@ -139,7 +142,7 @@ class CategoryDetailScreen: Screen {
 
         aboutLabel.snp.makeConstraints { make in
             make.leading.trailing.equalTo(scrollWidthGuide).inset(Size.textSideMargin)
-            make.top.equalTo(categoryHeaderView.snp.bottom).offset(Size.defaultMargin)
+            make.top.equalTo(categoryHeaderView.snp.bottom).offset(Size.textSideMargin)
         }
 
         moderatorsContainer.snp.makeConstraints { make in
