@@ -84,6 +84,9 @@ class CategoryDetailScreen: Screen {
     }
 
     override func style() {
+        if #available(iOS 11.0, *) {
+            scrollView.contentInsetAdjustmentBehavior = .never
+        }
         backgroundColor = .white
 
         closeButton.setImage(.x, imageStyle: .white, for: .normal)
