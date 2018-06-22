@@ -16,7 +16,7 @@ class ProfileHeaderTotalCountAndBadgesCell: ProfileHeaderCell {
     private let badgesContainer = Container()
     private let badgeButtonsContainer = Container()
     private let moreBadgesButton = UIButton()
-    private let midGrayLine = UIView()
+    private let midGrayLine = Line(orientation: .vertical, color: .greyE5)
     private var showBothConstraint: Constraint!
     private var showBadgesConstraint: Constraint!
     private var showCountConstraint: Constraint!
@@ -59,7 +59,6 @@ class ProfileHeaderTotalCountAndBadgesCell: ProfileHeaderCell {
         clipsToBounds = true
         backgroundColor = .white
         totalLabel.textAlignment = .center
-        midGrayLine.backgroundColor = .greyE5
     }
 
     override func bindActions() {
@@ -109,7 +108,6 @@ class ProfileHeaderTotalCountAndBadgesCell: ProfileHeaderCell {
         }
 
         midGrayLine.snp.makeConstraints { make in
-            make.width.equalTo(1)
             make.top.bottom.equalTo(self)
             showBothConstraint = make.centerX.equalTo(self).constraint
             showBadgesConstraint = make.leading.equalTo(self).constraint
