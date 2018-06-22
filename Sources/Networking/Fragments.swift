@@ -171,9 +171,9 @@ struct Fragments: Equatable {
         """, needs: [tshirtProps])
     static let categoryAdminsBody = Fragments("""
         categoryUsers(roles: [CURATOR, MODERATOR]) {
-            role user { ...pageHeaderUserProps }
+            role user { ...authorProps }
         }
-        """, needs: [pageHeaderUserProps])
+        """, needs: [authorProps])
     static let pageHeaderBody = Fragments("""
         id
         postToken
