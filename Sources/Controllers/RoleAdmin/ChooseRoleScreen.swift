@@ -50,8 +50,6 @@ class ChooseRoleScreen: NavBarScreen, ChooseRoleScreenProtocol {
         categoryButton.imageView?.contentMode = .scaleAspectFill
         categoryButton.layer.masksToBounds = true
         categoryButton.layer.cornerRadius = 5
-        categoryButton.layer.borderWidth = 1
-        categoryButton.layer.borderColor = UIColor.greyA.cgColor
         categoryButton.isUserInteractionEnabled = false
 
         if let selectedRole = selectedRole {
@@ -108,6 +106,13 @@ class ChooseRoleScreen: NavBarScreen, ChooseRoleScreenProtocol {
         categoryButton.addSubview(categoryLabel)
 
         categoryLabel.snp.makeConstraints { make in
+            make.edges.equalTo(categoryButton)
+        }
+
+        let categoryButtonOverlay = UIView()
+        categoryButtonOverlay.backgroundColor = .dimmedBlackBackground
+        categoryButton.addSubview(categoryButtonOverlay)
+        categoryButtonOverlay.snp.makeConstraints { make in
             make.edges.equalTo(categoryButton)
         }
 

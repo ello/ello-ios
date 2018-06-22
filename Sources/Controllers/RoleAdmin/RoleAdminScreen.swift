@@ -120,8 +120,6 @@ class RoleAdminScreen: NavBarScreen, RoleAdminScreenProtocol {
                 editButton.imageView?.contentMode = .scaleAspectFill
                 editButton.layer.masksToBounds = true
                 editButton.layer.cornerRadius = 5
-                editButton.layer.borderWidth = 1
-                editButton.layer.borderColor = UIColor.greyA.cgColor
 
                 editImage.isVisible = roleInfo.currentUserCanEdit
                 editButton.isEnabled = roleInfo.currentUserCanEdit
@@ -138,6 +136,13 @@ class RoleAdminScreen: NavBarScreen, RoleAdminScreenProtocol {
                     make.leading.trailing.equalTo(view).inset(Size.defaultMargins)
                     make.bottom.equalTo(view).inset(Size.bottomButtonMargin)
                     make.height.equalTo(Size.buttonHeight)
+                }
+
+                let editButtonOverlay = UIView()
+                editButtonOverlay.backgroundColor = .dimmedBlackBackground
+                editButton.addSubview(editButtonOverlay)
+                editButtonOverlay.snp.makeConstraints { make in
+                    make.edges.equalTo(editButton)
                 }
 
                 removeButton.snp.makeConstraints { make in
