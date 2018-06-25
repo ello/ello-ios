@@ -53,7 +53,7 @@ class UserParser: IdParser {
         user.totalViewsCount = json["userStats"]["totalViewsCount"].int
         user.postsCount = json["userStats"]["postsCount"].int
         user.lovesCount = json["userStats"]["lovesCount"].int
-        user.followersCount = json["userStats"]["followersCount"].int.map { "\($0)" }
+        user.followersCount = json["userStats"]["followersCount"].int
         user.followingCount = json["userStats"]["followingCount"].int
 
         user.mergeLinks(json["links"].dictionaryObject)

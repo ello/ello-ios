@@ -18,19 +18,25 @@ struct ProfileHeaderStatsPresenter {
         }
 
         cell.postsCount = (user.postsCount ?? 0).numberToHuman(rounding: 1, showZero: true)
-        let followingCount = user.followingCount ?? 0
-        cell.followingCount = followingCount.numberToHuman(rounding: 1, showZero: true)
-        cell.followingEnabled = followingCount > 0
-        if let string = user.followersCount,
-            let followersCount = Int(string)
-        {
+
+        if user.username == "ello" {
+            cell.followingCount = "∞"
+            cell.followersCount = "∞"
+            cell.lovesCount = "∞"
+            cell.followersEnabled = false
+            cell.followingEnabled = false
+        }
+        else {
+            let followingCount = user.followingCount ?? 0
+            let lovesCount = user.lovesCount ?? 0
+            let followersCount = user.followersCount ?? 0
+
+            cell.followingCount = followingCount.numberToHuman(rounding: 1, showZero: true)
+            cell.followingEnabled = followingCount > 0
+            cell.lovesCount = lovesCount.numberToHuman(rounding: 1, showZero: true)
+            cell.lovesEnabled = lovesCount > 0
             cell.followersCount = followersCount.numberToHuman(rounding: 1, showZero: true)
             cell.followersEnabled = followersCount > 0
         }
-        else {
-            cell.followersCount = user.followersCount ?? ""
-            cell.followersEnabled = false
-        }
-        cell.lovesCount = (user.lovesCount ?? 0).numberToHuman(rounding: 1, showZero: true)
     }
 }

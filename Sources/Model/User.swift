@@ -5,18 +5,18 @@
 import SwiftyJSON
 
 
-// version 1: initial
-// version 2: added isHireable
-// version 3: added notifyOfWatchesViaPush, notifyOfWatchesViaEmail
-// version 4: added notifyOfCommentsOnPostWatchViaPush, notifyOfCommentsOnPostWatchViaEmail
-// version 5: added isCollaborateable, moved notifyOf* into Profile
-// version 6: added categories, totalViewCount
-// version 7: added location
-// version 8: added badges
-let UserVersion: Int = 8
-
 @objc(User)
 final class User: Model {
+    // version 1: initial
+    // version 2: added isHireable
+    // version 3: added notifyOfWatchesViaPush, notifyOfWatchesViaEmail
+    // version 4: added notifyOfCommentsOnPostWatchViaPush, notifyOfCommentsOnPostWatchViaEmail
+    // version 5: added isCollaborateable, moved notifyOf* into Profile
+    // version 6: added categories, totalViewCount
+    // version 7: added location
+    // version 8: added badges
+    // version 9: changed followersCount to Int
+    static let Version: Int = 9
 
     let id: String
     let username: String
@@ -36,7 +36,7 @@ final class User: Model {
     var identifiableBy: String?
     var postsCount: Int?
     var lovesCount: Int?
-    var followersCount: String? // string due to this returning "∞" for the ello user
+    var followersCount: Int?
     var followingCount: Int?
     var formattedShortBio: String?
     var externalLinksList: [ExternalLink]?
@@ -146,7 +146,7 @@ final class User: Model {
         self.hasLovesEnabled = hasLovesEnabled
         self.isCollaborateable = isCollaborateable
         self.isHireable = isHireable
-        super.init(version: UserVersion)
+        super.init(version: User.Version)
     }
 
     required init(coder: NSCoder) {
@@ -189,7 +189,12 @@ final class User: Model {
         self.identifiableBy = decoder.decodeOptionalKey("identifiableBy")
         self.postsCount = decoder.decodeOptionalKey("postsCount")
         self.lovesCount = decoder.decodeOptionalKey("lovesCount")
-        self.followersCount = decoder.decodeOptionalKey("followersCount")
+        if version > 8 {
+            self.followersCount = decoder.decodeOptionalKey("followersCount")
+        }
+        else if let followersCount: String = decoder.decodeOptionalKey("followersCount") {
+            self.followersCount = Int(followersCount) ?? 0
+        }
         self.followingCount = decoder.decodeOptionalKey("followingCount")
         self.formattedShortBio = decoder.decodeOptionalKey("formattedShortBio")
         if let externalLinksList: [[String: String]] = decoder.decodeOptionalKey("externalLinksList") {
@@ -293,14 +298,7 @@ final class User: Model {
         user.identifiableBy = json["identifiable_by"].string
         user.postsCount = json["posts_count"].int
         user.lovesCount = json["loves_count"].int
-
-        if let count = json["followers_count"].string {
-            user.followersCount = count
-        }
-        else {
-            user.followersCount = json["followers_count"].int.map { "\($0)" }
-        }
-
+        user.followersCount = (json["followers_count"].string.flatMap { Int($0) }) ?? json["followers_count"].int
         user.followingCount = json["following_count"].int
         user.formattedShortBio = json["formatted_short_bio"].string
         user.onboardingVersion = json["web_onboarding_version"].id.flatMap { Int($0) }
