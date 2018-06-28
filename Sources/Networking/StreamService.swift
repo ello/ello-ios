@@ -16,8 +16,15 @@ class StreamService {
         case empty
     }
 
+    enum Error: Swift.Error {
+        case noEndpoint
+    }
+
     func loadStream(streamKind: StreamKind) -> Promise<StreamResponse> {
-        return loadStream(endpoint: streamKind.endpoint, streamKind: streamKind)
+        guard let endpoint = streamKind.endpoint else {
+            return Promise<StreamResponse>(error: Error.noEndpoint)
+        }
+        return loadStream(endpoint: endpoint, streamKind: streamKind)
     }
 
     func loadStream(endpoint: ElloAPI, streamKind: StreamKind? = nil) -> Promise<StreamResponse> {

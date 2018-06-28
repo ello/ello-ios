@@ -225,14 +225,9 @@ class StreamDataSource: ElloDataSource {
         guard indexPath(where: { ($0.jsonable as? Post)?.id == post.id }) == nil else { return nil }
 
         switch streamKind {
-        case let .simpleStream(endpoint, _):
-            switch endpoint {
-            case let .loves(userId):
-                guard currentUser?.id == userId else { return nil }
-                return IndexPath(item: 0, section: 0)
-            default:
-                break
-            }
+        case let .userLoves(userId):
+            guard currentUser?.id == userId else { return nil }
+            return IndexPath(item: 0, section: 0)
         default:
             break
         }
@@ -375,10 +370,7 @@ class StreamDataSource: ElloDataSource {
         case .update:
             var shouldReload = true
 
-            if case let .simpleStream(endpoint, _) = streamKind,
-                case .loves = endpoint,
-                let post = jsonable as? Post, !post.isLoved
-            {
+            if case .userLoves = streamKind, let post = jsonable as? Post, !post.isLoved {
                 let removedPaths = removeItemsFor(jsonable: jsonable, change: .delete)
                 streamViewController.performDataChange { collectionView in
                     collectionView.deleteItems(at: removedPaths)
