@@ -1,8 +1,5 @@
-<svg width="15px" height="24px" viewBox="265 10 15 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 42 (36781) - http://www.bohemiancoding.com/sketch -->
-    <desc>Created with Sketch.</desc>
-    <defs></defs>
-    <g id="Nav-/-Notifications" stroke="none" fill="none" transform="translate(266.000000, 11.000000)" stroke-width="1.5" stroke-linejoin="round">
-        <polygon id="Stroke-1" stroke="#ABABAB" transform="translate(6.392100, 11.000000) scale(-1, 1) rotate(-180.000000) translate(-6.392100, -11.000000) " points="6.3855 13.7555 6.3855 22 0 8.2489 6.3998 8.2456 6.3998 0 12.7842 13.7522"></polygon>
+<svg viewBox="0 0 15 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g stroke-width="1.5" fill="none" stroke="#aaa" stroke-linejoin="round">
+        <path d="M1.1145,14.7555 l6.3855,0 l0,8.2445 l6.3855,-13.7555 l-6.3855,0 l0,-8.2456 Z" />
     </g>
 </svg>

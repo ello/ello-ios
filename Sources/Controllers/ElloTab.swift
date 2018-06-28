@@ -37,7 +37,7 @@ enum ElloTab: Int {
     var interfaceImage: InterfaceImage {
         switch self {
         case .home: return .home
-        case .discover: return .searchTabBar
+        case .discover: return .discover
         case .omnibar: return .omni
         case .notifications: return .bolt
         case .profile: return .person
