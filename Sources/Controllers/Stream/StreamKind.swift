@@ -152,9 +152,6 @@ enum StreamKind {
 
     func filter(_ jsonables: [Model], viewsAdultContent: Bool) -> [Model] {
         switch self {
-        case .userLoves:
-            guard let loves = jsonables as? [Love] else { return [] }
-            return loves.compactMap { $0.post }
         case .editorials:
             return jsonables.compactMap { jsonable -> Editorial? in
                 guard

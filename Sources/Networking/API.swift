@@ -170,4 +170,17 @@ struct API {
             )
         return request
     }
+
+    func userLoves(username: String, before: String? = nil) -> GraphQLRequest<(PageConfig, [Love])> {
+        let request = GraphQLRequest(
+            endpointName: "userLoveStream",
+            parser: PageParser<Love>("loves", LoveParser()).parse,
+            variables: [
+                .string("username", username),
+                .optionalString("before", before),
+            ],
+            body: Fragments.loveStreamBody
+            )
+        return request
+    }
 }

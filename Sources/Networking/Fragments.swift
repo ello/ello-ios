@@ -123,6 +123,13 @@ struct Fragments: Equatable {
             }
         }
         """, needs: [postSummary, categoryPostActions, categoryProps])
+    static let loveDetails = Fragments("""
+        fragment loveDetails on Love {
+            id
+            post { ...postDetails }
+            user { id }
+        }
+        """, needs: [postDetails])
 
     static let userDetails = Fragments("""
         fragment userDetails on User {
@@ -197,6 +204,12 @@ struct Fragments: Equatable {
     static let userBody = Fragments("""
         ...userDetails
         """, needs: [userDetails])
+    static let loveStreamBody = Fragments("""
+        next isLastPage
+        loves {
+            ...loveDetails
+        }
+        """, needs: [loveDetails])
 
     let string: String
     let needs: [Fragments]
