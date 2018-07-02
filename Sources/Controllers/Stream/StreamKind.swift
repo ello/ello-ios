@@ -17,6 +17,8 @@ enum StreamKind {
     case postDetail(postParam: String)
     case simpleStream(endpoint: ElloAPI, title: String)
     case userLoves(username: String)
+    case userFollowing(username: String)
+    case userFollowers(username: String)
     case userStream(userParam: String)
     case artistInvites
     case artistInviteSubmissions
@@ -35,6 +37,8 @@ enum StreamKind {
         case .postDetail: return ""
         case let .simpleStream(_, title): return title
         case .userLoves: return InterfaceString.Loves.Title
+        case .userFollowing: return InterfaceString.Following.Title
+        case .userFollowers: return InterfaceString.Followers.Title
         case .unknown: return ""
         case .userStream: return ""
         }
@@ -55,6 +59,8 @@ enum StreamKind {
         case .postDetail: return "PostDetail"
         case .unknown: return "unknown"
         case .userLoves: return "UserLoves"
+        case .userFollowing: return "UserFollowing"
+        case .userFollowers: return "UserFollowers"
         case .userStream: return "UserStream"
         case let .simpleStream(endpoint, title):
             switch endpoint {
@@ -145,6 +151,8 @@ enum StreamKind {
         case let .simpleStream(endpoint, _): return endpoint
         case let .userStream(userParam): return .userStream(userParam: userParam)
         case .userLoves,
+             .userFollowing,
+             .userFollowers,
              .unknown:
             return nil
         }
