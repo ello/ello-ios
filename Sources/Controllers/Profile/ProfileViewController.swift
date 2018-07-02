@@ -150,7 +150,6 @@ final class ProfileViewController: StreamableViewController {
         super.showNavBars(animated: animated)
         positionNavBar(screen.navigationBar, visible: true, withConstraint: screen.navigationBarTopConstraint, animated: animated)
         screen.showNavBars(animated: animated)
-
         updateInsets()
     }
 
@@ -161,7 +160,6 @@ final class ProfileViewController: StreamableViewController {
         let offset = self.streamViewController.collectionView.contentOffset
         let currentUser = (self.user?.id == self.currentUser?.id && self.user?.id != nil)
         screen.hideNavBars(offset, isCurrentUser: currentUser)
-
         updateInsets()
     }
 
@@ -401,6 +399,21 @@ extension ProfileViewController: ProfileHeaderResponder {
     }
 
     func onLovesTapped() {
+        guard let username = user?.username else { return }
+
+        let vc = GraphQLStreamViewController(
+            streamKind: .userLoves(username: username),
+            title: InterfaceString.Loves.Title,
+            initialRequest: {
+                return API().userLoves(username: username).execute().map { config, loves in
+                    return (config, loves.compactMap { $0.post })
+                } },
+            nextPageRequest: { username in
+                return API().userLoves(username: username, before: username).execute().map { config, loves in
+                    return (config, loves.compactMap { $0.post })
+                } })
+        vc.currentUser = currentUser
+        navigationController?.pushViewController(vc, animated: true)
     }
 
     func onFollowersTapped() {

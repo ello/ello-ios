@@ -371,6 +371,7 @@ final class StreamViewController: BaseElloViewController {
         else {
             isPagingEnabled = false
             let localToken = loadingToken.resetInitialPageLoadingToken()
+
             StreamService().loadStream(streamKind: streamKind)
                 .done { response in
                     guard self.loadingToken.isValidInitialPageLoadingToken(localToken) else { return }

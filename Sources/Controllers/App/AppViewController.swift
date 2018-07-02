@@ -839,6 +839,18 @@ extension AppViewController {
     }
 
     private func showProfileLovesScreen(username: String) {
+        let streamKind: StreamKind = .userLoves(username: username)
+        let vc = GraphQLStreamViewController(
+            streamKind: streamKind,
+            title: "@" + username + "'s " + InterfaceString.Loves.Title,
+            initialRequest: {
+                return API().userLoves(username: username).execute().map { config, loves in
+                    return (config, loves.compactMap { $0.post })
+                } },
+            nextPageRequest: { username in
+                return API().userLoves(username: username, before: username).execute().map { config, loves in
+                    return (config, loves.compactMap { $0.post })
+                } })
         vc.currentUser = currentUser
         pushDeepLinkViewController(vc)
     }
