@@ -10,6 +10,10 @@ struct ProfileService {
     typealias UploadSuccess = (URL, User)
     typealias UploadBothSuccess = (URL?, URL?, User)
 
+    enum Error: Swift.Error {
+        case wrongProperty
+    }
+
     func loadCurrentUser() -> Promise<User> {
         return ElloProvider.shared.request(.currentUserProfile)
             .map { (jsonable, _) -> User in
@@ -56,7 +60,7 @@ struct ProfileService {
 
     func updateUserImage(_ prop: Profile.ImageProperty, imageRegion: ImageRegionData) -> Promise<UploadSuccess> {
         guard prop == .coverImage || prop == .avatar else {
-            return Promise<UploadSuccess>(error: NSError())
+            return Promise<UploadSuccess>(error: Error.wrongProperty)
         }
 
         return updateUserImage(imageRegion, key: prop, properties: [:])
@@ -83,7 +87,7 @@ struct ProfileService {
     {
         var avatarURL: URL?
         var coverImageURL: URL?
-        var error: Error?
+        var error: Swift.Error?
         let (promise, seal) = Promise<UploadBothSuccess>.pending()
 
         let bothImages = after(2) {

@@ -9,6 +9,10 @@ class S3UploadingService {
     var uploader: ElloS3?
     let endpoint: ElloAPI
 
+    enum Error: Swift.Error {
+        case badData
+    }
+
     init(endpoint: ElloAPI = .amazonCredentials) {
         self.endpoint = endpoint
     }
@@ -41,8 +45,7 @@ class S3UploadingService {
 
     func upload(_ text: String, filename: String) -> Promise<URL?> {
         guard let data = text.data(using: .utf8) else {
-            let error = NSError(domain: ElloErrorDomain, code: 500, userInfo: [NSLocalizedFailureReasonErrorKey: "bad data"])
-            return Promise<URL?>(error: error)
+            return Promise<URL?>(error: Error.badData)
         }
 
         return upload(data, contentType: "text/plain", filename: filename)
