@@ -401,12 +401,6 @@ extension ProfileViewController: ProfileHeaderResponder {
     }
 
     func onLovesTapped() {
-        guard let user = self.user else { return }
-
-        streamViewController.showSimpleStream(
-            boxedEndpoint: BoxedElloAPI(endpoint: .loves(userId: user.id)),
-            title: InterfaceString.Loves.Title
-        )
     }
 
     func onFollowersTapped() {

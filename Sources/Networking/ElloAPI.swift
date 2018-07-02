@@ -60,7 +60,6 @@ indirect enum ElloAPI {
     case invitations(emails: [String])
     case inviteFriends(email: String)
     case join(email: String, username: String, password: String, invitationCode: String?)
-    case loves(userId: String)
     case locationAutoComplete(terms: String)
     case notificationsNewContent(createdAt: Date?)
     case notificationsStream(category: String?)
@@ -179,8 +178,7 @@ indirect enum ElloAPI {
              .postComments,
              .updateComment:
             return .commentsType
-        case .createLove,
-             .loves:
+        case .createLove:
             return .lovesType
         case .categoryPosts,
              .createPost,
@@ -251,7 +249,6 @@ extension ElloAPI: AuthenticationEndpoint {
              .deleteSubscriptions,
              .editorials,
              .join,
-             .loves,
              .postComments,
              .postDetail,
              .postLovers,
@@ -445,8 +442,6 @@ extension ElloAPI: Moya.TargetType {
             return "\(defaultPrefix)/invitations"
         case .join:
             return "\(defaultPrefix)/join"
-        case let .loves(userId):
-            return "\(defaultPrefix)/users/\(userId)/loves"
         case .locationAutoComplete:
             return "\(defaultPrefix)/profile/location_autocomplete"
         case .notificationsNewContent,
@@ -592,8 +587,6 @@ extension ElloAPI: Moya.TargetType {
             return api.sampleData
         case .join:
             return stubbedData("users_registering_an_account")
-        case .loves:
-            return stubbedData("loves_listing_loves_for_a_user")
         case .locationAutoComplete:
             return stubbedData("users_getting_a_list_for_autocompleted_locations")
         case .notificationsStream:

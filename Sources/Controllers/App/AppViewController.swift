@@ -839,8 +839,6 @@ extension AppViewController {
     }
 
     private func showProfileLovesScreen(username: String) {
-        let endpoint = ElloAPI.loves(userId: "~\(username)")
-        let vc = SimpleStreamViewController(endpoint: endpoint, title: "@" + username + "'s " + InterfaceString.Loves.Title)
         vc.currentUser = currentUser
         pushDeepLinkViewController(vc)
     }
