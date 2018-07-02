@@ -16,6 +16,9 @@ enum StreamKind {
     case notifications(category: String?)
     case postDetail(postParam: String)
     case simpleStream(endpoint: ElloAPI, title: String)
+    case userLoves(username: String)
+    case userFollowing(username: String)
+    case userFollowers(username: String)
     case userStream(userParam: String)
     case artistInvites
     case artistInviteSubmissions
@@ -33,6 +36,9 @@ enum StreamKind {
         case .artistInviteSubmissions: return ""
         case .postDetail: return ""
         case let .simpleStream(_, title): return title
+        case .userLoves: return InterfaceString.Loves.Title
+        case .userFollowing: return InterfaceString.Following.Title
+        case .userFollowers: return InterfaceString.Followers.Title
         case .unknown: return ""
         case .userStream: return ""
         }
@@ -52,6 +58,9 @@ enum StreamKind {
         case .notifications: return "Notifications"
         case .postDetail: return "PostDetail"
         case .unknown: return "unknown"
+        case .userLoves: return "UserLoves"
+        case .userFollowing: return "UserFollowing"
+        case .userFollowers: return "UserFollowers"
         case .userStream: return "UserStream"
         case let .simpleStream(endpoint, title):
             switch endpoint {
@@ -129,7 +138,7 @@ enum StreamKind {
         }
     }
 
-    var endpoint: ElloAPI {
+    var endpoint: ElloAPI? {
         switch self {
         case .announcements: return .announcements
         case .category, .onboardingCategories, .manageCategories, .chooseCategory: return .categories
@@ -140,30 +149,17 @@ enum StreamKind {
         case let .notifications(category): return .notificationsStream(category: category)
         case let .postDetail(postParam): return .postDetail(postParam: postParam)
         case let .simpleStream(endpoint, _): return endpoint
-        case .unknown: return .notificationsStream(category: nil) // doesn't really get used
         case let .userStream(userParam): return .userStream(userParam: userParam)
+        case .userLoves,
+             .userFollowing,
+             .userFollowers,
+             .unknown:
+            return nil
         }
     }
 
     func filter(_ jsonables: [Model], viewsAdultContent: Bool) -> [Model] {
         switch self {
-        case let .simpleStream(endpoint, _):
-            switch endpoint {
-            case .loves:
-                if let loves = jsonables as? [Love] {
-                    return loves.reduce([]) { accum, love in
-                        if let post = love.post {
-                            return accum + [post]
-                        }
-                        return accum
-                    }
-                }
-                else {
-                    return []
-                }
-            default:
-                return jsonables
-            }
         case .editorials:
             return jsonables.compactMap { jsonable -> Editorial? in
                 guard
@@ -201,11 +197,13 @@ enum StreamKind {
 
     var hasGridViewToggle: Bool {
         switch self {
-        case .following: return true
-        case .category: return true
+        case .following,
+             .category,
+             .userLoves:
+            return true
         case let .simpleStream(endpoint, _):
             switch endpoint {
-            case .searchForPosts, .loves, .categoryPosts:
+            case .searchForPosts, .categoryPosts:
                 return true
             default:
                 return false

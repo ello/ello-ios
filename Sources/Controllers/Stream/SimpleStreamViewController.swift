@@ -6,16 +6,14 @@ class SimpleStreamViewController: StreamableViewController {
     override func trackerName() -> String? {
         return endpoint.trackerName
     }
-    override func trackerStreamInfo() -> (String, String?)? {
-        guard let streamKind = endpoint.trackerStreamKind else { return nil }
-        return (streamKind, endpoint.trackerStreamId)
-    }
 
     var navigationBar: ElloNavigationBar!
     let endpoint: ElloAPI
+    let streamKind: StreamKind
 
     required init(endpoint: ElloAPI, title: String) {
         self.endpoint = endpoint
+        self.streamKind = .simpleStream(endpoint: endpoint, title: title)
         super.init(nibName: nil, bundle: nil)
         self.title = title
     }
@@ -27,7 +25,6 @@ class SimpleStreamViewController: StreamableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        let streamKind = StreamKind.simpleStream(endpoint: endpoint, title: title ?? "")
 
         setupNavigationBar()
         setupNavigationItems(streamKind: streamKind)

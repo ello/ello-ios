@@ -9,8 +9,6 @@ extension ElloAPI: CustomDebugStringConvertible {
             return "Followers"
         case .userStreamFollowing:
             return "Following"
-        case .loves:
-            return "Loves"
         case .currentUserBlockedList:
             return "Blocked"
         case .currentUserMutedList:
@@ -19,22 +17,6 @@ extension ElloAPI: CustomDebugStringConvertible {
             return "Post Lovers"
         case .postReposters:
             return "Post Reposters"
-        default:
-            return nil
-        }
-    }
-    var trackerStreamKind: String? {
-        switch self {
-        case .loves:
-            return "love"
-        default:
-            return nil
-        }
-    }
-    var trackerStreamId: String? {
-        switch self {
-        case let .loves(userId):
-            return userId
         default:
             return nil
         }
@@ -92,8 +74,6 @@ extension ElloAPI: CustomDebugStringConvertible {
             return "customRequest(path: \(request.url.path), method: \(request.method), elloApi: \(api))"
         case let .infiniteScroll(_, api):
             return "infiniteScroll(elloApi: \(api))"
-        case let .loves(userId):
-            return "loves(userId: \(userId))"
         case let .locationAutoComplete(terms):
             return "locationAutoComplete(terms: \(terms))"
         case let .notificationsNewContent(createdAt):
@@ -193,7 +173,6 @@ extension ElloAPI: CustomDebugStringConvertible {
         case .invitations: return "invitations"
         case .inviteFriends: return "inviteFriends"
         case .join: return "join"
-        case .loves: return "loves"
         case .locationAutoComplete: return "locationAutoComplete"
         case .markAnnouncementAsRead: return "markAnnouncementAsRead"
         case .notificationsNewContent: return "notificationsNewContent"

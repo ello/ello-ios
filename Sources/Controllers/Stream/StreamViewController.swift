@@ -371,6 +371,7 @@ final class StreamViewController: BaseElloViewController {
         else {
             isPagingEnabled = false
             let localToken = loadingToken.resetInitialPageLoadingToken()
+
             StreamService().loadStream(streamKind: streamKind)
                 .done { response in
                     guard self.loadingToken.isValidInitialPageLoadingToken(localToken) else { return }
@@ -1239,8 +1240,12 @@ extension StreamViewController: UIScrollViewDelegate {
             infiniteScrollGenerator = delegateScrollGenerator
         }
         else {
-            guard let nextQuery = responseConfig?.nextQuery else { return .value(Void()) }
-            let scrollAPI = ElloAPI.infiniteScroll(query: nextQuery, api: streamKind.endpoint)
+            guard
+                let nextQuery = responseConfig?.nextQuery,
+                let endpoint = streamKind.endpoint
+            else { return .value(Void()) }
+
+            let scrollAPI = ElloAPI.infiniteScroll(query: nextQuery, api: endpoint)
             infiniteScrollGenerator = StreamService().loadStream(endpoint: scrollAPI, streamKind: streamKind)
                 .map { response -> [Model] in
                     let scrollJsonables: [Model]

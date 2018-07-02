@@ -16,7 +16,7 @@ class CategoryParser: IdParser {
         let tileImage = (json["tileImage"]["large"].object as? [String: Any]).map { Attachment.fromJSON($0) }
 
         let category = Category(
-            id: json["id"].stringValue,
+            id: json["id"].idValue,
             name: json["name"].stringValue,
             slug: json["slug"].stringValue,
             description: json["description"].string,

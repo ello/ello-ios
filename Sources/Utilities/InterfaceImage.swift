@@ -50,11 +50,11 @@ enum InterfaceImage: String {
     case watch = "watch"
 
     // TabBar Icons
-    case sparkles = "sparkles"
-    case bolt = "bolt"
-    case omni = "create_post"
-    case person = "person"
     case home = "home"
+    case discover = "discover"
+    case bolt = "bolt"
+    case omni = "omni"
+    case person = "person"
     case narrationPointer = "narration_pointer"
 
     // Validation States
@@ -65,7 +65,6 @@ enum InterfaceImage: String {
 
     // NavBar Icons
     case search = "search"
-    case searchTabBar = "search_large"
     case searchField = "search_small"
     case burger = "burger"
     case gridView = "grid_view"

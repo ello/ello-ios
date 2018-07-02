@@ -33,6 +33,7 @@ class ProfileHeaderStatsCell: ProfileHeaderCell {
     }
     var followingEnabled = true
     var followersEnabled = true
+    var lovesEnabled = true
 
     private let postsCountLabel = UILabel()
     private let followingCountLabel = UILabel()
@@ -61,7 +62,6 @@ class ProfileHeaderStatsCell: ProfileHeaderCell {
         (followersCountLabel, followersCaptionLabel, followersButton),
         (lovesCountLabel,     lovesCaptionLabel,     lovesButton),
     ]}
-
 
     override func style() {
         backgroundColor = .white
@@ -168,6 +168,8 @@ extension ProfileHeaderStatsCell {
 
     @objc
     func lovesButtonTapped() {
+        guard lovesEnabled else { return }
+
         let responder: ProfileHeaderResponder? = findResponder()
         responder?.onLovesTapped()
     }

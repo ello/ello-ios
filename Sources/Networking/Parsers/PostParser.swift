@@ -32,12 +32,12 @@ class PostParser: IdParser {
 
     override func parse(json: JSON) -> Post {
         let repostContent = RegionParser.graphQLRegions(json: json["repostContent"])
-        let createdAt = json["createdAt"].stringValue.toDate() ?? Globals.now
+        let createdAt = json["createdAt"].dateValue
 
         let post = Post(
-            id: json["id"].stringValue,
+            id: json["id"].idValue,
             createdAt: createdAt,
-            authorId: json["author"]["id"].stringValue,
+            authorId: json["author"]["id"].idValue,
             token: json["token"].stringValue,
             isAdultContent: false, // json["is_adult_content"].boolValue,
             contentWarning: "", // json["content_warning"].stringValue,

@@ -133,19 +133,6 @@ struct API {
         return request
     }
 
-    func userPosts(username: String, before: String? = nil) -> GraphQLRequest<(PageConfig, [Post])> {
-        let request = GraphQLRequest(
-            endpointName: "userPostStream",
-            parser: PageParser<Post>("posts", PostParser()).parse,
-            variables: [
-                .string("username", username),
-                .optionalString("before", before),
-            ],
-            body: Fragments.postStreamBody
-            )
-        return request
-    }
-
     func postDetail(token: Token, username: String?) -> GraphQLRequest<Post> {
         let request = GraphQLRequest(
             endpointName: "post",
@@ -168,6 +155,32 @@ struct API {
             ],
             body: Fragments.userBody
         )
+        return request
+    }
+
+    func userPosts(username: String, before: String? = nil) -> GraphQLRequest<(PageConfig, [Post])> {
+        let request = GraphQLRequest(
+            endpointName: "userPostStream",
+            parser: PageParser<Post>("posts", PostParser()).parse,
+            variables: [
+                .string("username", username),
+                .optionalString("before", before),
+            ],
+            body: Fragments.postStreamBody
+            )
+        return request
+    }
+
+    func userLoves(username: String, before: String? = nil) -> GraphQLRequest<(PageConfig, [Love])> {
+        let request = GraphQLRequest(
+            endpointName: "userLoveStream",
+            parser: PageParser<Love>("loves", LoveParser()).parse,
+            variables: [
+                .string("username", username),
+                .optionalString("before", before),
+            ],
+            body: Fragments.loveStreamBody
+            )
         return request
     }
 }
