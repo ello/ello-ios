@@ -40,7 +40,7 @@ class CategoryPostParser: IdParser {
         }
 
         let categoryPost = CategoryPost(
-            id: json["id"].stringValue,
+            id: json["id"].idValue,
             categoryPartial: categoryPartial,
             status: CategoryPost.Status(rawValue: json["status"].stringValue) ?? .unspecified,
             actions: actions,

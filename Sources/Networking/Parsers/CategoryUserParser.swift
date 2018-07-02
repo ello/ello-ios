@@ -18,7 +18,7 @@ class CategoryUserParser: IdParser {
 
     override func parse(json: JSON) -> CategoryUser {
         let categoryUser = CategoryUser(
-            id: json["id"].stringValue,
+            id: json["id"].idValue,
             role: CategoryUser.Role(rawValue: json["role"].stringValue.lowercased()) ?? .unspecified
         )
 

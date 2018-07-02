@@ -16,13 +16,13 @@ class CommentParser: IdParser {
     }
 
     override func parse(json: JSON) -> ElloComment {
-        let createdAt = json["created_at"].stringValue.toDate() ?? Globals.now
+        let createdAt = json["createdAt"].dateValue
 
         let comment = ElloComment(
-            id: json["id"].stringValue,
+            id: json["id"].idValue,
             createdAt: createdAt,
-            authorId: json["author_id"].stringValue,
-            postId: json["post_id"].stringValue,
+            authorId: json["author"]["id"].idValue,
+            postId: json["parentPost"]["id"].idValue,
             content: RegionParser.graphQLRegions(json: json["content"]),
             body: RegionParser.graphQLRegions(json: json["body"]),
             summary: RegionParser.graphQLRegions(json: json["summary"])

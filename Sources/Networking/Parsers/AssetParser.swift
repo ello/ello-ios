@@ -12,6 +12,6 @@ class AssetParser: IdParser {
     }
 
     override func parse(json: JSON) -> Asset {
-        return Asset.parseAsset(json["id"].stringValue, node: json["attachment"].dictionaryObject)
+        return Asset.parseAsset(json["id"].idValue, node: json["attachment"].dictionaryObject)
     }
 }
