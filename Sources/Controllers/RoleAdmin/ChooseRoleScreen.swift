@@ -103,16 +103,16 @@ class ChooseRoleScreen: NavBarScreen, ChooseRoleScreenProtocol {
             }
         }
 
-        categoryButton.addSubview(categoryLabel)
-
-        categoryLabel.snp.makeConstraints { make in
-            make.edges.equalTo(categoryButton)
-        }
-
         let categoryButtonOverlay = UIView()
         categoryButtonOverlay.backgroundColor = .dimmedBlackBackground
         categoryButton.addSubview(categoryButtonOverlay)
         categoryButtonOverlay.snp.makeConstraints { make in
+            make.edges.equalTo(categoryButton)
+        }
+
+        categoryButton.addSubview(categoryLabel)
+
+        categoryLabel.snp.makeConstraints { make in
             make.edges.equalTo(categoryButton)
         }
 
