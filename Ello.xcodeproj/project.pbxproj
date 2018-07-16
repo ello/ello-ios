@@ -760,7 +760,6 @@
 		1D71529A1D6CBFE2005998FE /* NoPostsCellPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7152991D6CBFE2005998FE /* NoPostsCellPresenter.swift */; };
 		1D71529C1D6D0558005998FE /* AppScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D71529B1D6D0558005998FE /* AppScreen.swift */; };
 		1D71529E1D6D1040005998FE /* EmptyScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D71529D1D6D1040005998FE /* EmptyScreen.swift */; };
-		1D7152A01D6D212D005998FE /* ello-crazy-logo.gif in Resources */ = {isa = PBXBuildFile; fileRef = 1D71529F1D6D212D005998FE /* ello-crazy-logo.gif */; };
 		1D7152A41D6D3848005998FE /* StartupGradientLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7152A31D6D3848005998FE /* StartupGradientLayer.swift */; };
 		1D7152AD1D6E12A5005998FE /* AppScreenSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7152A81D6E0F9A005998FE /* AppScreenSpec.swift */; };
 		1D7152AE1D6E12AB005998FE /* AppProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7152AA1D6E1215005998FE /* AppProtocols.swift */; };
@@ -1867,7 +1866,6 @@
 		1D7152991D6CBFE2005998FE /* NoPostsCellPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoPostsCellPresenter.swift; sourceTree = "<group>"; };
 		1D71529B1D6D0558005998FE /* AppScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = AppScreen.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		1D71529D1D6D1040005998FE /* EmptyScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmptyScreen.swift; sourceTree = "<group>"; };
-		1D71529F1D6D212D005998FE /* ello-crazy-logo.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "ello-crazy-logo.gif"; sourceTree = "<group>"; };
 		1D7152A31D6D3848005998FE /* StartupGradientLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartupGradientLayer.swift; sourceTree = "<group>"; };
 		1D7152A81D6E0F9A005998FE /* AppScreenSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppScreenSpec.swift; sourceTree = "<group>"; };
 		1D7152AA1D6E1215005998FE /* AppProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppProtocols.swift; sourceTree = "<group>"; };
@@ -3070,7 +3068,6 @@
 		12F0E3A51A4333020012CEA2 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				1D71529F1D6D212D005998FE /* ello-crazy-logo.gif */,
 				1DA9AA7D1C6A81AB000562E4 /* emojis.json */,
 				76CBD22D1AB2338F00D144F7 /* SVGs */,
 				12F0E3AA1A4333260012CEA2 /* Images.xcassets */,
@@ -4687,7 +4684,6 @@
 				76F8DEE81B6C0BC4009BCF61 /* plussmall_selected.svg in Resources */,
 				76F8DEE11B6C0BC4009BCF61 /* person_normal.svg in Resources */,
 				1D5A90181D39747E00C2AEFF /* $.svg in Resources */,
-				1D7152A01D6D212D005998FE /* ello-crazy-logo.gif in Resources */,
 				76F8DEF31B6C0BC4009BCF61 /* repost_selected.svg in Resources */,
 				1D6E431A1EA68B5E0029C9B1 /* badge_nsfw_selected.svg in Resources */,
 				76F8DF071B6C0BC4009BCF61 /* xpmcirc_selected.svg in Resources */,
