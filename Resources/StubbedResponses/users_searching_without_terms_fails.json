@@ -1,7 +1,0 @@
-{
-    "errors": {
-        "code": "missing_param",
-        "status": "422",
-        "title": "param is missing or the value is empty: terms"
-    }
-}

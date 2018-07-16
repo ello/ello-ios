@@ -1,7 +1,0 @@
-{
-    "errors": {
-        "code": "locked_out",
-        "status": "401",
-        "title": "No dice. Account has been locked."
-    }
-}

@@ -1,7 +1,0 @@
-{
-    "errors": {
-        "status":"420",
-        "title":"The request could not be handled due to rate limiting.",
-        "code":"rate_limited"
-    }
-}

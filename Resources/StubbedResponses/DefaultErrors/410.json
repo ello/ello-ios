@@ -1,7 +1,0 @@
-{
-    "errors": {
-        "status":"410",
-        "title":"The requested API version no longer exists.",
-        "code":"invalid_version"
-    }
-}

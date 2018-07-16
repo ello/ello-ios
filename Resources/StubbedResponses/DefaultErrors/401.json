@@ -1,7 +1,0 @@
-{
-    "errors": {
-        "status":"401",
-        "title":"You are not authenticated for this request.",
-        "code":"unauthenticated"
-    }
-}
