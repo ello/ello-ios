@@ -17,6 +17,6 @@ struct GQLVariable {
     static func optionalFloat(_ name: String, _ value: Float?) -> GQLVariable   { return GQLVariable(type: "Float", name: name, value: value) }
     static func bool(_ name: String, _ value: Bool) -> GQLVariable              { return GQLVariable(type: "Bool!", name: name, value: value) }
     static func optionalBool(_ name: String, _ value: Bool?) -> GQLVariable     { return GQLVariable(type: "Bool", name: name, value: value) }
-    static func `enum`(_ type: String, _ name: String, _ value: Any) -> GQLVariable { return GQLVariable(type: "\(type)!", name: name, value: value) }
-    static func optionalEnum(_ type: String, _ name: String, _ value: Any?) -> GQLVariable { return GQLVariable(type: type, name: name, value: value) }
+    static func `enum`(_ name: String, _ value: Any, _ type: String) -> GQLVariable { return GQLVariable(type: "\(type)!", name: name, value: value) }
+    static func optionalEnum(_ name: String, _ value: Any?, _ type: String) -> GQLVariable { return GQLVariable(type: type, name: name, value: value) }
 }
