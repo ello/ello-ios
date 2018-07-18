@@ -1,7 +1,0 @@
-{
-    "errors": {
-        "status":"502",
-        "title":"The service timed out. Try again?",
-        "code":"timeout"
-    }
-}

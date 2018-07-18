@@ -1,8 +1,0 @@
-{
-    "errors": {
-        "status":"500",
-        "title":"An unknown error has occurred.",
-        "detail":"You have broken it, and have been blacklisted from using the API.",
-        "code":"server_error"
-    }
-}

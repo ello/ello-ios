@@ -1,8 +1,0 @@
-{
-    "errors": {
-        "status":"503",
-        "title":"The service is unavailable. Try back shortly.",
-        "detail":"Oh snap, the service is down while we work on it.",
-        "code":"unavailable"
-    }
-}

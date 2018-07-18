@@ -1,7 +1,0 @@
-{
-    "errors": {
-        "status":"403",
-        "title":"You do not have access to the requested resource.",
-        "code":"unauthorized"
-    }
-}
