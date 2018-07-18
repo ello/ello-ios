@@ -188,7 +188,7 @@ struct InterfaceString {
         static let SponsoredBy: String = NSLocalizedString("Sponsored by", comment: "")
         static let PostedBy: String = NSLocalizedString("Posted by", comment: "")
         static let HeaderBy: String = NSLocalizedString("Header by", comment: "")
-        static let RoleAdmin: String = NSLocalizedString("Role Administrator", comment: "")
+        static let RoleAdmin: String = NSLocalizedString("Community Roles", comment: "")
     }
 
     struct Settings {

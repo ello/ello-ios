@@ -1266,8 +1266,9 @@ extension StreamViewController: UIScrollViewDelegate {
                 self.allOlderPagesLoaded = jsonables.count == 0
                 return self.scrollLoaded(jsonables: jsonables, placeholderType: lastPlaceholderType)
             }
-            .ensure {
+            .recover { error in
                 self.scrollLoaded()
+                throw error
             }
     }
 

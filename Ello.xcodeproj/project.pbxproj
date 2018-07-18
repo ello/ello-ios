@@ -1084,6 +1084,9 @@
 		1DE87FC81BB32060007A7325 /* MentionablesSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DE87FC71BB32060007A7325 /* MentionablesSpec.swift */; };
 		1DE991D01FE076670025415A /* LightboxScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DE991CF1FE076670025415A /* LightboxScreen.swift */; };
 		1DE991D61FE077550025415A /* LightboxProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DE991D51FE077550025415A /* LightboxProtocols.swift */; };
+		1DEBE65C20FE5F1100CA6E38 /* FollowingScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DEBE65A20FE5F1100CA6E38 /* FollowingScreen.swift */; };
+		1DEBE65D20FE5F1100CA6E38 /* FollowingProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DEBE65B20FE5F1100CA6E38 /* FollowingProtocols.swift */; };
+		1DEBE65F20FE612C00CA6E38 /* FollowingGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DEBE65E20FE612C00CA6E38 /* FollowingGenerator.swift */; };
 		1DF0B2D31E8D59DD001B9F97 /* ForgotPasswordEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF0B2CF1E8D59DD001B9F97 /* ForgotPasswordEmailViewController.swift */; };
 		1DF0B2D41E8D59DD001B9F97 /* ForgotPasswordProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF0B2D01E8D59DD001B9F97 /* ForgotPasswordProtocols.swift */; };
 		1DF0B2D51E8D59DD001B9F97 /* ForgotPasswordResetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF0B2D11E8D59DD001B9F97 /* ForgotPasswordResetViewController.swift */; };
@@ -2149,6 +2152,9 @@
 		1DE87FC71BB32060007A7325 /* MentionablesSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MentionablesSpec.swift; sourceTree = "<group>"; };
 		1DE991CF1FE076670025415A /* LightboxScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightboxScreen.swift; sourceTree = "<group>"; };
 		1DE991D51FE077550025415A /* LightboxProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightboxProtocols.swift; sourceTree = "<group>"; };
+		1DEBE65A20FE5F1100CA6E38 /* FollowingScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FollowingScreen.swift; sourceTree = "<group>"; };
+		1DEBE65B20FE5F1100CA6E38 /* FollowingProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FollowingProtocols.swift; sourceTree = "<group>"; };
+		1DEBE65E20FE612C00CA6E38 /* FollowingGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FollowingGenerator.swift; sourceTree = "<group>"; };
 		1DF0B2CF1E8D59DD001B9F97 /* ForgotPasswordEmailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForgotPasswordEmailViewController.swift; sourceTree = "<group>"; };
 		1DF0B2D01E8D59DD001B9F97 /* ForgotPasswordProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForgotPasswordProtocols.swift; sourceTree = "<group>"; };
 		1DF0B2D11E8D59DD001B9F97 /* ForgotPasswordResetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForgotPasswordResetViewController.swift; sourceTree = "<group>"; };
@@ -2855,7 +2861,6 @@
 				1266E50C1A9E2B9E00270E1C /* ContentFlagger.swift */,
 				1D1AF61E1A83ED6600E06C93 /* Detail */,
 				1DB271121F50AF510044D475 /* ElloDataSource.swift */,
-				121E46BC1A6B2798004AEAB7 /* FollowingViewController.swift */,
 				1D747D4020E59323005D30AF /* GraphQLStreamViewController.swift */,
 				12224E571A72CEC300D087EC /* PostbarController.swift */,
 				128D36A81A95192300622833 /* Presenters */,
@@ -3163,6 +3168,7 @@
 				12B0936E1A6E1B1A00BF104E /* ElloNavigationController.swift */,
 				1DBD0BB51F9026F100DF9FC5 /* ElloTab.swift */,
 				12F6ADF81A43380C00493660 /* ElloTabBarController.swift */,
+				1DEBE65920FE55BA00CA6E38 /* Following */,
 				1DF0B2CE1E8D59C9001B9F97 /* ForgotPassword */,
 				1D59EF881D63C73F0029C106 /* Hire */,
 				1D6D8E6A1EF2ED2F00472434 /* Home */,
@@ -4019,6 +4025,17 @@
 				1DDC851F1D91F5E500C29552 /* PostActionable.swift */,
 			);
 			path = Protocols;
+			sourceTree = "<group>";
+		};
+		1DEBE65920FE55BA00CA6E38 /* Following */ = {
+			isa = PBXGroup;
+			children = (
+				1DEBE65E20FE612C00CA6E38 /* FollowingGenerator.swift */,
+				1DEBE65B20FE5F1100CA6E38 /* FollowingProtocols.swift */,
+				1DEBE65A20FE5F1100CA6E38 /* FollowingScreen.swift */,
+				121E46BC1A6B2798004AEAB7 /* FollowingViewController.swift */,
+			);
+			path = Following;
 			sourceTree = "<group>";
 		};
 		1DEE2BED1AF96F4300EB9DFA /* Search */ = {
@@ -5770,9 +5787,11 @@
 				12431FF81DBAACF3006808D4 /* CategoryGenerator.swift in Sources */,
 				1207C97F1C73FEE000939ADB /* ElloURI.swift in Sources */,
 				86D8D8FE1B1798B200CC8D6C /* RelationshipControl.swift in Sources */,
+				1DEBE65C20FE5F1100CA6E38 /* FollowingScreen.swift in Sources */,
 				1D8087812032596C0081E8FE /* SettingsGenerator.swift in Sources */,
 				1D45E5731D05F17500AAB730 /* BlockUserModalScreen.swift in Sources */,
 				1D22C8221AAF87F60048D415 /* StreamCreateCommentCell.swift in Sources */,
+				1DEBE65D20FE5F1100CA6E38 /* FollowingProtocols.swift in Sources */,
 				12B2913A1DE4ED090056C52E /* SimpleMessageCell.swift in Sources */,
 				1D447E7A1F38D6CD00013384 /* ArtistInviteSubmissionSuccessScreen.swift in Sources */,
 				1DDC23321F30D68600E68B0E /* RevealControllerCellPresenter.swift in Sources */,
@@ -5853,6 +5872,7 @@
 				1D59EF8E1D64BB3F0029C106 /* HireScreen.swift in Sources */,
 				1DB8C6AF1D7A26BE007E1447 /* SearchStreamCellPresenter.swift in Sources */,
 				1DE0F08F20C0A37600AAD63F /* CategoryDetailScreen.swift in Sources */,
+				1DEBE65F20FE612C00CA6E38 /* FollowingGenerator.swift in Sources */,
 				1207C9761C73FEE000939ADB /* CredentialsAuthService.swift in Sources */,
 				1207C9AC1C75312900939ADB /* ElloNetworkError.swift in Sources */,
 				1207C98A1C73FEE000939ADB /* ProfileService.swift in Sources */,

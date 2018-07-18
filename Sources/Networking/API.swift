@@ -33,12 +33,25 @@ struct API {
         }
     }
 
+    func followingPostStream(filter: CategoryFilter = .recent, before: String? = nil) -> GraphQLRequest<(PageConfig, [Post])> {
+        let request = GraphQLRequest(
+            endpointName: "followingPostStream",
+            parser: PageParser<Post>("posts", PostParser()).parse,
+            variables: [
+                .enum("kind", filter.graphQL, "StreamKind"),
+                .optionalString("before", before)
+            ],
+            body: Fragments.postStreamBody
+            )
+        return request
+    }
+
     func globalPostStream(filter: CategoryFilter, before: String? = nil) -> GraphQLRequest<(PageConfig, [Post])> {
         let request = GraphQLRequest(
             endpointName: "globalPostStream",
             parser: PageParser<Post>("posts", PostParser()).parse,
             variables: [
-                .enum("StreamKind", "kind", filter.graphQL),
+                .enum("kind", filter.graphQL, "StreamKind"),
                 .optionalString("before", before),
             ],
             body: Fragments.postStreamBody
@@ -51,7 +64,7 @@ struct API {
             endpointName: "categoryPostStream",
             parser: PageParser<Post>("posts", PostParser()).parse,
             variables: [
-                .enum("StreamKind", "kind", filter.graphQL),
+                .enum("kind", filter.graphQL, "StreamKind"),
                 .string("slug", categorySlug),
                 .optionalString("before", before),
             ],
@@ -94,7 +107,7 @@ struct API {
             endpointName: "subscribedPostStream",
             parser: PageParser<Post>("posts", PostParser()).parse,
             variables: [
-                .enum("StreamKind", "kind", filter.graphQL),
+                .enum("kind", filter.graphQL, "StreamKind"),
                 .optionalString("before", before),
             ],
             body: Fragments.postStreamBody
@@ -125,7 +138,7 @@ struct API {
             endpointName: "pageHeaders",
             parser: ManyParser<PageHeader>(PageHeaderParser()).parse,
             variables: [
-                .enum("PageHeaderKind", "kind", kind.apiKind),
+                .enum("kind", kind.apiKind, "PageHeaderKind"),
                 .optionalString("slug", kind.slug),
             ],
             body: Fragments.pageHeaderBody
