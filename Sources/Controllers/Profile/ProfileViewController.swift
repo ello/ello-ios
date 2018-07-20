@@ -401,17 +401,7 @@ extension ProfileViewController: ProfileHeaderResponder {
     func onLovesTapped() {
         guard let username = user?.username else { return }
 
-        let vc = GraphQLStreamViewController(
-            streamKind: .userLoves(username: username),
-            title: InterfaceString.Loves.Title,
-            initialRequest: {
-                return API().userLoves(username: username).execute().map { config, loves in
-                    return (config, loves.compactMap { $0.post })
-                } },
-            nextPageRequest: { username in
-                return API().userLoves(username: username, before: username).execute().map { config, loves in
-                    return (config, loves.compactMap { $0.post })
-                } })
+        let vc = LovesViewController(username: username)
         vc.currentUser = currentUser
         navigationController?.pushViewController(vc, animated: true)
     }
