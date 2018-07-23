@@ -167,24 +167,4 @@ struct PostService {
                 }
             }
     }
-
-    func loadMoreCommentsForPost(_ postId: String) -> Promise<[ElloComment]> {
-        return ElloProvider.shared.request(.postComments(postId: postId))
-            .map { data, responseConfig -> [ElloComment] in
-                if let comments: [ElloComment] = data as? [ElloComment] {
-                    for comment in comments {
-                        comment.loadedFromPostId = postId
-                    }
-
-                    Preloader().preloadImages(comments)
-                    return comments
-                }
-                else if (data as? String) == "" {
-                    return []
-                }
-                else {
-                    throw NSError.uncastableModel()
-                }
-            }
-    }
 }

@@ -115,8 +115,8 @@ class PostbarController: UIResponder {
             imageLabelControl.isHighlighted = true
             imageLabelControl.animate()
 
-            PostService().loadMoreCommentsForPost(post.id)
-                .done { [weak self] comments in
+            PostService().loadPostComments(post.id)
+                .done { [weak self] (comments, config) in
                     guard
                         let `self` = self,
                         let updatedIndexPath = self.collectionViewDataSource.indexPath(forItem: item)
