@@ -180,11 +180,7 @@ final class PostDetailViewController: StreamableViewController {
 
 extension PostDetailViewController: PostCommentsResponder {
     func loadCommentsTapped() {
-        guard
-            let nextQuery = streamViewController.responseConfig?.nextQuery
-        else { return }
-
-        generator.loadMoreComments(nextQuery: nextQuery)
+        generator.loadMoreComments()
     }
 }
 

@@ -159,6 +159,19 @@ struct API {
         return request
     }
 
+    func postComments(postToken: Token, before: String? = nil) -> GraphQLRequest<(PageConfig, [ElloComment])> {
+        let request = GraphQLRequest(
+            endpointName: "commentStream",
+            parser: PageParser<ElloComment>("comments", CommentParser()).parse,
+            variables: [
+                postToken.toVariable(),
+                .optionalString("before", before),
+            ],
+            body: Fragments.commentStreamBody
+        )
+        return request
+    }
+
     func userDetail(token: Token) -> GraphQLRequest<User> {
         let request = GraphQLRequest(
             endpointName: "findUser",
