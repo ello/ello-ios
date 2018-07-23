@@ -22,7 +22,7 @@ enum Token {
         }
     }
 
-    func toVariable(id idName: String = "id", token tokenName: String) -> GQLVariable {
+    func toVariable(idName: String = "id", tokenName: String = "token") -> GQLVariable {
         switch self {
         case let .id(id): return .optionalID(idName, id)
         case let .slug(slug): return .optionalString(tokenName, slug)
