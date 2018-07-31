@@ -1159,7 +1159,6 @@
 		76224E451B3C97B0004EBDD9 /* ElloWebViewHelperSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76224E441B3C97B0004EBDD9 /* ElloWebViewHelperSpec.swift */; };
 		762385C91B0143A500138780 /* NumberExtensionsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 762385C81B0143A500138780 /* NumberExtensionsSpec.swift */; };
 		762EE9EB1A840E4A00A3B805 /* AvatarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 762EE9EA1A840E4A00A3B805 /* AvatarButton.swift */; };
-		765319F51B62AA61009B0D7E /* CrashlyticsKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 765319F41B62AA61009B0D7E /* CrashlyticsKey.swift */; };
 		765670F01A8022B4008ED9A2 /* ElloURISpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 765670EF1A8022B4008ED9A2 /* ElloURISpec.swift */; };
 		7659FB7F1B29EE0F00DEB6F4 /* StreamInviteFriendsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7659FB7E1B29EE0F00DEB6F4 /* StreamInviteFriendsCell.swift */; };
 		7659FB811B29EEDD00DEB6F4 /* StreamInviteFriendsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7659FB801B29EEDD00DEB6F4 /* StreamInviteFriendsCell.xib */; };
@@ -2230,7 +2229,6 @@
 		76224E441B3C97B0004EBDD9 /* ElloWebViewHelperSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ElloWebViewHelperSpec.swift; sourceTree = "<group>"; };
 		762385C81B0143A500138780 /* NumberExtensionsSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NumberExtensionsSpec.swift; sourceTree = "<group>"; };
 		762EE9EA1A840E4A00A3B805 /* AvatarButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarButton.swift; sourceTree = "<group>"; };
-		765319F41B62AA61009B0D7E /* CrashlyticsKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = CrashlyticsKey.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		765670EF1A8022B4008ED9A2 /* ElloURISpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ElloURISpec.swift; sourceTree = "<group>"; };
 		7659FB7E1B29EE0F00DEB6F4 /* StreamInviteFriendsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreamInviteFriendsCell.swift; sourceTree = "<group>"; };
 		7659FB801B29EEDD00DEB6F4 /* StreamInviteFriendsCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StreamInviteFriendsCell.xib; sourceTree = "<group>"; };
@@ -3343,7 +3341,6 @@
 				1D06D6CB1E43B7DD004FA878 /* AppDefaults.swift */,
 				1264A7D61B7145E700733179 /* Application.swift */,
 				1D6A02421C73CC9B0054603B /* AssetsToRegions.swift */,
-				765319F41B62AA61009B0D7E /* CrashlyticsKey.swift */,
 				12ECFFFF1DDB7EA4007F22C5 /* DeepLinking.swift */,
 				1DC29BB61D3824D30041B1DC /* Defaults.swift */,
 				1DDF3C4F1A9D2592000D0945 /* ElloScrollLogic.swift */,
@@ -5627,7 +5624,6 @@
 				1D0A390C205AE07100AE9109 /* ChooseCategoryGenerator.swift in Sources */,
 				122B19051A867C7D00247A05 /* StreamTextCellHTML.swift in Sources */,
 				1DE83C1B20AE0BF6009109E6 /* CategoryPostHistoryCell.swift in Sources */,
-				765319F51B62AA61009B0D7E /* CrashlyticsKey.swift in Sources */,
 				1207C97C1C73FEE000939ADB /* ElloProvider.swift in Sources */,
 				1D7152E91D763EA4005998FE /* ImagePickerSheetConfig.swift in Sources */,
 				1DC78A541F21302300BE2413 /* ArtistInvitesProtocols.swift in Sources */,
