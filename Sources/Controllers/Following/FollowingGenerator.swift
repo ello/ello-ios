@@ -42,8 +42,8 @@ extension FollowingGenerator {
 
     private func loadInitialFollowing() {
         loadFollowing()
-            .done { jsonables in
-                let items = self.parse(jsonables: jsonables)
+            .done { posts in
+                let items = self.parse(jsonables: posts)
 
                 self.destination?.replacePlaceholder(type: .streamItems, items: items) {
                     self.destination?.isPagingEnabled = items.count > 0
@@ -57,10 +57,10 @@ extension FollowingGenerator {
     private func loadFollowing(before: String? = nil) -> Promise<[Model]> {
         return API().followingPostStream(before: before)
             .execute()
-            .map { pageConfig, jsonables in
+            .map { pageConfig, posts in
                 self.before = pageConfig.next
                 self.destination?.setPagingConfig(responseConfig: ResponseConfig(pageConfig: pageConfig))
-                return jsonables
+                return posts
             }
     }
 }
