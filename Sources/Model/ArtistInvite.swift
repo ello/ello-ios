@@ -125,28 +125,18 @@ final class ArtistInvite: Model {
     class func fromJSON(_ data: [String: Any]) -> ArtistInvite {
         let json = JSON(data)
 
-        let id = json["id"].stringValue
-        let slug = json["slug"].stringValue
-        let title = json["title"].stringValue
-        let shortDescription = json["short_description"].stringValue
-        let longDescription = json["description"].stringValue
-        let inviteType = json["invite_type"].stringValue
-        let status = Status(rawValue: json["status"].stringValue) ?? .closed
-        let submissionBody = json["submission_body_block"].stringValue
-        let openedAt = json["opened_at"].string?.toDate()
-        let closedAt = json["closed_at"].string?.toDate()
-
+        let id = json["id"].idValue
         let artistInvite = ArtistInvite(
             id: id,
-            slug: slug,
-            title: title,
-            shortDescription: shortDescription,
-            submissionBody: submissionBody,
-            longDescription: longDescription,
-            inviteType: inviteType,
-            status: status,
-            openedAt: openedAt,
-            closedAt: closedAt)
+            slug: json["slug"].stringValue,
+            title: json["title"].stringValue,
+            shortDescription: json["short_description"].stringValue,
+            submissionBody: json["submission_body_block"].stringValue,
+            longDescription: json["description"].stringValue,
+            inviteType: json["invite_type"].stringValue,
+            status: Status(rawValue: json["status"].stringValue) ?? .closed,
+            openedAt: json["opened_at"].string?.toDate(),
+            closedAt: json["closed_at"].string?.toDate())
 
         artistInvite.headerImage = Asset.parseAsset("artist_invite_header_\(id)", node: data["header_image"] as? [String: Any])
         artistInvite.logoImage = Asset.parseAsset("artist_invite_logo_\(id)", node: data["logo_image"] as? [String: Any])

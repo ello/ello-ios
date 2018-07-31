@@ -447,7 +447,7 @@ final class Profile: Model {
         let curatedCategoryIds: [String] = json["curated_category_ids"].arrayValue.compactMap { $0.stringValue }
 
         let profile = Profile(
-            id: json["id"].stringValue,
+            id: json["id"].idValue,
             createdAt: (json["created_at"].stringValue.toDate() ?? Globals.now),
             shortBio: json["short_bio"].stringValue,
             email: json["email"].stringValue,

@@ -179,7 +179,7 @@ final class Asset: Model {
 
     class func fromJSON(_ data: [String: Any]) -> Asset {
         let json = JSON(data)
-        return parseAsset(json["id"].stringValue, node: data["attachment"] as? [String: Any])
+        return parseAsset(json["id"].idValue, node: data["attachment"] as? [String: Any])
     }
 
     class func parseAsset(_ id: String, node: [String: Any]?) -> Asset {

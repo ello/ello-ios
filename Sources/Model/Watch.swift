@@ -49,7 +49,7 @@ final class Watch: Model, PostActionable {
         let json = JSON(data)
 
         let watch = Watch(
-            id: json["id"].stringValue,
+            id: json["id"].idValue,
             postId: json["post_id"].stringValue,
             userId: json["user_id"].stringValue
         )

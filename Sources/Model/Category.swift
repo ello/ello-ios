@@ -118,7 +118,7 @@ final class Category: Model {
         let tileImage = (json["tile_image"]["large"].object as? [String: Any]).map { Attachment.fromJSON($0) }
 
         let category = Category(
-            id: json["id"].stringValue,
+            id: json["id"].idValue,
             name: json["name"].stringValue,
             slug: json["slug"].stringValue,
             description: json["description"].string,

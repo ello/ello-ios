@@ -41,7 +41,7 @@ final class Relationship: Model {
     class func fromJSON(_ data: [String: Any]) -> Relationship {
         let json = JSON(data)
 
-        let relationship = Relationship(id: json["id"].stringValue)
+        let relationship = Relationship(id: json["id"].idValue)
 
         relationship.mergeLinks(json["links"].dictionaryObject)
 

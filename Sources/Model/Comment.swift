@@ -78,17 +78,10 @@ final class ElloComment: Model, Authorable {
 
     class func fromJSON(_ data: [String: Any]) -> ElloComment {
         let json = JSON(data)
-        var createdAt: Date
-        if let date = json["created_at"].stringValue.toDate() {
-            createdAt = date
-        }
-        else {
-            createdAt = Globals.now
-        }
 
         let comment = ElloComment(
-            id: json["id"].stringValue,
-            createdAt: createdAt,
+            id: json["id"].idValue,
+            createdAt: json["created_at"].dateValue,
             authorId: json["author_id"].stringValue,
             postId: json["post_id"].stringValue,
             content: RegionParser.jsonRegions(json: json["content"]),

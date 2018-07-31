@@ -273,7 +273,7 @@ final class User: Model {
         let json = JSON(data)
 
         let user = User(
-            id: json["id"].stringValue,
+            id: json["id"].idValue,
             username: json["username"].stringValue,
             name: json["name"].stringValue,
             relationshipPriority: RelationshipPriority(stringValue: json["relationship_priority"].stringValue),
