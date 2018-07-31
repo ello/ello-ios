@@ -48,7 +48,7 @@ def common_pods
   pod 'SVGKit', git: 'https://github.com/ello/SVGKit'
   pod 'FLAnimatedImage'
   pod 'YapDatabase'
-  pod 'Analytics'
+  pod 'Analytics'  # segment.io
   # swift
   pod 'PromiseKit/CorePromise'
   pod 'Alamofire'
