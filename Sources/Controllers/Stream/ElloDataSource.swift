@@ -73,10 +73,10 @@ class ElloDataSource: NSObject {
         guard let item = streamCellItem(at: indexPath) else { return nil }
 
         if let notification = item.jsonable as? Notification {
-            if let comment = notification.activity.subject as? ElloComment {
+            if let comment = notification.subject as? ElloComment {
                 return comment.loadedFromPost
             }
-            return notification.activity.subject as? Post
+            return notification.subject as? Post
         }
 
         if let editorial = item.jsonable as? Editorial {

@@ -12,9 +12,9 @@ struct Preloader {
     func preloadImages(_ jsonables: [Model]) {
         for jsonable in jsonables {
 
-            // activities avatar
-            if let activity = jsonable as? Activity,
-                let authorable = activity.subject as? Authorable,
+            // notifications avatar
+            if let notification = jsonable as? Notification,
+                let authorable = notification.subject as? Authorable,
                 let author = authorable.author,
                 let avatarURL = author.avatarURL()
             {
@@ -34,9 +34,9 @@ struct Preloader {
                 preloadUrl(userAvatarURL)
             }
 
-            // activity image regions
-            if let activity = jsonable as? Activity,
-                let post = activity.subject as? Post
+            // notification image regions
+            if let notification = jsonable as? Notification,
+                let post = notification.subject as? Post
             {
                 preloadImagesinPost(post)
             }

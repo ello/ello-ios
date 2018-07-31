@@ -116,17 +116,11 @@ class PreloaderSpec: QuickSpec {
 
         describe("Preloader.preloadImages(_)") {
 
-            it("preloads activity image assets and avatars") {
+            it("preloads notification image assets and avatars") {
 
-                let activityOne: Activity = stub([
-                    "subject": oneImagePost,
-                ])
-
-                let activityTwo: Activity = stub([
-                    "subject": twoImagePost,
-                ])
-
-                subject.preloadImages([activityOne, activityTwo])
+                let notificationOne: Notification = stub(["subject": oneImagePost])
+                let notificationTwo: Notification = stub(["subject": twoImagePost])
+                subject.preloadImages([notificationOne, notificationTwo])
 
                 expect(fakeManager.downloads.count) == 5
             }

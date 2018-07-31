@@ -261,11 +261,11 @@ class StreamCellItemParserSpec: QuickSpec {
                 }
 
                 it("returns an empty array if an empty array of Activities is passed in") {
-                    let activities: [Ello.Notification] = []
-                    expect(subject.parse(activities, streamKind: .notifications(category: nil)).count) == 0
+                    let notifications: [Ello.Notification] = []
+                    expect(subject.parse(notifications, streamKind: .notifications(category: nil)).count) == 0
                 }
 
-                it("returns an array with the proper count of stream cell items when parsing friends.json's activities") {
+                it("returns an array with the proper count of stream cell items when parsing friends.json's notifications") {
                     var loadedNotifications = [StreamCellItem]()
                     StreamService().loadStream(endpoint: .notificationsStream(category: nil))
                         .done { response in

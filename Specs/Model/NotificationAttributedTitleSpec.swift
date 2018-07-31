@@ -21,7 +21,7 @@ class NotificationAttributedTitleSpec: QuickSpec {
                     love = Love.stub(["user": user])
                     comment = ElloComment.stub(["parentPost": post, "author": user])
                 }
-                let expectations: [(Activity.Kind, () -> Model, String)] = [
+                let expectations: [(Notification.Kind, () -> Model, String)] = [
                     (.repostNotification, { return post }, "@ello reposted your post."),
                     (.newFollowedUserPost, { return post }, "You started following @ello."),
                     (.newFollowerPost, { return user }, "@ello started following you."),
@@ -38,14 +38,12 @@ class NotificationAttributedTitleSpec: QuickSpec {
                     (.watchOnRepostNotification, { return post }, "@ello is watching your repost."),
                     (.watchOnOriginalPostNotification, { return post }, "@ello is watching a repost of your post."),
                 ]
-                for (activityKind, subject, string) in expectations {
-                    it("supports \(activityKind)") {
-                        let activity: Activity = stub([
-                            "kind": activityKind,
+                for (notificationKind, subject, string) in expectations {
+                    it("supports \(notificationKind)") {
+                        let notification: Notification = stub([
+                            "kind": notificationKind,
                             "subject": subject(),
                             ])
-                        let notification = Notification(activity: activity)
-                        notification.author = user
                         expect(NotificationAttributedTitle.from(notification: notification).string) == string
                     }
                 }

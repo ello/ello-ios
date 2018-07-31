@@ -9,7 +9,7 @@ final class NotificationsGenerator: StreamGenerator {
     var currentUser: User?
     var streamKind: StreamKind
 
-    private var notificationActivities: [Activity] = []
+    private var notifications: [Notification] = []
     private var announcements: [Announcement] = []
     private var hasNotifications: Bool?
 
@@ -29,7 +29,7 @@ final class NotificationsGenerator: StreamGenerator {
 
         if reload {
             announcements = []
-            notificationActivities = []
+            notifications = []
         }
         else {
             setPlaceHolders()
@@ -102,15 +102,15 @@ final class NotificationsGenerator: StreamGenerator {
                 switch response {
                 case let .jsonables(jsonables, responseConfig):
                     guard
-                        let notificationActivities = jsonables as? [Activity]
+                        let notifications = jsonables as? [Notification]
                     else { return }
 
-                    self.notificationActivities = notificationActivities
+                    self.notifications = notifications
                     self.destination?.setPagingConfig(responseConfig: responseConfig)
 
-                    self.loadExtraNotificationContent(notificationActivities)
+                    self.loadExtraNotificationContent(notifications)
                         .done { _ in
-                            let notificationItems = self.parse(jsonables: notificationActivities)
+                            let notificationItems = self.parse(jsonables: notifications)
                             if notificationItems.count == 0 {
                                 let noContentItem = StreamCellItem(type: .emptyStream(height: 282))
                                 self.hasNotifications = false
@@ -138,13 +138,13 @@ final class NotificationsGenerator: StreamGenerator {
             }
     }
 
-    private func loadExtraNotificationContent(_ notificationActivities: [Activity]) -> Guarantee<Void> {
+    private func loadExtraNotificationContent(_ notifications: [Notification]) -> Guarantee<Void> {
         let (promise, fulfill) = Guarantee<Void>.pending()
         let (afterAll, done) = afterN {
             fulfill(Void())
         }
-        for activity in notificationActivities {
-            guard let submission = activity.subject as? ArtistInviteSubmission, submission.artistInvite == nil else { continue }
+        for notification in notifications {
+            guard let submission = notification.subject as? ArtistInviteSubmission, submission.artistInvite == nil else { continue }
 
             let next = afterAll()
             ArtistInviteService().load(id: submission.artistInviteId)

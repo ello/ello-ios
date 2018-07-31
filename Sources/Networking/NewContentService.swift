@@ -100,9 +100,6 @@ private extension NewContentService {
             else if let notification = jsonable as? Notification {
                 return notification.createdAt as Date > date ? notification.createdAt as Date : date
             }
-            else if let activity = jsonable as? Activity {
-                return activity.createdAt as Date > date ? activity.createdAt as Date : date
-            }
             return date
         }
     }

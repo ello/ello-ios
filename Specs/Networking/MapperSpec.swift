@@ -16,7 +16,7 @@ class MapperSpec: QuickSpec {
                     let friendData = stubbedJSONDataArray("friends", "activities")
                     let activities = Mapper.mapToObjectArray(friendData, type: .activitiesType)
 
-                    expect(activities.first).to(beAKindOf(Activity.self))
+                    expect(notifications.first).to(beAKindOf(Notification.self))
                 }
             }
 

@@ -868,10 +868,10 @@ class StreamDataSourceSpec: QuickSpec {
                         let streamKind: StreamKind = .notifications(category: nil)
                         let user1: User = stub(["id": firstUserId])
                         let post1: Post = stub(["id": "post1", "authorId": "other-user"])
-                        let activity1: Activity = stub(["id": "activity1", "subject": user1])
-                        let activity2: Activity = stub(["id": "activity2", "subject": post1])
+                        let notification1: Notification = stub(["id": "notification1", "subject": user1])
+                        let notification2: Notification = stub(["id": "notification2", "subject": post1])
                         let parser = StreamCellItemParser()
-                        let notificationCellItems = parser.parse([activity1, activity2], streamKind: streamKind)
+                        let notificationCellItems = parser.parse([notification1, notification2], streamKind: streamKind)
                         subject.streamKind = streamKind
                         subject.appendStreamCellItems(notificationCellItems)
                     }

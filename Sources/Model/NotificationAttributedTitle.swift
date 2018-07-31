@@ -75,7 +75,7 @@ struct NotificationAttributedTitle {
     }
 
     static func from(notification: Notification) -> NSAttributedString {
-        let kind = notification.activity.kind
+        let kind = notification.kind
         let author = notification.author
         let subject = notification.subject
 

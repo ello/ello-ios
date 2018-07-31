@@ -17,13 +17,12 @@ class NotificationSpec: QuickSpec {
                     "summary": [TextRegion(content: "<p>This is a post summary!</p>")]
                     ])
                 let createdAtDate = Globals.now
-                let activity: Activity = stub(["subject": post, "createdAt": createdAtDate, "subjectType": Activity.SubjectType.post.rawValue, "kind": Activity.Kind.repostNotification.rawValue])
-                let notification = Notification(activity: activity)
+                let notification: Notification = stub(["subject": post, "createdAt": createdAtDate, "subjectType": Notification.SubjectType.post.rawValue, "kind": Notification.Kind.repostNotification.rawValue])
 
                 expect(notification.author?.id) == user.id
                 expect(notification.createdAt) == createdAtDate
-                expect(notification.activity.kind) == Activity.Kind.repostNotification
-                expect(notification.activity.subjectType) == Activity.SubjectType.post
+                expect(notification.kind) == Notification.Kind.repostNotification
+                expect(notification.subjectType) == Notification.SubjectType.post
                 expect((notification.subject as? Post)?.id) == post.id
 
                 expect(NotificationAttributedTitle.from(notification: notification).string) == "@foo reposted your post."
@@ -45,13 +44,12 @@ class NotificationSpec: QuickSpec {
                     ]
                 ])
                 let createdAtDate = Globals.now
-                let activity: Activity = stub(["subject": post, "createdAt": createdAtDate, "subjectType": Activity.SubjectType.post.rawValue, "kind": Activity.Kind.repostNotification.rawValue])
-                let notification = Notification(activity: activity)
+                let notification: Notification = stub(["subject": post, "createdAt": createdAtDate, "subjectType": Notification.SubjectType.post.rawValue, "kind": Notification.Kind.repostNotification.rawValue])
 
                 expect(notification.author?.id) == user.id
                 expect(notification.createdAt) == createdAtDate
-                expect(notification.activity.kind) == Activity.Kind.repostNotification
-                expect(notification.activity.subjectType) == Activity.SubjectType.post
+                expect(notification.kind) == Notification.Kind.repostNotification
+                expect(notification.subjectType) == Notification.SubjectType.post
                 expect((notification.subject as? Post)?.id) == post.id
 
                 expect(NotificationAttributedTitle.from(notification: notification).string) == "@foo reposted your post."
@@ -70,13 +68,12 @@ class NotificationSpec: QuickSpec {
                     "summary": [TextRegion(content: "<p>This is a comment summary!</p>")]
                     ])
                 let createdAtDate = Globals.now
-                let activity: Activity = stub(["subject": comment, "createdAt": createdAtDate, "subjectType": Activity.SubjectType.comment.rawValue, "kind": Activity.Kind.commentMentionNotification.rawValue])
-                let notification = Notification(activity: activity)
+                let notification: Notification = stub(["subject": comment, "createdAt": createdAtDate, "subjectType": Notification.SubjectType.comment.rawValue, "kind": Notification.Kind.commentMentionNotification.rawValue])
 
                 expect(notification.author?.id) == user.id
                 expect(notification.createdAt) == createdAtDate
-                expect(notification.activity.kind) == Activity.Kind.commentMentionNotification
-                expect(notification.activity.subjectType) == Activity.SubjectType.comment
+                expect(notification.kind) == Notification.Kind.commentMentionNotification
+                expect(notification.subjectType) == Notification.SubjectType.comment
                 expect((notification.subject as? ElloComment)?.id) == comment.id
 
                 expect(NotificationAttributedTitle.from(notification: notification).string) == "@foo mentioned you in a comment."
@@ -110,13 +107,12 @@ class NotificationSpec: QuickSpec {
                     ]
                 ])
                 let createdAtDate = Globals.now
-                let activity: Activity = stub(["subject": comment, "createdAt": createdAtDate, "subjectType": Activity.SubjectType.comment.rawValue, "kind": Activity.Kind.commentMentionNotification.rawValue])
-                let notification = Notification(activity: activity)
+                let notification: Notification = stub(["subject": comment, "createdAt": createdAtDate, "subjectType": Notification.SubjectType.comment.rawValue, "kind": Notification.Kind.commentMentionNotification.rawValue])
 
                 expect(notification.author?.id) == user.id
                 expect(notification.createdAt) == createdAtDate
-                expect(notification.activity.kind) == Activity.Kind.commentMentionNotification
-                expect(notification.activity.subjectType) == Activity.SubjectType.comment
+                expect(notification.kind) == Notification.Kind.commentMentionNotification
+                expect(notification.subjectType) == Notification.SubjectType.comment
                 expect((notification.subject as? ElloComment)?.id) == comment.id
 
                 expect(NotificationAttributedTitle.from(notification: notification).string) == "@foo mentioned you in a comment."

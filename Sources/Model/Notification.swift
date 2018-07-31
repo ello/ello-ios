@@ -2,28 +2,89 @@
 ///  Notification.swift
 //
 
-let NotificationVersion = 1
+import SwiftyJSON
 
 @objc(Notification)
 final class Notification: Model, Authorable {
+    static let Version = 1
+    enum Kind: String {
+        // Notifications
+        case newFollowerPost = "new_follower_post" // someone started following you
+        case newFollowedUserPost = "new_followed_user_post" // you started following someone
+        case invitationAcceptedPost = "invitation_accepted_post" // someone accepted your invitation
 
-    let activity: Activity
-    var author: User?
-    // if postId is present, this notification is opened using "PostDetailViewController"
-    var postId: String?
-    var createdAt: Date { return activity.createdAt }
-    var subject: Model? { willSet { attributedTitleStore = nil } }
+        case postMentionNotification = "post_mention_notification" // you were mentioned in a post
+        case commentMentionNotification = "comment_mention_notification" // you were mentioned in a comment
+        case commentNotification = "comment_notification" // someone commented on your post
+        case commentOnOriginalPostNotification = "comment_on_original_post_notification" // someone commented on your repost
+        case commentOnRepostNotification = "comment_on_repost_notification" // someone commented on other's repost of your post
 
-    // notification specific
-    var textRegion: TextRegion?
-    var imageRegion: ImageRegion?
-    private var attributedTitleStore: NSAttributedString?
+        case welcomeNotification = "welcome_notification" // welcome to Ello
+        case repostNotification = "repost_notification" // someone reposted your post
+
+        case watchNotification = "watch_notification" // someone watched your post on ello
+        case watchCommentNotification = "watch_comment_notification" // someone commented on a post you're watching
+        case watchOnRepostNotification = "watch_on_repost_notification" // someone watched your repost
+        case watchOnOriginalPostNotification = "watch_on_original_post_notification" // someone watched other's repost of your post
+
+        case loveNotification = "love_notification" // someone loved your post
+        case loveOnRepostNotification = "love_on_repost_notification" // someone loved your repost
+        case loveOnOriginalPostNotification = "love_on_original_post_notification" // someone loved other's repost of your post
+
+        case approvedArtistInviteSubmission = "approved_artist_invite_submission" // your submission has been accepted
+        case approvedArtistInviteSubmissionNotificationForFollowers = "approved_artist_invite_submission_notification_for_followers" // a person you follow had their submission accepted
+
+        case categoryPostFeatured = "category_post_featured"
+        case categoryRepostFeatured = "category_repost_featured"
+        case categoryPostViaRepostFeatured = "category_post_via_repost_featured"
+
+        case userAddedAsFeatured = "user_added_as_featured_notification"
+        case userAddedAsCurator = "user_added_as_curator_notification"
+        case userAddedAsModerator = "user_added_as_moderator_notification"
+
+        // Fallback for not defined types
+        case unknown = "Unknown"
+    }
+
+    enum SubjectType: String {
+        case user = "User"
+        case post = "Post"
+        case comment = "Comment"
+        case categoryPost = "CategoryPost"
+        case unknown = "Unknown"
+    }
+
+    let id: String
+    let createdAt: Date
+    let kind: Notification.Kind
+    let subjectType: Notification.SubjectType
+
+    var subject: Model? { return getLinkObject("subject") }
+
+    var author: User? { return subjectAuthor() }
+    var postId: String? { return subjectPostId() }
+
+    private var regions: (TextRegion, ImageRegion)?
+    var textRegion: TextRegion? {
+        guard let regions = regions else {
+            assignRegionsFromContent()
+            return textRegion
+        }
+        return regions.0
+    }
+    var imageRegion: ImageRegion? {
+        guard let regions = regions else {
+            assignRegionsFromContent()
+            return imageRegion
+        }
+        return regions.1
+    }
 
     var hasImage: Bool {
         return self.imageRegion != nil
     }
     var canReplyToComment: Bool {
-        switch activity.kind {
+        switch kind {
         case .postMentionNotification,
             .commentNotification,
             .commentMentionNotification,
@@ -35,96 +96,146 @@ final class Notification: Model, Authorable {
         }
     }
     var canBackFollow: Bool {
-        return false // activity.kind == .newFollowerPost
+        return false // kind == .newFollowerPost
     }
 
     var isValidKind: Bool {
-        return activity.kind != .unknown
+        return kind != .unknown
     }
 
-    init(activity: Activity) {
-        self.activity = activity
+    init(id: String,
+        createdAt: Date,
+        kind: Notification.Kind,
+        subjectType: Notification.SubjectType)
+    {
+        self.id = id
+        self.createdAt = createdAt
+        self.kind = kind
+        self.subjectType = subjectType
 
-        if let post = activity.subject as? Post {
-            self.author = post.author
-            self.postId = post.id
-        }
-        else if let comment = activity.subject as? ElloComment {
-            self.author = comment.author
-            self.postId = comment.postId
-        }
-        else if let user = activity.subject as? User {
-            self.author = user
-        }
-        else if let submission = activity.subject as? CategoryPost,
-            let featuredBy = submission.featuredBy
-        {
-            self.author = featuredBy
-        }
-        else if let submission = activity.subject as? CategoryUser {
-            switch submission.role {
-            case .featured:
-                self.author = submission.featuredBy
-            case .curator:
-                self.author = submission.curatorBy
-            case .moderator:
-                self.author = submission.moderatorBy
-            case .unspecified:
-                break
-            }
-        }
-        else if let actionable = activity.subject as? PostActionable,
-            let user = actionable.user
-        {
-            self.postId = actionable.postId
-            self.author = user
-        }
-
-        super.init(version: NotificationVersion)
-
-        var postSummary: [Regionable]?
-        var postParentSummary: [Regionable]?
-
-        if let post = activity.subject as? Post {
-            postSummary = post.summary
-        }
-        else if let submission = activity.subject as? CategoryPost,
-            let post = submission.post
-        {
-            postSummary = post.summary
-        }
-        else if let comment = activity.subject as? ElloComment {
-            let content = !comment.summary.isEmpty ? comment.summary : comment.content
-            let parentSummary = comment.parentPost?.summary
-            postSummary = content
-            postParentSummary = parentSummary
-        }
-        else if let post = (activity.subject as? PostActionable)?.post {
-            postSummary = post.summary
-        }
-
-        if let postSummary = postSummary {
-            assignRegionsFromContent(postSummary, parentSummary: postParentSummary)
-        }
-
-        subject = activity.subject
+        super.init(version: Notification.Version)
     }
 
     required init(coder: NSCoder) {
         let decoder = Coder(coder)
-        self.activity = decoder.decodeKey("activity")
+        self.id = decoder.decodeKey("id")
+        self.createdAt = decoder.decodeKey("createdAt")
+        let rawKind: String = decoder.decodeKey("rawKind")
+        self.kind = Notification.Kind(rawValue: rawKind) ?? .unknown
+        let rawSubjectType: String = decoder.decodeKey("rawSubjectType")
+        self.subjectType = Notification.SubjectType(rawValue: rawSubjectType) ?? .unknown
         self.author = decoder.decodeOptionalKey("author")
         super.init(coder: coder)
     }
 
     override func encode(with encoder: NSCoder) {
         let coder = Coder(encoder)
-        coder.encodeObject(activity, forKey: "activity")
+        coder.encodeObject(id, forKey: "id")
+        coder.encodeObject(createdAt, forKey: "createdAt")
+        coder.encodeObject(kind.rawValue, forKey: "rawKind")
+        coder.encodeObject(subjectType.rawValue, forKey: "rawSubjectType")
         coder.encodeObject(author, forKey: "author")
         super.encode(with: coder.coder)
     }
 
-    private func assignRegionsFromContent(_ content: [Regionable], parentSummary: [Regionable]? = nil) {
+    class func fromJSON(_ data: [String: Any]) -> Notification {
+        let json = JSON(data)
+        let id = json["created_at"].stringValue
+        var createdAt: Date
+        if let date = id.toDate() {
+            createdAt = date
+        }
+        else {
+            createdAt = Globals.now
+        }
+
+        let notification = Notification(
+            id: id,
+            createdAt: createdAt,
+            kind: Kind(rawValue: json["kind"].stringValue) ?? .unknown,
+            subjectType: SubjectType(rawValue: json["subject_type"].stringValue) ?? .unknown
+        )
+        notification.mergeLinks(data["links"] as? [String: Any])
+
+        return notification
+    }
+
+    func subjectAuthor() -> User? {
+        if let post = subject as? Post {
+            return post.author
+        }
+        else if let comment = subject as? ElloComment {
+            return comment.author
+        }
+        else if let user = subject as? User {
+            return user
+        }
+        else if let submission = subject as? CategoryPost,
+            let featuredBy = submission.featuredBy
+        {
+            return featuredBy
+        }
+        else if let submission = subject as? CategoryUser {
+            switch submission.role {
+            case .featured:
+                return submission.featuredBy
+            case .curator:
+                return submission.curatorBy
+            case .moderator:
+                return submission.moderatorBy
+            case .unspecified:
+                break
+            }
+        }
+        else if let actionable = subject as? PostActionable,
+            let user = actionable.user
+        {
+            return user
+        }
+        return nil
+    }
+
+    func subjectPostId() -> String? {
+        if let post = subject as? Post {
+            return post.id
+        }
+        else if let comment = subject as? ElloComment {
+            return comment.postId
+        }
+        else if let actionable = subject as? PostActionable,
+            let user = actionable.user
+        {
+            return actionable.postId
+        }
+        return nil
+    }
+
+    private func assignRegionsFromContent() {
+        var postSummary: [Regionable]?
+        var parentSummary: [Regionable]?
+
+        if let post = subject as? Post {
+            postSummary = post.summary
+        }
+        else if let submission = subject as? CategoryPost,
+            let post = submission.post
+        {
+            postSummary = post.summary
+        }
+        else if let comment = subject as? ElloComment {
+            let content = !comment.summary.isEmpty ? comment.summary : comment.content
+            let parentSummary = comment.parentPost?.summary
+            postSummary = content
+            parentSummary = parentSummary
+        }
+        else if let post = (subject as? PostActionable)?.post {
+            postSummary = post.summary
+        }
+
+        guard let content = postSummary else {
+            return
+        }
+
         // assign textRegion and imageRegion from the post content - finds
         // the first of both kinds of regions
         var textContent: [String] = []
@@ -157,6 +268,6 @@ final class Notification: Model, Authorable {
 }
 
 extension Notification: JSONSaveable {
-    var uniqueId: String? { return "Notification-\(activity.id)" }
-    var tableId: String? { return activity.id }
+    var uniqueId: String? { return "Notification-\(id)" }
+    var tableId: String? { return id }
 }

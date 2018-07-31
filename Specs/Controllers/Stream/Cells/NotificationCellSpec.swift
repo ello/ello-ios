@@ -15,11 +15,11 @@ class NotificationCellSpec: QuickSpec {
                 subject.frame.size = CGSize(width: 320, height: 40)
                 let author: User = .stub(["username": "ello"])
                 let post: Post = .stub(["author": author])
-                let activity: Activity = stub([
-                    "kind": Activity.Kind.postMentionNotification,
+                let notification: Notification = stub([
+                    "kind": Notification.Kind.postMentionNotification,
                     "subject": post,
                     ])
-                subject.title = NotificationAttributedTitle.from(notification: Notification(activity: activity))
+                subject.title = NotificationAttributedTitle.from(notification: notification)
                 subject.layoutIfNeeded()
 
                 expect(subject.titleTextView.frame.size.height) == 17
@@ -30,11 +30,11 @@ class NotificationCellSpec: QuickSpec {
                 subject.frame.size = CGSize(width: 160, height: 40)
                 let author: User = .stub(["username": "ello"])
                 let post: Post = .stub(["author": author])
-                let activity: Activity = stub([
-                    "kind": Activity.Kind.postMentionNotification,
+                let notification: Notification = stub([
+                    "kind": Notification.Kind.postMentionNotification,
                     "subject": post,
                     ])
-                subject.title = NotificationAttributedTitle.from(notification: Notification(activity: activity))
+                subject.title = NotificationAttributedTitle.from(notification: notification)
                 subject.layoutIfNeeded()
 
                 expect(subject.titleTextView.frame.size.height) == 51
@@ -43,7 +43,7 @@ class NotificationCellSpec: QuickSpec {
             context("snapshots") {
                 var author: User!
                 var post: Post!
-                var activity: Activity!
+                var notification: Notification!
                 var title: NSAttributedString!
                 var createdAt: Date!
                 var aspectRatio: CGFloat!
@@ -52,11 +52,11 @@ class NotificationCellSpec: QuickSpec {
                 beforeEach {
                     author = User.stub(["username": "ello"])
                     post = Post.stub(["author": author])
-                    activity = Activity.stub([
-                        "kind": Activity.Kind.postMentionNotification,
+                    notification = Notification.stub([
+                        "kind": Notification.Kind.postMentionNotification,
                         "subject": post,
                         ])
-                    title = NotificationAttributedTitle.from(notification: Notification(activity: activity))
+                    title = NotificationAttributedTitle.from(notification: notification)
                     createdAt = Date(timeIntervalSinceNow: -86_460)
                     aspectRatio = 1
                     image = UIImage.imageWithColor(.blue, size: CGSize(width: 300, height: 300))!

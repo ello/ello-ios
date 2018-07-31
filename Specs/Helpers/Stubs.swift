@@ -442,55 +442,56 @@ extension AutoCompleteResult: Stubbable {
     }
 }
 
-extension Activity: Stubbable {
-    class func stub(_ values: [String: Any]) -> Activity {
-        let activityKind: Activity.Kind
-        if let kind = values["kind"] as? Activity.Kind {
-            activityKind = kind
+extension Notification: Stubbable {
+
+    class func stub(_ values: [String: Any]) -> Notification {
+        let notificationKind: Notification.Kind
+        if let kind = values["kind"] as? Notification.Kind {
+            notificationKind = kind
         }
         else if let kindString = values["kind"] as? String,
-            let kind = Activity.Kind(rawValue: kindString)
+            let kind = Notification.Kind(rawValue: kindString)
         {
-            activityKind = kind
+            notificationKind = kind
         }
         else {
-            activityKind = .newFollowerPost
+            notificationKind = .newFollowerPost
         }
 
-        let activitySubjectType: SubjectType
+        let notificationSubjectType: SubjectType
         if let type = values["subjectType"] as? SubjectType {
-            activitySubjectType = type
+            notificationSubjectType = type
         }
         else if let subjectTypeString = values["subjectType"] as? String,
             let type = SubjectType(rawValue: subjectTypeString)
         {
-            activitySubjectType = type
+            notificationSubjectType = type
         }
         else {
-            activitySubjectType = .post
+            notificationSubjectType = .post
         }
 
-        let activity = Activity(
+        let notification = Notification(
             id: (values["id"] as? String) ?? generateID(),
             createdAt: (values["createdAt"] as? Date) ?? Globals.now,
-            kind: activityKind,
-            subjectType: activitySubjectType
+            kind: notificationKind,
+            subjectType: notificationSubjectType
         )
 
         if let user = values["subject"] as? User {
             ElloLinkedStore.shared.setObject(user, forKey: user.id, type: .usersType)
-            activity.storeLinkObject(user, key: "subject", id: user.id, type: .usersType)
+            notification.storeLinkObject(user, key: "subject", id: user.id, type: .usersType)
         }
         else if let post = values["subject"] as? Post {
             ElloLinkedStore.shared.setObject(post, forKey: post.id, type: .postsType)
-            activity.storeLinkObject(post, key: "subject", id: post.id, type: .postsType)
+            notification.storeLinkObject(post, key: "subject", id: post.id, type: .postsType)
         }
         else if let comment = values["subject"] as? ElloComment {
             ElloLinkedStore.shared.setObject(comment, forKey: comment.id, type: .commentsType)
-            activity.storeLinkObject(comment, key: "subject", id: comment.id, type: .commentsType)
+            notification.storeLinkObject(comment, key: "subject", id: comment.id, type: .commentsType)
         }
-        ElloLinkedStore.shared.setObject(activity, forKey: activity.id, type: .activitiesType)
-        return activity
+        ElloLinkedStore.shared.setObject(notification, forKey: notification.id, type: .activitiesAsNotificationsType)
+        return notification
     }
 }
 
@@ -526,12 +527,6 @@ extension Attachment: Stubbable {
         attachment.size = values["size"] as? Int
         attachment.image = values["image"] as? UIImage
         return attachment
-    }
-}
-
-extension Ello.Notification: Stubbable {
-    class func stub(_ values: [String: Any]) -> Ello.Notification {
-        return Notification(activity: (values["activity"] as? Activity) ?? Activity.stub([:]))
     }
 }
 

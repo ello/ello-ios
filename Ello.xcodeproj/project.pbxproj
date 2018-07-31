@@ -104,7 +104,6 @@
 		122B19051A867C7D00247A05 /* StreamTextCellHTML.swift in Sources */ = {isa = PBXBuildFile; fileRef = 122B18F31A867C7D00247A05 /* StreamTextCellHTML.swift */; };
 		122B190D1A86894400247A05 /* StreamCellType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 122B190C1A86894400247A05 /* StreamCellType.swift */; };
 		122B19101A8692C700247A05 /* StreamImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 122B190F1A8692C700247A05 /* StreamImageCell.xib */; };
-		122B30AE1C6A3FBB00C1B9D8 /* Activity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F6AE351A43392D00493660 /* Activity.swift */; };
 		122B30B11C6A3FBB00C1B9D8 /* AmazonCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DCA94321AA65E010033C0EC /* AmazonCredentials.swift */; };
 		122B30B31C6A3FBB00C1B9D8 /* Availability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 760303551AE17290005F7A08 /* Availability.swift */; };
 		122B30B41C6A3FBB00C1B9D8 /* Coder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12CFF69A1B167841007CE68F /* Coder.swift */; };
@@ -122,7 +121,6 @@
 		122B30C11C6A3FBB00C1B9D8 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F6AE381A43392D00493660 /* Post.swift */; };
 		122B30C21C6A3FBB00C1B9D8 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 760F66181AD843990071F633 /* Profile.swift */; };
 		122B30C31C6A3FBB00C1B9D8 /* PushPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = F83648ED1B0CDDC0000CDBC5 /* PushPayload.swift */; };
-		122B30C41C6A3FBC00C1B9D8 /* Activity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F6AE351A43392D00493660 /* Activity.swift */; };
 		122B30C51C6A3FBC00C1B9D8 /* AddressBook.swift in Sources */ = {isa = PBXBuildFile; fileRef = F872F3C21AA4D968005152B5 /* AddressBook.swift */; };
 		122B30C61C6A3FBC00C1B9D8 /* AddressBookError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8BB4D881AA64F8700C022B0 /* AddressBookError.swift */; };
 		122B30C71C6A3FBC00C1B9D8 /* AmazonCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DCA94321AA65E010033C0EC /* AmazonCredentials.swift */; };
@@ -595,7 +593,6 @@
 		1D447EE11F3BC75E00013384 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12C043651A609A2000E3051A /* Comment.swift */; };
 		1D447EE21F3BC76900013384 /* TextRegion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1247E4EC1A8B8CFB00DDC24A /* TextRegion.swift */; };
 		1D447EE31F3BC77000013384 /* TypedNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 127128251A77373300695F15 /* TypedNotifications.swift */; };
-		1D447EE41F3BC77400013384 /* Activity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F6AE351A43392D00493660 /* Activity.swift */; };
 		1D447EE51F3BC78F00013384 /* Badge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D9A12C81EA96623003B3BD7 /* Badge.swift */; };
 		1D447EE61F3BC79600013384 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F6AE371A43392D00493660 /* Model.swift */; };
 		1D447EE71F3BC79E00013384 /* MultipartRequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1207C9611C73FEE000939ADB /* MultipartRequestBuilder.swift */; };
@@ -1610,7 +1607,6 @@
 		12F6AE281A43390900493660 /* NumberExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NumberExtensions.swift; sourceTree = "<group>"; };
 		12F6AE2A1A43390900493660 /* ScreenExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScreenExtensions.swift; sourceTree = "<group>"; };
 		12F6AE2B1A43390900493660 /* StringExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
-		12F6AE351A43392D00493660 /* Activity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Activity.swift; sourceTree = "<group>"; };
 		12F6AE361A43392D00493660 /* ElloNetworkError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ElloNetworkError.swift; sourceTree = "<group>"; };
 		12F6AE371A43392D00493660 /* Model.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		12F6AE381A43392D00493660 /* Post.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
@@ -3275,7 +3271,6 @@
 		12F6AE341A43391400493660 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				12F6AE351A43392D00493660 /* Activity.swift */,
 				F872F3C21AA4D968005152B5 /* AddressBook.swift */,
 				F8BB4D881AA64F8700C022B0 /* AddressBookError.swift */,
 				1DCA94321AA65E010033C0EC /* AmazonCredentials.swift */,
@@ -5264,7 +5259,6 @@
 				1DF490941FD5EE8200C0ACAC /* Priority.swift in Sources */,
 				122D1B4C1C60232D001386CE /* TypedNotifications.swift in Sources */,
 				1D0DF8CA2022395D00019875 /* PostParser.swift in Sources */,
-				122B30AE1C6A3FBB00C1B9D8 /* Activity.swift in Sources */,
 				1D9309CD1EBCEBAF0099FCF8 /* Badge.swift in Sources */,
 				1D0DF8BB20211E8C00019875 /* AuthenticationManager.swift in Sources */,
 				122B30BC1C6A3FBB00C1B9D8 /* Model.swift in Sources */,
@@ -6053,7 +6047,6 @@
 				1D0A390A205AE07100AE9109 /* ChooseCategoryProtocols.swift in Sources */,
 				76FF80551A966B6300617A1E /* RelationshipController.swift in Sources */,
 				122B190D1A86894400247A05 /* StreamCellType.swift in Sources */,
-				122B30C41C6A3FBC00C1B9D8 /* Activity.swift in Sources */,
 				1243576A1A8927BF008B24FB /* NotificationsViewController.swift in Sources */,
 				1D7E82421F2692D3006ACE7A /* ArtistInviteHeaderCell.swift in Sources */,
 				1D80878E20376AD60081E8FE /* PageHeaderParser.swift in Sources */,
@@ -6110,7 +6103,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				1D0DF8EB202384BE00019875 /* AssetParser.swift in Sources */,
-				1D447EE41F3BC77400013384 /* Activity.swift in Sources */,
 				1D447F131F3BCA7300013384 /* CGSizeExtensions.swift in Sources */,
 				1D447F1C1F3BCC9C00013384 /* ExperienceUpdate.swift in Sources */,
 				1D447ECB1F3BC66300013384 /* User.swift in Sources */,
