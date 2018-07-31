@@ -16,7 +16,7 @@ struct API {
         case editorials
         case generic
 
-        var apiKind: String {
+        var graphQL: String {
             switch self {
             case .category: return "CATEGORY"
             case .editorials: return "EDITORIAL"
@@ -138,7 +138,7 @@ struct API {
             endpointName: "pageHeaders",
             parser: ManyParser<PageHeader>(PageHeaderParser()).parse,
             variables: [
-                .enum("kind", kind.apiKind, "PageHeaderKind"),
+                .enum("kind", kind.graphQL, "PageHeaderKind"),
                 .optionalString("slug", kind.slug),
             ],
             body: Fragments.pageHeaderBody
