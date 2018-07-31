@@ -86,7 +86,6 @@
 		122034751DE66A4A0059E633 /* ello_logo_grey.svg in Resources */ = {isa = PBXBuildFile; fileRef = 122034731DE66A4A0059E633 /* ello_logo_grey.svg */; };
 		122034771DE9E7300059E633 /* SimpleMessageCellPresenterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 122034761DE9E7300059E633 /* SimpleMessageCellPresenterSpec.swift */; };
 		122034791DEC8B8A0059E633 /* SimpleMessageCellSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 122034781DEC8B8A0059E633 /* SimpleMessageCellSpec.swift */; };
-		1220347B1DEC92C80059E633 /* StreamCellTypeSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1220347A1DEC92C80059E633 /* StreamCellTypeSpec.swift */; };
 		1220347D1DECCDD80059E633 /* marker.svg in Resources */ = {isa = PBXBuildFile; fileRef = 1220347C1DECCDD80059E633 /* marker.svg */; };
 		1220347F1DECCE890059E633 /* ProfileHeaderLocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1220347E1DECCE890059E633 /* ProfileHeaderLocationCell.swift */; };
 		12224E581A72CEC300D087EC /* PostbarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12224E571A72CEC300D087EC /* PostbarController.swift */; };
@@ -1416,7 +1415,6 @@
 		122034731DE66A4A0059E633 /* ello_logo_grey.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ello_logo_grey.svg; sourceTree = "<group>"; };
 		122034761DE9E7300059E633 /* SimpleMessageCellPresenterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleMessageCellPresenterSpec.swift; sourceTree = "<group>"; };
 		122034781DEC8B8A0059E633 /* SimpleMessageCellSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleMessageCellSpec.swift; sourceTree = "<group>"; };
-		1220347A1DEC92C80059E633 /* StreamCellTypeSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreamCellTypeSpec.swift; sourceTree = "<group>"; };
 		1220347C1DECCDD80059E633 /* marker.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = marker.svg; sourceTree = "<group>"; };
 		1220347E1DECCE890059E633 /* ProfileHeaderLocationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileHeaderLocationCell.swift; sourceTree = "<group>"; };
 		12224E571A72CEC300D087EC /* PostbarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostbarController.swift; sourceTree = "<group>"; };
@@ -3123,7 +3121,6 @@
 				1DA18E481DB959B2000231CC /* ProfileHeaderGhostCellSpec.swift */,
 				128FDF381DD0F5E300DBADD0 /* PromotionalHeaderCellSpec.swift */,
 				122034781DEC8B8A0059E633 /* SimpleMessageCellSpec.swift */,
-				1220347A1DEC92C80059E633 /* StreamCellTypeSpec.swift */,
 				1DF9840B1D9B31690055EFC7 /* StreamCreateCommentCellSpec.swift */,
 				1D2F65BC1D1C5BC00099D036 /* StreamHeaderCellSpec.swift */,
 				1D59EF861D62187C0029C106 /* StreamImageCellSpec.swift */,
@@ -5324,7 +5321,6 @@
 				1D44F80C1B629606007E2DE4 /* StreamCellItemParserExt.swift in Sources */,
 				F870D8F51ACB0BB000E25AA2 /* ResponseConfigSpec.swift in Sources */,
 				1D59EF871D62187C0029C106 /* StreamImageCellSpec.swift in Sources */,
-				1220347B1DEC92C80059E633 /* StreamCellTypeSpec.swift in Sources */,
 				128FDF391DD0F5E300DBADD0 /* PromotionalHeaderCellSpec.swift in Sources */,
 				76BE9C551B2B773B007575AA /* StreamInviteFriendsCellSpec.swift in Sources */,
 				124BBEDF1BDFEDE900CBDF69 /* AppDelegateSpec.swift in Sources */,
