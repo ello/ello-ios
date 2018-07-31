@@ -64,18 +64,16 @@ final class Notification: Model, Authorable {
     var author: User? { return subjectAuthor() }
     var postId: String? { return subjectPostId() }
 
-    private var regions: (TextRegion, ImageRegion)?
+    private var regions: (TextRegion?, ImageRegion?)?
     var textRegion: TextRegion? {
         guard let regions = regions else {
-            assignRegionsFromContent()
-            return textRegion
+            return assignRegionsFromContent().0
         }
         return regions.0
     }
     var imageRegion: ImageRegion? {
         guard let regions = regions else {
-            assignRegionsFromContent()
-            return imageRegion
+            return assignRegionsFromContent().1
         }
         return regions.1
     }
@@ -124,7 +122,6 @@ final class Notification: Model, Authorable {
         self.kind = Notification.Kind(rawValue: rawKind) ?? .unknown
         let rawSubjectType: String = decoder.decodeKey("rawSubjectType")
         self.subjectType = Notification.SubjectType(rawValue: rawSubjectType) ?? .unknown
-        self.author = decoder.decodeOptionalKey("author")
         super.init(coder: coder)
     }
 
@@ -134,24 +131,15 @@ final class Notification: Model, Authorable {
         coder.encodeObject(createdAt, forKey: "createdAt")
         coder.encodeObject(kind.rawValue, forKey: "rawKind")
         coder.encodeObject(subjectType.rawValue, forKey: "rawSubjectType")
-        coder.encodeObject(author, forKey: "author")
         super.encode(with: coder.coder)
     }
 
     class func fromJSON(_ data: [String: Any]) -> Notification {
         let json = JSON(data)
-        let id = json["created_at"].stringValue
-        var createdAt: Date
-        if let date = id.toDate() {
-            createdAt = date
-        }
-        else {
-            createdAt = Globals.now
-        }
 
         let notification = Notification(
-            id: id,
-            createdAt: createdAt,
+            id: json["created_at"].stringValue,
+            createdAt: json["created_at"].dateValue,
             kind: Kind(rawValue: json["kind"].stringValue) ?? .unknown,
             subjectType: SubjectType(rawValue: json["subject_type"].stringValue) ?? .unknown
         )
@@ -187,10 +175,8 @@ final class Notification: Model, Authorable {
                 break
             }
         }
-        else if let actionable = subject as? PostActionable,
-            let user = actionable.user
-        {
-            return user
+        else if let actionable = subject as? PostActionable {
+            return actionable.user
         }
         return nil
     }
@@ -202,15 +188,13 @@ final class Notification: Model, Authorable {
         else if let comment = subject as? ElloComment {
             return comment.postId
         }
-        else if let actionable = subject as? PostActionable,
-            let user = actionable.user
-        {
+        else if let actionable = subject as? PostActionable {
             return actionable.postId
         }
         return nil
     }
 
-    private func assignRegionsFromContent() {
+    private func assignRegionsFromContent() -> (TextRegion?, ImageRegion?) {
         var postSummary: [Regionable]?
         var parentSummary: [Regionable]?
 
@@ -224,16 +208,11 @@ final class Notification: Model, Authorable {
         }
         else if let comment = subject as? ElloComment {
             let content = !comment.summary.isEmpty ? comment.summary : comment.content
-            let parentSummary = comment.parentPost?.summary
             postSummary = content
-            parentSummary = parentSummary
+            parentSummary = comment.parentPost?.summary
         }
         else if let post = (subject as? PostActionable)?.post {
             postSummary = post.summary
-        }
-
-        guard let content = postSummary else {
-            return
         }
 
         // assign textRegion and imageRegion from the post content - finds
@@ -253,17 +232,22 @@ final class Notification: Model, Authorable {
             }
         }
 
-        for region in content {
-            if let newTextRegion = region as? TextRegion {
-                textContent.append(newTextRegion.content)
-            }
-            else if let newImageRegion = region as? ImageRegion, contentImage == nil {
-                contentImage = newImageRegion
+        if let content = postSummary {
+            for region in content {
+                if let newTextRegion = region as? TextRegion {
+                    textContent.append(newTextRegion.content)
+                }
+                else if let newImageRegion = region as? ImageRegion, contentImage == nil {
+                    contentImage = newImageRegion
+                }
             }
         }
 
-        imageRegion = contentImage ?? parentImage
-        textRegion = TextRegion(content: textContent.joined(separator: "<br/>"))
+        let imageRegion = contentImage ?? parentImage
+        let textRegion: TextRegion? = TextRegion(content: textContent.joined(separator: "<br/>"))
+        let regions = (textRegion, imageRegion)
+        self.regions = regions
+        return regions
     }
 }
 

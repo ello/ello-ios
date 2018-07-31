@@ -2,6 +2,8 @@
 ///  NotificationsViewController.swift
 //
 
+import PromiseKit
+
 
 class NotificationsViewController: StreamableViewController, NotificationsScreenDelegate {
     override func trackerName() -> String? { return "Notifications" }
@@ -12,7 +14,7 @@ class NotificationsViewController: StreamableViewController, NotificationsScreen
         return nil
     }
 
-    var generator: NotificationsGenerator?
+    var generator: NotificationsGenerator!
     var hasNewContent = false
     var fromTabBar = false
     private var reloadNotificationsObserver: NotificationObserver?
@@ -52,7 +54,7 @@ class NotificationsViewController: StreamableViewController, NotificationsScreen
 
     override func didSetCurrentUser() {
         super.didSetCurrentUser()
-        generator?.currentUser = currentUser
+        generator.currentUser = currentUser
     }
 
     override func viewDidLoad() {
@@ -85,7 +87,7 @@ class NotificationsViewController: StreamableViewController, NotificationsScreen
 
     func initialLoad() {
         streamViewController.showLoadingSpinner()
-        generator?.load(reload: false)
+        generator.load(reload: false)
     }
 
     func reload(showSpinner: Bool) {
@@ -94,11 +96,11 @@ class NotificationsViewController: StreamableViewController, NotificationsScreen
             streamViewController.showLoadingSpinner()
         }
 
-        generator?.load(reload: true)
+        generator.load(reload: true)
     }
 
     func reloadAnnouncements() {
-        generator?.reloadAnnouncements()
+        generator.reloadAnnouncements()
     }
 
     override func setupStreamController() {
@@ -138,7 +140,7 @@ class NotificationsViewController: StreamableViewController, NotificationsScreen
         screen.selectFilterButton(filterType)
         categoryFilterType = filterType
 
-        generator?.streamKind = categoryStreamKind
+        generator.streamKind = categoryStreamKind
         streamViewController.streamKind = categoryStreamKind
         streamViewController.removeAllCellItems()
         streamViewController.loadInitialPage()
@@ -170,6 +172,10 @@ class NotificationsViewController: StreamableViewController, NotificationsScreen
         }
 
         reload(showSpinner: true)
+    }
+
+    override func streamViewInfiniteScroll() -> Promise<[Model]>? {
+        return generator.loadNextPage()
     }
 
 }
@@ -256,7 +262,7 @@ extension NotificationsViewController: StreamDestination {
 extension NotificationsViewController: AnnouncementResponder {
     func markAnnouncementAsRead(announcement: Announcement) {
         Tracker.shared.announcementDismissed(announcement)
-        generator?.markAnnouncementAsRead(announcement)
+        generator.markAnnouncementAsRead(announcement)
         postNotification(ModelChangedNotification, value: (announcement, .delete))
     }
 

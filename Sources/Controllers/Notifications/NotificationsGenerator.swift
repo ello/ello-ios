@@ -9,6 +9,7 @@ final class NotificationsGenerator: StreamGenerator {
     var currentUser: User?
     var streamKind: StreamKind
 
+    private var before: String?
     private var notifications: [Notification] = []
     private var announcements: [Announcement] = []
     private var hasNotifications: Bool?
@@ -36,7 +37,51 @@ final class NotificationsGenerator: StreamGenerator {
         }
 
         loadAnnouncements()
-        loadNotifications()
+        loadInitialNotifications()
+    }
+
+    func loadInitialNotifications() {
+        loadNotifications(before: nil)
+            .done { notifications in
+                self.notifications = notifications
+
+                if notifications.isEmpty {
+                    let noContentItem = StreamCellItem(type: .emptyStream(height: 282))
+                    self.destination?.replacePlaceholder(type: .notifications, items: [noContentItem]) {
+                        self.destination?.isPagingEnabled = false
+                    }
+                }
+                else {
+                    self.loadExtraNotificationContent(notifications)
+                        .done { _ in
+                            let notificationItems = self.parse(jsonables: notifications)
+                            if notificationItems.count == 0 {
+                                let noContentItem = StreamCellItem(type: .emptyStream(height: 282))
+                                self.hasNotifications = false
+                                self.destination?.replacePlaceholder(type: .notifications, items: [noContentItem]) {
+                                    self.destination?.isPagingEnabled = false
+                                }
+                            }
+                            else {
+                                self.hasNotifications = true
+                                self.destination?.replacePlaceholder(type: .notifications, items: notificationItems) {
+                                    self.destination?.isPagingEnabled = true
+                                }
+                            }
+                    }
+                }
+            }
+            .catch { error in
+                self.destination?.primaryModelNotFound()
+        }
+    }
+
+    func loadNextPage() -> Promise<[Model]>? {
+        guard let before = before else { return nil }
+        return loadNotifications(before: before)
+            .map { notifications -> [Model] in
+                return notifications
+            }
     }
 
     func reloadAnnouncements() {
@@ -94,47 +139,13 @@ final class NotificationsGenerator: StreamGenerator {
         })
     }
 
-    func loadNotifications() {
-        StreamService().loadStream(streamKind: streamKind)
-            .done { response in
-                guard self.loadingToken.isValidInitialPageLoadingToken(self.localToken) else { return }
-
-                switch response {
-                case let .jsonables(jsonables, responseConfig):
-                    guard
-                        let notifications = jsonables as? [Notification]
-                    else { return }
-
-                    self.notifications = notifications
-                    self.destination?.setPagingConfig(responseConfig: responseConfig)
-
-                    self.loadExtraNotificationContent(notifications)
-                        .done { _ in
-                            let notificationItems = self.parse(jsonables: notifications)
-                            if notificationItems.count == 0 {
-                                let noContentItem = StreamCellItem(type: .emptyStream(height: 282))
-                                self.hasNotifications = false
-                                self.destination?.replacePlaceholder(type: .notifications, items: [noContentItem]) {
-                                    self.destination?.isPagingEnabled = false
-                                }
-                            }
-                            else {
-                                self.hasNotifications = true
-                                self.destination?.replacePlaceholder(type: .notifications, items: notificationItems) {
-                                    self.destination?.isPagingEnabled = true
-                                }
-                            }
-                        }
-                        .ignoreErrors()
-                case .empty:
-                    let noContentItem = StreamCellItem(type: .emptyStream(height: 282))
-                    self.destination?.replacePlaceholder(type: .notifications, items: [noContentItem]) {
-                        self.destination?.isPagingEnabled = false
-                    }
-                }
-            }
-            .catch { _ in
-                self.destination?.primaryModelNotFound()
+    private func loadNotifications(before: String?) -> Promise<[Notification]> {
+        return API().notificationStream(before: before)
+            .execute()
+            .map { pageConfig, notifications in
+                self.before = pageConfig.next
+                self.destination?.setPagingConfig(responseConfig: ResponseConfig(pageConfig: pageConfig))
+                return notifications
             }
     }
 

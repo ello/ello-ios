@@ -107,6 +107,22 @@ struct Fragments: Equatable {
           links { assets }
         }
         """)
+    static let artistInviteSubmissionDetails = Fragments("""
+        fragment artistInviteSubmissionDetails on ArtistInviteSubmission {
+          id
+          status
+          post { ...postSummary repostedSource { ...postSummary } }
+          artistInvite { id title slug }
+        }
+        """)
+    static let artistInviteSubmissionProps = Fragments("""
+        fragment artistInviteSubmissionProps on ArtistInviteSubmission {
+          id
+          status
+          post { id }
+          artistInvite { id title slug }
+        }
+        """)
     static let postSummary = Fragments("""
         fragment postSummary on Post {
           id
@@ -114,12 +130,12 @@ struct Fragments: Equatable {
           createdAt
           summary { ...contentProps }
           author { ...authorProps }
-          artistInviteSubmission { id artistInvite { id } }
+          artistInviteSubmission { ...artistInviteSubmissionProps }
           assets { ...assetProps }
           postStats { lovesCount commentsCount viewsCount repostsCount }
           currentUserState { watching loved reposted }
         }
-        """, needs: [contentProps, assetProps, imageProps, tshirtProps, responsiveProps, authorProps])
+        """, needs: [contentProps, assetProps, imageProps, tshirtProps, responsiveProps, authorProps, artistInviteSubmissionProps])
 
     static let postDetails = Fragments("""
         fragment postDetails on Post {
@@ -144,8 +160,14 @@ struct Fragments: Equatable {
             user { id }
         }
         """, needs: [postDetails])
-    static let commentDetails = Fragments("""
-        fragment commentDetails on Comment {
+    static let watchDetails = Fragments("""
+        fragment watchDetails on Watch {
+          id
+          post { ...postDetails }
+        }
+        """, needs: [postDetails])
+    static let commentSummary = Fragments("""
+        fragment commentSummary on Comment {
             id
             createdAt
             parentPost { id }
@@ -181,6 +203,40 @@ struct Fragments: Equatable {
           ...categoryUsers
         }
         """, needs: [tshirtProps, responsiveProps, categoryUsers])
+    static let categoryPostSummary = Fragments("""
+        fragment categoryPostSummary on CategoryPost {
+          id
+          status
+          category { ...categoryProps }
+          post { ...postSummary repostedSource { ...postSummary } }
+          featuredBy { ...authorProps }
+        }
+        """, needs: [categoryProps, postSummary, authorProps])
+    static let categoryUserSummary = Fragments("""
+        fragment categoryUserSummary on CategoryUser {
+          id
+          role
+          category { ...categoryProps }
+          user { ...authorProps }
+        }
+        """, needs: [categoryProps, authorProps])
+    static let notificationDetails = Fragments("""
+        fragment notificationDetails on Notification {
+          id
+          kind
+          subjectType
+          createdAt
+          subject {
+            ... on Post { ...postSummary repostedSource { ...postSummary } }
+            ... on Comment { ...commentSummary parentPost { ...postSummary repostedSource { ...postSummary } } }
+            ... on User { ...authorProps }
+            ... on CategoryUser { ...categoryUserSummary }
+            ... on CategoryPost { ...categoryPostSummary }
+            ... on Love { ...loveDetails }
+            ... on ArtistInviteSubmission { ...artistInviteSubmissionDetails }
+          }
+        }
+        """, needs: [postSummary, commentSummary, authorProps, categoryUserSummary, categoryPostSummary, loveDetails, artistInviteSubmissionDetails])
 
     //|
     //|  REQUEST BODIES
@@ -221,9 +277,9 @@ struct Fragments: Equatable {
     static let commentStreamBody = Fragments("""
         next isLastPage
         comments {
-            ...commentDetails
+            ...commentSummary
         }
-        """, needs: [commentDetails])
+        """, needs: [commentSummary])
     static let postBody = Fragments("""
         ...postDetails
         """, needs: [postDetails])
@@ -236,6 +292,12 @@ struct Fragments: Equatable {
             ...loveDetails
         }
         """, needs: [loveDetails])
+    static let notificationStreamBody = Fragments("""
+        next isLastPage
+        notifications {
+            ...notificationDetails
+        }
+        """, needs: [notificationDetails])
 
     let string: String
     let needs: [Fragments]

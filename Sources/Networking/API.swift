@@ -10,6 +10,26 @@ import SwiftyJSON
 struct API {
     static var sharedManager: RequestManager = ElloManager()
 
+    enum NotificationCategory {
+        case all
+        case comments
+        case loves
+        case mentions
+        case relationships
+        case reposts
+
+        var graphQL: String {
+            switch self {
+            case .all: return "ALL"
+            case .comments: return "COMMENTS"
+            case .loves: return "LOVES"
+            case .mentions: return "MENTIONS"
+            case .relationships: return "RELATIONSHIPS"
+            case .reposts: return "REPOSTS"
+            }
+        }
+    }
+
     enum PageHeaderKind {
         case category(String)
         case artistInvites
@@ -42,6 +62,19 @@ struct API {
                 .optionalString("before", before)
             ],
             body: Fragments.postStreamBody
+        )
+        return request
+    }
+
+    func notificationStream(category: NotificationCategory = .all, before: String? = nil) -> GraphQLRequest<(PageConfig, [Notification])> {
+        let request = GraphQLRequest(
+            endpointName: "notificationStream",
+            parser: PageParser<Notification>("notifications", NotificationParser()).parse,
+            variables: [
+                .enum("category", category.graphQL, "NotificationCategory"),
+                .optionalString("before", before)
+            ],
+            body: Fragments.notificationStreamBody
         )
         return request
     }

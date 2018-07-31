@@ -221,7 +221,7 @@ indirect enum ElloAPI {
              .userCategories:
             return .noContentType
         case .notificationsStream:
-            return .activitiesType
+            return .activitiesAsNotificationsType
         case let .infiniteScroll(_, api):
             if let pagingMappingType = api.pagingMappingType {
                 return pagingMappingType
