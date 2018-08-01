@@ -201,37 +201,94 @@ class StreamDataSource: ElloDataSource {
         updateFilteredItems()
     }
 
-    func clientSidePostInsertIndexPath() -> IndexPath? {
+    func insertComment(comment: ElloComment, streamViewController: StreamViewController) {
+        guard let parentPost = comment.loadedFromPost else { return }
+
+        let indexPaths = commentIndexPaths(forPost: parentPost)
+        if let firstPath = indexPaths.first,
+            visibleCellItems[firstPath.item].type == .createComment
+        {
+            let indexPath = IndexPath(item: firstPath.item + 1, section: 0)
+            let items = StreamCellItemParser().parse([comment], streamKind: streamKind, currentUser: currentUser)
+            for item in items {
+                item.placeholderType = .streamItems
+            }
+            calculateCellItems(items, withWidth: Globals.windowSize.width) {
+                let indexPaths = self.insertStreamCellItems(items, startingIndexPath: indexPath)
+                streamViewController.performDataChange { collectionView in
+                    collectionView.insertItems(at: indexPaths)
+                }
+            }
+        }
+    }
+
+    func insertPost(post: Post, streamViewController: StreamViewController) {
         let currentUserId = currentUser?.id
+
+        var deletePath: IndexPath?
+        let firstInsertPath: IndexPath?
 
         switch streamKind {
         case .following:
-            return IndexPath(item: 0, section: 0)
+            let streamPaths = indexPaths(forPlaceholderType: .streamItems)
+            firstInsertPath = streamPaths.first
         case let .userStream(userParam):
-            if currentUserId == userParam {
-                if visibleCellItems.count == 2 && visibleCellItems[1].type == .noPosts {
-                    removeItems(at: [IndexPath(item: 1, section: 0)])
-                    return IndexPath(item: 1, section: 0)
-                }
-                return IndexPath(item: 2, section: 0)
+            guard currentUserId == userParam else { return }
+
+            let streamPaths = indexPaths(forPlaceholderType: .streamItems)
+            if let path = streamPaths.first, streamPaths.count == 1,
+                visibleCellItems[path.row].type == .noPosts
+            {
+                deletePath = path
             }
+
+            firstInsertPath = streamPaths.first
         default:
-            break
+            return
         }
-        return nil
+
+        guard let indexPath = firstInsertPath else { return }
+
+        let items = StreamCellItemParser().parse([post], streamKind: streamKind, currentUser: currentUser)
+        for item in items {
+            item.placeholderType = .streamItems
+        }
+        calculateCellItems(items, withWidth: Globals.windowSize.width) {
+            if let deletePath = deletePath {
+                self.removeItems(at: [deletePath])
+                let indexPaths = self.insertStreamCellItems(items, startingIndexPath: indexPath)
+                streamViewController.performDataChange { collectionView in
+                    collectionView.deleteItems(at: [deletePath])
+                    collectionView.insertItems(at: indexPaths)
+                }
+            }
+            else {
+                let indexPaths = self.insertStreamCellItems(items, startingIndexPath: indexPath)
+                streamViewController.performDataChange { collectionView in
+                    collectionView.insertItems(at: indexPaths)
+                }
+            }
+        }
     }
 
-    func clientSideLoveInsertIndexPath(post: Post) -> IndexPath? {
-        guard indexPath(where: { ($0.jsonable as? Post)?.id == post.id }) == nil else { return nil }
+    func insertLove(love: Love, streamViewController: StreamViewController) {
+        guard
+            let post = love.post,
+            case let .userLoves(userId) = streamKind,
+            userId == currentUser?.id,
+            indexPath(where: { ($0.jsonable as? Post)?.id == post.id }) == nil
+        else { return }
 
-        switch streamKind {
-        case let .userLoves(userId):
-            guard currentUser?.id == userId else { return nil }
-            return IndexPath(item: 0, section: 0)
-        default:
-            break
+        let items = StreamCellItemParser().parse([love], streamKind: streamKind, currentUser: currentUser)
+        for item in items {
+            item.placeholderType = .streamItems
         }
-        return nil
+        calculateCellItems(items, withWidth: Globals.windowSize.width) {
+            let indexPaths = self.insertStreamCellItems(items, startingIndexPath: IndexPath(item: 0, section: 0))
+            streamViewController.performDataChange { collectionView in
+                collectionView.insertItems(at: indexPaths)
+            }
+        }
     }
 
     func modifyItems(_ jsonable: Model, change: ContentChange, streamViewController: StreamViewController) {
@@ -280,37 +337,15 @@ class StreamDataSource: ElloDataSource {
                 }
             }
             else {
-                var indexPath: IndexPath?
-
-                if let comment = jsonable as? ElloComment,
-                    let parentPost = comment.loadedFromPost
-                {
-                    let indexPaths = commentIndexPaths(forPost: parentPost)
-                    if let firstPath = indexPaths.first,
-                        visibleCellItems[firstPath.item].type == .createComment
-                    {
-                        indexPath = IndexPath(item: firstPath.item + 1, section: 0)
-                    }
+                if let comment = jsonable as? ElloComment {
+                    insertComment(comment: comment, streamViewController: streamViewController)
                 }
                 // else if post, add new post cells
-                else if jsonable is Post {
-                    indexPath = clientSidePostInsertIndexPath()
+                else if let post = jsonable as? Post {
+                    insertPost(post: post, streamViewController: streamViewController)
                 }
-                else if let love = jsonable as? Love, let post = love.post {
-                    indexPath = clientSideLoveInsertIndexPath(post: post)
-                }
-
-                if let indexPath = indexPath {
-                    let items = StreamCellItemParser().parse([jsonable], streamKind: streamKind, currentUser: currentUser)
-                    for item in items {
-                        item.placeholderType = .streamItems
-                    }
-                    calculateCellItems(items, withWidth: Globals.windowSize.width) {
-                        let indexPaths = self.insertStreamCellItems(items, startingIndexPath: indexPath)
-                        streamViewController.performDataChange { collectionView in
-                            collectionView.insertItems(at: indexPaths)
-                        }
-                    }
+                else if let love = jsonable as? Love {
+                    insertLove(love: love, streamViewController: streamViewController)
                 }
             }
 
