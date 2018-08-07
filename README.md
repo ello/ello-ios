@@ -52,7 +52,7 @@ Once you have client credentials, compile them into cocoapods-keys by running:
 - Install `ElloDevPushSandbox.p12` in your keychain (talk to [@steam](https://github.com/steam) to get it)
 - Print out your device's APNS Token in the function `updateToken()` in `PushNotificationController`
 - Build to device in `Debug` mode
-- Code Signing Identity: `iPhone Distribution: Ello PBC (ABC12345)`
+- Code Signing Identity: `iPhone Distribution: Ello (ABC12345)`
 - Provisioning Profile `iOSTeam Provisioning Profile: co.ello.ElloDev`
 
 
