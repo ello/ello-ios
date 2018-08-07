@@ -109,7 +109,7 @@ class ProfileScreen: StreamableScreen, ProfileScreenProtocol {
         roleAdminButton.isHidden = true
         roleAdminButton.backgroundColor = .black
         roleAdminButton.layer.masksToBounds = true
-        // roleAdminButton.setImage(.backChevron, imageStyle: .normal, for: .normal)
+
         collaborateButton.isHidden = true
         hireButton.isHidden = true
         mentionButton.isHidden = true

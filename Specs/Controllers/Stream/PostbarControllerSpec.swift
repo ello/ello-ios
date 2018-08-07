@@ -83,7 +83,8 @@ class PostbarControllerSpec: QuickSpec {
                     let parser = StreamCellItemParser()
                     var postCellItems = parser.parse([post], streamKind: streamKind)
                     let newComment = ElloComment.newCommentForPost(post, currentUser: currentUser)
-                    postCellItems += [StreamCellItem(jsonable: newComment, type: .createComment)]
+                    let groupId = "Post-\(post.id)"
+                    postCellItems += [StreamCellItem(jsonable: newComment, type: .createComment, groupId: groupId)]
                     collectionViewDataSource.visibleCellItems = postCellItems
                     collectionView.fakeIndexPath = IndexPath(item: postCellItems.count - 1, section: 0)
                 }
@@ -107,7 +108,8 @@ class PostbarControllerSpec: QuickSpec {
                     let parser = StreamCellItemParser()
                     var postCellItems = parser.parse([post], streamKind: streamKind)
                     let newComment = ElloComment.newCommentForPost(post, currentUser: currentUser)
-                    postCellItems += [StreamCellItem(jsonable: newComment, type: .createComment)]
+                    let groupId = "Post-\(post.id)"
+                    postCellItems += [StreamCellItem(jsonable: newComment, type: .createComment, groupId: groupId)]
                     collectionViewDataSource.visibleCellItems = postCellItems
                     collectionView.fakeIndexPath = IndexPath(item: postCellItems.count - 1, section: 0)
                 }

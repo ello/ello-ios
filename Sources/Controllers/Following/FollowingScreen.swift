@@ -7,6 +7,14 @@ class FollowingScreen: HomeSubviewScreen, FollowingScreenProtocol {
 
     private let newPostsButton = NewPostsButton()
 
+    var newPostsButtonVisible: Bool {
+        get { return newPostsButton.alpha > 0 }
+        set {
+            if newValue { showNewPostsButton() }
+            else { hideNewPostsButton() }
+        }
+    }
+
     override func bindActions() {
         newPostsButton.addTarget(self, action: #selector(loadNewPosts), for: .touchUpInside)
     }

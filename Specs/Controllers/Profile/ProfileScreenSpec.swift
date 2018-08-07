@@ -10,6 +10,7 @@ import Nimble
 class ProfileScreenSpec: QuickSpec {
 
     class MockDelegate: ProfileScreenDelegate {
+        func roleAdminTapped() {}
         func mentionTapped() {}
         func hireTapped() {}
         func editTapped() {}
@@ -20,12 +21,9 @@ class ProfileScreenSpec: QuickSpec {
     override func spec() {
         describe("ProfileScreen") {
             var subject: ProfileScreen!
-            var delegate: MockDelegate!
 
             beforeEach {
                 subject = ProfileScreen()
-                delegate = MockDelegate()
-                subject.delegate = delegate
                 subject.coverImage = specImage(named: "specs-cover.jpg")
             }
 
@@ -33,6 +31,7 @@ class ProfileScreenSpec: QuickSpec {
 
                 context("ghost - loading") {
                     validateAllSnapshots(named: "ProfileScreen_ghost") {
+                        subject.hasRoleAdminButton = false
                         subject.coverImage = nil
                         subject.showNavBars(animated: false)
                         return subject
@@ -40,12 +39,10 @@ class ProfileScreenSpec: QuickSpec {
                 }
 
                 context("current user") {
-
                     validateAllSnapshots(named: "ProfileScreen_is_current_user") {
                         let user = User.stub(["username": "Archer", "relationshipPriority": "self"])
+                        subject.hasRoleAdminButton = false
                         subject.configureButtonsForCurrentUser()
-                        subject.relationshipControl.userId = user.id
-                        subject.relationshipControl.userAtName = user.atName
                         subject.relationshipControl.relationshipPriority = user.relationshipPriority
                         subject.showNavBars(animated: false)
                         return subject
@@ -54,11 +51,20 @@ class ProfileScreenSpec: QuickSpec {
 
                 context("not current user") {
 
+                    it("current user is role admin") {
+                        let user = User.stub(["username": "Archer", "relationshipPriority": "friend"])
+                        subject.hasRoleAdminButton = true
+                        subject.configureButtonsForNonCurrentUser(isHireable: true, isCollaborateable: true)
+                        subject.relationshipControl.relationshipPriority = user.relationshipPriority
+                        subject.showNavBars(animated: false)
+
+                        expectValidSnapshot(subject, named: "ProfileScreen_current_user_is_role_admin", device: .phone6_Portrait)
+                    }
+
                     it("is hireable not collaborateable") {
                         let user = User.stub(["username": "Archer", "relationshipPriority": "friend"])
+                        subject.hasRoleAdminButton = false
                         subject.configureButtonsForNonCurrentUser(isHireable: true, isCollaborateable: false)
-                        subject.relationshipControl.userId = user.id
-                        subject.relationshipControl.userAtName = user.atName
                         subject.relationshipControl.relationshipPriority = user.relationshipPriority
                         subject.showNavBars(animated: false)
 
@@ -67,9 +73,8 @@ class ProfileScreenSpec: QuickSpec {
 
                     it("is collaborateable not hireable") {
                         let user = User.stub(["username": "Archer", "relationshipPriority": "friend"])
+                        subject.hasRoleAdminButton = false
                         subject.configureButtonsForNonCurrentUser(isHireable: false, isCollaborateable: true)
-                        subject.relationshipControl.userId = user.id
-                        subject.relationshipControl.userAtName = user.atName
                         subject.relationshipControl.relationshipPriority = user.relationshipPriority
                         subject.showNavBars(animated: false)
 
@@ -78,9 +83,8 @@ class ProfileScreenSpec: QuickSpec {
 
                     it("is hireable and collaborateable") {
                         let user = User.stub(["username": "Archer", "relationshipPriority": "friend"])
+                        subject.hasRoleAdminButton = false
                         subject.configureButtonsForNonCurrentUser(isHireable: true, isCollaborateable: true)
-                        subject.relationshipControl.userId = user.id
-                        subject.relationshipControl.userAtName = user.atName
                         subject.relationshipControl.relationshipPriority = user.relationshipPriority
                         subject.showNavBars(animated: false)
 
@@ -89,9 +93,8 @@ class ProfileScreenSpec: QuickSpec {
 
                     it("is mentionable") {
                         let user = User.stub(["username": "Archer", "relationshipPriority": "noise"])
+                        subject.hasRoleAdminButton = false
                         subject.configureButtonsForNonCurrentUser(isHireable: false, isCollaborateable: false)
-                        subject.relationshipControl.userId = user.id
-                        subject.relationshipControl.userAtName = user.atName
                         subject.relationshipControl.relationshipPriority = user.relationshipPriority
                         subject.showNavBars(animated: false)
 

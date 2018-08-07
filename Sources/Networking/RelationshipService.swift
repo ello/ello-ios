@@ -18,7 +18,6 @@ class RelationshipService: NSObject {
         // optimistic success
         let optimisticRelationship: Relationship? = currentUserId.map({ currentUserId in
             return Relationship(
-                id: UUID().uuidString,
                 ownerId: currentUserId,
                 subjectId: userId
             )

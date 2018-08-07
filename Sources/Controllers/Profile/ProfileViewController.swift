@@ -43,10 +43,8 @@ final class ProfileViewController: StreamableViewController {
             title = "@\(username)"
         }
 
-        if self.user == nil {
-            if let user = ElloLinkedStore.shared.getObject(self.userParam, type: .usersType) as? User {
-                self.user = user
-            }
+        if let user = ElloLinkedStore.shared.getObject(self.userParam, type: .usersType) as? User {
+            self.user = user
         }
 
         sharedInit()

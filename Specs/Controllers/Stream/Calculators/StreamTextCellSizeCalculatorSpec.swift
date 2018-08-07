@@ -28,9 +28,9 @@ class StreamTextCellSizeCalculatorSpec: QuickSpec {
                     StreamCellItem(jsonable: post, type: .text(data: TextRegion(content: ""))),
                 ]
                 for item in items {
-                    let calculator = item.sizeCalculator(streamKind: .following, width: Globals.windowSize.width, columnCount: 1) as! StreamTextCellSizeCalculator
+                    let calculator = StreamTextCellSizeCalculator(streamKind: .following, item: item, width: 320, columnCount: 1)
                     calculator.webView = webView
-                    
+
                     var completed = false
                     calculator.begin {
                         completed = true

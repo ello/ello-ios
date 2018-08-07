@@ -96,7 +96,7 @@ class FollowingViewController: StreamableViewController {
     override func streamWillPullToRefresh() {
         super.streamWillPullToRefresh()
 
-        screen.hideNewPostsButton()
+        screen.newPostsButtonVisible = false
     }
 
     override func streamViewInfiniteScroll() -> Promise<[Model]>? {
@@ -115,7 +115,7 @@ extension FollowingViewController {
             guard let `self` = self else { return }
 
             ElloHUD.showLoadingHudInView(self.streamViewController.view)
-            self.screen.hideNewPostsButton()
+            self.screen.newPostsButtonVisible = false
             self.streamViewController.loadInitialPage(reload: true)
         }
     }
@@ -128,7 +128,7 @@ extension FollowingViewController {
         newFollowingContentObserver = NotificationObserver(notification: NewContentNotifications.newFollowingContent) { [weak self] in
             guard let `self` = self else { return }
 
-            self.screen.showNewPostsButton()
+            self.screen.newPostsButtonVisible = true
         }
 
         appBackgroundObserver = NotificationObserver(notification: Application.Notifications.DidEnterBackground) { [weak self] _ in
@@ -188,6 +188,6 @@ extension FollowingViewController: FollowingScreenDelegate {
         scrollView.setContentOffset(CGPoint(x: 0, y: -scrollView.contentInset.top), animated: true)
         postNotification(NewContentNotifications.reloadFollowingContent, value: ())
 
-        screen.hideNewPostsButton()
+        screen.newPostsButtonVisible = false
     }
 }

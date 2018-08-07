@@ -133,7 +133,6 @@ class AuthTokenSpec: QuickSpec {
 
 
             context("staff credentials") {
-                let data = stubbedData("jwt-auth-is-staff")
                 var token: AuthToken!
 
                 beforeEach {
@@ -142,6 +141,7 @@ class AuthTokenSpec: QuickSpec {
                 }
 
                 it("is staff") {
+                    let data = stubbedData("jwt-auth-is-staff")
                     AuthToken.storeToken(data, isPasswordBased: true)
 
                     expect(token.token).notTo(beNil())
@@ -157,7 +157,6 @@ class AuthTokenSpec: QuickSpec {
             }
 
             context("NON staff credentials") {
-                let data = stubbedData("jwt-auth-no-staff")
                 var token: AuthToken!
 
                 beforeEach {
@@ -166,6 +165,7 @@ class AuthTokenSpec: QuickSpec {
                 }
 
                 it("is staff") {
+                    let data = stubbedData("jwt-auth-no-staff")
                     AuthToken.storeToken(data, isPasswordBased: true)
 
                     expect(token.token).notTo(beNil())

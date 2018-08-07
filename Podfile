@@ -85,6 +85,7 @@ end
 target 'Specs' do
   common_pods
   ello_app_pods
+  ui_pods
   spec_pods
 end
 

@@ -26,13 +26,22 @@ class ProfileViewControllerSpec: QuickSpec {
 
     override func spec() {
         describe("ProfileViewController") {
-            let currentUser: User = stub([:])
+            var currentUser: User!
+            var otherUser: User!
+
+            beforeEach {
+                otherUser = User.stub(["id": "42"])
+                ElloLinkedStore.shared.setObject(otherUser, forKey: otherUser.id, type: .usersType)
+                currentUser = User.stub(["id": "currentUserId", "hasProfileData": true])
+            }
 
             describe("contentInset") {
                 var subject: ProfileViewController!
+
                 beforeEach {
-                    subject = ProfileViewController(userParam: "42")
+                    subject = ProfileViewController(userParam: otherUser.id)
                     subject.currentUser = currentUser
+                    otherUser = subject.user
 
                     let parent = HasNavBarController()
                     parent.addChildViewController(subject)
@@ -40,20 +49,15 @@ class ProfileViewControllerSpec: QuickSpec {
                 }
 
                 it("does update the top inset") {
-                    expect(subject.streamViewController.contentInset.top) == 128
+                    expect(subject.streamViewController.contentInset.top) == 124
                 }
             }
 
             context("when displaying the currentUser") {
-                var currentUser: User!
                 var subject: ProfileViewController!
                 var screen: ProfileScreen!
 
                 beforeEach {
-                    currentUser = User.stub([
-                        "id": "42",
-                        "hasProfileData": true,
-                        ])
                     subject = ProfileViewController(currentUser: currentUser)
                     subject.currentUser = currentUser
                     let nav = UINavigationController(rootViewController: UIViewController())
@@ -81,7 +85,8 @@ class ProfileViewControllerSpec: QuickSpec {
                         context("user \(isCollaborateable ? "is" : "is not") collaborateable and \(isHireable ? "is" : "is not") hireable") {
                             beforeEach {
                                 currentUser = User.stub([
-                                    "id": "42", "isCollaborateable": isCollaborateable, "isHireable": isHireable,
+                                    "isCollaborateable": isCollaborateable,
+                                    "isHireable": isHireable,
                                     "hasProfileData": true
                                     ])
                                 subject = ProfileViewController(currentUser: currentUser)
@@ -100,14 +105,13 @@ class ProfileViewControllerSpec: QuickSpec {
             }
 
             context("when NOT displaying the currentUser") {
-                var currentUser: User!
                 var subject: ProfileViewController!
                 var screen: ProfileScreen!
 
                 beforeEach {
-                    currentUser = User.stub(["id": "not42"])
-                    subject = ProfileViewController(userParam: "42")
+                    subject = ProfileViewController(userParam: otherUser.id)
                     subject.currentUser = currentUser
+                    otherUser = subject.user
                     let nav = UINavigationController(rootViewController: UIViewController())
                     nav.pushViewController(subject, animated: false)
                     showController(nav)
@@ -131,21 +135,15 @@ class ProfileViewControllerSpec: QuickSpec {
                 for (collaborateable, hireable, collaborateButton, hireButtonVisible, mentionButtonVisible) in expectations {
                     context("collaborateable \(collaborateable) and hireable \(hireable) affect profile buttons") {
                         beforeEach {
-                            ElloProvider.moya = ElloProvider.RecordedStubbingProvider([
-                                RecordedResponse(endpoint: .userStream(userParam: "any"), responseClosure: { _ in
-                                    let data = stubbedData("users_user_details")
-                                    var json = try! JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
-                                    var user = json["users"] as! [String: Any]
-                                    user["is_collaborateable"] = collaborateable
-                                    user["is_hireable"] = hireable
-                                    json["users"] = user
-                                    let modData = try! JSONSerialization.data(withJSONObject: json, options: [])
-                                    return .networkResponse(200, modData)
-                                }),
+                            let userId = "1234"
+                            let user: User = stub([
+                                "id": userId,
+                                "isCollaborateable": collaborateable,
+                                "isHireable": hireable,
                                 ])
+                            ElloLinkedStore.shared.setObject(user, forKey: user.id, type: .usersType)
 
-                            currentUser = User.stub([:])
-                            subject = ProfileViewController(userParam: "any")
+                            subject = ProfileViewController(userParam: userId)
                             subject.currentUser = currentUser
                             showController(subject)
                             screen = subject.view as! ProfileScreen
@@ -173,19 +171,15 @@ class ProfileViewControllerSpec: QuickSpec {
             }
 
             context("when displaying a private user") {
-                var currentUser: User!
                 var subject: ProfileViewController!
                 var screen: ProfileScreen!
 
                 beforeEach {
-                    ElloProvider.moya = ElloProvider.RecordedStubbingProvider([
-                        RecordedResponse(endpoint: .userStream(userParam: "50"), response: .networkResponse(200,
-                            stubbedData("profile__no_sharing")
-                            )),
+                    let user: User = stub([
+                        "hasSharingEnabled": false
                         ])
-
-                    currentUser = User.stub(["id": "not50"])
-                    subject = ProfileViewController(userParam: "50")
+                    ElloLinkedStore.shared.setObject(user, forKey: user.id, type: .usersType)
+                    subject = ProfileViewController(userParam: user.id)
                     subject.currentUser = currentUser
                     let nav = UINavigationController(rootViewController: UIViewController())
                     nav.pushViewController(subject, animated: false)
@@ -204,14 +198,12 @@ class ProfileViewControllerSpec: QuickSpec {
             }
 
             describe("tapping more button") {
-                var user: User!
                 var subject: ProfileViewController!
 
-
                 beforeEach {
-                    user = User.stub(["id": "42"])
-                    subject = ProfileViewController(userParam: user.id)
+                    subject = ProfileViewController(userParam: otherUser.id)
                     subject.currentUser = currentUser
+                    otherUser = subject.user
                     showController(subject)
                 }
 
@@ -225,95 +217,93 @@ class ProfileViewControllerSpec: QuickSpec {
 
 
             context("with successful request") {
-                var user: User!
                 var subject: ProfileViewController!
 
                 beforeEach {
-                    subject = ProfileViewController(userParam: "42")
+                    subject = ProfileViewController(userParam: otherUser.id)
                     subject.currentUser = currentUser
+                    otherUser = subject.user
                     showController(subject)
-                    user = subject.user!
                 }
 
                 describe("@moreButton") {
                     it("not selected block") {
-                        user.relationshipPriority = .inactive
+                        otherUser.relationshipPriority = .inactive
                         subject.moreButtonTapped()
                         let presentedVC = subject.presentedViewController as! BlockUserModalViewController
                         presentedVC.updateRelationship(.block)
-                        expect(user.relationshipPriority) == RelationshipPriority.block
+                        expect(otherUser.relationshipPriority) == RelationshipPriority.block
                     }
 
                     it("not selected mute") {
-                        user.relationshipPriority = .inactive
+                        otherUser.relationshipPriority = .inactive
                         subject.moreButtonTapped()
                         let presentedVC = subject.presentedViewController as! BlockUserModalViewController
                         presentedVC.updateRelationship(.mute)
-                        expect(user.relationshipPriority) == RelationshipPriority.mute
+                        expect(otherUser.relationshipPriority) == RelationshipPriority.mute
                     }
 
                     it("selected block") {
-                        user.relationshipPriority = .block
+                        otherUser.relationshipPriority = .block
                         subject.moreButtonTapped()
                         let presentedVC = subject.presentedViewController as! BlockUserModalViewController
                         presentedVC.updateRelationship(.inactive)
-                        expect(user.relationshipPriority) == RelationshipPriority.inactive
+                        expect(otherUser.relationshipPriority) == RelationshipPriority.inactive
                     }
 
                     it("selected mute") {
-                        user.relationshipPriority = .mute
+                        otherUser.relationshipPriority = .mute
                         subject.moreButtonTapped()
                         let presentedVC = subject.presentedViewController as! BlockUserModalViewController
                         presentedVC.updateRelationship(.inactive)
-                        expect(user.relationshipPriority) == RelationshipPriority.inactive
+                        expect(otherUser.relationshipPriority) == RelationshipPriority.inactive
                     }
 
                 }
             }
 
             context("with failed request") {
-                var user: User!
                 var subject: ProfileViewController!
 
                 beforeEach {
-                    subject = ProfileViewController(userParam: "42")
+                    subject = ProfileViewController(userParam: otherUser.id)
                     subject.currentUser = currentUser
+                    otherUser = subject.user
                     showController(subject)
-                    user = subject.user!
                     ElloProvider.moya = ElloProvider.ErrorStubbingProvider()
                 }
 
                 describe("@moreButton") {
                     it("not selected block") {
-                        user.relationshipPriority = .inactive
+                        otherUser.relationshipPriority = .inactive
                         subject.moreButtonTapped()
                         let presentedVC = subject.presentedViewController as! BlockUserModalViewController
                         presentedVC.updateRelationship(.block)
-                        expect(user.relationshipPriority).to(equal(RelationshipPriority.inactive))
+                        expect(otherUser.relationshipPriority).to(equal(RelationshipPriority.inactive))
                     }
 
                     it("not selected mute") {
-                        user.relationshipPriority = .inactive
+                        otherUser.relationshipPriority = .inactive
                         subject.moreButtonTapped()
                         let presentedVC = subject.presentedViewController as! BlockUserModalViewController
                         presentedVC.updateRelationship(.mute)
-                        expect(user.relationshipPriority).to(equal(RelationshipPriority.inactive))
+                        expect(otherUser.relationshipPriority).to(equal(RelationshipPriority.inactive))
                     }
 
                     it("selected block") {
-                        user.relationshipPriority = .block
+                        otherUser.relationshipPriority = .block
                         subject.moreButtonTapped()
                         let presentedVC = subject.presentedViewController as! BlockUserModalViewController
                         presentedVC.updateRelationship(.inactive)
-                        expect(user.relationshipPriority).to(equal(RelationshipPriority.block))
+                        expect(otherUser.relationshipPriority).to(equal(RelationshipPriority.block))
                     }
 
                     it("selected mute") {
-                        user.relationshipPriority = .mute
+                        otherUser.relationshipPriority = .mute
                         subject.moreButtonTapped()
                         let presentedVC = subject.presentedViewController as! BlockUserModalViewController
                         presentedVC.updateRelationship(.inactive)
-                        expect(user.relationshipPriority).to(equal(RelationshipPriority.mute))
+                        expect(otherUser.relationshipPriority).to(equal(RelationshipPriority.mute))
                     }
                 }
             }
@@ -323,8 +313,9 @@ class ProfileViewControllerSpec: QuickSpec {
                 var screen: ProfileScreen!
 
                 beforeEach {
-                    subject = ProfileViewController(userParam: "42")
+                    subject = ProfileViewController(userParam: otherUser.id)
                     subject.currentUser = nil
+                    otherUser = subject.user
                     let nav = UINavigationController(rootViewController: UIViewController())
                     nav.pushViewController(subject, animated: false)
                     showController(nav)
