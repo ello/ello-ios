@@ -5,10 +5,6 @@ git:
 cache:
 - bundler
 - cocoapods
-before_install:
-- export IOS_SIMULATOR_UDID=`instruments -s devices | grep "iPhone 7 (10.3" | awk -F '[ ]' '{print $4}' | awk -F '[\[]' '{print $2}' | sed 's/.$//'`
-- echo $IOS_SIMULATOR_UDID
-- open -a "simulator" --args -CurrentDeviceUDID $IOS_SIMULATOR_UDID
 install:
 - gem install bundler
 - bundle install
@@ -35,8 +31,7 @@ before_script:
 - export LANG=en_US.UTF-8
 script:
 - gem install danger -v 2.0.1 --no-ri --no-rdoc && danger
-- set -o pipefail && travis_retry xcodebuild -workspace Ello.xcworkspace -scheme Ello -configuration
-  Debug -destination "id=$IOS_SIMULATOR_UDID" clean test | xcpretty -f `xcpretty-travis-formatter`
+- xcodebuild -workspace Ello.xcworkspace -scheme Ello -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
 notifications:
   email: false
   slack:
