@@ -48,7 +48,7 @@ def common_pods
   pod 'MBProgressHUD'
   pod 'SVGKit', git: 'https://github.com/ello/SVGKit'
   pod 'FLAnimatedImage', '~> 1.0'
-  pod 'YapDatabase', '~> 3.0'
+  pod 'YapDatabase'
   # swift
   pod 'PromiseKit/CorePromise'
   pod 'Alamofire', '~> 4.7'
