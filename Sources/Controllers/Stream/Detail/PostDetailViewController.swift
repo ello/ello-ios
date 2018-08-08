@@ -253,7 +253,7 @@ extension PostDetailViewController: PostDetailStreamDestination {
         if let deeplinkPath = self.deeplinkPath,
             let deeplinkURL = URL(string: deeplinkPath)
         {
-            UIApplication.shared.openURL(deeplinkURL)
+            UIApplication.shared.open(deeplinkURL, options: [:], completionHandler: nil)
             self.deeplinkPath = nil
             _ = self.navigationController?.popViewController(animated: true)
         }

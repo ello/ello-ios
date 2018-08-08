@@ -83,7 +83,7 @@ extension ElloWebBrowserViewController: KINWebBrowserDelegate {
         if (error as NSError).code == -999 { return }
 
         if let url = url ?? prevRequestURL {
-            UIApplication.shared.openURL(url)
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
         }
         self.navigationController?.dismiss(animated: true, completion: nil)
     }

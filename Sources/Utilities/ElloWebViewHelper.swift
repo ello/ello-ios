@@ -17,7 +17,7 @@ struct ElloWebViewHelper {
             let (type, data) = ElloURI.match(requestUrlString)
             if type == .email {
                 if let url = URL(string: requestUrlString) {
-                    UIApplication.shared.openURL(url)
+                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
                 }
                 return false
             }
