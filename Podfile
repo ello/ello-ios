@@ -33,7 +33,7 @@ def ui_pods
   elsif ENV['ELLO_UI_FONTS_URL']
     pod 'ElloUIFonts', git: ENV['ELLO_UI_FONTS_URL']
   else
-    pod 'ElloOSSUIFonts', '~> 2.2'
+    pod 'ElloOSSUIFonts'
   end
   pod 'SnapKit', git: 'https://github.com/ello/SnapKit', branch: 'swift4-ios10'
 end
@@ -42,7 +42,7 @@ def common_pods
   if ENV['ELLO_STAFF']
     pod 'ElloCerts', git: 'git@github.com:ello/Ello-iOS-Certs'
   else
-    pod 'ElloOSSCerts', '~> 2.0'
+    pod 'ElloOSSCerts'
   end
   # objc
   pod 'MBProgressHUD', '~> 0.9.0'

@@ -225,7 +225,7 @@ CHECKOUT OPTIONS:
     :commit: 26b6b863d9529ee2d8db4e8de26affe44e0f7c67
     :git: "git@github.com:ello/Ello-iOS-Certs"
   ElloUIFonts:
-    :commit: 5abd1ced932c51f8162192f201cadbd15a479fca
+    :commit: 53679d8db9104b6e4fc6a112f7ec0e68461a07d9
     :git: "git@github.com:ello/ElloUIFonts"
   ImagePickerSheetController:
     :commit: 7df43cf751ed938185fd6795c27295c123f49a7f
