@@ -20,13 +20,13 @@ class ElloHUD {
         }
 
         let hud = MBProgressHUD.showAdded(to: view, animated: true)
-        hud?.opacity = 0.0
+        hud.bezelView.alpha = 0
 
         let elloLogo = GradientLoadingView(frame: CGRect(x: 0, y: 0, width: 60, height: 60))
         elloLogo.startAnimating()
-        hud?.customView = elloLogo
-        hud?.mode = .customView
-        hud?.removeFromSuperViewOnHide = true
+        hud.customView = elloLogo
+        hud.mode = .customView
+        hud.removeFromSuperViewOnHide = true
         return hud
     }
 
