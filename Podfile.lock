@@ -1,7 +1,7 @@
 PODS:
   - 1PasswordExtension (1.8.5)
   - Alamofire (4.7.3)
-  - Analytics (3.6.7)
+  - Analytics (3.6.9)
   - CocoaLumberjack (2.4.0):
     - CocoaLumberjack/Default (= 2.4.0)
     - CocoaLumberjack/Extensions (= 2.4.0)
@@ -140,7 +140,7 @@ PODS:
 DEPENDENCIES:
   - 1PasswordExtension (~> 1.8.5)
   - Alamofire (~> 4.7)
-  - Analytics (~> 3.0)
+  - Analytics
   - CRToast (from `https://github.com/ello/CRToast`)
   - DeltaCalculator (from `https://github.com/ello/DeltaCalculator`)
   - "ElloCerts (from `git@github.com:ello/Ello-iOS-Certs`)"
@@ -254,14 +254,11 @@ CHECKOUT OPTIONS:
   TimeAgoInWords:
     :commit: d1e1dc78028612f8c65d6a967c8fab3ffec516c1
     :git: https://github.com/ello/TimeAgoInWords
-  WebLinking:
-    :commit: fddbacc30deab8afe12ce1d3b78bd27c593a0c29
-    :git: https://github.com/kylef/WebLinking.swift
 
 SPEC CHECKSUMS:
   1PasswordExtension: 0e95bdea64ec8ff2f4f693be5467a09fac42a83d
   Alamofire: c7287b6e5d7da964a70935e5db17046b7fde6568
-  Analytics: 2c09a50e3478a3a7ced08a22d00c43ba6f7011e6
+  Analytics: 6541ce337e99d9f7a2240a8b3953940a7be5f998
   CocoaLumberjack: aa9dcab71bdf9eaf2a63bbd9ddc87863efe45457
   CRToast: eb22641501990233c53cb8f83f7d2ea87e0ddf73
   DeltaCalculator: 97ea120ac2ebcf55e472d7ba872c8bc79c138454

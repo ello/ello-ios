@@ -49,6 +49,7 @@ def common_pods
   pod 'SVGKit', git: 'https://github.com/ello/SVGKit'
   pod 'FLAnimatedImage', '~> 1.0'
   pod 'YapDatabase'
+  pod 'Analytics'
   # swift
   pod 'PromiseKit/CorePromise'
   pod 'Alamofire', '~> 4.7'
@@ -58,7 +59,6 @@ def common_pods
   pod 'SwiftyJSON'
   pod 'JWTDecode'
   pod 'WebLinking', git: 'https://github.com/kylef/WebLinking.swift'
-  pod 'Analytics', '~> 3.0'
 end
 
 def spec_pods
