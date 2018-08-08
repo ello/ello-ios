@@ -257,7 +257,6 @@
 		1267C7381BA232530000D809 /* BoxType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1267C7351BA232530000D809 /* BoxType.swift */; };
 		1267C7391BA232530000D809 /* MutableBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1267C7361BA232530000D809 /* MutableBox.swift */; };
 		12687A161BBED25A0055D0BA /* SpecsTrackingAgent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12687A151BBED25A0055D0BA /* SpecsTrackingAgent.swift */; };
-		12687A181BBF295E0055D0BA /* RateSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12687A171BBF295E0055D0BA /* RateSpec.swift */; };
 		126948501AEC0D1800A7EFCC /* Preloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1269484F1AEC0D1800A7EFCC /* Preloader.swift */; };
 		126E05311B152DD70036DFA6 /* AlertHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 126E05301B152DD70036DFA6 /* AlertHeaderView.swift */; };
 		126F2C011C5C1D7400D22BAB /* DateExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1275351C1B73D155006B9A0F /* DateExtensions.swift */; };
@@ -1504,7 +1503,6 @@
 		1267C7351BA232530000D809 /* BoxType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoxType.swift; sourceTree = "<group>"; };
 		1267C7361BA232530000D809 /* MutableBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MutableBox.swift; sourceTree = "<group>"; };
 		12687A151BBED25A0055D0BA /* SpecsTrackingAgent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpecsTrackingAgent.swift; sourceTree = "<group>"; };
-		12687A171BBF295E0055D0BA /* RateSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RateSpec.swift; sourceTree = "<group>"; };
 		1269484F1AEC0D1800A7EFCC /* Preloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Preloader.swift; sourceTree = "<group>"; };
 		126DF2351C595C53003AB563 /* Pods.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods.framework; path = "Pods/../build/Debug-iphoneos/Pods.framework"; sourceTree = "<group>"; };
 		126E05301B152DD70036DFA6 /* AlertHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertHeaderView.swift; sourceTree = "<group>"; };
@@ -3028,7 +3026,6 @@
 				EAF43D961AB0DEF70016E110 /* ObjectCacheSpec.swift */,
 				1D3128C11B557BE100E3D5B6 /* OnboardingSpec.swift */,
 				12A2C93E1AEFDC90002DFD75 /* PreloaderSpec.swift */,
-				12687A171BBF295E0055D0BA /* RateSpec.swift */,
 				12D14C611A4375FE00C6F8E8 /* Specs-Bridging-Header.h */,
 				1D4168B51B6C222D0075C8F3 /* TagSpec.swift */,
 				1D7750F31ABB391500D92191 /* TmpSpec.swift */,
@@ -4978,7 +4975,6 @@
 				"${BUILT_PRODUCTS_DIR}/TimeAgoInWords/TimeAgoInWords.framework",
 				"${BUILT_PRODUCTS_DIR}/WebLinking/WebLinking.framework",
 				"${BUILT_PRODUCTS_DIR}/YapDatabase/YapDatabase.framework",
-				"${BUILT_PRODUCTS_DIR}/iRate/iRate.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
@@ -5011,7 +5007,6 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TimeAgoInWords.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/WebLinking.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YapDatabase.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/iRate.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -5072,7 +5067,6 @@
 				"${BUILT_PRODUCTS_DIR}/TimeAgoInWords/TimeAgoInWords.framework",
 				"${BUILT_PRODUCTS_DIR}/WebLinking/WebLinking.framework",
 				"${BUILT_PRODUCTS_DIR}/YapDatabase/YapDatabase.framework",
-				"${BUILT_PRODUCTS_DIR}/iRate/iRate.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSnapshotTestCase/FBSnapshotTestCase.framework",
 				"${BUILT_PRODUCTS_DIR}/Nimble/Nimble.framework",
 				"${BUILT_PRODUCTS_DIR}/Nimble-Snapshots/Nimble_Snapshots.framework",
@@ -5109,7 +5103,6 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TimeAgoInWords.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/WebLinking.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YapDatabase.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/iRate.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSnapshotTestCase.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Nimble.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Nimble_Snapshots.framework",
@@ -5521,7 +5514,6 @@
 				1D7750F71ABB68D900D92191 /* ToDataSpec.swift in Sources */,
 				1DB474FD1BAB5904000AA9DC /* RegexExtensionsSpec.swift in Sources */,
 				12BCEA3E1B6C0D4500AD85A9 /* NewContentServiceSpec.swift in Sources */,
-				12687A181BBF295E0055D0BA /* RateSpec.swift in Sources */,
 				76F90E5D1A97992D00F5B42F /* RelationshipControlSpec.swift in Sources */,
 				123E93671DD283DB00D71A5A /* CategoryGeneratorSpec.swift in Sources */,
 				1DF942351A9FC92D00838E9C /* NotificationsFilterBarSpec.swift in Sources */,

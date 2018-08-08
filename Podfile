@@ -21,7 +21,6 @@ def ello_app_pods
   pod 'PINCache', git: 'https://github.com/ello/PINCache', commit: '78c3461'
   pod 'SSPullToRefresh', '~> 1.2'
   pod 'ImagePickerSheetController', git: 'https://github.com/ello/ImagePickerSheetController', branch: 'swift4'
-  pod 'iRate', '~> 1.11'
   # swift pods
   pod 'TimeAgoInWords', git: 'https://github.com/ello/TimeAgoInWords'
   pod 'DeltaCalculator', git: 'https://github.com/ello/DeltaCalculator'

@@ -34,7 +34,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         #endif
 
         Keyboard.setup()
-        Rate.sharedRate.setup()
         AutoCompleteService.loadEmojiJSON("emojis")
         BadgesService.loadStaticBadges()
         UIFont.loadFonts()

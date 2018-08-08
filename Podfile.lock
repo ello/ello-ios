@@ -22,7 +22,6 @@ PODS:
     - FBSnapshotTestCase/Core
   - FLAnimatedImage (1.0.12)
   - ImagePickerSheetController (0.9.3)
-  - iRate (1.11.7)
   - JWTDecode (2.0.0)
   - KeychainAccess (3.0.1)
   - Keys (1.0.0)
@@ -141,7 +140,6 @@ DEPENDENCIES:
   - FBSnapshotTestCase
   - FLAnimatedImage (~> 1.0)
   - ImagePickerSheetController (from `https://github.com/ello/ImagePickerSheetController`, branch `swift4`)
-  - iRate (~> 1.11)
   - JWTDecode (~> 2.0)
   - KeychainAccess (~> 3.0)
   - Keys (from `Pods/CocoaPodsKeys`)
@@ -171,7 +169,6 @@ SPEC REPOS:
     - CocoaLumberjack
     - FBSnapshotTestCase
     - FLAnimatedImage
-    - iRate
     - JWTDecode
     - KeychainAccess
     - MBProgressHUD
@@ -264,7 +261,6 @@ SPEC CHECKSUMS:
   FBSnapshotTestCase: 094f9f314decbabe373b87cc339bea235a63e07a
   FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31
   ImagePickerSheetController: 4789b06940e299431455c61be77fda440883c36c
-  iRate: adae3f183d83c925ac42d7a2e86e89e838963f57
   JWTDecode: 178e47e5d28d3abcff778bacced8342858cd6cb5
   KeychainAccess: 017ea25e313a49eda10bb19b0bb0760fb1edfe1a
   Keys: af65e23feef2a047b3277b1ef0399f1209ef9d46

@@ -209,30 +209,10 @@ extension Tracker {
 
 }
 
-// MARK: iRate
+// MARK: Rate prompt
 extension Tracker {
     func ratePromptShown() {
         track("rate prompt shown")
-    }
-
-    func ratePromptUserDeclinedToRateApp() {
-        track("rate prompt user declined to rate app")
-    }
-
-    func ratePromptRemindMeLater() {
-        track("rate prompt remind me later")
-    }
-
-    func ratePromptUserAttemptedToRateApp() {
-        track("rate prompt user attempted to rate app")
-    }
-
-    func ratePromptOpenedAppStore() {
-        track("rate prompt opened app store")
-    }
-
-    func ratePromptCouldNotConnectToAppStore() {
-        track("rate prompt could not connect to app store")
     }
 }
 

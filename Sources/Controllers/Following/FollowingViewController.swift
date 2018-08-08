@@ -14,7 +14,6 @@ class FollowingViewController: StreamableViewController {
         return ("following", nil)
     }
 
-    private var loggedPromptEventForThisSession = false
     private var reloadFollowingContentObserver: NotificationObserver?
     private var appBackgroundObserver: NotificationObserver?
     private var appForegroundObserver: NotificationObserver?
@@ -66,10 +65,6 @@ class FollowingViewController: StreamableViewController {
         super.viewDidAppear(animated)
 
         addTemporaryNotificationObservers()
-        if !loggedPromptEventForThisSession {
-            Rate.sharedRate.logEvent()
-            loggedPromptEventForThisSession = true
-        }
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -129,10 +124,6 @@ extension FollowingViewController {
             guard let `self` = self else { return }
 
             self.screen.newPostsButtonVisible = true
-        }
-
-        appBackgroundObserver = NotificationObserver(notification: Application.Notifications.DidEnterBackground) { [weak self] _ in
-            self?.loggedPromptEventForThisSession = false
         }
     }
 
