@@ -22,6 +22,11 @@ PODS:
     - FBSnapshotTestCase/Core
   - FLAnimatedImage (1.0.12)
   - ImagePickerSheetController (0.9.3)
+  - iOSSnapshotTestCase (3.0.0):
+    - iOSSnapshotTestCase/SwiftSupport (= 3.0.0)
+  - iOSSnapshotTestCase/Core (3.0.0)
+  - iOSSnapshotTestCase/SwiftSupport (3.0.0):
+    - iOSSnapshotTestCase/Core
   - JWTDecode (2.1.1)
   - KeychainAccess (3.1.1)
   - Keys (1.0.0)
@@ -172,6 +177,7 @@ SPEC REPOS:
     - CocoaLumberjack
     - FBSnapshotTestCase
     - FLAnimatedImage
+    - iOSSnapshotTestCase
     - JWTDecode
     - KeychainAccess
     - MBProgressHUD
@@ -264,6 +270,7 @@ SPEC CHECKSUMS:
   FBSnapshotTestCase: 094f9f314decbabe373b87cc339bea235a63e07a
   FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31
   ImagePickerSheetController: 4789b06940e299431455c61be77fda440883c36c
+  iOSSnapshotTestCase: 23984ffe05289728d646cbb6a7a10b4fb1c93440
   JWTDecode: 83e8b381aafe27158d9f692cbdca2b12d61d460c
   KeychainAccess: 7bd430028059754a3debab3cfc0bd1fc7fb85df3
   Keys: af65e23feef2a047b3277b1ef0399f1209ef9d46
