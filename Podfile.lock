@@ -71,7 +71,7 @@ PODS:
   - SwiftyJSON (4.1.0)
   - SwiftyUserDefaults (3.0.1)
   - TimeAgoInWords (3.0.0)
-  - WebLinking (2.0.0)
+  - WebLinking (2.0.1)
   - YapDatabase (3.1.1):
     - YapDatabase/Standard (= 3.1.1)
   - YapDatabase/Standard (3.1.1):
@@ -165,7 +165,7 @@ DEPENDENCIES:
   - SwiftyJSON
   - SwiftyUserDefaults
   - TimeAgoInWords (from `https://github.com/ello/TimeAgoInWords`)
-  - WebLinking
+  - WebLinking (from `https://github.com/pingwinator/WebLinking.swift`)
   - YapDatabase
 
 SPEC REPOS:
@@ -191,7 +191,6 @@ SPEC REPOS:
     - SSPullToRefresh
     - SwiftyJSON
     - SwiftyUserDefaults
-    - WebLinking
     - YapDatabase
 
 EXTERNAL SOURCES:
@@ -220,6 +219,8 @@ EXTERNAL SOURCES:
     :git: https://github.com/ello/SVGKit
   TimeAgoInWords:
     :git: https://github.com/ello/TimeAgoInWords
+  WebLinking:
+    :git: https://github.com/pingwinator/WebLinking.swift
 
 CHECKOUT OPTIONS:
   CRToast:
@@ -252,6 +253,9 @@ CHECKOUT OPTIONS:
   TimeAgoInWords:
     :commit: d1e1dc78028612f8c65d6a967c8fab3ffec516c1
     :git: https://github.com/ello/TimeAgoInWords
+  WebLinking:
+    :commit: 95dabb94a56cc7088fb8f0361feaa703dc75052a
+    :git: https://github.com/pingwinator/WebLinking.swift
 
 SPEC CHECKSUMS:
   1PasswordExtension: 0e95bdea64ec8ff2f4f693be5467a09fac42a83d
@@ -286,7 +290,7 @@ SPEC CHECKSUMS:
   SwiftyJSON: c29297daf073d2aa016295d5809cdd68045c39b3
   SwiftyUserDefaults: 3d273b1739b68ada3145dc754a70ec775bc5c8be
   TimeAgoInWords: 85c5f962523d61f7ca34d3b83c70afb28cd257e2
-  WebLinking: b476999d59f78bd6649e6754d60693a7d147b00c
+  WebLinking: b7507e9ccf2b0177dcc53cbdbaed787676fde745
   YapDatabase: b418a4baa6906e8028748938f9159807fd039af4
 
 PODFILE CHECKSUM: b45976a2149027031c94fd69963148e51bd70c19

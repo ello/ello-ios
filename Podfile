@@ -58,7 +58,7 @@ def common_pods
   pod 'SwiftyUserDefaults'
   pod 'SwiftyJSON'
   pod 'JWTDecode'
-  pod 'WebLinking'
+  pod 'WebLinking', git: 'https://github.com/pingwinator/WebLinking.swift'
 end
 
 def spec_pods
