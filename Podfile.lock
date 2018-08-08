@@ -64,7 +64,7 @@ PODS:
   - SSPullToRefresh (1.3.0)
   - SVGKit (2.0.1):
     - CocoaLumberjack (~> 2.x)
-  - SwiftyJSON (4.0.0)
+  - SwiftyJSON (4.1.0)
   - SwiftyUserDefaults (3.0.1)
   - TimeAgoInWords (3.0.0)
   - WebLinking (1.1.0)
@@ -155,7 +155,7 @@ DEPENDENCIES:
   - SnapKit (from `https://github.com/ello/SnapKit`, branch `swift4-ios10`)
   - SSPullToRefresh (~> 1)
   - SVGKit (from `https://github.com/ello/SVGKit`)
-  - SwiftyJSON (~> 4.0)
+  - SwiftyJSON
   - SwiftyUserDefaults
   - TimeAgoInWords (from `https://github.com/ello/TimeAgoInWords`)
   - WebLinking (from `https://github.com/kylef/WebLinking.swift`)
@@ -278,7 +278,7 @@ SPEC CHECKSUMS:
   SnapKit: c71c530b73cedd2a8b998098687001baff265086
   SSPullToRefresh: 3a47e116692b60e7da5a8c60418488133bcc9550
   SVGKit: 2afbeaf2c2be4615476951284750c3ddb790d0c7
-  SwiftyJSON: 070dabdcb1beb81b247c65ffa3a79dbbfb3b48aa
+  SwiftyJSON: c29297daf073d2aa016295d5809cdd68045c39b3
   SwiftyUserDefaults: 3d273b1739b68ada3145dc754a70ec775bc5c8be
   TimeAgoInWords: 85c5f962523d61f7ca34d3b83c70afb28cd257e2
   WebLinking: 3f71787c14a225148e8be29fe6e7c98597cbc459
