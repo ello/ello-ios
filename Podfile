@@ -53,7 +53,7 @@ def common_pods
   pod 'PromiseKit/CorePromise'
   pod 'Alamofire', '~> 4.7'
   pod 'Moya', '~> 8'
-  pod 'KeychainAccess', '~> 3.0'
+  pod 'KeychainAccess'
   pod 'SwiftyUserDefaults', '~> 3.0'
   pod 'SwiftyJSON', '~> 4.0'
   pod 'JWTDecode', '~> 2.0'

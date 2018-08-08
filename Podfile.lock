@@ -23,7 +23,7 @@ PODS:
   - FLAnimatedImage (1.0.12)
   - ImagePickerSheetController (0.9.3)
   - JWTDecode (2.0.0)
-  - KeychainAccess (3.0.1)
+  - KeychainAccess (3.1.1)
   - Keys (1.0.0)
   - KINWebBrowser (1.1.0)
   - MBProgressHUD (0.9.2)
@@ -141,7 +141,7 @@ DEPENDENCIES:
   - FLAnimatedImage (~> 1.0)
   - ImagePickerSheetController (from `https://github.com/ello/ImagePickerSheetController`, branch `swift4`)
   - JWTDecode (~> 2.0)
-  - KeychainAccess (~> 3.0)
+  - KeychainAccess
   - Keys (from `Pods/CocoaPodsKeys`)
   - KINWebBrowser (from `https://github.com/ello/KINWebBrowser`)
   - MBProgressHUD (~> 0.9.0)
@@ -262,7 +262,7 @@ SPEC CHECKSUMS:
   FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31
   ImagePickerSheetController: 4789b06940e299431455c61be77fda440883c36c
   JWTDecode: 178e47e5d28d3abcff778bacced8342858cd6cb5
-  KeychainAccess: 017ea25e313a49eda10bb19b0bb0760fb1edfe1a
+  KeychainAccess: 7bd430028059754a3debab3cfc0bd1fc7fb85df3
   Keys: af65e23feef2a047b3277b1ef0399f1209ef9d46
   KINWebBrowser: dad85d7d93e6f4620a8589b96992394affffa66e
   MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1
@@ -284,6 +284,6 @@ SPEC CHECKSUMS:
   WebLinking: 3f71787c14a225148e8be29fe6e7c98597cbc459
   YapDatabase: 299a32de9d350d37a9ac5b0532609d87d5d2a5de
 
-PODFILE CHECKSUM: bb9fca175e8bfea60e104dca77c920803368557e
+PODFILE CHECKSUM: a4a2c6c3f4707bdfdb079f3f76f1d100c03d67d5
 
 COCOAPODS: 1.5.3
