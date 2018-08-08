@@ -44,11 +44,13 @@ def common_pods
   else
     pod 'ElloOSSCerts', '~> 2.0'
   end
-  pod 'PromiseKit/CorePromise'
+  # objc
   pod 'MBProgressHUD', '~> 0.9.0'
   pod 'SVGKit', git: 'https://github.com/ello/SVGKit'
   pod 'FLAnimatedImage', '~> 1.0'
   pod 'YapDatabase', '~> 3.0'
+  # swift
+  pod 'PromiseKit/CorePromise'
   pod 'Alamofire', '~> 4.7'
   pod 'Moya', '~> 8'
   pod 'KeychainAccess', '~> 3.0'

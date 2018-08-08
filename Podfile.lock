@@ -57,7 +57,7 @@ PODS:
   - PINRemoteImage/PINCache (3.0.0-beta.8):
     - PINCache (= 3.0.1-beta.4)
     - PINRemoteImage/Core
-  - PromiseKit/CorePromise (6.2.4)
+  - PromiseKit/CorePromise (6.3.4)
   - Quick (1.2.0)
   - Result (3.2.4)
   - SnapKit (3.2.0)
@@ -272,7 +272,7 @@ SPEC CHECKSUMS:
   PINCache: a89c8f609232afac77128557bd12c861844423d7
   PINOperation: ac23db44796d4a564ecf9b5ea7163510f579b71d
   PINRemoteImage: c4f9f16932840c597f32e69dd288e10e111a1929
-  PromiseKit: 625b1fc69944fc839503748101c5968cf54b527b
+  PromiseKit: e1425568123ec844a944c93f2bcb29d511d39cf5
   Quick: 58d203b1c5e27fff7229c4c1ae445ad7069a7a08
   Result: d2d07204ce72856f1fd9130bbe42c35a7b0fea10
   SnapKit: c71c530b73cedd2a8b998098687001baff265086
