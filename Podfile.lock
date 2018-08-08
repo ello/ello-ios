@@ -1,5 +1,5 @@
 PODS:
-  - 1PasswordExtension (1.6.1)
+  - 1PasswordExtension (1.8.5)
   - Alamofire (4.7.3)
   - Analytics (3.6.7)
   - CocoaLumberjack (2.4.0):
@@ -131,7 +131,7 @@ PODS:
     - YapDatabase/Standard/Core
 
 DEPENDENCIES:
-  - 1PasswordExtension (from `https://github.com/ello/onepassword-app-extension`)
+  - 1PasswordExtension (~> 1.8.5)
   - Alamofire (~> 4.7)
   - Analytics (~> 3.0)
   - CRToast (from `https://github.com/ello/CRToast`)
@@ -165,6 +165,7 @@ DEPENDENCIES:
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
+    - 1PasswordExtension
     - Alamofire
     - Analytics
     - CocoaLumberjack
@@ -188,8 +189,6 @@ SPEC REPOS:
     - YapDatabase
 
 EXTERNAL SOURCES:
-  1PasswordExtension:
-    :git: https://github.com/ello/onepassword-app-extension
   CRToast:
     :git: https://github.com/ello/CRToast
   DeltaCalculator:
@@ -218,9 +217,6 @@ EXTERNAL SOURCES:
     :git: https://github.com/kylef/WebLinking.swift
 
 CHECKOUT OPTIONS:
-  1PasswordExtension:
-    :commit: 2e2c2d17561991c6bce85de4b04571c8806adc0e
-    :git: https://github.com/ello/onepassword-app-extension
   CRToast:
     :commit: c84bf5ff9ee16b99e45f3bf25bb5db9c386fa728
     :git: https://github.com/ello/CRToast
@@ -256,7 +252,7 @@ CHECKOUT OPTIONS:
     :git: https://github.com/kylef/WebLinking.swift
 
 SPEC CHECKSUMS:
-  1PasswordExtension: faed6b7ab3f1e26551b08fef580c88bff0d0f247
+  1PasswordExtension: 0e95bdea64ec8ff2f4f693be5467a09fac42a83d
   Alamofire: c7287b6e5d7da964a70935e5db17046b7fde6568
   Analytics: 2c09a50e3478a3a7ced08a22d00c43ba6f7011e6
   CocoaLumberjack: aa9dcab71bdf9eaf2a63bbd9ddc87863efe45457
@@ -291,6 +287,6 @@ SPEC CHECKSUMS:
   WebLinking: 3f71787c14a225148e8be29fe6e7c98597cbc459
   YapDatabase: 299a32de9d350d37a9ac5b0532609d87d5d2a5de
 
-PODFILE CHECKSUM: 0534a26fcfaa16d9df235366562f0a722d507d9f
+PODFILE CHECKSUM: 4dda6192162457423939fe46da4d77990c40301d
 
 COCOAPODS: 1.5.3

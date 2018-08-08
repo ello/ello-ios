@@ -14,7 +14,7 @@ project 'Ello'
 use_frameworks!
 
 def ello_app_pods
-  pod '1PasswordExtension', git: 'https://github.com/ello/onepassword-app-extension'
+  pod '1PasswordExtension', '~> 1.8.5'
   pod 'CRToast', git: 'https://github.com/ello/CRToast'
   pod 'KINWebBrowser', git: 'https://github.com/ello/KINWebBrowser'
   pod 'PINRemoteImage', '3.0.0-beta.8'
