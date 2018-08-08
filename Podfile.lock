@@ -14,7 +14,7 @@ PODS:
   - DeltaCalculator (1.0.4)
   - ElloCerts (3.0.0):
     - Alamofire (~> 4.0)
-  - ElloUIFonts (2.2.0)
+  - ElloUIFonts (3.0.2)
   - FBSnapshotTestCase (2.1.4):
     - FBSnapshotTestCase/SwiftSupport (= 2.1.4)
   - FBSnapshotTestCase/Core (2.1.4)
@@ -207,7 +207,7 @@ CHECKOUT OPTIONS:
     :commit: 26b6b863d9529ee2d8db4e8de26affe44e0f7c67
     :git: git@github.com:ello/Ello-iOS-Certs
   ElloUIFonts:
-    :commit: 3e9d77e88ebfb869be8f51f6f93555a7840c1969
+    :commit: 5abd1ced932c51f8162192f201cadbd15a479fca
     :git: git@github.com:ello/ElloUIFonts
   ImagePickerSheetController:
     :commit: 18e8d063a15c9d081d510f82ba25b46edfda7e28
@@ -239,7 +239,7 @@ SPEC CHECKSUMS:
   CRToast: eb22641501990233c53cb8f83f7d2ea87e0ddf73
   DeltaCalculator: 97ea120ac2ebcf55e472d7ba872c8bc79c138454
   ElloCerts: 7c27117e2281761c81acf31b81a44a38869220c2
-  ElloUIFonts: 74434eb284b5938d0f58b42a16af5d706626d99b
+  ElloUIFonts: 9ec2357942e3e3020a257ded2abf4e92e37b9286
   FBSnapshotTestCase: 094f9f314decbabe373b87cc339bea235a63e07a
   FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31
   ImagePickerSheetController: 4789b06940e299431455c61be77fda440883c36c
