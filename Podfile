@@ -56,7 +56,7 @@ def common_pods
   pod 'KeychainAccess'
   pod 'SwiftyUserDefaults', '~> 3.0'
   pod 'SwiftyJSON', '~> 4.0'
-  pod 'JWTDecode', '~> 2.0'
+  pod 'JWTDecode'
   pod 'WebLinking', git: 'https://github.com/kylef/WebLinking.swift'
   pod 'Analytics', '~> 3.0'
 end
