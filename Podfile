@@ -2,7 +2,7 @@ source 'https://github.com/ello/cocoapod-specs.git'
 source 'https://github.com/CocoaPods/Specs.git'
 
 # Uncomment this line to define a global platform for your project
-platform :ios, '9.0'
+platform :ios, '10.3'
 
 # Yep.
 inhibit_all_warnings!
