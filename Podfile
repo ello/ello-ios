@@ -14,17 +14,17 @@ project 'Ello'
 use_frameworks!
 
 def ello_app_pods
+  # objc
   pod '1PasswordExtension', '~> 1.8.5'
   pod 'CRToast', git: 'https://github.com/ello/CRToast'
   pod 'KINWebBrowser', git: 'https://github.com/ello/KINWebBrowser'
   pod 'PINRemoteImage', '3.0.0-beta.8'
   pod 'PINCache', git: 'https://github.com/ello/PINCache', commit: '78c3461'
   pod 'SSPullToRefresh', '~> 1.2'
-  pod 'ImagePickerSheetController', git: 'https://github.com/ello/ImagePickerSheetController', branch: 'swift4'
   # swift pods
+  pod 'ImagePickerSheetController', git: 'https://github.com/ello/ImagePickerSheetController', branch: 'swift4'
   pod 'TimeAgoInWords', git: 'https://github.com/ello/TimeAgoInWords'
   pod 'DeltaCalculator', git: 'https://github.com/ello/DeltaCalculator'
-
 end
 
 def ui_pods
@@ -50,7 +50,7 @@ def common_pods
   pod 'FLAnimatedImage', '~> 1.0'
   pod 'YapDatabase', '~> 3.0'
   pod 'Alamofire', '~> 4.7'
-  pod 'Moya', '8.0.3'
+  pod 'Moya', '~> 8'
   pod 'KeychainAccess', '~> 3.0'
   pod 'SwiftyUserDefaults', '~> 3.0'
   pod 'SwiftyJSON', '~> 4.0'
