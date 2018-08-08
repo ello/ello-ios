@@ -12,7 +12,6 @@ install:
 - bundle exec pod keys set OauthSecret $ELLO_CLIENT_SECRET Ello
 - bundle exec pod keys set Domain $ELLO_DOMAIN Ello
 - bundle exec pod keys set SodiumChloride $INVITE_FRIENDS_SALT Ello
-- bundle exec pod keys set CrashlyticsKey $ELLO_CRASHLYTICS_KEY Ello
 - bundle exec pod keys set SegmentKey $ELLO_SEGMENT_KEY Ello
 - bundle exec pod keys set TeamId ABC123 Ello
 - bundle exec pod keys set StagingSegmentKey "any" Ello
