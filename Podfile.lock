@@ -139,7 +139,7 @@ PODS:
 
 DEPENDENCIES:
   - 1PasswordExtension (~> 1.8.5)
-  - Alamofire (~> 4.7)
+  - Alamofire
   - Analytics
   - CRToast (from `https://github.com/ello/CRToast`)
   - DeltaCalculator (from `https://github.com/ello/DeltaCalculator`)

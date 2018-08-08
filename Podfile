@@ -52,7 +52,7 @@ def common_pods
   pod 'Analytics'
   # swift
   pod 'PromiseKit/CorePromise'
-  pod 'Alamofire', '~> 4.7'
+  pod 'Alamofire'
   pod 'Moya', '~> 8'
   pod 'KeychainAccess'
   pod 'SwiftyUserDefaults'
