@@ -58,7 +58,7 @@ def common_pods
   pod 'SwiftyUserDefaults'
   pod 'SwiftyJSON'
   pod 'JWTDecode'
-  pod 'WebLinking', git: 'https://github.com/kylef/WebLinking.swift'
+  pod 'WebLinking'
 end
 
 def spec_pods
