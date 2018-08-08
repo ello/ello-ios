@@ -136,8 +136,8 @@ DEPENDENCIES:
   - Analytics (~> 3.0)
   - CRToast (from `https://github.com/ello/CRToast`)
   - DeltaCalculator (from `https://github.com/ello/DeltaCalculator`)
-  - ElloCerts (from `git@github.com:ello/Ello-iOS-Certs`)
-  - ElloUIFonts (from `git@github.com:ello/ElloUIFonts`)
+  - "ElloCerts (from `git@github.com:ello/Ello-iOS-Certs`)"
+  - "ElloUIFonts (from `git@github.com:ello/ElloUIFonts`)"
   - FBSnapshotTestCase
   - FLAnimatedImage (~> 1.0)
   - ImagePickerSheetController (from `https://github.com/ello/ImagePickerSheetController`, branch `swift3`)
@@ -163,6 +163,30 @@ DEPENDENCIES:
   - WebLinking (from `https://github.com/kylef/WebLinking.swift`)
   - YapDatabase (~> 3.0)
 
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - Alamofire
+    - Analytics
+    - CocoaLumberjack
+    - FBSnapshotTestCase
+    - FLAnimatedImage
+    - iRate
+    - JWTDecode
+    - KeychainAccess
+    - MBProgressHUD
+    - Moya
+    - Nimble
+    - Nimble-Snapshots
+    - PINOperation
+    - PINRemoteImage
+    - PromiseKit
+    - Quick
+    - Result
+    - SSPullToRefresh
+    - SwiftyJSON
+    - SwiftyUserDefaults
+    - YapDatabase
+
 EXTERNAL SOURCES:
   1PasswordExtension:
     :git: https://github.com/ello/onepassword-app-extension
@@ -171,9 +195,9 @@ EXTERNAL SOURCES:
   DeltaCalculator:
     :git: https://github.com/ello/DeltaCalculator
   ElloCerts:
-    :git: git@github.com:ello/Ello-iOS-Certs
+    :git: "git@github.com:ello/Ello-iOS-Certs"
   ElloUIFonts:
-    :git: git@github.com:ello/ElloUIFonts
+    :git: "git@github.com:ello/ElloUIFonts"
   ImagePickerSheetController:
     :branch: swift3
     :git: https://github.com/ello/ImagePickerSheetController
@@ -205,10 +229,10 @@ CHECKOUT OPTIONS:
     :git: https://github.com/ello/DeltaCalculator
   ElloCerts:
     :commit: 26b6b863d9529ee2d8db4e8de26affe44e0f7c67
-    :git: git@github.com:ello/Ello-iOS-Certs
+    :git: "git@github.com:ello/Ello-iOS-Certs"
   ElloUIFonts:
     :commit: 5abd1ced932c51f8162192f201cadbd15a479fca
-    :git: git@github.com:ello/ElloUIFonts
+    :git: "git@github.com:ello/ElloUIFonts"
   ImagePickerSheetController:
     :commit: 18e8d063a15c9d081d510f82ba25b46edfda7e28
     :git: https://github.com/ello/ImagePickerSheetController
@@ -246,7 +270,7 @@ SPEC CHECKSUMS:
   iRate: adae3f183d83c925ac42d7a2e86e89e838963f57
   JWTDecode: 178e47e5d28d3abcff778bacced8342858cd6cb5
   KeychainAccess: 017ea25e313a49eda10bb19b0bb0760fb1edfe1a
-  Keys: 9c35bf00f612ee1d48556f4a4b9b4551e224e90f
+  Keys: af65e23feef2a047b3277b1ef0399f1209ef9d46
   KINWebBrowser: dad85d7d93e6f4620a8589b96992394affffa66e
   MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1
   Moya: d3721622e3cc0cc2f038d69a258686f0b66e7252
@@ -267,6 +291,6 @@ SPEC CHECKSUMS:
   WebLinking: 3f71787c14a225148e8be29fe6e7c98597cbc459
   YapDatabase: 299a32de9d350d37a9ac5b0532609d87d5d2a5de
 
-PODFILE CHECKSUM: 2d84e38390a13362b2b94fa230453ac10b72508c
+PODFILE CHECKSUM: 0534a26fcfaa16d9df235366562f0a722d507d9f
 
-COCOAPODS: 1.1.1
+COCOAPODS: 1.5.3
