@@ -35,7 +35,7 @@ def ui_pods
   else
     pod 'ElloOSSUIFonts'
   end
-  pod 'SnapKit', git: 'https://github.com/ello/SnapKit', branch: 'swift4-ios10'
+  pod 'SnapKit', '~> 4'
 end
 
 def common_pods
