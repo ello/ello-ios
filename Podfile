@@ -112,15 +112,3 @@ plugin 'cocoapods-keys', {
     'Stage2Domain',
   ]
 }
-
-post_install do |installer|
-  installer.pods_project.targets.each do |target|
-    target.build_configurations.each do |config|
-      config.build_settings['WARNING_CFLAGS'] = '$(inherited) -Wno-error=private-header' if target.name == 'FBSnapshotTestCase'
-      # cocoapods 1.1.0-rc2 *should* handle this but isn't for some reason
-      config.build_settings['SWIFT_VERSION'] = '3.0'
-      # cocoapods does not propogate the platform from above
-      config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '9.0'
-    end
-  end
-end
