@@ -61,7 +61,7 @@ PODS:
   - PromiseKit/CorePromise (6.2.4)
   - Quick (1.2.0)
   - Result (3.2.1)
-  - SnapKit (3.1.2)
+  - SnapKit (3.2.0)
   - SSPullToRefresh (1.2.4)
   - SVGKit (2.0.1):
     - CocoaLumberjack (~> 2.x)
@@ -154,7 +154,7 @@ DEPENDENCIES:
   - PINRemoteImage (= 3.0.0-beta.8)
   - PromiseKit/CorePromise
   - Quick (~> 1.0)
-  - SnapKit (from `https://github.com/ello/SnapKit`)
+  - SnapKit (from `https://github.com/ello/SnapKit`, branch `swift4-ios10`)
   - SSPullToRefresh (~> 1.2)
   - SVGKit (from `https://github.com/ello/SVGKit`)
   - SwiftyJSON (~> 4.0)
@@ -208,6 +208,7 @@ EXTERNAL SOURCES:
     :commit: 78c3461
     :git: https://github.com/ello/PINCache
   SnapKit:
+    :branch: swift4-ios10
     :git: https://github.com/ello/SnapKit
   SVGKit:
     :git: https://github.com/ello/SVGKit
@@ -239,7 +240,7 @@ CHECKOUT OPTIONS:
     :commit: 78c3461
     :git: https://github.com/ello/PINCache
   SnapKit:
-    :commit: ab6c1fd91f2f598f34e29fcf8dd2eea5500daac9
+    :commit: bfb8ec06f268333772a27ea4d88c252ca597b1a5
     :git: https://github.com/ello/SnapKit
   SVGKit:
     :commit: 6160bbdfd0a8924b5e57b13c462db6a0944c8966
@@ -278,7 +279,7 @@ SPEC CHECKSUMS:
   PromiseKit: 625b1fc69944fc839503748101c5968cf54b527b
   Quick: 58d203b1c5e27fff7229c4c1ae445ad7069a7a08
   Result: 2453a22e5c5b11c0c3a478736e82cd02f763b781
-  SnapKit: 66bf0e9c5e02fdb6d2a549adb845ab4440d3ccfe
+  SnapKit: c71c530b73cedd2a8b998098687001baff265086
   SSPullToRefresh: 369e862c1d6528c7a354fc85cd4763d4e670e9af
   SVGKit: 2afbeaf2c2be4615476951284750c3ddb790d0c7
   SwiftyJSON: 070dabdcb1beb81b247c65ffa3a79dbbfb3b48aa
