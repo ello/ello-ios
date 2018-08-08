@@ -27,9 +27,9 @@ PODS:
   - Keys (1.0.0)
   - KINWebBrowser (1.1.0)
   - MBProgressHUD (0.9.2)
-  - Moya (8.0.3):
-    - Moya/Core (= 8.0.3)
-  - Moya/Core (8.0.3):
+  - Moya (8.0.5):
+    - Moya/Core (= 8.0.5)
+  - Moya/Core (8.0.5):
     - Alamofire (~> 4.1)
     - Result (~> 3.0)
   - Nimble (7.0.2)
@@ -59,7 +59,7 @@ PODS:
     - PINRemoteImage/Core
   - PromiseKit/CorePromise (6.2.4)
   - Quick (1.2.0)
-  - Result (3.2.1)
+  - Result (3.2.4)
   - SnapKit (3.2.0)
   - SSPullToRefresh (1.2.4)
   - SVGKit (2.0.1):
@@ -145,7 +145,7 @@ DEPENDENCIES:
   - Keys (from `Pods/CocoaPodsKeys`)
   - KINWebBrowser (from `https://github.com/ello/KINWebBrowser`)
   - MBProgressHUD (~> 0.9.0)
-  - Moya (= 8.0.3)
+  - Moya (~> 8)
   - Nimble (~> 7.0)
   - Nimble-Snapshots (~> 4.4)
   - PINCache (from `https://github.com/ello/PINCache`, commit `78c3461`)
@@ -266,7 +266,7 @@ SPEC CHECKSUMS:
   Keys: af65e23feef2a047b3277b1ef0399f1209ef9d46
   KINWebBrowser: dad85d7d93e6f4620a8589b96992394affffa66e
   MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1
-  Moya: d3721622e3cc0cc2f038d69a258686f0b66e7252
+  Moya: c37eec09a098ba9991b5a963b291fc5704bdb9ef
   Nimble: bfe1f814edabba69ff145cb1283e04ed636a67f2
   Nimble-Snapshots: e743439f26c2fa99d8f7e0d7c01c99bcb40aa6f2
   PINCache: a89c8f609232afac77128557bd12c861844423d7
@@ -274,7 +274,7 @@ SPEC CHECKSUMS:
   PINRemoteImage: c4f9f16932840c597f32e69dd288e10e111a1929
   PromiseKit: 625b1fc69944fc839503748101c5968cf54b527b
   Quick: 58d203b1c5e27fff7229c4c1ae445ad7069a7a08
-  Result: 2453a22e5c5b11c0c3a478736e82cd02f763b781
+  Result: d2d07204ce72856f1fd9130bbe42c35a7b0fea10
   SnapKit: c71c530b73cedd2a8b998098687001baff265086
   SSPullToRefresh: 369e862c1d6528c7a354fc85cd4763d4e670e9af
   SVGKit: 2afbeaf2c2be4615476951284750c3ddb790d0c7
@@ -284,6 +284,6 @@ SPEC CHECKSUMS:
   WebLinking: 3f71787c14a225148e8be29fe6e7c98597cbc459
   YapDatabase: 299a32de9d350d37a9ac5b0532609d87d5d2a5de
 
-PODFILE CHECKSUM: 4dda6192162457423939fe46da4d77990c40301d
+PODFILE CHECKSUM: 6dbaccf70189e55cd2baf92d3034a35ffd9ed5d9
 
 COCOAPODS: 1.5.3
