@@ -50,7 +50,7 @@ def common_pods
   pod 'SVGKit', git: 'https://github.com/ello/SVGKit'
   pod 'FLAnimatedImage', '~> 1.0'
   pod 'YapDatabase', '~> 3.0'
-  pod 'Alamofire', '~> 4.0'
+  pod 'Alamofire', '~> 4.7'
   pod 'Moya', '8.0.3'
   pod 'KeychainAccess', '~> 3.0'
   pod 'SwiftyUserDefaults', '~> 3.0'

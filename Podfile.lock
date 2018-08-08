@@ -1,6 +1,6 @@
 PODS:
   - 1PasswordExtension (1.6.1)
-  - Alamofire (4.2.0)
+  - Alamofire (4.7.3)
   - Analytics (3.6.7)
   - CocoaLumberjack (2.4.0):
     - CocoaLumberjack/Default (= 2.4.0)
@@ -132,7 +132,7 @@ PODS:
 
 DEPENDENCIES:
   - 1PasswordExtension (from `https://github.com/ello/onepassword-app-extension`)
-  - Alamofire (~> 4.0)
+  - Alamofire (~> 4.7)
   - Analytics (~> 3.0)
   - CRToast (from `https://github.com/ello/CRToast`)
   - DeltaCalculator (from `https://github.com/ello/DeltaCalculator`)
@@ -257,7 +257,7 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   1PasswordExtension: faed6b7ab3f1e26551b08fef580c88bff0d0f247
-  Alamofire: aa2e09d871c9160ac53c90e83c68064a94e3dfbe
+  Alamofire: c7287b6e5d7da964a70935e5db17046b7fde6568
   Analytics: 2c09a50e3478a3a7ced08a22d00c43ba6f7011e6
   CocoaLumberjack: aa9dcab71bdf9eaf2a63bbd9ddc87863efe45457
   CRToast: eb22641501990233c53cb8f83f7d2ea87e0ddf73
