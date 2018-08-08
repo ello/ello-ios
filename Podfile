@@ -54,7 +54,7 @@ def common_pods
   pod 'Alamofire', '~> 4.7'
   pod 'Moya', '~> 8'
   pod 'KeychainAccess'
-  pod 'SwiftyUserDefaults', '~> 3.0'
+  pod 'SwiftyUserDefaults'
   pod 'SwiftyJSON', '~> 4.0'
   pod 'JWTDecode'
   pod 'WebLinking', git: 'https://github.com/kylef/WebLinking.swift'
