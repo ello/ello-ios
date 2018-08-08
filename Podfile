@@ -95,7 +95,6 @@ plugin 'cocoapods-keys', {
   keys: [
     'OauthKey',
     'OauthSecret',
-    'CrashlyticsKey',
     'Domain',
     'SodiumChloride',
     'SegmentKey',
