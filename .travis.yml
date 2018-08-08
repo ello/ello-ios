@@ -25,7 +25,7 @@ install:
 - bundle exec pod keys set Stage2OauthSecret "any" Ello
 - bundle exec pod keys set Stage2Domain "any" Ello
 - bundle exec pod repo update --silent
-- bundle exec pod install
+- bundle exec pod install --verbose
 before_script:
 - export LANG=en_US.UTF-8
 script:
