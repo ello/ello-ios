@@ -140,7 +140,7 @@ DEPENDENCIES:
   - "ElloUIFonts (from `git@github.com:ello/ElloUIFonts`)"
   - FBSnapshotTestCase
   - FLAnimatedImage (~> 1.0)
-  - ImagePickerSheetController (from `https://github.com/ello/ImagePickerSheetController`, branch `swift3`)
+  - ImagePickerSheetController (from `https://github.com/ello/ImagePickerSheetController`, branch `swift4`)
   - iRate (~> 1.11)
   - JWTDecode (~> 2.0)
   - KeychainAccess (~> 3.0)
@@ -198,7 +198,7 @@ EXTERNAL SOURCES:
   ElloUIFonts:
     :git: "git@github.com:ello/ElloUIFonts"
   ImagePickerSheetController:
-    :branch: swift3
+    :branch: swift4
     :git: https://github.com/ello/ImagePickerSheetController
   Keys:
     :path: Pods/CocoaPodsKeys
@@ -231,7 +231,7 @@ CHECKOUT OPTIONS:
     :commit: 5abd1ced932c51f8162192f201cadbd15a479fca
     :git: "git@github.com:ello/ElloUIFonts"
   ImagePickerSheetController:
-    :commit: 18e8d063a15c9d081d510f82ba25b46edfda7e28
+    :commit: 7df43cf751ed938185fd6795c27295c123f49a7f
     :git: https://github.com/ello/ImagePickerSheetController
   KINWebBrowser:
     :commit: bcf29fd0beb6afb1c28a236306ad0fa1b8677bf3
