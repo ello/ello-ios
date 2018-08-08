@@ -63,9 +63,9 @@ end
 
 def spec_pods
   pod 'FBSnapshotTestCase'
-  pod 'Quick', '~> 1.0'
-  pod 'Nimble', '~> 7.0'
-  pod 'Nimble-Snapshots', '~> 4.4'
+  pod 'Quick'
+  pod 'Nimble'
+  pod 'Nimble-Snapshots'
 end
 
 target 'Ello' do
