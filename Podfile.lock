@@ -145,7 +145,7 @@ DEPENDENCIES:
   - "ElloCerts (from `git@github.com:ello/Ello-iOS-Certs`)"
   - "ElloUIFonts (from `git@github.com:ello/ElloUIFonts`)"
   - FBSnapshotTestCase
-  - FLAnimatedImage (~> 1.0)
+  - FLAnimatedImage
   - ImagePickerSheetController (from `https://github.com/ello/ImagePickerSheetController`, branch `swift4`)
   - JWTDecode
   - KeychainAccess

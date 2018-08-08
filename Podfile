@@ -47,7 +47,7 @@ def common_pods
   # objc
   pod 'MBProgressHUD'
   pod 'SVGKit', git: 'https://github.com/ello/SVGKit'
-  pod 'FLAnimatedImage', '~> 1.0'
+  pod 'FLAnimatedImage'
   pod 'YapDatabase'
   pod 'Analytics'
   # swift
