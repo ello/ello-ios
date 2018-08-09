@@ -234,7 +234,7 @@ CHECKOUT OPTIONS:
     :commit: 53679d8db9104b6e4fc6a112f7ec0e68461a07d9
     :git: "git@github.com:ello/ElloUIFonts"
   ImagePickerSheetController:
-    :commit: 7df43cf751ed938185fd6795c27295c123f49a7f
+    :commit: 6db06f17dce26707b769333b0efb453aa31910be
     :git: https://github.com/ello/ImagePickerSheetController
   KINWebBrowser:
     :commit: bcf29fd0beb6afb1c28a236306ad0fa1b8677bf3
