@@ -33,7 +33,7 @@ before_script:
 - export LANG=en_US.UTF-8
 script:
 - gem install danger -v 2.0.1 --no-ri --no-rdoc && danger
-- xcodebuild -workspace Ello.xcworkspace -scheme Ello -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO | xcpretty -f `xcpretty-travis-formatter`
+- xcodebuild -workspace Ello.xcworkspace -scheme Ello -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO test | xcpretty -f `xcpretty-travis-formatter`
 notifications:
   email: false
   slack:
