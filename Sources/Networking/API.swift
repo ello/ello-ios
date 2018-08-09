@@ -42,7 +42,7 @@ struct API {
                 .optionalString("before", before)
             ],
             body: Fragments.postStreamBody
-            )
+        )
         return request
     }
 
@@ -55,7 +55,7 @@ struct API {
                 .optionalString("before", before),
             ],
             body: Fragments.postStreamBody
-            )
+        )
         return request
     }
 
@@ -69,7 +69,7 @@ struct API {
                 .optionalString("before", before),
             ],
             body: Fragments.postStreamBody
-            )
+        )
         return request
     }
 
@@ -98,7 +98,7 @@ struct API {
                 .string("slug", categorySlug),
             ],
             body: Fragments.categoryAdminsBody
-            )
+        )
         return request
     }
 
@@ -111,7 +111,7 @@ struct API {
                 .optionalString("before", before),
             ],
             body: Fragments.postStreamBody
-            )
+        )
         return request
     }
 
@@ -120,7 +120,7 @@ struct API {
             endpointName: "allCategories",
             parser: ManyParser<Category>(CategoryParser()).parse,
             body: Fragments.categoriesBody
-            )
+        )
         return request
     }
 
@@ -129,7 +129,7 @@ struct API {
             endpointName: "categoryNav",
             parser: ManyParser<Category>(CategoryParser()).parse,
             body: Fragments.categoriesBody
-            )
+        )
         return request
     }
 
@@ -142,7 +142,7 @@ struct API {
                 .optionalString("slug", kind.slug),
             ],
             body: Fragments.pageHeaderBody
-            )
+        )
         return request
     }
 
@@ -151,10 +151,23 @@ struct API {
             endpointName: "post",
             parser: OneParser<Post>(PostParser()).parse,
             variables: [
-                token.toVariable(token: "token"),
+                token.toVariable(),
                 .optionalString("username", username),
             ],
             body: Fragments.postBody
+        )
+        return request
+    }
+
+    func postComments(postToken: Token, before: String? = nil) -> GraphQLRequest<(PageConfig, [ElloComment])> {
+        let request = GraphQLRequest(
+            endpointName: "commentStream",
+            parser: PageParser<ElloComment>("comments", CommentParser()).parse,
+            variables: [
+                postToken.toVariable(),
+                .optionalString("before", before),
+            ],
+            body: Fragments.commentStreamBody
         )
         return request
     }
@@ -164,7 +177,7 @@ struct API {
             endpointName: "findUser",
             parser: OneParser<User>(UserParser()).parse,
             variables: [
-                token.toVariable(token: "username")
+                token.toVariable(tokenName: "username")
             ],
             body: Fragments.userBody
         )
@@ -180,7 +193,7 @@ struct API {
                 .optionalString("before", before),
             ],
             body: Fragments.postStreamBody
-            )
+        )
         return request
     }
 
@@ -193,7 +206,7 @@ struct API {
                 .optionalString("before", before),
             ],
             body: Fragments.loveStreamBody
-            )
+        )
         return request
     }
 }

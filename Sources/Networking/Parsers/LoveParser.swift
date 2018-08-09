@@ -9,8 +9,8 @@ class LoveParser: IdParser {
 
     init() {
         super.init(table: .lovesType)
-        linkObject(.postsType, "post")
-        linkObject(.usersType, "user")
+        linkObject(.postsType)
+        linkObject(.usersType)
     }
 
     override func parse(json: JSON) -> Love {

@@ -35,25 +35,6 @@ struct PostService {
             .ignoreErrors()
     }
 
-    func loadPostComments(_ postId: String) -> Promise<([ElloComment], ResponseConfig)> {
-        return ElloProvider.shared.request(.postComments(postId: postId))
-            .map { (data, responseConfig) -> ([ElloComment], ResponseConfig) in
-                if let comments = data as? [ElloComment] {
-                    Preloader().preloadImages(comments)
-                    for comment in comments {
-                        comment.loadedFromPostId = postId
-                    }
-                    return (comments, responseConfig)
-                }
-                else if data as? String == "" {
-                    return ([], responseConfig)
-                }
-                else {
-                    throw NSError.uncastableModel()
-                }
-            }
-    }
-
     func loadPostLovers(_ postId: String) -> Promise<[User]> {
         return ElloProvider.shared.request(.postLovers(postId: postId))
             .map { (data, responseConfig) -> [User] in
@@ -161,26 +142,6 @@ struct PostService {
                     post.isWatching = false
                     ElloLinkedStore.shared.setObject(post, forKey: post.id, type: .postsType)
                     return post
-                }
-                else {
-                    throw NSError.uncastableModel()
-                }
-            }
-    }
-
-    func loadMoreCommentsForPost(_ postId: String) -> Promise<[ElloComment]> {
-        return ElloProvider.shared.request(.postComments(postId: postId))
-            .map { data, responseConfig -> [ElloComment] in
-                if let comments: [ElloComment] = data as? [ElloComment] {
-                    for comment in comments {
-                        comment.loadedFromPostId = postId
-                    }
-
-                    Preloader().preloadImages(comments)
-                    return comments
-                }
-                else if (data as? String) == "" {
-                    return []
                 }
                 else {
                     throw NSError.uncastableModel()
