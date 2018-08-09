@@ -454,6 +454,8 @@
 		1D104FD41F3CF36300B5487A /* PostService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1207C9651C73FEE000939ADB /* PostService.swift */; };
 		1D104FD51F3CF7C600B5487A /* Tmp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7750F11ABA48F200D92191 /* Tmp.swift */; };
 		1D104FD61F3CFAA800B5487A /* ToData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7750F81ABB68DF00D92191 /* ToData.swift */; };
+		1D10FB90211CFF3A00DA0656 /* postDetail.json in Resources */ = {isa = PBXBuildFile; fileRef = 1D10FB8E211CFF3900DA0656 /* postDetail.json */; };
+		1D10FB91211CFF3A00DA0656 /* commentStream.json in Resources */ = {isa = PBXBuildFile; fileRef = 1D10FB8F211CFF3A00DA0656 /* commentStream.json */; };
 		1D15C2781C7D12890013B192 /* InterfaceImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D15C2761C7D12890013B192 /* InterfaceImage.swift */; };
 		1D15C2791C7D12890013B192 /* InterfaceString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D15C2771C7D12890013B192 /* InterfaceString.swift */; };
 		1D15C27B1C7D13050013B192 /* InterfaceString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D15C2771C7D12890013B192 /* InterfaceString.swift */; };
@@ -1667,6 +1669,8 @@
 		1D0DF918202A1FF000019875 /* BuyButtonLinkProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BuyButtonLinkProtocols.swift; sourceTree = "<group>"; };
 		1D0DF91A202A205D00019875 /* BlockUserModalProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockUserModalProtocols.swift; sourceTree = "<group>"; };
 		1D0DF925202A695000019875 /* SettingsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsService.swift; sourceTree = "<group>"; };
+		1D10FB8E211CFF3900DA0656 /* postDetail.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = postDetail.json; sourceTree = "<group>"; };
+		1D10FB8F211CFF3A00DA0656 /* commentStream.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = commentStream.json; sourceTree = "<group>"; };
 		1D15C2761C7D12890013B192 /* InterfaceImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InterfaceImage.swift; sourceTree = "<group>"; };
 		1D15C2771C7D12890013B192 /* InterfaceString.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InterfaceString.swift; sourceTree = "<group>"; };
 		1D1AF6221A83ED7F00E06C93 /* PostDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostDetailViewController.swift; sourceTree = "<group>"; };
@@ -3606,8 +3610,10 @@
 			children = (
 				1D1CD49D20696D2800A57314 /* categoryNav.json */,
 				1D1CD4A22069779300A57314 /* categoryPostStream.json */,
+				1D10FB8F211CFF3A00DA0656 /* commentStream.json */,
 				1D1CD4A32069779300A57314 /* globalPostStream.json */,
 				1D1CD4A12069779300A57314 /* pageHeaders.json */,
+				1D10FB8E211CFF3900DA0656 /* postDetail.json */,
 				1D1CD49F2069763600A57314 /* subscribedPostStream.json */,
 			);
 			path = GraphQL;
@@ -4665,6 +4671,7 @@
 				76F8DEDD1B6C0BC4009BCF61 /* omni_normal.svg in Resources */,
 				1D5E3DEB20FCC81F00044C39 /* usernames.json in Resources */,
 				76F8DEC51B6C0BC4009BCF61 /* circbig_normal.svg in Resources */,
+				1D10FB91211CFF3A00DA0656 /* commentStream.json in Resources */,
 				1DF741711BFAAC02000F5349 /* breaklink_white.svg in Resources */,
 				76F8DEAC1B6C0BC4009BCF61 /* abracket_normal.svg in Resources */,
 				1DD89B0E21139F4500C332B4 /* user.json in Resources */,
@@ -4697,6 +4704,7 @@
 				1D942C111EC3AF8B00056761 /* hearts_outline_white.svg in Resources */,
 				7659FB811B29EEDD00DEB6F4 /* StreamInviteFriendsCell.xib in Resources */,
 				1D942C051EC3AA9F00056761 /* share_white.svg in Resources */,
+				1D10FB90211CFF3A00DA0656 /* postDetail.json in Resources */,
 				76F8DED81B6C0BC4009BCF61 /* hearts_white.svg in Resources */,
 				76F8DEC61B6C0BC4009BCF61 /* circbig_selected.svg in Resources */,
 				76F8DEE81B6C0BC4009BCF61 /* plussmall_selected.svg in Resources */,

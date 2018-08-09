@@ -27,6 +27,8 @@ class PostDetailGeneratorSpec: QuickSpec {
                     streamKind: streamKind,
                     destination: destination
                 )
+
+                StubbedManager.current.addStub(endpointName: "commentStream")
             }
 
             describe("load()") {
@@ -56,8 +58,10 @@ class PostDetailGeneratorSpec: QuickSpec {
                     expect(destination.post?.id) == "123"
                 }
 
-                it("sets the config response") {
-                    expect(destination.responseConfig).toNot(beNil())
+                it("can load more comments") {
+                    let prevCount = destination.postCommentItems.count
+                    subject.loadMoreComments()
+                    expect(destination.postCommentItems.count) > prevCount
                 }
             }
         }
