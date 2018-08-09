@@ -52,13 +52,13 @@ class ElloAPISpec: QuickSpec {
                 ]
                 for endpoint in endpoints {
                     it("\(endpoint) has the correct headers") {
-                        expect(endpoint.headers()["Accept-Language"]) == ""
-                        expect(endpoint.headers()["Accept"]) == "application/json"
-                        expect(endpoint.headers()["Content-Type"]) == "application/json"
-                        expect(endpoint.headers()["If-Modified-Since"]) == date.toHTTPDateString()
-                        expect(endpoint.headers()["X-iOS-Build-Number"]) == expectedBuildNumber
-                        expect(endpoint.headers()["X-iOS-Build-Number"]).to(match("^\\d+$"))
-                        expect(endpoint.headers()["Authorization"]) == AuthToken().tokenWithBearer ?? ""
+                        expect(endpoint.headers!["Accept-Language"]) == ""
+                        expect(endpoint.headers!["Accept"]) == "application/json"
+                        expect(endpoint.headers!["Content-Type"]) == "application/json"
+                        expect(endpoint.headers!["If-Modified-Since"]) == date.toHTTPDateString()
+                        expect(endpoint.headers!["X-iOS-Build-Number"]) == expectedBuildNumber
+                        expect(endpoint.headers!["X-iOS-Build-Number"]).to(match("^\\d+$"))
+                        expect(endpoint.headers!["Authorization"]) == AuthToken().tokenWithBearer ?? ""
                     }
                 }
 
