@@ -1,5 +1,7 @@
 language: objective-c
-xcode_sdk: iphonesimulator11.4
+xcode_workspace: Ello.xcworkspace
+xcode_scheme: Ello
+xcode_sdk: iphonesimulator10.3
 git:
   depth: 1
 cache:
@@ -31,9 +33,6 @@ install:
 - bundle exec pod install --verbose
 before_script:
 - export LANG=en_US.UTF-8
-script:
-- gem install danger -v 2.0.1 --no-ri --no-rdoc && danger
-- xcodebuild -workspace Ello.xcworkspace -scheme Ello -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO test | xcpretty -f `xcpretty-travis-formatter`
 notifications:
   email: false
   slack:
