@@ -235,3 +235,7 @@ extension GraphQLRequest {
     }
 
 }
+
+extension GraphQLRequest: RequestSender {
+    var endpointDescription: String { return endpointName }
+}

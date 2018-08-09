@@ -22,8 +22,12 @@ protocol RequestTask {
 typealias RequestHandler = (Response) -> Void
 
 
+protocol RequestSender {
+    var endpointDescription: String { get }
+}
+
 protocol RequestManager {
-    func request(_ request: URLRequest, sender: Any, _ handler: @escaping RequestHandler) -> RequestTask
+    func request(_ request: URLRequest, sender: RequestSender, _ handler: @escaping RequestHandler) -> RequestTask
 }
 
 
@@ -60,7 +64,7 @@ struct ElloManager: RequestManager {
         )
     }()
 
-    func request(_ urlRequest: URLRequest, sender: Any, _ handler: @escaping RequestHandler) -> RequestTask {
+    func request(_ urlRequest: URLRequest, sender: RequestSender, _ handler: @escaping RequestHandler) -> RequestTask {
         let manager = ElloManager.alamofireManager
         let task = manager.request(urlRequest)
         return task.response { response in
