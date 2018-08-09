@@ -10,7 +10,7 @@ struct StreamCellItemParser {
         let filteredItems = streamKind.filter(items, viewsAdultContent: viewsAdultContent)
         var streamItems: [StreamCellItem] = []
         for item in filteredItems {
-            if let post = item as? Post {
+            if let post = item as? Post ?? (item as? Love)?.post {
                 streamItems += postCellItems(post, streamKind: streamKind, isGridView: isGridView, currentUser: currentUser)
             }
             else if let submission = item as? ArtistInviteSubmission {
@@ -53,9 +53,7 @@ struct StreamCellItemParser {
             StreamCellItem(jsonable: user, type: .profileHeaderName),
             ]
 
-        if user.badges.count > 0 ||
-            user.hasProfileData && user.totalViewsCount.map({ $0 > 0 }) == true
-        {
+        if user.badges.count > 0 || user.totalViewsCount.map({ $0 > 0 }) == true {
             items += [StreamCellItem(type: .profileHeaderSeparator), StreamCellItem(jsonable: user, type: .profileHeaderTotalAndBadges)]
         }
 
@@ -155,7 +153,7 @@ struct StreamCellItemParser {
     private func commentCellItems(_ comment: ElloComment) -> [StreamCellItem] {
         let groupId = "Post-\(comment.postId)"
         var cellItems: [StreamCellItem] = [
-            StreamCellItem(jsonable: comment, type: .commentHeader)
+            StreamCellItem(jsonable: comment, type: .commentHeader, groupId: groupId)
         ]
         cellItems += regionItems(comment, groupId: groupId, content: comment.content)
         return cellItems

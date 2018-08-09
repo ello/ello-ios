@@ -11,11 +11,7 @@ class HireScreenSpec: QuickSpec {
     override func spec() {
         describe("HireScreen") {
             describe("snapshots, keyboard hidden") {
-                var subject: HireScreen!
-                beforeEach {
-                    subject = HireScreen()
-                }
-                validateAllSnapshots { return subject }
+                validateAllSnapshots { return HireScreen() }
             }
             describe("snapshots, keyboard shown") {
                 var subject: HireScreen!

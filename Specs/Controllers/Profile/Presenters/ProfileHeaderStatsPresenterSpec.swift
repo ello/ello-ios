@@ -8,8 +8,9 @@ import Nimble
 
 
 class ProfileHeaderStatsPresenterSpec: QuickSpec {
-    func createUser(postsCount: Int = 0, followingCount: Int = 0, followersCount: Any = 0, lovesCount: Int = 0) -> User {
+    func createUser(isEllo: Bool = false, postsCount: Int = 0, followingCount: Int = 0, followersCount: Int = 0, lovesCount: Int = 0) -> User {
         return User.stub([
+            "username": isEllo ? "ello" : "user",
             "postsCount": postsCount,
             "followingCount": followingCount,
             "followersCount": followersCount,
@@ -51,14 +52,14 @@ class ProfileHeaderStatsPresenterSpec: QuickSpec {
                 expect(view.followersEnabled) == false
             }
             it("should disable ∞ followers") {
-                let user = self.createUser(followersCount: "∞")
+                let user = self.createUser(isEllo: true)
                 expect(user.hasProfileData) == true
                 let view = ProfileHeaderStatsCell()
                 ProfileHeaderStatsPresenter.configure(view, user: user, currentUser: nil)
                 expect(view.followersEnabled) == false
             }
             it("should support followers string") {
-                let user = self.createUser(followersCount: "∞")
+                let user = self.createUser(isEllo: true)
                 expect(user.hasProfileData) == true
                 let view = ProfileHeaderStatsCell()
                 ProfileHeaderStatsPresenter.configure(view, user: user, currentUser: nil)

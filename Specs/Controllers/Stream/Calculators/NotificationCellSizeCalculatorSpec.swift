@@ -36,10 +36,10 @@ class NotificationCellSizeCalculatorSpec: QuickSpec {
                 let activity: Activity = stub(["kind": "new_follower_post", "subject": user])
                 let notification: Ello.Notification = stub(["activity": activity])
                 let item = StreamCellItem(jsonable: notification, type: .notification)
-                let calculator = item.sizeCalculator(streamKind: .notifications(category: nil), width: 320, columnCount: 1) as! NotificationCellSizeCalculator
+                let calculator = NotificationCellSizeCalculator(item: item, width: 320, columnCount: 1)
                 calculator.webView = MockUIWebView()
                 calculator.begin {}
-                expect(item.calculatedCellHeights.webContent) == 0
+                expect(item.calculatedCellHeights.webContent).to(beNil())
                 expect(item.calculatedCellHeights.oneColumn) == 69
                 expect(item.calculatedCellHeights.multiColumn) == 69
             }
@@ -47,7 +47,7 @@ class NotificationCellSizeCalculatorSpec: QuickSpec {
                 let activity: Activity = stub(["kind": "repost_notification", "subject": postWithText])
                 let notification: Ello.Notification = stub(["activity": activity])
                 let item = StreamCellItem(jsonable: notification, type: .notification)
-                let calculator = item.sizeCalculator(streamKind: .notifications(category: nil), width: 320, columnCount: 1) as! NotificationCellSizeCalculator
+                let calculator = NotificationCellSizeCalculator(item: item, width: 320, columnCount: 1)
                 calculator.webView = MockUIWebView()
                 calculator.begin {}
                 expect(item.calculatedCellHeights.oneColumn) == 119
@@ -57,7 +57,7 @@ class NotificationCellSizeCalculatorSpec: QuickSpec {
                 let activity: Activity = stub(["kind": "repost_notification", "subject": postWithImage])
                 let notification: Ello.Notification = stub(["activity": activity])
                 let item = StreamCellItem(jsonable: notification, type: .notification)
-                let calculator = item.sizeCalculator(streamKind: .notifications(category: nil), width: 320, columnCount: 1) as! NotificationCellSizeCalculator
+                let calculator = NotificationCellSizeCalculator(item: item, width: 320, columnCount: 1)
                 calculator.webView = MockUIWebView()
                 calculator.begin {}
                 expect(item.calculatedCellHeights.oneColumn) == 136
@@ -67,7 +67,7 @@ class NotificationCellSizeCalculatorSpec: QuickSpec {
                 let activity: Activity = stub(["kind": "repost_notification", "subject": postWithTextAndImage])
                 let notification: Ello.Notification = stub(["activity": activity])
                 let item = StreamCellItem(jsonable: notification, type: .notification)
-                let calculator = item.sizeCalculator(streamKind: .notifications(category: nil), width: 320, columnCount: 1) as! NotificationCellSizeCalculator
+                let calculator = NotificationCellSizeCalculator(item: item, width: 320, columnCount: 1)
                 calculator.webView = MockUIWebView()
                 calculator.begin {}
                 expect(item.calculatedCellHeights.webContent) == 50
@@ -78,12 +78,12 @@ class NotificationCellSizeCalculatorSpec: QuickSpec {
                 let activity: Activity = stub(["kind": "comment_notification", "subject": commentWithText])
                 let notification: Ello.Notification = stub(["activity": activity])
                 let item = StreamCellItem(jsonable: notification, type: .notification)
-                let calculator = item.sizeCalculator(streamKind: .notifications(category: nil), width: 320, columnCount: 1) as! NotificationCellSizeCalculator
+                let calculator = NotificationCellSizeCalculator(item: item, width: 320, columnCount: 1)
                 calculator.webView = MockUIWebView()
                 calculator.begin {}
                 expect(item.calculatedCellHeights.webContent) == 50
-                expect(item.calculatedCellHeights.oneColumn) == 159
-                expect(item.calculatedCellHeights.multiColumn) == 159
+                expect(item.calculatedCellHeights.oneColumn) == 176
+                expect(item.calculatedCellHeights.multiColumn) == 176
             }
         }
     }

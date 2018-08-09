@@ -104,10 +104,8 @@ func expectValidSnapshot(_ subject: Snapshotable, named name: String? = nil, dev
 func validateAllSnapshots(named name: String? = nil, record: Bool = false, file: String = #file, line: UInt = #line, subject: @escaping () -> Snapshotable) {
     for device in SnapshotDevice.all {
         context(device.description) {
-            describe("view") {
-                it("should match the screenshot", file: file, line: line) {
-                    expectValidSnapshot(subject(), named: name, device: device, record: record, file: file, line: line)
-                }
+            it("should match the screenshot", file: file, line: line) {
+                expectValidSnapshot(subject(), named: name, device: device, record: record, file: file, line: line)
             }
         }
     }

@@ -79,13 +79,7 @@ extension User: Stubbable {
         }
 
         if let count = values["followersCount"] as? Int {
-            user.followersCount = String(count)
-        }
-        else if let count = values["followersCount"] as? String {
             user.followersCount = count
-        }
-        else {
-            user.followersCount = "stub-user-followers-count"
         }
 
         if let linkValues = (values["externalLinksList"] as? [[String:String]]) {
@@ -94,8 +88,8 @@ extension User: Stubbable {
         else if let externalLinks = (values["externalLinksList"] as? [ExternalLink]) {
             user.externalLinksList = externalLinks
         }
-        else {
-            user.externalLinksList = [ExternalLink(url: URL(string: "http://ello.co")!, text: "ello.co")]
+        else if let externalLinks = (values["externalLinksList"] as? [String]) {
+            user.externalLinksList = externalLinks.map { ExternalLink(url: URL(string: $0)!, text: $0) }
         }
 
         if let ids = values["followedCategoryIds"] as? [String] {
@@ -127,7 +121,7 @@ extension User: Stubbable {
             user.postsCount = user.postsCount ?? 0
             user.lovesCount = user.lovesCount ?? 0
             user.followingCount = user.followingCount ?? 0
-            user.followersCount = user.followersCount ?? "0"
+            user.followersCount = user.followersCount ?? 0
             user.totalViewsCount = user.totalViewsCount ?? 0
         }
         return user
@@ -190,50 +184,52 @@ extension Watch: Stubbable {
 
 extension Profile: Stubbable {
     class func stub(_ values: [String: Any]) -> Profile {
-        let id: String = (values["id"] as? String) ?? generateID()
-        let createdAt: Date = (values["createdAt"] as? Date) ?? Globals.now
-        let shortBio: String = (values["shortBio"] as? String) ?? "shortBio"
-        let email: String = (values["email"] as? String) ?? "email@example.com"
-        let confirmedAt: Date = (values["confirmedAt"] as? Date) ?? Globals.now
-        let isPublic: Bool = (values["isPublic"] as? Bool) ?? true
-        let isCommunity: Bool = (values["isCommunity"] as? Bool) ?? false
-        let mutedCount: Int = (values["mutedCount"] as? Int) ?? 0
-        let blockedCount: Int = (values["blockedCount"] as? Int) ?? 0
-        let hasSharingEnabled: Bool = (values["hasSharingEnabled"] as? Bool) ?? true
-        let hasAdNotificationsEnabled: Bool = (values["hasAdNotificationsEnabled"] as? Bool) ?? true
-        let hasAutoWatchEnabled: Bool = (values["hasAutoWatchEnabled"] as? Bool) ?? true
-        let allowsAnalytics: Bool = (values["allowsAnalytics"] as? Bool) ?? true
-        let notifyOfCommentsViaEmail: Bool = (values["notifyOfCommentsViaEmail"] as? Bool) ?? true
-        let notifyOfLovesViaEmail: Bool = (values["notifyOfLovesViaEmail"] as? Bool) ?? true
-        let notifyOfInvitationAcceptancesViaEmail: Bool = (values["notifyOfInvitationAcceptancesViaEmail"] as? Bool) ?? true
-        let notifyOfMentionsViaEmail: Bool = (values["notifyOfMentionsViaEmail"] as? Bool) ?? true
-        let notifyOfNewFollowersViaEmail: Bool = (values["notifyOfNewFollowersViaEmail"] as? Bool) ?? true
-        let notifyOfRepostsViaEmail: Bool = (values["notifyOfRepostsViaEmail"] as? Bool) ?? true
-        let notifyOfWhatYouMissedViaEmail: Bool = (values["notifyOfWhatYouMissedViaEmail"] as? Bool) ?? true
-        let notifyOfApprovedSubmissionsFromFollowingViaEmail: Bool = (values["notifyOfApprovedSubmissionsFromFollowingViaEmail"] as? Bool) ?? true
-        let notifyOfFeaturedCategoryPostViaEmail: Bool = (values["notifyOfFeaturedCategoryPostViaEmail"] as? Bool) ?? true
-        let notifyOfFeaturedCategoryPostViaPush: Bool = (values["notifyOfFeaturedCategoryPostViaPush"] as? Bool) ?? true
-        let subscribeToUsersEmailList: Bool = (values["subscribeToUsersEmailList"] as? Bool) ?? true
-        let subscribeToDailyEllo: Bool = (values["subscribeToDailyEllo"] as? Bool) ?? true
-        let subscribeToWeeklyEllo: Bool = (values["subscribeToWeeklyEllo"] as? Bool) ?? true
-        let subscribeToOnboardingDrip: Bool = (values["subscribeToOnboardingDrip"] as? Bool) ?? true
-        let notifyOfAnnouncementsViaPush: Bool = (values["notifyOfAnnouncementsViaPush"] as? Bool) ?? true
-        let notifyOfApprovedSubmissionsViaPush: Bool = (values["notifyOfApprovedSubmissionsViaPush"] as? Bool) ?? true
-        let notifyOfCommentsViaPush: Bool = (values["notifyOfCommentsViaPush"] as? Bool) ?? true
-        let notifyOfLovesViaPush: Bool  = (values["notifyOfLovesViaPush"] as? Bool) ?? true
-        let notifyOfMentionsViaPush: Bool = (values["notifyOfMentionsViaPush"] as? Bool) ?? true
-        let notifyOfRepostsViaPush: Bool = (values["notifyOfRepostsViaPush"] as? Bool) ?? true
-        let notifyOfNewFollowersViaPush: Bool = (values["notifyOfNewFollowersViaPush"] as? Bool) ?? true
-        let notifyOfInvitationAcceptancesViaPush: Bool = (values["notifyOfInvitationAcceptancesViaPush"] as? Bool) ?? true
-        let notifyOfWatchesViaPush: Bool = (values["notifyOfWatchesViaPush"] as? Bool) ?? true
-        let notifyOfWatchesViaEmail: Bool = (values["notifyOfWatchesViaEmail"] as? Bool) ?? true
-        let notifyOfCommentsOnPostWatchViaPush: Bool = (values["notifyOfCommentsOnPostWatchViaPush"] as? Bool) ?? true
-        let notifyOfCommentsOnPostWatchViaEmail: Bool = (values["notifyOfCommentsOnPostWatchViaEmail"] as? Bool) ?? true
-        let notifyOfApprovedSubmissionsFromFollowingViaPush: Bool = (values["notifyOfApprovedSubmissionsFromFollowingViaPush"] as? Bool) ?? true
-        let hasAnnouncementsEnabled: Bool = (values["hasAnnouncementsEnabled"] as? Bool) ?? true
-        let discoverable: Bool = (values["discoverable"] as? Bool) ?? true
-        let gaUniqueId: String? = values["gaUniqueId"] as? String
-        let creatorTypeCategoryIds: [String] = []
+        let id = (values["id"] as? String) ?? generateID()
+        let createdAt = (values["createdAt"] as? Date) ?? Globals.now
+        let shortBio = (values["shortBio"] as? String) ?? "shortBio"
+        let email = (values["email"] as? String) ?? "email@example.com"
+        let confirmedAt = (values["confirmedAt"] as? Date) ?? Globals.now
+        let isPublic = (values["isPublic"] as? Bool) ?? true
+        let isCommunity = (values["isCommunity"] as? Bool) ?? false
+        let mutedCount = (values["mutedCount"] as? Int) ?? 0
+        let blockedCount = (values["blockedCount"] as? Int) ?? 0
+        let creatorTypeCategoryIds = (values["creatorTypeCategoryIds"] as? [String]) ?? []
+        let moderatedCategoryIds = (values["moderatedCategoryIds"] as? [String]) ?? []
+        let curatedCategoryIds = (values["curatedCategoryIds"] as? [String]) ?? []
+        let hasSharingEnabled = (values["hasSharingEnabled"] as? Bool) ?? true
+        let hasAdNotificationsEnabled = (values["hasAdNotificationsEnabled"] as? Bool) ?? true
+        let hasAutoWatchEnabled = (values["hasAutoWatchEnabled"] as? Bool) ?? true
+        let allowsAnalytics = (values["allowsAnalytics"] as? Bool) ?? true
+        let notifyOfCommentsViaEmail = (values["notifyOfCommentsViaEmail"] as? Bool) ?? true
+        let notifyOfLovesViaEmail = (values["notifyOfLovesViaEmail"] as? Bool) ?? true
+        let notifyOfInvitationAcceptancesViaEmail = (values["notifyOfInvitationAcceptancesViaEmail"] as? Bool) ?? true
+        let notifyOfMentionsViaEmail = (values["notifyOfMentionsViaEmail"] as? Bool) ?? true
+        let notifyOfNewFollowersViaEmail = (values["notifyOfNewFollowersViaEmail"] as? Bool) ?? true
+        let notifyOfRepostsViaEmail = (values["notifyOfRepostsViaEmail"] as? Bool) ?? true
+        let notifyOfWhatYouMissedViaEmail = (values["notifyOfWhatYouMissedViaEmail"] as? Bool) ?? true
+        let notifyOfApprovedSubmissionsFromFollowingViaEmail = (values["notifyOfApprovedSubmissionsFromFollowingViaEmail"] as? Bool) ?? true
+        let notifyOfFeaturedCategoryPostViaEmail = (values["notifyOfFeaturedCategoryPostViaEmail"] as? Bool) ?? true
+        let notifyOfFeaturedCategoryPostViaPush = (values["notifyOfFeaturedCategoryPostViaPush"] as? Bool) ?? true
+        let subscribeToUsersEmailList = (values["subscribeToUsersEmailList"] as? Bool) ?? true
+        let subscribeToDailyEllo = (values["subscribeToDailyEllo"] as? Bool) ?? true
+        let subscribeToWeeklyEllo = (values["subscribeToWeeklyEllo"] as? Bool) ?? true
+        let subscribeToOnboardingDrip = (values["subscribeToOnboardingDrip"] as? Bool) ?? true
+        let notifyOfAnnouncementsViaPush = (values["notifyOfAnnouncementsViaPush"] as? Bool) ?? true
+        let notifyOfApprovedSubmissionsViaPush = (values["notifyOfApprovedSubmissionsViaPush"] as? Bool) ?? true
+        let notifyOfCommentsViaPush = (values["notifyOfCommentsViaPush"] as? Bool) ?? true
+        let notifyOfLovesViaPush = (values["notifyOfLovesViaPush"] as? Bool) ?? true
+        let notifyOfMentionsViaPush = (values["notifyOfMentionsViaPush"] as? Bool) ?? true
+        let notifyOfRepostsViaPush = (values["notifyOfRepostsViaPush"] as? Bool) ?? true
+        let notifyOfNewFollowersViaPush = (values["notifyOfNewFollowersViaPush"] as? Bool) ?? true
+        let notifyOfInvitationAcceptancesViaPush = (values["notifyOfInvitationAcceptancesViaPush"] as? Bool) ?? true
+        let notifyOfWatchesViaPush = (values["notifyOfWatchesViaPush"] as? Bool) ?? true
+        let notifyOfWatchesViaEmail = (values["notifyOfWatchesViaEmail"] as? Bool) ?? true
+        let notifyOfCommentsOnPostWatchViaPush = (values["notifyOfCommentsOnPostWatchViaPush"] as? Bool) ?? true
+        let notifyOfCommentsOnPostWatchViaEmail = (values["notifyOfCommentsOnPostWatchViaEmail"] as? Bool) ?? true
+        let notifyOfApprovedSubmissionsFromFollowingViaPush = (values["notifyOfApprovedSubmissionsFromFollowingViaPush"] as? Bool) ?? true
+        let hasAnnouncementsEnabled = (values["hasAnnouncementsEnabled"] as? Bool) ?? true
+        let discoverable = (values["discoverable"] as? Bool) ?? true
+        let gaUniqueId = values["gaUniqueId"] as? String
 
         let profile = Profile(
             id: id,
@@ -246,6 +242,8 @@ extension Profile: Stubbable {
             mutedCount: mutedCount,
             blockedCount: blockedCount,
             creatorTypeCategoryIds: creatorTypeCategoryIds,
+            moderatedCategoryIds: moderatedCategoryIds,
+            curatedCategoryIds: curatedCategoryIds,
             hasSharingEnabled: hasSharingEnabled,
             hasAdNotificationsEnabled: hasAdNotificationsEnabled,
             hasAutoWatchEnabled: hasAutoWatchEnabled,
@@ -315,12 +313,18 @@ extension Post: Stubbable {
         }
 
         if let repostAuthor = repostAuthor {
+            ElloLinkedStore.shared.setObject(repostAuthor, forKey: repostAuthor.id, type: .usersType)
             post.storeLinkObject(repostAuthor, key: "repost_author", id: repostAuthor.id, type: .usersType)
         }
 
-        if let categories = values["categories"] as? [Ello.Category] {
+        if let category = values["category"] as? Ello.Category {
+            ElloLinkedStore.shared.setObject(category, forKey: category.id, type: .categoriesType)
+            post.addLinkObject("category", id: category.id, type: .categoriesType)
+        }
+        else if let categories = values["categories"] as? [Ello.Category] {
             for category in categories {
                 ElloLinkedStore.shared.setObject(category, forKey: category.id, type: .categoriesType)
+                post.addLinkObject("category", id: category.id, type: .categoriesType)
             }
             post.addLinkArray("categories", array: categories.map { $0.id }, type: .categoriesType)
         }
@@ -475,12 +479,15 @@ extension Activity: Stubbable {
         )
 
         if let user = values["subject"] as? User {
+            ElloLinkedStore.shared.setObject(user, forKey: user.id, type: .usersType)
             activity.storeLinkObject(user, key: "subject", id: user.id, type: .usersType)
         }
         else if let post = values["subject"] as? Post {
+            ElloLinkedStore.shared.setObject(post, forKey: post.id, type: .postsType)
             activity.storeLinkObject(post, key: "subject", id: post.id, type: .postsType)
         }
         else if let comment = values["subject"] as? ElloComment {
+            ElloLinkedStore.shared.setObject(comment, forKey: comment.id, type: .commentsType)
             activity.storeLinkObject(comment, key: "subject", id: comment.id, type: .commentsType)
         }
         ElloLinkedStore.shared.setObject(activity, forKey: activity.id, type: .activitiesType)
@@ -537,11 +544,11 @@ extension Relationship: Stubbable {
         let subject: User = (values["subject"] as? User) ?? User.stub(["relationshipPriority": "friend", "id": values["subjectId"] ?? generateID()])
         ElloLinkedStore.shared.setObject(owner, forKey: owner.id, type: .usersType)
 
-        return Relationship(
-            id: (values["id"] as? String) ?? generateID(),
-            ownerId: owner.id,
-            subjectId: subject.id
-        )
+        if values["id"] != nil {
+            fatalError("dang")
+        }
+
+        return Relationship(ownerId: owner.id, subjectId: subject.id)
     }
 }
 
@@ -566,17 +573,28 @@ extension StreamCellItem: Stubbable {
 
 extension PageHeader: Stubbable {
     class func stub(_ values: [String: Any]) -> PageHeader {
+        let id = (values["id"] as? String) ?? generateID()
+        let postToken = (values["postToken"] as? String)
+        let categoryId = (values["categoryId"] as? String)
+        let header = (values["header"] as? String) ?? "Default Header"
+        let subheader = (values["subheader"] as? String) ?? "Default Subheader"
+        let ctaCaption = (values["ctaCaption"] as? String) ?? "Default CTA Caption"
+        let ctaURL = urlFromValue(values["ctaURL"])
+        let isSponsored = (values["isSponsored"] as? Bool) ?? false
+        let image = values["image"] as? Asset
+        let kind = (values["kind"] as? PageHeader.Kind) ?? .generic
+
         let pageHeader = PageHeader(
-            id: (values["id"] as? String) ?? generateID(),
-            postToken: (values["postToken"] as? String),
-            categoryId: (values["categoryId"] as? String),
-            header: (values["header"] as? String) ?? "Default Header",
-            subheader: (values["subheader"] as? String) ?? "Default Subheader",
-            ctaCaption: (values["ctaCaption"] as? String) ?? "Default CTA Caption",
-            ctaURL: urlFromValue(values["ctaURL"]),
-            isSponsored: (values["isSponsored"] as? Bool) ?? false,
-            image: values["image"] as? Asset,
-            kind: (values["kind"] as? PageHeader.Kind) ?? .generic
+            id: id,
+            postToken: postToken,
+            categoryId: categoryId,
+            header: header,
+            subheader: subheader,
+            ctaCaption: ctaCaption,
+            ctaURL: ctaURL,
+            isSponsored: isSponsored,
+            image: image,
+            kind: kind
         )
 
         if let user = values["user"] as? User {
@@ -589,6 +607,14 @@ extension PageHeader: Stubbable {
 
 extension Ello.Category: Stubbable {
     class func stub(_ values: [String: Any]) -> Ello.Category {
+        let id = (values["id"] as? String) ?? generateID()
+        let name = (values["name"] as? String) ?? "Art"
+        let slug = (values["slug"] as? String) ?? "art"
+        let description = (values["description"] as? String) ?? ""
+        let order = (values["order"] as? Int) ?? 0
+        let allowInOnboarding = (values["allowInOnboarding"] as? Bool) ?? true
+        let isCreatorType = (values["isCreatorType"] as? Bool) ?? true
+
         let tileImage: Attachment?
         if let json = values["tileImage"] as? [String: Any] {
             tileImage = Attachment.fromJSON(json)
@@ -608,12 +634,13 @@ extension Ello.Category: Stubbable {
         }
 
         let category = Category(
-            id: (values["id"] as? String) ?? generateID(),
-            name: (values["name"] as? String) ?? "Art",
-            slug: (values["slug"] as? String) ?? "art",
-            order: (values["order"] as? Int) ?? 0,
-            allowInOnboarding: (values["allowInOnboarding"] as? Bool) ?? true,
-            isCreatorType: (values["isCreatorType"] as? Bool) ?? true,
+            id: id,
+            name: name,
+            slug: slug,
+            description: description,
+            order: order,
+            allowInOnboarding: allowInOnboarding,
+            isCreatorType: isCreatorType,
             level: level,
             tileImage: tileImage
         )
@@ -656,10 +683,6 @@ extension Editorial: Stubbable {
         let postStreamURL: URL? = (values["postStreamURL"] as? URL) ?? (values["postStreamURL"] as? String).flatMap { URL(string: $0) }
         let url: URL? = (values["url"] as? URL) ?? (values["url"] as? String).flatMap { URL(string: $0) }
 
-        if let post = values["post"] as? Post {
-            ElloLinkedStore.shared.setObject(post, forKey: post.id, type: .postsType)
-        }
-
         let editorial = Editorial(
             id: (values["id"] as? String) ?? generateID(),
             kind: kind,
@@ -670,6 +693,11 @@ extension Editorial: Stubbable {
             )
         if let posts = values["posts"] as? [Post] {
             editorial.posts = posts
+        }
+
+        if let post = values["post"] as? Post {
+            ElloLinkedStore.shared.setObject(post, forKey: post.id, type: .postsType)
+            editorial.addLinkObject("post", id: post.id, type: .postsType)
         }
         return editorial
     }

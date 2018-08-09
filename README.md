@@ -19,7 +19,6 @@ Add the following values to your `.env`.
 - `ELLO_STAFF`: set this in your bash/zsh startup script to access private cocoapods (you must have access to the private repos).
 - `GITHUB_API_TOKEN`: used for generating release notes during distribution
 - `INVITE_FRIENDS_SALT`: used for generating the salt for sending emails to the API
-- `CRASHLYTICS_KEY`: used for sending data to Fabric
 - `PROD_CLIENT_KEY`: the key or id used for oauth
 - `PROD_CLIENT_SECRET`: the secret used for oauth
 - `PROD_DOMAIN`: the domain for the API to hit
@@ -52,7 +51,7 @@ Once you have client credentials, compile them into cocoapods-keys by running:
 - Install `ElloDevPushSandbox.p12` in your keychain (talk to [@steam](https://github.com/steam) to get it)
 - Print out your device's APNS Token in the function `updateToken()` in `PushNotificationController`
 - Build to device in `Debug` mode
-- Code Signing Identity: `iPhone Distribution: Ello PBC (ABC12345)`
+- Code Signing Identity: `iPhone Distribution: Ello (ABC12345)`
 - Provisioning Profile `iOSTeam Provisioning Profile: co.ello.ElloDev`
 
 

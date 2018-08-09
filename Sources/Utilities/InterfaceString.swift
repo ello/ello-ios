@@ -458,12 +458,6 @@ struct InterfaceString {
         static let PasswordInvalid: String = NSLocalizedString("Password must be at least 8\ncharacters long.", comment: "password length error message")
     }
 
-    struct Rate {
-        static let Title: String = NSLocalizedString("Love Ello?", comment: "rate app prompt title")
-        static let Continue: String = NSLocalizedString("Rate us: ⭐️⭐️⭐️⭐️⭐️", comment: "rate app button title")
-        static let Cancel: String = NSLocalizedString("No Thanks", comment: "do not rate app button title")
-    }
-
     struct Onboard {
         static let PickCategoriesPrimary: String = NSLocalizedString("Pick what you’re into.", comment: "")
         static let PickCategoriesSecondary: String = NSLocalizedString("Slow down & check out some cool ass shit.", comment: "")

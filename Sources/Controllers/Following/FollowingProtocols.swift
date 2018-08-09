@@ -8,6 +8,5 @@ protocol FollowingScreenDelegate: class {
 }
 
 protocol FollowingScreenProtocol: StreamableScreenProtocol {
-    func showNewPostsButton()
-    func hideNewPostsButton()
+    var newPostsButtonVisible: Bool { get set }
 }

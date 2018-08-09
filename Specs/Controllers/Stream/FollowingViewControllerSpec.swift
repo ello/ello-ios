@@ -19,15 +19,15 @@ class FollowingViewControllerSpec: QuickSpec {
             }
 
             it("shows the more posts button when new content is available") {
-                subject.newPostsButton.alpha = 0
+                subject.screen.newPostsButtonVisible = false
                 postNotification(NewContentNotifications.newFollowingContent, value: ())
-                expect(subject.newPostsButton.alpha) == 1
+                expect(subject.screen.newPostsButtonVisible) == true
             }
 
             it("hide the more posts button after pulling to refresh") {
-                subject.newPostsButton.alpha = 1
+                subject.screen.newPostsButtonVisible = true
                 subject.streamWillPullToRefresh()
-                expect(subject.newPostsButton.alpha) == 0
+                expect(subject.screen.newPostsButtonVisible) == false
             }
         }
     }

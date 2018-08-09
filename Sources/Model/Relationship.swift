@@ -5,53 +5,43 @@
 import SwiftyJSON
 
 
-let RelationshipVersion = 1
-
 @objc(Relationship)
 final class Relationship: Model {
+    static let Version = 1
 
     let id: String
-    let ownerId: String
-    let subjectId: String
 
     var owner: User? { return getLinkObject("owner") }
     var subject: User? { return getLinkObject("subject") }
 
-    init(
-        id: String,
-        ownerId: String,
-        subjectId: String
-        ) {
+    convenience init(ownerId: String, subjectId: String) {
+        self.init(id: UUID().uuidString)
+        addLinkObject("owner", id: ownerId, type: .usersType)
+        addLinkObject("subject", id: subjectId, type: .usersType)
+    }
+
+    init(id: String) {
         self.id = id
-        self.ownerId = ownerId
-        self.subjectId = subjectId
-        super.init(version: RelationshipVersion)
+        super.init(version: Relationship.Version)
+
     }
 
     required init(coder: NSCoder) {
         let decoder = Coder(coder)
         self.id = decoder.decodeKey("id")
-        self.ownerId = decoder.decodeKey("ownerId")
-        self.subjectId = decoder.decodeKey("subjectId")
         super.init(coder: coder)
     }
 
     override func encode(with encoder: NSCoder) {
         let coder = Coder(encoder)
         coder.encodeObject(id, forKey: "id")
-        coder.encodeObject(ownerId, forKey: "ownerId")
-        coder.encodeObject(subjectId, forKey: "subjectId")
         super.encode(with: coder.coder)
     }
 
     class func fromJSON(_ data: [String: Any]) -> Relationship {
         let json = JSON(data)
 
-        let relationship = Relationship(
-            id: json["id"].stringValue,
-            ownerId: json["links"]["owner"]["id"].stringValue,
-            subjectId: json["links"]["subject"]["id"].stringValue
-        )
+        let relationship = Relationship(id: json["id"].stringValue)
 
         relationship.mergeLinks(json["links"].dictionaryObject)
 

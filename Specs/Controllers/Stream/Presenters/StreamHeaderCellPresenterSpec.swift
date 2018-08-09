@@ -188,11 +188,12 @@ class StreamHeaderCellPresenterSpec: QuickSpec {
                         "repostsCount": 4,
                         "commentsCount": 6,
                         "lovesCount": 14,
-                        "categories": [category],
+                        "category": category,
                     ])
 
                     cell = StreamHeaderCell()
                     item = StreamCellItem(jsonable: post, type: .streamHeader)
+                    assert(post.category != nil, "bad setup: post.category is nil")
                 }
                 it("sets categoryButton in .Featured stream") {
                     cell.followButtonVisible = false

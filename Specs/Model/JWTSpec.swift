@@ -8,10 +8,10 @@ class JWTSpec: QuickSpec {
         describe("JWT") {
             describe("refresh()") {
                 context("staff") {
-                    let data = stubbedData("jwt-auth-is-staff")
                     var token: AuthToken!
 
                     beforeEach {
+                        let data = stubbedData("jwt-auth-is-staff")
                         AuthToken.reset()
                         token = AuthToken()
                         AuthToken.storeToken(data, isPasswordBased: true)
@@ -24,10 +24,10 @@ class JWTSpec: QuickSpec {
                 }
 
                 context("nabaroo") {
-                    let data = stubbedData("jwt-auth-is-nabaroo")
                     var token: AuthToken!
 
                     beforeEach {
+                        let data = stubbedData("jwt-auth-is-nabaroo")
                         AuthToken.reset()
                         token = AuthToken()
                         AuthToken.storeToken(data, isPasswordBased: true)
@@ -40,10 +40,10 @@ class JWTSpec: QuickSpec {
                 }
 
                 context("NON staff") {
-                    let data = stubbedData("jwt-auth-no-staff")
                     var token: AuthToken!
 
                     beforeEach {
+                        let data = stubbedData("jwt-auth-no-staff")
                         AuthToken.reset()
                         token = AuthToken()
                         AuthToken.storeToken(data, isPasswordBased: true)

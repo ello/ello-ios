@@ -26,7 +26,7 @@ class NotificationCellSizeCalculator: CellSizeCalculator, UIWebViewDelegate {
         guard let notification = cellItem.jsonable as? Notification,
             let textRegion = notification.textRegion
         else {
-            finish()
+            assignCellHeight(nil)
             return
         }
 
@@ -41,7 +41,7 @@ class NotificationCellSizeCalculator: CellSizeCalculator, UIWebViewDelegate {
         assignCellHeight(webContentHeight)
     }
 
-    private func assignCellHeight(_ webContentHeight: CGFloat) {
+    private func assignCellHeight(_ webContentHeight: CGFloat?) {
         NotificationCellSizeCalculator.assignTotalHeight(webContentHeight, item: cellItem, cellWidth: width)
         finish()
     }

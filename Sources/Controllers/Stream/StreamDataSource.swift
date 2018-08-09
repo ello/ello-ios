@@ -274,8 +274,8 @@ class StreamDataSource: ElloDataSource {
     func insertLove(love: Love, streamViewController: StreamViewController) {
         guard
             let post = love.post,
-            case let .userLoves(userId) = streamKind,
-            userId == currentUser?.id,
+            case let .userLoves(username) = streamKind,
+            username == currentUser?.username,
             indexPath(where: { ($0.jsonable as? Post)?.id == post.id }) == nil
         else { return }
 
@@ -664,7 +664,7 @@ extension StreamDataSource {
 
 // MARK: For Testing
 extension StreamDataSource {
-    func testingElementsFor(jsonable: Model, change: ContentChange) -> ([IndexPath], [StreamCellItem]) {
-        return elementsFor(jsonable: jsonable, change: change)
+    func testingElementsFor(jsonable: Model, change: ContentChange) -> [StreamCellItem] {
+        return elementsFor(jsonable: jsonable, change: change).1
     }
 }

@@ -14,7 +14,6 @@ class FollowingViewController: StreamableViewController {
         return ("following", nil)
     }
 
-    private var loggedPromptEventForThisSession = false
     private var reloadFollowingContentObserver: NotificationObserver?
     private var appBackgroundObserver: NotificationObserver?
     private var appForegroundObserver: NotificationObserver?
@@ -66,10 +65,6 @@ class FollowingViewController: StreamableViewController {
         super.viewDidAppear(animated)
 
         addTemporaryNotificationObservers()
-        if !loggedPromptEventForThisSession {
-            Rate.sharedRate.logEvent()
-            loggedPromptEventForThisSession = true
-        }
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -96,7 +91,7 @@ class FollowingViewController: StreamableViewController {
     override func streamWillPullToRefresh() {
         super.streamWillPullToRefresh()
 
-        screen.hideNewPostsButton()
+        screen.newPostsButtonVisible = false
     }
 
     override func streamViewInfiniteScroll() -> Promise<[Model]>? {
@@ -115,7 +110,7 @@ extension FollowingViewController {
             guard let `self` = self else { return }
 
             ElloHUD.showLoadingHudInView(self.streamViewController.view)
-            self.screen.hideNewPostsButton()
+            self.screen.newPostsButtonVisible = false
             self.streamViewController.loadInitialPage(reload: true)
         }
     }
@@ -128,11 +123,7 @@ extension FollowingViewController {
         newFollowingContentObserver = NotificationObserver(notification: NewContentNotifications.newFollowingContent) { [weak self] in
             guard let `self` = self else { return }
 
-            self.screen.showNewPostsButton()
-        }
-
-        appBackgroundObserver = NotificationObserver(notification: Application.Notifications.DidEnterBackground) { [weak self] _ in
-            self?.loggedPromptEventForThisSession = false
+            self.screen.newPostsButtonVisible = true
         }
     }
 
@@ -188,6 +179,6 @@ extension FollowingViewController: FollowingScreenDelegate {
         scrollView.setContentOffset(CGPoint(x: 0, y: -scrollView.contentInset.top), animated: true)
         postNotification(NewContentNotifications.reloadFollowingContent, value: ())
 
-        screen.hideNewPostsButton()
+        screen.newPostsButtonVisible = false
     }
 }

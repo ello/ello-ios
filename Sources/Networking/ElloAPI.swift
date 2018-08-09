@@ -658,10 +658,10 @@ extension ElloAPI: Moya.TargetType {
     }
 
     var task: Task {
-        return .request
+        return .requestParameters(parameters: parameters ?? [:], encoding: parameterEncoding)
     }
 
-    func headers() -> [String: String] {
+    var headers: [String: String]? {
         var assigned: [String: String] = [
             "Accept": "application/json",
             "Accept-Language": "",

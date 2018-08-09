@@ -354,7 +354,7 @@ extension AppViewController {
 
     func showExternalWebView(_ url: String) {
         if let externalURL = URL(string: url), ElloWebViewHelper.bypassInAppBrowser(externalURL) {
-            UIApplication.shared.openURL(externalURL)
+            UIApplication.shared.open(externalURL, options: [:], completionHandler: nil)
         }
         else {
             let externalWebController = ElloWebBrowserViewController.navigationControllerWithWebBrowser()
@@ -678,7 +678,7 @@ extension AppViewController {
             showExternalWebView(path)
         default:
             guard let pathURL = URL(string: path) else { return }
-            UIApplication.shared.openURL(pathURL)
+            UIApplication.shared.open(pathURL, options: [:], completionHandler: nil)
         }
     }
 
@@ -711,7 +711,7 @@ extension AppViewController {
 
         let viewBrowser = AlertAction(title: InterfaceString.App.OpenInSafari, style: .light) { _ in
             guard let pathURL = URL(string: path) else { return }
-            UIApplication.shared.openURL(pathURL)
+            UIApplication.shared.open(pathURL, options: [:], completionHandler: nil)
         }
         alertController.addAction(viewBrowser)
 

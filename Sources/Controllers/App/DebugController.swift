@@ -181,7 +181,7 @@ class DebugController: UIViewController, UITableViewDataSource, UITableViewDeleg
         }
 
         addAction(name: "Show Rate Prompt") {
-            Rate.sharedRate.prompt()
+            Rate.shared.prompt()
         }
 
         addAction(name: "Show Push Notification Alert") {
