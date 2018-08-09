@@ -7,6 +7,10 @@ git:
 cache:
 - bundler
 - cocoapods
+before_install:
+- export IOS_SIMULATOR_UDID=`instruments -s devices | grep "iPhone 8 (11.4" | awk -F '[ ]' '{print $4}' | awk -F '[\[]' '{print $2}' | sed 's/.$//'`
+- echo $IOS_SIMULATOR_UDID
+- open -a "simulator" --args -CurrentDeviceUDID $IOS_SIMULATOR_UDID
 install:
 - gem install bundler
 - bundle install
@@ -33,6 +37,8 @@ install:
 - bundle exec pod install --verbose
 before_script:
 - export LANG=en_US.UTF-8
+script:
+- xcodebuild -workspace Ello.xcworkspace -scheme Ello -sdk iphonesimulator11.4 -configuration Debug -destination "id=$IOS_SIMULATOR_UDID" build test | xcpretty -f `xcpretty-travis-formatter`
 notifications:
   email: false
   slack:
