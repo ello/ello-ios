@@ -18,6 +18,9 @@ install:
 - bundle exec pod keys set NinjaOauthKey "any" Ello
 - bundle exec pod keys set NinjaOauthSecret "any" Ello
 - bundle exec pod keys set NinjaDomain "any" Ello
+- bundle exec pod keys set RainbowOauthKey "any" Ello
+- bundle exec pod keys set RainbowOauthSecret "any" Ello
+- bundle exec pod keys set RainbowDomain "any" Ello
 - bundle exec pod keys set Stage1OauthKey "any" Ello
 - bundle exec pod keys set Stage1OauthSecret "any" Ello
 - bundle exec pod keys set Stage1Domain "any" Ello
