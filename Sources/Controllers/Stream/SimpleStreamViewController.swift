@@ -30,7 +30,7 @@ class SimpleStreamViewController: StreamableViewController {
         setupNavigationItems(streamKind: streamKind)
 
         streamViewController.streamKind = streamKind
-        ElloHUD.showLoadingHudInView(streamViewController.view)
+        streamViewController.showLoadingSpinner()
         streamViewController.loadInitialPage()
     }
 

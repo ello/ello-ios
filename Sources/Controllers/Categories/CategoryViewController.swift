@@ -120,8 +120,7 @@ final class CategoryViewController: StreamableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        ElloHUD.showLoadingHudInView(streamViewController.view)
-
+        streamViewController.showLoadingSpinner()
         streamViewController.streamKind = generator.streamKind
         streamViewController.initialLoadClosure = {}
         streamViewController.reloadClosure = { [unowned self] in self.reloadCurrentCategory() }
@@ -202,7 +201,7 @@ private extension CategoryViewController {
     }
 
     func reloadCurrentCategory() {
-        ElloHUD.showLoadingHudInView(streamViewController.view)
+        streamViewController.showLoadingSpinner()
         screen.categoriesLoaded = false
         generator.load(reloadPosts: true, reloadHeader: false, reloadCategories: true)
         streamViewController.isPullToRefreshEnabled = false
@@ -471,10 +470,10 @@ extension CategoryViewController: PromotionalHeaderResponder {
 
         var newCategoryIds = currentUser.followedCategoryIds
         newCategoryIds.insert(categoryId)
-        ElloHUD.showLoadingHudInView(streamViewController.view)
+        ElloHUD.showLoadingHudInView(view)
         ProfileService().update(categoryIds: newCategoryIds, onboarding: false)
             .ensure {
-                ElloHUD.hideLoadingHudInView(self.streamViewController.view)
+                ElloHUD.hideLoadingHudInView(self.view)
             }
             .done { _ in
                 currentUser.followedCategoryIds = newCategoryIds

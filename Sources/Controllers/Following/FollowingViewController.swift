@@ -55,7 +55,7 @@ class FollowingViewController: StreamableViewController {
         streamViewController.streamKind = .following
         setupNavigationItems(streamKind: .following)
 
-        ElloHUD.showLoadingHudInView(streamViewController.view)
+        streamViewController.showLoadingSpinner()
         streamViewController.loadInitialPage()
 
         addNotificationObservers()
@@ -109,7 +109,7 @@ extension FollowingViewController {
         reloadFollowingContentObserver = NotificationObserver(notification: NewContentNotifications.reloadFollowingContent) { [weak self] in
             guard let `self` = self else { return }
 
-            ElloHUD.showLoadingHudInView(self.streamViewController.view)
+            self.streamViewController.showLoadingSpinner()
             self.screen.newPostsButtonVisible = false
             self.streamViewController.loadInitialPage(reload: true)
         }
