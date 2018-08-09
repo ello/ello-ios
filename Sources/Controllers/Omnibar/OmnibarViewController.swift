@@ -226,7 +226,7 @@ class OmnibarViewController: BaseElloViewController {
         let isEditing = (editPost != nil || editComment != nil)
         if isEditing {
             if rawEditBody == nil {
-                ElloHUD.showLoadingHudInView(self.view)
+                ElloHUD.showLoadingHudInView(view)
             }
         }
         else {

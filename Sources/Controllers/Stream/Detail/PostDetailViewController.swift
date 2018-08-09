@@ -52,7 +52,7 @@ final class PostDetailViewController: StreamableViewController {
         setupNavigationBar()
         streamViewController.streamKind = generator.streamKind
         view.backgroundColor = .white
-        ElloHUD.showLoadingHudInView(streamViewController.view)
+        streamViewController.showLoadingSpinner()
         streamViewController.initialLoadClosure = { [weak self] in self?.loadEntirePostDetail() }
         streamViewController.reloadClosure = { [weak self] in self?.reloadEntirePostDetail() }
 

@@ -184,7 +184,7 @@ extension OnboardingViewController {
             }
         }
 
-        ElloHUD.showLoadingHudInView(self.view)
+        ElloHUD.showLoadingHudInView(view)
         let onboardingStep = visibleViewController as! OnboardingStepController
         onboardingStep.onboardingWillProceed(abort: abort, proceedClosure: proceedClosure)
     }

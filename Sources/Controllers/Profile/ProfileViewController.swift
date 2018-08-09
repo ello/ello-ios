@@ -117,7 +117,7 @@ final class ProfileViewController: StreamableViewController {
         if user == nil {
             screen.disableButtons()
         }
-        ElloHUD.showLoadingHudInView(streamViewController.view)
+        streamViewController.showLoadingSpinner()
         streamViewController.loadInitialPage()
 
         if let user = user {

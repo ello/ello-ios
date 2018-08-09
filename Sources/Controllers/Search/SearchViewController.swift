@@ -130,7 +130,7 @@ extension SearchViewController: SearchScreenDelegate {
         let streamKind = StreamKind.simpleStream(endpoint: endpoint, title: "")
         streamViewController.streamKind = streamKind
         streamViewController.removeAllCellItems()
-        ElloHUD.showLoadingHudInView(streamViewController.view)
+        streamViewController.showLoadingSpinner()
         streamViewController.loadInitialPage()
 
         trackSearch()

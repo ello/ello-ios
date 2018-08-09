@@ -68,7 +68,7 @@ class ArtistInviteDetailController: StreamableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        ElloHUD.showLoadingHudInView(streamViewController.view)
+        streamViewController.showLoadingSpinner()
         streamViewController.loadInitialPage()
     }
 

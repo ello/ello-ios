@@ -132,7 +132,7 @@ class SettingsCredentialsViewController: BaseElloViewController {
         profileUpdates[.currentPassword] = oldPassword
 
         view.isUserInteractionEnabled = false
-        ElloHUD.showLoadingHudInView(self.view)
+        ElloHUD.showLoadingHudInView(view)
 
         ProfileService().updateUserProfile(profileUpdates)
             .ensure {

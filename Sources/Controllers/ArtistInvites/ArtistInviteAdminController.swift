@@ -57,7 +57,7 @@ class ArtistInviteAdminController: StreamableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        ElloHUD.showLoadingHudInView(streamViewController.view)
+        streamViewController.showLoadingSpinner()
         streamViewController.loadInitialPage()
     }
 
@@ -118,14 +118,14 @@ extension ArtistInviteAdminController: ArtistInviteAdminResponder {
             let streamCellItem = streamViewController.collectionViewDataSource.streamCellItem(at: indexPath)
         else { return }
 
-        ElloHUD.showLoadingHudInView(streamViewController.view)
+        ElloHUD.showLoadingHudInView(view)
         ArtistInviteService().performAction(action: action)
             .done { newSubmission in
                 streamCellItem.jsonable = newSubmission
                 collectionView.reloadItems(at: [indexPath])
             }
             .ensure {
-                ElloHUD.hideLoadingHudInView(self.streamViewController.view)
+                ElloHUD.hideLoadingHudInView(self.view)
             }
             .ignoreErrors()
     }
