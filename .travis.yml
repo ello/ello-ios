@@ -10,7 +10,6 @@ cache:
 before_install:
 - export IOS_SIMULATOR_UDID=`instruments -s devices | grep "iPhone 8 (11.4" | awk -F '[ ]' '{print $4}' | awk -F '[\[]' '{print $2}' | sed 's/.$//'`
 - echo $IOS_SIMULATOR_UDID
-- open -a "simulator" --args -CurrentDeviceUDID $IOS_SIMULATOR_UDID
 install:
 - gem install bundler
 - bundle install
