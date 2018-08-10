@@ -543,11 +543,6 @@ extension Relationship: Stubbable {
         ElloLinkedStore.shared.setObject(owner, forKey: owner.id, type: .usersType)
         let subject: User = (values["subject"] as? User) ?? User.stub(["relationshipPriority": "friend", "id": values["subjectId"] ?? generateID()])
         ElloLinkedStore.shared.setObject(owner, forKey: owner.id, type: .usersType)
-
-        if values["id"] != nil {
-            fatalError("dang")
-        }
-
         return Relationship(ownerId: owner.id, subjectId: subject.id)
     }
 }
