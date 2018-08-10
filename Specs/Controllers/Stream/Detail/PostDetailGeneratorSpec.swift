@@ -60,8 +60,17 @@ class PostDetailGeneratorSpec: QuickSpec {
 
                 it("can load more comments") {
                     let prevCount = destination.postCommentItems.count
+                    StubbedManager.current.addStub(endpointName: "commentStream")
                     subject.loadMoreComments()
                     expect(destination.postCommentItems.count) > prevCount
+                    expect(destination.otherPlaceHolderLoaded) == false
+                }
+
+                it("can stop loading comments") {
+                    expect(destination.postLoadCommentItems.count) > 0
+                    StubbedManager.current.addStub(endpointName: "commentStream-last")
+                    subject.loadMoreComments()
+                    expect(destination.postLoadCommentItems.count) == 0
                 }
             }
         }
@@ -124,5 +133,6 @@ class PostDetailDestination: PostDetailStreamDestination {
     }
 
     func appendComments(_ items: [StreamCellItem]) {
+        postCommentItems += items
     }
 }
