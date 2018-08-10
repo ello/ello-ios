@@ -1,10 +1,15 @@
 language: objective-c
-xcode_sdk: iphonesimulator11.4
+xcode_workspace: Ello.xcworkspace
+xcode_scheme: Ello
+xcode_sdk: iphonesimulator10.3
 git:
   depth: 1
 cache:
 - bundler
 - cocoapods
+before_install:
+- export IOS_SIMULATOR_UDID=`instruments -s devices | grep "iPhone 8 (11.4" | awk -F '[ ]' '{print $4}' | awk -F '[\[]' '{print $2}' | sed 's/.$//'`
+- echo $IOS_SIMULATOR_UDID
 install:
 - gem install bundler
 - bundle install
@@ -18,6 +23,9 @@ install:
 - bundle exec pod keys set NinjaOauthKey "any" Ello
 - bundle exec pod keys set NinjaOauthSecret "any" Ello
 - bundle exec pod keys set NinjaDomain "any" Ello
+- bundle exec pod keys set RainbowOauthKey "any" Ello
+- bundle exec pod keys set RainbowOauthSecret "any" Ello
+- bundle exec pod keys set RainbowDomain "any" Ello
 - bundle exec pod keys set Stage1OauthKey "any" Ello
 - bundle exec pod keys set Stage1OauthSecret "any" Ello
 - bundle exec pod keys set Stage1Domain "any" Ello
@@ -29,8 +37,7 @@ install:
 before_script:
 - export LANG=en_US.UTF-8
 script:
-- gem install danger -v 2.0.1 --no-ri --no-rdoc && danger
-- xcodebuild -workspace Ello.xcworkspace -scheme Ello -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
+- xcodebuild -workspace Ello.xcworkspace -scheme Ello -sdk iphonesimulator11.4 -configuration Debug -destination "id=$IOS_SIMULATOR_UDID" build test | xcpretty -f `xcpretty-travis-formatter`
 notifications:
   email: false
   slack:

@@ -112,3 +112,13 @@ plugin 'cocoapods-keys', {
     'Stage2Domain',
   ]
 }
+
+post_install do |installer|
+  installer.pods_project.build_configurations.each do |config|
+    if config.name == 'Release'
+      config.build_settings['SWIFT_OPTIMIZATION_LEVEL'] = '-Owholemodule'
+    else
+      config.build_settings['SWIFT_OPTIMIZATION_LEVEL'] = '-Onone'
+    end
+  end
+end
