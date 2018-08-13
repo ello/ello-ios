@@ -2,16 +2,11 @@
 ///  ElloHUDWindowExtensions.swift
 //
 
-import MBProgressHUD
-
 extension ElloHUD {
 
-    class func showLoadingHud() -> MBProgressHUD? {
+    class func showLoadingHud() {
         if let win = UIApplication.shared.windows.last {
-            return ElloHUD.showLoadingHudInView(win)
-        }
-        else {
-            return nil
+            ElloHUD.showLoadingHudInView(win)
         }
     }
 

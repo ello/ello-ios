@@ -45,7 +45,6 @@ def common_pods
     pod 'ElloOSSCerts'
   end
   # objc
-  pod 'MBProgressHUD'
   pod 'SVGKit', git: 'https://github.com/ello/SVGKit'
   pod 'FLAnimatedImage'
   pod 'YapDatabase'

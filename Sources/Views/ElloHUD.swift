@@ -2,36 +2,46 @@
 ///  ElloHUD.swift
 //
 
-import MBProgressHUD
+class ElloHUD: View {
+    var showCount = 0
+    let elloLogo = GradientLoadingView()
 
-class ElloHUD {
+    override func arrange() {
+        addSubview(elloLogo)
 
-    @discardableResult
-    class func showLoadingHudInView(_ view: UIView) -> MBProgressHUD? {
-        var existingHub: MBProgressHUD?
-        for subview in view.subviews {
-            if let found = subview as? MBProgressHUD {
-                existingHub = found
-                break
-            }
+        elloLogo.snp.makeConstraints { make in
+            make.center.equalTo(self)
         }
-        if let existingHub = existingHub {
-            return existingHub
+    }
+
+    class func showLoadingHudInView(_ view: UIView) {
+        if let existingHud: ElloHUD = view.findSubview() {
+            existingHud.showCount += 1
+            return
         }
 
-        let hud = MBProgressHUD.showAdded(to: view, animated: true)
-        hud.bezelView.alpha = 0
+        let hud = ElloHUD()
+        view.addSubview(hud)
 
-        let elloLogo = GradientLoadingView(frame: CGRect(x: 0, y: 0, width: 60, height: 60))
-        elloLogo.startAnimating()
-        hud.customView = elloLogo
-        hud.mode = .customView
-        hud.removeFromSuperViewOnHide = true
-        return hud
+        hud.snp.makeConstraints { make in
+            make.edges.equalTo(view)
+        }
+
+        hud.elloLogo.startAnimating()
     }
 
     class func hideLoadingHudInView(_ view: UIView) {
-        MBProgressHUD.hide(for: view, animated: true)
+        guard let hud: ElloHUD = view.findSubview() else { return }
+        guard hud.showCount == 0 else {
+            hud.showCount -= 1
+            return
+        }
+
+        elloAnimate {
+            hud.alpha = 0
+        }.done {
+            hud.removeFromSuperview()
+        }
     }
 
 }
