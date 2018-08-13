@@ -1,5 +1,5 @@
 <svg class="svg-icon svg-search" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 25">
-    <g stroke-width="1.45" fill="none" stroke="#aaa">
+    <g stroke-width="1.45" fill="none" stroke="#000">
         <circle cx="9.628" cy="9.512" r="6.844"></circle>
         <line x1="14.384" x2="20.416" y1="14.5" y2="20.532"></line>
     </g>

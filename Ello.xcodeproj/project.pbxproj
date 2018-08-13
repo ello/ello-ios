@@ -457,6 +457,14 @@
 		1D10FB90211CFF3A00DA0656 /* postDetail.json in Resources */ = {isa = PBXBuildFile; fileRef = 1D10FB8E211CFF3900DA0656 /* postDetail.json */; };
 		1D10FB91211CFF3A00DA0656 /* commentStream.json in Resources */ = {isa = PBXBuildFile; fileRef = 1D10FB8F211CFF3A00DA0656 /* commentStream.json */; };
 		1D10FB93211E1E9D00DA0656 /* commentStream-last.json in Resources */ = {isa = PBXBuildFile; fileRef = 1D10FB92211E1E9D00DA0656 /* commentStream-last.json */; };
+		1D10FB942122149000DA0656 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DBD0BBB1F950ADB00DF9FC5 /* View.swift */; };
+		1D10FB952122149000DA0656 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DBD0BBB1F950ADB00DF9FC5 /* View.swift */; };
+		1D10FB962122149600DA0656 /* Line.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC2402520D441A7009B07D5 /* Line.swift */; };
+		1D10FB972122149600DA0656 /* Line.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC2402520D441A7009B07D5 /* Line.swift */; };
+		1D10FB982122149A00DA0656 /* Control.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DBD0BBE1F950ADB00DF9FC5 /* Control.swift */; };
+		1D10FB992122149A00DA0656 /* Control.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DBD0BBE1F950ADB00DF9FC5 /* Control.swift */; };
+		1D10FB9A2122149D00DA0656 /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DBD0BBF1F950ADB00DF9FC5 /* Button.swift */; };
+		1D10FB9B2122149E00DA0656 /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DBD0BBF1F950ADB00DF9FC5 /* Button.swift */; };
 		1D15C2781C7D12890013B192 /* InterfaceImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D15C2761C7D12890013B192 /* InterfaceImage.swift */; };
 		1D15C2791C7D12890013B192 /* InterfaceString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D15C2771C7D12890013B192 /* InterfaceString.swift */; };
 		1D15C27B1C7D13050013B192 /* InterfaceString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D15C2771C7D12890013B192 /* InterfaceString.swift */; };
@@ -4972,7 +4980,6 @@
 				"${BUILT_PRODUCTS_DIR}/KINWebBrowser/KINWebBrowser.framework",
 				"${BUILT_PRODUCTS_DIR}/KeychainAccess/KeychainAccess.framework",
 				"${BUILT_PRODUCTS_DIR}/Keys/Keys.framework",
-				"${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework",
 				"${BUILT_PRODUCTS_DIR}/Moya/Moya.framework",
 				"${BUILT_PRODUCTS_DIR}/PINCache/PINCache.framework",
 				"${BUILT_PRODUCTS_DIR}/PINOperation/PINOperation.framework",
@@ -5004,7 +5011,6 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KINWebBrowser.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KeychainAccess.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Keys.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MBProgressHUD.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Moya.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PINCache.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PINOperation.framework",
@@ -5064,7 +5070,6 @@
 				"${BUILT_PRODUCTS_DIR}/KINWebBrowser/KINWebBrowser.framework",
 				"${BUILT_PRODUCTS_DIR}/KeychainAccess/KeychainAccess.framework",
 				"${BUILT_PRODUCTS_DIR}/Keys/Keys.framework",
-				"${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework",
 				"${BUILT_PRODUCTS_DIR}/Moya/Moya.framework",
 				"${BUILT_PRODUCTS_DIR}/PINCache/PINCache.framework",
 				"${BUILT_PRODUCTS_DIR}/PINOperation/PINOperation.framework",
@@ -5101,7 +5106,6 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KINWebBrowser.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KeychainAccess.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Keys.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MBProgressHUD.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Moya.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PINCache.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PINOperation.framework",
@@ -5210,11 +5214,13 @@
 				122B30C31C6A3FBB00C1B9D8 /* PushPayload.swift in Sources */,
 				1DC78A591F21478D00BE2413 /* ArtistInvite.swift in Sources */,
 				122B30E71C6A3FC400C1B9D8 /* ImageRegion.swift in Sources */,
+				1D10FB942122149000DA0656 /* View.swift in Sources */,
 				122B30BB1C6A3FBB00C1B9D8 /* ExperienceUpdate.swift in Sources */,
 				1DDC85241D91F5F500C29552 /* Authorable.swift in Sources */,
 				122D1B981C613085001386CE /* AlertViewController.swift in Sources */,
 				1207C9971C74CD7600939ADB /* ElloProvider.swift in Sources */,
 				122B30E81C6A3FC400C1B9D8 /* Regionable.swift in Sources */,
+				1D10FB962122149600DA0656 /* Line.swift in Sources */,
 				1DF806541CDD1AFE002D60AD /* Username.swift in Sources */,
 				122D1BB91C64036A001386CE /* ImageExtensions.swift in Sources */,
 				12DEB2511C5BFB6F00D4CDCE /* StringExtensions.swift in Sources */,
@@ -5235,6 +5241,7 @@
 				1DB271181F547A0F0044D475 /* UserFlag.swift in Sources */,
 				1207C9A81C752F9F00939ADB /* ErrorStatusCode.swift in Sources */,
 				1207C99C1C750F8400939ADB /* AuthState.swift in Sources */,
+				1D10FB982122149A00DA0656 /* Control.swift in Sources */,
 				1207C99A1C750E4B00939ADB /* ExtensionOverrides.swift in Sources */,
 				122B30C11C6A3FBB00C1B9D8 /* Post.swift in Sources */,
 				1D5933931D1492D700EAF03D /* CategoryLevel.swift in Sources */,
@@ -5303,6 +5310,7 @@
 				1D0DF9042023A92600019875 /* PageParser.swift in Sources */,
 				122B30B41C6A3FBB00C1B9D8 /* Coder.swift in Sources */,
 				122D1BA41C61347B001386CE /* ColorExtensions.swift in Sources */,
+				1D10FB9A2122149D00DA0656 /* Button.swift in Sources */,
 				127D26541C655C87001F2E3E /* ExtensionItemPreview.swift in Sources */,
 				1207C9A61C752F6400939ADB /* ElloProviderErrors.swift in Sources */,
 				1207C9941C74CD4A00939ADB /* PostEditingService.swift in Sources */,
@@ -6125,10 +6133,12 @@
 				1D447EB61F3BC3A800013384 /* CategoryFilter.swift in Sources */,
 				1D447EC61F3BC64B00013384 /* Regionable.swift in Sources */,
 				1D80878C20376AC10081E8FE /* PageHeader.swift in Sources */,
+				1D10FB952122149000DA0656 /* View.swift in Sources */,
 				1D447ED41F3BC6B100013384 /* ErrorStatusCode.swift in Sources */,
 				1D447EC51F3BC64100013384 /* ElloProvider.swift in Sources */,
 				1D447EC81F3BC65A00013384 /* ImageExtensions.swift in Sources */,
 				1D447EB41F3BC39500013384 /* ElloURI.swift in Sources */,
+				1D10FB992122149A00DA0656 /* Control.swift in Sources */,
 				1D447ED91F3BC6F700013384 /* NetworkError.swift in Sources */,
 				1D447EE01F3BC74A00013384 /* NSErrorExtensions.swift in Sources */,
 				1D447ECE1F3BC68000013384 /* FreeMethods.swift in Sources */,
@@ -6173,6 +6183,7 @@
 				1D447EC11F3BC61800013384 /* PushPayload.swift in Sources */,
 				1D447EBE1F3BC5F100013384 /* Attachment.swift in Sources */,
 				1D447ED61F3BC6D900013384 /* ExtensionOverrides.swift in Sources */,
+				1D10FB9B2122149E00DA0656 /* Button.swift in Sources */,
 				1D447ECD1F3BC67900013384 /* DictionaryExtensions.swift in Sources */,
 				1D447EBF1F3BC5FA00013384 /* ElloManager.swift in Sources */,
 				1D447F0A1F3BCA0200013384 /* InterfaceString.swift in Sources */,
@@ -6214,6 +6225,7 @@
 				1DE83C2220B47DB2009109E6 /* Token.swift in Sources */,
 				1D447EF61F3BC92500013384 /* InterfaceImage.swift in Sources */,
 				1D447EF41F3BC8C400013384 /* RegionParser.swift in Sources */,
+				1D10FB972122149600DA0656 /* Line.swift in Sources */,
 				1DE6E3C0209CDBD100C7FC45 /* CategoryPartial.swift in Sources */,
 				1D808788203646350081E8FE /* ManyParser.swift in Sources */,
 				1D447EB71F3BC3D900013384 /* Editorial.swift in Sources */,

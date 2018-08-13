@@ -31,7 +31,6 @@ PODS:
   - KeychainAccess (3.1.1)
   - Keys (1.0.0)
   - KINWebBrowser (1.1.0)
-  - MBProgressHUD (1.1.0)
   - Moya (9.0.0):
     - Moya/Core (= 9.0.0)
   - Moya/Core (9.0.0):
@@ -151,7 +150,6 @@ DEPENDENCIES:
   - KeychainAccess
   - Keys (from `Pods/CocoaPodsKeys`)
   - KINWebBrowser (from `https://github.com/ello/KINWebBrowser`)
-  - MBProgressHUD
   - Moya (~> 9)
   - Nimble
   - Nimble-Snapshots
@@ -179,7 +177,6 @@ SPEC REPOS:
     - iOSSnapshotTestCase
     - JWTDecode
     - KeychainAccess
-    - MBProgressHUD
     - Moya
     - Nimble
     - Nimble-Snapshots
@@ -269,7 +266,6 @@ SPEC CHECKSUMS:
   KeychainAccess: 7bd430028059754a3debab3cfc0bd1fc7fb85df3
   Keys: af65e23feef2a047b3277b1ef0399f1209ef9d46
   KINWebBrowser: dad85d7d93e6f4620a8589b96992394affffa66e
-  MBProgressHUD: e7baa36a220447d8aeb12769bf0585582f3866d9
   Moya: cf5e6ee93af526532f92614004b8ad2ea60fd845
   Nimble: 2839b01d1b31f6a6a7777a221f0d91cf52e8e27b
   Nimble-Snapshots: 7ab1d5fd4a794b983805c6f6b8091fb00d772754
@@ -288,6 +284,6 @@ SPEC CHECKSUMS:
   WebLinking: b7507e9ccf2b0177dcc53cbdbaed787676fde745
   YapDatabase: b418a4baa6906e8028748938f9159807fd039af4
 
-PODFILE CHECKSUM: d0d51ba65c6bc276080cc54d8607ebe32f0710e1
+PODFILE CHECKSUM: b83de71fd75cc1d217f8d707bad82d0906ee84f4
 
 COCOAPODS: 1.5.3
