@@ -2,7 +2,7 @@ source 'https://github.com/ello/cocoapod-specs.git'
 source 'https://github.com/CocoaPods/Specs.git'
 
 # Uncomment this line to define a global platform for your project
-platform :ios, '9.0'
+platform :ios, '10.3'
 
 # Yep.
 inhibit_all_warnings!
@@ -14,18 +14,17 @@ project 'Ello'
 use_frameworks!
 
 def ello_app_pods
-  pod '1PasswordExtension', git: 'https://github.com/ello/onepassword-app-extension'
+  # objc
+  pod '1PasswordExtension', '~> 1.8.5'
   pod 'CRToast', git: 'https://github.com/ello/CRToast'
   pod 'KINWebBrowser', git: 'https://github.com/ello/KINWebBrowser'
   pod 'PINRemoteImage', '3.0.0-beta.8'
   pod 'PINCache', git: 'https://github.com/ello/PINCache', commit: '78c3461'
-  pod 'SSPullToRefresh', '~> 1.2'
-  pod 'ImagePickerSheetController', git: 'https://github.com/ello/ImagePickerSheetController', branch: 'swift3'
-  pod 'iRate', '~> 1.11'
+  pod 'SSPullToRefresh', '~> 1'
   # swift pods
+  pod 'ImagePickerSheetController', git: 'https://github.com/ello/ImagePickerSheetController', branch: 'swift4'
   pod 'TimeAgoInWords', git: 'https://github.com/ello/TimeAgoInWords'
   pod 'DeltaCalculator', git: 'https://github.com/ello/DeltaCalculator'
-
 end
 
 def ui_pods
@@ -34,37 +33,38 @@ def ui_pods
   elsif ENV['ELLO_UI_FONTS_URL']
     pod 'ElloUIFonts', git: ENV['ELLO_UI_FONTS_URL']
   else
-    pod 'ElloOSSUIFonts', '~> 2.2'
+    pod 'ElloOSSUIFonts'
   end
-  pod 'SnapKit', git: 'https://github.com/ello/SnapKit'
+  pod 'SnapKit', '~> 4'
 end
 
 def common_pods
   if ENV['ELLO_STAFF']
     pod 'ElloCerts', git: 'git@github.com:ello/Ello-iOS-Certs'
   else
-    pod 'ElloOSSCerts', '~> 2.0'
+    pod 'ElloOSSCerts'
   end
-  pod 'PromiseKit/CorePromise'
-  pod 'MBProgressHUD', '~> 0.9.0'
+  # objc
   pod 'SVGKit', git: 'https://github.com/ello/SVGKit'
-  pod 'FLAnimatedImage', '~> 1.0'
-  pod 'YapDatabase', '~> 3.0'
-  pod 'Alamofire', '~> 4.0'
-  pod 'Moya', '8.0.3'
-  pod 'KeychainAccess', '~> 3.0'
-  pod 'SwiftyUserDefaults', '~> 3.0'
-  pod 'SwiftyJSON', '~> 4.0'
-  pod 'JWTDecode', '~> 2.0'
-  pod 'WebLinking', git: 'https://github.com/kylef/WebLinking.swift'
-  pod 'Analytics', '~> 3.0'
+  pod 'FLAnimatedImage'
+  pod 'YapDatabase'
+  pod 'Analytics'
+  # swift
+  pod 'PromiseKit/CorePromise'
+  pod 'Alamofire'
+  pod 'Moya', '~> 9'
+  pod 'KeychainAccess'
+  pod 'SwiftyUserDefaults'
+  pod 'SwiftyJSON'
+  pod 'JWTDecode'
+  pod 'WebLinking', git: 'https://github.com/pingwinator/WebLinking.swift'
 end
 
 def spec_pods
   pod 'FBSnapshotTestCase'
-  pod 'Quick', '~> 1.0'
-  pod 'Nimble', '~> 7.0'
-  pod 'Nimble-Snapshots', '~> 4.4'
+  pod 'Quick'
+  pod 'Nimble'
+  pod 'Nimble-Snapshots'
 end
 
 target 'Ello' do
@@ -85,6 +85,7 @@ end
 target 'Specs' do
   common_pods
   ello_app_pods
+  ui_pods
   spec_pods
 end
 
@@ -93,7 +94,6 @@ plugin 'cocoapods-keys', {
   keys: [
     'OauthKey',
     'OauthSecret',
-    'CrashlyticsKey',
     'Domain',
     'SodiumChloride',
     'SegmentKey',
@@ -113,13 +113,11 @@ plugin 'cocoapods-keys', {
 }
 
 post_install do |installer|
-  installer.pods_project.targets.each do |target|
-    target.build_configurations.each do |config|
-      config.build_settings['WARNING_CFLAGS'] = '$(inherited) -Wno-error=private-header' if target.name == 'FBSnapshotTestCase'
-      # cocoapods 1.1.0-rc2 *should* handle this but isn't for some reason
-      config.build_settings['SWIFT_VERSION'] = '3.0'
-      # cocoapods does not propogate the platform from above
-      config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '9.0'
+  installer.pods_project.build_configurations.each do |config|
+    if config.name == 'Release'
+      config.build_settings['SWIFT_OPTIMIZATION_LEVEL'] = '-Owholemodule'
+    else
+      config.build_settings['SWIFT_OPTIMIZATION_LEVEL'] = '-Onone'
     end
   end
 end

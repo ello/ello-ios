@@ -84,14 +84,14 @@ class NotificationsViewController: StreamableViewController, NotificationsScreen
     }
 
     func initialLoad() {
-        ElloHUD.showLoadingHudInView(streamViewController.view)
+        streamViewController.showLoadingSpinner()
         generator?.load(reload: false)
     }
 
     func reload(showSpinner: Bool) {
         hasNewContent = false
         if showSpinner {
-            ElloHUD.showLoadingHudInView(streamViewController.view)
+            streamViewController.showLoadingSpinner()
         }
 
         generator?.load(reload: true)

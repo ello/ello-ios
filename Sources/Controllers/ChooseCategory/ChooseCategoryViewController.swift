@@ -53,7 +53,7 @@ class ChooseCategoryViewController: StreamableViewController {
         streamViewController.streamKind = .chooseCategory
         streamViewController.reloadClosure = { [weak self] in self?.generator?.load(reload: true) }
 
-        ElloHUD.showLoadingHudInView(streamViewController.view)
+        streamViewController.showLoadingSpinner()
         generator.load(reload: false)
     }
 
@@ -79,7 +79,7 @@ extension ChooseCategoryViewController: ChooseCategoryResponder {
         delegate?.categoryChosen(category)
         let shouldGoBack = delegate?.chooseCategoryShouldGoBack?() ?? true
         if shouldGoBack {
-            ElloHUD.showLoadingHudInView(self.view)
+            ElloHUD.showLoadingHudInView(view)
             delay(0.3, block: backButtonTapped)
         }
     }

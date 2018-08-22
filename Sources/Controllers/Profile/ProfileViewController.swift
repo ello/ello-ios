@@ -43,10 +43,8 @@ final class ProfileViewController: StreamableViewController {
             title = "@\(username)"
         }
 
-        if self.user == nil {
-            if let user = ElloLinkedStore.shared.getObject(self.userParam, type: .usersType) as? User {
-                self.user = user
-            }
+        if let user = ElloLinkedStore.shared.getObject(self.userParam, type: .usersType) as? User {
+            self.user = user
         }
 
         sharedInit()
@@ -119,7 +117,7 @@ final class ProfileViewController: StreamableViewController {
         if user == nil {
             screen.disableButtons()
         }
-        ElloHUD.showLoadingHudInView(streamViewController.view)
+        streamViewController.showLoadingSpinner()
         streamViewController.loadInitialPage()
 
         if let user = user {
@@ -401,17 +399,7 @@ extension ProfileViewController: ProfileHeaderResponder {
     func onLovesTapped() {
         guard let username = user?.username else { return }
 
-        let vc = GraphQLStreamViewController(
-            streamKind: .userLoves(username: username),
-            title: InterfaceString.Loves.Title,
-            initialRequest: {
-                return API().userLoves(username: username).execute().map { config, loves in
-                    return (config, loves.compactMap { $0.post })
-                } },
-            nextPageRequest: { username in
-                return API().userLoves(username: username, before: username).execute().map { config, loves in
-                    return (config, loves.compactMap { $0.post })
-                } })
+        let vc = LovesViewController(username: username)
         vc.currentUser = currentUser
         navigationController?.pushViewController(vc, animated: true)
     }
@@ -500,7 +488,7 @@ extension ProfileViewController: StreamDestination {
         if let deeplinkPath = self.deeplinkPath,
             let deeplinkURL = URL(string: deeplinkPath)
         {
-            UIApplication.shared.openURL(deeplinkURL)
+            UIApplication.shared.open(deeplinkURL, options: [:], completionHandler: nil)
             self.deeplinkPath = nil
             _ = self.navigationController?.popViewController(animated: true)
         }

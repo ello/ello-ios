@@ -77,23 +77,21 @@ struct Fragments: Equatable {
         }
         """, needs: [tshirtProps, responsiveProps])
 
-    static let postSummary = Fragments("""
+    static let assetProps = Fragments("""
+        fragment assetProps on Asset {
+          id
+          attachment { ...responsiveProps }
+        }
+        """)
+    static let contentProps = Fragments("""
         fragment contentProps on ContentBlocks {
           linkUrl
           kind
           data
           links { assets }
         }
-
-        fragment assetProps on Asset {
-          id
-          attachment { ...responsiveProps }
-        }
-
-        fragment postContent on Post {
-          content { ...contentProps }
-        }
-
+        """)
+    static let postSummary = Fragments("""
         fragment postSummary on Post {
           id
           token
@@ -105,12 +103,12 @@ struct Fragments: Equatable {
           postStats { lovesCount commentsCount viewsCount repostsCount }
           currentUserState { watching loved reposted }
         }
-        """, needs: [imageProps, tshirtProps, responsiveProps, authorProps])
+        """, needs: [contentProps, assetProps, imageProps, tshirtProps, responsiveProps, authorProps])
 
     static let postDetails = Fragments("""
         fragment postDetails on Post {
             ...postSummary
-            ...postContent
+            content { ...contentProps }
             repostContent { ...contentProps }
             categoryPosts {
                 id actions { ...categoryPostActions } status
@@ -122,7 +120,7 @@ struct Fragments: Equatable {
                 ...postSummary
             }
         }
-        """, needs: [postSummary, categoryPostActions, categoryProps])
+        """, needs: [contentProps, postSummary, categoryPostActions, categoryProps])
     static let loveDetails = Fragments("""
         fragment loveDetails on Love {
             id
@@ -130,6 +128,17 @@ struct Fragments: Equatable {
             user { id }
         }
         """, needs: [postDetails])
+    static let commentDetails = Fragments("""
+        fragment commentDetails on Comment {
+            id
+            createdAt
+            parentPost { id }
+            assets { ...assetProps }
+            author { ...authorProps }
+            content { ...contentProps }
+            summary { ...contentProps }
+        }
+        """, needs: [authorProps, contentProps, assetProps])
 
     static let userDetails = Fragments("""
         fragment userDetails on User {
@@ -198,6 +207,12 @@ struct Fragments: Equatable {
             ...postDetails
         }
         """, needs: [postDetails])
+    static let commentStreamBody = Fragments("""
+        next isLastPage
+        comments {
+            ...commentDetails
+        }
+        """, needs: [commentDetails])
     static let postBody = Fragments("""
         ...postDetails
         """, needs: [postDetails])

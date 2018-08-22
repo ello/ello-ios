@@ -63,7 +63,7 @@ class RelationshipControllerSpec: QuickSpec {
                     subject.launchBlockModal("user-id", userAtName: "@666", relationshipPriority: RelationshipPriorityWrapper(priority: .following)) {
                         _ in
                     }
-                    let presentedVC = subject.responderChainable?.controller?.presentedViewController as? BlockUserModalViewController
+                    let presentedVC = subject.responderChainable.controller?.presentedViewController as? BlockUserModalViewController
                     expect(presentedVC).to(beAKindOf(BlockUserModalViewController.self))
                 }
 

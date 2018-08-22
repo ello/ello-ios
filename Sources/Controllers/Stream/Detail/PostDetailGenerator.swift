@@ -22,6 +22,7 @@ final class PostDetailGenerator: StreamGenerator {
 
     private var post: Post?
     private let postParam: String
+    private var before: String?
     private var localToken: String = ""
     private var loadingToken = LoadingToken()
     private let queue = OperationQueue()
@@ -60,27 +61,21 @@ final class PostDetailGenerator: StreamGenerator {
         loadRelatedPosts(doneOperation)
     }
 
-    func loadMoreComments(nextQuery: URLComponents) {
-        guard let postId = self.post?.id else { return }
+    func loadMoreComments() {
+        guard let before = before else { return }
 
         let loadingComments = [StreamCellItem(type: .streamLoading)]
         self.destination?.replacePlaceholder(type: .postLoadingComments, items: loadingComments)
 
-        let scrollAPI = ElloAPI.infiniteScroll(query: nextQuery, api: .postComments(postId: postId))
-        StreamService().loadStream(endpoint: scrollAPI, streamKind: .postDetail(postParam: postId))
-            .done { response in
-                switch response {
-                case let .jsonables(jsonables, responseConfig):
-                    self.destination?.setPagingConfig(responseConfig: responseConfig)
+        API().postComments(postToken: .fromParam(postParam), before: before)
+            .execute()
+            .done { pageConfig, comments in
+                self.before = pageConfig.next
+                let commentItems = self.parse(jsonables: comments)
+                self.postDetailStreamDestination?.appendComments(commentItems)
 
-                    let commentItems = self.parse(jsonables: jsonables)
-                    self.postDetailStreamDestination?.appendComments(commentItems)
-
-                    let loadMoreComments = self.loadMoreCommentItems(lastComment: jsonables.last as? ElloComment, responseConfig: responseConfig)
-                    self.destination?.replacePlaceholder(type: .postLoadingComments, items: loadMoreComments)
-                case .empty:
-                    self.destination?.replacePlaceholder(type: .postLoadingComments, items: [])
-                }
+                let loadMoreComments = self.loadMoreCommentItems(lastComment: comments.last, pageConfig: pageConfig)
+                self.destination?.replacePlaceholder(type: .postLoadingComments, items: loadMoreComments)
             }
             .catch { _ in
                 self.destination?.replacePlaceholder(type: .postLoadingComments, items: [])
@@ -179,8 +174,8 @@ private extension PostDetailGenerator {
         destination?.replacePlaceholder(type: .postSocialPadding, items: padding)
     }
 
-    func loadMoreCommentItems(lastComment: ElloComment?, responseConfig: ResponseConfig) -> [StreamCellItem] {
-        if responseConfig.nextQuery != nil,
+    func loadMoreCommentItems(lastComment: ElloComment?, pageConfig: PageConfig) -> [StreamCellItem] {
+        if pageConfig.next != nil,
             let lastComment = lastComment
         {
             return [StreamCellItem(jsonable: lastComment, type: .loadMoreComments)]
@@ -197,17 +192,18 @@ private extension PostDetailGenerator {
         displayCommentsOperation.addDependency(doneOperation)
         queue.addOperation(displayCommentsOperation)
 
-        PostService().loadPostComments(postParam)
-            .done { comments, responseConfig in
+        API().postComments(postToken: .fromParam(postParam))
+            .execute()
+            .done { pageConfig, comments in
                 guard self.loadingToken.isValidInitialPageLoadingToken(self.localToken) else { return }
 
+                self.before = pageConfig.next
                 let commentItems = self.parse(jsonables: comments)
                 displayCommentsOperation.run {
-                    self.destination?.setPagingConfig(responseConfig: responseConfig)
                     inForeground {
                         self.destination?.replacePlaceholder(type: .postComments, items: commentItems)
                         if let lastComment = comments.last {
-                            let loadMoreComments = self.loadMoreCommentItems(lastComment: lastComment, responseConfig: responseConfig)
+                            let loadMoreComments = self.loadMoreCommentItems(lastComment: lastComment, pageConfig: pageConfig)
                             self.destination?.replacePlaceholder(type: .postLoadingComments, items: loadMoreComments)
                         }
                     }

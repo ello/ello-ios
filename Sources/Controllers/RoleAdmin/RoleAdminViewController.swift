@@ -48,7 +48,7 @@ class RoleAdminViewController: BaseElloViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        ElloHUD.showLoadingHudInView(self.view)
+        ElloHUD.showLoadingHudInView(view)
         generator.loadRoles(user: user)
             .done { categoryUsers in
                 self.categoryUsers = categoryUsers
@@ -83,7 +83,7 @@ class RoleAdminViewController: BaseElloViewController {
     }
 
     override func backButtonTapped() {
-        ElloHUD.showLoadingHudInView(self.view)
+        ElloHUD.showLoadingHudInView(view)
         ProfileService().reloadProfile(currentUser: currentUser!)
             .done { _ in
                 super.backButtonTapped()
@@ -202,7 +202,7 @@ extension RoleAdminViewController: ChooseRoleControllerDelegate {
         case .add:
             guard RoleAdminPermissions.userCanAdd(currentUser: currentUser, category: currentCategory, role: role) else { return }
 
-            ElloHUD.showLoadingHudInView(self.view)
+            ElloHUD.showLoadingHudInView(view)
             generator.add(categoryId: currentCategory.id, userId: user.id, role: role)
                 .done { newCategoryUser in
                     self.categoryUsers = [newCategoryUser] + self.categoryUsers
@@ -221,7 +221,7 @@ extension RoleAdminViewController: ChooseRoleControllerDelegate {
             }
             guard RoleAdminPermissions.userCanEdit(currentUser: currentUser, categoryUser: prevCategoryUser) else { return }
 
-            ElloHUD.showLoadingHudInView(self.view)
+            ElloHUD.showLoadingHudInView(view)
             generator.edit(categoryId: currentCategory.id, userId: user.id, role: role)
                 .done { newCategoryUser in
                     self.categoryUsers = self.categoryUsers.map { categoryUser in

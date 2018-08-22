@@ -11,22 +11,49 @@ import Nimble_Snapshots
 class ProfileHeaderTotalCountAndBadgesCellSpec: QuickSpec {
     override func spec() {
         describe("ProfileHeaderTotalCountAndBadgesCell") {
-            it("snapshots") {
+            it("only badges") {
                 let subject = ProfileHeaderTotalCountAndBadgesCell(frame: CGRect(
                     origin: .zero,
                     size: CGSize(width: 375, height: 60)
                 ))
-                subject.count = "2.3M"
-                expectValidSnapshot(subject, named: "ProfileHeaderTotalCountAndBadgesCell")
+                subject.update(count: "", badges: [Badge.badges["featured"]!])
+                expectValidSnapshot(subject, named: "ProfileHeaderTotalCountAndBadgesCell-badges")
             }
 
-            it("half-width") {
+            it("only total count") {
+                let subject = ProfileHeaderTotalCountAndBadgesCell(frame: CGRect(
+                    origin: .zero,
+                    size: CGSize(width: 375, height: 60)
+                ))
+                subject.update(count: "2.3M", badges: [])
+                expectValidSnapshot(subject, named: "ProfileHeaderTotalCountAndBadgesCell-count")
+            }
+
+            it("badges and total count") {
+                let subject = ProfileHeaderTotalCountAndBadgesCell(frame: CGRect(
+                    origin: .zero,
+                    size: CGSize(width: 375, height: 60)
+                ))
+                subject.update(count: "2.3M", badges: [Badge.badges["featured"]!])
+                expectValidSnapshot(subject, named: "ProfileHeaderTotalCountAndBadgesCell-both")
+            }
+
+            it("only badges half-width") {
                 let subject = ProfileHeaderTotalCountAndBadgesCell(frame: CGRect(
                     origin: .zero,
                     size: CGSize(width: 187, height: 60)
                 ))
-                subject.count = "2.3M"
-                expectValidSnapshot(subject, named: "ProfileHeaderTotalCountAndBadgesCell_halfwidth")
+                subject.update(count: "", badges: [Badge.badges["featured"]!])
+                expectValidSnapshot(subject, named: "ProfileHeaderTotalCountAndBadgesCell-badges-halfwidth")
+            }
+
+            it("only total count half-width") {
+                let subject = ProfileHeaderTotalCountAndBadgesCell(frame: CGRect(
+                    origin: .zero,
+                    size: CGSize(width: 187, height: 60)
+                ))
+                subject.update(count: "2.3M", badges: [])
+                expectValidSnapshot(subject, named: "ProfileHeaderTotalCountAndBadgesCell-count-halfwidth")
             }
         }
     }

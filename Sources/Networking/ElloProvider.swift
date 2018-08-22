@@ -17,8 +17,7 @@ class ElloProvider {
 
     static func endpointClosure(_ target: ElloAPI) -> Endpoint<ElloAPI> {
         let url = target.baseURL.appendingPathComponent(target.path).absoluteString
-        let endpoint = Endpoint<ElloAPI>(url: url, sampleResponseClosure: { return target.stubbedNetworkResponse }, method: target.method, parameters: target.parameters, parameterEncoding: target.parameterEncoding)
-        return endpoint.adding(newHTTPHeaderFields: target.headers())
+        return Endpoint<ElloAPI>(url: url, sampleResponseClosure: { return target.stubbedNetworkResponse }, method: target.method, task: target.task, httpHeaderFields: target.headers)
     }
 
     static func DefaultProvider() -> MoyaProvider<ElloAPI> {
@@ -92,7 +91,7 @@ extension ElloProvider {
     }
 
     private func handleNetworkSuccess(request: RequestFuture, response moyaResponse: Moya.Response) {
-        let response = moyaResponse.response as? HTTPURLResponse
+        let response = moyaResponse.response
         let data = moyaResponse.data
         let statusCode = moyaResponse.statusCode
 

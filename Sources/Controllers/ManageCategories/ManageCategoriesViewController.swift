@@ -44,7 +44,7 @@ class ManageCategoriesViewController: StreamableViewController {
         streamViewController.streamKind = .manageCategories
         streamViewController.reloadClosure = { [weak self] in self?.generator?.load(reload: true) }
 
-        ElloHUD.showLoadingHudInView(streamViewController.view)
+        streamViewController.showLoadingSpinner()
         generator.load(reload: false)
     }
 
@@ -112,7 +112,7 @@ class ManageCategoriesViewController: StreamableViewController {
         guard let selectedIds = selectedIds else { return }
 
         view.isUserInteractionEnabled = false
-        ElloHUD.showLoadingHudInView(self.view)
+        ElloHUD.showLoadingHudInView(view)
 
         ProfileService().update(categoryIds: selectedIds, onboarding: false)
             .done { _ in

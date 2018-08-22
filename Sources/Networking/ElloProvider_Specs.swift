@@ -13,10 +13,7 @@ struct ElloProvider_Specs {
             return .networkResponse(ElloProvider_Specs.errorStatusCode.rawValue, ElloProvider_Specs.errorStatusCode.defaultData)
         }
 
-        let method = target.method
-        let parameters = target.parameters
-        let endpoint = Endpoint<ElloAPI>(url: url(target), sampleResponseClosure: sampleResponseClosure, method: method, parameters: parameters)
-        return endpoint.adding(newHTTPHeaderFields: target.headers())
+        return Endpoint<ElloAPI>(url: url(target), sampleResponseClosure: sampleResponseClosure, method: target.method, task: target.task, httpHeaderFields: target.headers)
     }
 
     static func recordedEndpointsClosure(_ recordings: [RecordedResponse]) -> (_ target: ElloAPI) -> Endpoint<ElloAPI> {
@@ -41,10 +38,7 @@ struct ElloProvider_Specs {
                 }
             }
 
-            let method = target.method
-            let parameters = target.parameters
-            let endpoint = Endpoint<ElloAPI>(url: url(target), sampleResponseClosure: sampleResponseClosure, method: method, parameters: parameters)
-            return endpoint.adding(newHTTPHeaderFields: target.headers())
+            return Endpoint<ElloAPI>(url: url(target), sampleResponseClosure: sampleResponseClosure, method: target.method, task: target.task, httpHeaderFields: target.headers)
         }
     }
 

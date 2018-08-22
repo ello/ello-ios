@@ -188,7 +188,7 @@ struct InterfaceString {
         static let SponsoredBy: String = NSLocalizedString("Sponsored by", comment: "")
         static let PostedBy: String = NSLocalizedString("Posted by", comment: "")
         static let HeaderBy: String = NSLocalizedString("Header by", comment: "")
-        static let RoleAdmin: String = NSLocalizedString("Role Administrator", comment: "")
+        static let RoleAdmin: String = NSLocalizedString("Community Roles", comment: "")
     }
 
     struct Settings {
@@ -456,12 +456,6 @@ struct InterfaceString {
         static let EmailInvalid: String = NSLocalizedString("That email is invalid.\nPlease try again.", comment: "invalid email message")
         static let UsernameInvalid: String = NSLocalizedString("That username is invalid.\nPlease try again.", comment: "invalid username message")
         static let PasswordInvalid: String = NSLocalizedString("Password must be at least 8\ncharacters long.", comment: "password length error message")
-    }
-
-    struct Rate {
-        static let Title: String = NSLocalizedString("Love Ello?", comment: "rate app prompt title")
-        static let Continue: String = NSLocalizedString("Rate us: ⭐️⭐️⭐️⭐️⭐️", comment: "rate app button title")
-        static let Cancel: String = NSLocalizedString("No Thanks", comment: "do not rate app button title")
     }
 
     struct Onboard {

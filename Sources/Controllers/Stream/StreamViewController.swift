@@ -260,6 +260,10 @@ final class StreamViewController: BaseElloViewController {
         collectionView.scrollToItem(at: indexPath, at: .top, animated: animated)
     }
 
+    func showLoadingSpinner() {
+        ElloHUD.showLoadingHudInView(view)
+    }
+
     func hideLoadingSpinner() {
         ElloHUD.hideLoadingHudInView(view)
         pullToRefreshView?.finishLoading()
@@ -1266,8 +1270,9 @@ extension StreamViewController: UIScrollViewDelegate {
                 self.allOlderPagesLoaded = jsonables.count == 0
                 return self.scrollLoaded(jsonables: jsonables, placeholderType: lastPlaceholderType)
             }
-            .ensure {
+            .recover { error in
                 self.scrollLoaded()
+                throw error
             }
     }
 

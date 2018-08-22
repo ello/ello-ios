@@ -33,16 +33,29 @@ struct API {
         }
     }
 
+    func followingPostStream(filter: CategoryFilter = .recent, before: String? = nil) -> GraphQLRequest<(PageConfig, [Post])> {
+        let request = GraphQLRequest(
+            endpointName: "followingPostStream",
+            parser: PageParser<Post>("posts", PostParser()).parse,
+            variables: [
+                .enum("kind", filter.graphQL, "StreamKind"),
+                .optionalString("before", before)
+            ],
+            body: Fragments.postStreamBody
+        )
+        return request
+    }
+
     func globalPostStream(filter: CategoryFilter, before: String? = nil) -> GraphQLRequest<(PageConfig, [Post])> {
         let request = GraphQLRequest(
             endpointName: "globalPostStream",
             parser: PageParser<Post>("posts", PostParser()).parse,
             variables: [
-                .enum("StreamKind", "kind", filter.graphQL),
+                .enum("kind", filter.graphQL, "StreamKind"),
                 .optionalString("before", before),
             ],
             body: Fragments.postStreamBody
-            )
+        )
         return request
     }
 
@@ -51,12 +64,12 @@ struct API {
             endpointName: "categoryPostStream",
             parser: PageParser<Post>("posts", PostParser()).parse,
             variables: [
-                .enum("StreamKind", "kind", filter.graphQL),
+                .enum("kind", filter.graphQL, "StreamKind"),
                 .string("slug", categorySlug),
                 .optionalString("before", before),
             ],
             body: Fragments.postStreamBody
-            )
+        )
         return request
     }
 
@@ -85,7 +98,7 @@ struct API {
                 .string("slug", categorySlug),
             ],
             body: Fragments.categoryAdminsBody
-            )
+        )
         return request
     }
 
@@ -94,11 +107,11 @@ struct API {
             endpointName: "subscribedPostStream",
             parser: PageParser<Post>("posts", PostParser()).parse,
             variables: [
-                .enum("StreamKind", "kind", filter.graphQL),
+                .enum("kind", filter.graphQL, "StreamKind"),
                 .optionalString("before", before),
             ],
             body: Fragments.postStreamBody
-            )
+        )
         return request
     }
 
@@ -107,7 +120,7 @@ struct API {
             endpointName: "allCategories",
             parser: ManyParser<Category>(CategoryParser()).parse,
             body: Fragments.categoriesBody
-            )
+        )
         return request
     }
 
@@ -116,7 +129,7 @@ struct API {
             endpointName: "categoryNav",
             parser: ManyParser<Category>(CategoryParser()).parse,
             body: Fragments.categoriesBody
-            )
+        )
         return request
     }
 
@@ -125,11 +138,11 @@ struct API {
             endpointName: "pageHeaders",
             parser: ManyParser<PageHeader>(PageHeaderParser()).parse,
             variables: [
-                .enum("PageHeaderKind", "kind", kind.apiKind),
+                .enum("kind", kind.apiKind, "PageHeaderKind"),
                 .optionalString("slug", kind.slug),
             ],
             body: Fragments.pageHeaderBody
-            )
+        )
         return request
     }
 
@@ -138,10 +151,23 @@ struct API {
             endpointName: "post",
             parser: OneParser<Post>(PostParser()).parse,
             variables: [
-                token.toVariable(token: "token"),
+                token.toVariable(),
                 .optionalString("username", username),
             ],
             body: Fragments.postBody
+        )
+        return request
+    }
+
+    func postComments(postToken: Token, before: String? = nil) -> GraphQLRequest<(PageConfig, [ElloComment])> {
+        let request = GraphQLRequest(
+            endpointName: "commentStream",
+            parser: PageParser<ElloComment>("comments", CommentParser()).parse,
+            variables: [
+                postToken.toVariable(),
+                .optionalString("before", before),
+            ],
+            body: Fragments.commentStreamBody
         )
         return request
     }
@@ -151,7 +177,7 @@ struct API {
             endpointName: "findUser",
             parser: OneParser<User>(UserParser()).parse,
             variables: [
-                token.toVariable(token: "username")
+                token.toVariable(tokenName: "username")
             ],
             body: Fragments.userBody
         )
@@ -167,7 +193,7 @@ struct API {
                 .optionalString("before", before),
             ],
             body: Fragments.postStreamBody
-            )
+        )
         return request
     }
 
@@ -180,7 +206,7 @@ struct API {
                 .optionalString("before", before),
             ],
             body: Fragments.loveStreamBody
-            )
+        )
         return request
     }
 }

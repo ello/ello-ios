@@ -52,7 +52,7 @@ final class PostDetailViewController: StreamableViewController {
         setupNavigationBar()
         streamViewController.streamKind = generator.streamKind
         view.backgroundColor = .white
-        ElloHUD.showLoadingHudInView(streamViewController.view)
+        streamViewController.showLoadingSpinner()
         streamViewController.initialLoadClosure = { [weak self] in self?.loadEntirePostDetail() }
         streamViewController.reloadClosure = { [weak self] in self?.reloadEntirePostDetail() }
 
@@ -180,11 +180,7 @@ final class PostDetailViewController: StreamableViewController {
 
 extension PostDetailViewController: PostCommentsResponder {
     func loadCommentsTapped() {
-        guard
-            let nextQuery = streamViewController.responseConfig?.nextQuery
-        else { return }
-
-        generator.loadMoreComments(nextQuery: nextQuery)
+        generator.loadMoreComments()
     }
 }
 
@@ -253,7 +249,7 @@ extension PostDetailViewController: PostDetailStreamDestination {
         if let deeplinkPath = self.deeplinkPath,
             let deeplinkURL = URL(string: deeplinkPath)
         {
-            UIApplication.shared.openURL(deeplinkURL)
+            UIApplication.shared.open(deeplinkURL, options: [:], completionHandler: nil)
             self.deeplinkPath = nil
             _ = self.navigationController?.popViewController(animated: true)
         }

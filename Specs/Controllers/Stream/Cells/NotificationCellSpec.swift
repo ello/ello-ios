@@ -41,16 +41,26 @@ class NotificationCellSpec: QuickSpec {
             }
 
             context("snapshots") {
-                let author: User = .stub(["username": "ello"])
-                let post: Post = .stub(["author": author])
-                let activity: Activity = stub([
-                    "kind": Activity.Kind.postMentionNotification,
-                    "subject": post,
-                    ])
-                let title = NotificationAttributedTitle.from(notification: Notification(activity: activity))
-                let createdAt = Date(timeIntervalSinceNow: -86_460)
-                let aspectRatio: CGFloat = 1
-                let image = UIImage.imageWithColor(.blue, size: CGSize(width: 300, height: 300))!
+                var author: User!
+                var post: Post!
+                var activity: Activity!
+                var title: NSAttributedString!
+                var createdAt: Date!
+                var aspectRatio: CGFloat!
+                var image: UIImage!
+
+                beforeEach {
+                    author = User.stub(["username": "ello"])
+                    post = Post.stub(["author": author])
+                    activity = Activity.stub([
+                        "kind": Activity.Kind.postMentionNotification,
+                        "subject": post,
+                        ])
+                    title = NotificationAttributedTitle.from(notification: Notification(activity: activity))
+                    createdAt = Date(timeIntervalSinceNow: -86_460)
+                    aspectRatio = 1
+                    image = UIImage.imageWithColor(.blue, size: CGSize(width: 300, height: 300))!
+                }
 
                 let expectations: [(hasImage: Bool, canReply: Bool, buyButton: Bool)] = [
                     (hasImage: true, canReply: false, buyButton: false),

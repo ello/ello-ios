@@ -49,18 +49,15 @@ class ProfileGeneratorSpec: QuickSpec {
         describe("ProfileGenerator") {
             var destination: MockProfileDestination!
             var currentUser: User!
-            var streamKind: StreamKind!
             var subject: ProfileGenerator!
 
             beforeEach {
                 destination = MockProfileDestination()
                 currentUser = User.stub(["id": "42"])
-                streamKind = .userStream(userParam: currentUser.id)
                 subject = ProfileGenerator(
                     currentUser: currentUser,
                     userParam: "42",
                     user: currentUser,
-                    streamKind: streamKind,
                     destination: destination
                 )
             }

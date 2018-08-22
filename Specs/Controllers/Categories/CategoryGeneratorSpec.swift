@@ -31,42 +31,11 @@ class CategoryGeneratorSpec: QuickSpec {
 
             describe("load()") {
                 beforeEach {
-                    StubbedManager.current.addStub { request, sender in
-                        guard
-                            let sender = sender as? GraphQLRequest<[PageHeader]>,
-                            sender.endpointName == "pageHeaders"
-                        else { return nil }
-
-                        return stubbedData("pageHeaders")
-                    }
-
-                    StubbedManager.current.addStub { request, sender in
-                        guard
-                            let sender = sender as? GraphQLRequest<[Ello.Category]>,
-                            sender.endpointName == "categoryNav"
-                        else { return nil }
-
-                        return stubbedData("categoryNav")
-                    }
-
-                    StubbedManager.current.addStub { request, sender in
-                        guard
-                            let sender = sender as? GraphQLRequest<(PageConfig, [Post])>
-                        else { return nil }
-
-                        if sender.endpointName == "subscribedPostStream" {
-                            return stubbedData("subscribedPostStream")
-                        }
-                        else if sender.endpointName == "globalPostStream" {
-                            return stubbedData("globalPostStream")
-                        }
-                        else if sender.endpointName == "categoryPostStream" {
-                            return stubbedData("categoryPostStream")
-                        }
-                        else {
-                            return nil
-                        }
-                    }
+                    StubbedManager.current.addStub(endpointName: "pageHeaders")
+                    StubbedManager.current.addStub(endpointName: "categoryNav")
+                    StubbedManager.current.addStub(endpointName: "subscribedPostStream")
+                    StubbedManager.current.addStub(endpointName: "globalPostStream")
+                    StubbedManager.current.addStub(endpointName: "categoryPostStream")
                 }
 
                 it("sets 2 placeholders") {

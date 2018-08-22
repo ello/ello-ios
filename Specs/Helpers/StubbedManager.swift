@@ -4,26 +4,35 @@
 
 @testable import Ello
 
+
 class StubbedManager: Ello.RequestManager {
     static var current: StubbedManager!
 
-    typealias Stub = (URLRequest, Any) -> Data?
+    typealias RequestStub = (URLRequest) -> Data
+    typealias Stub = (URLRequest, RequestSender) -> Data?
     var stubs: [Stub] = []
 
     init() {
         StubbedManager.current = self
     }
 
+    func addStub(endpointName: String, stub stubFile: String? = nil) {
+        addStub { request, sender in
+            guard sender.endpointDescription == endpointName else { return nil }
+            return stubbedData(stubFile ?? endpointName)
+        }
+    }
+
     func addStub(_ stub: @escaping Stub) {
         stubs.append(stub)
     }
 
-    func request(_ request: URLRequest, sender: Any, _ handler: @escaping RequestHandler) -> RequestTask {
+    func request(_ request: URLRequest, sender: RequestSender, _ handler: @escaping RequestHandler) -> RequestTask {
         var newStubs: [Stub] = []
         var matchingData: Data?
         for stub in stubs {
-            if matchingData == nil, let task = stub(request, sender) {
-                matchingData = task
+            if matchingData == nil, let data = stub(request, sender) {
+                matchingData = data
             }
             else {
                 newStubs.append(stub)

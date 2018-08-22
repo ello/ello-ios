@@ -23,7 +23,7 @@ struct ElloLinkedStore {
     private var database: YapDatabase
 
     init() {
-        database = YapDatabase(path: ElloLinkedStore.databasePath())
+        database = YapDatabase(path: ElloLinkedStore.databasePath())!
         writeConnection = database.newConnection()
     }
 

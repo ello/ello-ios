@@ -5,10 +5,11 @@
 @testable import Ello
 import Quick
 import Nimble
+import SnapKit
 
 
 class CategoryViewControllerSpec: QuickSpec {
-    class MockCategoryScreen: CategoryScreenProtocol {
+    class MockCategoryScreen: CategoryScreenProtocol {        
         var showSubscribed: Bool = true
         var showEditButton: Bool = true
         var categoriesLoaded: Bool = false
@@ -16,7 +17,7 @@ class CategoryViewControllerSpec: QuickSpec {
         let topInsetView = UIView()
         let streamContainer = Container()
         var isGridView = true
-        var navigationBarTopConstraint: NSLayoutConstraint!
+        var navigationBarTopConstraint: Constraint!
         let navigationBar = ElloNavigationBar()
         var categoryTitles: [String] = []
         var scrollTo: CategoryScreen.Selection?

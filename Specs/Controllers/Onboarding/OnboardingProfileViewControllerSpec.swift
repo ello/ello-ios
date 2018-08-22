@@ -73,6 +73,21 @@ class OnboardingProfileViewControllerSpec: QuickSpec {
                         expect(subject.didUploadAvatarImage) == true
                     }
                 }
+                describe("does not prepare screen if view has not loaded") {
+                    beforeEach {
+                        onboardingData.name = "my name"
+                        onboardingData.links = "http://my.links"
+                        onboardingData.bio = "my bio"
+                    }
+
+                    it("does not set any values") {
+                        subject.onboardingStepBegin()
+                        expect(subject.isViewLoaded) == false
+                        expect(mockScreen.name).to(beNil())
+                        expect(mockScreen.links).to(beNil())
+                        expect(mockScreen.bio).to(beNil())
+                    }
+                }
                 describe("prepares the screen according to onboardingData") {
                     var image: ImageRegionData!
                     beforeEach {
@@ -82,22 +97,15 @@ class OnboardingProfileViewControllerSpec: QuickSpec {
                         onboardingData.bio = "my bio"
                         onboardingData.coverImage = image
                         onboardingData.avatarImage = image
-                        subject.onboardingStepBegin()
                     }
 
-                    it("sets name") {
+                    it("sets all values") {
+                        subject.loadViewIfNeeded()
+                        subject.onboardingStepBegin()
                         expect(mockScreen.name) == "my name"
-                    }
-                    it("sets links") {
                         expect(mockScreen.links) == "http://my.links"
-                    }
-                    it("sets bio") {
                         expect(mockScreen.bio) == "my bio"
-                    }
-                    it("sets coverImage") {
                         expect(mockScreen.coverImage) == image
-                    }
-                    it("sets avatar") {
                         expect(mockScreen.avatarImage) == image
                     }
                 }

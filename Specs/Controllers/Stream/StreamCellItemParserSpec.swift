@@ -17,7 +17,154 @@ class StreamCellItemParserSpec: QuickSpec {
                 subject = StreamCellItemParser()
             }
 
-            describe("-parse(_:streamKind:)") {
+            describe("userProfileItems()") {
+                describe("should show badges and total count") {
+                    it("when badges count is gt zero and total count is zero") {
+                        let user: User = stub([
+                            "badges": ["featured"],
+                            "totalViewsCount": 0
+                            ])
+                        let items = subject.userProfileItems(user)
+                        expect(items.any { $0.type == .profileHeaderAvatar }).to(be(true), description: "has .profileHeaderAvatar")
+                        expect(items.any { $0.type == .profileHeaderName }).to(be(true), description: "has .profileHeaderName")
+                        expect(items.any { $0.type == .profileHeaderStats }).to(be(true), description: "has .profileHeaderStats")
+                        expect(items.any { $0.type == .profileHeaderTotalAndBadges }).to(be(true), description: "has .profileHeaderTotalAndBadges")
+                    }
+
+                    it("when badges count is zero and total count is gt zero") {
+                        let user: User = stub([
+                            "badges": [String](),
+                            "totalViewsCount": 1
+                            ])
+                        let items = subject.userProfileItems(user)
+                        expect(items.any { $0.type == .profileHeaderAvatar }).to(be(true), description: "has .profileHeaderAvatar")
+                        expect(items.any { $0.type == .profileHeaderName }).to(be(true), description: "has .profileHeaderName")
+                        expect(items.any { $0.type == .profileHeaderStats }).to(be(true), description: "has .profileHeaderStats")
+                        expect(items.any { $0.type == .profileHeaderTotalAndBadges }).to(be(true), description: "has .profileHeaderTotalAndBadges")
+                    }
+                }
+
+                describe("should not show badges and total count") {
+                    it("when badges count is zero and total count is zero") {
+                        let user: User = stub([
+                            "badges": [String](),
+                            "totalViewsCount": 0
+                            ])
+                        let items = subject.userProfileItems(user)
+                        expect(items.any { $0.type == .profileHeaderAvatar }).to(be(true), description: "has .profileHeaderAvatar")
+                        expect(items.any { $0.type == .profileHeaderName }).to(be(true), description: "has .profileHeaderName")
+                        expect(items.any { $0.type == .profileHeaderStats }).to(be(true), description: "has .profileHeaderStats")
+                        expect(items.all { $0.type != .profileHeaderTotalAndBadges }).to(be(true), description: "does not have .profileHeaderTotalAndBadges")
+                    }
+                }
+
+                describe("should show bio") {
+                    it("when bio is not empty") {
+                        let user: User = stub([
+                            "formattedShortBio": "not empty",
+                            ])
+                        let items = subject.userProfileItems(user)
+                        expect(items.any { $0.type == .profileHeaderAvatar }).to(be(true), description: "has .profileHeaderAvatar")
+                        expect(items.any { $0.type == .profileHeaderName }).to(be(true), description: "has .profileHeaderName")
+                        expect(items.any { $0.type == .profileHeaderStats }).to(be(true), description: "has .profileHeaderStats")
+                        expect(items.any { $0.type == .profileHeaderBio }).to(be(true), description: "has .profileHeaderBio")
+                    }
+                }
+
+                describe("should not show bio") {
+                    it("when bio is empty") {
+                        let user: User = stub([
+                            "formattedShortBio": "",
+                            ])
+                        let items = subject.userProfileItems(user)
+                        expect(items.any { $0.type == .profileHeaderAvatar }).to(be(true), description: "has .profileHeaderAvatar")
+                        expect(items.any { $0.type == .profileHeaderName }).to(be(true), description: "has .profileHeaderName")
+                        expect(items.any { $0.type == .profileHeaderStats }).to(be(true), description: "has .profileHeaderStats")
+                        expect(items.all { $0.type != .profileHeaderBio }).to(be(true), description: "does not have .profileHeaderBio")
+                    }
+
+                    it("when bio is nil") {
+                        let user: User = stub([:])
+                        let items = subject.userProfileItems(user)
+                        expect(items.any { $0.type == .profileHeaderAvatar }).to(be(true), description: "has .profileHeaderAvatar")
+                        expect(items.any { $0.type == .profileHeaderName }).to(be(true), description: "has .profileHeaderName")
+                        expect(items.any { $0.type == .profileHeaderStats }).to(be(true), description: "has .profileHeaderStats")
+                        expect(items.all { $0.type != .profileHeaderBio }).to(be(true), description: "does not have .profileHeaderBio")
+                    }
+                }
+
+                describe("should show location") {
+                    it("when location is not empty") {
+                        let user: User = stub([
+                            "location": "not empty",
+                            ])
+                        let items = subject.userProfileItems(user)
+                        expect(items.any { $0.type == .profileHeaderAvatar }).to(be(true), description: "has .profileHeaderAvatar")
+                        expect(items.any { $0.type == .profileHeaderName }).to(be(true), description: "has .profileHeaderName")
+                        expect(items.any { $0.type == .profileHeaderStats }).to(be(true), description: "has .profileHeaderStats")
+                        expect(items.any { $0.type == .profileHeaderLocation }).to(be(true), description: "has .profileHeaderLocation")
+                    }
+                }
+
+                describe("should not show location") {
+                    it("when location is empty") {
+                        let user: User = stub([
+                            "location": "",
+                            ])
+                        let items = subject.userProfileItems(user)
+                        expect(items.any { $0.type == .profileHeaderAvatar }).to(be(true), description: "has .profileHeaderAvatar")
+                        expect(items.any { $0.type == .profileHeaderName }).to(be(true), description: "has .profileHeaderName")
+                        expect(items.any { $0.type == .profileHeaderStats }).to(be(true), description: "has .profileHeaderStats")
+                        expect(items.all { $0.type != .profileHeaderLocation }).to(be(true), description: "does not have .profileHeaderLocation")
+                    }
+
+                    it("when location is nil") {
+                        let user: User = stub([:])
+                        let items = subject.userProfileItems(user)
+                        expect(items.any { $0.type == .profileHeaderAvatar }).to(be(true), description: "has .profileHeaderAvatar")
+                        expect(items.any { $0.type == .profileHeaderName }).to(be(true), description: "has .profileHeaderName")
+                        expect(items.any { $0.type == .profileHeaderStats }).to(be(true), description: "has .profileHeaderStats")
+                        expect(items.all { $0.type != .profileHeaderLocation }).to(be(true), description: "does not have .profileHeaderLocation")
+                    }
+                }
+
+                describe("should show links") {
+                    it("when links is not empty") {
+                        let user: User = stub([
+                            "externalLinksList": ["http://not.empty"],
+                            ])
+                        let items = subject.userProfileItems(user)
+                        expect(items.any { $0.type == .profileHeaderAvatar }).to(be(true), description: "has .profileHeaderAvatar")
+                        expect(items.any { $0.type == .profileHeaderName }).to(be(true), description: "has .profileHeaderName")
+                        expect(items.any { $0.type == .profileHeaderStats }).to(be(true), description: "has .profileHeaderStats")
+                        expect(items.any { $0.type == .profileHeaderLinks }).to(be(true), description: "has .profileHeaderLinks")
+                    }
+                }
+
+                describe("should not show links") {
+                    it("when links is empty") {
+                        let user: User = stub([
+                            "externalLinksList": [String](),
+                            ])
+                        let items = subject.userProfileItems(user)
+                        expect(items.any { $0.type == .profileHeaderAvatar }).to(be(true), description: "has .profileHeaderAvatar")
+                        expect(items.any { $0.type == .profileHeaderName }).to(be(true), description: "has .profileHeaderName")
+                        expect(items.any { $0.type == .profileHeaderStats }).to(be(true), description: "has .profileHeaderStats")
+                        expect(items.all { $0.type != .profileHeaderLinks }).to(be(true), description: "does not have .profileHeaderLinks")
+                    }
+
+                    it("when links is nil") {
+                        let user: User = stub([:])
+                        let items = subject.userProfileItems(user)
+                        expect(items.any { $0.type == .profileHeaderAvatar }).to(be(true), description: "has .profileHeaderAvatar")
+                        expect(items.any { $0.type == .profileHeaderName }).to(be(true), description: "has .profileHeaderName")
+                        expect(items.any { $0.type == .profileHeaderStats }).to(be(true), description: "has .profileHeaderStats")
+                        expect(items.all { $0.type != .profileHeaderLinks }).to(be(true), description: "does not have .profileHeaderLinks")
+                    }
+                }
+            }
+
+            describe("parse(_, streamKind:)") {
 
                 it("sets collapsed and non collapsed state") {
                     let posts: [Post] = (1 ... 10).map { index in

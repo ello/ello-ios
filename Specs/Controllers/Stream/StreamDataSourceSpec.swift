@@ -30,6 +30,8 @@ class FakeCollectionView: ElloCollectionView {
 class StreamDataSourceSpec: QuickSpec {
 
     override func spec() {
+        let firstUserId = "user1"
+        let secondUserId = "user2"
         let indexPath0 = IndexPath(item: 0, section: 0)
         let indexPath1 = IndexPath(item: 1, section: 0)
         let indexPathOutOfBounds = IndexPath(item: 1000, section: 0)
@@ -42,10 +44,15 @@ class StreamDataSourceSpec: QuickSpec {
             StreamKind.following.setIsGridView(true)
 
             subject = StreamDataSource(streamKind: .following)
-            subject.textSizeCalculator = FakeStreamTextCellSizeCalculator(webView: ElloWebView())
-            subject.notificationSizeCalculator = FakeNotificationCellSizeCalculator(webView: ElloWebView())
-            subject.announcementSizeCalculator = FakeAnnouncementCellSizeCalculator()
-            subject.profileHeaderSizeCalculator = FakeProfileHeaderCellSizeCalculator()
+            StreamCellItem.textCellSizeCalculator = FakeCellSizeCalculator.generatorWithStreamKind()
+            StreamCellItem.imageCellSizeCalculator = FakeCellSizeCalculator.generatorWithStreamKind()
+            StreamCellItem.notificationCellSizeCalculator = FakeCellSizeCalculator.generator()
+            StreamCellItem.announcementCellSizeCalculator = FakeCellSizeCalculator.generator()
+            StreamCellItem.promoHeaderCellSizeCalculator = FakeCellSizeCalculator.generator(height: PromotionalHeaderCellSizeCalculator.Size.minPhoneHeight)
+            StreamCellItem.profileNameCellSizeCalculator = FakeCellSizeCalculator.generator(height: 40)
+            StreamCellItem.profileBioCellSizeCalculator = FakeCellSizeCalculator.generator(height: 50)
+            StreamCellItem.profileLinksCellSizeCalculator = FakeCellSizeCalculator.generator(height: 40)
+            StreamCellItem.artistInviteCellSizeCalculator = FakeCellSizeCalculator.generator(height: 40)
 
             streamViewController = StreamViewController()
             streamViewController.streamKind = .following
@@ -178,7 +185,10 @@ class StreamDataSourceSpec: QuickSpec {
 
             context("isValidIndexPath(_:)") {
                 beforeEach {
-                    let item = StreamCellItem(jsonable: ElloComment.newCommentForPost(Post.stub([:]), currentUser: User.stub([:])), type: .createComment)
+                    let post: Post = stub([:])
+                    let groupId = "Post-\(post.id)"
+                    let newComment = ElloComment.newCommentForPost(post, currentUser: User.stub([:]))
+                    let item = StreamCellItem(jsonable: newComment, type: .createComment, groupId: groupId)
                     subject.appendStreamCellItems([item])
                 }
 
@@ -256,7 +266,8 @@ class StreamDataSourceSpec: QuickSpec {
                     let user = User.stub([:])
 
                     let profileHeaderItems = [
-                        StreamCellItem(jsonable: user, type: .profileHeader, placeholderType: .profileHeader),
+                        StreamCellItem(jsonable: user, type: .profileHeaderAvatar, placeholderType: .profileHeader),
+                        StreamCellItem(jsonable: user, type: .profileHeaderName, placeholderType: .profileHeader),
                         StreamCellItem(jsonable: user, type: .fullWidthSpacer(height: 5), placeholderType: .profileHeader),
                     ]
 
@@ -273,13 +284,14 @@ class StreamDataSourceSpec: QuickSpec {
 
                     expect(headerIndexPaths[0].item) == 0
                     expect(headerIndexPaths[1].item) == 1
+                    expect(headerIndexPaths[2].item) == 2
                 }
 
                 it("returns the correct indexPaths for profile posts") {
                     let postIndexPaths = subject.indexPaths(forPlaceholderType: .streamItems)
 
-                    expect(postIndexPaths[0].item) == 2
-                    expect(postIndexPaths[1].item) == 3
+                    expect(postIndexPaths[0].item) == 3
+                    expect(postIndexPaths[1].item) == 4
                 }
             }
 
@@ -554,80 +566,6 @@ class StreamDataSourceSpec: QuickSpec {
                 }
             }
 
-            describe("clientSidePostInsertIndexPath()") {
-                var user: User!
-                let zero = IndexPath(item: 0, section: 0)
-                let two = IndexPath(item: 2, section: 0)
-                let userId = "12345"
-                beforeEach {
-                    user = User.stub(["id": userId])
-                }
-
-                let tests: [(IndexPath?, StreamKind)] = [
-                    (nil, .category(.all, .featured)),
-                    (zero, .following),
-                    (nil, .simpleStream(endpoint: .loves(userId: userId), title: "NA")),
-                    (nil, .notifications(category: "")),
-                    (nil, .postDetail(postParam: "param")),
-                    (nil, .userStream(userParam: "NA")),
-                    (nil, .simpleStream(endpoint: .searchForPosts(terms: "meat"), title: "meat")),
-                    (nil, .simpleStream(endpoint: .userStreamFollowers(userId: "54321"), title: "")),
-                    (two, .userStream(userParam: userId)),
-                    (nil, .simpleStream(endpoint: .userStream(userParam: "54321"), title: "")),
-                    ]
-                for (indexPath, streamKind) in tests {
-                    it("is \(indexPath.map { "\($0)" } ?? "nil") for \(streamKind)") {
-                        subject.streamKind = streamKind
-                        subject.currentUser = user
-
-                        if indexPath == nil {
-                            expect(subject.clientSidePostInsertIndexPath()).to(beNil())
-                        }
-                        else {
-                            expect(subject.clientSidePostInsertIndexPath()) == indexPath
-                        }
-                    }
-                }
-            }
-
-            describe("clientSideLoveInsertIndexPath(post:)") {
-                var user: User!
-                var post: Post!
-                let zero = IndexPath(item: 0, section: 0)
-                let userId = "12345"
-                beforeEach {
-                    user = User.stub(["id": userId])
-                    post = Post.stub([:])
-                }
-
-                let tests: [(IndexPath?, StreamKind)] = [
-                    (nil, .category(.all, .featured)),
-                    (nil, .following),
-                    (zero, .simpleStream(endpoint: .loves(userId: userId), title: "NA")),
-                    (nil, .simpleStream(endpoint: .loves(userId: "54321"), title: "NA")),
-                    (nil, .notifications(category: "")),
-                    (nil, .postDetail(postParam: "param")),
-                    (nil, .userStream(userParam: "NA")),
-                    (nil, .simpleStream(endpoint: .searchForPosts(terms: "meat"), title: "meat")),
-                    (nil, .simpleStream(endpoint: .userStreamFollowers(userId: "54321"), title: "")),
-                    (nil, .userStream(userParam: userId)),
-                    (nil, .simpleStream(endpoint: .userStream(userParam: "54321"), title: "")),
-                    ]
-                for (indexPath, streamKind) in tests {
-                    it("is \(indexPath.map { "\($0)" } ?? "nil") for \(streamKind)") {
-                        subject.streamKind = streamKind
-                        subject.currentUser = user
-
-                        if indexPath == nil {
-                            expect(subject.clientSideLoveInsertIndexPath(post: post)).to(beNil())
-                        }
-                        else {
-                            expect(subject.clientSideLoveInsertIndexPath(post: post)) == indexPath
-                        }
-                    }
-                }
-            }
-
             describe("modifyItems(_:change:streamViewController:)") {
 
                 context("with comments") {
@@ -703,14 +641,15 @@ class StreamDataSourceSpec: QuickSpec {
                         }
 
                         let cellItems = StreamCellItemParser().parse(posts, streamKind: .following)
-                        subject.appendStreamCellItems(cellItems)
+                        subject.appendStreamCellItems([StreamCellItem(type: .placeholder, placeholderType: .streamItems)])
+                        subject.replacePlaceholder(type: .streamItems, items: cellItems)
                     }
 
                     describe(".create") {
 
                         context("StreamKind.following") {
 
-                            it("inserts the new post at 1, 0") {
+                            it("inserts the new post") {
                                 subject.streamKind = .following
                                 expect(subject.allStreamCellItems.count) == 20
                                 streamViewController.performDataReload()
@@ -724,16 +663,16 @@ class StreamDataSourceSpec: QuickSpec {
 
                         context("StreamKind.profile") {
 
-                            it("inserts the new post at 4, 0") {
+                            it("inserts the new post") {
                                 let currentUser = User.stub([:])
                                 subject.currentUser = currentUser
                                 subject.streamKind = .userStream(userParam: currentUser.id)
                                 expect(subject.allStreamCellItems.count) == 20
                                 streamViewController.performDataReload()
 
-                                subject.modifyItems(Post.stub(["id": "new_post"]), change: .create, streamViewController: streamViewController)
-                                expect(subject.post(at: indexPath0)!.id) == "1"
-                                expect(subject.post(at: IndexPath(item: 4, section: 0))!.id) == "new_post"
+                                let newPost = Post.stub(["id": "new_post"])
+                                subject.modifyItems(newPost, change: .create, streamViewController: streamViewController)
+                                expect(subject.post(at: indexPath0)!.id) == newPost.id
                                 expect(subject.allStreamCellItems.count) == 24
                             }
 
@@ -741,16 +680,17 @@ class StreamDataSourceSpec: QuickSpec {
 
                         context("StreamKind.userStream") {
 
-                            it("inserts the new post at 4, 0") {
-                                subject.currentUser = User.stub(["id": "user-id-here"])
-                                subject.streamKind = .userStream(userParam: "user-id-here")
+                            it("inserts the new post") {
+                                let user = User.stub([:])
+                                subject.currentUser = user
+                                subject.streamKind = .userStream(userParam: user.id)
                                 expect(subject.allStreamCellItems.count) == 20
                                 streamViewController.performDataReload()
 
-                                subject.modifyItems(Post.stub(["id": "new_post"]), change: .create, streamViewController: streamViewController)
+                                let newPost = Post.stub([:])
+                                subject.modifyItems(newPost, change: .create, streamViewController: streamViewController)
 
-                                expect(subject.post(at: indexPath0)!.id) == "1"
-                                expect(subject.post(at: IndexPath(item: 4, section: 0))!.id) == "new_post"
+                                expect(subject.post(at: indexPath0)!.id) == newPost.id
                                 expect(subject.allStreamCellItems.count) == 24
                             }
 
@@ -765,11 +705,10 @@ class StreamDataSourceSpec: QuickSpec {
                             }
                         }
 
-                        context("StreamKind.loves") {
-
+                        context("StreamKind.userLoves") {
                             it("adds the newly loved post") {
-                                subject.currentUser = User.stub(["id": "1"])
-                                subject.streamKind = .simpleStream(endpoint: .loves(userId: "1"), title: "Loves")
+                                subject.currentUser = User.stub(["username": "abc"])
+                                subject.streamKind = .userLoves(username: "abc")
                                 let love: Love = stub(["id": "love1", "postId": "post1"])
                                 expect(subject.allStreamCellItems.count) == 20
                                 streamViewController.performDataReload()
@@ -832,7 +771,7 @@ class StreamDataSourceSpec: QuickSpec {
                         context("StreamKind.loves") {
 
                             beforeEach {
-                                subject.streamKind = StreamKind.simpleStream(endpoint: ElloAPI.loves(userId: "fake-id"), title: "Loves")
+                                subject.streamKind = StreamKind.userLoves(username: "fake-id")
                             }
 
                             it("removes the unloved post") {
@@ -848,19 +787,18 @@ class StreamDataSourceSpec: QuickSpec {
             }
 
             describe("modifyUserRelationshipItems(_:streamViewController:)") {
-
                 let stubCellItems: (_ streamKind: StreamKind) -> Void = { streamKind in
-                    let user1: User = stub(["id": "user1"])
-                    let post1: Post = stub(["id": "post1", "authorId": "user1"])
+                    let user1: User = stub(["id": firstUserId])
+                    let post1: Post = stub(["id": "post1", "authorId": firstUserId])
                     let post1Comment1: ElloComment = stub([
                         "parentPost": post1,
                         "id": "comment1",
-                        "authorId": "user1"
+                        "authorId": firstUserId
                         ])
                     let post1Comment2: ElloComment = stub([
                         "parentPost": post1,
                         "id": "comment2",
-                        "authorId": "user2"
+                        "authorId": secondUserId
                         ])
                     let parser = StreamCellItemParser()
                     let userCellItems = parser.parse([user1], streamKind: streamKind)
@@ -879,7 +817,7 @@ class StreamDataSourceSpec: QuickSpec {
                             expect(subject.allStreamCellItems.count) == 9
                             streamViewController.performDataReload()
 
-                            subject.modifyUserRelationshipItems(User.stub(["id": "user1", "relationshipPriority": RelationshipPriority.block.rawValue]), streamViewController: streamViewController)
+                            subject.modifyUserRelationshipItems(User.stub(["id": firstUserId, "relationshipPriority": RelationshipPriority.block.rawValue]), streamViewController: streamViewController)
                             expect(subject.allStreamCellItems.count) == 0
                         }
                     }
@@ -890,7 +828,7 @@ class StreamDataSourceSpec: QuickSpec {
                             expect(subject.allStreamCellItems.count) == 9
                             streamViewController.performDataReload()
 
-                            subject.modifyUserRelationshipItems(User.stub(["id": "user2", "relationshipPriority": RelationshipPriority.block.rawValue]), streamViewController: streamViewController)
+                            subject.modifyUserRelationshipItems(User.stub(["id": secondUserId, "relationshipPriority": RelationshipPriority.block.rawValue]), streamViewController: streamViewController)
                             expect(subject.allStreamCellItems.count) == 7
                         }
                     }
@@ -911,13 +849,13 @@ class StreamDataSourceSpec: QuickSpec {
                     it("updates posts from that user") {
                         stubCellItems(StreamKind.simpleStream(endpoint: ElloAPI.following, title: "some title"))
                         var user1 = subject.user(at: indexPath0)!
-                        expect(user1.followersCount) == "stub-user-followers-count"
+                        expect(user1.id) == firstUserId
                         expect(user1.relationshipPriority.rawValue) == RelationshipPriority.none.rawValue
                         streamViewController.performDataReload()
 
-                        subject.modifyUserRelationshipItems(User.stub(["id": "user1", "followersCount": "2", "followingCount": 2, "relationshipPriority": RelationshipPriority.following.rawValue]), streamViewController: streamViewController)
+                        subject.modifyUserRelationshipItems(User.stub(["id": firstUserId, "followersCount": 2, "followingCount": 2, "relationshipPriority": RelationshipPriority.following.rawValue]), streamViewController: streamViewController)
                         user1 = subject.user(at: indexPath0)!
-                        expect(user1.followersCount) == "2"
+                        expect(user1.followersCount) == 2
                         expect(user1.relationshipPriority.rawValue) == RelationshipPriority.following.rawValue
                     }
                 }
@@ -926,7 +864,7 @@ class StreamDataSourceSpec: QuickSpec {
 
                     beforeEach {
                         let streamKind: StreamKind = .notifications(category: nil)
-                        let user1: User = stub(["id": "user1"])
+                        let user1: User = stub(["id": firstUserId])
                         let post1: Post = stub(["id": "post1", "authorId": "other-user"])
                         let activity1: Activity = stub(["id": "activity1", "subject": user1])
                         let activity2: Activity = stub(["id": "activity2", "subject": post1])
@@ -940,7 +878,7 @@ class StreamDataSourceSpec: QuickSpec {
                         expect(subject.allStreamCellItems.count) == 2
                         streamViewController.performDataReload()
 
-                        subject.modifyUserRelationshipItems(User.stub(["id": "user1", "relationshipPriority": RelationshipPriority.mute.rawValue]), streamViewController: streamViewController)
+                        subject.modifyUserRelationshipItems(User.stub(["id": firstUserId, "relationshipPriority": RelationshipPriority.mute.rawValue]), streamViewController: streamViewController)
                         expect(subject.allStreamCellItems.count) == 1
                     }
                 }
@@ -950,8 +888,8 @@ class StreamDataSourceSpec: QuickSpec {
             describe("modifyUserSettingsItems(_:streamViewController:)") {
 
                 let stubCellItems: (_ streamKind: StreamKind) -> Void = { streamKind in
-                    let user1: User = stub(["id": "user1", "username": "sweet"])
-                    let user2: User = stub(["id": "user2", "username": "unsweet"])
+                    let user1: User = stub(["id": firstUserId, "username": "sweet"])
+                    let user2: User = stub(["id": secondUserId, "username": "unsweet"])
                     let userCellItems = StreamCellItemParser().parse([user1, user2], streamKind: streamKind)
                     let cellItems = userCellItems
                     subject.streamKind = streamKind
@@ -964,7 +902,7 @@ class StreamDataSourceSpec: QuickSpec {
                         expect(subject.user(at: indexPath0)!.username) == "sweet"
                         streamViewController.performDataReload()
 
-                        subject.modifyUserSettingsItems(User.stub(["id": "user1", "username": "sweetness"]), streamViewController: streamViewController)
+                        subject.modifyUserSettingsItems(User.stub(["id": firstUserId, "username": "sweetness"]), streamViewController: streamViewController)
                         expect(subject.user(at: indexPath0)!.username) == "sweetness"
                     }
                 }
@@ -977,7 +915,9 @@ class StreamDataSourceSpec: QuickSpec {
                     let parser = StreamCellItemParser()
                     post = Post.stub(["id": "666"])
                     items += parser.parse([post], streamKind: .following)
-                    items.append(StreamCellItem(jsonable: ElloComment.newCommentForPost(post, currentUser: User.stub([:])), type: .createComment))
+                    let groupId = "Post-\(post.id)"
+                    let newComment = ElloComment.newCommentForPost(post, currentUser: User.stub([:]))
+                    items.append(StreamCellItem(jsonable: newComment, type: .createComment, groupId: groupId))
                     items += parser.parse([ElloComment.stub(["parentPostId": "666"]), ElloComment.stub(["parentPostId": "666"])], streamKind: .following)
                     items += parser.parse([Post.stub(["id": "777"])], streamKind: .following)
                     items += parser.parse([ElloComment.stub(["parentPostId": "777"])], streamKind: .following)
@@ -1220,8 +1160,9 @@ class StreamDataSourceSpec: QuickSpec {
                     let imageCellItem = StreamCellItem(jsonable: post, type: .image(data: ImageRegion.stub([:])))
                     let anotherImageCellItem = StreamCellItem(jsonable: Post.stub([:]), type: .image(data: ImageRegion.stub([:])))
 
+                    let groupId = "Post-\(post.id)"
                     let comment = ElloComment.newCommentForPost(post, currentUser: User.stub([:]))
-                    newCellItem = StreamCellItem(jsonable: comment, type: .createComment)
+                    newCellItem = StreamCellItem(jsonable: comment, type: .createComment, groupId: groupId)
 
                     subject.appendStreamCellItems([toggleCellItem, imageCellItem, anotherImageCellItem])
                 }
@@ -1275,19 +1216,15 @@ class StreamDataSourceSpec: QuickSpec {
                 }
 
                 it("should return a post (object equality)") {
-                    let items = subject.testingElementsFor(jsonable: post1, change: .create).1
-                    for item in items {
-                        expect(item.jsonable) == post1
-                    }
+                    let items = subject.testingElementsFor(jsonable: post1, change: .create)
+                    expect(items.all { $0.jsonable == post1 }).to(be(true), description: "not all elements were post1")
                 }
                 it("should return a comment (object equality)") {
-                    let items = subject.testingElementsFor(jsonable: comment1, change: .create).1
-                    for item in items {
-                        expect(item.jsonable) == comment1
-                    }
+                    let items = subject.testingElementsFor(jsonable: comment1, change: .create)
+                    expect(items.all { $0.jsonable == comment1 }).to(be(true), description: "not all elements were comment1")
                 }
                 it("should return post and comment (object equality, change = .Delete)") {
-                    let items = subject.testingElementsFor(jsonable: post1, change: .delete).1
+                    let items = subject.testingElementsFor(jsonable: post1, change: .delete)
                     for item in items {
                         if item.jsonable is ElloComment {
                             expect(item.jsonable) == comment1
@@ -1298,25 +1235,25 @@ class StreamDataSourceSpec: QuickSpec {
                     }
                 }
                 it("should return a user (object equality)") {
-                    let items = subject.testingElementsFor(jsonable: user1, change: .create).1
+                    let items = subject.testingElementsFor(jsonable: user1, change: .create)
                     for item in items {
                         expect(item.jsonable) == user1
                     }
                 }
                 it("should return a post (id equality)") {
-                    let items = subject.testingElementsFor(jsonable: Post.stub(["id": post1.id]), change: .create).1
+                    let items = subject.testingElementsFor(jsonable: Post.stub(["id": post1.id]), change: .create)
                     for item in items {
                         expect(item.jsonable) == post1
                     }
                 }
                 it("should return a comment (id equality)") {
-                    let items = subject.testingElementsFor(jsonable: ElloComment.stub(["id": comment1.id]), change: .create).1
+                    let items = subject.testingElementsFor(jsonable: ElloComment.stub(["id": comment1.id]), change: .create)
                     for item in items {
                         expect(item.jsonable) == comment1
                     }
                 }
                 it("should return post and comment (id equality, change = .Delete)") {
-                    let items = subject.testingElementsFor(jsonable: Post.stub(["id": post1.id]), change: .delete).1
+                    let items = subject.testingElementsFor(jsonable: Post.stub(["id": post1.id]), change: .delete)
                     for item in items {
                         if item.jsonable is ElloComment {
                             expect(item.jsonable) == comment1
@@ -1327,21 +1264,19 @@ class StreamDataSourceSpec: QuickSpec {
                     }
                 }
                 it("should return a user (id equality)") {
-                    let items = subject.testingElementsFor(jsonable: User.stub(["id": user1.id]), change: .create).1
-                    for item in items {
-                        expect(item.jsonable) == user1
-                    }
+                    let items = subject.testingElementsFor(jsonable: User.stub(["id": user1.id]), change: .create)
+                    expect(items.map { $0.jsonable }) == [user1]
                 }
                 it("should return nothing (no matching post)") {
-                    let items = subject.testingElementsFor(jsonable: Post.stub([:]), change: .create).1
+                    let items = subject.testingElementsFor(jsonable: Post.stub([:]), change: .create)
                     expect(items) == []
                 }
                 it("should return nothing (no matching comment)") {
-                    let items = subject.testingElementsFor(jsonable: ElloComment.stub([:]), change: .create).1
+                    let items = subject.testingElementsFor(jsonable: ElloComment.stub([:]), change: .create)
                     expect(items) == []
                 }
                 it("should return nothing (no matching user)") {
-                    let items = subject.testingElementsFor(jsonable: User.stub([:]), change: .create).1
+                    let items = subject.testingElementsFor(jsonable: User.stub([:]), change: .create)
                     expect(items) == []
                 }
             }
@@ -1349,6 +1284,16 @@ class StreamDataSourceSpec: QuickSpec {
             describe("calculating heights early exit") {
                 it("should call the calculatedCellItems(completion:) block immediately if no cells need to be calculated") {
                     subject = StreamDataSource(streamKind: .following)
+
+                    StreamCellItem.textCellSizeCalculator = StreamTextCellSizeCalculator.init
+                    StreamCellItem.imageCellSizeCalculator = StreamImageCellSizeCalculator.init
+                    StreamCellItem.notificationCellSizeCalculator = NotificationCellSizeCalculator.init
+                    StreamCellItem.announcementCellSizeCalculator = AnnouncementCellSizeCalculator.init
+                    StreamCellItem.promoHeaderCellSizeCalculator = PromotionalHeaderCellSizeCalculator.init
+                    StreamCellItem.profileNameCellSizeCalculator = ProfileHeaderNamesSizeCalculator.init
+                    StreamCellItem.profileBioCellSizeCalculator = ProfileHeaderBioSizeCalculator.init
+                    StreamCellItem.profileLinksCellSizeCalculator = ProfileHeaderLinksSizeCalculator.init
+                    StreamCellItem.artistInviteCellSizeCalculator = ArtistInviteCellSizeCalculator.init
 
                     let items: [StreamCellItem] = [
                         StreamCellItem(type: .categorySubscribeCard),

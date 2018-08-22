@@ -80,7 +80,7 @@ class SettingsViewController: BaseElloViewController {
             self.blockedMutedCountChanged(deltaBlocked: 0, deltaMuted: delta)
         }
 
-        ElloHUD.showLoadingHudInView(self.view)
+        ElloHUD.showLoadingHudInView(view)
     }
 
     override func viewWillAppear(_ animated: Bool) {

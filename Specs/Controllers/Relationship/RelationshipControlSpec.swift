@@ -81,7 +81,7 @@ class RelationshipControlSpec: QuickSpec {
                         it("launches the block modal") {
                             subject.relationshipPriority = .mute
                             subject.followingButton.sendActions(for: .touchUpInside)
-                            let presentedVC = relationshipController.responderChainable?.controller?.presentedViewController as? BlockUserModalViewController
+                            let presentedVC = relationshipController.responderChainable.controller!.presentedViewController as? BlockUserModalViewController
                             expect(presentedVC).notTo(beNil())
                         }
                     }

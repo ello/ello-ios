@@ -56,7 +56,7 @@ class EditorialsViewController: StreamableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        ElloHUD.showLoadingHudInView(streamViewController.view)
+        streamViewController.showLoadingSpinner()
         streamViewController.loadInitialPage()
     }
 
@@ -174,7 +174,6 @@ extension EditorialsViewController: EditorialToolsResponder {
 }
 
 extension EditorialsViewController: StreamDestination {
-
     var isPagingEnabled: Bool {
         get { return streamViewController.isPagingEnabled }
         set { streamViewController.isPagingEnabled = newValue }
@@ -225,7 +224,6 @@ extension EditorialsViewController: StreamDestination {
         self.showGenericLoadFailure()
         self.streamViewController.doneLoading()
     }
-
 }
 
 extension EditorialsViewController: EditorialsScreenDelegate {

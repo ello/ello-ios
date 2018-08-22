@@ -1,5 +1,6 @@
-osx_image: xcode8.3
 language: objective-c
+xcode_workspace: Ello.xcworkspace
+xcode_scheme: Ello
 xcode_sdk: iphonesimulator10.3
 git:
   depth: 1
@@ -7,9 +8,8 @@ cache:
 - bundler
 - cocoapods
 before_install:
-- export IOS_SIMULATOR_UDID=`instruments -s devices | grep "iPhone 7 (10.3" | awk -F '[ ]' '{print $4}' | awk -F '[\[]' '{print $2}' | sed 's/.$//'`
+- export IOS_SIMULATOR_UDID=`instruments -s devices | grep "iPhone 8 (11.4" | awk -F '[ ]' '{print $4}' | awk -F '[\[]' '{print $2}' | sed 's/.$//'`
 - echo $IOS_SIMULATOR_UDID
-- open -a "simulator" --args -CurrentDeviceUDID $IOS_SIMULATOR_UDID
 install:
 - gem install bundler
 - bundle install
@@ -17,13 +17,15 @@ install:
 - bundle exec pod keys set OauthSecret $ELLO_CLIENT_SECRET Ello
 - bundle exec pod keys set Domain $ELLO_DOMAIN Ello
 - bundle exec pod keys set SodiumChloride $INVITE_FRIENDS_SALT Ello
-- bundle exec pod keys set CrashlyticsKey $ELLO_CRASHLYTICS_KEY Ello
 - bundle exec pod keys set SegmentKey $ELLO_SEGMENT_KEY Ello
 - bundle exec pod keys set TeamId ABC123 Ello
 - bundle exec pod keys set StagingSegmentKey "any" Ello
 - bundle exec pod keys set NinjaOauthKey "any" Ello
 - bundle exec pod keys set NinjaOauthSecret "any" Ello
 - bundle exec pod keys set NinjaDomain "any" Ello
+- bundle exec pod keys set RainbowOauthKey "any" Ello
+- bundle exec pod keys set RainbowOauthSecret "any" Ello
+- bundle exec pod keys set RainbowDomain "any" Ello
 - bundle exec pod keys set Stage1OauthKey "any" Ello
 - bundle exec pod keys set Stage1OauthSecret "any" Ello
 - bundle exec pod keys set Stage1Domain "any" Ello
@@ -31,13 +33,11 @@ install:
 - bundle exec pod keys set Stage2OauthSecret "any" Ello
 - bundle exec pod keys set Stage2Domain "any" Ello
 - bundle exec pod repo update --silent
-- bundle exec pod install
+- bundle exec pod install --verbose
 before_script:
 - export LANG=en_US.UTF-8
 script:
-- gem install danger -v 2.0.1 --no-ri --no-rdoc && danger
-- set -o pipefail && travis_retry xcodebuild -workspace Ello.xcworkspace -scheme Ello -configuration
-  Debug -destination "id=$IOS_SIMULATOR_UDID" clean test | xcpretty -f `xcpretty-travis-formatter`
+- xcodebuild -workspace Ello.xcworkspace -scheme Ello -sdk iphonesimulator11.4 -configuration Debug -destination "id=$IOS_SIMULATOR_UDID" build test | xcpretty -f `xcpretty-travis-formatter`
 notifications:
   email: false
   slack:

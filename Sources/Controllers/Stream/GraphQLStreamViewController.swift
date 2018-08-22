@@ -60,7 +60,7 @@ class GraphQLStreamViewController: StreamableViewController {
                 }
                 .ignoreErrors()
         }
-        ElloHUD.showLoadingHudInView(streamViewController.view)
+        streamViewController.showLoadingSpinner()
         streamViewController.loadInitialPage()
     }
 
