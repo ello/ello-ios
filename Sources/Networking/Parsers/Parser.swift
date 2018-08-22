@@ -49,8 +49,20 @@ class Parser {
     }
 
     func flatten(json: JSON, identifier: Identifier, db: inout Database) {
+        var newJSON: JSON
+        if var existing = db[identifier.table]?[identifier.id] {
+            for (key, value) in json.dictionaryValue {
+                existing[key] = value
+            }
+            newJSON = existing
+        }
+        else {
+            newJSON = json
+        }
+
         var links: [String: Any] = json["links"].dictionaryObject ?? [:]
         for (linkTable, jsonKey, linkKey) in linkedArrays {
+            newJSON[jsonKey] = .null
             guard
                 let linkedObjects = json[jsonKey].array,
                 let parser = linkTable.parser
@@ -66,6 +78,7 @@ class Parser {
         }
 
         for (linkTable, jsonKey, linkKey) in linkedObjects {
+            newJSON[jsonKey] = .null
             let linkedJSON = json[jsonKey]
             guard
                 let parser = linkTable.parser,
@@ -76,16 +89,6 @@ class Parser {
             links[linkKey] = ["id": identifier.id, "type": linkTable.rawValue]
         }
 
-        var newJSON: JSON
-        if var existing = db[identifier.table]?[identifier.id] {
-            for (key, value) in json.dictionaryValue {
-                existing[key] = value
-            }
-            newJSON = existing
-        }
-        else {
-            newJSON = json
-        }
         newJSON["links"] = JSON(links)
 
         var table = db[identifier.table] ?? [:]
