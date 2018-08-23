@@ -24,14 +24,14 @@ class OneParser<T> {
 
         var db: Parser.Database = [:]
         parser.flatten(json: json, identifier: identifier, db: &db)
-        let one = Parser.saveToDB(parser: parser, identifier: identifier, db: &db)
+        let one = Parser.saveToDB(parser: parser, identifier: identifier, db: db)
 
         for (table, objects) in db {
             guard let tableParser = table.parser else { continue }
 
             for (_, json) in objects {
                 guard let identifier = tableParser.identifier(json: json) else { continue }
-                Parser.saveToDB(parser: tableParser, identifier: identifier, db: &db)
+                Parser.saveToDB(parser: tableParser, identifier: identifier, db: db)
             }
         }
 

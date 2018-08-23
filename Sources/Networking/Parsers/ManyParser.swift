@@ -30,15 +30,15 @@ class ManyParser<T> {
         }
 
         let many: [Model]? = (ids.count > 0 ? ids.compactMap { identifier in
-            return Parser.saveToDB(parser: parser, identifier: identifier, db: &db)
-            } : nil)
+            return Parser.saveToDB(parser: parser, identifier: identifier, db: db)
+        } : nil)
 
         for (table, objects) in db {
             guard let tableParser = table.parser else { continue }
 
             for (_, json) in objects {
                 guard let identifier = tableParser.identifier(json: json) else { continue }
-                Parser.saveToDB(parser: tableParser, identifier: identifier, db: &db)
+                Parser.saveToDB(parser: tableParser, identifier: identifier, db: db)
             }
         }
 
