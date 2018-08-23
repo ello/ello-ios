@@ -10,205 +10,186 @@ import Nimble
 class CommentHeaderCellPresenterSpec: QuickSpec {
     override func spec() {
         describe("CommentHeaderCellPresenter") {
-            let currentUser: User = stub(["username": "ello"])
+            var currentUser: User!
             var cell: CommentHeaderCell!
             var item: StreamCellItem!
-            let textRegion: TextRegion = stub(["content": "I am your comment's content"])
-            let content = [textRegion]
 
-            context("when item is a CommentHeader") {
-                context("when currentUser is not the author") {
-                    beforeEach {
-                        let post: Post = stub([
-                            "viewsCount": 9,
-                            "repostsCount": 4,
-                            "commentsCount": 6,
-                            "lovesCount": 14,
+            beforeEach {
+                currentUser = User.stub(["username": "ello"])
+                cell = CommentHeaderCell()
+            }
+
+            context("when currentUser is not the author") {
+                beforeEach {
+                    let post: Post = stub([:])
+                    let comment: ElloComment = stub([
+                        "parentPost": post,
+                    ])
+
+                    item = StreamCellItem(jsonable: comment, type: .commentHeader)
+                }
+                it("canReply should be true") {
+                    CommentHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: currentUser)
+                    expect(cell.config.canReplyAndFlag) == true
+                }
+                it("canEdit should be false") {
+                    CommentHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: currentUser)
+                    expect(cell.config.canEdit) == false
+                }
+                it("canDelete should be false") {
+                    CommentHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: currentUser)
+                    expect(cell.config.canDelete) == false
+                }
+            }
+
+            context("when currentUser is the post author") {
+                beforeEach {
+                    let post: Post = stub([
+                        "author": currentUser,
                         ])
-                        let comment: ElloComment = stub([
-                            "id": "362",
-                            "parentPost": post,
-                            "content": content
+                    let comment: ElloComment = stub([
+                        "loadedFromPost": post,
                         ])
 
-                        cell = CommentHeaderCell()
-                        item = StreamCellItem(jsonable: comment, type: .commentHeader)
-                    }
-                    it("canReply should be true") {
-                        CommentHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: currentUser)
-                        expect(cell.config.canReplyAndFlag) == true
-                    }
-                    it("canEdit should be false") {
-                        CommentHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: currentUser)
-                        expect(cell.config.canEdit) == false
-                    }
-                    it("canDelete should be false") {
-                        CommentHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: currentUser)
-                        expect(cell.config.canDelete) == false
-                    }
+                    item = StreamCellItem(jsonable: comment, type: .commentHeader)
                 }
-                context("when currentUser is the post author") {
-                    beforeEach {
-                        let post: Post = stub([
-                            "author": currentUser,
-                            "viewsCount": 9,
-                            "repostsCount": 4,
-                            "commentsCount": 6,
-                            "lovesCount": 14,
-                            ])
-                        let comment: ElloComment = stub([
-                            "id": "362",
-                            "loadedFromPost": post,
-                            "content": content
-                            ])
+                it("canReply should be true") {
+                    CommentHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: currentUser)
+                    expect(cell.config.canReplyAndFlag) == true
+                }
+                it("canEdit should be false") {
+                    CommentHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: currentUser)
+                    expect(cell.config.canEdit) == false
+                }
+                it("canDelete should be true") {
+                    CommentHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: currentUser)
+                    expect(cell.config.canDelete) == true
+                }
+            }
 
-                        cell = CommentHeaderCell()
-                        item = StreamCellItem(jsonable: comment, type: .commentHeader)
-                    }
-                    it("canReply should be true") {
-                        CommentHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: currentUser)
-                        expect(cell.config.canReplyAndFlag) == true
-                    }
-                    it("canEdit should be false") {
-                        CommentHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: currentUser)
-                        expect(cell.config.canEdit) == false
-                    }
-                    it("canDelete should be true") {
-                        CommentHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: currentUser)
-                        expect(cell.config.canDelete) == true
-                    }
-                }
-                context("when currentUser is the repost author") {
-                    beforeEach {
-                        let reposter: User = stub([:])
-                        let repost: Post = stub([
-                            "id": "901",
-                            "author": reposter,
-                            "repostAuthor": currentUser,
-                            "viewsCount": 9,
-                            "repostsCount": 4,
-                            "commentsCount": 6,
-                            "lovesCount": 14,
-                            ])
-                        let comment: ElloComment = stub([
-                            "id": "362",
-                            "parentPost": repost,
-                            "loadedFromPost": repost,
-                            "content": content
-                            ])
+            context("when currentUser is the repost author") {
+                beforeEach {
+                    let reposter: User = stub([:])
+                    let repost: Post = stub([
+                        "author": reposter,
+                        "repostAuthor": currentUser,
+                        ])
+                    let comment: ElloComment = stub([
+                        "parentPost": repost,
+                        "loadedFromPost": repost,
+                        ])
 
-                        cell = CommentHeaderCell()
-                        item = StreamCellItem(jsonable: comment, type: .commentHeader)
-                    }
-                    it("canReply should be true") {
-                        CommentHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: currentUser)
-                        expect(cell.config.canReplyAndFlag) == true
-                    }
-                    it("canEdit should be false") {
-                        CommentHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: currentUser)
-                        expect(cell.config.canEdit) == false
-                    }
-                    it("canDelete should be true") {
-                        CommentHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: currentUser)
-                        expect(cell.config.canDelete) == true
-                    }
+                    item = StreamCellItem(jsonable: comment, type: .commentHeader)
                 }
-                context("when currentUser is the reposter") {
-                    beforeEach {
-                        let originalAuthor: User = stub([:])
-                        let repost: Post = stub([
-                            "id": "901",
-                            "author": currentUser,
-                            "repostAuthor": originalAuthor,
-                            "viewsCount": 9,
-                            "repostsCount": 4,
-                            "commentsCount": 6,
-                            "lovesCount": 14,
-                            ])
-                        let comment: ElloComment = stub([
-                            "id": "362",
-                            "parentPost": repost,
-                            "loadedFromPost": repost,
-                            "content": content
-                            ])
+                it("canReply should be true") {
+                    CommentHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: currentUser)
+                    expect(cell.config.canReplyAndFlag) == true
+                }
+                it("canEdit should be false") {
+                    CommentHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: currentUser)
+                    expect(cell.config.canEdit) == false
+                }
+                it("canDelete should be true") {
+                    CommentHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: currentUser)
+                    expect(cell.config.canDelete) == true
+                }
+            }
 
-                        cell = CommentHeaderCell()
-                        item = StreamCellItem(jsonable: comment, type: .commentHeader)
-                    }
-                    it("canReply should be true") {
-                        CommentHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: currentUser)
-                        expect(cell.config.canReplyAndFlag) == true
-                    }
-                    it("canEdit should be false") {
-                        CommentHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: currentUser)
-                        expect(cell.config.canEdit) == false
-                    }
-                    it("canDelete should be false") {
-                        CommentHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: currentUser)
-                        expect(cell.config.canDelete) == false
-                    }
+            context("when currentUser is the reposter") {
+                beforeEach {
+                    let originalAuthor: User = stub([:])
+                    let repost: Post = stub([
+                        "author": currentUser,
+                        "repostAuthor": originalAuthor,
+                        ])
+                    let comment: ElloComment = stub([
+                        "parentPost": repost,
+                        "loadedFromPost": repost,
+                        ])
+
+                    item = StreamCellItem(jsonable: comment, type: .commentHeader)
                 }
-                context("when currentUser is the comment author") {
+                it("canReply should be true") {
+                    CommentHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: currentUser)
+                    expect(cell.config.canReplyAndFlag) == true
+                }
+                it("canEdit should be false") {
+                    CommentHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: currentUser)
+                    expect(cell.config.canEdit) == false
+                }
+                it("canDelete should be false") {
+                    CommentHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: currentUser)
+                    expect(cell.config.canDelete) == false
+                }
+            }
+
+            context("when currentUser is the comment author") {
+                beforeEach {
+                    let post: Post = stub([:])
+                    let comment: ElloComment = stub([
+                        "author": currentUser,
+                        "parentPost": post,
+                        ])
+
+                    item = StreamCellItem(jsonable: comment, type: .commentHeader)
+                }
+                it("canReply should be false") {
+                    CommentHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: currentUser)
+                    expect(cell.config.canReplyAndFlag) == false
+                }
+                it("canEdit should be true") {
+                    CommentHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: currentUser)
+                    expect(cell.config.canEdit) == true
+                }
+                it("canDelete should be true") {
+                    CommentHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: currentUser)
+                    expect(cell.config.canDelete) == true
+                }
+            }
+
+            context("when currentUser is staff") {
+                beforeEach {
+                    AuthToken.sharedKeychain.isStaff = true
+
+                    let post: Post = stub([:])
+                    let comment: ElloComment = stub([
+                        "parentPost": post,
+                        ])
+
+                    item = StreamCellItem(jsonable: comment, type: .commentHeader)
+                }
+                it("canReply should be true") {
+                    CommentHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: currentUser)
+                    expect(cell.config.canReplyAndFlag) == true
+                }
+                it("canEdit should be false") {
+                    CommentHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: currentUser)
+                    expect(cell.config.canEdit) == false
+                }
+                it("canDelete should be true") {
+                    CommentHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: currentUser)
+                    expect(cell.config.canDelete) == true
+                }
+            }
+
+            for _role in [CategoryUser.Role.featured, CategoryUser.Role.curator, CategoryUser.Role.moderator] {
+                let role = _role
+                context("when comment author is a \(role) of the post category") {
                     beforeEach {
-                        let post: Post = stub([
-                            "viewsCount": 9,
-                            "repostsCount": 4,
-                            "commentsCount": 6,
-                            "lovesCount": 14,
-                            ])
+                        let category: Ello.Category = stub([:])
+                        let categoryUser: CategoryUser = stub(["category": category, "role": role])
+                        let author: User = stub(["categoryUsers": [categoryUser]])
+                        let post: Post = stub(["category": category])
                         let comment: ElloComment = stub([
-                            "id": "362",
-                            "author": currentUser,
+                            "author": author,
                             "parentPost": post,
-                            "content": content
                             ])
 
-                        cell = CommentHeaderCell()
-                        item = StreamCellItem(jsonable: comment, type: .commentHeader)
+                            item = StreamCellItem(jsonable: comment, type: .commentHeader)
                     }
-                    it("canReply should be false") {
+                    it("role should be .curator") {
                         CommentHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: currentUser)
-                        expect(cell.config.canReplyAndFlag) == false
-                    }
-                    it("canEdit should be true") {
-                        CommentHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: currentUser)
-                        expect(cell.config.canEdit) == true
-                    }
-                    it("canDelete should be true") {
-                        CommentHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: currentUser)
-                        expect(cell.config.canDelete) == true
-                    }
-                }
-                context("when currentUser is staff") {
-                    beforeEach {
-                        AuthToken.sharedKeychain.isStaff = true
-
-                        let post: Post = stub([
-                            "viewsCount": 9,
-                            "repostsCount": 4,
-                            "commentsCount": 6,
-                            "lovesCount": 14,
-                            ])
-                        let comment: ElloComment = stub([
-                            "id": "362",
-                            "parentPost": post,
-                            "content": content
-                            ])
-
-                        cell = CommentHeaderCell()
-                        item = StreamCellItem(jsonable: comment, type: .commentHeader)
-                    }
-                    it("canReply should be true") {
-                        CommentHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: currentUser)
-                        expect(cell.config.canReplyAndFlag) == true
-                    }
-                    it("canEdit should be false") {
-                        CommentHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: currentUser)
-                        expect(cell.config.canEdit) == false
-                    }
-                    it("canDelete should be true") {
-                        CommentHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: currentUser)
-                        expect(cell.config.canDelete) == true
+                        expect(cell.config.role) == role
                     }
                 }
             }
