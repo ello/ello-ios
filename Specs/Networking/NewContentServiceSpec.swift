@@ -27,13 +27,14 @@ class NewContentServiceSpec: QuickSpec {
                 let apr_01_2015 = Date(timeIntervalSince1970: 1427846400)
                 let streamKind = StreamKind.following
 
-                let post: Post = stub(["createdAt": jan_01_2015])
-                let post2: Post = stub(["createdAt": feb_01_2015])
-                let post3: Post = stub(["createdAt": mar_01_2015])
-
-                let jsonables = [post, post2, post3]
+                var jsonables: [Model]!
 
                 beforeEach {
+                    let post: Post = stub(["createdAt": jan_01_2015])
+                    let post2: Post = stub(["createdAt": feb_01_2015])
+                    let post3: Post = stub(["createdAt": mar_01_2015])
+                    jsonables = [post, post2, post3]
+
                     GroupDefaults[streamKind.lastViewedCreatedAtKey!] = nil
                 }
 

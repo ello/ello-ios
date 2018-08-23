@@ -10,13 +10,19 @@ import Nimble
 class AssetSpec: QuickSpec {
     override func spec() {
         describe("Asset") {
-            let mdpi: Attachment = stub([:])
-            let hdpi: Attachment = stub([:])
-            let xhdpi: Attachment = stub([:])
-            let noVideoAsset: Asset = stub(["hdpi": hdpi, "xhdpi": xhdpi, "mdpi": mdpi])
+            var mdpi: Attachment!
+            var hdpi: Attachment!
+            var xhdpi: Attachment!
+            var noVideoAsset: Asset!
+
+            beforeEach {
+                mdpi = Attachment.stub([:])
+                hdpi = Attachment.stub([:])
+                xhdpi = Attachment.stub([:])
+                noVideoAsset = Asset.stub(["hdpi": hdpi, "xhdpi": xhdpi, "mdpi": mdpi])
+            }
 
             describe("aspectRatio") {
-
                 it("returns correct aspect ratio when hdpi present") {
                     let attachment: Attachment = stub(["width": 15, "height": 5])
                     let asset: Asset = stub(["hdpi": attachment])
@@ -36,7 +42,6 @@ class AssetSpec: QuickSpec {
             }
 
             describe("oneColumnAttachment") {
-
                 it("returns hdpi when narrow") {
                     expect(noVideoAsset.oneColumnAttachment) == hdpi
                 }
@@ -61,7 +66,6 @@ class AssetSpec: QuickSpec {
             }
 
             describe("gridLayoutAttachment") {
-
                 it("returns hdpi when wide") {
                     let tmp = Window.width
                     Window.width = 2000
@@ -86,7 +90,6 @@ class AssetSpec: QuickSpec {
             }
 
             context("gifs") {
-
                 it("returns 'true' for 'isGif' - optimized image - content type") {
                     let attachment: Attachment = stub(["type": "image/gif"])
                     let asset: Asset = stub(["optimized": attachment])

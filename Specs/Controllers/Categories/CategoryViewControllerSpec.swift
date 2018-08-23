@@ -9,7 +9,7 @@ import SnapKit
 
 
 class CategoryViewControllerSpec: QuickSpec {
-    class MockCategoryScreen: CategoryScreenProtocol {        
+    class MockCategoryScreen: CategoryScreenProtocol {
         var showSubscribed: Bool = true
         var showEditButton: Bool = true
         var categoriesLoaded: Bool = false
@@ -48,22 +48,11 @@ class CategoryViewControllerSpec: QuickSpec {
 
     override func spec() {
         describe("CategoryViewController") {
-            let currentUser: User = stub([:])
-            var subject: CategoryViewController!
-            var screen: MockCategoryScreen!
-
-            beforeEach {
-                let category: Ello.Category = Ello.Category.stub([:])
-                subject = CategoryViewController(currentUser: currentUser, slug: category.slug)
-                screen = MockCategoryScreen()
-                subject.screen = screen
-                showController(subject)
-            }
-
             it("shows the back button when necessary") {
+                let currentUser = User.stub([:])
                 let category: Ello.Category = Ello.Category.stub([:])
-                subject = CategoryViewController(currentUser: currentUser, slug: category.slug)
-                screen = MockCategoryScreen()
+                let subject = CategoryViewController(currentUser: currentUser, slug: category.slug)
+                let screen = MockCategoryScreen()
                 subject.screen = screen
 
                 let nav = UINavigationController(rootViewController: UIViewController())
@@ -75,8 +64,8 @@ class CategoryViewControllerSpec: QuickSpec {
             context("set(subscribedCategories:)") {
                 context("builds category list") {
                     it("is logged out") {
-                        subject = CategoryViewController(currentUser: nil, slug: "art")
-                        screen = MockCategoryScreen()
+                        let subject = CategoryViewController(currentUser: nil, slug: "art")
+                        let screen = MockCategoryScreen()
                         subject.screen = screen
                         subject.set(subscribedCategories: [
                             Category.stub(["name": "Art"])
@@ -84,8 +73,8 @@ class CategoryViewControllerSpec: QuickSpec {
                         expect(screen.categoryTitles) == ["All", "Art"]
                     }
                     it("is logged in with subscribed categories") {
-                        subject = CategoryViewController(currentUser: User.stub(["followedCategoryIds": ["1"]]), slug: "art")
-                        screen = MockCategoryScreen()
+                        let subject = CategoryViewController(currentUser: User.stub(["followedCategoryIds": ["1"]]), slug: "art")
+                        let screen = MockCategoryScreen()
                         subject.screen = screen
                         subject.set(subscribedCategories: [
                             Category.stub(["name": "Art"])
@@ -93,8 +82,8 @@ class CategoryViewControllerSpec: QuickSpec {
                         expect(screen.categoryTitles) == ["All", "Subscribed", "Art"]
                     }
                     it("is logged in with no subscribed categories") {
-                        subject = CategoryViewController(currentUser: User.stub([:]), slug: "art")
-                        screen = MockCategoryScreen()
+                        let subject = CategoryViewController(currentUser: User.stub([:]), slug: "art")
+                        let screen = MockCategoryScreen()
                         subject.screen = screen
                         subject.set(subscribedCategories: [
                             Category.stub(["name": "Art"])

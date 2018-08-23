@@ -9,16 +9,19 @@ import Nimble
 class PostDetailGeneratorSpec: QuickSpec {
     override func spec() {
         describe("PostDetailGenerator") {
-            let currentUser: User = stub(["id": "42"])
-            let post: Post = stub([
-                "id": "123",
-                "content": [TextRegion.stub([:])]
-                ])
-            let streamKind: StreamKind = .userStream(userParam: currentUser.id)
+            var currentUser: User!
+            var post: Post!
+            var streamKind: StreamKind!
             var destination: PostDetailDestination!
             var subject: PostDetailGenerator!
 
             beforeEach {
+                currentUser = User.stub(["id": "42"])
+                post = Post.stub([
+                    "id": "123",
+                    "content": [TextRegion.stub([:])]
+                    ])
+                streamKind = .userStream(userParam: currentUser.id)
                 destination = PostDetailDestination()
                 subject = PostDetailGenerator(
                     currentUser: currentUser,
@@ -32,7 +35,6 @@ class PostDetailGeneratorSpec: QuickSpec {
             }
 
             describe("load()") {
-
                 beforeEach {
                     subject.load()
                 }

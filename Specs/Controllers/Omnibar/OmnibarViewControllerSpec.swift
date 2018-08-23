@@ -276,9 +276,10 @@ class OmnibarViewControllerSpec: QuickSpec {
             }
 
             context("initialization with default text") {
-                let post = Post.stub([:])
+                var post: Post!
 
                 beforeEach {
+                    post = Post.stub([:])
                     subject = OmnibarViewController(parentPostId: post.id, defaultText: "@666 ")
                     showController(subject)
                 }
@@ -339,8 +340,9 @@ class OmnibarViewControllerSpec: QuickSpec {
             }
 
             context("editing a post") {
-                let post = Post.stub([:])
+                var post: Post!
                 beforeEach {
+                    post = Post.stub([:])
                     // NB: this post will be *reloaded* using the stubbed json response
                     // so if you wonder where the text comes from, it's from there, not
                     // the stubbed post.
