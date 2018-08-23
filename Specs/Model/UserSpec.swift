@@ -245,7 +245,7 @@ class UserSpec: QuickSpec {
                 }
                 it("replaces default cover image") {
                     subject = User.stub(["coverImage": defaultAsset])
-                    subject.updateDefaultImages(avatarURL: uploadedURL, coverImageURL: nil)
+                    subject.updateDefaultImages(avatarURL: nil, coverImageURL: uploadedURL)
                     expect(subject.coverImageURL()?.absoluteString).to(contain("uploaded"))
                 }
                 it("ignores custom avatar") {
