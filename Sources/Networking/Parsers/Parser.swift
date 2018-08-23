@@ -21,14 +21,12 @@ class Parser {
     private var linkedObjects: [(type: MappingType, jsonKey: String, linkKey: String)] = []
 
     @discardableResult
-    static func saveToDB(parser: Parser, identifier: Identifier, db: inout Database) -> Model? {
+    static func saveToDB(parser: Parser, identifier: Identifier, db: Database) -> Model? {
         guard
             var table = db[identifier.table],
             let json = table[identifier.id]
         else { return nil }
 
-        table[identifier.id] = nil
-        db[identifier.table] = table
         let jsonable = parser.parse(json: json)
         ElloLinkedStore.shared.setObject(jsonable, forKey: identifier.id, type: identifier.table)
         return jsonable
@@ -51,17 +49,6 @@ class Parser {
     }
 
     func flatten(json: JSON, identifier: Identifier, db: inout Database) {
-        var newJSON: JSON
-        if var existing = db[identifier.table]?[identifier.id] {
-            for (key, value) in json.dictionaryValue {
-                existing[key] = value
-            }
-            newJSON = existing
-        }
-        else {
-            newJSON = json
-        }
-
         var links: [String: Any] = json["links"].dictionaryObject ?? [:]
         for (linkTable, jsonKey, linkKey) in linkedArrays {
             guard
@@ -89,6 +76,16 @@ class Parser {
             links[linkKey] = ["id": identifier.id, "type": linkTable.rawValue]
         }
 
+        var newJSON: JSON
+        if var existing = db[identifier.table]?[identifier.id] {
+            for (key, value) in json.dictionaryValue {
+                existing[key] = value
+            }
+            newJSON = existing
+        }
+        else {
+            newJSON = json
+        }
         newJSON["links"] = JSON(links)
 
         var table = db[identifier.table] ?? [:]
