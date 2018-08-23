@@ -92,12 +92,10 @@ final class Category: Model {
     }
 
     override func merge(_ other: Model) -> Model {
-        guard let otherCategory = other as? Category else { return other }
-
-        if otherCategory.tileImage == nil {
-            otherCategory.tileImage = tileImage
+        if let otherCategory = other as? Category {
+            otherCategory.tileImage = otherCategory.tileImage ?? tileImage
         }
-        return otherCategory
+        return super.merge(other)
     }
 
     override func encode(with coder: NSCoder) {

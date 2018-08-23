@@ -50,6 +50,12 @@ class Model: NSObject, NSCoding {
     }
 
     func merge(_ other: Model) -> Model {
+        guard type(of: self) === type(of: other) else { return other }
+
+        for (key, link) in links {
+            guard other.links[key] == nil else { continue }
+            other.links[key] = link
+        }
         return other
     }
 }

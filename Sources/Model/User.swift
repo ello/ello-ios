@@ -262,15 +262,11 @@ final class User: Model {
     }
 
     override func merge(_ other: Model) -> Model {
-        guard let otherUser = other as? User else { return other }
-
-        if otherUser.formattedShortBio == nil {
-            otherUser.formattedShortBio = formattedShortBio
+        if let otherUser = other as? User {
+            otherUser.formattedShortBio = otherUser.formattedShortBio ?? formattedShortBio
+            otherUser.externalLinksList = otherUser.externalLinksList ?? externalLinksList
         }
-        if otherUser.externalLinksList == nil {
-            otherUser.externalLinksList = externalLinksList
-        }
-        return otherUser
+        return super.merge(other)
     }
 
     class func fromJSON(_ data: [String: Any]) -> User {
