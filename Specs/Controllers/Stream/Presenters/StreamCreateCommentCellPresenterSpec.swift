@@ -28,13 +28,15 @@ class StreamCreateCommentCellPresenterSpec: QuickSpec {
                 ]
                 for (postOwner, canWatch, canReplyAll) in expectations {
                     context("post owner \(postOwner)") {
-                        let currentUser: User = stub(["id": "me"])
-                        let otherUser: User = stub(["id": "other"])
+                        var currentUser: User!
+                        var otherUser: User!
                         var post: Post!
                         var comment: ElloComment!
                         var cell: StreamCreateCommentCell!
                         var item: StreamCellItem!
                         beforeEach {
+                            currentUser = User.stub(["id": "me"])
+                            otherUser = User.stub(["id": "other"])
                             switch postOwner {
                             case .otherPost:
                                 post = Post.stub(["author": otherUser])

@@ -115,6 +115,13 @@ extension User: Stubbable {
             user.addLinkArray("categories", array: categories.map { $0.id }, type: .categoriesType)
         }
 
+        if let categoryUsers = values["categoryUsers"] as? [CategoryUser] {
+            for categoryUser in categoryUsers {
+                ElloLinkedStore.shared.setObject(categoryUser, forKey: categoryUser.id, type: .categoryUsersType)
+            }
+            user.addLinkArray("category_users", array: categoryUsers.map { $0.id }, type: .categoryUsersType)
+        }
+
         ElloLinkedStore.shared.setObject(user, forKey: user.id, type: .usersType)
 
         if (values["hasProfileData"] as? Bool) == true {
@@ -130,7 +137,6 @@ extension User: Stubbable {
 
 extension Username: Stubbable {
     class func stub(_ values: [String: Any]) -> Username {
-
         let username = Username(
             username: (values["username"] as? String) ?? "archer"
         )
@@ -141,9 +147,6 @@ extension Username: Stubbable {
 
 extension Love: Stubbable {
     class func stub(_ values: [String: Any]) -> Love {
-
-        // create necessary links
-
         let post: Post = (values["post"] as? Post) ?? Post.stub(["id": values["postId"] ?? generateID()])
         ElloLinkedStore.shared.setObject(post, forKey: post.id, type: .postsType)
 
@@ -163,9 +166,6 @@ extension Love: Stubbable {
 
 extension Watch: Stubbable {
     class func stub(_ values: [String: Any]) -> Watch {
-
-        // create necessary links
-
         let post: Post = (values["post"] as? Post) ?? Post.stub(["id": values["postId"] ?? generateID()])
         ElloLinkedStore.shared.setObject(post, forKey: post.id, type: .postsType)
 
@@ -285,9 +285,6 @@ extension Profile: Stubbable {
 
 extension Post: Stubbable {
     class func stub(_ values: [String: Any]) -> Post {
-
-        // create necessary links
-
         let author: User = (values["author"] as? User) ?? User.stub(["id": values["authorId"] ?? generateID()])
         ElloLinkedStore.shared.setObject(author, forKey: author.id, type: .usersType)
 
@@ -319,14 +316,19 @@ extension Post: Stubbable {
 
         if let category = values["category"] as? Ello.Category {
             ElloLinkedStore.shared.setObject(category, forKey: category.id, type: .categoriesType)
-            post.addLinkObject("category", id: category.id, type: .categoriesType)
+            let categoryPost: CategoryPost = CategoryPost.stub(["post": post, "category": category])
+            ElloLinkedStore.shared.setObject(categoryPost, forKey: categoryPost.id, type: .categoryPostsType)
+            post.addLinkArray("category_posts", array: [categoryPost.id], type: .categoryPostsType)
         }
         else if let categories = values["categories"] as? [Ello.Category] {
+            var ids: [String] = []
             for category in categories {
                 ElloLinkedStore.shared.setObject(category, forKey: category.id, type: .categoriesType)
-                post.addLinkObject("category", id: category.id, type: .categoriesType)
+                let categoryPost: CategoryPost = CategoryPost.stub(["post": post, "category": category])
+                ElloLinkedStore.shared.setObject(categoryPost, forKey: categoryPost.id, type: .categoryPostsType)
+                ids.append(categoryPost.id)
             }
-            post.addLinkArray("categories", array: categories.map { $0.id }, type: .categoriesType)
+            post.addLinkArray("category_posts", array: ids, type: .categoryPostsType)
         }
 
         post.artistInviteId = (values["artistInviteId"] as? String)
@@ -367,8 +369,6 @@ extension Post: Stubbable {
 
 extension ElloComment: Stubbable {
     class func stub(_ values: [String: Any]) -> ElloComment {
-
-        // create necessary links
         let author: User = (values["author"] as? User) ?? User.stub(["id": values["authorId"] ?? generateID()])
         ElloLinkedStore.shared.setObject(author, forKey: author.id, type: .usersType)
         let parentPost: Post = (values["parentPost"] as? Post) ?? Post.stub(["id": values["parentPostId"] ?? generateID()])
@@ -443,7 +443,6 @@ extension AutoCompleteResult: Stubbable {
 }
 
 extension Activity: Stubbable {
-
     class func stub(_ values: [String: Any]) -> Activity {
         let activityKind: Activity.Kind
         if let kind = values["kind"] as? Activity.Kind {
@@ -557,15 +556,6 @@ extension LocalPerson: Stubbable {
     }
 }
 
-extension StreamCellItem: Stubbable {
-    class func stub(_ values: [String: Any]) -> StreamCellItem {
-        return StreamCellItem(
-            jsonable: (values["jsonable"] as? Model) ?? Post.stub([:]),
-            type: (values["type"] as? StreamCellType) ?? .streamHeader
-        )
-    }
-}
-
 extension PageHeader: Stubbable {
     class func stub(_ values: [String: Any]) -> PageHeader {
         let id = (values["id"] as? String) ?? generateID()
@@ -641,6 +631,99 @@ extension Ello.Category: Stubbable {
         )
 
         return category
+    }
+}
+
+extension CategoryUser: Stubbable {
+    class func stub(_ values: [String: Any]) -> CategoryUser {
+        let id = (values["id"] as? String) ?? generateID()
+        let role: CategoryUser.Role = (values["role"] as? CategoryUser.Role) ?? (values["role"] as? String).flatMap { CategoryUser.Role(rawValue: $0) } ?? .unspecified
+
+        let categoryUser = CategoryUser(
+            id: id,
+            role: role
+        )
+
+        if let category = values["category"] as? Ello.Category {
+            categoryUser.addLinkObject("category", id: category.id, type: .categoriesType)
+            ElloLinkedStore.shared.setObject(category, forKey: category.id, type: .categoriesType)
+        }
+
+        if let user = values["user"] as? User {
+            categoryUser.addLinkObject("user", id: user.id, type: .usersType)
+            ElloLinkedStore.shared.setObject(user, forKey: user.id, type: .usersType)
+        }
+
+        if let featuredBy = values["featured_by"] as? User {
+            categoryUser.addLinkObject("featured_by", id: featuredBy.id, type: .usersType)
+            ElloLinkedStore.shared.setObject(featuredBy, forKey: featuredBy.id, type: .usersType)
+        }
+
+        if let curatorBy = values["curator_by"] as? User {
+            categoryUser.addLinkObject("curator_by", id: curatorBy.id, type: .usersType)
+            ElloLinkedStore.shared.setObject(curatorBy, forKey: curatorBy.id, type: .usersType)
+        }
+
+        if let moderatorBy = values["moderator_by"] as? User {
+            categoryUser.addLinkObject("moderator_by", id: moderatorBy.id, type: .usersType)
+            ElloLinkedStore.shared.setObject(moderatorBy, forKey: moderatorBy.id, type: .usersType)
+        }
+
+        return categoryUser
+    }
+}
+
+extension CategoryPost: Stubbable {
+    class func stub(_ values: [String: Any]) -> CategoryPost {
+        let id = (values["id"] as? String) ?? generateID()
+        let submittedAt = values["submittedAt"] as? Date
+        let featuredAt = values["featuredAt"] as? Date
+        let unfeaturedAt = values["unfeaturedAt"] as? Date
+        let removedAt = values["removedAt"] as? Date
+        let status: CategoryPost.Status = (values["status"] as? CategoryPost.Status) ?? (values["status"] as? String).flatMap { CategoryPost.Status(rawValue: $0) } ?? .featured
+
+        let categoryPost = CategoryPost(
+            id: id,
+            categoryPartial: nil,
+            status: status,
+            actions: [],
+            submittedAt: submittedAt,
+            featuredAt: featuredAt,
+            unfeaturedAt: unfeaturedAt,
+            removedAt: removedAt
+        )
+
+        if let post = values["post"] as? Post {
+            categoryPost.addLinkObject("post", id: post.id, type: .postsType)
+            ElloLinkedStore.shared.setObject(post, forKey: post.id, type: .postsType)
+        }
+
+        if let category = values["category"] as? Ello.Category {
+            categoryPost.addLinkObject("category", id: category.id, type: .categoriesType)
+            ElloLinkedStore.shared.setObject(category, forKey: category.id, type: .categoriesType)
+        }
+
+        if let submittedBy = values["submittedBy"] as? User {
+            categoryPost.addLinkObject("submittedBy", id: submittedBy.id, type: .usersType)
+            ElloLinkedStore.shared.setObject(submittedBy, forKey: submittedBy.id, type: .usersType)
+        }
+
+        if let featuredBy = values["featuredBy"] as? User {
+            categoryPost.addLinkObject("featuredBy", id: featuredBy.id, type: .usersType)
+            ElloLinkedStore.shared.setObject(featuredBy, forKey: featuredBy.id, type: .usersType)
+        }
+
+        if let unfeaturedBy = values["unfeaturedBy"] as? User {
+            categoryPost.addLinkObject("unfeaturedBy", id: unfeaturedBy.id, type: .usersType)
+            ElloLinkedStore.shared.setObject(unfeaturedBy, forKey: unfeaturedBy.id, type: .usersType)
+        }
+
+        if let removedBy = values["removedBy"] as? User {
+            categoryPost.addLinkObject("removedBy", id: removedBy.id, type: .usersType)
+            ElloLinkedStore.shared.setObject(removedBy, forKey: removedBy.id, type: .usersType)
+        }
+
+        return categoryPost
     }
 }
 

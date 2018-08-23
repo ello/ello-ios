@@ -42,16 +42,17 @@ class PostbarControllerSpec: QuickSpec {
     override func spec() {
         var subject: PostbarController!
         var responder: ReplyAllCreatePostResponder!
-        let currentUser: User = User.stub([
-            "id": "user500",
-            "lovesCount": 5,
-            ])
+        var currentUser: User!
         var controller: StreamViewController!
         var collectionView: FakeCollectionView!
         var collectionViewDataSource: CollectionViewDataSource!
         let streamKind: StreamKind = .postDetail(postParam: "post")
 
         beforeEach {
+            currentUser = User.stub([
+                "id": "user500",
+                "lovesCount": 5,
+                ])
             collectionViewDataSource = CollectionViewDataSource(streamKind: streamKind)
 
             controller = StreamViewController()

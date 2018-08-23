@@ -10,11 +10,12 @@ import Nimble
 class StreamHeaderCellPresenterSpec: QuickSpec {
     override func spec() {
         describe("StreamHeaderCellPresenter") {
-            let currentUser: User = stub(["username": "ello"])
+            var currentUser: User!
             var cell: StreamHeaderCell!
             var item: StreamCellItem!
 
             beforeEach {
+                currentUser = User.stub(["username": "ello"])
                 StreamKind.following.setIsGridView(false)
             }
 

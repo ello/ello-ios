@@ -12,23 +12,22 @@ class StreamHeaderCellSpec: QuickSpec {
         case me
         case other
     }
+
     enum Content {
         case post
         case repost
     }
+
     enum Style {
         case grid
         case list
         case detail
         case submission
     }
+
     override func spec() {
         describe("StreamHeaderCell") {
             describe("snapshots") {
-                let me: User = stub(["username": "me"])
-                let other: User = stub(["username": "other"])
-                let reposter: User = stub(["username": "reposter"])
-                let category: Ello.Category = stub(["name": "Illustrations"])
                 let expectations: [
                     (String, owner: Owner, content: Content, category: Bool, follow: Bool, style: Style)
                 ] = [
@@ -64,6 +63,11 @@ class StreamHeaderCellSpec: QuickSpec {
                 let gridFrame = CGRect(x: 0, y: 0, width: 154, height: StreamCellType.streamHeader.multiColumnHeight)
                 for (desc, owner, content, hasCategory, hasFollow, style) in expectations {
                     it("has valid screenshot for \(desc)") {
+                        let me: User = stub(["username": "me"])
+                        let other: User = stub(["username": "other"])
+                        let reposter: User = stub(["username": "reposter"])
+                        let category: Ello.Category = stub(["name": "Illustrations"])
+
                         let inGrid: Bool
                         let inDetail: Bool
                         var isSubmission = false

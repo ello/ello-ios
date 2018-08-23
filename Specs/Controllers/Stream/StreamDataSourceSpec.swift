@@ -63,12 +63,14 @@ class StreamDataSourceSpec: QuickSpec {
 
         describe("StreamDataSource") {
             context("appendStreamCellItems(_:)") {
-                let post = Post.stub([:])
-                let cellItems = [
-                    StreamCellItem(jsonable: post, type: .text(data: TextRegion.stub([:])))
-                ]
+                var post: Post!
+                var cellItems: [StreamCellItem]!
 
                 beforeEach {
+                    post = Post.stub([:])
+                    cellItems = [
+                        StreamCellItem(jsonable: post, type: .text(data: TextRegion.stub([:])))
+                    ]
                     subject.appendStreamCellItems(cellItems)
                 }
 
@@ -964,14 +966,17 @@ class StreamDataSourceSpec: QuickSpec {
             }
 
             describe("removeItems(at: [IndexPath])") {
-                let post = Post.stub([:])
-                let items = [
-                    StreamCellItem(jsonable: post, type: .text(data: TextRegion.stub([:]))),
-                    StreamCellItem(jsonable: post, type: .text(data: TextRegion.stub([:]))),
-                    StreamCellItem(jsonable: post, type: .text(data: TextRegion.stub([:]))),
-                    StreamCellItem(jsonable: post, type: .text(data: TextRegion.stub([:])))
-                ]
+                var post: Post!
+                var items: [StreamCellItem]!
+
                 beforeEach {
+                    post = Post.stub([:])
+                    items = [
+                        StreamCellItem(jsonable: post, type: .text(data: TextRegion.stub([:]))),
+                        StreamCellItem(jsonable: post, type: .text(data: TextRegion.stub([:]))),
+                        StreamCellItem(jsonable: post, type: .text(data: TextRegion.stub([:]))),
+                        StreamCellItem(jsonable: post, type: .text(data: TextRegion.stub([:])))
+                    ]
                     subject.appendStreamCellItems(items)
                 }
                 it("sanity check") {

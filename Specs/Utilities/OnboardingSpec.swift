@@ -18,12 +18,15 @@ class OnboardingSpec: QuickSpec {
             ]
             for (currentValue, shouldShowOnboarding, shouldShowCreatorType) in expectations {
                 let value = currentValue.map { String($0) } ?? "nil"
-                let user: User
-                if let currentValue = currentValue {
-                    user = User.stub(["onboardingVersion": currentValue])
-                }
-                else {
-                    user = User.stub([:])
+                var user: User!
+
+                beforeEach {
+                    if let currentValue = currentValue {
+                        user = User.stub(["onboardingVersion": currentValue])
+                    }
+                    else {
+                        user = User.stub([:])
+                    }
                 }
 
                 describe("Onboarding.shouldShowOnboarding(\(value))") {

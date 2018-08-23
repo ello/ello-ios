@@ -10,14 +10,14 @@ class StreamInviteFriendsCellPresenterSpec: QuickSpec {
 
     override func spec() {
         describe("StreamInviteFriendsCellPresenter") {
-            var cell: StreamInviteFriendsCell = StreamInviteFriendsCell.loadFromNib()
-            var person: LocalPerson = stub([:])
-            var item: StreamCellItem = stub([:])
+            var cell: StreamInviteFriendsCell!
+            var person: LocalPerson!
+            var item: StreamCellItem!
 
             beforeEach {
                 cell = StreamInviteFriendsCell.loadFromNib()
                 cell.inviteCache = InviteCache()
-                person = stub(["name": "The Devil", "id": 666, "emails": ["666@gmail.com"]])
+                person = LocalPerson.stub(["name": "The Devil", "id": 666, "emails": ["666@gmail.com"]])
                 item = StreamCellItem(jsonable: person, type: StreamCellType.inviteFriends)
             }
 
