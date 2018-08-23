@@ -9,10 +9,12 @@ class CommentHeaderCell: CollectionViewCell {
     static let reuseIdentifier = "CommentHeaderCell"
     struct Size {
         static let height: CGFloat = 60
-        static let margins: CGFloat = 15
-        static let avatarRightSpace: CGFloat = 15
-        static let buttonWidth: CGFloat = 40
+        static let margins = 15
+        static let avatarRightSpace = 15
+        static let buttonWidth = 40
         static let spaceCorrection: CGFloat = 4
+        static let roleSize = 13
+        static let roleOffset = CGPoint(x: -2, y: 2)
     }
 
     private var isOpen = false
@@ -26,6 +28,7 @@ class CommentHeaderCell: CollectionViewCell {
 
     private let scrollView = UIScrollView()
     private let avatarButton = AvatarButton()
+    private let roleButton = UIButton()
     private let usernameButton = StyledButton(style: .clearGray)
 
     private let topControlsContainer = Container()
@@ -46,6 +49,7 @@ class CommentHeaderCell: CollectionViewCell {
         var canEdit = false
         var canDelete = false
         var canReplyAndFlag = false
+        var role: CategoryUser.Role?
     }
 
     var config = Config() { didSet { updateConfig() } }
@@ -118,6 +122,7 @@ class CommentHeaderCell: CollectionViewCell {
         scrollView.addSubview(bottomControlsContainer)
         scrollView.addSubview(foregroundBackground)
         scrollView.addSubview(avatarButton)
+        scrollView.addSubview(roleButton)
         scrollView.addSubview(usernameButton)
         scrollView.addSubview(topControlsContainer)
         let topContainerSpacer = Spacer()
@@ -133,6 +138,12 @@ class CommentHeaderCell: CollectionViewCell {
             make.leading.equalTo(foregroundBackground).offset(Size.margins)
             make.centerY.equalTo(foregroundBackground)
             make.size.equalTo(AvatarButton.Size.smallSize)
+        }
+
+        roleButton.snp.makeConstraints { make in
+            make.width.height.equalTo(Size.roleSize)
+            make.centerX.equalTo(avatarButton.snp.trailing).offset(Size.roleOffset.x)
+            make.centerY.equalTo(avatarButton.snp.top).offset(Size.roleOffset.y)
         }
 
         usernameButton.snp.makeConstraints { make in
@@ -231,6 +242,22 @@ class CommentHeaderCell: CollectionViewCell {
         flagButton.isVisible = config.canReplyAndFlag
         editButton.isVisible = config.canEdit
         deleteButton.isVisible = config.canDelete
+
+        if config.role == .moderator {
+            roleButton.setImage(UIImage(named: "moderator"), for: .normal)
+            roleButton.isVisible = true
+        }
+        else if config.role == .curator {
+            roleButton.setImage(UIImage(named: "curator"), for: .normal)
+            roleButton.isVisible = true
+        }
+        else if config.role == .featured {
+            roleButton.setImage(.badgeFeatured, imageStyle: .selected, for: .normal)
+            roleButton.isVisible = true
+        }
+        else {
+            roleButton.isVisible = false
+        }
 
         setNeedsLayout()
     }

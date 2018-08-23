@@ -37,6 +37,12 @@ struct Fragments: Equatable {
         }
         """, needs: [imageProps])
 
+    static let commentAuthorProps = Fragments("""
+        fragment commentAuthorProps on User {
+            ...authorProps
+            ...categoryUsers
+        }
+        """, needs: [authorProps, categoryUsers])
     static let authorProps = Fragments("""
         fragment authorProps on User {
           id
@@ -56,6 +62,16 @@ struct Fragments: Equatable {
         }
         """, needs: [tshirtProps, responsiveProps])
 
+    static let categoryUsers = Fragments("""
+        fragment categoryUsers on User {
+          categoryUsers(roles: [CURATOR, FEATURED, MODERATOR]) {
+            id
+            category { ...categoryProps }
+            createdAt updatedAt
+            role
+          }
+        }
+        """, needs: [categoryProps])
     static let categoryProps = Fragments("""
         fragment categoryProps on Category {
           id name slug order allowInOnboarding isCreatorType level description
@@ -134,11 +150,11 @@ struct Fragments: Equatable {
             createdAt
             parentPost { id }
             assets { ...assetProps }
-            author { ...authorProps }
+            author { ...commentAuthorProps }
             content { ...contentProps }
             summary { ...contentProps }
         }
-        """, needs: [authorProps, contentProps, assetProps])
+        """, needs: [commentAuthorProps, contentProps, assetProps])
 
     static let userDetails = Fragments("""
         fragment userDetails on User {
@@ -162,14 +178,9 @@ struct Fragments: Equatable {
           coverImage {
             ...responsiveProps
           }
-          categoryUsers(roles: [CURATOR, FEATURED, MODERATOR]) {
-            id
-            category { ...categoryProps }
-            createdAt updatedAt
-            role
-          }
+          ...categoryUsers
         }
-        """, needs: [tshirtProps, responsiveProps, categoryProps])
+        """, needs: [tshirtProps, responsiveProps, categoryUsers])
 
     //|
     //|  REQUEST BODIES
