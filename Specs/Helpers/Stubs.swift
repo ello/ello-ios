@@ -442,6 +442,7 @@ extension AutoCompleteResult: Stubbable {
     }
 }
 
+typealias Notification = Ello.Notification
 extension Notification: Stubbable {
 
     class func stub(_ values: [String: Any]) -> Notification {
