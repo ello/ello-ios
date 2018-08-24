@@ -486,6 +486,10 @@ extension Notification: Stubbable {
             ElloLinkedStore.shared.setObject(post, forKey: post.id, type: .postsType)
             notification.storeLinkObject(post, key: "subject", id: post.id, type: .postsType)
         }
+        else if let love = values["subject"] as? Love {
+            ElloLinkedStore.shared.setObject(love, forKey: love.id, type: .lovesType)
+            notification.storeLinkObject(love, key: "subject", id: love.id, type: .lovesType)
+        }
         else if let comment = values["subject"] as? ElloComment {
             ElloLinkedStore.shared.setObject(comment, forKey: comment.id, type: .commentsType)
             notification.storeLinkObject(comment, key: "subject", id: comment.id, type: .commentsType)
