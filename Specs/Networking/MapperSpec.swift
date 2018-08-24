@@ -13,10 +13,10 @@ class MapperSpec: QuickSpec {
         describe("Mapper") {
             describe("+mapToObjectArray:type:") {
                 it("returns an array of mapped domain objects") {
-                    let friendData = stubbedJSONDataArray("friends", "activities")
-                    let notifications = Mapper.mapToObjectArray(friendData, type: .notificationsAsNotificationsType)
+                    let friendData = stubbedJSONDataArray("artist_invites", "artist_invites")
+                    let artistInvites = Mapper.mapToObjectArray(friendData, type: .artistInvitesType)
 
-                    expect(notifications.first).to(beAKindOf(Notification.self))
+                    expect(artistInvites.first).to(beAKindOf(ArtistInvite.self))
                 }
             }
 
