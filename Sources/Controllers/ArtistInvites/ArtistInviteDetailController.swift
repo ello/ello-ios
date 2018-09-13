@@ -155,6 +155,11 @@ extension ArtistInviteDetailController: ArtistInviteResponder {
             return
         }
 
+        if let submitURL = artistInvite.submitURL {
+            UIApplication.shared.open(submitURL, options: [:], completionHandler: nil)
+            return
+        }
+
         let vc = OmnibarViewController()
         vc.artistInvite = artistInvite
         vc.currentUser = currentUser

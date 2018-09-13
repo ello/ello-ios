@@ -59,6 +59,11 @@ final class ArtistInvite: Model {
     var declinedSubmissionsStream: Stream?
     override var description: String { return longDescription }
 
+    var submitURL: URL? {
+        guard slug == "ello-celebrates-diversity" else { return nil }
+        return URL(string: "https://www.talenthouse.com/i/advertising-inspired-work-for-the-drum")
+    }
+
     var shareLink: String {
         return "\(ElloURI.baseURL)/artist-invites/\(slug)"
     }
