@@ -1,0 +1,2198 @@
+{
+  "data" : {
+    "notificationStream" : {
+      "isLastPage" : false,
+      "next" : "2018-08-03T18:41:56.000000Z",
+      "notifications" : [
+        {
+          "kind" : "comment_mention_notification",
+          "id" : "comment_mention_notification:16168257:2018-08-20 15:57:51.000000Z:2084756",
+          "subjectType" : "Comment",
+          "createdAt" : "2018-08-20T15:57:51.000000Z",
+          "subject" : {
+            "content" : [
+              {
+                "kind" : "text",
+                "data" : "<p><a href=\"\/colinta\" class=\"user-mention\">@colinta<\/a> Ok, I understand. Thank you for replying.😊<\/p>",
+                "links" : null,
+                "linkUrl" : null
+              }
+            ],
+            "summary" : [
+              {
+                "kind" : "text",
+                "data" : "<p><a href='\/colinta' class='user-mention'>@colinta<\/a> Ok, I understand. Thank you for replying.😊<\/p>",
+                "links" : null,
+                "linkUrl" : null
+              }
+            ],
+            "id" : "16168257",
+            "parentPost" : {
+              "summary" : [
+                {
+                  "kind" : "text",
+                  "data" : "<p><a href='\/colinta' class='user-mention'>@colinta<\/a> Hi there! Is there a way to work around the 5000-character-limit without splitting up the text in more than one post? <\/p>",
+                  "links" : null,
+                  "linkUrl" : null
+                }
+              ],
+              "postStats" : {
+                "lovesCount" : 1,
+                "repostsCount" : 0,
+                "commentsCount" : 2,
+                "viewsCount" : 151
+              },
+              "repostedSource" : null,
+              "id" : "16163020",
+              "token" : "j2ks3_6b_i6vzmrjgfgvyw",
+              "createdAt" : "2018-08-19T16:41:50.045425Z",
+              "currentUserState" : {
+                "reposted" : false,
+                "watching" : false,
+                "loved" : false
+              },
+              "artistInviteSubmission" : null,
+              "assets" : [
+
+              ],
+              "author" : {
+                "name" : "U",
+                "id" : "2084756",
+                "coverImage" : {
+                  "optimized" : {
+                    "metadata" : {
+                      "size" : 316247,
+                      "height" : 901,
+                      "type" : "image\/jpeg",
+                      "width" : 1200
+                    },
+                    "url" : "https:\/\/assets0.ello.co\/uploads\/user\/cover_image\/2084756\/ello-optimized-54d48d0f.jpg"
+                  },
+                  "hdpi" : {
+                    "metadata" : {
+                      "size" : 116078,
+                      "height" : 414,
+                      "type" : "image\/jpeg",
+                      "width" : 551
+                    },
+                    "url" : "https:\/\/assets0.ello.co\/uploads\/user\/cover_image\/2084756\/ello-hdpi-54d48d0f.jpg"
+                  },
+                  "xhdpi" : {
+                    "metadata" : {
+                      "size" : 390197,
+                      "height" : 837,
+                      "type" : "image\/jpeg",
+                      "width" : 1115
+                    },
+                    "url" : "https:\/\/assets1.ello.co\/uploads\/user\/cover_image\/2084756\/ello-xhdpi-54d48d0f.jpg"
+                  },
+                  "mdpi" : {
+                    "metadata" : {
+                      "size" : 34758,
+                      "height" : 207,
+                      "type" : "image\/jpeg",
+                      "width" : 276
+                    },
+                    "url" : "https:\/\/assets0.ello.co\/uploads\/user\/cover_image\/2084756\/ello-mdpi-54d48d0f.jpg"
+                  }
+                },
+                "settings" : {
+                  "isCollaborateable" : false,
+                  "hasCommentingEnabled" : true,
+                  "isHireable" : false,
+                  "hasLovesEnabled" : true,
+                  "hasRepostingEnabled" : true,
+                  "hasSharingEnabled" : false
+                },
+                "currentUserState" : {
+                  "relationshipPriority" : null
+                },
+                "avatar" : {
+                  "original" : {
+                    "metadata" : {
+                      "size" : null,
+                      "height" : null,
+                      "type" : null,
+                      "width" : null
+                    },
+                    "url" : "https:\/\/assets1.ello.co\/uploads\/user\/avatar\/2084756\/D7863EAA-048C-4CA4-8CDA-42E1B778EDB6.jpg"
+                  },
+                  "regular" : {
+                    "metadata" : {
+                      "size" : 24992,
+                      "height" : 120,
+                      "type" : "image\/png",
+                      "width" : 120
+                    },
+                    "url" : "https:\/\/assets0.ello.co\/uploads\/user\/avatar\/2084756\/ello-regular-90f71583.png"
+                  },
+                  "large" : {
+                    "metadata" : {
+                      "size" : 157981,
+                      "height" : 360,
+                      "type" : "image\/png",
+                      "width" : 360
+                    },
+                    "url" : "https:\/\/assets0.ello.co\/uploads\/user\/avatar\/2084756\/ello-large-90f71583.png"
+                  }
+                },
+                "username" : "zrike13"
+              }
+            },
+            "createdAt" : "2018-08-20T15:57:51.515710Z",
+            "assets" : [
+
+            ],
+            "author" : {
+              "name" : "U",
+              "id" : "2084756",
+              "coverImage" : {
+                "optimized" : {
+                  "metadata" : {
+                    "size" : 316247,
+                    "height" : 901,
+                    "type" : "image\/jpeg",
+                    "width" : 1200
+                  },
+                  "url" : "https:\/\/assets0.ello.co\/uploads\/user\/cover_image\/2084756\/ello-optimized-54d48d0f.jpg"
+                },
+                "hdpi" : {
+                  "metadata" : {
+                    "size" : 116078,
+                    "height" : 414,
+                    "type" : "image\/jpeg",
+                    "width" : 551
+                  },
+                  "url" : "https:\/\/assets0.ello.co\/uploads\/user\/cover_image\/2084756\/ello-hdpi-54d48d0f.jpg"
+                },
+                "xhdpi" : {
+                  "metadata" : {
+                    "size" : 390197,
+                    "height" : 837,
+                    "type" : "image\/jpeg",
+                    "width" : 1115
+                  },
+                  "url" : "https:\/\/assets1.ello.co\/uploads\/user\/cover_image\/2084756\/ello-xhdpi-54d48d0f.jpg"
+                },
+                "mdpi" : {
+                  "metadata" : {
+                    "size" : 34758,
+                    "height" : 207,
+                    "type" : "image\/jpeg",
+                    "width" : 276
+                  },
+                  "url" : "https:\/\/assets0.ello.co\/uploads\/user\/cover_image\/2084756\/ello-mdpi-54d48d0f.jpg"
+                }
+              },
+              "settings" : {
+                "isCollaborateable" : false,
+                "hasCommentingEnabled" : true,
+                "isHireable" : false,
+                "hasLovesEnabled" : true,
+                "hasRepostingEnabled" : true,
+                "hasSharingEnabled" : false
+              },
+              "currentUserState" : {
+                "relationshipPriority" : null
+              },
+              "avatar" : {
+                "original" : {
+                  "metadata" : {
+                    "size" : null,
+                    "height" : null,
+                    "type" : null,
+                    "width" : null
+                  },
+                  "url" : "https:\/\/assets1.ello.co\/uploads\/user\/avatar\/2084756\/D7863EAA-048C-4CA4-8CDA-42E1B778EDB6.jpg"
+                },
+                "regular" : {
+                  "metadata" : {
+                    "size" : 24992,
+                    "height" : 120,
+                    "type" : "image\/png",
+                    "width" : 120
+                  },
+                  "url" : "https:\/\/assets0.ello.co\/uploads\/user\/avatar\/2084756\/ello-regular-90f71583.png"
+                },
+                "large" : {
+                  "metadata" : {
+                    "size" : 157981,
+                    "height" : 360,
+                    "type" : "image\/png",
+                    "width" : 360
+                  },
+                  "url" : "https:\/\/assets0.ello.co\/uploads\/user\/avatar\/2084756\/ello-large-90f71583.png"
+                }
+              },
+              "categoryUsers" : [
+
+              ],
+              "username" : "zrike13"
+            }
+          }
+        },
+        {
+          "kind" : "post_mention_notification",
+          "id" : "post_mention_notification:16163020:2018-08-19 16:41:50.000000Z:2084756",
+          "subjectType" : "Post",
+          "createdAt" : "2018-08-19T16:41:50.000000Z",
+          "subject" : {
+            "summary" : [
+              {
+                "kind" : "text",
+                "data" : "<p><a href='\/colinta' class='user-mention'>@colinta<\/a> Hi there! Is there a way to work around the 5000-character-limit without splitting up the text in more than one post? <\/p>",
+                "links" : null,
+                "linkUrl" : null
+              }
+            ],
+            "postStats" : {
+              "lovesCount" : 1,
+              "repostsCount" : 0,
+              "commentsCount" : 2,
+              "viewsCount" : 151
+            },
+            "repostedSource" : null,
+            "id" : "16163020",
+            "token" : "j2ks3_6b_i6vzmrjgfgvyw",
+            "createdAt" : "2018-08-19T16:41:50.045425Z",
+            "currentUserState" : {
+              "reposted" : false,
+              "watching" : false,
+              "loved" : false
+            },
+            "artistInviteSubmission" : null,
+            "assets" : [
+
+            ],
+            "author" : {
+              "name" : "U",
+              "id" : "2084756",
+              "coverImage" : {
+                "optimized" : {
+                  "metadata" : {
+                    "size" : 316247,
+                    "height" : 901,
+                    "type" : "image\/jpeg",
+                    "width" : 1200
+                  },
+                  "url" : "https:\/\/assets0.ello.co\/uploads\/user\/cover_image\/2084756\/ello-optimized-54d48d0f.jpg"
+                },
+                "hdpi" : {
+                  "metadata" : {
+                    "size" : 116078,
+                    "height" : 414,
+                    "type" : "image\/jpeg",
+                    "width" : 551
+                  },
+                  "url" : "https:\/\/assets0.ello.co\/uploads\/user\/cover_image\/2084756\/ello-hdpi-54d48d0f.jpg"
+                },
+                "xhdpi" : {
+                  "metadata" : {
+                    "size" : 390197,
+                    "height" : 837,
+                    "type" : "image\/jpeg",
+                    "width" : 1115
+                  },
+                  "url" : "https:\/\/assets1.ello.co\/uploads\/user\/cover_image\/2084756\/ello-xhdpi-54d48d0f.jpg"
+                },
+                "mdpi" : {
+                  "metadata" : {
+                    "size" : 34758,
+                    "height" : 207,
+                    "type" : "image\/jpeg",
+                    "width" : 276
+                  },
+                  "url" : "https:\/\/assets0.ello.co\/uploads\/user\/cover_image\/2084756\/ello-mdpi-54d48d0f.jpg"
+                }
+              },
+              "settings" : {
+                "isCollaborateable" : false,
+                "hasCommentingEnabled" : true,
+                "isHireable" : false,
+                "hasLovesEnabled" : true,
+                "hasRepostingEnabled" : true,
+                "hasSharingEnabled" : false
+              },
+              "currentUserState" : {
+                "relationshipPriority" : null
+              },
+              "avatar" : {
+                "original" : {
+                  "metadata" : {
+                    "size" : null,
+                    "height" : null,
+                    "type" : null,
+                    "width" : null
+                  },
+                  "url" : "https:\/\/assets1.ello.co\/uploads\/user\/avatar\/2084756\/D7863EAA-048C-4CA4-8CDA-42E1B778EDB6.jpg"
+                },
+                "regular" : {
+                  "metadata" : {
+                    "size" : 24992,
+                    "height" : 120,
+                    "type" : "image\/png",
+                    "width" : 120
+                  },
+                  "url" : "https:\/\/assets0.ello.co\/uploads\/user\/avatar\/2084756\/ello-regular-90f71583.png"
+                },
+                "large" : {
+                  "metadata" : {
+                    "size" : 157981,
+                    "height" : 360,
+                    "type" : "image\/png",
+                    "width" : 360
+                  },
+                  "url" : "https:\/\/assets0.ello.co\/uploads\/user\/avatar\/2084756\/ello-large-90f71583.png"
+                }
+              },
+              "categoryUsers" : [
+
+              ],
+              "username" : "zrike13"
+            }
+          }
+        },
+        {
+          "kind" : "approved_artist_invite_submission_notification_for_followers",
+          "id" : "approved_artist_invite_submission_notification_for_followers:37975:2018-08-16 17:59:38.000000Z:1973198",
+          "subjectType" : "ArtistInviteSubmission",
+          "createdAt" : "2018-08-16T17:59:38.000000Z",
+          "subject" : {
+            "status" : "selected",
+            "post" : {
+              "summary" : [
+                {
+                  "kind" : "image",
+                  "data" : {
+                    "alt" : null,
+                    "url" : "https:\/\/assets2.ello.co\/uploads\/asset\/attachment\/8098112\/ello-optimized-370184a8.jpg"
+                  },
+                  "links" : {
+                    "assets" : "8098112"
+                  },
+                  "linkUrl" : null
+                },
+                {
+                  "kind" : "image",
+                  "data" : {
+                    "alt" : null,
+                    "url" : "https:\/\/assets2.ello.co\/uploads\/asset\/attachment\/8098115\/ello-optimized-a8257eb6.jpg"
+                  },
+                  "links" : {
+                    "assets" : "8098115"
+                  },
+                  "linkUrl" : null
+                }
+              ],
+              "postStats" : {
+                "lovesCount" : 12,
+                "repostsCount" : 0,
+                "commentsCount" : 2,
+                "viewsCount" : 144058
+              },
+              "repostedSource" : null,
+              "id" : "16141577",
+              "token" : "5sjb8tzf3fphxdk8ldgdhq",
+              "createdAt" : "2018-08-15T16:10:15.238199Z",
+              "currentUserState" : {
+                "reposted" : false,
+                "watching" : false,
+                "loved" : false
+              },
+              "artistInviteSubmission" : null,
+              "assets" : [
+                {
+                  "id" : "8098116",
+                  "attachment" : {
+                    "optimized" : {
+                      "metadata" : {
+                        "size" : 789277,
+                        "height" : 1200,
+                        "type" : "image\/jpeg",
+                        "width" : 1200
+                      },
+                      "url" : "https:\/\/assets1.ello.co\/uploads\/asset\/attachment\/8098116\/ello-optimized-a2fa25ad.jpg"
+                    },
+                    "hdpi" : {
+                      "metadata" : {
+                        "size" : 110912,
+                        "height" : 750,
+                        "type" : "image\/jpeg",
+                        "width" : 750
+                      },
+                      "url" : "https:\/\/assets1.ello.co\/uploads\/asset\/attachment\/8098116\/ello-hdpi-a2fa25ad.jpg"
+                    },
+                    "xhdpi" : {
+                      "metadata" : {
+                        "size" : 789277,
+                        "height" : 1200,
+                        "type" : "image\/jpeg",
+                        "width" : 1200
+                      },
+                      "url" : "https:\/\/assets2.ello.co\/uploads\/asset\/attachment\/8098116\/ello-xhdpi-a2fa25ad.jpg"
+                    },
+                    "mdpi" : {
+                      "metadata" : {
+                        "size" : 26283,
+                        "height" : 375,
+                        "type" : "image\/jpeg",
+                        "width" : 375
+                      },
+                      "url" : "https:\/\/assets0.ello.co\/uploads\/asset\/attachment\/8098116\/ello-mdpi-a2fa25ad.jpg"
+                    }
+                  }
+                },
+                {
+                  "id" : "8098115",
+                  "attachment" : {
+                    "optimized" : {
+                      "metadata" : {
+                        "size" : 40212,
+                        "height" : 1200,
+                        "type" : "image\/jpeg",
+                        "width" : 1200
+                      },
+                      "url" : "https:\/\/assets1.ello.co\/uploads\/asset\/attachment\/8098115\/ello-optimized-a8257eb6.jpg"
+                    },
+                    "hdpi" : {
+                      "metadata" : {
+                        "size" : 11931,
+                        "height" : 750,
+                        "type" : "image\/jpeg",
+                        "width" : 750
+                      },
+                      "url" : "https:\/\/assets2.ello.co\/uploads\/asset\/attachment\/8098115\/ello-hdpi-a8257eb6.jpg"
+                    },
+                    "xhdpi" : {
+                      "metadata" : {
+                        "size" : 40212,
+                        "height" : 1200,
+                        "type" : "image\/jpeg",
+                        "width" : 1200
+                      },
+                      "url" : "https:\/\/assets0.ello.co\/uploads\/asset\/attachment\/8098115\/ello-xhdpi-a8257eb6.jpg"
+                    },
+                    "mdpi" : {
+                      "metadata" : {
+                        "size" : 5370,
+                        "height" : 375,
+                        "type" : "image\/jpeg",
+                        "width" : 375
+                      },
+                      "url" : "https:\/\/assets2.ello.co\/uploads\/asset\/attachment\/8098115\/ello-mdpi-a8257eb6.jpg"
+                    }
+                  }
+                },
+                {
+                  "id" : "8098112",
+                  "attachment" : {
+                    "optimized" : {
+                      "metadata" : {
+                        "size" : 703036,
+                        "height" : 1200,
+                        "type" : "image\/jpeg",
+                        "width" : 1200
+                      },
+                      "url" : "https:\/\/assets0.ello.co\/uploads\/asset\/attachment\/8098112\/ello-optimized-370184a8.jpg"
+                    },
+                    "hdpi" : {
+                      "metadata" : {
+                        "size" : 52799,
+                        "height" : 750,
+                        "type" : "image\/jpeg",
+                        "width" : 750
+                      },
+                      "url" : "https:\/\/assets1.ello.co\/uploads\/asset\/attachment\/8098112\/ello-hdpi-370184a8.jpg"
+                    },
+                    "xhdpi" : {
+                      "metadata" : {
+                        "size" : 703036,
+                        "height" : 1200,
+                        "type" : "image\/jpeg",
+                        "width" : 1200
+                      },
+                      "url" : "https:\/\/assets0.ello.co\/uploads\/asset\/attachment\/8098112\/ello-xhdpi-370184a8.jpg"
+                    },
+                    "mdpi" : {
+                      "metadata" : {
+                        "size" : 15135,
+                        "height" : 375,
+                        "type" : "image\/jpeg",
+                        "width" : 375
+                      },
+                      "url" : "https:\/\/assets1.ello.co\/uploads\/asset\/attachment\/8098112\/ello-mdpi-370184a8.jpg"
+                    }
+                  }
+                }
+              ],
+              "author" : {
+                "name" : "Yolanda Go",
+                "id" : "1973198",
+                "coverImage" : {
+                  "optimized" : {
+                    "metadata" : {
+                      "size" : 207055,
+                      "height" : 1013,
+                      "type" : "image\/jpeg",
+                      "width" : 1800
+                    },
+                    "url" : "https:\/\/assets0.ello.co\/uploads\/user\/cover_image\/1973198\/ello-optimized-50afb61f.jpg"
+                  },
+                  "hdpi" : {
+                    "metadata" : {
+                      "size" : 73475,
+                      "height" : 414,
+                      "type" : "image\/jpeg",
+                      "width" : 736
+                    },
+                    "url" : "https:\/\/assets2.ello.co\/uploads\/user\/cover_image\/1973198\/ello-hdpi-50afb61f.jpg"
+                  },
+                  "xhdpi" : {
+                    "metadata" : {
+                      "size" : 214538,
+                      "height" : 837,
+                      "type" : "image\/jpeg",
+                      "width" : 1487
+                    },
+                    "url" : "https:\/\/assets2.ello.co\/uploads\/user\/cover_image\/1973198\/ello-xhdpi-50afb61f.jpg"
+                  },
+                  "mdpi" : {
+                    "metadata" : {
+                      "size" : 27562,
+                      "height" : 207,
+                      "type" : "image\/jpeg",
+                      "width" : 368
+                    },
+                    "url" : "https:\/\/assets1.ello.co\/uploads\/user\/cover_image\/1973198\/ello-mdpi-50afb61f.jpg"
+                  }
+                },
+                "settings" : {
+                  "isCollaborateable" : true,
+                  "hasCommentingEnabled" : true,
+                  "isHireable" : true,
+                  "hasLovesEnabled" : true,
+                  "hasRepostingEnabled" : true,
+                  "hasSharingEnabled" : true
+                },
+                "currentUserState" : {
+                  "relationshipPriority" : "friend"
+                },
+                "avatar" : {
+                  "original" : {
+                    "metadata" : {
+                      "size" : null,
+                      "height" : null,
+                      "type" : null,
+                      "width" : null
+                    },
+                    "url" : "https:\/\/assets1.ello.co\/uploads\/user\/avatar\/1973198\/ello-af43c257-2892-4025-8cbf-eb2b8a1e17c8.jpeg"
+                  },
+                  "regular" : {
+                    "metadata" : {
+                      "size" : 11045,
+                      "height" : 120,
+                      "type" : "image\/png",
+                      "width" : 120
+                    },
+                    "url" : "https:\/\/assets2.ello.co\/uploads\/user\/avatar\/1973198\/ello-regular-8474b192.png"
+                  },
+                  "large" : {
+                    "metadata" : {
+                      "size" : 40654,
+                      "height" : 360,
+                      "type" : "image\/png",
+                      "width" : 360
+                    },
+                    "url" : "https:\/\/assets2.ello.co\/uploads\/user\/avatar\/1973198\/ello-large-8474b192.png"
+                  }
+                },
+                "username" : "llanwafu"
+              }
+            },
+            "id" : "37975",
+            "artistInvite" : {
+              "id" : "64",
+              "slug" : "blacklisted-magazine-issue-01",
+              "title" : "Blacklisted Magazine Issue #01"
+            }
+          }
+        },
+        {
+          "kind" : "approved_artist_invite_submission_notification_for_followers",
+          "id" : "approved_artist_invite_submission_notification_for_followers:37956:2018-08-16 17:57:53.000000Z:2170969",
+          "subjectType" : "ArtistInviteSubmission",
+          "createdAt" : "2018-08-16T17:57:53.000000Z",
+          "subject" : {
+            "status" : "selected",
+            "post" : {
+              "summary" : [
+                {
+                  "kind" : "image",
+                  "data" : {
+                    "alt" : null,
+                    "url" : "https:\/\/assets3.ello.co\/uploads\/asset\/attachment\/8097232\/ello-optimized-2b25dbcc.jpg"
+                  },
+                  "links" : {
+                    "assets" : "8097232"
+                  },
+                  "linkUrl" : null
+                },
+                {
+                  "kind" : "image",
+                  "data" : {
+                    "alt" : null,
+                    "url" : "https:\/\/assets3.ello.co\/uploads\/asset\/attachment\/8097233\/ello-optimized-1da2927c.jpg"
+                  },
+                  "links" : {
+                    "assets" : "8097233"
+                  },
+                  "linkUrl" : null
+                }
+              ],
+              "postStats" : {
+                "lovesCount" : 2,
+                "repostsCount" : 0,
+                "commentsCount" : 2,
+                "viewsCount" : 1186
+              },
+              "repostedSource" : null,
+              "id" : "16140237",
+              "token" : "8ikrp4z8lmuxeckl3i0ujw",
+              "createdAt" : "2018-08-15T09:31:00.942633Z",
+              "currentUserState" : {
+                "reposted" : false,
+                "watching" : false,
+                "loved" : false
+              },
+              "artistInviteSubmission" : null,
+              "assets" : [
+                {
+                  "id" : "8097233",
+                  "attachment" : {
+                    "optimized" : {
+                      "metadata" : {
+                        "size" : 498553,
+                        "height" : 1279,
+                        "type" : "image\/jpeg",
+                        "width" : 1000
+                      },
+                      "url" : "https:\/\/assets0.ello.co\/uploads\/asset\/attachment\/8097233\/ello-optimized-1da2927c.jpg"
+                    },
+                    "hdpi" : {
+                      "metadata" : {
+                        "size" : 65258,
+                        "height" : 959,
+                        "type" : "image\/jpeg",
+                        "width" : 750
+                      },
+                      "url" : "https:\/\/assets2.ello.co\/uploads\/asset\/attachment\/8097233\/ello-hdpi-1da2927c.jpg"
+                    },
+                    "xhdpi" : {
+                      "metadata" : {
+                        "size" : 498553,
+                        "height" : 1279,
+                        "type" : "image\/jpeg",
+                        "width" : 1000
+                      },
+                      "url" : "https:\/\/assets1.ello.co\/uploads\/asset\/attachment\/8097233\/ello-xhdpi-1da2927c.jpg"
+                    },
+                    "mdpi" : {
+                      "metadata" : {
+                        "size" : 25962,
+                        "height" : 480,
+                        "type" : "image\/jpeg",
+                        "width" : 375
+                      },
+                      "url" : "https:\/\/assets0.ello.co\/uploads\/asset\/attachment\/8097233\/ello-mdpi-1da2927c.jpg"
+                    }
+                  }
+                },
+                {
+                  "id" : "8097232",
+                  "attachment" : {
+                    "optimized" : {
+                      "metadata" : {
+                        "size" : 589837,
+                        "height" : 1320,
+                        "type" : "image\/jpeg",
+                        "width" : 1058
+                      },
+                      "url" : "https:\/\/assets0.ello.co\/uploads\/asset\/attachment\/8097232\/ello-optimized-2b25dbcc.jpg"
+                    },
+                    "hdpi" : {
+                      "metadata" : {
+                        "size" : 82932,
+                        "height" : 936,
+                        "type" : "image\/jpeg",
+                        "width" : 750
+                      },
+                      "url" : "https:\/\/assets1.ello.co\/uploads\/asset\/attachment\/8097232\/ello-hdpi-2b25dbcc.jpg"
+                    },
+                    "xhdpi" : {
+                      "metadata" : {
+                        "size" : 589837,
+                        "height" : 1320,
+                        "type" : "image\/jpeg",
+                        "width" : 1058
+                      },
+                      "url" : "https:\/\/assets1.ello.co\/uploads\/asset\/attachment\/8097232\/ello-xhdpi-2b25dbcc.jpg"
+                    },
+                    "mdpi" : {
+                      "metadata" : {
+                        "size" : 29034,
+                        "height" : 468,
+                        "type" : "image\/jpeg",
+                        "width" : 375
+                      },
+                      "url" : "https:\/\/assets1.ello.co\/uploads\/asset\/attachment\/8097232\/ello-mdpi-2b25dbcc.jpg"
+                    }
+                  }
+                }
+              ],
+              "author" : {
+                "name" : "",
+                "id" : "2170969",
+                "coverImage" : {
+                  "optimized" : {
+                    "metadata" : {
+                      "size" : 864045,
+                      "height" : 1440,
+                      "type" : "image\/jpeg",
+                      "width" : 2560
+                    },
+                    "url" : "https:\/\/assets2.ello.co\/uploads\/user\/cover_image\/2170969\/ello-optimized-37a0dcf9.jpg"
+                  },
+                  "hdpi" : {
+                    "metadata" : {
+                      "size" : 56681,
+                      "height" : 414,
+                      "type" : "image\/jpeg",
+                      "width" : 736
+                    },
+                    "url" : "https:\/\/assets2.ello.co\/uploads\/user\/cover_image\/2170969\/ello-hdpi-37a0dcf9.jpg"
+                  },
+                  "xhdpi" : {
+                    "metadata" : {
+                      "size" : 252696,
+                      "height" : 837,
+                      "type" : "image\/jpeg",
+                      "width" : 1488
+                    },
+                    "url" : "https:\/\/assets0.ello.co\/uploads\/user\/cover_image\/2170969\/ello-xhdpi-37a0dcf9.jpg"
+                  },
+                  "mdpi" : {
+                    "metadata" : {
+                      "size" : 16756,
+                      "height" : 207,
+                      "type" : "image\/jpeg",
+                      "width" : 368
+                    },
+                    "url" : "https:\/\/assets2.ello.co\/uploads\/user\/cover_image\/2170969\/ello-mdpi-37a0dcf9.jpg"
+                  }
+                },
+                "settings" : {
+                  "isCollaborateable" : true,
+                  "hasCommentingEnabled" : true,
+                  "isHireable" : true,
+                  "hasLovesEnabled" : true,
+                  "hasRepostingEnabled" : true,
+                  "hasSharingEnabled" : false
+                },
+                "currentUserState" : {
+                  "relationshipPriority" : "friend"
+                },
+                "avatar" : {
+                  "original" : {
+                    "metadata" : {
+                      "size" : null,
+                      "height" : null,
+                      "type" : null,
+                      "width" : null
+                    },
+                    "url" : "https:\/\/assets0.ello.co\/uploads\/user\/avatar\/2170969\/ello-46300dea-3761-4ba2-b984-c84878fcd50f.jpeg"
+                  },
+                  "regular" : {
+                    "metadata" : {
+                      "size" : 11633,
+                      "height" : 120,
+                      "type" : "image\/png",
+                      "width" : 120
+                    },
+                    "url" : "https:\/\/assets2.ello.co\/uploads\/user\/avatar\/2170969\/ello-regular-bebc599d.png"
+                  },
+                  "large" : {
+                    "metadata" : {
+                      "size" : 95008,
+                      "height" : 360,
+                      "type" : "image\/png",
+                      "width" : 360
+                    },
+                    "url" : "https:\/\/assets2.ello.co\/uploads\/user\/avatar\/2170969\/ello-large-bebc599d.png"
+                  }
+                },
+                "username" : "berenice_rosie"
+              }
+            },
+            "id" : "37956",
+            "artistInvite" : {
+              "id" : "64",
+              "slug" : "blacklisted-magazine-issue-01",
+              "title" : "Blacklisted Magazine Issue #01"
+            }
+          }
+        },
+        {
+          "kind" : "approved_artist_invite_submission_notification_for_followers",
+          "id" : "approved_artist_invite_submission_notification_for_followers:37971:2018-08-16 03:37:13.000000Z:2227728",
+          "subjectType" : "ArtistInviteSubmission",
+          "createdAt" : "2018-08-16T03:37:13.000000Z",
+          "subject" : {
+            "status" : "approved",
+            "post" : {
+              "summary" : [
+                {
+                  "kind" : "image",
+                  "data" : {
+                    "alt" : "Arnelle Saturday Photographer:J - klearfade | ello",
+                    "url" : "https:\/\/assets2.ello.co\/uploads\/asset\/attachment\/8115773\/ello-optimized-e8d8ed5b.jpg"
+                  },
+                  "links" : {
+                    "assets" : "8115773"
+                  },
+                  "linkUrl" : null
+                },
+                {
+                  "kind" : "image",
+                  "data" : {
+                    "alt" : null,
+                    "url" : "https:\/\/assets3.ello.co\/uploads\/asset\/attachment\/8115774\/ello-optimized-0ef96f00.jpg"
+                  },
+                  "links" : {
+                    "assets" : "8115774"
+                  },
+                  "linkUrl" : null
+                }
+              ],
+              "postStats" : {
+                "lovesCount" : 16,
+                "repostsCount" : 0,
+                "commentsCount" : 2,
+                "viewsCount" : 138880
+              },
+              "repostedSource" : null,
+              "id" : "16141461",
+              "token" : "cdnfic12nfqbduijqlf_ta",
+              "createdAt" : "2018-08-15T15:46:00.477478Z",
+              "currentUserState" : {
+                "reposted" : false,
+                "watching" : false,
+                "loved" : false
+              },
+              "artistInviteSubmission" : null,
+              "assets" : [
+                {
+                  "id" : "8115776",
+                  "attachment" : {
+                    "optimized" : {
+                      "metadata" : {
+                        "size" : 982040,
+                        "height" : 1620,
+                        "type" : "image\/jpeg",
+                        "width" : 1080
+                      },
+                      "url" : "https:\/\/assets1.ello.co\/uploads\/asset\/attachment\/8115776\/ello-optimized-ec8ce7e4.jpg"
+                    },
+                    "hdpi" : {
+                      "metadata" : {
+                        "size" : 111307,
+                        "height" : 1125,
+                        "type" : "image\/jpeg",
+                        "width" : 750
+                      },
+                      "url" : "https:\/\/assets1.ello.co\/uploads\/asset\/attachment\/8115776\/ello-hdpi-ec8ce7e4.jpg"
+                    },
+                    "xhdpi" : {
+                      "metadata" : {
+                        "size" : 982040,
+                        "height" : 1620,
+                        "type" : "image\/jpeg",
+                        "width" : 1080
+                      },
+                      "url" : "https:\/\/assets2.ello.co\/uploads\/asset\/attachment\/8115776\/ello-xhdpi-ec8ce7e4.jpg"
+                    },
+                    "mdpi" : {
+                      "metadata" : {
+                        "size" : 27344,
+                        "height" : 563,
+                        "type" : "image\/jpeg",
+                        "width" : 375
+                      },
+                      "url" : "https:\/\/assets0.ello.co\/uploads\/asset\/attachment\/8115776\/ello-mdpi-ec8ce7e4.jpg"
+                    }
+                  }
+                },
+                {
+                  "id" : "8115775",
+                  "attachment" : {
+                    "optimized" : {
+                      "metadata" : {
+                        "size" : 343333,
+                        "height" : 1080,
+                        "type" : "image\/jpeg",
+                        "width" : 864
+                      },
+                      "url" : "https:\/\/assets0.ello.co\/uploads\/asset\/attachment\/8115775\/ello-optimized-23cb7d0f.jpg"
+                    },
+                    "hdpi" : {
+                      "metadata" : {
+                        "size" : 54530,
+                        "height" : 938,
+                        "type" : "image\/jpeg",
+                        "width" : 750
+                      },
+                      "url" : "https:\/\/assets2.ello.co\/uploads\/asset\/attachment\/8115775\/ello-hdpi-23cb7d0f.jpg"
+                    },
+                    "xhdpi" : {
+                      "metadata" : {
+                        "size" : 343333,
+                        "height" : 1080,
+                        "type" : "image\/jpeg",
+                        "width" : 864
+                      },
+                      "url" : "https:\/\/assets1.ello.co\/uploads\/asset\/attachment\/8115775\/ello-xhdpi-23cb7d0f.jpg"
+                    },
+                    "mdpi" : {
+                      "metadata" : {
+                        "size" : 15313,
+                        "height" : 469,
+                        "type" : "image\/jpeg",
+                        "width" : 375
+                      },
+                      "url" : "https:\/\/assets1.ello.co\/uploads\/asset\/attachment\/8115775\/ello-mdpi-23cb7d0f.jpg"
+                    }
+                  }
+                },
+                {
+                  "id" : "8115774",
+                  "attachment" : {
+                    "optimized" : {
+                      "metadata" : {
+                        "size" : 431241,
+                        "height" : 1080,
+                        "type" : "image\/jpeg",
+                        "width" : 864
+                      },
+                      "url" : "https:\/\/assets2.ello.co\/uploads\/asset\/attachment\/8115774\/ello-optimized-0ef96f00.jpg"
+                    },
+                    "hdpi" : {
+                      "metadata" : {
+                        "size" : 75083,
+                        "height" : 938,
+                        "type" : "image\/jpeg",
+                        "width" : 750
+                      },
+                      "url" : "https:\/\/assets1.ello.co\/uploads\/asset\/attachment\/8115774\/ello-hdpi-0ef96f00.jpg"
+                    },
+                    "xhdpi" : {
+                      "metadata" : {
+                        "size" : 431241,
+                        "height" : 1080,
+                        "type" : "image\/jpeg",
+                        "width" : 864
+                      },
+                      "url" : "https:\/\/assets1.ello.co\/uploads\/asset\/attachment\/8115774\/ello-xhdpi-0ef96f00.jpg"
+                    },
+                    "mdpi" : {
+                      "metadata" : {
+                        "size" : 19743,
+                        "height" : 469,
+                        "type" : "image\/jpeg",
+                        "width" : 375
+                      },
+                      "url" : "https:\/\/assets0.ello.co\/uploads\/asset\/attachment\/8115774\/ello-mdpi-0ef96f00.jpg"
+                    }
+                  }
+                },
+                {
+                  "id" : "8115773",
+                  "attachment" : {
+                    "optimized" : {
+                      "metadata" : {
+                        "size" : 379545,
+                        "height" : 1080,
+                        "type" : "image\/jpeg",
+                        "width" : 864
+                      },
+                      "url" : "https:\/\/assets1.ello.co\/uploads\/asset\/attachment\/8115773\/ello-optimized-e8d8ed5b.jpg"
+                    },
+                    "hdpi" : {
+                      "metadata" : {
+                        "size" : 67287,
+                        "height" : 938,
+                        "type" : "image\/jpeg",
+                        "width" : 750
+                      },
+                      "url" : "https:\/\/assets1.ello.co\/uploads\/asset\/attachment\/8115773\/ello-hdpi-e8d8ed5b.jpg"
+                    },
+                    "xhdpi" : {
+                      "metadata" : {
+                        "size" : 379545,
+                        "height" : 1080,
+                        "type" : "image\/jpeg",
+                        "width" : 864
+                      },
+                      "url" : "https:\/\/assets2.ello.co\/uploads\/asset\/attachment\/8115773\/ello-xhdpi-e8d8ed5b.jpg"
+                    },
+                    "mdpi" : {
+                      "metadata" : {
+                        "size" : 16916,
+                        "height" : 469,
+                        "type" : "image\/jpeg",
+                        "width" : 375
+                      },
+                      "url" : "https:\/\/assets1.ello.co\/uploads\/asset\/attachment\/8115773\/ello-mdpi-e8d8ed5b.jpg"
+                    }
+                  }
+                }
+              ],
+              "author" : {
+                "name" : "Jamaal Dubose",
+                "id" : "2227728",
+                "coverImage" : {
+                  "optimized" : {
+                    "metadata" : {
+                      "size" : 267666,
+                      "height" : 668,
+                      "type" : "image\/jpeg",
+                      "width" : 1000
+                    },
+                    "url" : "https:\/\/assets0.ello.co\/uploads\/user\/cover_image\/2227728\/ello-optimized-ac344732.jpg"
+                  },
+                  "hdpi" : {
+                    "metadata" : {
+                      "size" : 130346,
+                      "height" : 414,
+                      "type" : "image\/jpeg",
+                      "width" : 620
+                    },
+                    "url" : "https:\/\/assets0.ello.co\/uploads\/user\/cover_image\/2227728\/ello-hdpi-ac344732.jpg"
+                  },
+                  "xhdpi" : {
+                    "metadata" : {
+                      "size" : 269074,
+                      "height" : 668,
+                      "type" : "image\/jpeg",
+                      "width" : 1000
+                    },
+                    "url" : "https:\/\/assets2.ello.co\/uploads\/user\/cover_image\/2227728\/ello-xhdpi-ac344732.jpg"
+                  },
+                  "mdpi" : {
+                    "metadata" : {
+                      "size" : 35649,
+                      "height" : 207,
+                      "type" : "image\/jpeg",
+                      "width" : 310
+                    },
+                    "url" : "https:\/\/assets0.ello.co\/uploads\/user\/cover_image\/2227728\/ello-mdpi-ac344732.jpg"
+                  }
+                },
+                "settings" : {
+                  "isCollaborateable" : true,
+                  "hasCommentingEnabled" : true,
+                  "isHireable" : true,
+                  "hasLovesEnabled" : true,
+                  "hasRepostingEnabled" : true,
+                  "hasSharingEnabled" : true
+                },
+                "currentUserState" : {
+                  "relationshipPriority" : "friend"
+                },
+                "avatar" : {
+                  "original" : {
+                    "metadata" : {
+                      "size" : null,
+                      "height" : null,
+                      "type" : null,
+                      "width" : null
+                    },
+                    "url" : "https:\/\/assets2.ello.co\/uploads\/user\/avatar\/2227728\/ello-353cdc0a-5861-41f4-a775-1a4a0e83f108.jpeg"
+                  },
+                  "regular" : {
+                    "metadata" : {
+                      "size" : 10993,
+                      "height" : 120,
+                      "type" : "image\/png",
+                      "width" : 120
+                    },
+                    "url" : "https:\/\/assets1.ello.co\/uploads\/user\/avatar\/2227728\/ello-regular-4d008252.png"
+                  },
+                  "large" : {
+                    "metadata" : {
+                      "size" : 92266,
+                      "height" : 360,
+                      "type" : "image\/png",
+                      "width" : 360
+                    },
+                    "url" : "https:\/\/assets0.ello.co\/uploads\/user\/avatar\/2227728\/ello-large-4d008252.png"
+                  }
+                },
+                "username" : "klearfade"
+              }
+            },
+            "id" : "37971",
+            "artistInvite" : {
+              "id" : "67",
+              "slug" : "east-8-photography-magazine",
+              "title" : "East 8 "
+            }
+          }
+        },
+        {
+          "kind" : "approved_artist_invite_submission_notification_for_followers",
+          "id" : "approved_artist_invite_submission_notification_for_followers:37901:2018-08-14 19:21:39.000000Z:977545",
+          "subjectType" : "ArtistInviteSubmission",
+          "createdAt" : "2018-08-14T19:21:39.000000Z",
+          "subject" : {
+            "status" : "selected",
+            "post" : {
+              "summary" : [
+                {
+                  "kind" : "image",
+                  "data" : {
+                    "alt" : null,
+                    "url" : "https:\/\/assets1.ello.co\/uploads\/asset\/attachment\/8092947\/ello-optimized-1a59b930.jpg"
+                  },
+                  "links" : {
+                    "assets" : "8092947"
+                  },
+                  "linkUrl" : null
+                },
+                {
+                  "kind" : "image",
+                  "data" : {
+                    "alt" : null,
+                    "url" : "https:\/\/assets2.ello.co\/uploads\/asset\/attachment\/8092948\/ello-optimized-a0635ba6.jpg"
+                  },
+                  "links" : {
+                    "assets" : "8092948"
+                  },
+                  "linkUrl" : null
+                }
+              ],
+              "postStats" : {
+                "lovesCount" : 51,
+                "repostsCount" : 3,
+                "commentsCount" : 2,
+                "viewsCount" : 165030
+              },
+              "repostedSource" : null,
+              "id" : "16134899",
+              "token" : "rp9zocratmggaksgoiudya",
+              "createdAt" : "2018-08-14T09:04:44.764646Z",
+              "currentUserState" : {
+                "reposted" : false,
+                "watching" : false,
+                "loved" : false
+              },
+              "artistInviteSubmission" : null,
+              "assets" : [
+                {
+                  "id" : "8092953",
+                  "attachment" : {
+                    "optimized" : {
+                      "metadata" : {
+                        "size" : 2836284,
+                        "height" : 1378,
+                        "type" : "image\/jpeg",
+                        "width" : 2048
+                      },
+                      "url" : "https:\/\/assets0.ello.co\/uploads\/asset\/attachment\/8092953\/ello-optimized-93a58f4a.jpg"
+                    },
+                    "hdpi" : {
+                      "metadata" : {
+                        "size" : 135806,
+                        "height" : 505,
+                        "type" : "image\/jpeg",
+                        "width" : 750
+                      },
+                      "url" : "https:\/\/assets2.ello.co\/uploads\/asset\/attachment\/8092953\/ello-hdpi-93a58f4a.jpg"
+                    },
+                    "xhdpi" : {
+                      "metadata" : {
+                        "size" : 1599294,
+                        "height" : 1009,
+                        "type" : "image\/jpeg",
+                        "width" : 1500
+                      },
+                      "url" : "https:\/\/assets0.ello.co\/uploads\/asset\/attachment\/8092953\/ello-xhdpi-93a58f4a.jpg"
+                    },
+                    "mdpi" : {
+                      "metadata" : {
+                        "size" : 34621,
+                        "height" : 252,
+                        "type" : "image\/jpeg",
+                        "width" : 375
+                      },
+                      "url" : "https:\/\/assets2.ello.co\/uploads\/asset\/attachment\/8092953\/ello-mdpi-93a58f4a.jpg"
+                    }
+                  }
+                },
+                {
+                  "id" : "8092950",
+                  "attachment" : {
+                    "optimized" : {
+                      "metadata" : {
+                        "size" : 2256108,
+                        "height" : 1282,
+                        "type" : "image\/jpeg",
+                        "width" : 1920
+                      },
+                      "url" : "https:\/\/assets0.ello.co\/uploads\/asset\/attachment\/8092950\/ello-optimized-907260f1.jpg"
+                    },
+                    "hdpi" : {
+                      "metadata" : {
+                        "size" : 124413,
+                        "height" : 501,
+                        "type" : "image\/jpeg",
+                        "width" : 750
+                      },
+                      "url" : "https:\/\/assets1.ello.co\/uploads\/asset\/attachment\/8092950\/ello-hdpi-907260f1.jpg"
+                    },
+                    "xhdpi" : {
+                      "metadata" : {
+                        "size" : 1440723,
+                        "height" : 1002,
+                        "type" : "image\/jpeg",
+                        "width" : 1500
+                      },
+                      "url" : "https:\/\/assets2.ello.co\/uploads\/asset\/attachment\/8092950\/ello-xhdpi-907260f1.jpg"
+                    },
+                    "mdpi" : {
+                      "metadata" : {
+                        "size" : 31141,
+                        "height" : 250,
+                        "type" : "image\/jpeg",
+                        "width" : 375
+                      },
+                      "url" : "https:\/\/assets2.ello.co\/uploads\/asset\/attachment\/8092950\/ello-mdpi-907260f1.jpg"
+                    }
+                  }
+                },
+                {
+                  "id" : "8092949",
+                  "attachment" : {
+                    "optimized" : {
+                      "metadata" : {
+                        "size" : 647132,
+                        "height" : 854,
+                        "type" : "image\/jpeg",
+                        "width" : 1280
+                      },
+                      "url" : "https:\/\/assets0.ello.co\/uploads\/asset\/attachment\/8092949\/ello-optimized-375f398f.jpg"
+                    },
+                    "hdpi" : {
+                      "metadata" : {
+                        "size" : 70072,
+                        "height" : 500,
+                        "type" : "image\/jpeg",
+                        "width" : 750
+                      },
+                      "url" : "https:\/\/assets2.ello.co\/uploads\/asset\/attachment\/8092949\/ello-hdpi-375f398f.jpg"
+                    },
+                    "xhdpi" : {
+                      "metadata" : {
+                        "size" : 647132,
+                        "height" : 854,
+                        "type" : "image\/jpeg",
+                        "width" : 1280
+                      },
+                      "url" : "https:\/\/assets0.ello.co\/uploads\/asset\/attachment\/8092949\/ello-xhdpi-375f398f.jpg"
+                    },
+                    "mdpi" : {
+                      "metadata" : {
+                        "size" : 20647,
+                        "height" : 250,
+                        "type" : "image\/jpeg",
+                        "width" : 375
+                      },
+                      "url" : "https:\/\/assets2.ello.co\/uploads\/asset\/attachment\/8092949\/ello-mdpi-375f398f.jpg"
+                    }
+                  }
+                },
+                {
+                  "id" : "8092948",
+                  "attachment" : {
+                    "optimized" : {
+                      "metadata" : {
+                        "size" : 445167,
+                        "height" : 855,
+                        "type" : "image\/jpeg",
+                        "width" : 1280
+                      },
+                      "url" : "https:\/\/assets0.ello.co\/uploads\/asset\/attachment\/8092948\/ello-optimized-a0635ba6.jpg"
+                    },
+                    "hdpi" : {
+                      "metadata" : {
+                        "size" : 36273,
+                        "height" : 501,
+                        "type" : "image\/jpeg",
+                        "width" : 750
+                      },
+                      "url" : "https:\/\/assets2.ello.co\/uploads\/asset\/attachment\/8092948\/ello-hdpi-a0635ba6.jpg"
+                    },
+                    "xhdpi" : {
+                      "metadata" : {
+                        "size" : 445167,
+                        "height" : 855,
+                        "type" : "image\/jpeg",
+                        "width" : 1280
+                      },
+                      "url" : "https:\/\/assets1.ello.co\/uploads\/asset\/attachment\/8092948\/ello-xhdpi-a0635ba6.jpg"
+                    },
+                    "mdpi" : {
+                      "metadata" : {
+                        "size" : 13075,
+                        "height" : 250,
+                        "type" : "image\/jpeg",
+                        "width" : 375
+                      },
+                      "url" : "https:\/\/assets2.ello.co\/uploads\/asset\/attachment\/8092948\/ello-mdpi-a0635ba6.jpg"
+                    }
+                  }
+                },
+                {
+                  "id" : "8092947",
+                  "attachment" : {
+                    "optimized" : {
+                      "metadata" : {
+                        "size" : 710261,
+                        "height" : 854,
+                        "type" : "image\/jpeg",
+                        "width" : 1280
+                      },
+                      "url" : "https:\/\/assets2.ello.co\/uploads\/asset\/attachment\/8092947\/ello-optimized-1a59b930.jpg"
+                    },
+                    "hdpi" : {
+                      "metadata" : {
+                        "size" : 66887,
+                        "height" : 500,
+                        "type" : "image\/jpeg",
+                        "width" : 750
+                      },
+                      "url" : "https:\/\/assets0.ello.co\/uploads\/asset\/attachment\/8092947\/ello-hdpi-1a59b930.jpg"
+                    },
+                    "xhdpi" : {
+                      "metadata" : {
+                        "size" : 710261,
+                        "height" : 854,
+                        "type" : "image\/jpeg",
+                        "width" : 1280
+                      },
+                      "url" : "https:\/\/assets2.ello.co\/uploads\/asset\/attachment\/8092947\/ello-xhdpi-1a59b930.jpg"
+                    },
+                    "mdpi" : {
+                      "metadata" : {
+                        "size" : 20552,
+                        "height" : 250,
+                        "type" : "image\/jpeg",
+                        "width" : 375
+                      },
+                      "url" : "https:\/\/assets1.ello.co\/uploads\/asset\/attachment\/8092947\/ello-mdpi-1a59b930.jpg"
+                    }
+                  }
+                }
+              ],
+              "author" : {
+                "name" : "",
+                "id" : "977545",
+                "coverImage" : {
+                  "optimized" : {
+                    "metadata" : {
+                      "size" : 975459,
+                      "height" : 1335,
+                      "type" : "image\/jpeg",
+                      "width" : 2000
+                    },
+                    "url" : "https:\/\/assets1.ello.co\/uploads\/user\/cover_image\/977545\/ello-optimized-0a5207d1.jpg"
+                  },
+                  "hdpi" : {
+                    "metadata" : {
+                      "size" : 172142,
+                      "height" : 414,
+                      "type" : "image\/jpeg",
+                      "width" : 620
+                    },
+                    "url" : "https:\/\/assets2.ello.co\/uploads\/user\/cover_image\/977545\/ello-hdpi-0a5207d1.jpg"
+                  },
+                  "xhdpi" : {
+                    "metadata" : {
+                      "size" : 635917,
+                      "height" : 837,
+                      "type" : "image\/jpeg",
+                      "width" : 1254
+                    },
+                    "url" : "https:\/\/assets0.ello.co\/uploads\/user\/cover_image\/977545\/ello-xhdpi-0a5207d1.jpg"
+                  },
+                  "mdpi" : {
+                    "metadata" : {
+                      "size" : 46122,
+                      "height" : 207,
+                      "type" : "image\/jpeg",
+                      "width" : 310
+                    },
+                    "url" : "https:\/\/assets2.ello.co\/uploads\/user\/cover_image\/977545\/ello-mdpi-0a5207d1.jpg"
+                  }
+                },
+                "settings" : {
+                  "isCollaborateable" : false,
+                  "hasCommentingEnabled" : true,
+                  "isHireable" : false,
+                  "hasLovesEnabled" : true,
+                  "hasRepostingEnabled" : true,
+                  "hasSharingEnabled" : true
+                },
+                "currentUserState" : {
+                  "relationshipPriority" : "friend"
+                },
+                "avatar" : {
+                  "original" : {
+                    "metadata" : {
+                      "size" : null,
+                      "height" : null,
+                      "type" : null,
+                      "width" : null
+                    },
+                    "url" : "https:\/\/assets0.ello.co\/uploads\/user\/avatar\/977545\/ello-6577f6dd-67e9-4a82-8420-cdad633d6453.jpeg"
+                  },
+                  "regular" : {
+                    "metadata" : {
+                      "size" : 21608,
+                      "height" : 120,
+                      "type" : "image\/png",
+                      "width" : 120
+                    },
+                    "url" : "https:\/\/assets1.ello.co\/uploads\/user\/avatar\/977545\/ello-regular-3aa4ac34.png"
+                  },
+                  "large" : {
+                    "metadata" : {
+                      "size" : 127336,
+                      "height" : 360,
+                      "type" : "image\/png",
+                      "width" : 360
+                    },
+                    "url" : "https:\/\/assets1.ello.co\/uploads\/user\/avatar\/977545\/ello-large-3aa4ac34.png"
+                  }
+                },
+                "username" : "ans42"
+              }
+            },
+            "id" : "37901",
+            "artistInvite" : {
+              "id" : "67",
+              "slug" : "east-8-photography-magazine",
+              "title" : "East 8 "
+            }
+          }
+        },
+        {
+          "kind" : "approved_artist_invite_submission_notification_for_followers",
+          "id" : "approved_artist_invite_submission_notification_for_followers:37610:2018-08-09 10:30:49.000000Z:529",
+          "subjectType" : "ArtistInviteSubmission",
+          "createdAt" : "2018-08-09T10:30:49.000000Z",
+          "subject" : {
+            "status" : "approved",
+            "post" : {
+              "summary" : [
+                {
+                  "kind" : "image",
+                  "data" : {
+                    "alt" : null,
+                    "url" : "https:\/\/assets2.ello.co\/uploads\/asset\/attachment\/8069890\/ello-optimized-8a36764a.jpg"
+                  },
+                  "links" : {
+                    "assets" : "8069890"
+                  },
+                  "linkUrl" : null
+                },
+                {
+                  "kind" : "text",
+                  "data" : "<p>FLORIDA 135 SPECIAL GUN (Plexi-glass object with 2 bullets, 20cm x 29.5cm x 4.3cm, Dirk Marwig, Madrid 1998)<\/p>\n\n<p>Any dumb, ...<\/p>",
+                  "links" : null,
+                  "linkUrl" : null
+                }
+              ],
+              "postStats" : {
+                "lovesCount" : 13,
+                "repostsCount" : 0,
+                "commentsCount" : 6,
+                "viewsCount" : 144411
+              },
+              "repostedSource" : null,
+              "id" : "16107870",
+              "token" : "ks3w0mhsi1uty01_yymnka",
+              "createdAt" : "2018-08-09T04:24:51.038687Z",
+              "currentUserState" : {
+                "reposted" : false,
+                "watching" : false,
+                "loved" : false
+              },
+              "artistInviteSubmission" : null,
+              "assets" : [
+                {
+                  "id" : "8069890",
+                  "attachment" : {
+                    "optimized" : {
+                      "metadata" : {
+                        "size" : 774043,
+                        "height" : 1045,
+                        "type" : "image\/jpeg",
+                        "width" : 1500
+                      },
+                      "url" : "https:\/\/assets2.ello.co\/uploads\/asset\/attachment\/8069890\/ello-optimized-8a36764a.jpg"
+                    },
+                    "hdpi" : {
+                      "metadata" : {
+                        "size" : 46887,
+                        "height" : 523,
+                        "type" : "image\/jpeg",
+                        "width" : 750
+                      },
+                      "url" : "https:\/\/assets2.ello.co\/uploads\/asset\/attachment\/8069890\/ello-hdpi-8a36764a.jpg"
+                    },
+                    "xhdpi" : {
+                      "metadata" : {
+                        "size" : 774043,
+                        "height" : 1045,
+                        "type" : "image\/jpeg",
+                        "width" : 1500
+                      },
+                      "url" : "https:\/\/assets2.ello.co\/uploads\/asset\/attachment\/8069890\/ello-xhdpi-8a36764a.jpg"
+                    },
+                    "mdpi" : {
+                      "metadata" : {
+                        "size" : 11325,
+                        "height" : 261,
+                        "type" : "image\/jpeg",
+                        "width" : 375
+                      },
+                      "url" : "https:\/\/assets0.ello.co\/uploads\/asset\/attachment\/8069890\/ello-mdpi-8a36764a.jpg"
+                    }
+                  }
+                }
+              ],
+              "author" : {
+                "name" : "Dirk Marwig",
+                "id" : "529",
+                "coverImage" : {
+                  "optimized" : {
+                    "metadata" : {
+                      "size" : 2185410,
+                      "height" : 1440,
+                      "type" : "image\/jpeg",
+                      "width" : 2237
+                    },
+                    "url" : "https:\/\/assets1.ello.co\/uploads\/user\/cover_image\/529\/ello-optimized-cb225da0.jpg"
+                  },
+                  "hdpi" : {
+                    "metadata" : {
+                      "size" : 160557,
+                      "height" : 414,
+                      "type" : "image\/jpeg",
+                      "width" : 643
+                    },
+                    "url" : "https:\/\/assets2.ello.co\/uploads\/user\/cover_image\/529\/ello-hdpi-cb225da0.jpg"
+                  },
+                  "xhdpi" : {
+                    "metadata" : {
+                      "size" : 729651,
+                      "height" : 837,
+                      "type" : "image\/jpeg",
+                      "width" : 1300
+                    },
+                    "url" : "https:\/\/assets0.ello.co\/uploads\/user\/cover_image\/529\/ello-xhdpi-cb225da0.jpg"
+                  },
+                  "mdpi" : {
+                    "metadata" : {
+                      "size" : 38043,
+                      "height" : 207,
+                      "type" : "image\/jpeg",
+                      "width" : 322
+                    },
+                    "url" : "https:\/\/assets2.ello.co\/uploads\/user\/cover_image\/529\/ello-mdpi-cb225da0.jpg"
+                  }
+                },
+                "settings" : {
+                  "isCollaborateable" : false,
+                  "hasCommentingEnabled" : true,
+                  "isHireable" : false,
+                  "hasLovesEnabled" : true,
+                  "hasRepostingEnabled" : true,
+                  "hasSharingEnabled" : true
+                },
+                "currentUserState" : {
+                  "relationshipPriority" : "friend"
+                },
+                "avatar" : {
+                  "original" : {
+                    "metadata" : {
+                      "size" : null,
+                      "height" : null,
+                      "type" : null,
+                      "width" : null
+                    },
+                    "url" : "https:\/\/assets2.ello.co\/uploads\/user\/avatar\/529\/meeee__copy.png"
+                  },
+                  "regular" : {
+                    "metadata" : {
+                      "size" : 12878,
+                      "height" : 120,
+                      "type" : "image\/png",
+                      "width" : 120
+                    },
+                    "url" : "https:\/\/assets1.ello.co\/uploads\/user\/avatar\/529\/ello-regular-efe290b6.png"
+                  },
+                  "large" : {
+                    "metadata" : {
+                      "size" : 89774,
+                      "height" : 360,
+                      "type" : "image\/png",
+                      "width" : 360
+                    },
+                    "url" : "https:\/\/assets0.ello.co\/uploads\/user\/avatar\/529\/ello-large-efe290b6.png"
+                  }
+                },
+                "username" : "dirkmarwig"
+              }
+            },
+            "id" : "37610",
+            "artistInvite" : {
+              "id" : "64",
+              "slug" : "blacklisted-magazine-issue-01",
+              "title" : "Blacklisted Magazine Issue #01"
+            }
+          }
+        },
+        {
+          "kind" : "approved_artist_invite_submission_notification_for_followers",
+          "id" : "approved_artist_invite_submission_notification_for_followers:37285:2018-08-07 18:55:26.000000Z:1973198",
+          "subjectType" : "ArtistInviteSubmission",
+          "createdAt" : "2018-08-07T18:55:26.000000Z",
+          "subject" : {
+            "status" : "approved",
+            "post" : {
+              "summary" : [
+                {
+                  "kind" : "image",
+                  "data" : {
+                    "alt" : "1. Black Hole Energy 2. Gravita - llanwafu | ello",
+                    "url" : "https:\/\/assets2.ello.co\/uploads\/asset\/attachment\/8048823\/ello-optimized-bc569350.jpg"
+                  },
+                  "links" : {
+                    "assets" : "8048823"
+                  },
+                  "linkUrl" : null
+                },
+                {
+                  "kind" : "text",
+                  "data" : "<p><b>1. Black Hole Energy<\/b><\/p>",
+                  "links" : null,
+                  "linkUrl" : null
+                }
+              ],
+              "postStats" : {
+                "lovesCount" : 3,
+                "repostsCount" : 0,
+                "commentsCount" : 0,
+                "viewsCount" : 2979
+              },
+              "repostedSource" : null,
+              "id" : "16081598",
+              "token" : "egrttshux7uvom15_uxeia",
+              "createdAt" : "2018-08-03T18:35:06.962484Z",
+              "currentUserState" : {
+                "reposted" : false,
+                "watching" : false,
+                "loved" : false
+              },
+              "artistInviteSubmission" : null,
+              "assets" : [
+                {
+                  "id" : "8048827",
+                  "attachment" : {
+                    "optimized" : {
+                      "metadata" : {
+                        "size" : 945322,
+                        "height" : 1400,
+                        "type" : "image\/jpeg",
+                        "width" : 1400
+                      },
+                      "url" : "https:\/\/assets0.ello.co\/uploads\/asset\/attachment\/8048827\/ello-optimized-4a1ae610.jpg"
+                    },
+                    "hdpi" : {
+                      "metadata" : {
+                        "size" : 151645,
+                        "height" : 750,
+                        "type" : "image\/jpeg",
+                        "width" : 750
+                      },
+                      "url" : "https:\/\/assets1.ello.co\/uploads\/asset\/attachment\/8048827\/ello-hdpi-4a1ae610.jpg"
+                    },
+                    "xhdpi" : {
+                      "metadata" : {
+                        "size" : 945322,
+                        "height" : 1400,
+                        "type" : "image\/jpeg",
+                        "width" : 1400
+                      },
+                      "url" : "https:\/\/assets0.ello.co\/uploads\/asset\/attachment\/8048827\/ello-xhdpi-4a1ae610.jpg"
+                    },
+                    "mdpi" : {
+                      "metadata" : {
+                        "size" : 41945,
+                        "height" : 375,
+                        "type" : "image\/jpeg",
+                        "width" : 375
+                      },
+                      "url" : "https:\/\/assets2.ello.co\/uploads\/asset\/attachment\/8048827\/ello-mdpi-4a1ae610.jpg"
+                    }
+                  }
+                },
+                {
+                  "id" : "8048825",
+                  "attachment" : {
+                    "optimized" : {
+                      "metadata" : {
+                        "size" : 1377072,
+                        "height" : 1400,
+                        "type" : "image\/jpeg",
+                        "width" : 1400
+                      },
+                      "url" : "https:\/\/assets0.ello.co\/uploads\/asset\/attachment\/8048825\/ello-optimized-a08d532e.jpg"
+                    },
+                    "hdpi" : {
+                      "metadata" : {
+                        "size" : 103806,
+                        "height" : 750,
+                        "type" : "image\/jpeg",
+                        "width" : 750
+                      },
+                      "url" : "https:\/\/assets1.ello.co\/uploads\/asset\/attachment\/8048825\/ello-hdpi-a08d532e.jpg"
+                    },
+                    "xhdpi" : {
+                      "metadata" : {
+                        "size" : 1377072,
+                        "height" : 1400,
+                        "type" : "image\/jpeg",
+                        "width" : 1400
+                      },
+                      "url" : "https:\/\/assets1.ello.co\/uploads\/asset\/attachment\/8048825\/ello-xhdpi-a08d532e.jpg"
+                    },
+                    "mdpi" : {
+                      "metadata" : {
+                        "size" : 29134,
+                        "height" : 375,
+                        "type" : "image\/jpeg",
+                        "width" : 375
+                      },
+                      "url" : "https:\/\/assets0.ello.co\/uploads\/asset\/attachment\/8048825\/ello-mdpi-a08d532e.jpg"
+                    }
+                  }
+                },
+                {
+                  "id" : "8048823",
+                  "attachment" : {
+                    "optimized" : {
+                      "metadata" : {
+                        "size" : 2171005,
+                        "height" : 1980,
+                        "type" : "image\/jpeg",
+                        "width" : 1400
+                      },
+                      "url" : "https:\/\/assets1.ello.co\/uploads\/asset\/attachment\/8048823\/ello-optimized-bc569350.jpg"
+                    },
+                    "hdpi" : {
+                      "metadata" : {
+                        "size" : 120688,
+                        "height" : 1061,
+                        "type" : "image\/jpeg",
+                        "width" : 750
+                      },
+                      "url" : "https:\/\/assets0.ello.co\/uploads\/asset\/attachment\/8048823\/ello-hdpi-bc569350.jpg"
+                    },
+                    "xhdpi" : {
+                      "metadata" : {
+                        "size" : 2171005,
+                        "height" : 1980,
+                        "type" : "image\/jpeg",
+                        "width" : 1400
+                      },
+                      "url" : "https:\/\/assets2.ello.co\/uploads\/asset\/attachment\/8048823\/ello-xhdpi-bc569350.jpg"
+                    },
+                    "mdpi" : {
+                      "metadata" : {
+                        "size" : 32727,
+                        "height" : 530,
+                        "type" : "image\/jpeg",
+                        "width" : 375
+                      },
+                      "url" : "https:\/\/assets2.ello.co\/uploads\/asset\/attachment\/8048823\/ello-mdpi-bc569350.jpg"
+                    }
+                  }
+                }
+              ],
+              "author" : {
+                "name" : "Yolanda Go",
+                "id" : "1973198",
+                "coverImage" : {
+                  "optimized" : {
+                    "metadata" : {
+                      "size" : 207055,
+                      "height" : 1013,
+                      "type" : "image\/jpeg",
+                      "width" : 1800
+                    },
+                    "url" : "https:\/\/assets0.ello.co\/uploads\/user\/cover_image\/1973198\/ello-optimized-50afb61f.jpg"
+                  },
+                  "hdpi" : {
+                    "metadata" : {
+                      "size" : 73475,
+                      "height" : 414,
+                      "type" : "image\/jpeg",
+                      "width" : 736
+                    },
+                    "url" : "https:\/\/assets2.ello.co\/uploads\/user\/cover_image\/1973198\/ello-hdpi-50afb61f.jpg"
+                  },
+                  "xhdpi" : {
+                    "metadata" : {
+                      "size" : 214538,
+                      "height" : 837,
+                      "type" : "image\/jpeg",
+                      "width" : 1487
+                    },
+                    "url" : "https:\/\/assets2.ello.co\/uploads\/user\/cover_image\/1973198\/ello-xhdpi-50afb61f.jpg"
+                  },
+                  "mdpi" : {
+                    "metadata" : {
+                      "size" : 27562,
+                      "height" : 207,
+                      "type" : "image\/jpeg",
+                      "width" : 368
+                    },
+                    "url" : "https:\/\/assets1.ello.co\/uploads\/user\/cover_image\/1973198\/ello-mdpi-50afb61f.jpg"
+                  }
+                },
+                "settings" : {
+                  "isCollaborateable" : true,
+                  "hasCommentingEnabled" : true,
+                  "isHireable" : true,
+                  "hasLovesEnabled" : true,
+                  "hasRepostingEnabled" : true,
+                  "hasSharingEnabled" : true
+                },
+                "currentUserState" : {
+                  "relationshipPriority" : "friend"
+                },
+                "avatar" : {
+                  "original" : {
+                    "metadata" : {
+                      "size" : null,
+                      "height" : null,
+                      "type" : null,
+                      "width" : null
+                    },
+                    "url" : "https:\/\/assets1.ello.co\/uploads\/user\/avatar\/1973198\/ello-af43c257-2892-4025-8cbf-eb2b8a1e17c8.jpeg"
+                  },
+                  "regular" : {
+                    "metadata" : {
+                      "size" : 11045,
+                      "height" : 120,
+                      "type" : "image\/png",
+                      "width" : 120
+                    },
+                    "url" : "https:\/\/assets2.ello.co\/uploads\/user\/avatar\/1973198\/ello-regular-8474b192.png"
+                  },
+                  "large" : {
+                    "metadata" : {
+                      "size" : 40654,
+                      "height" : 360,
+                      "type" : "image\/png",
+                      "width" : 360
+                    },
+                    "url" : "https:\/\/assets2.ello.co\/uploads\/user\/avatar\/1973198\/ello-large-8474b192.png"
+                  }
+                },
+                "username" : "llanwafu"
+              }
+            },
+            "id" : "37285",
+            "artistInvite" : {
+              "id" : "65",
+              "slug" : "science-friday-reads-stephen-hawking",
+              "title" : "Science Friday Reads Stephen Hawking"
+            }
+          }
+        },
+        {
+          "kind" : "approved_artist_invite_submission_notification_for_followers",
+          "id" : "approved_artist_invite_submission_notification_for_followers:37231:2018-08-03 18:41:56.000000Z:3139231",
+          "subjectType" : "ArtistInviteSubmission",
+          "createdAt" : "2018-08-03T18:41:56.000000Z",
+          "subject" : {
+            "status" : "approved",
+            "post" : {
+              "summary" : [
+                {
+                  "kind" : "text",
+                  "data" : "<p><b>&quot;Art is Dirty&quot;<\/b><br\/>\n<b>BIO:<\/b> Alexander Reagan is a Venice Beach based artist and eco fashion designer. Self-taught, Reagan spent ...<\/p>",
+                  "links" : null,
+                  "linkUrl" : null
+                },
+                {
+                  "kind" : "image",
+                  "data" : {
+                    "alt" : null,
+                    "url" : "https:\/\/assets1.ello.co\/uploads\/asset\/attachment\/8045252\/ello-optimized-3bdccb67.jpg"
+                  },
+                  "links" : {
+                    "assets" : "8045252"
+                  },
+                  "linkUrl" : null
+                }
+              ],
+              "postStats" : {
+                "lovesCount" : 12,
+                "repostsCount" : 0,
+                "commentsCount" : 0,
+                "viewsCount" : 144969
+              },
+              "repostedSource" : null,
+              "id" : "16076548",
+              "token" : "yjdlsrqz5i1v8-8dffu_zw",
+              "createdAt" : "2018-08-02T21:02:15.788659Z",
+              "currentUserState" : {
+                "reposted" : false,
+                "watching" : false,
+                "loved" : false
+              },
+              "artistInviteSubmission" : null,
+              "assets" : [
+                {
+                  "id" : "8045275",
+                  "attachment" : {
+                    "optimized" : {
+                      "metadata" : {
+                        "size" : 3114538,
+                        "height" : 2560,
+                        "type" : "image\/jpeg",
+                        "width" : 1297
+                      },
+                      "url" : "https:\/\/assets0.ello.co\/uploads\/asset\/attachment\/8045275\/ello-optimized-b9c71b63.jpg"
+                    },
+                    "hdpi" : {
+                      "metadata" : {
+                        "size" : 408252,
+                        "height" : 1480,
+                        "type" : "image\/jpeg",
+                        "width" : 750
+                      },
+                      "url" : "https:\/\/assets2.ello.co\/uploads\/asset\/attachment\/8045275\/ello-hdpi-b9c71b63.jpg"
+                    },
+                    "xhdpi" : {
+                      "metadata" : {
+                        "size" : 3956221,
+                        "height" : 2960,
+                        "type" : "image\/jpeg",
+                        "width" : 1500
+                      },
+                      "url" : "https:\/\/assets0.ello.co\/uploads\/asset\/attachment\/8045275\/ello-xhdpi-b9c71b63.jpg"
+                    },
+                    "mdpi" : {
+                      "metadata" : {
+                        "size" : 124607,
+                        "height" : 740,
+                        "type" : "image\/jpeg",
+                        "width" : 375
+                      },
+                      "url" : "https:\/\/assets0.ello.co\/uploads\/asset\/attachment\/8045275\/ello-mdpi-b9c71b63.jpg"
+                    }
+                  }
+                },
+                {
+                  "id" : "8045268",
+                  "attachment" : {
+                    "optimized" : {
+                      "metadata" : {
+                        "size" : 3235189,
+                        "height" : 2560,
+                        "type" : "image\/jpeg",
+                        "width" : 1748
+                      },
+                      "url" : "https:\/\/assets2.ello.co\/uploads\/asset\/attachment\/8045268\/ello-optimized-0a968250.jpg"
+                    },
+                    "hdpi" : {
+                      "metadata" : {
+                        "size" : 254032,
+                        "height" : 1098,
+                        "type" : "image\/jpeg",
+                        "width" : 750
+                      },
+                      "url" : "https:\/\/assets0.ello.co\/uploads\/asset\/attachment\/8045268\/ello-hdpi-0a968250.jpg"
+                    },
+                    "xhdpi" : {
+                      "metadata" : {
+                        "size" : 2508869,
+                        "height" : 2196,
+                        "type" : "image\/jpeg",
+                        "width" : 1500
+                      },
+                      "url" : "https:\/\/assets2.ello.co\/uploads\/asset\/attachment\/8045268\/ello-xhdpi-0a968250.jpg"
+                    },
+                    "mdpi" : {
+                      "metadata" : {
+                        "size" : 75757,
+                        "height" : 549,
+                        "type" : "image\/jpeg",
+                        "width" : 375
+                      },
+                      "url" : "https:\/\/assets0.ello.co\/uploads\/asset\/attachment\/8045268\/ello-mdpi-0a968250.jpg"
+                    }
+                  }
+                },
+                {
+                  "id" : "8045252",
+                  "attachment" : {
+                    "optimized" : {
+                      "metadata" : {
+                        "size" : 3571636,
+                        "height" : 2560,
+                        "type" : "image\/jpeg",
+                        "width" : 1654
+                      },
+                      "url" : "https:\/\/assets0.ello.co\/uploads\/asset\/attachment\/8045252\/ello-optimized-3bdccb67.jpg"
+                    },
+                    "hdpi" : {
+                      "metadata" : {
+                        "size" : 257695,
+                        "height" : 1161,
+                        "type" : "image\/jpeg",
+                        "width" : 750
+                      },
+                      "url" : "https:\/\/assets2.ello.co\/uploads\/asset\/attachment\/8045252\/ello-hdpi-3bdccb67.jpg"
+                    },
+                    "xhdpi" : {
+                      "metadata" : {
+                        "size" : 3038522,
+                        "height" : 2321,
+                        "type" : "image\/jpeg",
+                        "width" : 1500
+                      },
+                      "url" : "https:\/\/assets1.ello.co\/uploads\/asset\/attachment\/8045252\/ello-xhdpi-3bdccb67.jpg"
+                    },
+                    "mdpi" : {
+                      "metadata" : {
+                        "size" : 75551,
+                        "height" : 580,
+                        "type" : "image\/jpeg",
+                        "width" : 375
+                      },
+                      "url" : "https:\/\/assets1.ello.co\/uploads\/asset\/attachment\/8045252\/ello-mdpi-3bdccb67.jpg"
+                    }
+                  }
+                }
+              ],
+              "author" : {
+                "name" : "Alexander Lee Reagan ",
+                "id" : "3139231",
+                "coverImage" : {
+                  "optimized" : {
+                    "metadata" : {
+                      "size" : 2645567,
+                      "height" : 1357,
+                      "type" : "image\/jpeg",
+                      "width" : 2560
+                    },
+                    "url" : "https:\/\/assets1.ello.co\/uploads\/user\/cover_image\/3139231\/ello-optimized-4e4c21bd.jpg"
+                  },
+                  "hdpi" : {
+                    "metadata" : {
+                      "size" : 283499,
+                      "height" : 398,
+                      "type" : "image\/jpeg",
+                      "width" : 750
+                    },
+                    "url" : "https:\/\/assets1.ello.co\/uploads\/user\/cover_image\/3139231\/ello-hdpi-4e4c21bd.jpg"
+                  },
+                  "xhdpi" : {
+                    "metadata" : {
+                      "size" : 967648,
+                      "height" : 795,
+                      "type" : "image\/jpeg",
+                      "width" : 1500
+                    },
+                    "url" : "https:\/\/assets0.ello.co\/uploads\/user\/cover_image\/3139231\/ello-xhdpi-4e4c21bd.jpg"
+                  },
+                  "mdpi" : {
+                    "metadata" : {
+                      "size" : 84139,
+                      "height" : 199,
+                      "type" : "image\/jpeg",
+                      "width" : 375
+                    },
+                    "url" : "https:\/\/assets1.ello.co\/uploads\/user\/cover_image\/3139231\/ello-mdpi-4e4c21bd.jpg"
+                  }
+                },
+                "settings" : {
+                  "isCollaborateable" : false,
+                  "hasCommentingEnabled" : true,
+                  "isHireable" : false,
+                  "hasLovesEnabled" : true,
+                  "hasRepostingEnabled" : true,
+                  "hasSharingEnabled" : true
+                },
+                "currentUserState" : {
+                  "relationshipPriority" : "friend"
+                },
+                "avatar" : {
+                  "original" : {
+                    "metadata" : {
+                      "size" : null,
+                      "height" : null,
+                      "type" : null,
+                      "width" : null
+                    },
+                    "url" : "https:\/\/assets1.ello.co\/uploads\/user\/avatar\/3139231\/ello-680ae4c0-3ef2-491d-bd5c-b35bd783c465.jpeg"
+                  },
+                  "regular" : {
+                    "metadata" : {
+                      "size" : 23807,
+                      "height" : 120,
+                      "type" : "image\/png",
+                      "width" : 120
+                    },
+                    "url" : "https:\/\/assets2.ello.co\/uploads\/user\/avatar\/3139231\/ello-regular-1447296a.png"
+                  },
+                  "large" : {
+                    "metadata" : {
+                      "size" : 207768,
+                      "height" : 360,
+                      "type" : "image\/png",
+                      "width" : 360
+                    },
+                    "url" : "https:\/\/assets2.ello.co\/uploads\/user\/avatar\/3139231\/ello-large-1447296a.png"
+                  }
+                },
+                "username" : "alexleereagan"
+              }
+            },
+            "id" : "37231",
+            "artistInvite" : {
+              "id" : "68",
+              "slug" : "ello-pride",
+              "title" : "Ello PRIDE"
+            }
+          }
+        }
+      ]
+    }
+  }
+}

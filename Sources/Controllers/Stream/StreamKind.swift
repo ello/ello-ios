@@ -146,11 +146,11 @@ enum StreamKind {
         case .artistInvites: return .artistInvites
         case .artistInviteSubmissions: return .artistInviteSubmissions
         case .following: return .following
-        case let .notifications(category): return .notificationsStream(category: category)
         case let .postDetail(postParam): return .postDetail(postParam: postParam)
         case let .simpleStream(endpoint, _): return endpoint
         case let .userStream(userParam): return .userStream(userParam: userParam)
-        case .userLoves,
+        case .notifications,
+             .userLoves,
              .userFollowing,
              .userFollowers,
              .unknown:

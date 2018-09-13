@@ -684,7 +684,6 @@
 		1D5E3DE420FCC81F00044C39 /* relationship_following.json in Resources */ = {isa = PBXBuildFile; fileRef = 1D5E3DC320FCC81800044C39 /* relationship_following.json */; };
 		1D5E3DE520FCC81F00044C39 /* relationship_inactive.json in Resources */ = {isa = PBXBuildFile; fileRef = 1D5E3DC420FCC81900044C39 /* relationship_inactive.json */; };
 		1D5E3DE620FCC81F00044C39 /* editorials.json in Resources */ = {isa = PBXBuildFile; fileRef = 1D5E3DC520FCC81900044C39 /* editorials.json */; };
-		1D5E3DE720FCC81F00044C39 /* activity_streams_notifications.json in Resources */ = {isa = PBXBuildFile; fileRef = 1D5E3DC620FCC81900044C39 /* activity_streams_notifications.json */; };
 		1D5E3DE820FCC81F00044C39 /* profile.json in Resources */ = {isa = PBXBuildFile; fileRef = 1D5E3DC720FCC81900044C39 /* profile.json */; };
 		1D5E3DE920FCC81F00044C39 /* posts_listing_users_who_have_loved_a_post.json in Resources */ = {isa = PBXBuildFile; fileRef = 1D5E3DC820FCC81A00044C39 /* posts_listing_users_who_have_loved_a_post.json */; };
 		1D5E3DEA20FCC81F00044C39 /* categories.json in Resources */ = {isa = PBXBuildFile; fileRef = 1D5E3DC920FCC81A00044C39 /* categories.json */; };
@@ -859,6 +858,7 @@
 		1D8213C72107A0260088AFE0 /* NotificationParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8213C62107A0260088AFE0 /* NotificationParser.swift */; };
 		1D8213C82107A5000088AFE0 /* NotificationParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8213C62107A0260088AFE0 /* NotificationParser.swift */; };
 		1D8213C92107A5000088AFE0 /* NotificationParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8213C62107A0260088AFE0 /* NotificationParser.swift */; };
+		1D8489372130841A008D6DE1 /* notificationStream.json in Resources */ = {isa = PBXBuildFile; fileRef = 1D8489362130841A008D6DE1 /* notificationStream.json */; };
 		1D8783161ECCF45E00253602 /* EditorialExternalCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8783131ECCF45E00253602 /* EditorialExternalCell.swift */; };
 		1D8783171ECCF45E00253602 /* EditorialPostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8783141ECCF45E00253602 /* EditorialPostCell.swift */; };
 		1D8783181ECCF45E00253602 /* EditorialPostStreamCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8783151ECCF45E00253602 /* EditorialPostStreamCell.swift */; };
@@ -1798,7 +1798,6 @@
 		1D5E3DC320FCC81800044C39 /* relationship_following.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = relationship_following.json; sourceTree = "<group>"; };
 		1D5E3DC420FCC81900044C39 /* relationship_inactive.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = relationship_inactive.json; sourceTree = "<group>"; };
 		1D5E3DC520FCC81900044C39 /* editorials.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = editorials.json; sourceTree = "<group>"; };
-		1D5E3DC620FCC81900044C39 /* activity_streams_notifications.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = activity_streams_notifications.json; sourceTree = "<group>"; };
 		1D5E3DC720FCC81900044C39 /* profile.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = profile.json; sourceTree = "<group>"; };
 		1D5E3DC820FCC81A00044C39 /* posts_listing_users_who_have_loved_a_post.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = posts_listing_users_who_have_loved_a_post.json; sourceTree = "<group>"; };
 		1D5E3DC920FCC81A00044C39 /* categories.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = categories.json; sourceTree = "<group>"; };
@@ -1954,6 +1953,7 @@
 		1D81E1D01C4E8DE6001C63DC /* ReauthenticationSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReauthenticationSpec.swift; sourceTree = "<group>"; };
 		1D8213C4210212C70088AFE0 /* LovesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LovesViewController.swift; sourceTree = "<group>"; };
 		1D8213C62107A0260088AFE0 /* NotificationParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationParser.swift; sourceTree = "<group>"; };
+		1D8489362130841A008D6DE1 /* notificationStream.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = notificationStream.json; sourceTree = "<group>"; };
 		1D8783131ECCF45E00253602 /* EditorialExternalCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditorialExternalCell.swift; sourceTree = "<group>"; };
 		1D8783141ECCF45E00253602 /* EditorialPostCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditorialPostCell.swift; sourceTree = "<group>"; };
 		1D8783151ECCF45E00253602 /* EditorialPostStreamCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditorialPostStreamCell.swift; sourceTree = "<group>"; };
@@ -3621,6 +3621,7 @@
 				1D1CD4A12069779300A57314 /* pageHeaders.json */,
 				1D10FB8E211CFF3900DA0656 /* postDetail.json */,
 				1D1CD49F2069763600A57314 /* subscribedPostStream.json */,
+				1D8489362130841A008D6DE1 /* notificationStream.json */,
 			);
 			path = GraphQL;
 			sourceTree = "<group>";
@@ -3691,7 +3692,6 @@
 			children = (
 				1DD89B152118BF7100C332B4 /* 404.json */,
 				1D5E3DD920FCC81D00044C39 /* activity_streams_friend_stream.json */,
-				1D5E3DC620FCC81900044C39 /* activity_streams_notifications.json */,
 				1D5E3DE020FCC81F00044C39 /* amazon-credentials.json */,
 				1D5E3DC220FCC81800044C39 /* announcements.json */,
 				1D5E3DDA20FCC81E00044C39 /* artist_invites.json */,
@@ -4769,10 +4769,10 @@
 				1DD89B0A21139B1600C332B4 /* jwt-auth-no-staff.json in Resources */,
 				1D7152C11D6F777E005998FE /* 1password_normal.svg in Resources */,
 				76F8DECC1B6C0BC4009BCF61 /* ello_normal.svg in Resources */,
+				1D8489372130841A008D6DE1 /* notificationStream.json in Resources */,
 				1D942C101EC3AF8B00056761 /* hearts_outline_selected.svg in Resources */,
 				1D5E3DF120FCC81F00044C39 /* category.json in Resources */,
 				76F8DF041B6C0BC4009BCF61 /* xbox_normal.svg in Resources */,
-				1D5E3DE720FCC81F00044C39 /* activity_streams_notifications.json in Resources */,
 				76F8DEC31B6C0BC4009BCF61 /* circ_normal.svg in Resources */,
 				128C5AF51C59802600EFC226 /* (null) in Resources */,
 				1D9B74D31BB1E62500ACD028 /* bubble_body_white.svg in Resources */,

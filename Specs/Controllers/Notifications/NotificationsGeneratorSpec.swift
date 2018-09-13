@@ -59,6 +59,7 @@ class NotificationsGeneratorSpec: QuickSpec {
                     streamKind: streamKind,
                     destination: destination
                 )
+                StubbedManager.current.addStub(endpointName: "notificationStream")
             }
 
             describe("load()") {

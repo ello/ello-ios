@@ -264,18 +264,6 @@ class StreamCellItemParserSpec: QuickSpec {
                     let notifications: [Ello.Notification] = []
                     expect(subject.parse(notifications, streamKind: .notifications(category: nil)).count) == 0
                 }
-
-                it("returns an array with the proper count of stream cell items when parsing friends.json's notifications") {
-                    var loadedNotifications = [StreamCellItem]()
-                    StreamService().loadStream(endpoint: .notificationsStream(category: nil))
-                        .done { response in
-                            if case let .jsonables(jsonables, _) = response {
-                                loadedNotifications = subject.parse(jsonables, streamKind: .notifications(category: nil))
-                            }
-                        }
-                        .catch { _ in }
-                    expect(loadedNotifications.count) == 14
-                }
             }
 
             describe("regionStreamCells") {

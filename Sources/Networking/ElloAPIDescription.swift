@@ -176,7 +176,6 @@ extension ElloAPI: CustomDebugStringConvertible {
         case .locationAutoComplete: return "locationAutoComplete"
         case .markAnnouncementAsRead: return "markAnnouncementAsRead"
         case .notificationsNewContent: return "notificationsNewContent"
-        case .notificationsStream: return "notificationsStream"
         case .postComments: return "postComments"
         case .postDetail: return "postDetail"
         case .postLovers: return "postLovers"

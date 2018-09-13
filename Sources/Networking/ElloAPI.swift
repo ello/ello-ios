@@ -62,7 +62,6 @@ indirect enum ElloAPI {
     case join(email: String, username: String, password: String, invitationCode: String?)
     case locationAutoComplete(terms: String)
     case notificationsNewContent(createdAt: Date?)
-    case notificationsStream(category: String?)
     case postComments(postId: String)
     case postDetail(postParam: String)
     case postViews(streamId: String?, streamKind: String, postIds: Set<String>, currentUserId: String?)
@@ -220,8 +219,6 @@ indirect enum ElloAPI {
              .relationshipBatch,
              .userCategories:
             return .noContentType
-        case .notificationsStream:
-            return .activitiesAsNotificationsType
         case let .infiniteScroll(_, api):
             if let pagingMappingType = api.pagingMappingType {
                 return pagingMappingType
@@ -444,8 +441,7 @@ extension ElloAPI: Moya.TargetType {
             return "\(defaultPrefix)/join"
         case .locationAutoComplete:
             return "\(defaultPrefix)/profile/location_autocomplete"
-        case .notificationsNewContent,
-             .notificationsStream:
+        case .notificationsNewContent:
             return "\(defaultPrefix)/notifications"
         case let .postComments(postId):
             return "\(defaultPrefix)/posts/\(postId)/comments"
@@ -589,8 +585,6 @@ extension ElloAPI: Moya.TargetType {
             return stubbedData("users_registering_an_account")
         case .locationAutoComplete:
             return stubbedData("users_getting_a_list_for_autocompleted_locations")
-        case .notificationsStream:
-            return stubbedData("activity_streams_notifications")
         case .postComments:
             return stubbedData("posts_loading_more_post_comments")
         case .postDetail,
@@ -815,12 +809,6 @@ extension ElloAPI: Moya.TargetType {
             return [
                 "location": terms
             ]
-        case let .notificationsStream(category):
-            var params: [String: Any] = ["per_page": 10]
-            if let category = category {
-                params["category"] = category
-            }
-            return params
         case .postDetail:
             return [
                 "comment_count": 0,

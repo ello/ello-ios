@@ -143,22 +143,6 @@ class ElloAPISpec: QuickSpec {
                     }
                 }
 
-
-                describe("NotificationsStream") {
-
-                    it("without a category") {
-                        let params = ElloAPI.notificationsStream(category: nil).parameters!
-                        expect(params["per_page"] as? Int) == 10
-                        expect(params["category"]).to(beNil())
-                    }
-
-                    it("with a category") {
-                        let params = ElloAPI.notificationsStream(category: "all").parameters!
-                        expect(params["per_page"] as? Int) == 10
-                        expect(params["category"] as? String) == "all"
-                    }
-                }
-
                 it("postComments") {
                     let params = ElloAPI.postComments(postId: "comments-id").parameters!
                     expect(params["per_page"] as? Int) == 10
