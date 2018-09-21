@@ -59,7 +59,7 @@ final class ImageRegion: Model, Regionable {
             url = URL(string: urlStr)
         }
 
-        let buyButtonURL = json["link_url"].string.flatMap { URL(string: $0) }
+        let buyButtonURL = json["link_url"].url
         let imageRegion = ImageRegion(url: url, buyButtonURL: buyButtonURL)
         imageRegion.mergeLinks(data["links"] as? [String: Any])
         return imageRegion

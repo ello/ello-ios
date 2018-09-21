@@ -52,7 +52,7 @@ final class CategoryPost: Model {
         init?(name nameStr: String, json: JSON) {
             guard
                 let method = json["method"].string.map({ $0.uppercased() }).flatMap({ Moya.Method(rawValue: $0) }),
-                let url = json["href"].string.flatMap({ URL(string: $0) }),
+                let url = json["href"].url,
                 let name = Name(rawValue: nameStr)
             else { return nil }
 

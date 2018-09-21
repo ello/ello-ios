@@ -13,6 +13,10 @@ extension JSON {
         return string?.toDate()
     }
 
+    public var url: URL? {
+        return string.flatMap { URL(string: $0) }
+    }
+
     public var idValue: String {
         return id ?? ""
     }

@@ -87,7 +87,7 @@ final class ArtistInviteSubmission: Model, PostActionable {
         init?(name nameStr: String, json: JSON) {
             guard
                 let method = json["method"].string.map({ $0.uppercased() }).flatMap({ Moya.Method(rawValue: $0) }),
-                let url = json["href"].string.flatMap({ URL(string: $0) })
+                let url = json["href"].url
             else { return nil }
 
             let label = json["label"].stringValue

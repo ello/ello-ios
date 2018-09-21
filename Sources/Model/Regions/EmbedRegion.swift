@@ -70,7 +70,7 @@ final class EmbedRegion: Model, Regionable {
 
     class func fromJSON(_ data: [String: Any]) -> EmbedRegion {
         let json = JSON(data)
-        let thumbnailLargeUrl = json["data"]["thumbnail_large_url"].string.flatMap { URL(string: $0) }
+        let thumbnailLargeUrl = json["data"]["thumbnail_large_url"].url
 
         let embedRegion = EmbedRegion(
             id: json["data"]["id"].stringValue,

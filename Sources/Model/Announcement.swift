@@ -75,7 +75,7 @@ final class Announcement: Model {
         let isStaffPreview = json["is_staff_preview"].boolValue
         let header = json["header"].stringValue
         let body = json["body"].stringValue
-        let ctaURL = json["cta_href"].string.flatMap { URL(string: $0) }
+        let ctaURL = json["cta_href"].url
         let ctaCaption = json["cta_caption"].stringValue
 
         let announcement = Announcement(id: id,
