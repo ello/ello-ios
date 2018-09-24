@@ -197,7 +197,8 @@ final class Asset: Model {
         ]
         for (name, type) in attachments {
             guard let attachment = node[name] as? [String: Any],
-                attachment["url"] as? String != nil
+                let url = attachment["url"] as? String,
+                url != ""
             else { continue }
             asset.replace(attachmentType: type, with: Attachment.fromJSON(attachment))
         }

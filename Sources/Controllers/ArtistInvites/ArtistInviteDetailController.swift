@@ -18,6 +18,15 @@ class ArtistInviteDetailController: StreamableViewController {
     }
     var generator: ArtistInviteDetailGenerator!
 
+    static func open(_ controller: ArtistInviteDetailController, in navigationController: UINavigationController) {
+        if let redirectURL = controller.artistInvite?.redirectURL {
+            UIApplication.shared.open(redirectURL, options: [:], completionHandler: nil)
+        }
+        else {
+            navigationController.pushViewController(controller, animated: true)
+        }
+    }
+
     convenience init(slug: String) {
         self.init(id: "~\(slug)")
     }
