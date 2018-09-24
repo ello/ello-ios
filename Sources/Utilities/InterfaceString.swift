@@ -50,10 +50,10 @@ struct InterfaceString {
     }
 
     struct ArtistInvites {
-        static let Title: String = NSLocalizedString("Artist Invites", comment: "")
+        static let Title: String = NSLocalizedString("Invites", comment: "")
         static let Submissions: String = NSLocalizedString("Submissions", comment: "")
         static let Selections: String = NSLocalizedString("Selections", comment: "")
-        static let PostSubmissionHeader: String = NSLocalizedString("Artist Invite Submission", comment: "")
+        static let PostSubmissionHeader: String = NSLocalizedString("Invite Submission", comment: "")
         static let SubmissionsError: String = NSLocalizedString("Error while loading submissions", comment: "")
         static let SeeSubmissions: String = NSLocalizedString("↓ See Submissions", comment: "")
         static let Submit: String = NSLocalizedString("SUBMIT", comment: "")
@@ -62,7 +62,7 @@ struct InterfaceString {
         static let OpenStatus: String = NSLocalizedString("Open For Submissions", comment: "")
         static let SelectingStatus: String = NSLocalizedString("Selections In Progress", comment: "")
         static let ClosedStatus: String = NSLocalizedString("Invite Closed", comment: "")
-        static let SubmissionJoinPrompt: String = NSLocalizedString("To submit to an Artist Invite you first need to create an Ello account.", comment: "")
+        static let SubmissionJoinPrompt: String = NSLocalizedString("To submit to an Invite you first need to create an Ello account.", comment: "")
         static let SubmissionSuccessTitle: String = NSLocalizedString("Submission received!", comment: "")
         static let SubmissionSuccessDescription: String = NSLocalizedString("Our team of curators will review your submission and you’ll recieve a notification when it is accepted.", comment: "")
 

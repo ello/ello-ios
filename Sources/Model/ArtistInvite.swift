@@ -52,6 +52,7 @@ final class ArtistInvite: Model {
     let closedAt: Date?
     var headerImage: Asset?
     var logoImage: Asset?
+    var redirectURL: URL?
     var guide: [Guide] = []
     var approvedSubmissionsStream: Stream?
     var selectedSubmissionsStream: Stream?
@@ -60,7 +61,7 @@ final class ArtistInvite: Model {
     override var description: String { return longDescription }
 
     var shareLink: String {
-        return "\(ElloURI.baseURL)/artist-invites/\(slug)"
+        return "\(ElloURI.baseURL)/invites/\(slug)"
     }
     var hasAdminLinks: Bool {
         return approvedSubmissionsStream != nil && unapprovedSubmissionsStream != nil
@@ -149,6 +150,7 @@ final class ArtistInvite: Model {
 
         artistInvite.headerImage = Asset.parseAsset("artist_invite_header_\(id)", node: data["header_image"] as? [String: Any])
         artistInvite.logoImage = Asset.parseAsset("artist_invite_logo_\(id)", node: data["logo_image"] as? [String: Any])
+        artistInvite.redirectURL = json["redirect_url"].url
 
         if let approvedSubmissionsLink = json["links"]["approved_submissions"].object as? [String: Any],
             let stream = Stream(link: approvedSubmissionsLink, submissionsStatus: .approved)

@@ -93,8 +93,8 @@ enum ElloURI {
 
         case .subdomain: return "//.+(?<!(w{3}|staging))\\.\(ElloURI.fuzzyDomain)"
 
-        case .artistInvitesBrowse: return "\(ElloURI.fuzzyDomain)/artist-invites/?$"
-        case .artistInvitesDetail: return "\(ElloURI.fuzzyDomain)/artist-invites/([^/]+)/?$"
+        case .artistInvitesBrowse: return "\(ElloURI.fuzzyDomain)/invites/?$"
+        case .artistInvitesDetail: return "\(ElloURI.fuzzyDomain)/invites/([^/]+)/?$"
         case .betaPublicProfiles:  return "\(ElloURI.fuzzyDomain)/beta-public-profiles/?$"
         case .category:            return "\(ElloURI.fuzzyDomain)/discover/([^/]+)/?$"
         case .confirm:             return "\(ElloURI.fuzzyDomain)/confirm/?$"

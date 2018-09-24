@@ -97,8 +97,8 @@ final class Editorial: Model {
         let title = json["title"].stringValue
         let subtitle = json["subtitle"].string
         let renderedSubtitle = json["rendered_subtitle"].string
-        let postStreamURL = json["links"]["post_stream"]["href"].string.flatMap { URL(string: $0) }
-        let externalURL: URL? = json["url"].string.flatMap { URL(string: $0) }
+        let postStreamURL = json["links"]["post_stream"]["href"].url
+        let externalURL: URL? = json["url"].url
         let internalURL: URL? = json["path"].string.flatMap { URL(string: "\(ElloURI.baseURL)\($0)") }
 
         let editorial = Editorial(

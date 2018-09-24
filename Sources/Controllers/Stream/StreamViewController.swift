@@ -883,14 +883,15 @@ extension StreamViewController: StreamCellResponder {
             let indexPath = collectionView.indexPath(for: cell),
             collectionViewDataSource.isTappable(at: indexPath),
             let post = jsonable(forPath: indexPath) as? Post,
-            let artistInviteId = post.artistInviteId
+            let artistInviteId = post.artistInviteId,
+            let navigationController = navigationController
         else { return }
 
         Tracker.shared.artistInviteOpened(slug: artistInviteId)
         let vc = ArtistInviteDetailController(id: artistInviteId)
         vc.currentUser = currentUser
 
-        navigationController?.pushViewController(vc, animated: true)
+        ArtistInviteDetailController.open(vc, in: navigationController)
     }
 }
 
@@ -923,19 +924,21 @@ extension StreamViewController: UserResponder {
 extension StreamViewController {
 
     func artistInviteTapped(_ artistInvite: ArtistInvite) {
+        guard let navigationController = navigationController else { return }
         Tracker.shared.artistInviteOpened(slug: artistInvite.slug)
 
         let vc = ArtistInviteDetailController(artistInvite: artistInvite)
         vc.currentUser = currentUser
-        navigationController?.pushViewController(vc, animated: true)
+        ArtistInviteDetailController.open(vc, in: navigationController)
     }
 
     func artistInviteTapped(slug: String) {
+        guard let navigationController = navigationController else { return }
         Tracker.shared.artistInviteOpened(slug: slug)
 
         let vc = ArtistInviteDetailController(slug: slug)
         vc.currentUser = currentUser
-        navigationController?.pushViewController(vc, animated: true)
+        ArtistInviteDetailController.open(vc, in: navigationController)
     }
 
 }

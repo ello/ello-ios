@@ -85,8 +85,8 @@ final class Badge: Model {
             slug: json["slug"].stringValue,
             name: json["name"].stringValue,
             caption: json["learn_more_caption"].stringValue,
-            url: json["learn_more_href"].string.flatMap { URL(string: $0) },
-            imageURL: json["image"]["url"].string.flatMap { URL(string: $0) }
+            url: json["learn_more_href"].url,
+            imageURL: json["image"]["url"].url
             )
     }
 

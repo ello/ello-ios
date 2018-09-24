@@ -18,6 +18,15 @@ class ArtistInviteDetailController: StreamableViewController {
     }
     var generator: ArtistInviteDetailGenerator!
 
+    static func open(_ controller: ArtistInviteDetailController, in navigationController: UINavigationController) {
+        if let redirectURL = controller.artistInvite?.redirectURL {
+            UIApplication.shared.open(redirectURL, options: [:], completionHandler: nil)
+        }
+        else {
+            navigationController.pushViewController(controller, animated: true)
+        }
+    }
+
     convenience init(slug: String) {
         self.init(id: "~\(slug)")
     }
@@ -63,6 +72,7 @@ class ArtistInviteDetailController: StreamableViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         checkSubmitOnLoad()
+        checkRedirect()
     }
 
     override func viewDidLoad() {
@@ -70,6 +80,13 @@ class ArtistInviteDetailController: StreamableViewController {
 
         streamViewController.showLoadingSpinner()
         streamViewController.loadInitialPage()
+    }
+
+    private func checkRedirect() {
+        guard isViewLoaded, let redirectURL = artistInvite?.redirectURL else { return }
+
+        UIApplication.shared.open(redirectURL, options: [:], completionHandler: nil)
+        _ = self.navigationController?.popViewController(animated: true)
     }
 
     private func updateInsets() {
@@ -122,6 +139,7 @@ extension ArtistInviteDetailController: StreamDestination {
         title = artistInvite.title
 
         checkSubmitOnLoad()
+        checkRedirect()
     }
 
     func setPagingConfig(responseConfig: ResponseConfig) {

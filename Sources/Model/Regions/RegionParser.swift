@@ -63,8 +63,8 @@ struct RegionParser {
     }
 
     static private func parseImageRegion(json: JSON) -> ImageRegion {
-        let buyButtonURL = json["linkUrl"].string.flatMap { URL(string: $0) }
-        let url = json["data"]["url"].string.flatMap { URL(string: $0) }
+        let buyButtonURL = json["linkUrl"].url
+        let url = json["data"]["url"].url
         let imageRegion = ImageRegion(url: url, buyButtonURL: buyButtonURL)
 
         if let id = json["links"]["assets"].string {
@@ -75,7 +75,7 @@ struct RegionParser {
     }
 
     static private func parseEmbedRegion(json: JSON) -> EmbedRegion {
-        let thumbnailLargeUrl = json["data"]["thumbnailLargeUrl"].string.flatMap { URL(string: $0) }
+        let thumbnailLargeUrl = json["data"]["thumbnailLargeUrl"].url
 
         let embedRegion = EmbedRegion(
             id: json["data"]["id"].idValue,
