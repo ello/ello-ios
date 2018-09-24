@@ -246,11 +246,14 @@ extension AppViewController {
     func showJoinScreen(artistInvite: ArtistInvite) {
         pushPayload = nil
         didJoinHandler = {
+            guard let navigationController = self.pushDeepNavigationController() else { return }
+
             Tracker.shared.artistInviteOpened(slug: artistInvite.slug)
             let vc = ArtistInviteDetailController(artistInvite: artistInvite)
             vc.currentUser = self.currentUser
             vc.submitOnLoad = true
-            self.pushDeepLinkViewController(vc)
+
+            ArtistInviteDetailController.open(vc, in: navigationController)
         }
         let joinController = JoinViewController(prompt: InterfaceString.ArtistInvites.SubmissionJoinPrompt)
         showLoggedOutControllers(joinController)
@@ -730,13 +733,16 @@ extension AppViewController {
 
     private func showArtistInvitesScreen(slug: String? = nil) {
         if let slug = slug {
-            guard !DeepLinking.alreadyOnArtistInvites(navVC: pushDeepNavigationController(), slug: slug) else { return }
+            guard
+                let navigationController = pushDeepNavigationController(),
+                !DeepLinking.alreadyOnArtistInvites(navVC: pushDeepNavigationController(), slug: slug)
+            else { return }
 
             Tracker.shared.artistInviteOpened(slug: slug)
             let vc = ArtistInviteDetailController(slug: slug)
             vc.currentUser = currentUser
 
-            pushDeepLinkViewController(vc)
+            ArtistInviteDetailController.open(vc, in: navigationController)
         }
         else if let vc = self.visibleViewController as? ElloTabBarController {
             vc.selectedTab = .home
