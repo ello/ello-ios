@@ -7,7 +7,7 @@ import SnapKit
 
 class DebugTrackingController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     let tableView = UITableView()
-    var tracker: DebugAgent! { return Tracker.shared.overrideAgent as! DebugAgent }
+    var tracker: DebugAgent { return Tracker.shared.overrideAgent as! DebugAgent }
 
     override func viewDidLoad() {
         tableView.delegate = self

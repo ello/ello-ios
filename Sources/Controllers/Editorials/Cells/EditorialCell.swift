@@ -200,6 +200,7 @@ extension Editorial.Kind {
         case .post: return "EditorialPostCell"
         case .internal: return "EditorialInternalCell"
         case .external: return "EditorialExternalCell"
+        case .sponsored: return "EditorialExternalCell"
         case .postStream: return "EditorialPostStreamCell"
         case .invite: return "EditorialInviteCell"
         case .join: return "EditorialJoinCell"
@@ -212,6 +213,7 @@ extension Editorial.Kind {
         case .post: return EditorialPostCell.self
         case .internal: return EditorialInternalCell.self
         case .external: return EditorialExternalCell.self
+        case .sponsored: return EditorialExternalCell.self
         case .postStream: return EditorialPostStreamCell.self
         case .invite: return EditorialInviteCell.self
         case .join: return EditorialJoinCell.self
