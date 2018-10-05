@@ -63,7 +63,7 @@ class ProfileViewControllerSpec: QuickSpec {
                     let nav = UINavigationController(rootViewController: UIViewController())
                     nav.pushViewController(subject, animated: false)
                     showController(nav)
-                    screen = subject.view as! ProfileScreen
+                    screen = subject.view as? ProfileScreen
                 }
 
                 it("has grid/list and share buttons") {
@@ -91,7 +91,7 @@ class ProfileViewControllerSpec: QuickSpec {
                                     ])
                                 subject = ProfileViewController(currentUser: currentUser)
                                 showController(subject)
-                                screen = subject.view as! ProfileScreen
+                                screen = subject.view as? ProfileScreen
                             }
                             it("has hidden mentionButton") {
                                 expect(screen.mentionButton.isHidden) == true
@@ -115,7 +115,7 @@ class ProfileViewControllerSpec: QuickSpec {
                     let nav = UINavigationController(rootViewController: UIViewController())
                     nav.pushViewController(subject, animated: false)
                     showController(nav)
-                    screen = subject.view as! ProfileScreen
+                    screen = subject.view as? ProfileScreen
                 }
 
                 it("has grid/list and share right nav buttons") {
@@ -146,7 +146,7 @@ class ProfileViewControllerSpec: QuickSpec {
                             subject = ProfileViewController(userParam: userId)
                             subject.currentUser = currentUser
                             showController(subject)
-                            screen = subject.view as! ProfileScreen
+                            screen = subject.view as? ProfileScreen
                         }
 
                         it("user \(collaborateable ? "is" : "is not") collaborateable") {
@@ -185,7 +185,7 @@ class ProfileViewControllerSpec: QuickSpec {
                     nav.pushViewController(subject, animated: false)
                     showController(nav)
 
-                    screen = subject.screen as! ProfileScreen
+                    screen = subject.screen as? ProfileScreen
                 }
 
                 it("has grid/list right nav buttons") {
@@ -320,7 +320,7 @@ class ProfileViewControllerSpec: QuickSpec {
                     nav.pushViewController(subject, animated: false)
                     showController(nav)
 
-                    screen = subject.screen as! ProfileScreen
+                    screen = subject.screen as? ProfileScreen
                 }
 
                 it("should not show ellipses button in navigation") {

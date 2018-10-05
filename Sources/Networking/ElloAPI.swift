@@ -775,7 +775,7 @@ extension ElloAPI: Moya.TargetType {
             var hashedContacts = [String: [String]]()
             for (key, emails) in contacts {
                 hashedContacts[key] = emails.map { $0.saltedSHA1String }.reduce([String]()) { (accum, hash) in
-                    if let hash = hash, let accum = accum {
+                    if let hash = hash {
                         return accum + [hash]
                     }
                     return accum
