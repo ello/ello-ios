@@ -109,7 +109,7 @@ class EditorialsViewControllerSpec: QuickSpec {
                             "kind": "post",
                             "post": post,
                             ])
-                        cell = setupEditorialCell(editorial) as! EditorialPostCell
+                        cell = setupEditorialCell(editorial) as? EditorialPostCell
                     }
                     it("tapping comments") {
                         let nav = FakeNavigationController(rootViewController: subject)
