@@ -47,6 +47,7 @@ struct InterfaceString {
         static let EmailPlaceholder: String = NSLocalizedString("Email", comment: "")
         static let UsernamePlaceholder: String = NSLocalizedString("Username", comment: "")
         static let PasswordPlaceholder: String = NSLocalizedString("Password", comment: "")
+        static let Advertising: String = NSLocalizedString("#advertising", comment: "")
     }
 
     struct ArtistInvites {

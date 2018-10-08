@@ -1096,6 +1096,7 @@
 		1DEBE65C20FE5F1100CA6E38 /* FollowingScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DEBE65A20FE5F1100CA6E38 /* FollowingScreen.swift */; };
 		1DEBE65D20FE5F1100CA6E38 /* FollowingProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DEBE65B20FE5F1100CA6E38 /* FollowingProtocols.swift */; };
 		1DEBE65F20FE612C00CA6E38 /* FollowingGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DEBE65E20FE612C00CA6E38 /* FollowingGenerator.swift */; };
+		1DEC70CE216BE79E00869554 /* EditorialSponsoredCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D2C7554216BE586001CD678 /* EditorialSponsoredCell.swift */; };
 		1DF0B2D31E8D59DD001B9F97 /* ForgotPasswordEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF0B2CF1E8D59DD001B9F97 /* ForgotPasswordEmailViewController.swift */; };
 		1DF0B2D41E8D59DD001B9F97 /* ForgotPasswordProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF0B2D01E8D59DD001B9F97 /* ForgotPasswordProtocols.swift */; };
 		1DF0B2D51E8D59DD001B9F97 /* ForgotPasswordResetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF0B2D11E8D59DD001B9F97 /* ForgotPasswordResetViewController.swift */; };
@@ -1716,6 +1717,7 @@
 		1D2B50BC1D2C2FC000F6CE90 /* CategoryService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryService.swift; sourceTree = "<group>"; };
 		1D2B6A7B1BE3FB0900D27DC9 /* AvatarButtonSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarButtonSpec.swift; sourceTree = "<group>"; };
 		1D2C12A91D4FD727007C4981 /* OmnibarScreenSnapshotSpecs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OmnibarScreenSnapshotSpecs.swift; sourceTree = "<group>"; };
+		1D2C7554216BE586001CD678 /* EditorialSponsoredCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorialSponsoredCell.swift; sourceTree = "<group>"; };
 		1D2D18641AC322070078AA05 /* UIWebViewExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIWebViewExtensions.swift; sourceTree = "<group>"; };
 		1D2ED1B21F82EF2600B19052 /* grid_view_selected.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grid_view_selected.svg; sourceTree = "<group>"; };
 		1D2ED1B31F82EF2700B19052 /* list_view_selected.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = list_view_selected.svg; sourceTree = "<group>"; };
@@ -3574,14 +3576,15 @@
 		1D14B46120CADC85000D5386 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
-				1D21EC641EF9B8CF00995ECF /* EditorialInternalCell.swift */,
+				1D9309D91EC1349C0099FCF8 /* EditorialCell.swift */,
 				1D8783131ECCF45E00253602 /* EditorialExternalCell.swift */,
+				1D21EC641EF9B8CF00995ECF /* EditorialInternalCell.swift */,
 				1D8783191ECCF5B300253602 /* EditorialInviteCell.swift */,
 				1D87831A1ECCF5B300253602 /* EditorialJoinCell.swift */,
 				1D8783141ECCF45E00253602 /* EditorialPostCell.swift */,
 				1D8783151ECCF45E00253602 /* EditorialPostStreamCell.swift */,
+				1D2C7554216BE586001CD678 /* EditorialSponsoredCell.swift */,
 				1D87831B1ECCF5B300253602 /* EditorialTitledCell.swift */,
-				1D9309D91EC1349C0099FCF8 /* EditorialCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -5573,6 +5576,7 @@
 				F8158C4B1ACDD4EF008C15A1 /* AlertCellPresenter.swift in Sources */,
 				1D7152E11D75F2C1005998FE /* OnboardingData.swift in Sources */,
 				1267C7371BA232530000D809 /* Box.swift in Sources */,
+				1DEC70CE216BE79E00869554 /* EditorialSponsoredCell.swift in Sources */,
 				1D0DF9022023A92200019875 /* OneParser.swift in Sources */,
 				1DF0B2DA1E8D679E001B9F97 /* ForgotPasswordResetScreen.swift in Sources */,
 				1D22C8261AAFAD760048D415 /* CreateCommentBackgroundView.swift in Sources */,
