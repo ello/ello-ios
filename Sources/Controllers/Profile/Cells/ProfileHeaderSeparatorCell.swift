@@ -24,8 +24,8 @@ class ProfileHeaderSeparatorCell: ProfileHeaderCell {
         contentView.addSubview(grayLine)
 
         grayLine.snp.makeConstraints { make in
-            make.top.bottom.equalTo(self)
-            make.leading.trailing.equalTo(self).inset(Size.grayInsets)
+            make.top.bottom.equalTo(contentView)
+            make.leading.trailing.equalTo(contentView).inset(Size.grayInsets)
         }
     }
 }

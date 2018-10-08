@@ -59,18 +59,18 @@ class DrawerCell: TableViewCell {
 
         logoView.snp.makeConstraints { make in
             make.width.height.equalTo(20)
-            make.centerY.equalTo(self)
-            make.leading.equalTo(self).inset(Size.inset)
+            make.centerY.equalTo(contentView)
+            make.leading.equalTo(contentView).inset(Size.inset)
         }
 
         label.snp.makeConstraints { make in
-            make.centerY.equalTo(self)
+            make.centerY.equalTo(contentView)
             hasImageConstraint = make.leading.equalTo(logoView.snp.trailing).offset(Size.inset.left).constraint
-            noImageConstraint = make.leading.equalTo(self).inset(Size.inset).constraint
+            noImageConstraint = make.leading.equalTo(contentView).inset(Size.inset).constraint
         }
 
         line.snp.makeConstraints { make in
-            make.bottom.leading.trailing.equalTo(self)
+            make.bottom.leading.trailing.equalTo(contentView)
         }
     }
 

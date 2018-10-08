@@ -65,20 +65,18 @@ class ProfileHeaderGhostCell: CollectionViewCell {
     }
 
     override func arrange() {
-        addSubview(whiteBackground)
+        contentView.addSubview(whiteBackground)
+        contentView.addSubview(avatar)
+        contentView.addSubview(name)
+        contentView.addSubview(nameGrayLine)
 
-        addSubview(avatar)
-        addSubview(name)
-
-        addSubview(nameGrayLine)
-
-        addSubview(totalCountContainer)
+        contentView.addSubview(totalCountContainer)
         totalCountContainer.addSubview(totalCountLeft)
         totalCountContainer.addSubview(totalCountRight)
 
-        addSubview(totalCountGrayLine)
+        contentView.addSubview(totalCountGrayLine)
 
-        addSubview(statsContainer)
+        contentView.addSubview(statsContainer)
         statsContainer.addSubview(stat1Container)
         stat1Container.addSubview(stat1Top)
         stat1Container.addSubview(stat1Bottom)
@@ -96,27 +94,27 @@ class ProfileHeaderGhostCell: CollectionViewCell {
         stat4Container.addSubview(stat4Bottom)
 
         whiteBackground.snp.makeConstraints { make in
-            make.top.equalTo(self).offset(Size.whiteTopMargin)
-            make.leading.trailing.bottom.equalTo(self)
+            make.top.equalTo(contentView).offset(Size.whiteTopMargin)
+            make.leading.trailing.bottom.equalTo(contentView)
         }
         avatar.snp.makeConstraints { make in
-            make.centerX.equalTo(self)
-            make.top.equalTo(self).offset(Size.avatarTopMargin)
+            make.centerX.equalTo(contentView)
+            make.top.equalTo(contentView).offset(Size.avatarTopMargin)
             make.width.height.equalTo(Size.avatarSize)
         }
         name.snp.makeConstraints { make in
-            make.centerX.equalTo(self)
+            make.centerX.equalTo(contentView)
             make.top.equalTo(avatar.snp.bottom).offset(Size.nameTopMargin)
             make.width.equalTo(Size.nameWidth)
             make.height.equalTo(Size.ghostNameHeight)
         }
         nameGrayLine.snp.makeConstraints { make in
-            make.leading.trailing.equalTo(self).inset(Size.sideMargin)
+            make.leading.trailing.equalTo(contentView).inset(Size.sideMargin)
             make.top.equalTo(name.snp.bottom).offset(Size.nameBottomMargin)
             make.height.equalTo(1)
         }
         totalCountContainer.snp.makeConstraints { make in
-            make.centerX.equalTo(self)
+            make.centerX.equalTo(contentView)
             make.top.equalTo(nameGrayLine.snp.bottom).offset(Size.totalCountTopMargin)
             make.leading.equalTo(totalCountLeft)
             make.trailing.equalTo(totalCountRight)
@@ -132,14 +130,14 @@ class ProfileHeaderGhostCell: CollectionViewCell {
             make.top.bottom.equalTo(totalCountContainer)
         }
         totalCountGrayLine.snp.makeConstraints { make in
-            make.leading.trailing.equalTo(self).inset(Size.sideMargin)
+            make.leading.trailing.equalTo(contentView).inset(Size.sideMargin)
             make.top.equalTo(totalCountContainer.snp.bottom).offset(Size.totalCountBottomMargin)
             make.height.equalTo(1)
         }
         statsContainer.snp.makeConstraints { make in
-            make.leading.equalTo(self).offset(Size.sideMargin)
-            make.trailing.equalTo(self)
-            make.bottom.equalTo(self).offset(-Size.statsBottomMargin)
+            make.leading.equalTo(contentView).offset(Size.sideMargin)
+            make.trailing.equalTo(contentView)
+            make.bottom.equalTo(contentView).offset(-Size.statsBottomMargin)
             make.top.equalTo(totalCountGrayLine.snp.bottom).offset(Size.statsTopMargin)
         }
         stat1Container.snp.makeConstraints { make in

@@ -85,7 +85,7 @@ class ProfileHeaderTotalCountAndBadgesCell: ProfileHeaderCell {
         badgesContainer.addSubview(badgeButtonsContainer)
 
         totalCountContainer.snp.makeConstraints { make in
-            make.leading.top.bottom.equalTo(self)
+            make.leading.top.bottom.equalTo(contentView)
             make.trailing.equalTo(midGrayLine.snp.leading)
         }
 
@@ -95,7 +95,7 @@ class ProfileHeaderTotalCountAndBadgesCell: ProfileHeaderCell {
         }
 
         badgesContainer.snp.makeConstraints { make in
-            make.trailing.top.bottom.equalTo(self)
+            make.trailing.top.bottom.equalTo(contentView)
             make.leading.equalTo(midGrayLine.snp.trailing)
         }
 
@@ -108,10 +108,10 @@ class ProfileHeaderTotalCountAndBadgesCell: ProfileHeaderCell {
         }
 
         midGrayLine.snp.makeConstraints { make in
-            make.top.bottom.equalTo(self)
-            showBothConstraint = make.centerX.equalTo(self).constraint
-            showBadgesConstraint = make.leading.equalTo(self).constraint
-            showCountConstraint = make.trailing.equalTo(self).constraint
+            make.top.bottom.equalTo(contentView)
+            showBothConstraint = make.centerX.equalTo(contentView).constraint
+            showBadgesConstraint = make.leading.equalTo(contentView).constraint
+            showCountConstraint = make.trailing.equalTo(contentView).constraint
         }
         showBadgesConstraint.set(isActivated: false)
         showCountConstraint.set(isActivated: false)

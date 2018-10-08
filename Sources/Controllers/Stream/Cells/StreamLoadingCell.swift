@@ -15,11 +15,11 @@ class StreamLoadingCell: CollectionViewCell {
     let elloLogo = GradientLoadingView()
 
     override func arrange() {
-        addSubview(elloLogo)
+        contentView.addSubview(elloLogo)
 
         elloLogo.snp.makeConstraints { make in
-            make.top.equalTo(self).offset(Size.topMargin)
-            make.centerX.equalTo(self)
+            make.top.equalTo(contentView).offset(Size.topMargin)
+            make.centerX.equalTo(contentView)
         }
     }
 

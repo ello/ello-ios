@@ -68,7 +68,7 @@ class StreamSelectionCell: CollectionViewCell {
         if let tab = tabs.first {
             tabBar.select(tab: tab)
         }
-        addSubview(tabBar)
+        contentView.addSubview(tabBar)
 
         tabBar.snp.makeConstraints { make in
             make.edges.equalTo(contentView)
