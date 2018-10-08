@@ -107,17 +107,17 @@ class ProfileHeaderStatsCell: ProfileHeaderCell {
         var prevCountLabel: UIView?
         let spaceBetween: CGFloat = (UIScreen.main.bounds.width - (Size.horizontalMargin * 2)) / CGFloat(allThreeViews.count - 1)
         for (index, (count: countLabel, caption: captionLabel, button: button)) in allThreeViews.enumerated() {
-            addSubview(countLabel)
-            addSubview(captionLabel)
-            addSubview(button)
+            contentView.addSubview(countLabel)
+            contentView.addSubview(captionLabel)
+            contentView.addSubview(button)
 
             countLabel.snp.makeConstraints { make in
                 let x = (spaceBetween * CGFloat(index)) + Size.horizontalMargin
                 if let prevCountLabel = prevCountLabel {
                     make.width.equalTo(prevCountLabel)
                 }
-                make.centerX.equalTo(self.snp.leading).offset(x)
-                make.top.equalTo(self).offset(Size.countVerticalOffset)
+                make.centerX.equalTo(contentView.snp.leading).offset(x)
+                make.top.equalTo(contentView).offset(Size.countVerticalOffset)
             }
 
             captionLabel.snp.makeConstraints { make in
@@ -127,7 +127,7 @@ class ProfileHeaderStatsCell: ProfileHeaderCell {
 
             button.snp.makeConstraints { make in
                 make.leading.trailing.equalTo(countLabel)
-                make.top.bottom.equalTo(self)
+                make.top.bottom.equalTo(contentView)
             }
 
             prevCountLabel = countLabel
