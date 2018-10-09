@@ -48,6 +48,7 @@ class EditorialPostStreamCell: EditorialCell {
         pageControl.isHidden = postStreamConfigs.count <= 1
         moveToPage(0)
         startAutoscroll()
+        setNeedsLayout()
     }
 
     override func arrange() {
@@ -75,6 +76,7 @@ class EditorialPostStreamCell: EditorialCell {
             view.snp.updateConstraints { make in
                 make.size.equalTo(frame.size)
             }
+            view.frame.size = frame.size
         }
     }
 }
@@ -133,7 +135,9 @@ extension EditorialPostStreamCell {
             return cell
         }
 
-        postCells.eachPair { prevView, view, isLast in
+        postCells.eachPair { prevCell, cell, isLast in
+            let prevView = prevCell?.contentView
+            let view = cell.contentView
             scrollView.addSubview(view)
             view.snp.makeConstraints { make in
                 make.top.bottom.equalTo(scrollView)
@@ -149,10 +153,6 @@ extension EditorialPostStreamCell {
                 if isLast {
                     make.trailing.equalTo(scrollView)
                 }
-            }
-
-            view.contentView.snp.makeConstraints { make in
-                make.edges.equalTo(view)
             }
         }
     }
