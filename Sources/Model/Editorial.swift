@@ -18,6 +18,7 @@ final class Editorial: Model {
         case post
         case postStream = "post_stream"
         case external
+        case sponsored
         case `internal`
         case invite
         case join

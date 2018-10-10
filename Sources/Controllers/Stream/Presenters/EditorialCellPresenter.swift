@@ -16,8 +16,10 @@ struct EditorialCellPresenter {
             let editorial = streamCellItem.jsonable as? Editorial
         else { return }
 
-        cell.config = EditorialCell.Config.fromEditorial(editorial)
-        (cell as? EditorialJoinCell)?.onJoinChange = { editorial.join = $0 }
-        (cell as? EditorialInviteCell)?.onInviteChange = { editorial.invite = $0 }
+        cell.editorialKind = editorial.kind
+        let content = cell.editorialContentView!
+        content.config = EditorialCellContent.Config.fromEditorial(editorial)
+        (content as? EditorialJoinCell)?.onJoinChange = { editorial.join = $0 }
+        (content as? EditorialInviteCell)?.onInviteChange = { editorial.invite = $0 }
     }
 }
