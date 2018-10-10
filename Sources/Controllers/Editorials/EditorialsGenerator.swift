@@ -64,7 +64,7 @@ private extension EditorialsGenerator {
 
                 self.destination?.replacePlaceholder(type: .pageHeader, items: [
                     StreamCellItem(jsonable: pageHeader, type: .promotionalHeader),
-                    StreamCellItem(type: .spacer(height: EditorialCell.Size.bgMargins.bottom)),
+                    StreamCellItem(type: .spacer(height: EditorialCellContent.Size.bgMargins.bottom)),
                 ])
             }
             .ignoreErrors()

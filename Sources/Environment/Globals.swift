@@ -48,7 +48,7 @@ private func _isTesting() -> Bool {
 }
 
 private func _isIphoneX() -> Bool {
-    return UIScreen.main.bounds.size.height == 812
+    return UIScreen.main.bounds.size.height == 812 || UIScreen.main.bounds.size.height == 896
 }
 
 private func _statusBarHeight() -> CGFloat {

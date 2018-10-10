@@ -989,6 +989,8 @@
 		1DBD0BC21F950ADC00DF9FC5 /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DBD0BBD1F950ADB00DF9FC5 /* TableViewCell.swift */; };
 		1DBD0BC31F950ADC00DF9FC5 /* Control.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DBD0BBE1F950ADB00DF9FC5 /* Control.swift */; };
 		1DBD0BC41F950ADC00DF9FC5 /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DBD0BBF1F950ADB00DF9FC5 /* Button.swift */; };
+		1DBEDF89216E80CB0029BD46 /* EditorialGradientLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DBEDF88216E80CB0029BD46 /* EditorialGradientLayer.swift */; };
+		1DBEDF8B216E8B930029BD46 /* EditorialCellContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DBEDF8A216E8B920029BD46 /* EditorialCellContent.swift */; };
 		1DBF807C1A9F9F7E00A73BDA /* ElloScrollLogicSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DBF807B1A9F9F7E00A73BDA /* ElloScrollLogicSpec.swift */; };
 		1DBF85C11AF8022E00889349 /* ElloWebBrowserViewControllerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DBF85C01AF8022E00889349 /* ElloWebBrowserViewControllerSpec.swift */; };
 		1DBFD9F01DFB33DC0058843D /* AnnouncementCellSizeCalculatorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DBFD9EF1DFB33DC0058843D /* AnnouncementCellSizeCalculatorSpec.swift */; };
@@ -2074,6 +2076,8 @@
 		1DBD0BBD1F950ADB00DF9FC5 /* TableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
 		1DBD0BBE1F950ADB00DF9FC5 /* Control.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Control.swift; sourceTree = "<group>"; };
 		1DBD0BBF1F950ADB00DF9FC5 /* Button.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
+		1DBEDF88216E80CB0029BD46 /* EditorialGradientLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditorialGradientLayer.swift; sourceTree = "<group>"; };
+		1DBEDF8A216E8B920029BD46 /* EditorialCellContent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditorialCellContent.swift; sourceTree = "<group>"; };
 		1DBF807B1A9F9F7E00A73BDA /* ElloScrollLogicSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ElloScrollLogicSpec.swift; sourceTree = "<group>"; };
 		1DBF85C01AF8022E00889349 /* ElloWebBrowserViewControllerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ElloWebBrowserViewControllerSpec.swift; sourceTree = "<group>"; };
 		1DBFD9EF1DFB33DC0058843D /* AnnouncementCellSizeCalculatorSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnnouncementCellSizeCalculatorSpec.swift; sourceTree = "<group>"; };
@@ -3389,6 +3393,7 @@
 				1DB8C6A01D789015007E1447 /* ClearTextView.swift */,
 				1D9B74C91BB1E3EF00ACD028 /* CommentsIcon.swift */,
 				1D22C8251AAFAD760048D415 /* CreateCommentBackgroundView.swift */,
+				1DBEDF88216E80CB0029BD46 /* EditorialGradientLayer.swift */,
 				122454AD1D9F1BC700D930E0 /* ElloCollectionView.swift */,
 				12F6AE661A4339EF00493660 /* ElloHUD.swift */,
 				122D1BBD1C641188001386CE /* ElloHUDWindowExtensions.swift */,
@@ -3577,6 +3582,7 @@
 			isa = PBXGroup;
 			children = (
 				1D9309D91EC1349C0099FCF8 /* EditorialCell.swift */,
+				1DBEDF8A216E8B920029BD46 /* EditorialCellContent.swift */,
 				1D8783131ECCF45E00253602 /* EditorialExternalCell.swift */,
 				1D21EC641EF9B8CF00995ECF /* EditorialInternalCell.swift */,
 				1D8783191ECCF5B300253602 /* EditorialInviteCell.swift */,
@@ -4914,7 +4920,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "FOCUS_KEYWORDS=\"fdescribe|fcontext|fit\"\nSKIP_KEYWORDS=\"xdescribe|xcontext|xit\"\nfind -E \"${SRCROOT}/Specs/\" -regex \".*\\.swift$\" -print0 | xargs -0 egrep --with-filename --line-number --only-matching \"($FOCUS_KEYWORDS)\\(.*\\$\" | perl -p -e \"s/(?:$FOCUS_KEYWORDS)\\(\\\"(.*)\\\".*/ warning: Focused Spec: \\$1/\"\nfind -E \"${SRCROOT}/Specs/\" -regex \".*\\.swift$\" -print0 | xargs -0 egrep --with-filename --line-number --only-matching \"($SKIP_KEYWORDS)\\(.*\\$\" | perl -p -e \"s/(?:$SKIP_KEYWORDS)\\(\\\"(.*)\\\".*/ warning: Skipped Spec: \\$1/\"";
+			shellScript = "FOCUS_KEYWORDS=\"fdescribe|fcontext|fit\"\nSKIP_KEYWORDS=\"xdescribe|xcontext|xit\"\nfind -E \"${SRCROOT}/Specs/\" -regex \".*\\.swift$\" -print0 | xargs -0 egrep --with-filename --line-number --only-matching \"($FOCUS_KEYWORDS)\\(.*\\$\" | perl -p -e \"s/(?:$FOCUS_KEYWORDS)\\(\\\"(.*)\\\".*/ warning: Focused Spec: \\$1/\"\nfind -E \"${SRCROOT}/Specs/\" -regex \".*\\.swift$\" -print0 | xargs -0 egrep --with-filename --line-number --only-matching \"($SKIP_KEYWORDS)\\(.*\\$\" | perl -p -e \"s/(?:$SKIP_KEYWORDS)\\(\\\"(.*)\\\".*/ warning: Skipped Spec: \\$1/\"\n";
 		};
 		1D447EAB1F3A6BB000013384 /* Set version information */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -5582,6 +5588,7 @@
 				1D22C8261AAFAD760048D415 /* CreateCommentBackgroundView.swift in Sources */,
 				1D0DF8DF20237CDC00019875 /* CategoryParser.swift in Sources */,
 				1D88E32A206ACDC000B496F0 /* PostFeaturedControlCell.swift in Sources */,
+				1DBEDF89216E80CB0029BD46 /* EditorialGradientLayer.swift in Sources */,
 				128D36B01A951ED300622833 /* StreamImageCellPresenter.swift in Sources */,
 				1D21EC651EF9B8CF00995ECF /* EditorialInternalCell.swift in Sources */,
 				12431FF61DBAA7B2006808D4 /* CategoryProtocols.swift in Sources */,
@@ -5924,6 +5931,7 @@
 				12431FF21DBAA6D3006808D4 /* CategoryViewController.swift in Sources */,
 				1D06D6CC1E43B7DD004FA878 /* AppDefaults.swift in Sources */,
 				1D24AA511B7E8CD5004BAAFA /* DebugController.swift in Sources */,
+				1DBEDF8B216E8B930029BD46 /* EditorialCellContent.swift in Sources */,
 				1D80877F2032596C0081E8FE /* DynamicSettingsScreen.swift in Sources */,
 				1D7152B81D6E50CD005998FE /* LoginProtocols.swift in Sources */,
 				1DDC23391F30EB2D00E68B0E /* ArtistInviteAdminController.swift in Sources */,

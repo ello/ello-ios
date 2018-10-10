@@ -344,7 +344,7 @@ enum StreamCellType: Equatable {
         case .commentHeader: return CommentHeaderCell.self
         case .streamHeader: return StreamHeaderCell.self
         case .createComment: return StreamCreateCommentCell.self
-        case let .editorial(kind): return kind.classType
+        case .editorial: return EditorialCell.self
         case .embed: return StreamEmbedCell.self
         case .emptyStream: return SimpleMessageCell.self
         case .error: return SimpleMessageCell.self

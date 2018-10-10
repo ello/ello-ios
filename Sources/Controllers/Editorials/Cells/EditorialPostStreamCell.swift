@@ -5,7 +5,7 @@
 import SnapKit
 
 
-class EditorialPostStreamCell: EditorialCell {
+class EditorialPostStreamCell: EditorialCellContent {
     private let pageControl = UIPageControl()
     private let scrollView = UIScrollView()
     private var postCells: [EditorialPostCell] = []
@@ -42,7 +42,7 @@ class EditorialPostStreamCell: EditorialCell {
     override func updateConfig() {
         super.updateConfig()
 
-        let postStreamConfigs: [EditorialCell.Config] = config.postStreamConfigs ?? []
+        let postStreamConfigs: [EditorialCellContent.Config] = config.postStreamConfigs ?? []
         updatePostViews(configs: postStreamConfigs)
         pageControl.numberOfPages = postStreamConfigs.count
         pageControl.isHidden = postStreamConfigs.count <= 1
@@ -54,19 +54,19 @@ class EditorialPostStreamCell: EditorialCell {
     override func arrange() {
         super.arrange()
 
-        contentView.addSubview(bg)
-        contentView.addSubview(scrollView)
-        contentView.addSubview(pageControl)
+        addSubview(bg)
+        addSubview(scrollView)
+        addSubview(pageControl)
 
         bg.snp.makeConstraints { make in
-            make.edges.equalTo(contentView).inset(Size.bgMargins)
+            make.edges.equalTo(self).inset(Size.bgMargins)
         }
         scrollView.snp.makeConstraints { make in
-            make.edges.equalTo(contentView)
+            make.edges.equalTo(self)
         }
         pageControl.snp.makeConstraints { make in
-            make.top.equalTo(contentView).inset(Size.pageControlMargin)
-            make.centerX.equalTo(contentView)
+            make.top.equalTo(self).inset(Size.pageControlMargin)
+            make.centerX.equalTo(self)
         }
     }
 
@@ -77,6 +77,7 @@ class EditorialPostStreamCell: EditorialCell {
                 make.size.equalTo(frame.size)
             }
             view.frame.size = frame.size
+            view.layoutIfNeeded()
         }
     }
 }
@@ -123,7 +124,7 @@ extension EditorialPostStreamCell {
 }
 
 extension EditorialPostStreamCell {
-    func updatePostViews(configs: [EditorialCell.Config]) {
+    func updatePostViews(configs: [EditorialCellContent.Config]) {
         for view in postCells {
             view.removeFromSuperview()
         }
@@ -135,9 +136,7 @@ extension EditorialPostStreamCell {
             return cell
         }
 
-        postCells.eachPair { prevCell, cell, isLast in
-            let prevView = prevCell?.contentView
-            let view = cell.contentView
+        postCells.eachPair { prevView, view, isLast in
             scrollView.addSubview(view)
             view.snp.makeConstraints { make in
                 make.top.bottom.equalTo(scrollView)
@@ -162,12 +161,12 @@ extension EditorialPostStreamCell: EditorialCellResponder {
     @objc
     func editorialTapped(cell: EditorialCell) {
         guard
-            let cell = cell as? EditorialPostCell,
-            let index = postCells.index(of: cell)
+            let editorialContentView = cell.editorialContentView as? EditorialPostCell,
+            let index = postCells.index(of: editorialContentView)
         else { return }
 
         let responder: EditorialPostStreamResponder? = findResponder()
-        responder?.editorialTapped(index: index, cell: self)
+        responder?.editorialTapped(index: index, cell: self.editorialCell)
     }
 }
 

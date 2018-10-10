@@ -86,7 +86,7 @@ class EditorialPostCell: EditorialTitledCell {
         let location = gesture.location(in: appViewController.view)
 
         let responder: StreamEditingResponder? = findResponder()
-        responder?.cellDoubleTapped(cell: self, post: post, location: location)
+        responder?.cellDoubleTapped(cell: self.editorialCell, post: post, location: location)
     }
 
 }

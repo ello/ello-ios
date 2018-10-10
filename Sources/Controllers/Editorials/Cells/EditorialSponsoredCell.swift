@@ -25,7 +25,7 @@ class EditorialSponsoredCell: EditorialTitledCell {
     override func arrange() {
         super.arrange()
 
-        contentView.addSubview(advertisingLabel)
+        addSubview(advertisingLabel)
 
         advertisingLabel.snp.makeConstraints { make in
             make.trailing.bottom.equalTo(editorialContentView).inset(Size.defaultMargin)

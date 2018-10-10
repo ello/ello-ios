@@ -9,10 +9,10 @@ import Nimble
 
 class EditorialCellSpec: QuickSpec {
     override func spec() {
-        describe("EditorialCell") {
+        describe("EditorialCellContent") {
             context("snapshots") {
-                func config(title: String = "Editorial title", subtitle: String = "Editorial subtitle", sent: Date? = nil, join: Bool = false, stream: Bool = false) -> EditorialCell.Config {
-                    var config = EditorialCell.Config()
+                func config(title: String = "Editorial title", subtitle: String = "Editorial subtitle", sent: Date? = nil, join: Bool = false, stream: Bool = false) -> EditorialCellContent.Config {
+                    var config = EditorialCellContent.Config()
                     config.title = title
                     config.subtitle = subtitle
                     config.invite = (emails: "", sent: sent)
@@ -34,15 +34,15 @@ class EditorialCellSpec: QuickSpec {
                             subtitle: subtitle,
                             ])
                         config.postStreamConfigs = [
-                            EditorialCell.Config.fromPost(post, editorial: editorial),
-                            EditorialCell.Config.fromPost(post, editorial: editorial),
+                            EditorialCellContent.Config.fromPost(post, editorial: editorial),
+                            EditorialCellContent.Config.fromPost(post, editorial: editorial),
                         ]
                     }
 
                     return config
                 }
 
-                let expectations: [(String, () -> EditorialCell.Config, () -> EditorialCell, CGFloat)] = [
+                let expectations: [(String, () -> EditorialCellContent.Config, () -> EditorialCellContent, CGFloat)] = [
                     ("invite sent",         { return config(sent: Globals.now) }, EditorialInviteCell.init, 375),
                     ("join",                { return config() }, EditorialJoinCell.init, 375),
                     ("join on iphone se",   { return config() }, EditorialJoinCell.init, 320),

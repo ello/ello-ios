@@ -5,7 +5,7 @@
 import SnapKit
 
 
-class EditorialInviteCell: EditorialCell {
+class EditorialInviteCell: EditorialCellContent {
     private let inviteControls = UIView()
     private let inviteLabel = StyledLabel(style: .editorialHeader)
     private let inviteCaption = StyledLabel(style: .editorialCaption)
@@ -26,7 +26,7 @@ class EditorialInviteCell: EditorialCell {
         guard let emails = textView.text else { return }
 
         let responder: EditorialToolsResponder? = findResponder()
-        responder?.submitInvite(cell: self, emails: emails)
+        responder?.submitInvite(cell: self.editorialCell, emails: emails)
 
         inviteControls.isHidden = true
         sentLabel.isVisible = true
