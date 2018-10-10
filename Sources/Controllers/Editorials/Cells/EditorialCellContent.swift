@@ -109,7 +109,7 @@ class EditorialCellContent: View {
         bg.addSubview(loadingView)
         loadingView.addSubview(spinner)
         bg.addSubview(imageView)
-        bg.addSubview(gradientView)
+        imageView.addSubview(gradientView)
 
         bg.snp.makeConstraints { make in
             make.edges.equalTo(self).inset(Size.bgMargins)
@@ -124,15 +124,12 @@ class EditorialCellContent: View {
             make.edges.equalTo(bg)
         }
         gradientView.snp.makeConstraints { make in
-            make.edges.equalTo(bg)
+            make.edges.equalTo(imageView)
         }
     }
 
     override func layoutSubviews() {
         super.layoutSubviews()
-
-        bg.frame = CGRect(x: 0, y: 0, width: frame.size.width, height: frame.size.height - 1)
-        gradientView.frame = bg.bounds
 
         // I think embedding an EditorialPostCell inside the scrollview of EditorialPostStreamCell
         // results in weird behavior in layoutSubviews, where the frames are not yet set.  this
