@@ -21,7 +21,7 @@ class TextHeaderCell: CollectionViewCell {
     }
 
     override func arrange() {
-        addSubview(headerLabel)
+        contentView.addSubview(headerLabel)
 
         headerLabel.snp.makeConstraints { make in
             make.top.bottom.equalTo(contentView)
