@@ -12,10 +12,6 @@ class EditorialExternalCell: EditorialTitledCell {
         super.bindActions()
     }
 
-    override func updateConfig() {
-        super.updateConfig()
-    }
-
     override func arrange() {
         super.arrange()
 

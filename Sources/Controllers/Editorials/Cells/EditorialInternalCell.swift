@@ -8,14 +8,6 @@ class EditorialInternalCell: EditorialTitledCell {
         super.style()
     }
 
-    override func bindActions() {
-        super.bindActions()
-    }
-
-    override func updateConfig() {
-        super.updateConfig()
-    }
-
     override func arrange() {
         super.arrange()
 

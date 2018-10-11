@@ -9,14 +9,6 @@ class EditorialSponsoredCell: EditorialTitledCell {
         super.style()
     }
 
-    override func bindActions() {
-        super.bindActions()
-    }
-
-    override func updateConfig() {
-        super.updateConfig()
-    }
-
     override func setText() {
         super.setText()
         advertisingLabel.title = InterfaceString.Editorials.Advertising
