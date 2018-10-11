@@ -4,14 +4,6 @@
 
 class EditorialExternalCell: EditorialTitledCell {
 
-    override func style() {
-        super.style()
-    }
-
-    override func bindActions() {
-        super.bindActions()
-    }
-
     override func arrange() {
         super.arrange()
 

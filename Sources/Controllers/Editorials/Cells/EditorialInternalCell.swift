@@ -4,10 +4,6 @@
 
 class EditorialInternalCell: EditorialTitledCell {
 
-    override func style() {
-        super.style()
-    }
-
     override func arrange() {
         super.arrange()
 
