@@ -7,6 +7,7 @@ class EditorialSponsoredCell: EditorialTitledCell {
 
     override func style() {
         super.style()
+        advertisingLabel.isHidden = true
     }
 
     override func setText() {
