@@ -33,7 +33,7 @@ class EditorialsViewControllerSpec: QuickSpec {
                         posted = true
                     }
                     let cell = setupEditorialCell(editorial)
-                    subject.editorialTapped(cell: cell)
+                    subject.editorialTapped(cellContent: cell.editorialContentView!)
                     observer.removeObserver()
                     expect(posted) == true
                 }
@@ -47,7 +47,7 @@ class EditorialsViewControllerSpec: QuickSpec {
                         posted = true
                     }
                     let cell = setupEditorialCell(editorial)
-                    subject.editorialTapped(cell: cell)
+                    subject.editorialTapped(cellContent: cell.editorialContentView!)
                     observer.removeObserver()
                     expect(posted) == true
                 }
@@ -59,7 +59,7 @@ class EditorialsViewControllerSpec: QuickSpec {
                         ])
                     let nav = FakeNavigationController(rootViewController: subject)
                     let cell = setupEditorialCell(editorial)
-                    subject.editorialTapped(cell: cell)
+                    subject.editorialTapped(cellContent: cell.editorialContentView!)
                     let postController = nav.pushedViewController as? PostDetailViewController
                     expect(postController).notTo(beNil())
                     expect(postController?.postParam) == postId
@@ -99,7 +99,7 @@ class EditorialsViewControllerSpec: QuickSpec {
                     expect(joinController?.screen.email) == "email"
                 }
                 describe("lots of ways to show a post") {
-                    var cell: EditorialPostCell!
+                    var content: EditorialPostCell!
                     var post: Post!
 
                     beforeEach {
@@ -109,17 +109,18 @@ class EditorialsViewControllerSpec: QuickSpec {
                             "kind": "post",
                             "post": post,
                             ])
-                        cell = setupEditorialCell(editorial) as? EditorialPostCell
+                        let cell = setupEditorialCell(editorial)
+                        content = cell.editorialContentView as? EditorialPostCell
                     }
                     it("tapping comments") {
                         let nav = FakeNavigationController(rootViewController: subject)
-                        subject.commentTapped(post: post, cell: cell)
+                        subject.commentTapped(post: post, cell: content)
                         let postController = nav.pushedViewController as? PostDetailViewController
                         expect(postController).notTo(beNil())
                     }
                     it("tapping repost") {
                         let nav = FakeNavigationController(rootViewController: subject)
-                        subject.repostTapped(post: post, cell: cell)
+                        subject.repostTapped(post: post, cell: content)
                         let postController = nav.pushedViewController as? PostDetailViewController
                         expect(postController).notTo(beNil())
                     }

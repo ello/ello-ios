@@ -17,7 +17,7 @@ class EditorialCellPresenterSpec: QuickSpec {
 
                 EditorialCellPresenter.configure(cell, streamCellItem: item, streamKind: .editorials, indexPath: IndexPath(item: 0, section: 0), currentUser: nil)
 
-                expect(cell.config.title) == editorial.title
+                expect(cell.editorialContentView?.config.title) == editorial.title
             }
         }
     }
