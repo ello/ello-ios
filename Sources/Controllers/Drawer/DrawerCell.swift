@@ -53,10 +53,6 @@ class DrawerCell: TableViewCell {
         contentView.addSubview(logoView)
         contentView.addSubview(line)
 
-        contentView.snp.makeConstraints { make in
-            make.height.equalTo(Size.height)
-        }
-
         logoView.snp.makeConstraints { make in
             make.width.height.equalTo(20)
             make.centerY.equalTo(contentView)
