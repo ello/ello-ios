@@ -30,8 +30,8 @@ class ProfileHeaderBioCell: ProfileHeaderCell {
         contentView.addSubview(bioView)
 
         bioView.snp.makeConstraints { make in
-            make.top.leading.trailing.equalTo(self).inset(Size.margins)
-            make.bottom.equalTo(self)
+            make.top.leading.trailing.equalTo(contentView).inset(Size.margins)
+            make.bottom.equalTo(contentView)
         }
     }
 }

@@ -45,12 +45,12 @@ class ProfileHeaderLocationCell: ProfileHeaderCell {
 
         markerImageView.snp.makeConstraints { make in
             make.width.height.equalTo(Size.markerHeight)
-            make.centerY.equalTo(self).offset(-1)
-            make.leading.equalTo(self).inset(Size.leadingMargin)
+            make.centerY.equalTo(contentView).offset(-1)
+            make.leading.equalTo(contentView).inset(Size.leadingMargin)
         }
 
         locationLabel.snp.makeConstraints { make in
-            make.centerY.equalTo(self)
+            make.centerY.equalTo(contentView)
             make.leading.equalTo(markerImageView.snp.trailing).offset(Size.markerLocationMargin)
         }
     }

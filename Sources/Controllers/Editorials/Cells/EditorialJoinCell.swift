@@ -2,7 +2,7 @@
 ///  EditorialJoinCell.swift
 //
 
-class EditorialJoinCell: EditorialCell {
+class EditorialJoinCell: EditorialCellContent {
     private let joinLabel = StyledLabel(style: .editorialHeader)
     private let joinCaption = StyledLabel(style: .editorialCaption)
     private let emailField = ElloTextField()
@@ -39,7 +39,7 @@ class EditorialJoinCell: EditorialCell {
         submitButton.isEnabled = false
 
         let responder: EditorialToolsResponder? = findResponder()
-        responder?.submitJoin(cell: self, email: email, username: username, password: password)
+        responder?.submitJoin(cell: self.editorialCell, email: email, username: username, password: password)
     }
 
     override func updateConfig() {

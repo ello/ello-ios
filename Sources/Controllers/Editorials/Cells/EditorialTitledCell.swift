@@ -5,7 +5,7 @@
 import SnapKit
 
 
-class EditorialTitledCell: EditorialCell {
+class EditorialTitledCell: EditorialCellContent {
     let titleLabel = StyledLabel(style: .editorialHeader)
     let authorLabel = StyledLabel(style: .editorialHeader)
     let subtitleWebView = ElloWebView()

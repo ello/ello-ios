@@ -41,12 +41,12 @@ class ProfileHeaderLinksCell: ProfileHeaderCell {
         contentView.addSubview(iconsBox)
 
         linksBox.snp.makeConstraints { make in
-            make.leading.top.bottom.equalTo(self).inset(Size.margins)
+            make.leading.top.bottom.equalTo(contentView).inset(Size.margins)
             make.trailing.equalTo(iconsBox.snp.leading).offset(-Size.horizLinkButtonMargin)
         }
 
         iconsBox.snp.makeConstraints { make in
-            make.trailing.top.bottom.equalTo(self).inset(Size.iconInsets)
+            make.trailing.top.bottom.equalTo(contentView).inset(Size.iconInsets)
             make.width.equalTo(Size.iconSize.width)
         }
     }

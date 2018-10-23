@@ -88,7 +88,7 @@ extension EditorialsViewController: EditorialCellResponder {
         case .internal:
             guard let url = editorial.url else { return }
             postNotification(InternalWebNotification, value: url.absoluteString)
-        case .external:
+        case .external, .sponsored:
             guard let url = editorial.url else { return }
             postNotification(ExternalWebNotification, value: url.absoluteString)
         case .post:

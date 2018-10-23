@@ -49,14 +49,14 @@ class ProfileHeaderAvatarCell: ProfileHeaderCell {
 
         avatarImageView.snp.makeConstraints { make in
             make.width.height.equalTo(Size.avatarSize)
-            make.centerX.equalTo(self)
-            make.bottom.equalTo(self)
+            make.centerX.equalTo(contentView)
+            make.bottom.equalTo(contentView)
         }
 
         whiteBar.snp.makeConstraints { make in
-            make.leading.trailing.equalTo(self)
+            make.leading.trailing.equalTo(contentView)
             make.height.equalTo(Size.whiteBarHeight)
-            make.bottom.equalTo(self.snp.bottom)
+            make.bottom.equalTo(contentView.snp.bottom)
         }
     }
 
