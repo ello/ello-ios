@@ -153,8 +153,6 @@ extension ProfileHeaderTotalCountAndBadgesCell {
 
         self.badges = badges
         badgeButtons = badges.safeRange(0 ..< maxBadges).compactMap { (badge: Badge) -> UIButton? in
-            guard let imageURL = badge.imageURL else { return nil }
-
             let button = UIButton()
             let imageView = FLAnimatedImageView()
             button.addTarget(self, action: #selector(badgeTapped(_:)), for: .touchUpInside)
@@ -163,7 +161,13 @@ extension ProfileHeaderTotalCountAndBadgesCell {
             }
             button.imageEdgeInsets = Size.imageEdgeInsets
 
-            imageView.pin_setImage(from: imageURL)
+            if let imageURL = badge.imageURL {
+                imageView.pin_setImage(from: imageURL)
+            }
+            else if let interfaceImage = badge.interfaceImage {
+                imageView.interfaceImage = interfaceImage
+            }
+
             button.addSubview(imageView)
             imageView.snp.makeConstraints { make in
                 make.edges.equalTo(button).inset(Size.imageEdgeInsets)
