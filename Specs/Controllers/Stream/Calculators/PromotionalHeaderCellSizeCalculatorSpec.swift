@@ -12,7 +12,7 @@ class PromotionalHeaderCellSizeCalculatorSpec: QuickSpec {
         describe("PromotionalHeaderCellSizeCalculator") {
             describe("should size according to frame width") {
                 let expectations: [(CGFloat, CGFloat)] = [
-                    (100, 316),
+                    (100, 322),
                     (320, 163),
                     (414, 163),
                 ]

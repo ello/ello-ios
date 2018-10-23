@@ -21,12 +21,7 @@ class PromotionalHeaderCell: CollectionViewCell {
         var callToAction: String?
         var callToActionURL: URL?
 
-        var hasHtml: Bool {
-            switch style {
-            case .editorial, .artistInvite: return true
-            case .category, .generic: return false
-            }
-        }
+        var hasHtml: Bool { return style.hasHtml }
     }
 
     struct Size {
