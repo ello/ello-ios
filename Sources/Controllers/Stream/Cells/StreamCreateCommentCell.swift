@@ -23,7 +23,7 @@ class StreamCreateCommentCell: CollectionViewCell {
     let avatarView = FLAnimatedImageView()
     let createCommentBackground = CreateCommentBackgroundView()
     var watchButtonHiddenConstraint: Constraint!
-    var replyAllButtonVisibleConstraint: Constraint!
+    var replyAllButtonVisibleConstraint = ConstraintGroup()
     var replyAllButtonHiddenConstraint: Constraint!
     let createCommentLabel = UILabel()
     let replyAllButton = UIButton()
@@ -94,10 +94,12 @@ class StreamCreateCommentCell: CollectionViewCell {
         }
 
         replyAllButton.snp.makeConstraints { make in
-            make.leading.equalTo(createCommentBackground.snp.trailing)
             make.trailing.equalTo(contentView).inset(Size.ReplyAllRightMargin)
             make.centerY.equalTo(contentView)
             make.width.height.equalTo(Size.ReplyButtonSize)
+        }
+        replyAllButton.snp.prepareConstraints { make in
+            replyAllButtonVisibleConstraint.append(make.leading.equalTo(createCommentBackground.snp.trailing).constraint)
         }
 
         watchButton.snp.makeConstraints { make in
@@ -110,13 +112,12 @@ class StreamCreateCommentCell: CollectionViewCell {
             make.leading.equalTo(avatarView.snp.trailing).offset(Size.AvatarRightMargin)
             make.centerY.equalTo(contentView)
             make.height.equalTo(contentView).offset(-Size.Margins.tops)
+        }
+        createCommentBackground.snp.prepareConstraints { make in
             watchButtonHiddenConstraint = make.trailing.equalTo(contentView).inset(Size.Margins.right).constraint
-            replyAllButtonVisibleConstraint = make.trailing.equalTo(replyAllButton.snp.leading).constraint
+            replyAllButtonVisibleConstraint.append(make.trailing.equalTo(replyAllButton.snp.leading).constraint)
             replyAllButtonHiddenConstraint = make.trailing.equalTo(watchButton.snp.leading).offset(-Size.WatchMargin).constraint
         }
-        watchButtonHiddenConstraint.deactivate()
-        replyAllButtonVisibleConstraint.deactivate()
-        replyAllButtonHiddenConstraint.deactivate()
 
         createCommentLabel.snp.makeConstraints { make in
             make.top.bottom.trailing.equalTo(createCommentBackground)
