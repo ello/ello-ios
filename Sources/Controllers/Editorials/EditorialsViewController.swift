@@ -78,9 +78,9 @@ class EditorialsViewController: StreamableViewController {
 }
 
 extension EditorialsViewController: EditorialCellResponder {
-    func editorialTapped(cell: EditorialCell) {
+    func editorialTapped(cellContent: EditorialCellContent) {
         guard
-            let jsonable = streamViewController.jsonable(forCell: cell),
+            let jsonable = streamViewController.jsonable(forCell: cellContent.editorialCell),
             let editorial = jsonable as? Editorial
         else { return }
 
@@ -107,8 +107,7 @@ extension EditorialsViewController: EditorialPostStreamResponder {
     func editorialTapped(index: Int, cell: EditorialCell) {
         guard
             let jsonable = streamViewController.jsonable(forCell: cell),
-            let editorial = jsonable as? Editorial,
-            let editorialPosts = editorial.posts,
+            let editorialPosts = (jsonable as? Editorial)?.posts,
             let post = editorialPosts.safeValue(index)
         else { return }
 

@@ -8,7 +8,7 @@ import FLAnimatedImage
 
 @objc
 protocol EditorialCellResponder: class {
-    func editorialTapped(cell: EditorialCell)
+    func editorialTapped(cellContent: EditorialCellContent)
 }
 
 
@@ -176,7 +176,7 @@ extension EditorialCellContent {
     @objc
     func tappedEditorial() {
         let responder: EditorialCellResponder? = findResponder()
-        responder?.editorialTapped(cell: self.editorialCell)
+        responder?.editorialTapped(cellContent: self)
     }
 }
 
