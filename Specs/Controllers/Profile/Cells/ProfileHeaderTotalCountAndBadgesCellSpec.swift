@@ -40,7 +40,7 @@ class ProfileHeaderTotalCountAndBadgesCellSpec: QuickSpec {
                     size: CGSize(width: 375, height: 60)
                 ))
                 subject.update(count: "2.3M", badges: [badge])
-                expectValidSnapshot(subject, named: "ProfileHeaderTotalCountAndBadgesCell-both", record: true)
+                expectValidSnapshot(subject, named: "ProfileHeaderTotalCountAndBadgesCell-both")
             }
 
             it("only badges half-width") {

@@ -85,7 +85,7 @@ class ProfileHeaderTotalCountAndBadgesCell: ProfileHeaderCell {
         badgesContainer.addSubview(badgeButtonsContainer)
 
         totalCountContainer.snp.makeConstraints { make in
-            make.leading.top.bottom.equalTo(contentView)
+            make.leading.centerY.height.equalTo(contentView)
             make.trailing.equalTo(midGrayLine.snp.leading)
         }
 
@@ -95,20 +95,20 @@ class ProfileHeaderTotalCountAndBadgesCell: ProfileHeaderCell {
         }
 
         badgesContainer.snp.makeConstraints { make in
-            make.trailing.top.bottom.equalTo(contentView)
+            make.trailing.centerY.height.equalTo(contentView)
             make.leading.equalTo(midGrayLine.snp.trailing)
         }
 
         badgeButtonsContainer.snp.makeConstraints { make in
-            make.top.bottom.centerX.equalTo(badgesContainer)
+            make.center.height.equalTo(badgesContainer).priority(Priority.required)
         }
 
         moreBadgesButton.snp.makeConstraints { make in
-            make.edges.equalTo(badgesContainer)
+            make.center.equalTo(badgesContainer)
         }
 
         midGrayLine.snp.makeConstraints { make in
-            make.top.bottom.equalTo(contentView)
+            make.centerY.height.equalTo(contentView)
             showBothConstraint = make.centerX.equalTo(contentView).constraint
             showBadgesConstraint = make.leading.equalTo(contentView).constraint
             showCountConstraint = make.trailing.equalTo(contentView).constraint
@@ -121,29 +121,14 @@ class ProfileHeaderTotalCountAndBadgesCell: ProfileHeaderCell {
 extension ProfileHeaderTotalCountAndBadgesCell {
 
     private func updateAttributedCountText(_ count: String) {
+        guard !count.isEmpty else { return }
+
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.alignment = .center
 
-        if !count.isEmpty {
-            let attributedCount = NSAttributedString(count + " ", color: .black)
-            let totalViewsText = NSAttributedString(InterfaceString.Profile.TotalViews, color: UIColor.greyA)
-
-            let attributed = NSMutableAttributedString()
-            attributed.append(attributedCount)
-            attributed.append(totalViewsText)
-            totalLabel.attributedText = attributed
-            if frame.height == 0 {
-                heightMismatchOccurred(Size.height)
-            }
-        }
-        else {
-            totalLabel.text = ""
-            if frame.height != 0 {
-                heightMismatchOccurred(0)
-            }
-        }
-
-        setNeedsLayout()
+        let attributedCount = NSAttributedString(count + " ", color: .black)
+        let totalViewsText = NSAttributedString(InterfaceString.Profile.TotalViews, color: UIColor.greyA)
+        totalLabel.attributedText = attributedCount + totalViewsText
     }
 
     private func updateBadgeViews(_ badges: [Badge]) {

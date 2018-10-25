@@ -60,7 +60,7 @@ struct ElloManager: RequestManager {
         config.timeoutIntervalForResource = 30
         return SessionManager(
             configuration: config,
-            serverTrustPolicyManager: ServerTrustPolicyManager(policies: ElloManager.serverTrustPolicies)
+            serverTrustPolicyManager: ServerTrustPolicyManager(policies: [:])
         )
     }()
 
