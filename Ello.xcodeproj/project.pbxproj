@@ -534,7 +534,7 @@
 		1D3DED7C1AE1C07800F1D514 /* ElloTextFieldViewSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D3DED7B1AE1C07800F1D514 /* ElloTextFieldViewSpec.swift */; };
 		1D3EC0DB1E97F5F70092C769 /* discover_normal.svg in Resources */ = {isa = PBXBuildFile; fileRef = 1D3EC0D91E97F5F70092C769 /* discover_normal.svg */; };
 		1D3EC0DC1E97F5F70092C769 /* discover_selected.svg in Resources */ = {isa = PBXBuildFile; fileRef = 1D3EC0DA1E97F5F70092C769 /* discover_selected.svg */; };
-		1D4042CA1E0997DD00E4E74D /* Priority.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D4042C91E0997DD00E4E74D /* Priority.swift */; };
+		1D4042CA1E0997DD00E4E74D /* SnapKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D4042C91E0997DD00E4E74D /* SnapKit.swift */; };
 		1D405D9C1C47166D0059DAFD /* repost_disabled.svg in Resources */ = {isa = PBXBuildFile; fileRef = 1D405D9B1C47166D0059DAFD /* repost_disabled.svg */; };
 		1D4168B61B6C222D0075C8F3 /* TagSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D4168B51B6C222D0075C8F3 /* TagSpec.swift */; };
 		1D447E571F3388CA00013384 /* MockUIWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D447E561F3388CA00013384 /* MockUIWebView.swift */; };
@@ -1129,7 +1129,7 @@
 		1DF490911FD0A1AB00C0ACAC /* LoadingCellPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF490901FD0A1A900C0ACAC /* LoadingCellPresenter.swift */; };
 		1DF490921FD5ECD500C0ACAC /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DBD0BBD1F950ADB00DF9FC5 /* TableViewCell.swift */; };
 		1DF490931FD5EE7800C0ACAC /* UIEdgeInsetsExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D59337F1D1462E900EAF03D /* UIEdgeInsetsExtensions.swift */; };
-		1DF490941FD5EE8200C0ACAC /* Priority.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D4042C91E0997DD00E4E74D /* Priority.swift */; };
+		1DF490941FD5EE8200C0ACAC /* SnapKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D4042C91E0997DD00E4E74D /* SnapKit.swift */; };
 		1DF50C8D1C61452D00C62D89 /* UIImagePickerControllerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF50C8C1C61452D00C62D89 /* UIImagePickerControllerSpec.swift */; };
 		1DF50C991C614E0700C62D89 /* OmnibarProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF50C8F1C614C4400C62D89 /* OmnibarProtocols.swift */; };
 		1DF50C9B1C614E0F00C62D89 /* OmnibarScreenAutocomplete.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF50C961C614C6900C62D89 /* OmnibarScreenAutocomplete.swift */; };
@@ -1743,7 +1743,7 @@
 		1D3DED7B1AE1C07800F1D514 /* ElloTextFieldViewSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ElloTextFieldViewSpec.swift; sourceTree = "<group>"; };
 		1D3EC0D91E97F5F70092C769 /* discover_normal.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = discover_normal.svg; sourceTree = "<group>"; };
 		1D3EC0DA1E97F5F70092C769 /* discover_selected.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = discover_selected.svg; sourceTree = "<group>"; };
-		1D4042C91E0997DD00E4E74D /* Priority.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Priority.swift; sourceTree = "<group>"; };
+		1D4042C91E0997DD00E4E74D /* SnapKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SnapKit.swift; sourceTree = "<group>"; };
 		1D405D9B1C47166D0059DAFD /* repost_disabled.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = repost_disabled.svg; sourceTree = "<group>"; };
 		1D4168B51B6C222D0075C8F3 /* TagSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagSpec.swift; sourceTree = "<group>"; };
 		1D447E561F3388CA00013384 /* MockUIWebView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockUIWebView.swift; sourceTree = "<group>"; };
@@ -2797,7 +2797,7 @@
 			children = (
 				1267C7331BA232530000D809 /* Box */,
 				1D513E071ED8DA660081BB2D /* PromiseKitExtensions.swift */,
-				1D4042C91E0997DD00E4E74D /* Priority.swift */,
+				1D4042C91E0997DD00E4E74D /* SnapKit.swift */,
 				1DBC82F31FB0E5A3002BC6E4 /* PathKit.swift */,
 			);
 			name = ThirdParty;
@@ -5273,7 +5273,7 @@
 				122D1BA11C613161001386CE /* Colors.swift in Sources */,
 				122B30EA1C6A3FC400C1B9D8 /* TextRegion.swift in Sources */,
 				1D104FD01F3CEBCD00B5487A /* ElloTextField.swift in Sources */,
-				1DF490941FD5EE8200C0ACAC /* Priority.swift in Sources */,
+				1DF490941FD5EE8200C0ACAC /* SnapKit.swift in Sources */,
 				122D1B4C1C60232D001386CE /* TypedNotifications.swift in Sources */,
 				1D0DF8CA2022395D00019875 /* PostParser.swift in Sources */,
 				122B30AE1C6A3FBB00C1B9D8 /* Activity.swift in Sources */,
@@ -5960,7 +5960,7 @@
 				1D9201BC1B6AD7CD007528BF /* Tag.swift in Sources */,
 				1D2896531FA25CBE004661C1 /* CommentHeaderCell.swift in Sources */,
 				12B531011A93B75700E01D72 /* ElloLogoView.swift in Sources */,
-				1D4042CA1E0997DD00E4E74D /* Priority.swift in Sources */,
+				1D4042CA1E0997DD00E4E74D /* SnapKit.swift in Sources */,
 				1207C96F1C73FEE000939ADB /* APIKeys.swift in Sources */,
 				1D447F161F3BCADB00013384 /* ImageRegionData.swift in Sources */,
 				123375711DA69C0C0019CFAD /* ProfileProtocols.swift in Sources */,

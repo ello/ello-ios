@@ -15,6 +15,13 @@ final class PageHeader: Model {
         case category = "CATEGORY"
         case editorial = "EDITORIAL"
         case generic = "GENERIC"
+
+        var hasHtml: Bool {
+            switch self {
+            case .editorial, .artistInvite: return true
+            case .category, .generic: return false
+            }
+        }
     }
 
     let id: String

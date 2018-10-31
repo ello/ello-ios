@@ -16,6 +16,7 @@ final class Badge: Model {
     var caption: String
     var url: URL?
     var imageURL: URL?
+    var interfaceImage: InterfaceImage?
     var isFeatured: Bool { return slug == "featured" }
 
     let categories: [Category]?
@@ -23,6 +24,7 @@ final class Badge: Model {
     static var badges: [String: Badge] {
         get { return readBadges() }
         set {
+            _cachedBadges = newValue
             let data = NSKeyedArchiver.archivedData(withRootObject: newValue)
             saveBadgesData(data)
         }
@@ -46,7 +48,8 @@ final class Badge: Model {
         name: String,
         caption: String,
         url: URL?,
-        imageURL: URL?
+        imageURL: URL? = nil,
+        interfaceImage: InterfaceImage? = nil
         )
     {
         self.slug = slug
@@ -54,6 +57,7 @@ final class Badge: Model {
         self.caption = caption
         self.url = url
         self.imageURL = imageURL
+        self.interfaceImage = interfaceImage
         self.categories = nil
         super.init(version: BadgeVersion)
     }
@@ -65,6 +69,7 @@ final class Badge: Model {
         self.caption = decoder.decodeKey("link")
         self.url = decoder.decodeOptionalKey("url")
         self.imageURL = decoder.decodeOptionalKey("imageURL")
+        self.interfaceImage = nil
         self.categories = nil
         super.init(coder: coder)
     }

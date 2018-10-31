@@ -11,6 +11,13 @@ class EditorialPostStreamCell: EditorialCellContent {
     private var postCells: [EditorialPostCell] = []
     private let bg = UIView()
     private var autoscrollTimer: Timer?
+    override var editorialCell: EditorialCell! {
+        didSet {
+            for cell in postCells {
+                cell.editorialCell = editorialCell
+            }
+        }
+    }
 
     deinit {
         autoscrollTimer = nil
@@ -133,6 +140,7 @@ extension EditorialPostStreamCell {
             let cell = EditorialPostCell()
             cell.titlePlacement = .inStream
             cell.config = config
+            cell.editorialCell = editorialCell
             return cell
         }
 
@@ -159,14 +167,14 @@ extension EditorialPostStreamCell {
 
 extension EditorialPostStreamCell: EditorialCellResponder {
     @objc
-    func editorialTapped(cell: EditorialCell) {
+    func editorialTapped(cellContent: EditorialCellContent) {
         guard
-            let editorialContentView = cell.editorialContentView as? EditorialPostCell,
+            let editorialContentView = cellContent as? EditorialPostCell,
             let index = postCells.index(of: editorialContentView)
         else { return }
 
         let responder: EditorialPostStreamResponder? = findResponder()
-        responder?.editorialTapped(index: index, cell: self.editorialCell)
+        responder?.editorialTapped(index: index, cell: editorialCell)
     }
 }
 

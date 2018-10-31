@@ -8,6 +8,8 @@ import SwiftyJSON
 
 class BadgesService {
     static func loadStaticBadges() {
+        guard !Globals.isTesting else { return }
+
         Alamofire.request("\(ElloURI.baseURL)/api/v2/badges.json")
             .responseJSON { response in
                 guard

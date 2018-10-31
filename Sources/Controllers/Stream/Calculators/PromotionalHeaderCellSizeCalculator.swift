@@ -93,11 +93,20 @@ class PromotionalHeaderCellSizeCalculator: CellSizeCalculator {
             let height = max(minHeight, calcHeight)
             assignCellHeight(all: height)
         }
-        else {
+        else if pageHeader.kind.hasHtml {
             let text = pageHeader.subheader
             let html = StreamTextCellHTML.editorialHTML(text)
             webView.loadHTMLString(html, baseURL: URL(string: "/"))
         }
+        else {
+            calculateHeight(pageHeader: pageHeader, htmlHeight: nil)
+        }
+    }
+
+    private func calculateHeight(pageHeader: PageHeader, htmlHeight: CGFloat?) {
+        let calcHeight = PromotionalHeaderCellSizeCalculator.calculatePageHeaderHeight(pageHeader, htmlHeight: htmlHeight, cellWidth: width)
+        let height = max(minHeight, calcHeight)
+        assignCellHeight(all: height)
     }
 }
 
@@ -108,9 +117,7 @@ extension PromotionalHeaderCellSizeCalculator: UIWebViewDelegate {
             return
         }
 
-        let textHeight = webView.windowContentSize()?.height
-        let calcHeight = PromotionalHeaderCellSizeCalculator.calculatePageHeaderHeight(pageHeader, htmlHeight: textHeight, cellWidth: width)
-        let height = max(minHeight, calcHeight)
-        assignCellHeight(all: height)
+        let htmlHeight = webView.windowContentSize()?.height
+        calculateHeight(pageHeader: pageHeader, htmlHeight: htmlHeight)
     }
 }

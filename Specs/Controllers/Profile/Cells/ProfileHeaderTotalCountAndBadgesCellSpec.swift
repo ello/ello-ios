@@ -11,12 +11,17 @@ import Nimble_Snapshots
 class ProfileHeaderTotalCountAndBadgesCellSpec: QuickSpec {
     override func spec() {
         describe("ProfileHeaderTotalCountAndBadgesCell") {
+            var badge: Badge!
+            beforeEach {
+                badge = Badge.lookup(slug: "featured")
+            }
+
             it("only badges") {
                 let subject = ProfileHeaderTotalCountAndBadgesCell(frame: CGRect(
                     origin: .zero,
                     size: CGSize(width: 375, height: 60)
                 ))
-                subject.update(count: "", badges: [Badge.badges["featured"]!])
+                subject.update(count: "", badges: [badge])
                 expectValidSnapshot(subject, named: "ProfileHeaderTotalCountAndBadgesCell-badges")
             }
 
@@ -34,7 +39,7 @@ class ProfileHeaderTotalCountAndBadgesCellSpec: QuickSpec {
                     origin: .zero,
                     size: CGSize(width: 375, height: 60)
                 ))
-                subject.update(count: "2.3M", badges: [Badge.badges["featured"]!])
+                subject.update(count: "2.3M", badges: [badge])
                 expectValidSnapshot(subject, named: "ProfileHeaderTotalCountAndBadgesCell-both")
             }
 
@@ -43,7 +48,7 @@ class ProfileHeaderTotalCountAndBadgesCellSpec: QuickSpec {
                     origin: .zero,
                     size: CGSize(width: 187, height: 60)
                 ))
-                subject.update(count: "", badges: [Badge.badges["featured"]!])
+                subject.update(count: "", badges: [badge])
                 expectValidSnapshot(subject, named: "ProfileHeaderTotalCountAndBadgesCell-badges-halfwidth")
             }
 

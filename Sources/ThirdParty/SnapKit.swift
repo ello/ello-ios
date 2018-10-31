@@ -35,3 +35,38 @@ extension Constraint {
         }
     }
 }
+
+class ConstraintGroup {
+    private var constraints: [Constraint]
+
+    init() {
+        self.constraints = []
+    }
+
+    convenience init(constraints: [Constraint]) {
+        self.init()
+        self.constraints = constraints
+    }
+
+    func append(_ constraint: Constraint) {
+        constraints.append(constraint)
+    }
+
+    func activate() {
+        set(isActivated: true)
+    }
+
+    func deactivate() {
+        set(isActivated: false)
+    }
+
+    func set(isActivated: Bool) {
+        let allLayoutConstraints = constraints.flatMap { $0.layoutConstraints }
+        if isActivated {
+            NSLayoutConstraint.activate(allLayoutConstraints)
+        }
+        else {
+            NSLayoutConstraint.deactivate(allLayoutConstraints)
+        }
+    }
+}
