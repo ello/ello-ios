@@ -22,8 +22,8 @@ class StreamCreateCommentCell: CollectionViewCell {
 
     let avatarView = FLAnimatedImageView()
     let createCommentBackground = CreateCommentBackgroundView()
-    var watchButtonHiddenConstraint: Constraint!
-    var replyAllButtonVisibleConstraint = ConstraintGroup()
+    var bothButtonsHiddenConstraint: Constraint!
+    var replyAllButtonVisibleConstraint: Constraint!
     var replyAllButtonHiddenConstraint: Constraint!
     let createCommentLabel = UILabel()
     let replyAllButton = UIButton()
@@ -98,9 +98,6 @@ class StreamCreateCommentCell: CollectionViewCell {
             make.centerY.equalTo(contentView)
             make.width.height.equalTo(Size.ReplyButtonSize)
         }
-        replyAllButton.snp.prepareConstraints { make in
-            replyAllButtonVisibleConstraint.append(make.leading.equalTo(createCommentBackground.snp.trailing).constraint)
-        }
 
         watchButton.snp.makeConstraints { make in
             make.top.bottom.equalTo(contentView)
@@ -114,8 +111,8 @@ class StreamCreateCommentCell: CollectionViewCell {
             make.height.equalTo(contentView).offset(-Size.Margins.tops)
         }
         createCommentBackground.snp.prepareConstraints { make in
-            watchButtonHiddenConstraint = make.trailing.equalTo(contentView).inset(Size.Margins.right).constraint
-            replyAllButtonVisibleConstraint.append(make.trailing.equalTo(replyAllButton.snp.leading).constraint)
+            bothButtonsHiddenConstraint = make.trailing.equalTo(contentView).inset(Size.Margins.right).constraint
+            replyAllButtonVisibleConstraint = make.trailing.equalTo(replyAllButton.snp.leading).constraint
             replyAllButtonHiddenConstraint = make.trailing.equalTo(watchButton.snp.leading).offset(-Size.WatchMargin).constraint
         }
 
@@ -129,16 +126,25 @@ class StreamCreateCommentCell: CollectionViewCell {
         super.prepareForReuse()
         avatarView.pin_cancelImageDownload()
         isWatching = false
-        watchButtonHiddenConstraint.deactivate()
+        bothButtonsHiddenConstraint.deactivate()
         replyAllButtonVisibleConstraint.deactivate()
         replyAllButtonHiddenConstraint.deactivate()
     }
 
     private func updateCreateButtonConstraints() {
-        let bothHidden = replyAllButton.isHidden && watchButton.isHidden
-        let onlyReplyHidden = replyAllButton.isHidden && watchButton.isVisible
-        let noneHidden = replyAllButton.isVisible && watchButton.isVisible
-        watchButtonHiddenConstraint.set(isActivated: bothHidden)
+        var bothHidden = false
+        var onlyReplyHidden = false
+        var noneHidden = false
+        if replyAllButton.isHidden && watchButton.isHidden {
+            bothHidden = true
+        }
+        else if replyAllButton.isHidden && watchButton.isVisible {
+            onlyReplyHidden = true
+        }
+        else {
+            noneHidden = true
+        }
+        bothButtonsHiddenConstraint.set(isActivated: bothHidden)
         replyAllButtonHiddenConstraint.set(isActivated: onlyReplyHidden)
         replyAllButtonVisibleConstraint.set(isActivated: noneHidden)
 

@@ -3,6 +3,7 @@
 //
 
 import SnapKit
+import SVGKit
 import MobileCoreServices
 import FLAnimatedImage
 import PINRemoteImage
@@ -399,7 +400,11 @@ class OmnibarScreen: Screen, OmnibarScreenProtocol {
         currentCommunityButton.layer.cornerRadius = 5
 
         currentCommunityLabel.textAlignment = .center
-        clearCommunityButton.setImage(.x, imageStyle: .white, for: .normal)
+        if let svgkImage = InterfaceImage.x.whiteSVGK {
+            svgkImage.size = CGSize(width: 20, height: 20)
+            clearCommunityButton.setImage(InterfaceImage.toUIImage(svgkImage), for: .normal)
+            clearCommunityButton.contentMode = .center
+        }
         chooseCommunityButton.addTarget(self, action: #selector(chooseCommunityButtonTapped), for: .touchUpInside)
         currentCommunityButton.addTarget(self, action: #selector(currentCommunityButtonTapped), for: .touchUpInside)
         clearCommunityButton.addTarget(self, action: #selector(clearCommunityButtonTapped), for: .touchUpInside)
@@ -451,8 +456,8 @@ class OmnibarScreen: Screen, OmnibarScreenProtocol {
         }
 
         clearCommunityButton.snp.makeConstraints { make in
-            make.centerY.equalTo(currentCommunityButton)
-            make.trailing.equalTo(currentCommunityButton).offset(-Size.clearCommunityMargin)
+            make.top.bottom.trailing.equalTo(currentCommunityButton)
+            make.width.equalTo(currentCommunityButton.snp.height)
         }
 
         currentCommunityLabel.snp.makeConstraints { make in
@@ -487,7 +492,7 @@ class OmnibarScreen: Screen, OmnibarScreenProtocol {
             currentCommunityLabel.text = chosenCategory.name
         }
         else {
-            chooseCommunityButton.isVisible = true
+            chooseCommunityButton.isVisible = communityPickerVisible
             clearCommunityButton.isHidden = true
             currentCommunityButton.isHidden = true
             chooseCommunityButton.title = InterfaceString.Omnibar.ChooseCommunity

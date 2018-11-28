@@ -136,32 +136,15 @@ enum InterfaceImage: String {
         }
     }
 
-    private func svgNamed(_ name: String) -> UIImage {
-        return SVGKImage(named: "\(name).svg").uiImage.withRenderingMode(.alwaysOriginal)
+    private static func svgkImage(_ name: String) -> SVGKImage? {
+        return SVGKImage(named: "\(name).svg")
     }
 
-    var svgkImage: SVGKImage! {
-        switch self {
-        case .audioPlay,
-            .bubbleTail,
-            .buyButton,
-            .elloLogo,
-            .elloLogoGrey,
-            .elloGrayLineLogo,
-            .giantHeart,
-            .marker,
-            .narrationPointer,
-            .validationError,
-            .validationOK,
-            .smallCheck,
-            .videoPlay:
-            return SVGKImage(named: self.rawValue)
-        default:
-            return SVGKImage(named: "\(self.rawValue)_normal")
-        }
+    static func toUIImage(_ svgkImage: SVGKImage) -> UIImage {
+        return svgkImage.uiImage.withRenderingMode(.alwaysOriginal)
     }
 
-    var normalImage: UIImage! {
+    var normalSVGK: SVGKImage? {
         switch self {
         case .audioPlay,
             .bubbleTail,
@@ -177,15 +160,23 @@ enum InterfaceImage: String {
             .validationOK,
             .smallCheck,
             .videoPlay:
-            return svgNamed(self.rawValue)
+            return InterfaceImage.svgkImage(self.rawValue)
         default:
-            return svgNamed("\(self.rawValue)_normal")
+            return InterfaceImage.svgkImage("\(self.rawValue)_normal")
         }
     }
-    var selectedImage: UIImage! {
-        return svgNamed("\(self.rawValue)_selected")
+    var normalImage: UIImage! {
+        return InterfaceImage.toUIImage(normalSVGK!)
     }
-    var whiteImage: UIImage? {
+
+    var selectedSVGK: SVGKImage? {
+        return InterfaceImage.svgkImage("\(self.rawValue)_selected")
+    }
+    var selectedImage: UIImage! {
+        return InterfaceImage.toUIImage(selectedSVGK!)
+    }
+
+    var whiteSVGK: SVGKImage? {
         switch self {
         case .arrowRight,
              .arrowUp,
@@ -214,41 +205,60 @@ enum InterfaceImage: String {
              .share,
              .xBox,
              .x:
-            return svgNamed("\(self.rawValue)_white")
+            return InterfaceImage.svgkImage("\(self.rawValue)_white")
+        default:
+            return nil
+        }
+    }
+    var whiteImage: UIImage? {
+        return whiteSVGK.map { InterfaceImage.toUIImage($0) }
+    }
+
+    var disabledSVGK: SVGKImage? {
+        switch self {
+        case .forwardChevron, .addBuyButton, .backChevron, .repost:
+            return InterfaceImage.svgkImage("\(self.rawValue)_disabled")
         default:
             return nil
         }
     }
     var disabledImage: UIImage? {
+        return disabledSVGK.map { InterfaceImage.toUIImage($0) }
+    }
+
+    var redSVGK: SVGKImage? {
         switch self {
-        case .forwardChevron, .addBuyButton, .backChevron, .repost:
-            return svgNamed("\(self.rawValue)_disabled")
+        case .x:
+            return InterfaceImage.svgkImage("\(self.rawValue)_red")
         default:
             return nil
         }
     }
     var redImage: UIImage? {
+        return redSVGK.map { InterfaceImage.toUIImage($0) }
+    }
+
+    var greenSVGK: SVGKImage? {
         switch self {
-        case .x:
-            return svgNamed("\(self.rawValue)_red")
+        case .watch, .circleCheck, .circleCheckLarge:
+            return InterfaceImage.svgkImage("\(self.rawValue)_green")
         default:
             return nil
         }
     }
     var greenImage: UIImage? {
+        return greenSVGK.map { InterfaceImage.toUIImage($0) }
+    }
+
+    var orangeSVGK: SVGKImage? {
         switch self {
-        case .watch, .circleCheck, .circleCheckLarge:
-            return svgNamed("\(self.rawValue)_green")
+        case .star:
+            return InterfaceImage.svgkImage("\(self.rawValue)_orange")
         default:
             return nil
         }
     }
     var orangeImage: UIImage? {
-        switch self {
-        case .star:
-            return svgNamed("\(self.rawValue)_orange")
-        default:
-            return nil
-        }
+        return orangeSVGK.map { InterfaceImage.toUIImage($0) }
     }
 }
