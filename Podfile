@@ -21,6 +21,7 @@ def ello_app_pods
   pod 'PINRemoteImage', '3.0.0-beta.8'
   pod 'PINCache', git: 'https://github.com/ello/PINCache', commit: '78c3461'
   pod 'SSPullToRefresh', '~> 1'
+  pod 'Quantcast-Measure'
   # swift pods
   pod 'ImagePickerSheetController', git: 'https://github.com/ello/ImagePickerSheetController', branch: 'swift4'
   pod 'TimeAgoInWords', git: 'https://github.com/ello/TimeAgoInWords'

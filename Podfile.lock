@@ -61,6 +61,9 @@ PODS:
     - PINCache (= 3.0.1-beta.4)
     - PINRemoteImage/Core
   - PromiseKit/CorePromise (6.3.4)
+  - Quantcast-Measure (1.6.0):
+    - Quantcast-Measure/Core (= 1.6.0)
+  - Quantcast-Measure/Core (1.6.0)
   - Quick (1.3.1)
   - Result (3.2.4)
   - SnapKit (4.0.1)
@@ -156,6 +159,7 @@ DEPENDENCIES:
   - PINCache (from `https://github.com/ello/PINCache`, commit `78c3461`)
   - PINRemoteImage (= 3.0.0-beta.8)
   - PromiseKit/CorePromise
+  - Quantcast-Measure
   - Quick
   - SnapKit (~> 4)
   - SSPullToRefresh (~> 1)
@@ -183,6 +187,7 @@ SPEC REPOS:
     - PINOperation
     - PINRemoteImage
     - PromiseKit
+    - Quantcast-Measure
     - Quick
     - Result
     - SnapKit
@@ -273,6 +278,7 @@ SPEC CHECKSUMS:
   PINOperation: ac23db44796d4a564ecf9b5ea7163510f579b71d
   PINRemoteImage: c4f9f16932840c597f32e69dd288e10e111a1929
   PromiseKit: e1425568123ec844a944c93f2bcb29d511d39cf5
+  Quantcast-Measure: aa4a19650bb073791d8cbee8571615633884832e
   Quick: d17304d58d0d169dd0bd1c6e5c28e3318de32a1a
   Result: d2d07204ce72856f1fd9130bbe42c35a7b0fea10
   SnapKit: 0de968a9fec17499afa29683b05d0c775b6d1c29
@@ -284,6 +290,6 @@ SPEC CHECKSUMS:
   WebLinking: b7507e9ccf2b0177dcc53cbdbaed787676fde745
   YapDatabase: b418a4baa6906e8028748938f9159807fd039af4
 
-PODFILE CHECKSUM: b83de71fd75cc1d217f8d707bad82d0906ee84f4
+PODFILE CHECKSUM: 34f96e954c2567d47d70454888bc43093c4bba42
 
 COCOAPODS: 1.5.3
