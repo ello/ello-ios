@@ -7,6 +7,7 @@ import TimeAgoInWords
 import PINRemoteImage
 import PINCache
 import ElloUIFonts
+import Quantcast_Measure
 
 
 @UIApplicationMain
