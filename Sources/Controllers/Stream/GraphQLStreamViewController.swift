@@ -56,6 +56,7 @@ class GraphQLStreamViewController: StreamableViewController {
             self.initialRequest()
                 .done { pageConfig, posts in
                     self.pageConfig = pageConfig
+                    self.streamViewController.responseConfig = ResponseConfig(pageConfig: pageConfig)
                     self.streamViewController.showInitialModels(posts)
                 }
                 .ignoreErrors()
