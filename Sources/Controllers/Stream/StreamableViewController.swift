@@ -28,13 +28,13 @@ class StreamableViewController: BaseElloViewController {
         streamViewController.currentUser = currentUser
         streamViewController.streamViewDelegate = self
 
-        streamViewController.willMove(toParentViewController: self)
+        streamViewController.willMove(toParent: self)
         let containerForStream = viewForStream()
         containerForStream.addSubview(streamViewController.view)
         streamViewController.view.frame = containerForStream.bounds
         streamViewController.view.autoresizingMask = [.flexibleHeight, .flexibleWidth]
-        addChildViewController(streamViewController)
-        streamViewController.didMove(toParentViewController: self)
+        addChild(streamViewController)
+        streamViewController.didMove(toParent: self)
     }
 
     var scrollLogic: ElloScrollLogic!

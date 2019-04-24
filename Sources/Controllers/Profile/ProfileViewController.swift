@@ -348,7 +348,7 @@ extension ProfileViewController: PostsTappedResponder {
             let indexPath = streamViewController.collectionViewDataSource.firstIndexPath(forPlaceholderType: .streamItems)
         else { return }
 
-        streamViewController.collectionView.scrollToItem(at: indexPath, at: UICollectionViewScrollPosition.top, animated: true)
+        streamViewController.collectionView.scrollToItem(at: indexPath, at: UICollectionView.ScrollPosition.top, animated: true)
     }
 }
 

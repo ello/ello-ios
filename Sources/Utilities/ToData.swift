@@ -23,6 +23,6 @@ extension String: ToData {
 
 extension UIImage: ToData {
     func toData() -> Data? {
-        return UIImagePNGRepresentation(self)
+        return self.pngData()
     }
 }

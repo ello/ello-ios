@@ -36,21 +36,21 @@ class Application {
 
     init() {
         let center: NotificationCenter = NotificationCenter.default
-        center.addObserver(self, selector: #selector(Application.didChangeStatusBarFrame(_:)), name: NSNotification.Name.UIApplicationDidChangeStatusBarFrame, object: nil)
-        center.addObserver(self, selector: #selector(Application.didChangeStatusBarOrientation(_:)), name: NSNotification.Name.UIApplicationDidChangeStatusBarOrientation, object: nil)
-        center.addObserver(self, selector: #selector(Application.didEnterBackground(_:)), name: NSNotification.Name.UIApplicationDidEnterBackground, object: nil)
-        center.addObserver(self, selector: #selector(Application.didFinishLaunching(_:)), name: NSNotification.Name.UIApplicationDidReceiveMemoryWarning, object: nil)
-        center.addObserver(self, selector: #selector(Application.didReceiveMemoryWarning(_:)), name: NSNotification.Name.UIApplicationDidChangeStatusBarFrame, object: nil)
-        center.addObserver(self, selector: #selector(Application.protectedDataDidBecomeAvailable(_:)), name: NSNotification.Name.UIApplicationProtectedDataDidBecomeAvailable, object: nil)
-        center.addObserver(self, selector: #selector(Application.protectedDataWillBecomeUnavailable(_:)), name: NSNotification.Name.UIApplicationProtectedDataWillBecomeUnavailable, object: nil)
-        center.addObserver(self, selector: #selector(Application.significantTimeChange(_:)), name: NSNotification.Name.UIApplicationSignificantTimeChange, object: nil)
-        center.addObserver(self, selector: #selector(Application.userDidTakeScreenshot(_:)), name: NSNotification.Name.UIApplicationUserDidTakeScreenshot, object: nil)
-        center.addObserver(self, selector: #selector(Application.willChangeStatusBarOrientation(_:)), name: NSNotification.Name.UIApplicationDidChangeStatusBarFrame, object: nil)
-        center.addObserver(self, selector: #selector(Application.willChangeStatusBarFrame(_:)), name: NSNotification.Name.UIApplicationWillChangeStatusBarFrame, object: nil)
-        center.addObserver(self, selector: #selector(Application.willEnterForeground(_:)), name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
-        center.addObserver(self, selector: #selector(Application.willResignActive(_:)), name: NSNotification.Name.UIApplicationWillResignActive, object: nil)
-        center.addObserver(self, selector: #selector(Application.willTerminate(_:)), name: NSNotification.Name.UIApplicationWillTerminate, object: nil)
-        center.addObserver(self, selector: #selector(Application.sizeCategoryDidChange(_:)), name: NSNotification.Name.UIContentSizeCategoryDidChange, object: nil)
+        center.addObserver(self, selector: #selector(Application.didChangeStatusBarFrame(_:)), name: UIApplication.didChangeStatusBarFrameNotification, object: nil)
+        center.addObserver(self, selector: #selector(Application.didChangeStatusBarOrientation(_:)), name: UIApplication.didChangeStatusBarOrientationNotification, object: nil)
+        center.addObserver(self, selector: #selector(Application.didEnterBackground(_:)), name: UIApplication.didEnterBackgroundNotification, object: nil)
+        center.addObserver(self, selector: #selector(Application.didFinishLaunching(_:)), name: UIApplication.didReceiveMemoryWarningNotification, object: nil)
+        center.addObserver(self, selector: #selector(Application.didReceiveMemoryWarning(_:)), name: UIApplication.didChangeStatusBarFrameNotification, object: nil)
+        center.addObserver(self, selector: #selector(Application.protectedDataDidBecomeAvailable(_:)), name: UIApplication.protectedDataDidBecomeAvailableNotification, object: nil)
+        center.addObserver(self, selector: #selector(Application.protectedDataWillBecomeUnavailable(_:)), name: UIApplication.protectedDataWillBecomeUnavailableNotification, object: nil)
+        center.addObserver(self, selector: #selector(Application.significantTimeChange(_:)), name: UIApplication.significantTimeChangeNotification, object: nil)
+        center.addObserver(self, selector: #selector(Application.userDidTakeScreenshot(_:)), name: UIApplication.userDidTakeScreenshotNotification, object: nil)
+        center.addObserver(self, selector: #selector(Application.willChangeStatusBarOrientation(_:)), name: UIApplication.didChangeStatusBarFrameNotification, object: nil)
+        center.addObserver(self, selector: #selector(Application.willChangeStatusBarFrame(_:)), name: UIApplication.willChangeStatusBarFrameNotification, object: nil)
+        center.addObserver(self, selector: #selector(Application.willEnterForeground(_:)), name: UIApplication.willEnterForegroundNotification, object: nil)
+        center.addObserver(self, selector: #selector(Application.willResignActive(_:)), name: UIApplication.willResignActiveNotification, object: nil)
+        center.addObserver(self, selector: #selector(Application.willTerminate(_:)), name: UIApplication.willTerminateNotification, object: nil)
+        center.addObserver(self, selector: #selector(Application.sizeCategoryDidChange(_:)), name: UIContentSizeCategory.didChangeNotification, object: nil)
     }
 
     deinit {
@@ -65,7 +65,7 @@ class Application {
 
     @objc
     func didChangeStatusBarOrientation(_ notification: Foundation.Notification) {
-        if let orientationInt = notification.userInfo?[UIApplicationStatusBarOrientationUserInfoKey] as? Int,
+        if let orientationInt = notification.userInfo?[UIApplication.statusBarOrientationUserInfoKey] as? Int,
             let orientation = UIInterfaceOrientation(rawValue: orientationInt) {
             postNotification(Notifications.DidChangeStatusBarOrientation, value: orientation)
         }

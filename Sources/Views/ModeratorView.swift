@@ -18,7 +18,7 @@ class ModeratorView: View {
     private let line = Line(color: .greyE5)
 
     override var intrinsicContentSize: CGSize {
-        return CGSize(width: UIViewNoIntrinsicMetric, height: Size.height)
+        return CGSize(width: UIView.noIntrinsicMetric, height: Size.height)
     }
 
     required init(user: User) {

@@ -30,17 +30,17 @@ class NotificationsViewControllerSpec: QuickSpec {
                 it("can open notifications/posts/12") {
                     let navigationController = FakeNavigationController(rootViewController: subject)
                     subject.respondToNotification(["posts", "12"])
-                    expect(navigationController.childViewControllers.count).to(equal(2))
+                    expect(navigationController.children.count).to(equal(2))
                 }
                 it("can open notifications/users/12") {
                     let navigationController = FakeNavigationController(rootViewController: subject)
                     subject.respondToNotification(["users", "12"])
-                    expect(navigationController.childViewControllers.count).to(equal(2))
+                    expect(navigationController.children.count).to(equal(2))
                 }
                 it("can handle unknown links") {
                     let navigationController = UINavigationController(rootViewController: subject)
                     subject.respondToNotification(["flibbity", "jibbet"])
-                    expect(navigationController.childViewControllers.count) == 1
+                    expect(navigationController.children.count) == 1
                 }
             }
 

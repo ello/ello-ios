@@ -74,7 +74,7 @@ class ClearTextField: UITextField {
 
     override var intrinsicContentSize: CGSize {
         var size = super.intrinsicContentSize
-        if size.height != UIViewNoIntrinsicMetric {
+        if size.height != UIView.noIntrinsicMetric {
             size.height += Size.lineMargin
         }
         return size

@@ -85,8 +85,8 @@ class TmpSpec: QuickSpec {
                     let originalImage = specImage(named: "specs-avatar")!
                     _ = Tmp.write(originalImage, to: "image")
                     if let readImage: UIImage = Tmp.read("image") {
-                        let readData = UIImagePNGRepresentation(readImage)
-                        let originalData = UIImagePNGRepresentation(originalImage)
+                        let readData = readImage.pngData()
+                        let originalData = originalImage.pngData()
                         expect(readData).to(equal(originalData))
                     }
                     else {

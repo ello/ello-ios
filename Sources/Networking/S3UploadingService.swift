@@ -29,7 +29,7 @@ class S3UploadingService {
     func upload(_ image: UIImage) -> Promise<URL?> {
         let (promise, seal) = Promise<URL?>.pending()
         inBackground {
-            if let data = UIImageJPEGRepresentation(image, Globals.imageQuality) {
+            if let data = image.jpegData(compressionQuality: Globals.imageQuality) {
                 // Head back to the thread the original caller was on before heading into the service calls. I may be overthinking it.
                 nextTick {
                     self.upload(data, contentType: "image/jpeg").done(seal.fulfill).catch(seal.reject)

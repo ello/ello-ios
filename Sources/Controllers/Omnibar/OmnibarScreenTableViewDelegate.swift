@@ -99,7 +99,7 @@ extension OmnibarScreen: UITableViewDelegate, UITableViewDataSource {
         return false
     }
 
-    func tableView(_ tableView: UITableView, commit style: UITableViewCellEditingStyle, forRowAt path: IndexPath) {
+    func tableView(_ tableView: UITableView, commit style: UITableViewCell.EditingStyle, forRowAt path: IndexPath) {
         if style == .delete {
             if isReordering {
                 deleteReorderableAtIndexPath(path)

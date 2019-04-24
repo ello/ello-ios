@@ -177,7 +177,7 @@ class OnboardingCreatorTypeScreen: StreamableScreen {
     }
 
     private func addCreatorCategoriesSpinner() {
-        let spinner = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+        let spinner = UIActivityIndicatorView(style: .gray)
         spinner.startAnimating()
         creatorButtonsContainer.addSubview(spinner)
         spinner.snp.makeConstraints { make in

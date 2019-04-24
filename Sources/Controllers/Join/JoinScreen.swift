@@ -123,7 +123,7 @@ class JoinScreen: CredentialsScreen {
             .font: UIFont.defaultFont(Size.termsFontSize),
         ])
         let linkAttrs = NSAttributedString.defaultAttrs([
-            .underlineStyle: NSUnderlineStyle.styleSingle.rawValue,
+            .underlineStyle: NSUnderlineStyle.single.rawValue,
             .foregroundColor: UIColor.greyA,
             .font: UIFont.defaultFont(Size.termsFontSize),
         ])
@@ -371,11 +371,11 @@ extension JoinScreen: JoinScreenProtocol {
     }
 
     func showUsernameSuggestions(_ usernames: [String]) {
-        let usernameAttrs: [NSAttributedStringKey: Any] = [
+        let usernameAttrs: [NSAttributedString.Key: Any] = [
             .font: UIFont.defaultFont(12),
-            .underlineStyle: NSUnderlineStyle.styleSingle.rawValue,
+            .underlineStyle: NSUnderlineStyle.single.rawValue,
         ]
-        let plainAttrs: [NSAttributedStringKey: Any] = [
+        let plainAttrs: [NSAttributedString.Key: Any] = [
             .font: UIFont.defaultFont(12),
         ]
         let suggestions: NSAttributedString = usernames.reduce(NSAttributedString(string: "", attributes: plainAttrs)) { attrdString, username in
@@ -390,7 +390,7 @@ extension JoinScreen: JoinScreenProtocol {
     }
 
     func showMessage(_ text: String) {
-        let plainAttrs: [NSAttributedStringKey: Any] = [
+        let plainAttrs: [NSAttributedString.Key: Any] = [
             .font: UIFont.defaultFont(12),
         ]
         showMessageAttributed(NSAttributedString(string: text, attributes: plainAttrs))

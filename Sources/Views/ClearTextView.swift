@@ -98,7 +98,7 @@ class ClearTextView: UITextView {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 12
 
-        var attributes: [NSAttributedStringKey: Any] = [
+        var attributes: [NSAttributedString.Key: Any] = [
             .paragraphStyle: paragraphStyle,
         ]
 
@@ -110,7 +110,7 @@ class ClearTextView: UITextView {
             attributes[.foregroundColor] = textColor
         }
 
-        typingAttributes = NSAttributedString.oldAttrs(attributes)
+        typingAttributes = attributes
     }
 
     override func layoutSubviews() {

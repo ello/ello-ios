@@ -13,7 +13,7 @@ extension Keyboard {
     func willShow(_ notification : Foundation.Notification) {
         isActive = true
         setFromNotification(notification)
-        endFrame = (notification.userInfo![UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
+        endFrame = (notification.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
         postNotification(Notifications.KeyboardWillShow, value: self)
     }
 

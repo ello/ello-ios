@@ -4,7 +4,7 @@
 
 class TableViewCell: UITableViewCell {
 
-    override init(style: UITableViewCellStyle, reuseIdentifier id: String?) {
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier id: String?) {
         super.init(style: style, reuseIdentifier: id)
         styleCell()
         bindActions()

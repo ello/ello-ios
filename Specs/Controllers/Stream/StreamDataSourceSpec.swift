@@ -458,7 +458,6 @@ class StreamDataSourceSpec: QuickSpec {
                 context("Returning a repostAuthor subject") {
                     beforeEach {
                         let repost = Post.stub([
-                            "id": "\(self.index)",
                             "repostAuthor": User.stub(["id": "42"]),
                             "repostContent": [TextRegion.stub([:]), TextRegion.stub([:])],
                             "content": [TextRegion.stub([:]), TextRegion.stub([:])]

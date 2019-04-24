@@ -4,8 +4,8 @@
 
 struct NotificationAttributedTitle {
 
-    static private func attrs(_ addlAttrs: [NSAttributedStringKey: Any] = [:]) -> [NSAttributedStringKey: Any] {
-        let attrs: [NSAttributedStringKey: Any] = [
+    static private func attrs(_ addlAttrs: [NSAttributedString.Key: Any] = [:]) -> [NSAttributedString.Key: Any] {
+        let attrs: [NSAttributedString.Key: Any] = [
             .font: UIFont.defaultFont(),
             .foregroundColor: UIColor.greyA,
         ]
@@ -21,7 +21,7 @@ struct NotificationAttributedTitle {
             return NSAttributedString(string: user.atName, attributes: attrs([
                 ElloAttributedText.Link: "user",
                 ElloAttributedText.Object: user,
-                .underlineStyle: NSUnderlineStyle.styleSingle.rawValue,
+                .underlineStyle: NSUnderlineStyle.single.rawValue,
             ]))
         }
         else {
@@ -33,7 +33,7 @@ struct NotificationAttributedTitle {
         let attrs = self.attrs([
             ElloAttributedText.Link: "post",
             ElloAttributedText.Object: post,
-            .underlineStyle: NSUnderlineStyle.styleSingle.rawValue,
+            .underlineStyle: NSUnderlineStyle.single.rawValue,
         ])
         return NSAttributedString(string: text, attributes: attrs)
     }
@@ -42,7 +42,7 @@ struct NotificationAttributedTitle {
         let attrs = self.attrs([
             ElloAttributedText.Link: "comment",
             ElloAttributedText.Object: comment,
-            .underlineStyle: NSUnderlineStyle.styleSingle.rawValue,
+            .underlineStyle: NSUnderlineStyle.single.rawValue,
         ])
         return NSAttributedString(string: text, attributes: attrs)
     }
@@ -51,7 +51,7 @@ struct NotificationAttributedTitle {
         let attrs = self.attrs([
             ElloAttributedText.Link: "artistInvite",
             ElloAttributedText.Object: artistInvite,
-            .underlineStyle: NSUnderlineStyle.styleSingle.rawValue,
+            .underlineStyle: NSUnderlineStyle.single.rawValue,
         ])
         return NSAttributedString(string: artistInvite.title, attributes: attrs)
     }
@@ -60,7 +60,7 @@ struct NotificationAttributedTitle {
         let attrs = self.attrs([
             ElloAttributedText.Link: "category",
             ElloAttributedText.Object: category,
-            .underlineStyle: NSUnderlineStyle.styleSingle.rawValue,
+            .underlineStyle: NSUnderlineStyle.single.rawValue,
         ])
         return NSAttributedString(string: category.name, attributes: attrs)
     }
@@ -69,7 +69,7 @@ struct NotificationAttributedTitle {
         let attrs = self.attrs([
             ElloAttributedText.Link: "categoryPartial",
             ElloAttributedText.Object: partial,
-            .underlineStyle: NSUnderlineStyle.styleSingle.rawValue,
+            .underlineStyle: NSUnderlineStyle.single.rawValue,
         ])
         return NSAttributedString(string: partial.name, attributes: attrs)
     }

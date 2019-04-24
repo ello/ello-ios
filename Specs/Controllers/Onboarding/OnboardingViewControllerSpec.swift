@@ -29,8 +29,8 @@ class OnboardingViewControllerSpec: QuickSpec {
             it("sets currentUser on each child view controller") {
                 let user: User = stub([:])
                 subject.currentUser = user
-                expect(subject.childViewControllers.count) > 0
-                for controller in subject.childViewControllers {
+                expect(subject.children.count) > 0
+                for controller in subject.children {
                     if let controller = controller as? ControllerThatMightHaveTheCurrentUser {
                         expect(controller.currentUser) == user
                     }

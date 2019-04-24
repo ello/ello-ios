@@ -19,7 +19,7 @@ class StreamFooterButton: UIButton {
         sizeToFit()
     }
 
-    private func setButtonTitle(_ title: String, color: UIColor, for state: UIControlState) {
+    private func setButtonTitle(_ title: String, color: UIColor, for state: UIControl.State) {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.alignment = .center
 

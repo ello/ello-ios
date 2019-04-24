@@ -17,7 +17,7 @@ class StatusBar: View {
     }
 
     override var intrinsicContentSize: CGSize {
-        return CGSize(width: UIViewNoIntrinsicMetric, height: Size.height)
+        return CGSize(width: UIView.noIntrinsicMetric, height: Size.height)
     }
 
     override func layoutSubviews() {

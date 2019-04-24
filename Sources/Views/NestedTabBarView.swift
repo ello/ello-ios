@@ -37,7 +37,7 @@ class NestedTabBarView: View {
     var isArranged = false
 
     override var intrinsicContentSize: CGSize {
-        return CGSize(width: UIViewNoIntrinsicMetric, height: Size.height)
+        return CGSize(width: UIView.noIntrinsicMetric, height: Size.height)
     }
 
     func createTab(title: String? = nil) -> Tab {

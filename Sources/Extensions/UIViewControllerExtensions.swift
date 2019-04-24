@@ -18,7 +18,7 @@ private func findTopMostViewController(_ controller: UIViewController) -> UIView
         return controller.visibleViewController?.topMostViewController ?? controller
     }
     if let controller = controller as? LoggedOutViewController {
-        return controller.childViewControllers.first?.topMostViewController ?? controller
+        return controller.children.first?.topMostViewController ?? controller
     }
     if let controller = controller as? HomeViewController {
         return controller.visibleViewController?.topMostViewController ?? controller
@@ -68,7 +68,7 @@ extension UIViewController: GestureNavigation {
             return controller
         }
 
-        for subcontroller in childViewControllers {
+        for subcontroller in children {
             guard let subcontroller: T = subcontroller.findChildController(test) else { continue }
             return subcontroller
         }
@@ -91,7 +91,7 @@ extension UIViewController {
         from fromViewController: UIViewController,
         to toViewController: UIViewController,
         duration: TimeInterval = 0,
-        options: UIViewAnimationOptions = [],
+        options: UIView.AnimationOptions = [],
         animations: Block? = nil, completion: BoolBlock? = nil)
     {
         if Globals.isTesting {

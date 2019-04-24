@@ -70,15 +70,15 @@ class ElloTabBarControllerSpec: QuickSpec {
                 beforeEach {
                     subject = ElloTabBarController()
                     subject.currentUser = User.stub(["username": "foo"])
-                    let children = subject.childViewControllers
+                    let children = subject.children
                     for child in children {
-                        child.removeFromParentViewController()
+                        child.removeFromParent()
                     }
-                    subject.addChildViewController(child1)
-                    subject.addChildViewController(child2)
-                    subject.addChildViewController(child3)
-                    subject.addChildViewController(child4)
-                    subject.addChildViewController(child5)
+                    subject.addChild(child1)
+                    subject.addChild(child2)
+                    subject.addChild(child3)
+                    subject.addChild(child4)
+                    subject.addChild(child5)
                     _ = subject.view
                 }
 
@@ -128,15 +128,15 @@ class ElloTabBarControllerSpec: QuickSpec {
                         }
                         subject = ElloTabBarController()
                         subject.currentUser = User.stub(["username": "foo"])
-                        let children = subject.childViewControllers
+                        let children = subject.children
                         for child in children {
-                            child.removeFromParentViewController()
+                            child.removeFromParent()
                         }
-                        subject.addChildViewController(child1)
-                        subject.addChildViewController(child2)
-                        subject.addChildViewController(child3)
-                        subject.addChildViewController(child4)
-                        subject.addChildViewController(child5)
+                        subject.addChild(child1)
+                        subject.addChild(child2)
+                        subject.addChild(child3)
+                        subject.addChild(child4)
+                        subject.addChild(child5)
                         subject.selectedTab = .discover
                     }
 
@@ -173,15 +173,15 @@ class ElloTabBarControllerSpec: QuickSpec {
 
                     subject = ElloTabBarController()
                     subject.currentUser = User.stub(["username": "foo"])
-                    let children = subject.childViewControllers
+                    let children = subject.children
                     for child in children {
-                        child.removeFromParentViewController()
+                        child.removeFromParent()
                     }
-                    subject.addChildViewController(child1)
-                    subject.addChildViewController(child2)
-                    subject.addChildViewController(child3)
-                    subject.addChildViewController(child4)
-                    subject.addChildViewController(child5)
+                    subject.addChild(child1)
+                    subject.addChild(child2)
+                    subject.addChild(child3)
+                    subject.addChild(child4)
+                    subject.addChild(child5)
                     _ = subject.view
                 }
 

@@ -23,7 +23,7 @@ def ello_app_pods
   pod 'SSPullToRefresh', '~> 1'
   pod 'Quantcast-Measure'
   # swift pods
-  pod 'ImagePickerSheetController', git: 'https://github.com/ello/ImagePickerSheetController', branch: 'swift4'
+  pod 'ImagePickerSheetController', git: 'https://github.com/ello/ImagePickerSheetController', branch: 'swift4.2'
   pod 'TimeAgoInWords', git: 'https://github.com/ello/TimeAgoInWords'
   pod 'DeltaCalculator', git: 'https://github.com/ello/DeltaCalculator'
 end

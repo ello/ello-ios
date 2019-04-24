@@ -35,7 +35,7 @@ class DebugTrackingController: UIViewController, UITableViewDataSource, UITableV
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt path: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell(style: UITableViewCellStyle.subtitle, reuseIdentifier: "Action")
+        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "Action")
         if let label = cell.textLabel, let log = tracker.log.safeValue(path.row) {
             let header = NSAttributedString(log.1, font: UIFont.defaultBoldFont())
             let type = NSAttributedString(" \(log.0)", font: UIFont.defaultFont())
@@ -77,7 +77,7 @@ class DebugAgent: AnalyticsAgent {
             UIWindow.mainWindow.addSubview(logView)
         }
         else {
-            UIWindow.mainWindow.bringSubview(toFront: logView)
+            UIWindow.mainWindow.bringSubviewToFront(logView)
         }
 
         if let rootViewController = UIApplication.shared.keyWindow?.rootViewController {

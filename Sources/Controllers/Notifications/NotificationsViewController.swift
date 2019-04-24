@@ -199,7 +199,7 @@ private extension NotificationsViewController {
     func addNotificationObservers() {
         reloadNotificationsObserver = NotificationObserver(notification: NewContentNotifications.reloadNotifications) { [weak self] in
             guard let `self` = self else { return }
-            if self.navigationController?.childViewControllers.count == 1 {
+            if self.navigationController?.children.count == 1 {
                 self.reload(showSpinner: true)
             }
             else {

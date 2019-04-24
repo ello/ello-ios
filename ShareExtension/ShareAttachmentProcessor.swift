@@ -11,7 +11,7 @@ class ShareAttachmentProcessor {
 
     static func preview(_ extensionItem: NSExtensionItem, callback: @escaping ([ExtensionItemPreview]) -> Void) {
         let previews: [ExtensionItemPreview] = []
-        processAttachments(0, attachments: extensionItem.attachments as? [NSItemProvider] , previews: previews, callback: callback)
+        processAttachments(0, attachments: extensionItem.attachments, previews: previews, callback: callback)
     }
 
     static func hasContent(_ contentText: String?, extensionItem: NSExtensionItem?) -> Bool {
@@ -24,7 +24,7 @@ class ShareAttachmentProcessor {
             return false
         }
 
-        if let attachments = extensionItem.attachments as? [NSItemProvider] {
+        if let attachments = extensionItem.attachments {
             for attachment in attachments {
                 if attachment.isImage() || attachment.isURL() || attachment.isImage() {
                     return true

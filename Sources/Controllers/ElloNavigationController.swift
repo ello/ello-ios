@@ -43,7 +43,7 @@ class ElloNavigationController: UINavigationController, ControllerThatMightHaveT
             switch change {
             case .delete:
                 var keepers = [UIViewController]()
-                for controller in self.childViewControllers {
+                for controller in self.children {
                     if let postDetailVC = controller as? PostDetailViewController {
                         if let postId = postDetailVC.post?.id, postId != post.id {
                             keepers.append(controller)
@@ -62,7 +62,7 @@ class ElloNavigationController: UINavigationController, ControllerThatMightHaveT
             switch user.relationshipPriority {
             case .block:
                 var keepers = [UIViewController]()
-                for controller in self.childViewControllers {
+                for controller in self.children {
                     if let userStreamVC = controller as? ProfileViewController {
                         if let userId = userStreamVC.user?.id, userId != user.id {
                             keepers.append(controller)
@@ -117,7 +117,7 @@ extension ElloNavigationController: UINavigationControllerDelegate {
         backGesture?.edges = viewController.backGestureEdges
     }
 
-    func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationControllerOperation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
 
         switch operation {
         case .push: return ForwardAnimator()

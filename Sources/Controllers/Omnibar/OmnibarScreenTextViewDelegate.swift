@@ -27,7 +27,7 @@ extension OmnibarScreen: UITextViewDelegate {
         {
             if currentText.string.isEmpty == true {
                 currentText = NSAttributedString(defaults: "")
-                textView.typingAttributes = NSAttributedString.oldAttrs(NSAttributedString.defaultAttrs())
+                textView.typingAttributes = NSAttributedString.defaultAttrs()
                 boldButton.isSelected = false
                 italicButton.isSelected = false
             }
@@ -38,7 +38,7 @@ extension OmnibarScreen: UITextViewDelegate {
     }
 
     func textViewDidChangeSelection(_ textView: UITextView) {
-        let font = textView.typingAttributes[NSAttributedStringKey.font.rawValue] as? UIFont
+        let font = textView.typingAttributes[.font] as? UIFont
         let fontName = font?.fontName ?? "AtlasGrotesk-Regular"
 
         let selectionIsEmpty = textView.selectedTextRange?.isEmpty ?? true
@@ -62,7 +62,7 @@ extension OmnibarScreen: UITextViewDelegate {
             italicButton.isSelected = false
         }
 
-        if textView.typingAttributes[NSAttributedStringKey.link.rawValue] is URL {
+        if textView.typingAttributes[.link] is URL {
             linkButton.isSelected = true
             linkButton.isEnabled = true
             isStyled = true

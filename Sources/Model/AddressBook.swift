@@ -3,7 +3,7 @@
 //
 
 import Contacts
-import Result
+
 
 protocol AddressBookProtocol {
     var localPeople: [LocalPerson] { get }

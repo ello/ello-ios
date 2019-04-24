@@ -3,23 +3,17 @@
 //
 
 struct ElloAttributedText {
-    static let Link: NSAttributedStringKey = NSAttributedStringKey("ElloLinkAttributedString")
-    static let Object: NSAttributedStringKey = NSAttributedStringKey("ElloObjectAttributedString")
+    static let Link = NSAttributedString.Key("ElloLinkAttributedString")
+    static let Object = NSAttributedString.Key("ElloObjectAttributedString")
 }
 
 
 extension NSAttributedString {
-    static func oldAttrs(_ oldAddrs: [NSAttributedStringKey: Any]) -> [String: Any] {
-        return oldAddrs.convert { key, value in
-            return (key.rawValue, value)
-        }
-    }
-
-    static func defaultAttrs(_ allAddlAttrs: [NSAttributedStringKey: Any]...) -> [NSAttributedStringKey: Any] {
+    static func defaultAttrs(_ allAddlAttrs: [NSAttributedString.Key: Any]...) -> [NSAttributedString.Key: Any] {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 6
 
-        var attrs: [NSAttributedStringKey: Any] = [
+        var attrs: [NSAttributedString.Key: Any] = [
             .paragraphStyle: paragraphStyle,
             .font: UIFont.defaultFont(),
             .foregroundColor: UIColor.black,
@@ -44,7 +38,7 @@ extension NSAttributedString {
             paragraphStyle.lineBreakMode = lineBreakMode
         }
         let underlineValue = underlineStyle?.rawValue ?? 0
-        let attrs: [NSAttributedStringKey: Any] = [
+        let attrs: [NSAttributedString.Key: Any] = [
             .foregroundColor: color,
             .font: font,
             .paragraphStyle: paragraphStyle,
@@ -54,10 +48,10 @@ extension NSAttributedString {
     }
 
     convenience init(label string: String, style: StyledLabel.Style, alignment: NSTextAlignment = .left, lineBreakMode: NSLineBreakMode? = nil) {
-        self.init(string, color: style.textColor, underlineStyle: style.underline ? .styleSingle : .styleNone, font: style.font, alignment: alignment, lineBreakMode: lineBreakMode)
+        self.init(string, color: style.textColor, underlineStyle: style.underline ? .single : .none, font: style.font, alignment: alignment, lineBreakMode: lineBreakMode)
     }
 
-    convenience init(button string: String, style: StyledButton.Style, state: UIControlState = .normal, selected: Bool = false, alignment: NSTextAlignment = .center, lineBreakMode: NSLineBreakMode? = nil) {
+    convenience init(button string: String, style: StyledButton.Style, state: UIControl.State = .normal, selected: Bool = false, alignment: NSTextAlignment = .center, lineBreakMode: NSLineBreakMode? = nil) {
         let stateColor: UIColor?
         if state == .disabled {
             stateColor = style.disabledTitleColor
@@ -76,18 +70,18 @@ extension NSAttributedString {
         }
 
         let color = stateColor ?? style.titleColor ?? .black
-        self.init(string, color: color, underlineStyle: style.underline ? .styleSingle : .styleNone, font: style.font, alignment: alignment, lineBreakMode: lineBreakMode)
+        self.init(string, color: color, underlineStyle: style.underline ? .single : .none, font: style.font, alignment: alignment, lineBreakMode: lineBreakMode)
     }
 
     convenience init(primaryHeader: String, secondaryHeader: String) {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 6
-        let bold: [NSAttributedStringKey: Any] = [
+        let bold: [NSAttributedString.Key: Any] = [
             .foregroundColor: UIColor.black,
             .font: UIFont.defaultFont(16),
             .paragraphStyle: paragraphStyle,
             ]
-        let plain: [NSAttributedStringKey: Any] = [
+        let plain: [NSAttributedString.Key: Any] = [
             .foregroundColor: UIColor.greyA,
             .font: UIFont.defaultFont(16),
             .paragraphStyle: paragraphStyle,
@@ -125,7 +119,7 @@ extension NSAttributedString {
             let categoryString = NSAttributedString(string: category.name, attributes: attributes + [
                 ElloAttributedText.Link: "category",
                 ElloAttributedText.Object: category,
-                .underlineStyle: NSUnderlineStyle.styleSingle.rawValue,
+                .underlineStyle: NSUnderlineStyle.single.rawValue,
             ])
 
             featuredIn.append(prefix)

@@ -13,8 +13,8 @@ class NSAttributedStringSpec: QuickSpec {
             it("NSAttributedString.defaultAttrs() accepts many additional options") {
                 let c1 = UIColor.lightGray
                 let c2 = UIColor.darkGray
-                let attrs1: [NSAttributedStringKey: Any] = [.foregroundColor: c1]
-                let attrs2: [NSAttributedStringKey: Any] = [.backgroundColor: c2]
+                let attrs1: [NSAttributedString.Key: Any] = [.foregroundColor: c1]
+                let attrs2: [NSAttributedString.Key: Any] = [.backgroundColor: c2]
                 let attrs = NSAttributedString.defaultAttrs(attrs1, attrs2)
                 expect(attrs[.foregroundColor] as? UIColor) == c1
                 expect(attrs[.backgroundColor] as? UIColor) == c2

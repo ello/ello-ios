@@ -70,12 +70,12 @@ class NarrationView: UIView {
         let style = NSMutableParagraphStyle()
         style.lineSpacing = 6
 
-        let titleAttributes: [NSAttributedStringKey: Any] = [
+        let titleAttributes: [NSAttributedString.Key: Any] = [
             .font: UIFont.defaultBoldFont(),
             .foregroundColor: UIColor.white,
             .paragraphStyle: style
         ]
-        let textAttributes: [NSAttributedStringKey: Any] = [
+        let textAttributes: [NSAttributedString.Key: Any] = [
             .font: UIFont.defaultFont(),
             .foregroundColor: UIColor.white,
             .paragraphStyle: style

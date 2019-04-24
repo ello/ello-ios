@@ -598,7 +598,7 @@ class OmnibarScreen: Screen, OmnibarScreenProtocol {
         textViewDidChangeSelection(textView)
     }
 
-    func updateEditingAtPath(_ path: IndexPath, scrollPosition: UITableViewScrollPosition = .middle) {
+    func updateEditingAtPath(_ path: IndexPath, scrollPosition: UITableView.ScrollPosition = .middle) {
         guard let cell = regionsTableView.cellForRow(at: path) else { return }
 
         let rect = cell.frame//regionsTableView.rectForRow(at: path)
@@ -857,7 +857,7 @@ class OmnibarScreen: Screen, OmnibarScreenProtocol {
 
     @objc
     func boldButtonTapped() {
-        let font = textView.typingAttributes[NSAttributedStringKey.font.rawValue] as? UIFont
+        let font = textView.typingAttributes[.font] as? UIFont
         let fontName = (font ?? UIFont.editorFont()).fontName
 
         let newFont: UIFont
@@ -884,7 +884,7 @@ class OmnibarScreen: Screen, OmnibarScreenProtocol {
 
     @objc
     func italicButtonTapped() {
-        let font = textView.typingAttributes[NSAttributedStringKey.font.rawValue] as? UIFont
+        let font = textView.typingAttributes[.font] as? UIFont
         let fontName = (font ?? UIFont.editorFont()).fontName
 
         let newFont: UIFont
@@ -921,9 +921,9 @@ class OmnibarScreen: Screen, OmnibarScreenProtocol {
             updateCurrentText(currentText)
         }
         else {
-            textView.typingAttributes = NSAttributedString.oldAttrs(NSAttributedString.defaultAttrs([
+            textView.typingAttributes = NSAttributedString.defaultAttrs([
                 .font: newFont,
-            ]))
+            ])
         }
     }
 
@@ -958,7 +958,7 @@ class OmnibarScreen: Screen, OmnibarScreenProtocol {
 
                 self.textView.textStorage.addAttributes([
                     .link: url,
-                    .underlineStyle: NSUnderlineStyle.styleSingle.rawValue,
+                    .underlineStyle: NSUnderlineStyle.single.rawValue,
                     ], range: range)
                 self.linkButton.isSelected = true
                 self.linkButton.isEnabled = true
@@ -1096,7 +1096,7 @@ class OmnibarScreen: Screen, OmnibarScreenProtocol {
     }
 
     private func showKeyboardSpinner() {
-        let spinner = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+        let spinner = UIActivityIndicatorView(style: .gray)
         spinner.startAnimating()
         let view = UIView(frame: CGRect(x: 0, y: 0, width: frame.width, height: imageContentHeight))
         spinner.center = view.center
@@ -1246,15 +1246,15 @@ class OmnibarScreen: Screen, OmnibarScreenProtocol {
 }
 
 extension OmnibarScreen: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
-    func imagePickerController(_ controller: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: Any]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
         guard
-            let image = info[UIImagePickerControllerOriginalImage] as? UIImage
+            let image = info[.originalImage] as? UIImage
         else {
             delegate?.omnibarDismissController()
             return
         }
 
-        if let url = info[UIImagePickerControllerReferenceURL] as? URL,
+        if let url = info[.referenceURL] as? URL,
             let asset = PHAsset.fetchAssets(withALAssetURLs: [url], options: nil).firstObject
         {
             AssetsToRegions.processPHAssets([asset]) { imageData in

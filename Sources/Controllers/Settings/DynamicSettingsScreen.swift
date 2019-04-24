@@ -41,7 +41,7 @@ class DynamicSettingsScreen: NavBarScreen, DynamicSettingsScreenProtocol {
 
         navigationBar.leftItems = [.back]
         tableView.separatorStyle = .none
-        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = Size.estimatedRowHeight
         tableView.register(DynamicSettingCell.self, forCellReuseIdentifier: DynamicSettingCell.reuseIdentifier)
     }
@@ -92,6 +92,6 @@ extension DynamicSettingsScreen: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
+        return UITableView.automaticDimension
     }
 }

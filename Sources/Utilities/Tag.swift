@@ -292,15 +292,15 @@ class Tag: CustomStringConvertible {
         }
     }
 
-    private func attrd(_ text: String, addlAttrs: [NSAttributedStringKey: Any] = [:]) -> NSAttributedString {
-        let defaultAttrs: [NSAttributedStringKey: Any] = [
+    private func attrd(_ text: String, addlAttrs: [NSAttributedString.Key: Any] = [:]) -> NSAttributedString {
+        let defaultAttrs: [NSAttributedString.Key: Any] = [
             .font: UIFont.editorFont(),
             .foregroundColor: UIColor.black,
         ]
         return NSAttributedString(string: text, attributes: defaultAttrs + addlAttrs)
     }
 
-    func makeEditable(_ inheritedAttrs: [NSAttributedStringKey: Any] = [:]) -> NSAttributedString {
+    func makeEditable(_ inheritedAttrs: [NSAttributedString.Key: Any] = [:]) -> NSAttributedString {
         if comment != nil {
             return NSAttributedString()
         }
@@ -314,7 +314,7 @@ class Tag: CustomStringConvertible {
             case "br":
                 retval.append(attrd("\n"))
             case "u":
-                newAttrs[.underlineStyle] = NSUnderlineStyle.styleSingle.rawValue
+                newAttrs[.underlineStyle] = NSUnderlineStyle.single.rawValue
             case "b", "strong":
                 if let existingFont = inheritedAttrs[.font] as? UIFont, existingFont.fontName == UIFont.editorItalicFont().fontName {
                     newAttrs[.font] = UIFont.editorBoldItalicFont()

@@ -6,7 +6,6 @@
 import Quick
 import Nimble
 
-import Result
 
 class AutoCompleteSpec: QuickSpec {
     override func spec() {

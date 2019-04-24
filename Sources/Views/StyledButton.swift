@@ -163,7 +163,7 @@ class StyledButton: UIButton {
             titleLabel?.font = style.font
 
             if let defaultTitle = self.title(for: .normal) {
-                let states: [UIControlState] = [.normal, .highlighted, .selected, .disabled]
+                let states: [UIControl.State] = [.normal, .highlighted, .selected, .disabled]
                 for state in states {
                     let title = self.title(for: state) ?? defaultTitle
                     super.setAttributedTitle(NSAttributedString(button: title, style: style, state: state, selected: isSelected, alignment: titleAlignment, lineBreakMode: titleLineBreakMode), for: state)
@@ -204,12 +204,12 @@ class StyledButton: UIButton {
 
 extension StyledButton {
 
-    override func setTitle(_ title: String?, for state: UIControlState) {
+    override func setTitle(_ title: String?, for state: UIControl.State) {
         super.setTitle(title, for: state)
         updateStyle()
     }
 
-    override func setAttributedTitle(_ title: NSAttributedString?, for state: UIControlState) {
+    override func setAttributedTitle(_ title: NSAttributedString?, for state: UIControl.State) {
         super.setAttributedTitle(title, for: state)
         didOverrideTitle = title != nil
         updateStyle()

@@ -222,7 +222,7 @@ class DebugController: UIViewController, UITableViewDataSource, UITableViewDeleg
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt path: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell(style: UITableViewCellStyle.subtitle, reuseIdentifier: "Action")
+        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "Action")
         if let label = cell.textLabel, let action = actions.safeValue(path.row) {
             label.font = UIFont.defaultBoldFont()
             label.text = action.0

@@ -15,8 +15,8 @@ class Line: UIView {
 
     override var intrinsicContentSize: CGSize {
         switch orientation {
-        case .horizontal: return CGSize(width: UIViewNoIntrinsicMetric, height: thickness)
-        case .vertical: return CGSize(width: thickness, height: UIViewNoIntrinsicMetric)
+        case .horizontal: return CGSize(width: UIView.noIntrinsicMetric, height: thickness)
+        case .vertical: return CGSize(width: thickness, height: UIView.noIntrinsicMetric)
         }
     }
 

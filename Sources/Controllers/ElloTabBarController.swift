@@ -48,9 +48,9 @@ class ElloTabBarController: BaseElloViewController, BottomBarController {
     }
 
     var selectedViewController: UIViewController {
-        get { return childViewControllers[selectedTab.rawValue] }
+        get { return children[selectedTab.rawValue] }
         set(controller) {
-            let index = (childViewControllers ).index(of: controller)
+            let index = (children).index(of: controller)
             selectedTab = index.flatMap { ElloTab(rawValue: $0) } ?? .defaultTab
         }
     }
@@ -188,11 +188,11 @@ extension ElloTabBarController {
         notificationsController.currentUser = currentUser
         let profileController = ProfileViewController(currentUser: currentUser!)
 
-        self.addChildViewController(embed(homeController))
-        self.addChildViewController(embed(categoriesController))
-        self.addChildViewController(embed(omnibar))
-        self.addChildViewController(embed(notificationsController))
-        self.addChildViewController(embed(profileController))
+        self.addChild(embed(homeController))
+        self.addChild(embed(categoriesController))
+        self.addChild(embed(omnibar))
+        self.addChild(embed(notificationsController))
+        self.addChild(embed(profileController))
     }
 
     func embed(_ controller: UIViewController) -> UIViewController {
@@ -278,7 +278,7 @@ extension ElloTabBarController: ElloTabBarDelegate {
 
         if index == selectedTab.rawValue {
             if let navigationViewController = selectedViewController as? UINavigationController,
-                navigationViewController.childViewControllers.count > 1
+                navigationViewController.children.count > 1
             {
                 let pop: Block = { _ = navigationViewController.popToRootViewController(animated: true) }
                 if let viewController = navigationViewController.visibleViewController as? BaseElloViewController {
@@ -308,7 +308,7 @@ extension ElloTabBarController: ElloTabBarDelegate {
 
         if selectedTab == .notifications,
             let navigationViewController = selectedViewController as? UINavigationController,
-            let notificationsViewController = navigationViewController.childViewControllers[0] as? NotificationsViewController
+            let notificationsViewController = navigationViewController.children[0] as? NotificationsViewController
         {
             notificationsViewController.fromTabBar = true
         }
@@ -346,7 +346,7 @@ private extension ElloTabBarController {
     }
 
     func shouldReloadNotificationsStream() -> Bool {
-        if let navigationController = selectedViewController as? UINavigationController, navigationController.childViewControllers.count == 1 {
+        if let navigationController = selectedViewController as? UINavigationController, navigationController.children.count == 1 {
             return selectedTab == .notifications && newNotificationsAvailable
         }
         return false

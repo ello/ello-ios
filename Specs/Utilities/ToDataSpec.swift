@@ -42,7 +42,7 @@ class ToDataSpec: QuickSpec {
                 it("should return NSData") {
                     if let data = image.toData() {
                         expect(data).notTo(beNil())
-                        let expectedData = UIImagePNGRepresentation(image)
+                        let expectedData = image.pngData()
                         expect(data).to(equal(expectedData))
                     }
                     else {

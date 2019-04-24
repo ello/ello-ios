@@ -23,7 +23,7 @@ struct ElloAttributedString {
         input.enumerateAttributes(in: NSRange(location: 0, length: input.length), options: .longestEffectiveRangeNotRequired) { attrs, nsrange, stopPtr in
             // (tagName, attributes?)
             var tags = [HtmlTagTuple]()
-            if let underlineStyle = attrs[.underlineStyle] as? Int, underlineStyle == NSUnderlineStyle.styleSingle.rawValue {
+            if let underlineStyle = attrs[.underlineStyle] as? Int, underlineStyle == NSUnderlineStyle.single.rawValue {
                 tags.append(HtmlTagTuple("u"))
             }
 

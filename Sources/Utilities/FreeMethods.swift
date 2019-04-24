@@ -33,7 +33,7 @@ typealias OnHeightMismatch = (CGFloat) -> Void
 struct AnimationOptions {
     let duration: TimeInterval
     let delay: TimeInterval
-    let options: UIViewAnimationOptions
+    let options: UIView.AnimationOptions
 }
 
 class AnimationPromise {
@@ -71,7 +71,7 @@ let DefaultAppleAnimationDuration: TimeInterval = 0.3
 func animate(
     duration: TimeInterval = DefaultAnimationDuration,
     delay: TimeInterval = 0,
-    options: UIViewAnimationOptions = UIViewAnimationOptions(),
+    options: UIView.AnimationOptions = UIView.AnimationOptions(),
     animated: Bool? = nil,
     animations: @escaping Block
     ) -> AnimationPromise
@@ -92,7 +92,7 @@ func animateWithKeyboard(
 func elloAnimate(
     duration: TimeInterval = DefaultAnimationDuration,
     delay: TimeInterval = 0,
-    options: UIViewAnimationOptions = UIViewAnimationOptions(),
+    options: UIView.AnimationOptions = UIView.AnimationOptions(),
     animated: Bool? = nil,
     animations: @escaping Block
     ) -> AnimationPromise

@@ -146,7 +146,7 @@ class SettingsScreen: NavBarScreen, SettingsScreenProtocol {
     }
 
     override func arrange() {
-        let spinner = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+        let spinner = UIActivityIndicatorView(style: .gray)
         spinner.startAnimating()
         dynamicSettingsSpinner.addSubview(spinner)
 
@@ -477,7 +477,7 @@ extension SettingsScreen {
 
 extension SettingsScreen: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: Any]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
         guard
             let delegate = delegate,
             let uploadingProperty = self.uploadingProperty
@@ -486,7 +486,7 @@ extension SettingsScreen: UIImagePickerControllerDelegate, UINavigationControlle
         self.uploadingProperty = nil
         delegate.dismissController()
 
-        if let url = info[UIImagePickerControllerReferenceURL] as? URL,
+        if let url = info[.referenceURL] as? URL,
             let asset = PHAsset.fetchAssets(withALAssetURLs: [url], options: nil).firstObject
         {
             AssetsToRegions.processPHAssets([asset]) { (images: [ImageRegionData]) in
@@ -494,7 +494,7 @@ extension SettingsScreen: UIImagePickerControllerDelegate, UINavigationControlle
                 delegate.saveImage(imageRegion, property: uploadingProperty)
             }
         }
-        else if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
+        else if let image = info[.originalImage] as? UIImage {
             image.copyWithCorrectOrientationAndSize { image in
                 guard let image = image else { return }
                 delegate.saveImage(ImageRegionData(image: image), property: uploadingProperty)

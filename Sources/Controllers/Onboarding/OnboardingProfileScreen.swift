@@ -277,7 +277,7 @@ extension OnboardingProfileScreen {
 }
 
 extension OnboardingProfileScreen: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
-    func imagePickerController(_ controller: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: Any]) {
+    func imagePickerController(_ controller: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
         guard
             let uploading = uploading
         else {
@@ -285,13 +285,13 @@ extension OnboardingProfileScreen: UINavigationControllerDelegate, UIImagePicker
             return
         }
 
-        if let url = info[UIImagePickerControllerReferenceURL] as? URL,
+        if let url = info[.referenceURL] as? URL,
             let asset = PHAsset.fetchAssets(withALAssetURLs: [url], options: nil).firstObject
         {
             processPHAssets([asset])
             delegate?.dismissController()
         }
-        else if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
+        else if let image = info[.originalImage] as? UIImage {
             image.copyWithCorrectOrientationAndSize { image in
                 if let image = image {
                     self.setImage(ImageRegionData(image: image), target: uploading, updateDelegate: true)

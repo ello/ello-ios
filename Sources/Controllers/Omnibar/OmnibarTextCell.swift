@@ -51,7 +51,7 @@ class OmnibarTextCell: UITableViewCell {
         }
     }
 
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         textView = OmnibarTextCell.generateTextView()
         attributedText = NSAttributedString(string: "")
         super.init(style: style, reuseIdentifier: reuseIdentifier)

@@ -59,7 +59,7 @@ class ElloTextView: UITextView {
         attributedText = NSAttributedString(string: "")
     }
 
-    private func defaultAttrs() -> [NSAttributedStringKey: Any]  {
+    private func defaultAttrs() -> [NSAttributedString.Key: Any]  {
         return [
             .font: self.customFont ?? UIFont.defaultFont(),
             .foregroundColor: UIColor.greyA,
@@ -101,9 +101,9 @@ class ElloTextView: UITextView {
             if let range = characterRange(at: location),
                 let pos = closestPosition(to: location, within: range),
                 let style = textStyling(at: pos, in: .forward),
-                let link = style[ElloAttributedText.Link.rawValue] as? String
+                let link = style[ElloAttributedText.Link] as? String
             {
-                let object: Any? = style[ElloAttributedText.Object.rawValue]
+                let object: Any? = style[ElloAttributedText.Object]
                 let attributedObject = ElloAttributedObject.generate(link, object)
                 textViewDelegate?.textViewTapped(link, object: attributedObject)
                 return

@@ -4,7 +4,7 @@
 
 class Keyboard {
     static let shared = Keyboard()
-    var options = UIViewAnimationOptions.curveLinear
+    var options = UIView.AnimationOptions.curveLinear
     var duration: Double = 0.0
 }
 

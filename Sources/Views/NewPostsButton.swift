@@ -19,8 +19,8 @@ class NewPostsButton: Control {
 
     override var intrinsicContentSize: CGSize {
         guard
-            arrow.intrinsicContentSize.width != UIViewNoIntrinsicMetric,
-            label.intrinsicContentSize.width != UIViewNoIntrinsicMetric
+            arrow.intrinsicContentSize.width != UIView.noIntrinsicMetric,
+            label.intrinsicContentSize.width != UIView.noIntrinsicMetric
         else { return super.intrinsicContentSize }
 
         var width = 2 * Size.sideMargin + Size.innerMargin

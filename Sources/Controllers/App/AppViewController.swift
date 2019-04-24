@@ -222,9 +222,9 @@ extension AppViewController {
         let childNavController = ElloNavigationController(rootViewController: initialController)
         let loggedOutController = LoggedOutViewController()
 
-        childNavController.willMove(toParentViewController: self)
-        loggedOutController.addChildViewController(childNavController)
-        childNavController.didMove(toParentViewController: loggedOutController)
+        childNavController.willMove(toParent: self)
+        loggedOutController.addChild(childNavController)
+        childNavController.didMove(toParent: loggedOutController)
 
         let parentNavController = ElloNavigationController(rootViewController: loggedOutController)
 
@@ -286,7 +286,7 @@ extension AppViewController {
     private func showLoggedOutControllers(_ loggedOutControllers: BaseElloViewController...) {
         guard
             let nav = visibleViewController as? UINavigationController,
-            let loggedOutController = nav.childViewControllers.first as? LoggedOutViewController
+            let loggedOutController = nav.children.first as? LoggedOutViewController
         else { return }
 
         if !(nav.visibleViewController is LoggedOutViewController) {
@@ -294,7 +294,7 @@ extension AppViewController {
         }
 
         if let loggedOutNav = loggedOutController.navigationController,
-            let bottomBarController = loggedOutNav.childViewControllers.first as? BottomBarController,
+            let bottomBarController = loggedOutNav.children.first as? BottomBarController,
             let navigationBarsVisible = bottomBarController.navigationBarsVisible
         {
             for loggedOutController in loggedOutControllers {
@@ -390,8 +390,8 @@ extension AppViewController {
         let (promise, fulfill) = Guarantee<Void>.pending()
         newViewController.view.alpha = 0
 
-        visibleViewController?.willMove(toParentViewController: nil)
-        newViewController.willMove(toParentViewController: self)
+        visibleViewController?.willMove(toParent: nil)
+        newViewController.willMove(toParent: self)
 
         prepareToShowViewController(newViewController)
 
@@ -405,12 +405,12 @@ extension AppViewController {
             self.screen.hide()
         }.done {
             self.visibleViewController?.view.removeFromSuperview()
-            self.visibleViewController?.removeFromParentViewController()
+            self.visibleViewController?.removeFromParent()
 
-            self.addChildViewController(newViewController)
+            self.addChild(newViewController)
 
-            self.visibleViewController?.didMove(toParentViewController: nil)
-            newViewController.didMove(toParentViewController: self)
+            self.visibleViewController?.didMove(toParent: nil)
+            newViewController.didMove(toParent: self)
 
             self.visibleViewController = newViewController
             fulfill(Void())
@@ -426,7 +426,7 @@ extension AppViewController {
         statusBarIsVisible = true
 
         if let visibleViewController = visibleViewController {
-            visibleViewController.willMove(toParentViewController: nil)
+            visibleViewController.willMove(toParent: nil)
 
             if let tabBarController = visibleViewController as? ElloTabBarController {
                 tabBarController.deactivateTabBar()
@@ -437,7 +437,7 @@ extension AppViewController {
             }, completion: { _ in
                 self.showStartupScreen()
                 visibleViewController.view.removeFromSuperview()
-                visibleViewController.removeFromParentViewController()
+                visibleViewController.removeFromParent()
                 self.visibleViewController = nil
                 completion()
             })
@@ -695,7 +695,7 @@ extension AppViewController {
         let isLoggedOut = !isLoggedIn() && authToken.isAnonymous
         let nav = self.visibleViewController as? UINavigationController
         let loggedOutVC = nav?.viewControllers.first as? LoggedOutViewController
-        let childNav = loggedOutVC?.childViewControllers.first as? UINavigationController
+        let childNav = loggedOutVC?.children.first as? UINavigationController
         return childNav == nil && isLoggedOut
     }
 
@@ -767,7 +767,7 @@ extension AppViewController {
         else if
             let topNav = self.visibleViewController as? UINavigationController,
             let loggedOutController = topNav.viewControllers.first as? LoggedOutViewController,
-            let childNav = loggedOutController.childViewControllers.first as? UINavigationController,
+            let childNav = loggedOutController.children.first as? UINavigationController,
             let categoryViewController = childNav.viewControllers.first as? CategoryViewController
         {
             childNav.popToRootViewController(animated: true)
@@ -881,7 +881,7 @@ extension AppViewController {
         else if
             let nav = self.visibleViewController as? UINavigationController,
             let loggedOutVC = nav.viewControllers.first as? LoggedOutViewController,
-            let childNav = loggedOutVC.childViewControllers.first as? UINavigationController
+            let childNav = loggedOutVC.children.first as? UINavigationController
         {
             navController = childNav
         }
@@ -936,7 +936,7 @@ extension AppViewController {
     override var keyCommands: [UIKeyCommand]? {
         guard isFirstResponder else { return nil }
         return [
-            UIKeyCommand(input: UIKeyInputEscape, modifierFlags: [], action: #selector(escapeKeyPressed), discoverabilityTitle: "Back"),
+            UIKeyCommand(input: UIKeyCommand.inputEscape, modifierFlags: [], action: #selector(escapeKeyPressed), discoverabilityTitle: "Back"),
             UIKeyCommand(input: "1", modifierFlags: [], action: #selector(tabKeyPressed(_:)), discoverabilityTitle: "Home"),
             UIKeyCommand(input: "2", modifierFlags: [], action: #selector(tabKeyPressed(_:)), discoverabilityTitle: "Discover"),
             UIKeyCommand(input: "3", modifierFlags: [], action: #selector(tabKeyPressed(_:)), discoverabilityTitle: "Omnibar"),
@@ -976,7 +976,7 @@ extension AppViewController {
         #endif
     }
 
-    override func motionEnded(_ motion: UIEventSubtype, with event: UIEvent?) {
+    override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
         guard debugAllowed, motion == .motionShake else { return }
 
         if isShowingDebug {

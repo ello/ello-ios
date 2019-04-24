@@ -33,11 +33,11 @@ class ElloSegmentedControl: UISegmentedControl {
 
     private func updateStyle() {
         let fontSize = style.fontSize
-        let normalTitleTextAttributes: [NSAttributedStringKey: Any] = [
+        let normalTitleTextAttributes: [NSAttributedString.Key: Any] = [
             .foregroundColor: UIColor.black,
             .font: UIFont.defaultFont(fontSize)
         ]
-        let selectedTitleTextAttributes: [NSAttributedStringKey: Any] = [
+        let selectedTitleTextAttributes: [NSAttributedString.Key: Any] = [
             .foregroundColor: UIColor.white,
             .font: UIFont.defaultFont(fontSize)
         ]

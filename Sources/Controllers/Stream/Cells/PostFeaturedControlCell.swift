@@ -13,7 +13,7 @@ class PostFeaturedControlCell: CollectionViewCell {
     private let bg = UIView()
     private let icon = UIButton()
     private let label = StyledLabel(style: .gray)
-    private let loader = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+    private let loader = UIActivityIndicatorView(style: .gray)
 
     var isBusy: Bool {
         get { return loader.isVisible }

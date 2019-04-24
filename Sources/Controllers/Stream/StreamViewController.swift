@@ -453,14 +453,14 @@ final class StreamViewController: BaseElloViewController {
             let alertController = AlertViewController(confirmation: message) { _ in
                 guard
                     let navigationController = self.navigationController,
-                    navigationController.childViewControllers.count > 1
+                    navigationController.children.count > 1
                 else { return }
 
                 _ = navigationController.popViewController(animated: true)
             }
             present(alertController, animated: true)
         }
-        else if let navigationController = navigationController, navigationController.childViewControllers.count > 1 {
+        else if let navigationController = navigationController, navigationController.children.count > 1 {
             _ = navigationController.popViewController(animated: false)
         }
     }

@@ -4,7 +4,7 @@
 
 extension UIButton {
 
-    func setImage(_ interfaceImage: InterfaceImage, imageStyle: InterfaceImage.Style, for state: UIControlState) {
+    func setImage(_ interfaceImage: InterfaceImage, imageStyle: InterfaceImage.Style, for state: UIControl.State) {
         self.setImage(interfaceImage.image(imageStyle), for: state)
     }
 

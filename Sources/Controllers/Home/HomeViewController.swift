@@ -77,25 +77,25 @@ extension HomeViewController: HomeResponder {
     private func setupControllers() {
         let editorialsViewController = EditorialsViewController(usage: usage)
         editorialsViewController.currentUser = currentUser
-        addChildViewController(editorialsViewController)
-        editorialsViewController.didMove(toParentViewController: self)
+        addChild(editorialsViewController)
+        editorialsViewController.didMove(toParent: self)
         self.editorialsViewController = editorialsViewController
 
         let artistInvitesViewController = ArtistInvitesViewController(usage: usage)
         artistInvitesViewController.currentUser = currentUser
-        addChildViewController(artistInvitesViewController)
-        artistInvitesViewController.didMove(toParentViewController: self)
+        addChild(artistInvitesViewController)
+        artistInvitesViewController.didMove(toParent: self)
         self.artistInvitesViewController = artistInvitesViewController
 
         let followingViewController = FollowingViewController()
         followingViewController.currentUser = currentUser
-        addChildViewController(followingViewController)
-        followingViewController.didMove(toParentViewController: self)
+        addChild(followingViewController)
+        followingViewController.didMove(toParent: self)
         self.followingViewController = followingViewController
 
         let discoverViewController = CategoryViewController(currentUser: currentUser, usage: .largeNav)
-        addChildViewController(discoverViewController)
-        discoverViewController.didMove(toParentViewController: self)
+        addChild(discoverViewController)
+        discoverViewController.didMove(toParent: self)
         self.discoverViewController = discoverViewController
 
         showController(editorialsViewController)

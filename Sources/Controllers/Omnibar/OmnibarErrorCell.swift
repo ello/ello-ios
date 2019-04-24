@@ -20,7 +20,7 @@ class OmnibarErrorCell: UITableViewCell {
         }
     }
 
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         label.numberOfLines = 2
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 

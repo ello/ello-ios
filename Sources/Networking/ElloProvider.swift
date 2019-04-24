@@ -3,7 +3,6 @@
 //
 
 import Moya
-import Result
 import Alamofire
 import PromiseKit
 import WebLinking

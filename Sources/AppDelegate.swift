@@ -18,7 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     var windowSizeChangedNotification: NotificationObserver?
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         if let debugServer = DebugServer.fromDefaults {
             APIKeys.shared = debugServer.apiKeys
         }
@@ -68,7 +68,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         setupCaches()
         checkAppStorage()
 
-        if let payload = launchOptions?[UIApplicationLaunchOptionsKey.remoteNotification] as? [String: Any] {
+        if let payload = launchOptions?[.remoteNotification] as? [String: Any] {
             PushNotificationController.shared.receivedNotification(application, action: nil, userInfo: payload)
         }
 
@@ -82,7 +82,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func setupGlobalStyles() {
-        let attributes: [NSAttributedStringKey: Any] = [
+        let attributes: [NSAttributedString.Key: Any] = [
             .foregroundColor: UIColor.greyA,
             .font: UIFont.defaultFont(12),
         ]

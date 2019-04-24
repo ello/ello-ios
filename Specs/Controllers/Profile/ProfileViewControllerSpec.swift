@@ -18,8 +18,8 @@ class ProfileViewControllerSpec: QuickSpec {
         func setNavigationBarsVisible(_ visible: Bool, animated: Bool) {
         }
 
-        override func addChildViewController(_ controller: UIViewController) {
-            super.addChildViewController(controller)
+        override func addChild(_ controller: UIViewController) {
+            super.addChild(controller)
             view.addSubview(controller.view)
         }
     }
@@ -44,7 +44,7 @@ class ProfileViewControllerSpec: QuickSpec {
                     otherUser = subject.user
 
                     let parent = HasNavBarController()
-                    parent.addChildViewController(subject)
+                    parent.addChild(subject)
                     showController(parent)
                 }
 

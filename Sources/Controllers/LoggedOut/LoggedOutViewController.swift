@@ -34,8 +34,8 @@ class LoggedOutViewController: BaseElloViewController, BottomBarController {
         _navigationBarsVisible = visible
     }
 
-    override func addChildViewController(_ childController: UIViewController) {
-        super.addChildViewController(childController)
+    override func addChild(_ childController: UIViewController) {
+        super.addChild(childController)
         childView = childController.view
         if isViewLoaded {
             screen.setControllerView(childController.view)

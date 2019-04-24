@@ -22,10 +22,10 @@ PODS:
     - FBSnapshotTestCase/Core
   - FLAnimatedImage (1.0.12)
   - ImagePickerSheetController (0.9.3)
-  - iOSSnapshotTestCase (3.0.0):
-    - iOSSnapshotTestCase/SwiftSupport (= 3.0.0)
-  - iOSSnapshotTestCase/Core (3.0.0)
-  - iOSSnapshotTestCase/SwiftSupport (3.0.0):
+  - iOSSnapshotTestCase (5.0.2):
+    - iOSSnapshotTestCase/SwiftSupport (= 5.0.2)
+  - iOSSnapshotTestCase/Core (5.0.2)
+  - iOSSnapshotTestCase/SwiftSupport (5.0.2):
     - iOSSnapshotTestCase/Core
   - JWTDecode (2.1.1)
   - KeychainAccess (3.1.1)
@@ -37,10 +37,10 @@ PODS:
     - Alamofire (~> 4.1)
     - Result (~> 3.0)
   - Nimble (7.3.4)
-  - Nimble-Snapshots (6.7.1):
-    - Nimble-Snapshots/Core (= 6.7.1)
-  - Nimble-Snapshots/Core (6.7.1):
-    - iOSSnapshotTestCase (~> 3.0)
+  - Nimble-Snapshots (6.9.1):
+    - Nimble-Snapshots/Core (= 6.9.1)
+  - Nimble-Snapshots/Core (6.9.1):
+    - iOSSnapshotTestCase (~> 5.0)
     - Nimble (~> 7.0)
   - PINCache (3.0.1-beta.4):
     - PINCache/Arc-exception-safe (= 3.0.1-beta.4)
@@ -148,7 +148,7 @@ DEPENDENCIES:
   - "ElloUIFonts (from `git@github.com:ello/ElloUIFonts`)"
   - FBSnapshotTestCase
   - FLAnimatedImage
-  - ImagePickerSheetController (from `https://github.com/ello/ImagePickerSheetController`, branch `swift4`)
+  - ImagePickerSheetController (from `https://github.com/ello/ImagePickerSheetController`, branch `swift4.2`)
   - JWTDecode
   - KeychainAccess
   - Keys (from `Pods/CocoaPodsKeys`)
@@ -206,7 +206,7 @@ EXTERNAL SOURCES:
   ElloUIFonts:
     :git: "git@github.com:ello/ElloUIFonts"
   ImagePickerSheetController:
-    :branch: swift4
+    :branch: swift4.2
     :git: https://github.com/ello/ImagePickerSheetController
   Keys:
     :path: Pods/CocoaPodsKeys
@@ -236,7 +236,7 @@ CHECKOUT OPTIONS:
     :commit: 53679d8db9104b6e4fc6a112f7ec0e68461a07d9
     :git: "git@github.com:ello/ElloUIFonts"
   ImagePickerSheetController:
-    :commit: 6db06f17dce26707b769333b0efb453aa31910be
+    :commit: 2cf152009dbca1384b557ebce6907ee88bb391b1
     :git: https://github.com/ello/ImagePickerSheetController
   KINWebBrowser:
     :commit: bcf29fd0beb6afb1c28a236306ad0fa1b8677bf3
@@ -266,14 +266,14 @@ SPEC CHECKSUMS:
   FBSnapshotTestCase: 094f9f314decbabe373b87cc339bea235a63e07a
   FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31
   ImagePickerSheetController: 4789b06940e299431455c61be77fda440883c36c
-  iOSSnapshotTestCase: 23984ffe05289728d646cbb6a7a10b4fb1c93440
+  iOSSnapshotTestCase: 2d51aa06775e95cecb0a1fb9c5c159ccd1dd4596
   JWTDecode: 83e8b381aafe27158d9f692cbdca2b12d61d460c
   KeychainAccess: 7bd430028059754a3debab3cfc0bd1fc7fb85df3
   Keys: af65e23feef2a047b3277b1ef0399f1209ef9d46
   KINWebBrowser: dad85d7d93e6f4620a8589b96992394affffa66e
   Moya: cf5e6ee93af526532f92614004b8ad2ea60fd845
   Nimble: 051e3d8912d40138fa5591c78594f95fb172af37
-  Nimble-Snapshots: 7ab1d5fd4a794b983805c6f6b8091fb00d772754
+  Nimble-Snapshots: bbd1ab264bacc24a9ce24a8363bc05aac783aeb0
   PINCache: a89c8f609232afac77128557bd12c861844423d7
   PINOperation: ac23db44796d4a564ecf9b5ea7163510f579b71d
   PINRemoteImage: c4f9f16932840c597f32e69dd288e10e111a1929
@@ -290,6 +290,6 @@ SPEC CHECKSUMS:
   WebLinking: b7507e9ccf2b0177dcc53cbdbaed787676fde745
   YapDatabase: b418a4baa6906e8028748938f9159807fd039af4
 
-PODFILE CHECKSUM: 34f96e954c2567d47d70454888bc43093c4bba42
+PODFILE CHECKSUM: 9bda7285a22a866f16115f000b8fa810ae658e0c
 
 COCOAPODS: 1.5.3

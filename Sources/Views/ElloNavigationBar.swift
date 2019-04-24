@@ -269,7 +269,7 @@ class ElloNavigationBar: UIView {
     }
 
     override var intrinsicContentSize: CGSize {
-        return CGSize(width: UIViewNoIntrinsicMetric, height: sizeClass.height)
+        return CGSize(width: UIView.noIntrinsicMetric, height: sizeClass.height)
     }
 
     private func updateButtons(buttons oldButtons: [UIButton], items: [Item], container: UIView) -> [UIButton] {

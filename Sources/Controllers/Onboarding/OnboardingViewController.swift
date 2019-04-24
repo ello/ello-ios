@@ -202,13 +202,13 @@ extension OnboardingViewController {
     }
 
     private func showFirstViewController(_ viewController: UIViewController) {
-        viewController.willMove(toParentViewController: nil)
-        addChildViewController(viewController)
+        viewController.willMove(toParent: nil)
+        addChild(viewController)
         screen.controllerContainer.addSubview(viewController.view)
         viewController.view.frame = screen.controllerContainer.bounds
         viewController.view.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         viewController.view.layoutIfNeeded()
-        viewController.didMove(toParentViewController: self)
+        viewController.didMove(toParent: self)
 
         prepareOnboardingController(viewController)
 
@@ -292,9 +292,9 @@ extension OnboardingViewController {
             return
         }
 
-        nextViewController.willMove(toParentViewController: nil)
-        visibleViewController.willMove(toParentViewController: nil)
-        addChildViewController(nextViewController)
+        nextViewController.willMove(toParent: nil)
+        visibleViewController.willMove(toParent: nil)
+        addChild(nextViewController)
 
         nextViewController.view.alpha = 1
         nextViewController.view.frame = CGRect(
@@ -309,16 +309,16 @@ extension OnboardingViewController {
             from: visibleViewController,
             to: nextViewController,
             duration: 0.4,
-            options: UIViewAnimationOptions(),
+            options: UIView.AnimationOptions(),
             animations: {
                 self.screen.controllerContainer.insertSubview(nextViewController.view, aboveSubview: visibleViewController.view)
                 visibleViewController.view.frame.origin.x = -direction.rawValue * visibleViewController.view.frame.width
                 nextViewController.view.frame.origin.x = 0
             },
             completion: { _ in
-                nextViewController.didMove(toParentViewController: self)
-                visibleViewController.didMove(toParentViewController: nil)
-                visibleViewController.removeFromParentViewController()
+                nextViewController.didMove(toParent: self)
+                visibleViewController.didMove(toParent: nil)
+                visibleViewController.removeFromParent()
                 self.visibleViewController = nextViewController
                 self.transitioningViewController = nil
             })

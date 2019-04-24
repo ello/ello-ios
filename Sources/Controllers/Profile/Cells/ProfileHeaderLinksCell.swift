@@ -171,13 +171,13 @@ extension ProfileHeaderLinksCell {
         button.setAttributedTitle(NSAttributedString(string: externalLink.text, attributes: [
             .font: UIFont.defaultFont(),
             .foregroundColor: UIColor.greyA,
-            .underlineStyle: NSUnderlineStyle.styleSingle.rawValue,
+            .underlineStyle: NSUnderlineStyle.single.rawValue,
         ]), for: .normal)
 
         button.setAttributedTitle(NSAttributedString(string: externalLink.text, attributes: [
             .font: UIFont.defaultFont(),
             .foregroundColor: UIColor.black,
-            .underlineStyle: NSUnderlineStyle.styleSingle.rawValue,
+            .underlineStyle: NSUnderlineStyle.single.rawValue,
         ]), for: .highlighted)
 
         button.contentHorizontalAlignment = .left

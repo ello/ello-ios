@@ -129,7 +129,7 @@ class BaseElloViewController: UIViewController,
     func didSetCurrentUser() {
         relationshipController?.currentUser = currentUser
 
-        for childController in childViewControllers {
+        for childController in children {
             (childController as? ControllerThatMightHaveTheCurrentUser)?.currentUser = currentUser
         }
 
@@ -166,7 +166,7 @@ class BaseElloViewController: UIViewController,
 
     func backButtonTapped() {
         guard
-            let navigationController = navigationController, navigationController.childViewControllers.count > 1
+            let navigationController = navigationController, navigationController.children.count > 1
         else { return }
 
         _ = navigationController.popViewController(animated: true)

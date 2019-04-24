@@ -319,7 +319,7 @@ private extension PromotionalHeaderCell {
 }
 
 extension PromotionalHeaderCell: UIWebViewDelegate {
-    func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebViewNavigationType) -> Bool {
+    func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebView.NavigationType) -> Bool {
         if let scheme = request.url?.scheme, scheme == "default" {
             // let responder: StreamCellResponder? = findResponder()
             // responder?.streamCellTapped(cell: self)
@@ -359,14 +359,14 @@ extension PromotionalHeaderCell.Config {
         guard let user = user else { return nil }
 
         let postedBy = isSponsored == true ? InterfaceString.Category.SponsoredBy : InterfaceString.Category.PostedBy
-        let title = NSAttributedString("\(postedBy) ", color: .white) + NSAttributedString(user.atName, color: .white, underlineStyle: .styleSingle)
+        let title = NSAttributedString("\(postedBy) ", color: .white) + NSAttributedString(user.atName, color: .white, underlineStyle: .single)
         return title
     }
 
     var attributedCallToAction: NSAttributedString? {
         guard let callToAction = callToAction else { return nil }
 
-        return NSAttributedString(callToAction, color: .white, underlineStyle: .styleSingle)
+        return NSAttributedString(callToAction, color: .white, underlineStyle: .single)
    }
 }
 

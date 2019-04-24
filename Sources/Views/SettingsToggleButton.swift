@@ -6,7 +6,7 @@ class SettingsToggleButton: StyledButton {
     override var intrinsicContentSize: CGSize {
         guard title == InterfaceString.Yes || title == InterfaceString.No else {
             var superSize = super.intrinsicContentSize
-            if superSize.width != UIViewNoIntrinsicMetric {
+            if superSize.width != UIView.noIntrinsicMetric {
                 superSize.width += 20
             }
             return superSize
@@ -14,7 +14,7 @@ class SettingsToggleButton: StyledButton {
         return CGSize(width: 50, height: 30)
     }
 
-    override func setTitle(_ title: String?, for state: UIControlState) {
+    override func setTitle(_ title: String?, for state: UIControl.State) {
         super.setTitle(title, for: state)
         invalidateIntrinsicContentSize()
     }
