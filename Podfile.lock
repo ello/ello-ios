@@ -36,7 +36,7 @@ PODS:
   - Moya/Core (9.0.0):
     - Alamofire (~> 4.1)
     - Result (~> 3.0)
-  - Nimble (7.1.3)
+  - Nimble (7.3.4)
   - Nimble-Snapshots (6.7.1):
     - Nimble-Snapshots/Core (= 6.7.1)
   - Nimble-Snapshots/Core (6.7.1):
@@ -64,7 +64,7 @@ PODS:
   - Quantcast-Measure (1.6.0):
     - Quantcast-Measure/Core (= 1.6.0)
   - Quantcast-Measure/Core (1.6.0)
-  - Quick (1.3.1)
+  - Quick (1.3.4)
   - Result (3.2.4)
   - SnapKit (4.0.1)
   - SSPullToRefresh (1.3.0)
@@ -272,14 +272,14 @@ SPEC CHECKSUMS:
   Keys: af65e23feef2a047b3277b1ef0399f1209ef9d46
   KINWebBrowser: dad85d7d93e6f4620a8589b96992394affffa66e
   Moya: cf5e6ee93af526532f92614004b8ad2ea60fd845
-  Nimble: 2839b01d1b31f6a6a7777a221f0d91cf52e8e27b
+  Nimble: 051e3d8912d40138fa5591c78594f95fb172af37
   Nimble-Snapshots: 7ab1d5fd4a794b983805c6f6b8091fb00d772754
   PINCache: a89c8f609232afac77128557bd12c861844423d7
   PINOperation: ac23db44796d4a564ecf9b5ea7163510f579b71d
   PINRemoteImage: c4f9f16932840c597f32e69dd288e10e111a1929
   PromiseKit: e1425568123ec844a944c93f2bcb29d511d39cf5
   Quantcast-Measure: aa4a19650bb073791d8cbee8571615633884832e
-  Quick: d17304d58d0d169dd0bd1c6e5c28e3318de32a1a
+  Quick: f4f7f063c524394c73ed93ac70983c609805d481
   Result: d2d07204ce72856f1fd9130bbe42c35a7b0fea10
   SnapKit: 0de968a9fec17499afa29683b05d0c775b6d1c29
   SSPullToRefresh: 3a47e116692b60e7da5a8c60418488133bcc9550
