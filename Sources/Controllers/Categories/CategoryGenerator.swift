@@ -13,7 +13,7 @@ final class CategoryGenerator: StreamGenerator {
     var streamKind: StreamKind
     var currentUser: User?
     weak private var categoryStreamDestination: CategoryStreamDestination?
-    weak var destination: StreamDestination? {
+    var destination: StreamDestination? {
         get { return categoryStreamDestination }
         set {
             if !(newValue is CategoryStreamDestination) { fatalError("CategoryGenerator.destination must conform to CategoryStreamDestination") }

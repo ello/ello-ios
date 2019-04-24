@@ -153,7 +153,7 @@ class CategoryCardListView: View {
             return card
         }
 
-        var prevView: UIView? = nil
+        var prevView: UIView?
         for view in categoryViews {
             scrollView.addSubview(view)
 

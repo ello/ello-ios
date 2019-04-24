@@ -12,7 +12,7 @@ final class PostDetailGenerator: StreamGenerator {
     var currentUser: User?
     var streamKind: StreamKind
     weak private var postDetailStreamDestination: PostDetailStreamDestination?
-    weak var destination: StreamDestination? {
+    var destination: StreamDestination? {
         get { return postDetailStreamDestination }
         set {
             if !(newValue is PostDetailStreamDestination) { fatalError("CategoryGenerator.destination must conform to PostDetailStreamDestination") }

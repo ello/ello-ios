@@ -206,8 +206,8 @@ extension RelationshipControl.Config {
 extension RelationshipControl.FollowButton {
     private func restyleUsage() {
         let style: StyledButton.Style
-        var image: UIImage? = nil
-        var highlightedImage: UIImage? = nil
+        var image: UIImage?
+        var highlightedImage: UIImage?
 
         if config == .following {
             if relationshipUsage == .profileView {

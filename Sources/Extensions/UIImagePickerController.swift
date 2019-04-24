@@ -5,7 +5,6 @@
 import ImagePickerSheetController
 import Photos
 import MobileCoreServices
-import Photos
 import PromiseKit
 
 

@@ -187,9 +187,9 @@ class Tag: CustomStringConvertible {
     init?(input: String) {
         var state: State = .start
         var lastTag = self
-        var lastAttr: String? = nil
+        var lastAttr: String?
         var parentTags = [Tag]()
-        var preWhitespace: String? = nil
+        var preWhitespace: String?
 
         var tmp = input as NSString
         tmp = tmp.replacingOccurrences(of: "\r\n", with: "\n") as NSString

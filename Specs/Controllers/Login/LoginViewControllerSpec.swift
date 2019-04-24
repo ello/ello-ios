@@ -11,9 +11,9 @@ class LoginViewControllerSpec: QuickSpec {
     class MockScreen: LoginScreenProtocol {
         var blackBarIsVisible: Bool = false
         var username: String = ""
-        var isUsernameValid: Bool? = nil
+        var isUsernameValid: Bool?
         var password: String = ""
-        var isPasswordValid: Bool? = nil
+        var isPasswordValid: Bool?
         var isOnePasswordAvailable: Bool = false
 
         var inputsEnabled = true

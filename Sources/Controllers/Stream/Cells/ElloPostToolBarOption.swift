@@ -47,7 +47,7 @@ enum ElloPostToolBarOption {
             iconSelected = UIImageView(image: interfaceImage.selectedImage)
         }
 
-        var iconDisabled: UIView? = nil
+        var iconDisabled: UIView?
         if let disabledImage = interfaceImage.disabledImage {
             iconDisabled = UIImageView(image: disabledImage)
         }

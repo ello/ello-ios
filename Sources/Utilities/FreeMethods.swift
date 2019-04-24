@@ -297,7 +297,7 @@ func cancelableDelay(_ duration: TimeInterval, block: @escaping Block) -> Block 
 }
 
 func debounce(_ timeout: TimeInterval, block: @escaping Block) -> Block {
-    var timer: Timer? = nil
+    var timer: Timer?
     let proc = Proc(block)
 
     return {
@@ -309,7 +309,7 @@ func debounce(_ timeout: TimeInterval, block: @escaping Block) -> Block {
 }
 
 func debounce(_ timeout: TimeInterval) -> ThrottledBlock {
-    var timer: Timer? = nil
+    var timer: Timer?
 
     return { block in
         if let prevTimer = timer {

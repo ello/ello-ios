@@ -28,7 +28,7 @@ struct StreamHeaderCellPresenter {
         }
 
         var author = post.author
-        var repostedBy: User? = nil
+        var repostedBy: User?
 
         cell.isGridView = isGridView
         cell.chevronHidden = true
