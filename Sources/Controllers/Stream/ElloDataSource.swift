@@ -25,7 +25,7 @@ class ElloDataSource: NSObject {
     }
 
     func indexPath(where filter: (StreamCellItem) -> Bool) -> IndexPath? {
-        guard let index = visibleCellItems.index(where: filter) else { return nil }
+        guard let index = visibleCellItems.firstIndex(where: filter) else { return nil }
         return IndexPath(item: index, section: 0)
     }
 
@@ -41,7 +41,7 @@ class ElloDataSource: NSObject {
     }
 
     func firstIndexPath(forPlaceholderType placeholderType: StreamCellType.PlaceholderType) -> IndexPath? {
-        if let index = self.visibleCellItems.index(where: { $0.placeholderType == placeholderType }) {
+        if let index = self.visibleCellItems.firstIndex(where: { $0.placeholderType == placeholderType }) {
             return IndexPath(item: index, section: 0)
         }
         return nil

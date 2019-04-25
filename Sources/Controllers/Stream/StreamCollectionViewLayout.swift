@@ -233,11 +233,11 @@ class StreamCollectionViewLayout: UICollectionViewLayout {
     }
 
     private func shortestColumnIndex() -> Int {
-        return columnHeights.index(of: columnHeights.min()!) ?? 0
+        return columnHeights.firstIndex(of: columnHeights.min()!) ?? 0
     }
 
     private func longestColumnIndex () -> NSInteger {
-        return columnHeights.index(of: columnHeights.max()!) ?? 0
+        return columnHeights.firstIndex(of: columnHeights.max()!) ?? 0
     }
 
     private func nextColumnIndexForItem (_ item: NSInteger) -> Int {

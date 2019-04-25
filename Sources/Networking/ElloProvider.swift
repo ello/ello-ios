@@ -14,9 +14,9 @@ class ElloProvider {
 
     static let shared = ElloProvider()
 
-    static func endpointClosure(_ target: ElloAPI) -> Endpoint<ElloAPI> {
+    static func endpointClosure(_ target: ElloAPI) -> Endpoint {
         let url = target.baseURL.appendingPathComponent(target.path).absoluteString
-        return Endpoint<ElloAPI>(url: url, sampleResponseClosure: { return target.stubbedNetworkResponse }, method: target.method, task: target.task, httpHeaderFields: target.headers)
+        return Endpoint(url: url, sampleResponseClosure: { return target.stubbedNetworkResponse }, method: target.method, task: target.task, httpHeaderFields: target.headers)
     }
 
     static func DefaultProvider() -> MoyaProvider<ElloAPI> {

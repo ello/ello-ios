@@ -88,7 +88,7 @@ extension ArtistInviteAdminControlsCell {
     @objc
     func tappedButton(_ sender: StyledButton) {
         guard
-            let index = buttons.index(of: sender),
+            let index = buttons.firstIndex(of: sender),
             let action = config.actions.safeValue(index)
         else { return }
 

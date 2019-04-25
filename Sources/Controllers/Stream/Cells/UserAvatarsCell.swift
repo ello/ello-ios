@@ -68,7 +68,7 @@ class UserAvatarsCell: UICollectionViewCell {
 
     @IBAction func avatarTapped(_ sender: AvatarButton) {
         guard
-            let index = avatarButtons.index(of: sender),
+            let index = avatarButtons.firstIndex(of: sender),
             users.count > index
         else { return }
 

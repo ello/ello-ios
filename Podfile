@@ -18,8 +18,8 @@ def ello_app_pods
   pod '1PasswordExtension', '~> 1.8.5'
   pod 'CRToast', git: 'https://github.com/ello/CRToast'
   pod 'KINWebBrowser', git: 'https://github.com/ello/KINWebBrowser'
-  pod 'PINRemoteImage', '3.0.0-beta.8'
-  pod 'PINCache', git: 'https://github.com/ello/PINCache', commit: '78c3461'
+  pod 'PINRemoteImage', '3.0.0-beta.14'
+  pod 'PINCache', git: 'https://github.com/ello/PINCache', branch: 'period-encoding'
   pod 'SSPullToRefresh', '~> 1'
   pod 'Quantcast-Measure'
   # swift pods
@@ -36,7 +36,7 @@ def ui_pods
   else
     pod 'ElloOSSUIFonts'
   end
-  pod 'SnapKit', '~> 4'
+  pod 'SnapKit'
 end
 
 def common_pods
@@ -53,7 +53,7 @@ def common_pods
   # swift
   pod 'PromiseKit/CorePromise'
   pod 'Alamofire'
-  pod 'Moya', '~> 9'
+  pod 'Moya'
   pod 'KeychainAccess'
   pod 'SwiftyUserDefaults'
   pod 'SwiftyJSON'

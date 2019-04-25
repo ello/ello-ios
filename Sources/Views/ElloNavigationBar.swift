@@ -328,10 +328,10 @@ extension ElloNavigationBar {
     @objc
     private func tappedButton(_ sender: UIButton) {
         var item: Item?
-        if let index = leftButtons.index(of: sender) {
+        if let index = leftButtons.firstIndex(of: sender) {
             item = leftItems[index]
         }
-        else if let index = rightButtons.index(of: sender) {
+        else if let index = rightButtons.firstIndex(of: sender) {
             item = rightItems[index]
         }
 

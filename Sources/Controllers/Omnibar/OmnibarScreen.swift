@@ -1230,7 +1230,7 @@ class OmnibarScreen: Screen, OmnibarScreenProtocol {
     @objc
     private func selectedImage(_ sender: UIButton) {
         guard
-            let index = imageButtons.index(of: sender),
+            let index = imageButtons.firstIndex(of: sender),
             let asset = currentAssets.safeValue(index)
         else { return }
 

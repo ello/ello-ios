@@ -62,7 +62,7 @@ class StreamDataSource: ElloDataSource {
         var arrayIndex = startingIndexPath.item
 
         if let item = streamCellItem(at: startingIndexPath) {
-            if let foundIndex = allStreamCellItems.index(of: item) {
+            if let foundIndex = allStreamCellItems.firstIndex(of: item) {
                 arrayIndex = foundIndex
             }
         }
@@ -172,7 +172,7 @@ class StreamDataSource: ElloDataSource {
         }
         temporarilyUnfilter {
             for itemToRemove in items {
-                if let index = allStreamCellItems.index(of: itemToRemove) {
+                if let index = allStreamCellItems.firstIndex(of: itemToRemove) {
                     allStreamCellItems.remove(at: index)
                 }
             }

@@ -195,7 +195,7 @@ class RoleAdminScreen: NavBarScreen, RoleAdminScreenProtocol {
     private func editButtonTapped(_ button: UIButton) {
         guard
             let container: Container = button.findParentView(),
-            let index = rolesContainer.subviews.index(of: container)
+            let index = rolesContainer.subviews.firstIndex(of: container)
         else { return }
 
         delegate?.editRoleTapped(index: index)
@@ -205,7 +205,7 @@ class RoleAdminScreen: NavBarScreen, RoleAdminScreenProtocol {
     private func removeButtonTapped(_ button: UIButton) {
         guard
             let container: Container = button.findParentView(),
-            let index = rolesContainer.subviews.index(of: container)
+            let index = rolesContainer.subviews.firstIndex(of: container)
         else { return }
 
         delegate?.removeRoleTapped(index: index)

@@ -35,7 +35,7 @@ struct InviteService {
                 let users = InviteService.filterUsers(data, currentUser: currentUser)
                 let userIdentifiers = users.map { $0.identifiableBy ?? "" }
                 let mixed: [(LocalPerson, User?)] = addressBook.localPeople.map {
-                    if let index = userIdentifiers.index(of: $0.identifier) {
+                    if let index = userIdentifiers.firstIndex(of: $0.identifier) {
                         return ($0, users[index])
                     }
                     return ($0, .none)

@@ -50,7 +50,7 @@ class ElloTabBarController: BaseElloViewController, BottomBarController {
     var selectedViewController: UIViewController {
         get { return children[selectedTab.rawValue] }
         set(controller) {
-            let index = (children).index(of: controller)
+            let index = (children).firstIndex(of: controller)
             selectedTab = index.flatMap { ElloTab(rawValue: $0) } ?? .defaultTab
         }
     }
@@ -273,7 +273,7 @@ extension ElloTabBarController: ElloTabBarDelegate {
 
     func tabBar(_ tabBar: ElloTabBar, didSelect item: ElloTab) {
         guard
-            let index = tabBar.tabs.index(of: item)
+            let index = tabBar.tabs.firstIndex(of: item)
         else { return }
 
         if index == selectedTab.rawValue {

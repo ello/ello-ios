@@ -170,7 +170,7 @@ extension EditorialPostStreamCell: EditorialCellResponder {
     func editorialTapped(cellContent: EditorialCellContent) {
         guard
             let editorialContentView = cellContent as? EditorialPostCell,
-            let index = postCells.index(of: editorialContentView)
+            let index = postCells.firstIndex(of: editorialContentView)
         else { return }
 
         let responder: EditorialPostStreamResponder? = findResponder()

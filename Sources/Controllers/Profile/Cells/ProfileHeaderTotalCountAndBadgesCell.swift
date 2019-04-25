@@ -202,7 +202,7 @@ extension ProfileHeaderTotalCountAndBadgesCell {
     @objc
     func badgeTapped(_ sender: UIButton) {
         guard
-            let buttonIndex = badgeButtons.index(of: sender)
+            let buttonIndex = badgeButtons.firstIndex(of: sender)
         else { return }
 
         let badge = badges[buttonIndex]

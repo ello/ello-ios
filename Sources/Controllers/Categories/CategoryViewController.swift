@@ -285,7 +285,7 @@ extension CategoryViewController: CategoryStreamDestination, StreamDestination {
         }
 
         if case let .category(slug) = categorySelection,
-            let selectedCategoryIndex = subscribedCategories.index(where: { $0.slug == slug })
+            let selectedCategoryIndex = subscribedCategories.firstIndex(where: { $0.slug == slug })
         {
             screen.scrollToCategory(.category(selectedCategoryIndex))
             screen.selectCategory(.category(selectedCategoryIndex))
@@ -298,7 +298,7 @@ extension CategoryViewController: CategoryStreamDestination, StreamDestination {
         case .subscribed:
             screenSelection = .subscribed
         case let .category(slug):
-            if let index = subscribedCategories.index(where: { $0.slug == slug }) {
+            if let index = subscribedCategories.firstIndex(where: { $0.slug == slug }) {
                 screenSelection = .category(index)
             }
             else {
@@ -424,7 +424,7 @@ extension CategoryViewController: CategoryScreenDelegate {
         categorySelection = .category(category.slug)
         title = category.name
 
-        if let index = subscribedCategories?.index(where: { $0.slug == category.slug }) {
+        if let index = subscribedCategories?.firstIndex(where: { $0.slug == category.slug }) {
             screen.scrollToCategory(.category(index))
             screen.selectCategory(.category(index))
         }

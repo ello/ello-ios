@@ -68,7 +68,7 @@ extension OmnibarScreen {
         }
 
         let height = AutoCompleteCell.Size.height * min(CGFloat(3.5), CGFloat(count))
-        let constraintIndex = textView.inputAccessoryView?.constraints.index { $0.firstAttribute == .height }
+        let constraintIndex = textView.inputAccessoryView?.constraints.firstIndex { $0.firstAttribute == .height }
         if let index = constraintIndex,
             let inputAccessoryView = textView.inputAccessoryView,
             let constraint = inputAccessoryView.constraints.safeValue(index)

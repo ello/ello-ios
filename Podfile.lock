@@ -1,7 +1,7 @@
 PODS:
   - 1PasswordExtension (1.8.5)
-  - Alamofire (4.7.3)
-  - Analytics (3.6.9)
+  - Alamofire (4.8.2)
+  - Analytics (3.6.10)
   - CocoaLumberjack (2.4.0):
     - CocoaLumberjack/Default (= 2.4.0)
     - CocoaLumberjack/Extensions (= 2.4.0)
@@ -22,120 +22,117 @@ PODS:
     - FBSnapshotTestCase/Core
   - FLAnimatedImage (1.0.12)
   - ImagePickerSheetController (0.9.3)
-  - iOSSnapshotTestCase (5.0.2):
-    - iOSSnapshotTestCase/SwiftSupport (= 5.0.2)
-  - iOSSnapshotTestCase/Core (5.0.2)
-  - iOSSnapshotTestCase/SwiftSupport (5.0.2):
+  - iOSSnapshotTestCase (6.0.3):
+    - iOSSnapshotTestCase/SwiftSupport (= 6.0.3)
+  - iOSSnapshotTestCase/Core (6.0.3)
+  - iOSSnapshotTestCase/SwiftSupport (6.0.3):
     - iOSSnapshotTestCase/Core
-  - JWTDecode (2.1.1)
-  - KeychainAccess (3.1.1)
+  - JWTDecode (2.2.0)
+  - KeychainAccess (3.2.0)
   - Keys (1.0.0)
   - KINWebBrowser (1.1.0)
-  - Moya (9.0.0):
-    - Moya/Core (= 9.0.0)
-  - Moya/Core (9.0.0):
+  - Moya (13.0.0):
+    - Moya/Core (= 13.0.0)
+  - Moya/Core (13.0.0):
     - Alamofire (~> 4.1)
-    - Result (~> 3.0)
-  - Nimble (7.3.4)
-  - Nimble-Snapshots (6.9.1):
-    - Nimble-Snapshots/Core (= 6.9.1)
-  - Nimble-Snapshots/Core (6.9.1):
-    - iOSSnapshotTestCase (~> 5.0)
-    - Nimble (~> 7.0)
-  - PINCache (3.0.1-beta.4):
-    - PINCache/Arc-exception-safe (= 3.0.1-beta.4)
-    - PINCache/Core (= 3.0.1-beta.4)
-  - PINCache/Arc-exception-safe (3.0.1-beta.4):
+    - Result (~> 4.1)
+  - Nimble (8.0.1)
+  - Nimble-Snapshots (7.0.0):
+    - Nimble-Snapshots/Core (= 7.0.0)
+  - Nimble-Snapshots/Core (7.0.0):
+    - iOSSnapshotTestCase (~> 6.0)
+    - Nimble (~> 8.0)
+  - PINCache (3.0.1-beta.7):
+    - PINCache/Arc-exception-safe (= 3.0.1-beta.7)
+    - PINCache/Core (= 3.0.1-beta.7)
+  - PINCache/Arc-exception-safe (3.0.1-beta.7):
     - PINCache/Core
-  - PINCache/Core (3.0.1-beta.4):
-    - PINOperation (= 1.0.3)
-  - PINOperation (1.0.3)
-  - PINRemoteImage (3.0.0-beta.8):
-    - PINRemoteImage/FLAnimatedImage (= 3.0.0-beta.8)
-    - PINRemoteImage/PINCache (= 3.0.0-beta.8)
-  - PINRemoteImage/Core (3.0.0-beta.8)
-  - PINRemoteImage/FLAnimatedImage (3.0.0-beta.8):
-    - FLAnimatedImage (>= 1.0)
+  - PINCache/Core (3.0.1-beta.7):
+    - PINOperation (~> 1.1.1)
+  - PINOperation (1.1.1)
+  - PINRemoteImage (3.0.0-beta.14):
+    - PINRemoteImage/PINCache (= 3.0.0-beta.14)
+  - PINRemoteImage/Core (3.0.0-beta.14):
+    - PINOperation
+  - PINRemoteImage/PINCache (3.0.0-beta.14):
+    - PINCache (= 3.0.1-beta.7)
     - PINRemoteImage/Core
-  - PINRemoteImage/PINCache (3.0.0-beta.8):
-    - PINCache (= 3.0.1-beta.4)
-    - PINRemoteImage/Core
-  - PromiseKit/CorePromise (6.3.4)
+  - PromiseKit/CorePromise (6.8.4)
   - Quantcast-Measure (1.6.0):
     - Quantcast-Measure/Core (= 1.6.0)
   - Quantcast-Measure/Core (1.6.0)
-  - Quick (1.3.4)
-  - Result (3.2.4)
-  - SnapKit (4.0.1)
+  - Quick (2.1.0)
+  - Result (4.1.0)
+  - SnapKit (5.0.0)
   - SSPullToRefresh (1.3.0)
   - SVGKit (2.0.1):
     - CocoaLumberjack (~> 2.x)
-  - SwiftyJSON (4.1.0)
+  - SwiftyJSON (5.0.0)
   - SwiftyUserDefaults (3.0.1)
   - TimeAgoInWords (3.0.0)
   - WebLinking (2.0.1)
-  - YapDatabase (3.1.1):
-    - YapDatabase/Standard (= 3.1.1)
-  - YapDatabase/Standard (3.1.1):
-    - YapDatabase/Standard/Core (= 3.1.1)
-    - YapDatabase/Standard/Extensions (= 3.1.1)
-  - YapDatabase/Standard/Core (3.1.1):
+  - YapDatabase (3.1.2):
+    - YapDatabase/Standard (= 3.1.2)
+  - YapDatabase/Standard (3.1.2):
+    - YapDatabase/Standard/Core (= 3.1.2)
+    - YapDatabase/Standard/Extensions (= 3.1.2)
+  - YapDatabase/Standard/Core (3.1.2):
     - CocoaLumberjack
-  - YapDatabase/Standard/Extensions (3.1.1):
+  - YapDatabase/Standard/Extensions (3.1.2):
     - YapDatabase/Standard/Core
-    - YapDatabase/Standard/Extensions/ActionManager (= 3.1.1)
-    - YapDatabase/Standard/Extensions/AutoView (= 3.1.1)
-    - YapDatabase/Standard/Extensions/CloudCore (= 3.1.1)
-    - YapDatabase/Standard/Extensions/CloudKit (= 3.1.1)
-    - YapDatabase/Standard/Extensions/ConnectionPool (= 3.1.1)
-    - YapDatabase/Standard/Extensions/ConnectionProxy (= 3.1.1)
-    - YapDatabase/Standard/Extensions/CrossProcessNotification (= 3.1.1)
-    - YapDatabase/Standard/Extensions/FilteredView (= 3.1.1)
-    - YapDatabase/Standard/Extensions/FullTextSearch (= 3.1.1)
-    - YapDatabase/Standard/Extensions/Hooks (= 3.1.1)
-    - YapDatabase/Standard/Extensions/ManualView (= 3.1.1)
-    - YapDatabase/Standard/Extensions/Relationships (= 3.1.1)
-    - YapDatabase/Standard/Extensions/RTreeIndex (= 3.1.1)
-    - YapDatabase/Standard/Extensions/SearchResultsView (= 3.1.1)
-    - YapDatabase/Standard/Extensions/SecondaryIndex (= 3.1.1)
-    - YapDatabase/Standard/Extensions/View (= 3.1.1)
-  - YapDatabase/Standard/Extensions/ActionManager (3.1.1):
+    - YapDatabase/Standard/Extensions/ActionManager (= 3.1.2)
+    - YapDatabase/Standard/Extensions/AutoView (= 3.1.2)
+    - YapDatabase/Standard/Extensions/CloudCore (= 3.1.2)
+    - YapDatabase/Standard/Extensions/CloudKit (= 3.1.2)
+    - YapDatabase/Standard/Extensions/ConnectionPool (= 3.1.2)
+    - YapDatabase/Standard/Extensions/ConnectionProxy (= 3.1.2)
+    - YapDatabase/Standard/Extensions/CrossProcessNotification (= 3.1.2)
+    - YapDatabase/Standard/Extensions/FilteredView (= 3.1.2)
+    - YapDatabase/Standard/Extensions/FullTextSearch (= 3.1.2)
+    - YapDatabase/Standard/Extensions/Hooks (= 3.1.2)
+    - YapDatabase/Standard/Extensions/ManualView (= 3.1.2)
+    - YapDatabase/Standard/Extensions/Relationships (= 3.1.2)
+    - YapDatabase/Standard/Extensions/RTreeIndex (= 3.1.2)
+    - YapDatabase/Standard/Extensions/SearchResultsView (= 3.1.2)
+    - YapDatabase/Standard/Extensions/SecondaryIndex (= 3.1.2)
+    - YapDatabase/Standard/Extensions/View (= 3.1.2)
+  - YapDatabase/Standard/Extensions/ActionManager (3.1.2):
     - YapDatabase/Standard/Core
     - YapDatabase/Standard/Extensions/AutoView
-  - YapDatabase/Standard/Extensions/AutoView (3.1.1):
+  - YapDatabase/Standard/Extensions/AutoView (3.1.2):
     - YapDatabase/Standard/Core
     - YapDatabase/Standard/Extensions/View
-  - YapDatabase/Standard/Extensions/CloudCore (3.1.1):
+  - YapDatabase/Standard/Extensions/CloudCore (3.1.2):
     - YapDatabase/Standard/Core
-  - YapDatabase/Standard/Extensions/CloudKit (3.1.1):
+  - YapDatabase/Standard/Extensions/CloudKit (3.1.2):
     - YapDatabase/Standard/Core
-  - YapDatabase/Standard/Extensions/ConnectionPool (3.1.1):
+  - YapDatabase/Standard/Extensions/ConnectionPool (3.1.2):
     - YapDatabase/Standard/Core
-  - YapDatabase/Standard/Extensions/ConnectionProxy (3.1.1):
+  - YapDatabase/Standard/Extensions/ConnectionProxy (3.1.2):
     - YapDatabase/Standard/Core
-  - YapDatabase/Standard/Extensions/CrossProcessNotification (3.1.1):
+  - YapDatabase/Standard/Extensions/CrossProcessNotification (3.1.2):
     - YapDatabase/Standard/Core
-  - YapDatabase/Standard/Extensions/FilteredView (3.1.1):
-    - YapDatabase/Standard/Core
-    - YapDatabase/Standard/Extensions/View
-  - YapDatabase/Standard/Extensions/FullTextSearch (3.1.1):
-    - YapDatabase/Standard/Core
-  - YapDatabase/Standard/Extensions/Hooks (3.1.1):
-    - YapDatabase/Standard/Core
-  - YapDatabase/Standard/Extensions/ManualView (3.1.1):
+  - YapDatabase/Standard/Extensions/FilteredView (3.1.2):
     - YapDatabase/Standard/Core
     - YapDatabase/Standard/Extensions/View
-  - YapDatabase/Standard/Extensions/Relationships (3.1.1):
+  - YapDatabase/Standard/Extensions/FullTextSearch (3.1.2):
     - YapDatabase/Standard/Core
-  - YapDatabase/Standard/Extensions/RTreeIndex (3.1.1):
+  - YapDatabase/Standard/Extensions/Hooks (3.1.2):
     - YapDatabase/Standard/Core
-  - YapDatabase/Standard/Extensions/SearchResultsView (3.1.1):
+  - YapDatabase/Standard/Extensions/ManualView (3.1.2):
+    - YapDatabase/Standard/Core
+    - YapDatabase/Standard/Extensions/View
+  - YapDatabase/Standard/Extensions/Relationships (3.1.2):
+    - YapDatabase/Standard/Core
+  - YapDatabase/Standard/Extensions/RTreeIndex (3.1.2):
+    - YapDatabase/Standard/Core
+  - YapDatabase/Standard/Extensions/SearchResultsView (3.1.2):
     - YapDatabase/Standard/Core
     - YapDatabase/Standard/Extensions/AutoView
     - YapDatabase/Standard/Extensions/FullTextSearch
-  - YapDatabase/Standard/Extensions/SecondaryIndex (3.1.1):
+  - YapDatabase/Standard/Extensions/SecondaryIndex (3.1.2):
     - YapDatabase/Standard/Core
-  - YapDatabase/Standard/Extensions/View (3.1.1):
+  - YapDatabase/Standard/Extensions/View (3.1.2):
     - YapDatabase/Standard/Core
 
 DEPENDENCIES:
@@ -153,15 +150,15 @@ DEPENDENCIES:
   - KeychainAccess
   - Keys (from `Pods/CocoaPodsKeys`)
   - KINWebBrowser (from `https://github.com/ello/KINWebBrowser`)
-  - Moya (~> 9)
+  - Moya
   - Nimble
   - Nimble-Snapshots
-  - PINCache (from `https://github.com/ello/PINCache`, commit `78c3461`)
-  - PINRemoteImage (= 3.0.0-beta.8)
+  - PINCache (from `https://github.com/ello/PINCache`, branch `period-encoding`)
+  - PINRemoteImage (= 3.0.0-beta.14)
   - PromiseKit/CorePromise
   - Quantcast-Measure
   - Quick
-  - SnapKit (~> 4)
+  - SnapKit
   - SSPullToRefresh (~> 1)
   - SVGKit (from `https://github.com/ello/SVGKit`)
   - SwiftyJSON
@@ -213,7 +210,7 @@ EXTERNAL SOURCES:
   KINWebBrowser:
     :git: https://github.com/ello/KINWebBrowser
   PINCache:
-    :commit: 78c3461
+    :branch: period-encoding
     :git: https://github.com/ello/PINCache
   SVGKit:
     :git: https://github.com/ello/SVGKit
@@ -227,7 +224,7 @@ CHECKOUT OPTIONS:
     :commit: c84bf5ff9ee16b99e45f3bf25bb5db9c386fa728
     :git: https://github.com/ello/CRToast
   DeltaCalculator:
-    :commit: d384bca310305e0d000768b558cc128dec0a4aa5
+    :commit: 4e805f70c5d7601630cfd689e32c900cd52cdc30
     :git: https://github.com/ello/DeltaCalculator
   ElloCerts:
     :commit: 26b6b863d9529ee2d8db4e8de26affe44e0f7c67
@@ -242,7 +239,7 @@ CHECKOUT OPTIONS:
     :commit: bcf29fd0beb6afb1c28a236306ad0fa1b8677bf3
     :git: https://github.com/ello/KINWebBrowser
   PINCache:
-    :commit: 78c3461
+    :commit: 95e894c5ce8ee45acab06481ec5946802f405df0
     :git: https://github.com/ello/PINCache
   SVGKit:
     :commit: 6160bbdfd0a8924b5e57b13c462db6a0944c8966
@@ -256,8 +253,8 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   1PasswordExtension: 0e95bdea64ec8ff2f4f693be5467a09fac42a83d
-  Alamofire: c7287b6e5d7da964a70935e5db17046b7fde6568
-  Analytics: 6541ce337e99d9f7a2240a8b3953940a7be5f998
+  Alamofire: ae5c501addb7afdbb13687d7f2f722c78734c2d3
+  Analytics: 63744ad4afa65c3bcdcdb7a94b62515bde5b3900
   CocoaLumberjack: aa9dcab71bdf9eaf2a63bbd9ddc87863efe45457
   CRToast: eb22641501990233c53cb8f83f7d2ea87e0ddf73
   DeltaCalculator: 97ea120ac2ebcf55e472d7ba872c8bc79c138454
@@ -266,30 +263,30 @@ SPEC CHECKSUMS:
   FBSnapshotTestCase: 094f9f314decbabe373b87cc339bea235a63e07a
   FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31
   ImagePickerSheetController: 4789b06940e299431455c61be77fda440883c36c
-  iOSSnapshotTestCase: 2d51aa06775e95cecb0a1fb9c5c159ccd1dd4596
-  JWTDecode: 83e8b381aafe27158d9f692cbdca2b12d61d460c
-  KeychainAccess: 7bd430028059754a3debab3cfc0bd1fc7fb85df3
+  iOSSnapshotTestCase: 944a73f6d9676302811a86c0cf35f0e6ef5ab2a0
+  JWTDecode: 85a405ab16d5473e99bd89ded1d535090ebd6a0e
+  KeychainAccess: 3b1bf8a77eb4c6ea1ce9404c292e48f948954c6b
   Keys: af65e23feef2a047b3277b1ef0399f1209ef9d46
   KINWebBrowser: dad85d7d93e6f4620a8589b96992394affffa66e
-  Moya: cf5e6ee93af526532f92614004b8ad2ea60fd845
-  Nimble: 051e3d8912d40138fa5591c78594f95fb172af37
-  Nimble-Snapshots: bbd1ab264bacc24a9ce24a8363bc05aac783aeb0
-  PINCache: a89c8f609232afac77128557bd12c861844423d7
-  PINOperation: ac23db44796d4a564ecf9b5ea7163510f579b71d
-  PINRemoteImage: c4f9f16932840c597f32e69dd288e10e111a1929
-  PromiseKit: e1425568123ec844a944c93f2bcb29d511d39cf5
+  Moya: 161263550064ff8a4948e8ff63137fd72a876292
+  Nimble: 45f786ae66faa9a709624227fae502db55a8bdd0
+  Nimble-Snapshots: 2d6d712ceb2d1850d88f850fbd7c732618106022
+  PINCache: 7cb9ae068c8f655717f7c644ef1dff9fd573e979
+  PINOperation: a6219e6fc9db9c269eb7a7b871ac193bcf400aac
+  PINRemoteImage: 81bbff853acc71c6de9e106e9e489a791b8bbb08
+  PromiseKit: 51794a832647e7b819336dc2279039ce9f1cc49b
   Quantcast-Measure: aa4a19650bb073791d8cbee8571615633884832e
-  Quick: f4f7f063c524394c73ed93ac70983c609805d481
-  Result: d2d07204ce72856f1fd9130bbe42c35a7b0fea10
-  SnapKit: 0de968a9fec17499afa29683b05d0c775b6d1c29
+  Quick: 4be43f6634acfa727dd106bdf3929ce125ffa79d
+  Result: bd966fac789cc6c1563440b348ab2598cc24d5c7
+  SnapKit: fd22d10eb9aff484d79a8724eab922c1ddf89bcf
   SSPullToRefresh: 3a47e116692b60e7da5a8c60418488133bcc9550
   SVGKit: 2afbeaf2c2be4615476951284750c3ddb790d0c7
-  SwiftyJSON: c29297daf073d2aa016295d5809cdd68045c39b3
+  SwiftyJSON: 36413e04c44ee145039d332b4f4e2d3e8d6c4db7
   SwiftyUserDefaults: 3d273b1739b68ada3145dc754a70ec775bc5c8be
   TimeAgoInWords: 85c5f962523d61f7ca34d3b83c70afb28cd257e2
   WebLinking: b7507e9ccf2b0177dcc53cbdbaed787676fde745
-  YapDatabase: b418a4baa6906e8028748938f9159807fd039af4
+  YapDatabase: d8cd02058e36bc0902e405d8f3326eb8d7dbf36c
 
-PODFILE CHECKSUM: 9bda7285a22a866f16115f000b8fa810ae658e0c
+PODFILE CHECKSUM: 9176b369dc3a4b7de002e577490a1d01ba3a0ba3
 
 COCOAPODS: 1.5.3

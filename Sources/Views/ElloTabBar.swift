@@ -32,7 +32,7 @@ class ElloTabBar: UIView {
             }
 
             guard let selectedTab = selectedTab,
-                let index = tabs.index(of: selectedTab)
+                let index = tabs.firstIndex(of: selectedTab)
             else { return }
             tabbarButtons[index].isSelected = true
         }
@@ -118,7 +118,7 @@ class ElloTabBar: UIView {
     func tappedTabbarButton(_ sender: UIButton) {
         guard
             let delegate = delegate,
-            let index = tabbarButtons.index(of: sender)
+            let index = tabbarButtons.firstIndex(of: sender)
         else { return }
 
         let tab = tabs[index]

@@ -632,7 +632,7 @@ enum StreamCellType: Equatable {
             .unknown,
         ]
         for type in all {
-            if noNibTypes.index(of: type) != nil {
+            if noNibTypes.firstIndex(of: type) != nil {
                 collectionView.register(type.classType, forCellWithReuseIdentifier: type.reuseIdentifier)
             } else {
                 let nib = UINib(nibName: type.reuseIdentifier, bundle: Bundle(for: type.classType))

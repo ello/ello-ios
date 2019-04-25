@@ -8,17 +8,17 @@ import Moya
 struct ElloProvider_Specs {
     static var errorStatusCode: ErrorStatusCode = .status404
 
-    static func errorEndpointsClosure(_ target: ElloAPI) -> Endpoint<ElloAPI> {
+    static func errorEndpointsClosure(_ target: ElloAPI) -> Endpoint {
         let sampleResponseClosure = { () -> EndpointSampleResponse in
             return .networkResponse(ElloProvider_Specs.errorStatusCode.rawValue, ElloProvider_Specs.errorStatusCode.defaultData)
         }
 
-        return Endpoint<ElloAPI>(url: url(target), sampleResponseClosure: sampleResponseClosure, method: target.method, task: target.task, httpHeaderFields: target.headers)
+        return Endpoint(url: url(target), sampleResponseClosure: sampleResponseClosure, method: target.method, task: target.task, httpHeaderFields: target.headers)
     }
 
-    static func recordedEndpointsClosure(_ recordings: [RecordedResponse]) -> (_ target: ElloAPI) -> Endpoint<ElloAPI> {
+    static func recordedEndpointsClosure(_ recordings: [RecordedResponse]) -> (_ target: ElloAPI) -> Endpoint {
         var playback = recordings
-        return { (target: ElloAPI) -> Endpoint<ElloAPI> in
+        return { (target: ElloAPI) -> Endpoint in
             var responseClosure: ((_ target: ElloAPI) -> EndpointSampleResponse)?
             for (index, recording) in playback.enumerated() where recording.endpoint.debugDescription == target.debugDescription {
                 responseClosure = recording.responseClosure
@@ -38,7 +38,7 @@ struct ElloProvider_Specs {
                 }
             }
 
-            return Endpoint<ElloAPI>(url: url(target), sampleResponseClosure: sampleResponseClosure, method: target.method, task: target.task, httpHeaderFields: target.headers)
+            return Endpoint(url: url(target), sampleResponseClosure: sampleResponseClosure, method: target.method, task: target.task, httpHeaderFields: target.headers)
         }
     }
 
