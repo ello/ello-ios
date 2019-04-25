@@ -12,7 +12,6 @@ import Quantcast_Measure
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
     static var restrictRotation = true
 
     var window: UIWindow?
@@ -168,7 +167,6 @@ extension AppDelegate {
 }
 
 extension AppDelegate {
-
     func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
         if UIDevice.current.userInterfaceIdiom == .phone {
             if AppDelegate.restrictRotation {
@@ -182,7 +180,7 @@ extension AppDelegate {
 
 // universal links
 extension AppDelegate {
-    func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
+    func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
         guard
             let webpageURL = userActivity.webpageURL,
             let appVC = window?.rootViewController as? AppViewController,
