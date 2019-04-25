@@ -52,7 +52,7 @@ final class PostDetailGenerator: StreamGenerator {
         else {
             setPlaceHolders()
         }
-        setInitialPost(doneOperation)
+        setInitialPost(doneOperation, reload: reload)
         loadPost(doneOperation, reload: reload)
         displayCommentBar(doneOperation)
         loadPostComments(doneOperation)
@@ -123,8 +123,8 @@ private extension PostDetailGenerator {
         ])
     }
 
-    func setInitialPost(_ doneOperation: AsyncOperation) {
-        guard let post = post else { return }
+    func setInitialPost(_ doneOperation: AsyncOperation, reload: Bool) {
+        guard !reload, let post = post else { return }
 
         destination?.setPrimary(jsonable: post)
         if post.content.count > 0 || post.repostContent.count > 0 {
@@ -134,7 +134,7 @@ private extension PostDetailGenerator {
         }
     }
 
-    func loadPost(_ doneOperation: AsyncOperation, reload: Bool = false) {
+    func loadPost(_ doneOperation: AsyncOperation, reload: Bool) {
         guard !doneOperation.isFinished || reload else { return }
 
         let username = post?.author?.username
