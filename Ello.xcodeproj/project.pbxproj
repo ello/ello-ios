@@ -4537,7 +4537,7 @@
 						CreatedOnToolsVersion = 6.1.1;
 						DevelopmentTeam = 3D5U9ESH74;
 						LastSwiftMigration = 0900;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
 								enabled = 1;
@@ -6320,7 +6320,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = co.ello.ElloDev.ShareExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "ElloDev Share Extension Jan 10 2019";
+				PROVISIONING_PROFILE_SPECIFIER = "ElloDev Share Extension Apr 25 2019";
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "Sources/Extensions-Bridging-Header.h";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
@@ -6349,7 +6349,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = co.ello.Ello.ShareExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "Ello Share Extension Jan 10 2019";
+				PROVISIONING_PROFILE_SPECIFIER = "Ello Share Extension Apr 25 2019";
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "Sources/Extensions-Bridging-Header.h";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
@@ -6519,9 +6519,9 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Support/ElloDev.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 6088;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 3D5U9ESH74;
 				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -6545,7 +6545,7 @@
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"DEBUG\" -Xfrontend -debug-time-function-bodies -enable-bridging-pch";
 				PRODUCT_BUNDLE_IDENTIFIER = co.ello.ElloDev;
 				PRODUCT_NAME = Ello;
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = "ElloDev Profile Apr 25 2019";
 				SWIFT_OBJC_BRIDGING_HEADER = "Sources/Ello-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
@@ -6563,10 +6563,10 @@
 				BUNDLE_LOADER = "";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Support/Ello.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 6088;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 3D5U9ESH74;
 				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -6590,7 +6590,7 @@
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"RELEASE\"";
 				PRODUCT_BUNDLE_IDENTIFIER = co.ello.Ello;
 				PRODUCT_NAME = Ello;
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = "Ello Profile Apr 25 2019";
 				SWIFT_OBJC_BRIDGING_HEADER = "Sources/Ello-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
@@ -6616,7 +6616,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = co.ello.ElloDev.NotificationServiceExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "ElloDev Notification Extension Jan 10 2019";
+				PROVISIONING_PROFILE_SPECIFIER = "ElloDev Notification Service Extension Apr 25 2019";
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OBJC_BRIDGING_HEADER = "Sources/Extensions-Bridging-Header.h";
@@ -6642,7 +6642,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = co.ello.Ello.NotificationServiceExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "Ello Notification Profile Jan 10 2019";
+				PROVISIONING_PROFILE_SPECIFIER = "Ello Notification Service Apr 25 2019";
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "Sources/Extensions-Bridging-Header.h";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
