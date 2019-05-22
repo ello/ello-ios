@@ -18,7 +18,6 @@ def ello_app_pods
   pod '1PasswordExtension', '~> 1.8.5'
   pod 'CRToast', git: 'https://github.com/ello/CRToast'
   pod 'KINWebBrowser', git: 'https://github.com/ello/KINWebBrowser'
-  pod 'PINRemoteImage', '3.0.0-beta.14'
   pod 'PINCache', git: 'https://github.com/ello/PINCache', branch: 'period-encoding'
   pod 'SSPullToRefresh', '~> 1'
   pod 'Quantcast-Measure'
@@ -47,7 +46,7 @@ def common_pods
   end
   # objc
   pod 'SVGKit', git: 'https://github.com/ello/SVGKit'
-  pod 'FLAnimatedImage'
+  pod 'PINRemoteImage', '3.0.0-beta.14'
   pod 'YapDatabase'
   pod 'Analytics'
   # swift

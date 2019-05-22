@@ -4,7 +4,7 @@
 
 import Photos
 import SnapKit
-import FLAnimatedImage
+import PINRemoteImage
 
 
 class SettingsScreen: NavBarScreen, SettingsScreenProtocol {
@@ -65,9 +65,9 @@ class SettingsScreen: NavBarScreen, SettingsScreenProtocol {
 
     private let scrollView = UIScrollView()
     private var widthConstraint: Constraint!
-    private let coverImageView = FLAnimatedImageView()
+    private let coverImageView = PINAnimatedImageView()
     private let coverImageButton = StyledButton(style: .clearWhite)
-    private let avatarImageView = FLAnimatedImageView()
+    private let avatarImageView = PINAnimatedImageView()
     private let avatarImageButton = StyledButton(style: .clearWhite)
 
     private let profileLabel = StyledLabel(style: .largeBold)

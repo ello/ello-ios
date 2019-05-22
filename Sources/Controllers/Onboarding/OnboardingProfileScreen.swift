@@ -5,7 +5,7 @@
 import Photos
 import SnapKit
 import ImagePickerSheetController
-import FLAnimatedImage
+import PINRemoteImage
 
 
 class OnboardingProfileScreen: Screen, OnboardingProfileScreenProtocol {
@@ -75,11 +75,11 @@ class OnboardingProfileScreen: Screen, OnboardingProfileScreenProtocol {
     private var prevOffset: CGPoint = .zero
     private let headerLabel = UILabel()
 
-    private let coverImageView = FLAnimatedImageView()
+    private let coverImageView = PINAnimatedImageView()
     private let uploadCoverImageButton = StyledButton(style: .green)
     private let uploadCoverImagePrompt = UILabel()
 
-    private let avatarImageView = FLAnimatedImageView()
+    private let avatarImageView = PINAnimatedImageView()
     private let uploadAvatarButton = StyledButton(style: .green)
     private let uploadAvatarPrompt = UILabel()
 
@@ -319,7 +319,7 @@ extension OnboardingProfileScreen: UINavigationControllerDelegate, UIImagePicker
     }
 
     func setImage(_ imageRegion: ImageRegionData?, target uploading: ImageTarget, updateDelegate: Bool) {
-        let imageView: FLAnimatedImageView
+        let imageView: PINAnimatedImageView
         switch uploading {
         case .coverImage:
             imageView = coverImageView
@@ -334,7 +334,7 @@ extension OnboardingProfileScreen: UINavigationControllerDelegate, UIImagePicker
         if let imageRegion = imageRegion {
             imageView.contentMode = .scaleAspectFill
             if let data = imageRegion.data, imageRegion.isAnimatedGif {
-                imageView.animatedImage = FLAnimatedImage(animatedGIFData: data)
+                imageView.animatedImage = PINCachedAnimatedImage(animatedImageData: data)
             }
             else {
                 imageView.image = imageRegion.image

@@ -3,7 +3,7 @@
 //
 
 import PromiseKit
-import FLAnimatedImage
+import PINRemoteImage
 
 
 final class ProfileViewController: StreamableViewController {

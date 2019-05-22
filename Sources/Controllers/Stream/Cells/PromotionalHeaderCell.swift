@@ -3,7 +3,7 @@
 //
 
 import SnapKit
-import FLAnimatedImage
+import PINRemoteImage
 
 
 class PromotionalHeaderCell: CollectionViewCell {
@@ -39,7 +39,7 @@ class PromotionalHeaderCell: CollectionViewCell {
         static let failImageHeight: CGFloat = 160
     }
 
-    private let imageView = FLAnimatedImageView()
+    private let imageView = PINAnimatedImageView()
     private let imageOverlay = UIView()
     private let titleLabel = UILabel()
     private let titleUnderlineView = UIView()

@@ -2,7 +2,7 @@
 ///  LightboxScreen.swift
 //
 
-import FLAnimatedImage
+import PINRemoteImage
 import SnapKit
 
 
@@ -48,15 +48,15 @@ class LightboxScreen: Screen, LightboxScreenProtocol {
     private var imageOffset: CGPoint = .zero
     private var tempOffset: CGPoint = .zero
 
-    private var prevImageView = FLAnimatedImageView()
+    private var prevImageView = PINAnimatedImageView()
     private var prevURL: URL?
 
-    private var currImageView = FLAnimatedImageView()
+    private var currImageView = PINAnimatedImageView()
     private var currImageFrame: CGRect = .zero
     private var currURL: URL?
     private let currLoadingLayer = LoadingGradientLayer()
 
-    private var nextImageView = FLAnimatedImageView()
+    private var nextImageView = PINAnimatedImageView()
     private var nextURL: URL?
 
     private var isLoadingMore: Bool { return nextPageView.isLogoAnimating }

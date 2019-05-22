@@ -3,7 +3,7 @@
 //
 
 import SnapKit
-import FLAnimatedImage
+import PINRemoteImage
 
 
 @objc
@@ -72,7 +72,7 @@ class EditorialCellContent: View {
     private let bg = UIView()
     private let gradientView = UIView()
     private let gradientLayer = EditorialCellContent.generateGradientLayer()
-    private let imageView = FLAnimatedImageView()
+    private let imageView = PINAnimatedImageView()
     private let loadingView = UIView()
     private let spinner = GradientLoadingView()
     var editorialContentView: UIView { return bg }

@@ -2,7 +2,7 @@
 ///  OmnibarImageCell.swift
 //
 
-import FLAnimatedImage
+import PINRemoteImage
 
 
 class OmnibarImageCell: TableViewCell {
@@ -14,7 +14,7 @@ class OmnibarImageCell: TableViewCell {
         static let editingHeight = CGFloat(80)
     }
 
-    let flImageView = FLAnimatedImageView()
+    let flImageView = PINAnimatedImageView()
     let buyButton = UIButton()
     var isReordering = false
     var hasBuyButtonURL = false
@@ -24,7 +24,7 @@ class OmnibarImageCell: TableViewCell {
         set { flImageView.image = newValue }
     }
 
-    var omnibarAnimagedImage: FLAnimatedImage? {
+    var omnibarAnimagedImage: PINCachedAnimatedImage? {
         get { return flImageView.animatedImage }
         set { flImageView.animatedImage = newValue }
     }

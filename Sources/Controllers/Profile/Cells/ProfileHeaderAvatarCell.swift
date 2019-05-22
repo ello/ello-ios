@@ -2,7 +2,7 @@
 ///  ProfileHeaderAvatarCell.swift
 //
 
-import FLAnimatedImage
+import PINRemoteImage
 
 
 class ProfileHeaderAvatarCell: ProfileHeaderCell {
@@ -32,7 +32,7 @@ class ProfileHeaderAvatarCell: ProfileHeaderCell {
         }
     }
 
-    private let avatarImageView = FLAnimatedImageView()
+    private let avatarImageView = PINAnimatedImageView()
     private let whiteBar = UIView()
 
     override func style() {

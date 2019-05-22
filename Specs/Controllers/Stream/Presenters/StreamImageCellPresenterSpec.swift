@@ -63,7 +63,7 @@ class StreamImageCellPresenterSpec: QuickSpec {
 
                         StreamImageCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: nil)
 
-                        expect(cell.isGif) == true
+                        expect(cell.mode) == StreamImageCellMode.gif
                         expect(cell.isLargeImage) == false
                         expect(cell.largeImagePlayButton?.isHidden) == true
                     }
@@ -83,7 +83,7 @@ class StreamImageCellPresenterSpec: QuickSpec {
 
                         StreamImageCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: nil)
 
-                        expect(cell.isGif) == false
+                        expect(cell.mode) == StreamImageCellMode.image
                         expect(cell.isLargeImage) == false
                         expect(cell.largeImagePlayButton?.isHidden) == true
                     }
@@ -125,7 +125,7 @@ class StreamImageCellPresenterSpec: QuickSpec {
 
                         StreamImageCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: nil)
 
-                        expect(cell.isGif) == false
+                        expect(cell.mode) == StreamImageCellMode.image
                         expect(cell.isLargeImage) == false
                         expect(cell.largeImagePlayButton?.isHidden) == true
                     }
@@ -170,7 +170,7 @@ class StreamImageCellPresenterSpec: QuickSpec {
 
                         StreamImageCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: nil)
 
-                        expect(cell.isGif) == true
+                        expect(cell.mode) == StreamImageCellMode.gif
                         expect(cell.isLargeImage) == true
                         expect(cell.largeImagePlayButton?.isHidden) == false
                     }
@@ -215,7 +215,7 @@ class StreamImageCellPresenterSpec: QuickSpec {
 
                         StreamImageCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: nil)
 
-                        expect(cell.isGif) == true
+                        expect(cell.mode) == StreamImageCellMode.gif
                         expect(cell.isLargeImage) == false
                         expect(cell.largeImagePlayButton?.isHidden) == true
                     }
@@ -253,7 +253,7 @@ class StreamImageCellPresenterSpec: QuickSpec {
 
                         StreamImageCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: nil)
 
-                        expect(cell.isGif) == true
+                        expect(cell.mode) == StreamImageCellMode.gif
                         expect(cell.isLargeImage) == true
                         expect(cell.largeImagePlayButton?.isHidden) == false
                     }
@@ -291,7 +291,7 @@ class StreamImageCellPresenterSpec: QuickSpec {
 
                         StreamImageCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: nil)
 
-                        expect(cell.isGif) == true
+                        expect(cell.mode) == StreamImageCellMode.gif
                         expect(cell.isLargeImage) == false
                         expect(cell.largeImagePlayButton?.isHidden) == true
                     }

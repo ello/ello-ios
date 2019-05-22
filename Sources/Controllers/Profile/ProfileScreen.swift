@@ -3,7 +3,7 @@
 //
 
 import SnapKit
-import FLAnimatedImage
+import PINRemoteImage
 
 
 class ProfileScreen: StreamableScreen, ProfileScreenProtocol {
@@ -59,7 +59,7 @@ class ProfileScreen: StreamableScreen, ProfileScreenProtocol {
 
     private let whiteSolidView = UIView()
     private let loaderView = InterpolatedLoadingView()
-    private let coverImageView = FLAnimatedImageView()
+    private let coverImageView = PINAnimatedImageView()
     private let ghostLeftButton = StyledButton(style: .blackPill)
     private let ghostRightButton = StyledButton(style: .blackPill)
     private let profileButtonsEffect = UIVisualEffectView()

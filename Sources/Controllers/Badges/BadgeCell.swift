@@ -3,7 +3,7 @@
 //
 
 import SnapKit
-import FLAnimatedImage
+import PINRemoteImage
 
 
 class BadgeCell: CollectionViewCell {
@@ -37,7 +37,7 @@ class BadgeCell: CollectionViewCell {
     }
 
     private let label = ElloTextView()
-    private let imageView = FLAnimatedImageView()
+    private let imageView = PINAnimatedImageView()
     private let grayLine = UIView()
 
     override func prepareForReuse() {

@@ -2,7 +2,7 @@
 ///  StreamImageCell.swift
 //
 
-import FLAnimatedImage
+import PINRemoteImage
 import Photos
 
 
@@ -32,7 +32,7 @@ class StreamImageCell: StreamRegionableCell {
         static let singleColumnBuyButtonWidth: CGFloat = 40
     }
 
-    @IBOutlet var imageView: FLAnimatedImageView!
+    @IBOutlet var imageView: PINAnimatedImageView!
     @IBOutlet var imageButton: UIView!
 
     // optional because the StreamEmbedCell doesn't have them:
@@ -52,7 +52,6 @@ class StreamImageCell: StreamRegionableCell {
     @IBOutlet var largeImagePlayButton: UIImageView?
     @IBOutlet var imageRightConstraint: NSLayoutConstraint!
 
-    var isGif = false
     var onHeightMismatch: OnHeightMismatch?
     var tallEnoughForFailToShow = true
     var imageURL: URL?
@@ -206,6 +205,7 @@ class StreamImageCell: StreamRegionableCell {
         imageView.pin_setImage(from: url) { [weak self] result in
             guard let `self` = self else { return }
             guard result.hasImage else {
+                print("no image at \(url), result is \(result.debugDescription)")
                 self.imageLoadFailed()
                 return
             }
@@ -264,7 +264,6 @@ class StreamImageCell: StreamRegionableCell {
         buyButtonGreen?.isHidden = true
 
         hideBorder()
-        isGif = false
         isLargeImage = false
         failImage.isHidden = true
         failImage.alpha = 0

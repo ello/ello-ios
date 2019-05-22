@@ -4,7 +4,7 @@
 
 import SnapKit
 import SVGKit
-import FLAnimatedImage
+import PINRemoteImage
 
 
 class ArtistInviteBubbleCell: CollectionViewCell, ArtistInviteConfigurableCell {
@@ -45,7 +45,7 @@ class ArtistInviteBubbleCell: CollectionViewCell, ArtistInviteConfigurableCell {
     }
 
     private let bg = UIView()
-    private let headerImage = FLAnimatedImageView()
+    private let headerImage = PINAnimatedImageView()
     private let headerOverlay = UIView()
     private let logoImage = UIImageView()
     private let titleLabel = StyledLabel(style: .artistInviteTitle)

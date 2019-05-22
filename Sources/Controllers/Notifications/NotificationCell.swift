@@ -2,7 +2,7 @@
 ///  NotificationCell.swift
 //
 
-import FLAnimatedImage
+import PINRemoteImage
 import TimeAgoInWords
 
 
@@ -79,7 +79,7 @@ class NotificationCell: UICollectionViewCell, UIWebViewDelegate {
     let titleTextView = ElloTextView()
     let createdAtLabel = UILabel()
     let messageWebView = ElloWebView()
-    let notificationImageView = FLAnimatedImageView()
+    let notificationImageView = PINAnimatedImageView()
     let separator = UIView()
     var aspectRatio: CGFloat = 4/3
 

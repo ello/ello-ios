@@ -3,7 +3,7 @@
 //
 
 import QuartzCore
-import FLAnimatedImage
+import PINRemoteImage
 
 
 class GradientLoadingView: UIView {

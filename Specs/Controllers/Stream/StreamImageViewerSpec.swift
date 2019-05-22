@@ -6,7 +6,7 @@
 import Quick
 import Nimble
 import Moya
-import FLAnimatedImage
+import PINRemoteImage
 
 class StreamImageViewerSpec: QuickSpec {
 

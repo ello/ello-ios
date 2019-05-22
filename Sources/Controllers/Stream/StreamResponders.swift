@@ -3,7 +3,7 @@
 //
 
 import PromiseKit
-import FLAnimatedImage
+import PINRemoteImage
 
 
 @objc

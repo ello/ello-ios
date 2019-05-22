@@ -3,7 +3,7 @@
 //
 
 import SnapKit
-import FLAnimatedImage
+import PINRemoteImage
 
 
 class CategoryDetailHeaderView: View {
@@ -40,7 +40,7 @@ class CategoryDetailHeaderView: View {
         }
     }
 
-    private let imageView = FLAnimatedImageView()
+    private let imageView = PINAnimatedImageView()
     private let imageOverlay = UIView()
     private let titleLabel = StyledLabel(style: .categoryHeaderScaledUp)
     private let subscribedButton = StyledButton(style: .subscribePill)

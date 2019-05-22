@@ -2,13 +2,12 @@
 ///  PINRemoteImageManagerResult.swift
 //
 
-import FLAnimatedImage
 import PINRemoteImage
 
 public extension PINRemoteImageManagerResult {
 
-    var animatedImage: FLAnimatedImage? {
-        return alternativeRepresentation as? FLAnimatedImage
+    var animatedImage: PINCachedAnimatedImage? {
+        return alternativeRepresentation as? PINCachedAnimatedImage
     }
 
     var isAnimated: Bool {

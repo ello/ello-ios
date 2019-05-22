@@ -5,7 +5,6 @@
 import SnapKit
 import SVGKit
 import MobileCoreServices
-import FLAnimatedImage
 import PINRemoteImage
 import Photos
 

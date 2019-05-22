@@ -48,7 +48,6 @@ struct StreamImageCellPresenter {
         let isGridView = streamCellItem.isGridView(streamKind: streamKind)
 
         if let asset = imageRegion.asset, asset.isGif {
-            cell.mode = .gif
             if streamKind.supportsLargeImages || !asset.isLargeGif {
                 showGifInThisCell = true
             }
@@ -59,7 +58,7 @@ struct StreamImageCellPresenter {
             else {
                 cell.isLargeImage = true
             }
-            cell.isGif = true
+            cell.mode = .gif
         }
 
         cell.isGridView = isGridView
@@ -100,7 +99,7 @@ struct StreamImageCellPresenter {
         }
         else if let imageURL = imageRegion.url {
             cell.setImageURL(imageURL)
-            cell.isGif = imageURL.hasGifExtension
+            cell.mode = imageURL.hasGifExtension ? .gif : .image
         }
 
         cell.buyButtonURL = imageRegion.buyButtonURL

@@ -2,7 +2,7 @@
 ///  StreamCreateCommentCell.swift
 //
 
-import FLAnimatedImage
+import PINRemoteImage
 import SnapKit
 
 
@@ -20,7 +20,7 @@ class StreamCreateCommentCell: CollectionViewCell {
         static let ReplyAllRightMargin: CGFloat = 5
     }
 
-    let avatarView = FLAnimatedImageView()
+    let avatarView = PINAnimatedImageView()
     let createCommentBackground = CreateCommentBackgroundView()
     var bothButtonsHiddenConstraint: Constraint!
     var replyAllButtonVisibleConstraint: Constraint!

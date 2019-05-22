@@ -2,7 +2,7 @@
 ///  OmnibarScreenTableViewDelegate.swift
 //
 
-import FLAnimatedImage
+import PINRemoteImage
 
 
 extension OmnibarScreen: UITableViewDelegate, UITableViewDataSource {
@@ -49,7 +49,7 @@ extension OmnibarScreen: UITableViewDelegate, UITableViewDataSource {
             case let .imageData(_, data, _):
                 let imageCell = cell as! OmnibarImageCell
                 imageCell.hasBuyButtonURL = (buyButtonURL != nil)
-                imageCell.omnibarAnimagedImage = FLAnimatedImage(animatedGIFData: data)
+                imageCell.omnibarAnimagedImage = PINCachedAnimatedImage(animatedImageData: data)
                 imageCell.isReordering = isReordering
             case let .error(url):
                 let textCell = cell as! OmnibarErrorCell

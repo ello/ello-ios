@@ -3,7 +3,7 @@
 //
 
 import SnapKit
-import FLAnimatedImage
+import PINRemoteImage
 
 
 class ArtistInviteHeaderCell: CollectionViewCell, ArtistInviteConfigurableCell {
@@ -28,7 +28,7 @@ class ArtistInviteHeaderCell: CollectionViewCell, ArtistInviteConfigurableCell {
         }
     }
 
-    private let headerImage = FLAnimatedImageView()
+    private let headerImage = PINAnimatedImageView()
     private let headerOverlay = UIView()
     private let logoImage = UIImageView()
     private let titleLabel = StyledLabel(style: .artistInviteTitle)

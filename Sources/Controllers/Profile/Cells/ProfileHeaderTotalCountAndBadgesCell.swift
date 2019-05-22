@@ -3,7 +3,7 @@
 //
 
 import SnapKit
-import FLAnimatedImage
+import PINRemoteImage
 
 private let maxBadges = 3
 
@@ -139,7 +139,7 @@ extension ProfileHeaderTotalCountAndBadgesCell {
         self.badges = badges
         badgeButtons = badges.safeRange(0 ..< maxBadges).compactMap { (badge: Badge) -> UIButton? in
             let button = UIButton()
-            let imageView = FLAnimatedImageView()
+            let imageView = PINAnimatedImageView()
             button.addTarget(self, action: #selector(badgeTapped(_:)), for: .touchUpInside)
             button.snp.makeConstraints { make in
                 make.size.equalTo(Size.badgeSize)

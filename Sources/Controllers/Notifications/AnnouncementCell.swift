@@ -3,7 +3,7 @@
 //
 
 import SnapKit
-import FLAnimatedImage
+import PINRemoteImage
 
 
 class AnnouncementCell: CollectionViewCell {
@@ -36,7 +36,7 @@ class AnnouncementCell: CollectionViewCell {
     }
 
     private let blackView = UIView()
-    private let imageView = FLAnimatedImageView()
+    private let imageView = PINAnimatedImageView()
     private let closeButton = UIButton()
     private let titleLabel = StyledLabel(style: .boldWhite)
     private let bodyLabel = StyledLabel(style: .white)

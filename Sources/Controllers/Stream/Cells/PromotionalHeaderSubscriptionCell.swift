@@ -3,7 +3,7 @@
 //
 
 import SnapKit
-import FLAnimatedImage
+import PINRemoteImage
 
 class PromotionalHeaderSubscriptionCell: CollectionViewCell {
     static let reuseIdentifier = "PromotionalHeaderSubscriptionCell"

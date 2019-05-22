@@ -20,7 +20,6 @@ PODS:
   - FBSnapshotTestCase/Core (2.1.4)
   - FBSnapshotTestCase/SwiftSupport (2.1.4):
     - FBSnapshotTestCase/Core
-  - FLAnimatedImage (1.0.12)
   - ImagePickerSheetController (0.9.3)
   - iOSSnapshotTestCase (6.0.3):
     - iOSSnapshotTestCase/SwiftSupport (= 6.0.3)
@@ -144,7 +143,6 @@ DEPENDENCIES:
   - "ElloCerts (from `git@github.com:ello/Ello-iOS-Certs`)"
   - "ElloUIFonts (from `git@github.com:ello/ElloUIFonts`)"
   - FBSnapshotTestCase
-  - FLAnimatedImage
   - ImagePickerSheetController (from `https://github.com/ello/ImagePickerSheetController`, branch `swift4.2`)
   - JWTDecode
   - KeychainAccess
@@ -174,7 +172,6 @@ SPEC REPOS:
     - Analytics
     - CocoaLumberjack
     - FBSnapshotTestCase
-    - FLAnimatedImage
     - iOSSnapshotTestCase
     - JWTDecode
     - KeychainAccess
@@ -261,7 +258,6 @@ SPEC CHECKSUMS:
   ElloCerts: 7c27117e2281761c81acf31b81a44a38869220c2
   ElloUIFonts: 9ec2357942e3e3020a257ded2abf4e92e37b9286
   FBSnapshotTestCase: 094f9f314decbabe373b87cc339bea235a63e07a
-  FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31
   ImagePickerSheetController: 4789b06940e299431455c61be77fda440883c36c
   iOSSnapshotTestCase: 944a73f6d9676302811a86c0cf35f0e6ef5ab2a0
   JWTDecode: 85a405ab16d5473e99bd89ded1d535090ebd6a0e
@@ -287,6 +283,6 @@ SPEC CHECKSUMS:
   WebLinking: b7507e9ccf2b0177dcc53cbdbaed787676fde745
   YapDatabase: d8cd02058e36bc0902e405d8f3326eb8d7dbf36c
 
-PODFILE CHECKSUM: 9176b369dc3a4b7de002e577490a1d01ba3a0ba3
+PODFILE CHECKSUM: 630d7fac9ddcf90b7bfab3bdd6cb05baaf7d4f7a
 
 COCOAPODS: 1.5.3

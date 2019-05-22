@@ -2,7 +2,7 @@
 ///  StreamImageViewer.swift
 //
 
-import FLAnimatedImage
+import PINRemoteImage
 import PromiseKit
 
 

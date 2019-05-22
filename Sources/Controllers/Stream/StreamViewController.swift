@@ -3,7 +3,7 @@
 //
 
 import SSPullToRefresh
-import FLAnimatedImage
+import PINRemoteImage
 import SwiftyUserDefaults
 import DeltaCalculator
 import SnapKit
