@@ -135,7 +135,6 @@ final class ArtistInviteSubmission: Model, PostActionable {
     class func fromJSON(_ data: [String: Any]) -> ArtistInviteSubmission {
         let json = JSON(data)
 
-        let id = json["id"].stringValue
         let artistInviteId = json["artist_invite_id"].stringValue
         let postId: String
         if let v1 = json["post_id"].id {
@@ -148,7 +147,11 @@ final class ArtistInviteSubmission: Model, PostActionable {
             postId = ""
         }
         let status = Status(rawValue: json["status"].stringValue) ?? .unapproved
-        let submission = ArtistInviteSubmission(id: id, artistInviteId: artistInviteId, postId: postId, status: status)
+        let submission = ArtistInviteSubmission(
+            id: json["id"].idValue,
+            artistInviteId: artistInviteId,
+            postId: postId,
+            status: status)
         submission.mergeLinks(data["links"] as? [String: Any])
         submission.addLinkObject("artist_invite", id: artistInviteId, type: .artistInvitesType)
 

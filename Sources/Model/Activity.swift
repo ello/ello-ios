@@ -98,18 +98,10 @@ final class Activity: Model {
 
     class func fromJSON(_ data: [String: Any]) -> Activity {
         let json = JSON(data)
-        let id = json["created_at"].stringValue
-        var createdAt: Date
-        if let date = id.toDate() {
-            createdAt = date
-        }
-        else {
-            createdAt = Globals.now
-        }
 
         let activity = Activity(
-            id: id,
-            createdAt: createdAt,
+            id: json["created_at"].idValue,
+            createdAt: json["created_at"].dateValue,
             kind: Kind(rawValue: json["kind"].stringValue) ?? Kind.unknown,
             subjectType: SubjectType(rawValue: json["subject_type"].stringValue) ?? SubjectType.unknown
         )

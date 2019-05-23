@@ -193,7 +193,7 @@ final class Post: Model, Authorable {
         }
 
         let post = Post(
-            id: json["id"].stringValue,
+            id: json["id"].idValue,
             createdAt: createdAt,
             authorId: json["author_id"].stringValue,
             token: json["token"].stringValue,

@@ -191,17 +191,21 @@ class StreamCellItemParserSpec: QuickSpec {
 
                 context("parsing a post") {
                     let zeroPosts = [Post]()
-                    let twoPosts = [
-                        Post.stub(["content": [TextRegion.stub(["content": "<p>post 1</p>"])]]),
-                        Post.stub(["content": [TextRegion.stub(["content": "<p>post 2</p>"])]]),
-                    ]
-                    let oneRepost = [
-                        Post.stub([
-                            "content": [TextRegion](),
-                            "repostContent": [TextRegion.stub(["content": "<p>repost</p>"])],
-                            "summary": [TextRegion.stub(["content": "<p>repost summary</p>"])],
-                            ]),
-                    ]
+                    var twoPosts: [Post]!
+                    var oneRepost: [Post]!
+                    beforeEach {
+                        twoPosts = [
+                            Post.stub(["content": [TextRegion.stub(["content": "<p>post 1</p>"])]]),
+                            Post.stub(["content": [TextRegion.stub(["content": "<p>post 2</p>"])]]),
+                        ]
+                        oneRepost = [
+                            Post.stub([
+                                "content": [TextRegion](),
+                                "repostContent": [TextRegion.stub(["content": "<p>repost</p>"])],
+                                "summary": [TextRegion.stub(["content": "<p>repost summary</p>"])],
+                                ]),
+                        ]
+                    }
 
                     it("returns an empty array if an empty array of Posts is passed in") {
                         let cellItems = subject.parse(zeroPosts, streamKind: .following)
@@ -258,8 +262,8 @@ class StreamCellItemParserSpec: QuickSpec {
                 }
 
                 it("returns an empty array if an empty array of Activities is passed in") {
-                    let activities: [Ello.Notification] = []
-                    expect(subject.parse(activities, streamKind: .notifications(category: nil)).count) == 0
+                    let notifications: [Ello.Notification] = []
+                    expect(subject.parse(notifications, streamKind: .notifications(category: nil)).count) == 0
                 }
 
                 it("returns an array with the proper count of stream cell items when parsing friends.json's activities") {

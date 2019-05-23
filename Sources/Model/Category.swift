@@ -92,12 +92,10 @@ final class Category: Model {
     }
 
     override func merge(_ other: Model) -> Model {
-        guard let otherCategory = other as? Category else { return other }
-
-        if otherCategory.tileImage == nil {
-            otherCategory.tileImage = tileImage
+        if let otherCategory = other as? Category {
+            otherCategory.tileImage = otherCategory.tileImage ?? tileImage
         }
-        return otherCategory
+        return super.merge(other)
     }
 
     override func encode(with coder: NSCoder) {
@@ -120,7 +118,7 @@ final class Category: Model {
         let tileImage = (json["tile_image"]["large"].object as? [String: Any]).map { Attachment.fromJSON($0) }
 
         let category = Category(
-            id: json["id"].stringValue,
+            id: json["id"].idValue,
             name: json["name"].stringValue,
             slug: json["slug"].stringValue,
             description: json["description"].string,

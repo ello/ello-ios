@@ -71,19 +71,15 @@ final class Announcement: Model {
 
     class func fromJSON(_ data: [String: Any]) -> Announcement {
         let json = JSON(data)
-        let id = json["id"].stringValue
-        let isStaffPreview = json["is_staff_preview"].boolValue
-        let header = json["header"].stringValue
-        let body = json["body"].stringValue
-        let ctaURL = json["cta_href"].url
-        let ctaCaption = json["cta_caption"].stringValue
 
-        let announcement = Announcement(id: id,
-            isStaffPreview: isStaffPreview,
-            header: header,
-            body: body,
-            ctaURL: ctaURL,
-            ctaCaption: ctaCaption,
+        let id = json["id"].idValue
+        let announcement = Announcement(
+            id: id,
+            isStaffPreview: json["is_staff_preview"].boolValue,
+            header: json["header"].stringValue,
+            body: json["body"].stringValue,
+            ctaURL: json["cta_href"].url,
+            ctaCaption: json["cta_caption"].stringValue,
             image: Asset.parseAsset("image_\(id)", node: data["image"] as? [String: Any])
             )
 

@@ -93,22 +93,16 @@ final class Editorial: Model {
 
     class func fromJSON(_ data: [String: Any]) -> Editorial {
         let json = JSON(data)
-        let id = json["id"].stringValue
-        let kind = Kind(rawValue: json["kind"].stringValue) ?? .unknown
-        let title = json["title"].stringValue
-        let subtitle = json["subtitle"].string
-        let renderedSubtitle = json["rendered_subtitle"].string
-        let postStreamURL = json["links"]["post_stream"]["href"].url
+
         let externalURL: URL? = json["url"].url
         let internalURL: URL? = json["path"].string.flatMap { URL(string: "\(ElloURI.baseURL)\($0)") }
-
         let editorial = Editorial(
-            id: id,
-            kind: kind,
-            title: title,
-            subtitle: subtitle,
-            renderedSubtitle: renderedSubtitle,
-            postStreamURL: postStreamURL,
+            id: json["id"].idValue,
+            kind: Kind(rawValue: json["kind"].stringValue) ?? .unknown,
+            title: json["title"].stringValue,
+            subtitle: json["subtitle"].string,
+            renderedSubtitle: json["rendered_subtitle"].string,
+            postStreamURL: json["links"]["post_stream"]["href"].url,
             url: externalURL ?? internalURL)
 
         editorial.mergeLinks(data["links"] as? [String: Any])

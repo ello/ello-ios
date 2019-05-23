@@ -59,7 +59,7 @@ final class CategoryUser: Model {
         let json = JSON(data)
 
         let categoryUser = CategoryUser(
-            id: json["id"].stringValue,
+            id: json["id"].idValue,
             role: CategoryUser.Role(rawValue: json["role"].stringValue) ?? .unspecified
         )
 

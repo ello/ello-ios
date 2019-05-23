@@ -54,7 +54,7 @@ final class Love: Model, PostActionable {
         let json = JSON(data)
 
         let love = Love(
-            id: json["id"].stringValue,
+            id: json["id"].idValue,
             isDeleted: json["deleted"].boolValue,
             postId: json["post_id"].stringValue,
             userId: json["user_id"].stringValue
