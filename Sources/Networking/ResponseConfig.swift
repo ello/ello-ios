@@ -6,9 +6,9 @@ class ResponseConfig: CustomStringConvertible {
     var description: String {
         let descripArray = [
             "ResponseConfig:",
-            "nextQuery: \(String(describing: nextQuery))",
-            "totalPages: \(String(describing: totalPages))",
-            "totalCount: \(String(describing: totalCount))",
+            "nextQuery: \(nextQuery?.description ?? "nil")",
+            "totalPages: \(totalPages ?? "nil")",
+            "totalCount: \(totalCount ?? "nil")",
             "totalPagesRemaining: \(String(describing: totalPagesRemaining))"
         ]
         return descripArray.joined(separator: "\n\t")

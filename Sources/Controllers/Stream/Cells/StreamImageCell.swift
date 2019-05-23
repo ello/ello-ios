@@ -205,7 +205,6 @@ class StreamImageCell: StreamRegionableCell {
         imageView.pin_setImage(from: url) { [weak self] result in
             guard let `self` = self else { return }
             guard result.hasImage else {
-                print("no image at \(url), result is \(result.debugDescription)")
                 self.imageLoadFailed()
                 return
             }
