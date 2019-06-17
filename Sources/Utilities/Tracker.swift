@@ -30,21 +30,92 @@ struct NullAgent: AnalyticsAgent {
     func reset() { }
 }
 
+struct ForwardingAgent: AnalyticsAgent {
+    let agents: [AnalyticsAgent]
+
+    func identify(_ userId: String?, traits: [String: Any]?) {
+        for agent in agents {
+            agent.identify(userId, traits: traits)
+        }
+    }
+
+    func track(_ event: String) {
+        for agent in agents {
+            agent.track(event)
+        }
+    }
+
+    func track(_ event: String, properties: [String: Any]?) {
+        for agent in agents {
+            agent.track(event, properties: properties)
+        }
+    }
+
+    func screen(_ screenTitle: String) {
+        for agent in agents {
+            agent.screen(screenTitle)
+        }
+    }
+
+    func screen(_ screenTitle: String, properties: [String: Any]?) {
+        for agent in agents {
+            agent.screen(screenTitle, properties: properties)
+        }
+    }
+
+    func reset() {
+        for agent in agents {
+            agent.reset()
+        }
+    }
+}
+
 extension SEGAnalytics: AnalyticsAgent { }
 
 class Tracker {
-    var overrideAgent: AnalyticsAgent?
     static let shared = Tracker()
+
+    // the iOS app redefines this to include the Quantcast agent
+    var defaultAgent: AnalyticsAgent = SEGAnalytics.shared() {
+        didSet { currentAgent = nil }
+    }
+    // during testing and using the simulator we override the agent to NullAgent
+    var overrideAgent: AnalyticsAgent? {
+        didSet { currentAgent = nil }
+    }
+
+    private var currentAgent: AnalyticsAgent?
+    private var shouldTrackUser = true { didSet { currentAgent = nil } }
+
     var settingChangedNotification: NotificationObserver?
-    private var shouldTrackUser = true
+
     private var agent: AnalyticsAgent {
-        return overrideAgent ?? (shouldTrackUser ? SEGAnalytics.shared() : NullAgent())
+        if let overrideAgent = overrideAgent {
+            return overrideAgent
+        }
+
+        if let currentAgent = currentAgent {
+            return currentAgent
+        }
+
+        let agent: AnalyticsAgent
+        if shouldTrackUser {
+            agent = defaultAgent
+        }
+        else {
+            agent = NullAgent()
+        }
+
+        currentAgent = agent
+        return agent
+    }
+
+    static func setup() {
+        let configuration = SEGAnalyticsConfiguration(writeKey: APIKeys.shared.segmentKey)
+        SEGAnalytics.setup(with: configuration)
     }
 
     init() {
-        let configuration = SEGAnalyticsConfiguration(writeKey: APIKeys.shared.segmentKey)
-        SEGAnalytics.setup(with: configuration)
-
         settingChangedNotification = NotificationObserver(notification: SettingChangedNotification) { user in
             self.shouldTrackUser = user.profile?.allowsAnalytics ?? true
         }

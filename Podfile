@@ -20,11 +20,11 @@ def ello_app_pods
   pod 'KINWebBrowser', git: 'https://github.com/ello/KINWebBrowser'
   pod 'PINCache', git: 'https://github.com/ello/PINCache', branch: 'period-encoding'
   pod 'SSPullToRefresh', '~> 1'
-  pod 'Quantcast-Measure'
   # swift pods
   pod 'ImagePickerSheetController', git: 'https://github.com/ello/ImagePickerSheetController', branch: 'swift4.2'
   pod 'TimeAgoInWords', git: 'https://github.com/ello/TimeAgoInWords'
   pod 'DeltaCalculator', git: 'https://github.com/ello/DeltaCalculator'
+  pod 'Quantcast-Measure'
 end
 
 def ui_pods

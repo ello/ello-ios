@@ -646,6 +646,7 @@
 		1D44EAFC1EB2A337003B9B3D /* BadgesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D44EAFB1EB2A337003B9B3D /* BadgesService.swift */; };
 		1D44F80C1B629606007E2DE4 /* StreamCellItemParserExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D44F80B1B629606007E2DE4 /* StreamCellItemParserExt.swift */; };
 		1D45E5731D05F17500AAB730 /* BlockUserModalScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D45E5721D05F17500AAB730 /* BlockUserModalScreen.swift */; };
+		1D46DBED22B7D6C80077A16C /* QuantcastAgent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D46DBEC22B7D6C80077A16C /* QuantcastAgent.swift */; };
 		1D472C231C1F2E0400B61E55 /* embetter_audio_play.svg in Resources */ = {isa = PBXBuildFile; fileRef = 1D472C211C1F2E0400B61E55 /* embetter_audio_play.svg */; };
 		1D472C241C1F2E0400B61E55 /* embetter_video_play.svg in Resources */ = {isa = PBXBuildFile; fileRef = 1D472C221C1F2E0400B61E55 /* embetter_video_play.svg */; };
 		1D472C261C1F349E00B61E55 /* breaklink_normal.svg in Resources */ = {isa = PBXBuildFile; fileRef = 1D472C251C1F349E00B61E55 /* breaklink_normal.svg */; };
@@ -1764,6 +1765,7 @@
 		1D44EAFB1EB2A337003B9B3D /* BadgesService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BadgesService.swift; sourceTree = "<group>"; };
 		1D44F80B1B629606007E2DE4 /* StreamCellItemParserExt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreamCellItemParserExt.swift; sourceTree = "<group>"; };
 		1D45E5721D05F17500AAB730 /* BlockUserModalScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = BlockUserModalScreen.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		1D46DBEC22B7D6C80077A16C /* QuantcastAgent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuantcastAgent.swift; sourceTree = "<group>"; };
 		1D472C211C1F2E0400B61E55 /* embetter_audio_play.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = embetter_audio_play.svg; sourceTree = "<group>"; };
 		1D472C221C1F2E0400B61E55 /* embetter_video_play.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = embetter_video_play.svg; sourceTree = "<group>"; };
 		1D472C251C1F349E00B61E55 /* breaklink_normal.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = breaklink_normal.svg; sourceTree = "<group>"; };
@@ -3363,6 +3365,7 @@
 				EAF43D931AB0DE080016E110 /* ObjectCache.swift */,
 				1D3128BF1B557BD500E3D5B6 /* Onboarding.swift */,
 				1269484F1AEC0D1800A7EFCC /* Preloader.swift */,
+				1D46DBEC22B7D6C80077A16C /* QuantcastAgent.swift */,
 				123438B61BBD9846001267DE /* Rate.swift */,
 				1D73AB881C569EB600D708B9 /* SafariActivity.swift */,
 				1D9201BB1B6AD7CD007528BF /* Tag.swift */,
@@ -5662,6 +5665,7 @@
 				1229432B1C6BF564003FCD20 /* NSItemProviderExtensions.swift in Sources */,
 				1D0DF8DD20237CDC00019875 /* ArtistInviteSubmissionParser.swift in Sources */,
 				F87928681ACC6D6600579BE1 /* AlertViewController.swift in Sources */,
+				1D46DBED22B7D6C80077A16C /* QuantcastAgent.swift in Sources */,
 				1D7672FB20C9DD1B0057E03F /* ProfileHeaderStatsPresenter.swift in Sources */,
 				12F0E3AF1A4333550012CEA2 /* AppDelegate.swift in Sources */,
 				1289F3941AF1474B008A938C /* NSAttributedStringExtensions.swift in Sources */,

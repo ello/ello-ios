@@ -7,6 +7,7 @@ import TimeAgoInWords
 import PINRemoteImage
 import PINCache
 import ElloUIFonts
+import Analytics
 import Quantcast_Measure
 
 
@@ -18,10 +19,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var windowSizeChangedNotification: NotificationObserver?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        if let debugServer = DebugServer.fromDefaults {
-            APIKeys.shared = debugServer.apiKeys
-        }
-
         #if DEBUG
         NSSetUncaughtExceptionHandler { exception in
             print(exception)
@@ -29,10 +26,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 print(sym)
             }
         }
-
-        Tracker.shared.overrideAgent = NullAgent()
         #endif
 
+        if let debugServer = DebugServer.fromDefaults {
+            APIKeys.shared = debugServer.apiKeys
+        }
+
+        setupTracking()
         Keyboard.setup()
         AutoCompleteService.loadEmojiJSON("emojis")
         BadgesService.loadStaticBadges()
@@ -119,6 +119,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Tmp.clear()
         URLCache.shared.removeAllCachedResponses()
         TemporaryCache.clear()
+    }
+
+    func setupTracking() {
+        Tracker.setup()
+
+        #if DEBUG
+        Tracker.shared.overrideAgent = NullAgent()
+        #endif
+
+        let agent = ForwardingAgent(agents: [
+            SEGAnalytics.shared(),
+            QuantcastAgent(),
+            ])
+        Tracker.shared.defaultAgent = agent
+
+        QuantcastMeasurement.sharedInstance()!.setupMeasurementSession(withAPIKey: "04tp1b6x6eh7o34z-434g4j5r683qwj6e", userIdentifier: nil, labels: nil)
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
