@@ -104,7 +104,7 @@ Create the certs in Apple's developer portal in the usual way (using the
 1Password APNS password as the cert keyphrase), and download the `.cer` file
 (two of them, actually, one for `co.ello.Ello`, one for `co.ello.ElloDev`).
 Install that file into your keychain, then export the private key (in`.p12`
-format).
+format, with no password).
 
 
 ### Pinning certificates
