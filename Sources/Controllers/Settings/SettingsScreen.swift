@@ -486,9 +486,7 @@ extension SettingsScreen: UIImagePickerControllerDelegate, UINavigationControlle
         self.uploadingProperty = nil
         delegate.dismissController()
 
-        if let url = info[.referenceURL] as? URL,
-            let asset = PHAsset.fetchAssets(withALAssetURLs: [url], options: nil).firstObject
-        {
+        if let asset = info[.phAsset] as? PHAsset {
             AssetsToRegions.processPHAssets([asset]) { (images: [ImageRegionData]) in
                 guard let imageRegion = images.first else { return }
                 delegate.saveImage(imageRegion, property: uploadingProperty)
