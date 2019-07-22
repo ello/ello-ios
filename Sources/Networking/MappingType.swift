@@ -25,6 +25,7 @@ enum MappingType: String {
     case errorType = "error"
     case lovesType = "loves"
     case noContentType = "204"
+    case noncesType = "nonces"
     case pageHeadersType = "page_headers"
     case postsType = "posts"
     case profilesType = "profiles"
@@ -43,6 +44,7 @@ enum MappingType: String {
         case .categoryUsersType:           return "categoryUsers"
         case .errorType:                   return "errors"
         case .pageHeadersType:             return "pageHeaders"
+        case .noncesType:             return "nonces"
         default: return rawValue
         }
     }
@@ -66,6 +68,7 @@ enum MappingType: String {
         case .errorsType, .errorType:      return "error"
         case .lovesType:                   return "love"
         case .noContentType:               return "204"
+        case .noncesType:                  return "nonce"
         case .pageHeadersType:             return "pageHeader"
         case .postsType:                   return "post"
         case .profilesType:                return "profile"
@@ -95,6 +98,7 @@ enum MappingType: String {
         case .errorsType, .errorType:      return ElloNetworkError.fromJSON
         case .lovesType:                   return Love.fromJSON
         case .noContentType:               return nil
+        case .noncesType:                  return Nonce.fromJSON
         case .pageHeadersType:             return nil
         case .postsType:                   return Post.fromJSON
         case .profilesType:                return Profile.fromJSON

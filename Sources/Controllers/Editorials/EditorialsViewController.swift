@@ -13,6 +13,7 @@ class EditorialsViewController: StreamableViewController {
         get { return fetchScreen(_mockScreen) }
     }
     var generator: EditorialsGenerator!
+    var nonce: Nonce?
 
     typealias Usage = HomeViewController.Usage
 
@@ -58,6 +59,8 @@ class EditorialsViewController: StreamableViewController {
 
         streamViewController.showLoadingSpinner()
         streamViewController.loadInitialPage()
+
+        requestNonce()
     }
 
     private func updateInsets() {
@@ -74,6 +77,20 @@ class EditorialsViewController: StreamableViewController {
         super.hideNavBars(animated: animated)
         positionNavBar(screen.navigationBar, visible: false, withConstraint: screen.navigationBarTopConstraint, animated: animated)
         updateInsets()
+    }
+
+    private func requestNonce() {
+        guard currentUser == nil else { return }
+
+        UserService().requestNonce()
+            .done { nonce in
+                self.nonce = nonce
+            }
+            .catch { error in
+                delay(1) {
+                    self.requestNonce()
+                }
+            }
     }
 }
 
@@ -128,13 +145,14 @@ extension EditorialsViewController: EditorialToolsResponder {
     }
 
     func submitJoin(cell: UICollectionViewCell, email: String, username: String, password: String) {
-        guard currentUser == nil else { return }
+        guard currentUser == nil, let nonce = nonce else { return }
 
         if Validator.hasValidSignUpCredentials(email: email, username: username, password: password) {
             UserService().join(
                 email: email,
                 username: username,
-                password: password
+                password: password,
+                nonce: nonce.value
                 )
                 .done { user in
                     Tracker.shared.joinSuccessful()

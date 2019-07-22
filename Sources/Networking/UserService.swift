@@ -9,15 +9,14 @@ import PromiseKit
 
 struct UserService {
 
-    init(){}
-
     func join(
         email: String,
         username: String,
         password: String,
+        nonce: String,
         invitationCode: String? = nil) -> Promise<User>
     {
-        return ElloProvider.shared.request(.join(email: email, username: username, password: password, invitationCode: invitationCode))
+        return ElloProvider.shared.request(.join(email: email, username: username, password: password, nonce: nonce, invitationCode: invitationCode))
             .then { data, _ -> Promise<User> in
                 guard let user = data as? User else {
                     throw NSError.uncastableModel()
@@ -28,6 +27,16 @@ struct UserService {
                         return user
                     }
                 return promise
+            }
+    }
+
+    func requestNonce() -> Promise<Nonce> {
+        return ElloProvider.shared.request(.joinNonce)
+            .map { nonce, _ -> Nonce in
+                guard let nonce = nonce as? Nonce else {
+                    throw NSError.uncastableModel()
+                }
+                return nonce
             }
     }
 
