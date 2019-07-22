@@ -70,8 +70,18 @@ class JoinScreen: CredentialsScreen {
     var isOnePasswordAvailable = false {
         didSet { passwordField.hasOnePassword = isOnePasswordAvailable }
     }
+    var nonceRequestFailed: Bool? {
+        didSet {
+            nonceErrorLabel.isVisible = nonceRequestFailed == true
+        }
+    }
+
+    var isScreenReady: Bool = false {
+        didSet { updateContinueButton() }
+    }
 
     private let promptLabel = StyledLabel(style: .smallWhite)
+    private let nonceErrorLabel = StyledLabel(style: .error)
 
     private let emailField = ClearTextField()
     private let activateEmailButton = UIButton()
@@ -99,6 +109,7 @@ class JoinScreen: CredentialsScreen {
         emailField.placeholder = InterfaceString.Join.EmailPlaceholder
         usernameField.placeholder = InterfaceString.Join.UsernamePlaceholder
         passwordField.placeholder = InterfaceString.Join.PasswordPlaceholder
+        nonceErrorLabel.text = InterfaceString.Join.FetchNonceError
     }
 
     override func bindActions() {
@@ -142,16 +153,20 @@ class JoinScreen: CredentialsScreen {
 
         promptLabel.isMultiline = true
         messageLabel.isMultiline = true
+        nonceErrorLabel.isMultiline = true
 
         termsButtonNormal.isHidden = Keyboard.shared.isActive
         termsButtonKeyboard.isVisible = Keyboard.shared.isActive
 
         continueBackground.backgroundColor = .white
+        continueButton.isEnabled = false
+        nonceErrorLabel.isVisible = false
     }
 
     override func arrange() {
         super.arrange()
 
+        scrollView.addSubview(nonceErrorLabel)
         scrollView.addSubview(promptLabel)
         scrollView.addSubview(activateEmailButton)
         scrollView.addSubview(emailField)
@@ -166,6 +181,11 @@ class JoinScreen: CredentialsScreen {
         scrollView.addSubview(termsButtonKeyboard)
 
         addSubview(termsButtonNormal)
+
+        nonceErrorLabel.snp.makeConstraints { make in
+            make.top.equalTo(backButton.snp.bottom).offset(CredentialsScreen.Size.inset)
+            make.leading.trailing.equalTo(scrollView).inset(CredentialsScreen.Size.inset)
+        }
 
         promptLabel.snp.makeConstraints { make in
             make.top.equalTo(scrollView).offset(Size.promptTopMargin)
@@ -473,5 +493,9 @@ extension JoinScreen: JoinScreenProtocol {
 
     func showError(_ text: String) {
         showPasswordError(text)
+    }
+
+    func updateContinueButton() {
+        continueButton.isEnabled = true
     }
 }

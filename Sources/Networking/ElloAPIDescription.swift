@@ -173,6 +173,7 @@ extension ElloAPI: CustomDebugStringConvertible {
         case .invitations: return "invitations"
         case .inviteFriends: return "inviteFriends"
         case .join: return "join"
+        case .joinNonce: return "joinNonce"
         case .locationAutoComplete: return "locationAutoComplete"
         case .markAnnouncementAsRead: return "markAnnouncementAsRead"
         case .notificationsNewContent: return "notificationsNewContent"

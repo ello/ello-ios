@@ -435,16 +435,17 @@ struct InterfaceString {
 
     struct Join {
         static let Discover: String = NSLocalizedString("Discover Ello", comment: "discover ello button")
-        static let LoginAfterJoinError: String = NSLocalizedString("Your account has been created, but there was an error logging in, please try again", comment: "After successfully joining, there was an error signing in")
         static let Email: String = NSLocalizedString("Email", comment: "email key")
         static let EmailPlaceholder: String = NSLocalizedString("Enter email", comment: "sign up email field")
-        static let Username: String = NSLocalizedString("Username", comment: "username key")
         static let UsernamePlaceholder: String = NSLocalizedString("Create username", comment: "sign up username field")
+        static let Username: String = NSLocalizedString("Username", comment: "username key")
+        static let Password: String = NSLocalizedString("Password", comment: "password key")
         static let PasswordPlaceholder: String = NSLocalizedString("Set password", comment: "sign up password field")
 
-        static let UsernameUnavailable: String = NSLocalizedString("Username already exists.\nPlease try a new one.", comment: "username exists error message")
-        static let UsernameSuggestionPrefix: String = NSLocalizedString("Here are some available usernames -\n", comment: "username suggestions showmes")
-        static let Password: String = NSLocalizedString("Password", comment: "password key")
+        static let LoginAfterJoinError: String = NSLocalizedString("Your account has been created, but there was an error logging in, please try again", comment: "After successfully joining, there was an error signing in")
+        static let FetchNonceError: String = NSLocalizedString("There was a problem talking to our API.  Please try again later.", comment: "")
+        static let UsernameUnavailable: String = NSLocalizedString("Username already exists.\nPlease try a new one.", comment: "")
+        static let UsernameSuggestionPrefix: String = NSLocalizedString("Here are some available usernames -\n", comment: "")
     }
 
     struct Validator {

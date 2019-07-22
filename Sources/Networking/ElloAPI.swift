@@ -59,7 +59,8 @@ indirect enum ElloAPI {
     case infiniteScroll(query: URLComponents, api: ElloAPI)
     case invitations(emails: [String])
     case inviteFriends(email: String)
-    case join(email: String, username: String, password: String, invitationCode: String?)
+    case join(email: String, username: String, password: String, nonce: String, invitationCode: String?)
+    case joinNonce
     case locationAutoComplete(terms: String)
     case notificationsNewContent(createdAt: Date?)
     case notificationsStream(category: String?)
@@ -155,6 +156,8 @@ indirect enum ElloAPI {
             return .editorials
         case .postReplyAll:
             return .usernamesType
+        case .joinNonce:
+            return .noncesType
         case .currentUserBlockedList,
              .currentUserMutedList,
              .currentUserProfile,
@@ -249,6 +252,7 @@ extension ElloAPI: AuthenticationEndpoint {
              .deleteSubscriptions,
              .editorials,
              .join,
+             .joinNonce,
              .postComments,
              .postDetail,
              .postLovers,
@@ -442,6 +446,8 @@ extension ElloAPI: Moya.TargetType {
             return "\(defaultPrefix)/invitations"
         case .join:
             return "\(defaultPrefix)/join"
+        case .joinNonce:
+            return "\(defaultPrefix)/nonce"
         case .locationAutoComplete:
             return "\(defaultPrefix)/profile/location_autocomplete"
         case .notificationsNewContent,
@@ -587,6 +593,8 @@ extension ElloAPI: Moya.TargetType {
             return api.sampleData
         case .join:
             return stubbedData("users_registering_an_account")
+        case .joinNonce:
+            return stubbedData("nonce")
         case .locationAutoComplete:
             return stubbedData("users_getting_a_list_for_autocompleted_locations")
         case .notificationsStream:
@@ -800,17 +808,18 @@ extension ElloAPI: Moya.TargetType {
             return ["email": emails]
         case let .inviteFriends(email):
             return ["email": email]
-        case let .join(email, username, password, invitationCode):
-            var params = [
+        case let .join(email, username, password, nonce, invitationCode):
+            var params: [String: Any] = [
                 "email": email,
                 "username": username,
                 "password": password,
-                "password_confirmation": password
+                "password_confirmation": password,
+                "nonce": nonce,
             ]
             if let invitationCode = invitationCode {
                 params["invitation_code"] = invitationCode
             }
-            return params as [String: Any]?
+            return params
         case let .locationAutoComplete(terms):
             return [
                 "location": terms
