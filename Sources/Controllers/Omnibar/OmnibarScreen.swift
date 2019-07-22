@@ -1253,9 +1253,7 @@ extension OmnibarScreen: UINavigationControllerDelegate, UIImagePickerController
             return
         }
 
-        if let url = info[.referenceURL] as? URL,
-            let asset = PHAsset.fetchAssets(withALAssetURLs: [url], options: nil).firstObject
-        {
+        if let asset = info[.phAsset] as? PHAsset {
             AssetsToRegions.processPHAssets([asset]) { imageData in
                 for imageDatum in imageData {
                     self.addImage(imageDatum.image, data: imageDatum.data, type: imageDatum.contentType)

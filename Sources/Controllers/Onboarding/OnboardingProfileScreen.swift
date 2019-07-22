@@ -285,9 +285,7 @@ extension OnboardingProfileScreen: UINavigationControllerDelegate, UIImagePicker
             return
         }
 
-        if let url = info[.referenceURL] as? URL,
-            let asset = PHAsset.fetchAssets(withALAssetURLs: [url], options: nil).firstObject
-        {
+        if let asset = info[.phAsset] as? PHAsset {
             processPHAssets([asset])
             delegate?.dismissController()
         }

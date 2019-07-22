@@ -150,10 +150,7 @@ final class StreamViewController: BaseElloViewController {
         collectionView.dataSource = collectionViewDataSource
         collectionView.delegate = self
 
-        automaticallyAdjustsScrollViewInsets = false
-        if #available(iOS 11.0, *) {
-            collectionView.contentInsetAdjustmentBehavior = .never
-        }
+        collectionView.contentInsetAdjustmentBehavior = .never
         collectionView.alwaysBounceHorizontal = false
         collectionView.alwaysBounceVertical = true
         collectionView.isDirectionalLockEnabled = true
