@@ -946,7 +946,7 @@ func url(_ route: Moya.TargetType) -> String {
 }
 
 private func tokenStringFromData(_ data: Data) -> String {
-    return String((data as NSData).description.filter { !"<> ".contains($0) })
+    return data.map { String(format: "%02x", $0) }.joined()
 }
 
 func += <KeyType, ValueType> (left: inout [KeyType: ValueType], right: [KeyType: ValueType]) {
