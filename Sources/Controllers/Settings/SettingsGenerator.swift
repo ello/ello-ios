@@ -20,7 +20,7 @@ class SettingsGenerator {
             .done { user in
                 self.delegate?.currentUserReloaded(user)
             }
-            .ignoreErrors
+            .ignoreErrors()
     }
 
     func loadSettings() {
