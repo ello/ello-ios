@@ -178,7 +178,6 @@
 		122D1B4E1C602337001386CE /* BoxType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1267C7351BA232530000D809 /* BoxType.swift */; };
 		122D1B4F1C602337001386CE /* MutableBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1267C7361BA232530000D809 /* MutableBox.swift */; };
 		122D1B631C6028EF001386CE /* AuthenticationNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F6AE791A433B1C00493660 /* AuthenticationNotifications.swift */; };
-		122D1B7C1C610892001386CE /* NSStringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1275351E1B73D1D1006B9A0F /* NSStringExtensions.swift */; };
 		122D1B981C613085001386CE /* AlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F87928671ACC6D6600579BE1 /* AlertViewController.swift */; };
 		122D1B991C61308F001386CE /* AlertAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8158C481ACDD4C1008C15A1 /* AlertAction.swift */; };
 		122D1B9A1C6130B4001386CE /* NSObjectClassName.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA68A0D81AADF3D4003F0425 /* NSObjectClassName.swift */; };
@@ -265,7 +264,6 @@
 		127128261A77373300695F15 /* TypedNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 127128251A77373300695F15 /* TypedNotifications.swift */; };
 		1274E0171CDBB2BF0064BA82 /* ElloAPIDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1207C9551C73FEE000939ADB /* ElloAPIDescription.swift */; };
 		1275351D1B73D155006B9A0F /* DateExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1275351C1B73D155006B9A0F /* DateExtensions.swift */; };
-		1275351F1B73D1D1006B9A0F /* NSStringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1275351E1B73D1D1006B9A0F /* NSStringExtensions.swift */; };
 		127535211B73F7B2006B9A0F /* DateSpecs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 127535201B73F7B2006B9A0F /* DateSpecs.swift */; };
 		127BAD5C1A83F01700628696 /* StreamCellItemParserSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 127BAD5B1A83F01700628696 /* StreamCellItemParserSpec.swift */; };
 		127BAD5E1A850D6400628696 /* StreamTextCellHTMLSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 127BAD5D1A850D6400628696 /* StreamTextCellHTMLSpec.swift */; };
@@ -556,7 +554,6 @@
 		1D447EB91F3BC44C00013384 /* NotificationExtensionHeaders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D447EB81F3BC44C00013384 /* NotificationExtensionHeaders.swift */; };
 		1D447EBA1F3BC5C000013384 /* Availability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 760303551AE17290005F7A08 /* Availability.swift */; };
 		1D447EBB1F3BC5C800013384 /* NumberExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F6AE281A43390900493660 /* NumberExtensions.swift */; };
-		1D447EBC1F3BC5D900013384 /* NSStringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1275351E1B73D1D1006B9A0F /* NSStringExtensions.swift */; };
 		1D447EBD1F3BC5E600013384 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F6AE2B1A43390900493660 /* StringExtensions.swift */; };
 		1D447EBE1F3BC5F100013384 /* Attachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1247E4E81A8B8CFB00DDC24A /* Attachment.swift */; };
 		1D447EBF1F3BC5FA00013384 /* ElloManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1207C9561C73FEE000939ADB /* ElloManager.swift */; };
@@ -1527,7 +1524,6 @@
 		12706B9A1D3EC1D80028C9BE /* AsyncOperationSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsyncOperationSpec.swift; sourceTree = "<group>"; };
 		127128251A77373300695F15 /* TypedNotifications.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TypedNotifications.swift; sourceTree = "<group>"; };
 		1275351C1B73D155006B9A0F /* DateExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateExtensions.swift; sourceTree = "<group>"; };
-		1275351E1B73D1D1006B9A0F /* NSStringExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSStringExtensions.swift; sourceTree = "<group>"; };
 		127535201B73F7B2006B9A0F /* DateSpecs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateSpecs.swift; sourceTree = "<group>"; };
 		127BAD5B1A83F01700628696 /* StreamCellItemParserSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreamCellItemParserSpec.swift; sourceTree = "<group>"; };
 		127BAD5D1A850D6400628696 /* StreamTextCellHTMLSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreamTextCellHTMLSpec.swift; sourceTree = "<group>"; };
@@ -3262,7 +3258,6 @@
 				1289F3931AF1474B008A938C /* NSAttributedStringExtensions.swift */,
 				1DFC26A81AF297150051D491 /* NSErrorExtensions.swift */,
 				EA68A0D81AADF3D4003F0425 /* NSObjectClassName.swift */,
-				1275351E1B73D1D1006B9A0F /* NSStringExtensions.swift */,
 				12F6AE281A43390900493660 /* NumberExtensions.swift */,
 				12614C571E705940006FB0E5 /* PINRemoteImageManagerResult.swift */,
 				1DB474FA1BAB5584000AA9DC /* RegexExtensions.swift */,
@@ -5227,7 +5222,6 @@
 				1D0DF8F6202384BF00019875 /* AssetParser.swift in Sources */,
 				122B30B31C6A3FBB00C1B9D8 /* Availability.swift in Sources */,
 				12A1D83A1DAE7AE900A327D6 /* NumberExtensions.swift in Sources */,
-				122D1B7C1C610892001386CE /* NSStringExtensions.swift in Sources */,
 				1D0DF9052023A92600019875 /* OneParser.swift in Sources */,
 				122B30E51C6A3FC400C1B9D8 /* Attachment.swift in Sources */,
 				1207C99D1C750F8A00939ADB /* ElloManager.swift in Sources */,
@@ -6123,7 +6117,6 @@
 				76C050A71AA8C8780094E69A /* UserListItemCellPresenter.swift in Sources */,
 				1DC2402E20D46858009B07D5 /* RoleAdminViewController.swift in Sources */,
 				1D70DE581DF23862008AF216 /* StyledLabel.swift in Sources */,
-				1275351F1B73D1D1006B9A0F /* NSStringExtensions.swift in Sources */,
 				1D50002322E3595000DF2C59 /* Nonce.swift in Sources */,
 				122C66311B424C060035F4CD /* AutoCompleteDataSource.swift in Sources */,
 				1D7152B21D6E479A005998FE /* LoginScreen.swift in Sources */,
@@ -6181,7 +6174,6 @@
 				1D447EEB1F3BC7B200013384 /* ElloLinkedStore.swift in Sources */,
 				1D7672DC20C721A30057E03F /* CategoryUser.swift in Sources */,
 				1D447EFA1F3BC94900013384 /* Profile.swift in Sources */,
-				1D447EBC1F3BC5D900013384 /* NSStringExtensions.swift in Sources */,
 				1D447EE71F3BC79E00013384 /* MultipartRequestBuilder.swift in Sources */,
 				1D0DF8F2202384BE00019875 /* UserParser.swift in Sources */,
 				1D447EFD1F3BC95C00013384 /* NSObjectClassName.swift in Sources */,

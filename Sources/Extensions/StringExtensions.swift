@@ -15,6 +15,20 @@ private var srcRegex: NSRegularExpression? = try? NSRegularExpression(
 
 extension String {
 
+    func toDate() -> Date? {
+        if let date = ServerDateFormatter.date(from: self as String) {
+            return date
+        }
+        if let date = ServerDateBackupFormatter.date(from: self as String) {
+            return date
+        }
+        return nil
+    }
+
+    func toDate(_ formatter: DateFormatter) -> Date? {
+        return formatter.date(from: self as String)
+    }
+
     func rangeFromNSRange(_ nsRange: NSRange) -> Range<String.Index>? {
         guard
             let from16 = utf16.index(utf16.startIndex, offsetBy: nsRange.location, limitedBy: utf16.endIndex),
