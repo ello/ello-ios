@@ -40,6 +40,7 @@ class DynamicSettingCell: TableViewCell {
     private let line = Line(color: .greyF2)
 
     override func styleCell() {
+        contentView.backgroundColor = .white
         infoLabel.isMultiline = true
     }
 
@@ -84,6 +85,7 @@ class DynamicSettingCell: TableViewCell {
             make.trailing.equalTo(contentView).offset(-Size.margins)
             make.centerY.equalTo(contentView)
         }
+        toggleButton.setContentCompressionResistancePriority(.required, for: .horizontal)
 
         line.snp.makeConstraints { make in
             make.leading.trailing.bottom.equalTo(contentView)

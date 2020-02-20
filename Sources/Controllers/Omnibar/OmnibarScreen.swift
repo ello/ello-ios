@@ -329,12 +329,13 @@ class OmnibarScreen: Screen, OmnibarScreenProtocol {
         regionsTableView.register(OmnibarTextCell.self, forCellReuseIdentifier: OmnibarTextCell.reuseIdentifier)
         regionsTableView.register(OmnibarImageCell.self, forCellReuseIdentifier: OmnibarImageCell.reuseIdentifier)
         regionsTableView.register(OmnibarImageDownloadCell.self, forCellReuseIdentifier: OmnibarImageDownloadCell.reuseIdentifier)
-        regionsTableView.register(UITableViewCell.self, forCellReuseIdentifier: OmnibarRegion.OmnibarSpacerCell)
+        regionsTableView.register(OmnibarSpacerCell.self, forCellReuseIdentifier: OmnibarSpacerCell.reuseIdentifier)
         regionsTableView.register(OmnibarErrorCell.self, forCellReuseIdentifier: OmnibarErrorCell.reuseIdentifier)
         regionsTableView.contentInset.top = Size.tableTopInset
         regionsTableView.estimatedRowHeight = 0
         regionsTableView.estimatedSectionHeaderHeight = 0
         regionsTableView.estimatedSectionFooterHeight = 0
+        regionsTableView.backgroundColor = .white
         addSubview(regionsTableView)
 
         regionsTableView.snp.makeConstraints { make in

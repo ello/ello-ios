@@ -39,6 +39,7 @@ class DynamicSettingsScreen: NavBarScreen, DynamicSettingsScreenProtocol {
             tableView.contentInsetAdjustmentBehavior = .never
         }
 
+        tableView.backgroundColor = .white
         navigationBar.leftItems = [.back]
         tableView.separatorStyle = .none
         tableView.rowHeight = UITableView.automaticDimension

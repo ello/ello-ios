@@ -73,12 +73,10 @@ extension OmnibarRegion {
         case .imageData, .image: return OmnibarImageCell.reuseIdentifier
         case .imageURL: return OmnibarImageDownloadCell.reuseIdentifier
         case .attributedText: return OmnibarTextCell.reuseIdentifier
-        case .spacer: return OmnibarRegion.OmnibarSpacerCell
+        case .spacer: return OmnibarSpacerCell.reuseIdentifier
         case .error: return OmnibarErrorCell.reuseIdentifier
         }
     }
-
-    static let OmnibarSpacerCell = "OmnibarSpacerCell"
 }
 
 extension OmnibarRegion {

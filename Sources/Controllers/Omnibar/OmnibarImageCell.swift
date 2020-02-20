@@ -29,15 +29,9 @@ class OmnibarImageCell: TableViewCell {
         set { flImageView.animatedImage = newValue }
     }
 
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-    }
-
-    required init(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
     override func styleCell() {
+        backgroundColor = .white
+        contentView.backgroundColor = .white
         flImageView.clipsToBounds = true
         flImageView.contentMode = .scaleAspectFit
         buyButton.backgroundColor = .greenD1

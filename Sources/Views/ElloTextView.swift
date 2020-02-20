@@ -85,6 +85,7 @@ class ElloTextView: UITextView {
         attributedText = NSAttributedString(string: "")
         textContainerInset = UIEdgeInsets.zero
         allowsEditingTextAttributes = false
+        backgroundColor = .white
     }
 
     private func addTarget() {

@@ -725,6 +725,7 @@
 		1D652F5A1BC2D66200AF3B06 /* PostbarControllerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D652F591BC2D66200AF3B06 /* PostbarControllerSpec.swift */; };
 		1D652F5E1BC2FDCD00AF3B06 /* ElloTabBarSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D652F5D1BC2FDCD00AF3B06 /* ElloTabBarSpec.swift */; };
 		1D66803D1A8AA7B1003E93C8 /* NotificationsFilterBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D66803C1A8AA7B1003E93C8 /* NotificationsFilterBar.swift */; };
+		1D68CAF823FF2C5500C0CBE5 /* OmnibarSpacerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D68CAF723FF2C5400C0CBE5 /* OmnibarSpacerCell.swift */; };
 		1D69BBCF1C3EF5AA00FCBDE0 /* ElloSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D69BBCE1C3EF5AA00FCBDE0 /* ElloSegmentedControl.swift */; };
 		1D6A02431C73CC9B0054603B /* AssetsToRegions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A02421C73CC9B0054603B /* AssetsToRegions.swift */; };
 		1D6A02451C73CD390054603B /* AssetsToRegionsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A02441C73CD390054603B /* AssetsToRegionsSpec.swift */; };
@@ -1844,6 +1845,7 @@
 		1D652F591BC2D66200AF3B06 /* PostbarControllerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostbarControllerSpec.swift; sourceTree = "<group>"; };
 		1D652F5D1BC2FDCD00AF3B06 /* ElloTabBarSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ElloTabBarSpec.swift; sourceTree = "<group>"; };
 		1D66803C1A8AA7B1003E93C8 /* NotificationsFilterBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationsFilterBar.swift; sourceTree = "<group>"; };
+		1D68CAF723FF2C5400C0CBE5 /* OmnibarSpacerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OmnibarSpacerCell.swift; sourceTree = "<group>"; };
 		1D69BBCE1C3EF5AA00FCBDE0 /* ElloSegmentedControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ElloSegmentedControl.swift; sourceTree = "<group>"; };
 		1D6A02421C73CC9B0054603B /* AssetsToRegions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssetsToRegions.swift; sourceTree = "<group>"; };
 		1D6A02441C73CD390054603B /* AssetsToRegionsSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssetsToRegionsSpec.swift; sourceTree = "<group>"; };
@@ -2764,6 +2766,7 @@
 		12551FB81A68725100ABC5D9 /* Omnibar */ = {
 			isa = PBXGroup;
 			children = (
+				1D68CAF723FF2C5400C0CBE5 /* OmnibarSpacerCell.swift */,
 				1D0DF918202A1FF000019875 /* BuyButtonLinkProtocols.swift */,
 				1D9CF99A1D4800C4004A95B7 /* BuyButtonLinkScreen.swift */,
 				1D9CF9981D4800AE004A95B7 /* BuyButtonLinkViewController.swift */,
@@ -6095,6 +6098,7 @@
 				1207C98B1C73FEE000939ADB /* ReAuthService.swift in Sources */,
 				1207C96E1C73FEE000939ADB /* AnonymousAuthService.swift in Sources */,
 				1D0DF8DA20237CDC00019875 /* WatchParser.swift in Sources */,
+				1D68CAF823FF2C5500C0CBE5 /* OmnibarSpacerCell.swift in Sources */,
 				1DB286E61B96021F00D03516 /* OmnibarErrorCell.swift in Sources */,
 				1DA18E121DB187DF000231CC /* CalculatedCellHeights.swift in Sources */,
 				1D5933751D10BC8100EAF03D /* CategoryLevel.swift in Sources */,
