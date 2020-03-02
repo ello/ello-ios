@@ -67,7 +67,7 @@ GEM
     osx_keychain (1.0.1)
       RubyInline (~> 3)
     plist (3.2.0)
-    rake (10.0.4)
+    rake (12.3.3)
     rouge (2.0.7)
     ruby-macho (1.2.0)
     thread_safe (0.3.6)
@@ -94,7 +94,7 @@ DEPENDENCIES
   git
   mini_magick
   plist
-  rake (~> 10.0.0)
+  rake (~> 12.3.3)
   xcpretty (~> 0.2.1)
   xcpretty-travis-formatter
 
