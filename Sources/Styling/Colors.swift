@@ -48,4 +48,18 @@ extension UIColor {
     // explains itself
     static let dimmedModalBackground = UIColor(white: 0x0, alpha: 0.7)
     static let dimmedBlackBackground = UIColor(white: 0x0, alpha: 0.5)
+
+    static var background: UIColor = .dynamic(dark: .black, light: .white)
+    static var text: UIColor = .dynamic(dark: .white, light: .black)
+    static var selected: UIColor = .dynamic(dark: .white, light: .black)
+    static var disabled: UIColor = .dynamic(dark: .grey3, light: .greyC)
+
+    static func dynamic(dark: UIColor, light: UIColor) -> UIColor {
+        if #available(iOS 13.0, *) {
+            return UIColor { traits in
+                traits.userInterfaceStyle == .dark ? dark : light
+            }
+        }
+        return light
+    }
 }

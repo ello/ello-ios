@@ -44,7 +44,6 @@ class DynamicSettingsScreen: NavBarScreen, DynamicSettingsScreenProtocol {
         tableView.separatorStyle = .none
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = Size.estimatedRowHeight
-        tableView.register(DynamicSettingCell.self, forCellReuseIdentifier: DynamicSettingCell.reuseIdentifier)
     }
 
     override func bindActions() {
@@ -53,6 +52,7 @@ class DynamicSettingsScreen: NavBarScreen, DynamicSettingsScreenProtocol {
     }
 
     override func arrange() {
+        tableView.register(DynamicSettingCell.self, forCellReuseIdentifier: DynamicSettingCell.reuseIdentifier)
         arrange(contentView: tableView)
 
         tableView.snp.makeConstraints { make in

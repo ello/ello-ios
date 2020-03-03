@@ -14,6 +14,7 @@ func overrideGlobals(_ global: GlobalFactory) {
 
 
 class GlobalFactory {
+    var isDarkMode: Bool { _isDarkMode() } // this can change at runtime
     lazy var isTesting: Bool = _isTesting()
     lazy var isSimulator: Bool = _isRunningOnSimulator()
     lazy var isIphoneX: Bool = _isIphoneX()
@@ -43,12 +44,20 @@ private func _isRunningOnSimulator() -> Bool {
     #endif
 }
 
+private func _isDarkMode() -> Bool {
+    if #available(iOS 13, *) {
+        return UITraitCollection.current.userInterfaceStyle == .dark
+    } else {
+        return false
+    }
+}
+
 private func _isTesting() -> Bool {
-    return NSClassFromString("XCTest") != nil
+    NSClassFromString("XCTest") != nil
 }
 
 private func _isIphoneX() -> Bool {
-    return UIScreen.main.bounds.size.height == 812 || UIScreen.main.bounds.size.height == 896
+    UIScreen.main.bounds.size.height == 812 || UIScreen.main.bounds.size.height == 896
 }
 
 private func _statusBarHeight() -> CGFloat {
@@ -66,5 +75,5 @@ private func _bestBottomMargin() -> CGFloat {
 }
 
 private func _isIpad() -> Bool {
-    return UIDevice.current.userInterfaceIdiom == .pad
+    UIDevice.current.userInterfaceIdiom == .pad
 }

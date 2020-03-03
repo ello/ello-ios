@@ -25,6 +25,11 @@ class Button: UIButton {
         self.init(frame: .zero)
     }
 
+    override func traitCollectionDidChange(_ prev: UITraitCollection?) {
+        super.traitCollectionDidChange(prev)
+        style()
+    }
+
     func style() {}
     func bindActions() {}
     func setText() {}

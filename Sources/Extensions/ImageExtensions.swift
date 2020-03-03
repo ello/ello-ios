@@ -80,9 +80,9 @@ extension UIImage {
         return newImage
     }
 
-    func roundCorners(padding: CGFloat = 0) -> UIImage? {
+    func toCircle(padding: CGFloat = 0) -> UIImage? {
         UIGraphicsBeginImageContextWithOptions(self.size, false, self.scale)
-        let rect = CGRect(x: 0.0, y: 0.0, width: self.size.width, height: self.size.height)
+        let rect = CGRect(origin: .zero, size: self.size)
         let rectWithPadding = rect.insetBy(dx: padding, dy: padding)
         UIBezierPath(roundedRect: rectWithPadding, cornerRadius: size.width - padding).addClip()
         self.draw(in: rect)

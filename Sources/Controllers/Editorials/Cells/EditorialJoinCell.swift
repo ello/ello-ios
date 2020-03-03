@@ -42,28 +42,6 @@ class EditorialJoinCell: EditorialCellContent {
         responder?.submitJoin(cell: self.editorialCell, email: email, username: username, password: password)
     }
 
-    override func updateConfig() {
-        super.updateConfig()
-
-        emailField.text = config.join?.email
-        usernameField.text = config.join?.username
-        passwordField.text = config.join?.password
-
-        let enabled = !(config.join?.submitted ?? false)
-        emailField.isEnabled = enabled
-        usernameField.isEnabled = enabled
-        passwordField.isEnabled = enabled
-        submitButton.isEnabled = enabled
-    }
-
-    override func bindActions() {
-        super.bindActions()
-        submitButton.addTarget(self, action: #selector(submitTapped), for: .touchUpInside)
-        emailField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
-        usernameField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
-        passwordField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
-    }
-
     override func style() {
         super.style()
 
@@ -82,6 +60,29 @@ class EditorialJoinCell: EditorialCellContent {
         passwordField.placeholder = InterfaceString.Editorials.PasswordPlaceholder
         submitButton.isEnabled = false
         submitButton.title = InterfaceString.Editorials.SubmitJoin
+    }
+
+    override func updateConfig() {
+        super.updateConfig()
+
+        emailField.text = config.join?.email
+        usernameField.text = config.join?.username
+        passwordField.text = config.join?.password
+
+        let enabled = !(config.join?.submitted ?? false)
+        emailField.isEnabled = enabled
+        usernameField.isEnabled = enabled
+        passwordField.isEnabled = enabled
+        submitButton.isEnabled = enabled
+    }
+
+    override func bindActions() {
+        super.bindActions()
+
+        submitButton.addTarget(self, action: #selector(submitTapped), for: .touchUpInside)
+        emailField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
+        usernameField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
+        passwordField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
     }
 
     override func arrange() {

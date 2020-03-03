@@ -11,6 +11,7 @@ class CollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         didInit = true
+        setup()
         style()
         bindActions()
         setText()
@@ -20,12 +21,19 @@ class CollectionViewCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         didInit = true
+        setup()
         style()
         bindActions()
         setText()
         arrange()
     }
 
+    override func traitCollectionDidChange(_ prev: UITraitCollection?) {
+        super.traitCollectionDidChange(prev)
+        style()
+    }
+
+    func setup() {}
     func style() {}
     func bindActions() {}
     func setText() {}

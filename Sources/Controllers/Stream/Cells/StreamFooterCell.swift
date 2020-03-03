@@ -14,17 +14,17 @@ class StreamFooterCell: CollectionViewCell {
         contentView.backgroundColor = .white
         toolbar.clipsToBounds = true
         toolbar.isTranslucent = false
-        toolbar.barTintColor = UIColor.white
+        toolbar.barTintColor = .white
         toolbar.layer.borderColor = UIColor.white.cgColor
-
-        let longPressGesture = UILongPressGestureRecognizer()
-        longPressGesture.addTarget(self, action: #selector(longPressed(_:)))
-        contentView.addGestureRecognizer(longPressGesture)
 
     }
 
     override func bindActions() {
         toolbar.postToolsDelegate = self
+
+        let longPressGesture = UILongPressGestureRecognizer()
+        longPressGesture.addTarget(self, action: #selector(longPressed(_:)))
+        contentView.addGestureRecognizer(longPressGesture)
     }
 
     override func arrange() {

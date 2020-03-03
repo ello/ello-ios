@@ -67,21 +67,11 @@ class LightboxScreen: Screen, LightboxScreenProtocol {
     private var minAngle: CGFloat!
     private var maxAngle: CGFloat!
 
-    override func style() {
-        toolbar.style = .dark
-        toolbar.postToolsDelegate = self
-        toolbarBlackBar.backgroundColor = .black
-
+    override func setup() {
         prevImageView.alpha = 0.5
         currImageView.alpha = 1
         nextImageView.alpha = 0.5
-
         nextPageView.isHidden = true
-
-        backgroundColor = .clear
-        prevImageView.contentMode = .scaleAspectFit
-        currImageView.contentMode = .scaleAspectFit
-        nextImageView.contentMode = .scaleAspectFit
 
         nextPageViewWidth = nextPageView.intrinsicContentSize.width
         minX = nextPageViewWidth * 3/4
@@ -90,7 +80,19 @@ class LightboxScreen: Screen, LightboxScreenProtocol {
         maxAngle = 2 * .pi
     }
 
+    override func style() {
+        toolbar.style = .dark
+        toolbarBlackBar.backgroundColor = .black
+
+        backgroundColor = .clear
+        prevImageView.contentMode = .scaleAspectFit
+        currImageView.contentMode = .scaleAspectFit
+        nextImageView.contentMode = .scaleAspectFit
+    }
+
     override func bindActions() {
+        toolbar.postToolsDelegate = self
+
         scrollPanGesture = UIPanGestureRecognizer(target: self, action: #selector(scrollPanGestureMovement(gesture:)))
         imagesContainer.addGestureRecognizer(scrollPanGesture)
 

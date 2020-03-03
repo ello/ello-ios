@@ -33,6 +33,43 @@ class HireScreen: StreamableScreen {
     private let keyboardSubmitButton = StyledButton()
     private var keyboardBottomConstraint: Constraint!
 
+    override func setup() {
+        keyboardSubmitButton.isEnabled = false
+        successView.alpha = 0
+    }
+
+    override func style() {
+        textView.backgroundColor = .clear
+        textView.tintColor = .black
+        textView.textColor = .black
+        textView.font = UIFont.editorFont()
+        textView.textContainer.lineFragmentPadding = 0
+        textView.showsHorizontalScrollIndicator = false
+        textView.keyboardAppearance = .dark
+
+        placeholder.text = InterfaceString.Omnibar.SayEllo
+        placeholder.textColor = .greyC
+        placeholder.font = UIFont.editorFont()
+
+        keyboardSubmitButton.contentEdgeInsets.left = 10
+        keyboardSubmitButton.imageEdgeInsets.right = 20
+
+        successView.backgroundColor = .white
+        successLabel.textColor = .black
+        successLabel.font = UIFont.defaultFont(18)
+        successImage.interfaceImage = .validationOK
+    }
+
+    override func setText() {
+        keyboardSubmitButton.setImages(.mail, style: .white)
+        keyboardSubmitButton.title = InterfaceString.Send
+    }
+
+    override func bindActions() {
+        textView.delegate = self
+        keyboardSubmitButton.addTarget(self, action: #selector(submitAction), for: .touchUpInside)
+    }
+
     override func arrange() {
         super.arrange()
 
@@ -75,45 +112,6 @@ class HireScreen: StreamableScreen {
             make.leading.equalTo(successView).offset(Size.successImageLeading)
             make.centerY.equalTo(successView)
         }
-    }
-
-    override func style() {
-        super.style()
-
-        textView.delegate = self
-        textView.backgroundColor = .clear
-        textView.tintColor = .black
-        textView.textColor = .black
-        textView.font = UIFont.editorFont()
-        textView.textContainer.lineFragmentPadding = 0
-        textView.showsHorizontalScrollIndicator = false
-        textView.keyboardAppearance = .dark
-
-        placeholder.text = InterfaceString.Omnibar.SayEllo
-        placeholder.textColor = .greyC
-        placeholder.font = UIFont.editorFont()
-
-        keyboardSubmitButton.isEnabled = false
-        keyboardSubmitButton.contentEdgeInsets.left = 10
-        keyboardSubmitButton.imageEdgeInsets.right = 20
-
-        successView.backgroundColor = .white
-        successView.alpha = 0
-        successLabel.textColor = .black
-        successLabel.font = UIFont.defaultFont(18)
-        successImage.interfaceImage = .validationOK
-    }
-
-    override func setText() {
-        super.setText()
-
-        keyboardSubmitButton.setImages(.mail, style: .white)
-        keyboardSubmitButton.title = InterfaceString.Send
-    }
-
-    override func bindActions() {
-        super.bindActions()
-        keyboardSubmitButton.addTarget(self, action: #selector(submitAction), for: .touchUpInside)
     }
 
     func toggleKeyboard(visible: Bool) {

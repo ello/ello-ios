@@ -23,6 +23,9 @@ class ProfileHeaderBioCell: ProfileHeaderCell {
         backgroundColor = .white
         bioView.scrollView.isScrollEnabled = false
         bioView.scrollView.scrollsToTop = false
+    }
+
+    override func bindActions() {
         bioView.delegate = self
     }
 

@@ -16,7 +16,7 @@ class TextHeaderCell: CollectionViewCell {
     }
 
     override func style() {
-        backgroundColor = UIColor.white
+        backgroundColor = .white
         headerLabel.numberOfLines = 0
     }
 

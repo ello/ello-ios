@@ -60,9 +60,9 @@ class ElloTabBar: UIView {
     }
 
     private func privateInit() {
-        self.backgroundColor = UIColor.white
+        self.backgroundColor = .background
         self.isOpaque = true
-        self.tintColor = UIColor.black
+        self.tintColor = .text
         self.clipsToBounds = true
     }
 
@@ -75,7 +75,7 @@ class ElloTabBar: UIView {
                 button.setImage(selectedImage, for: .highlighted)
             }
             else {
-                button.setImages(tab.interfaceImage)
+                button.setImages(tab.interfaceImage, style: .dynamic)
             }
         }
     }

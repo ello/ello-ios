@@ -17,8 +17,6 @@ class PersistentBackButton: Button {
     }
 
     override func style() {
-        super.style()
-
         backgroundColor = .white
         setImages(.backChevron)
         layer.masksToBounds = true

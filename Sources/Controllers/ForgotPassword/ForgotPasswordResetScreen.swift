@@ -40,15 +40,12 @@ class ForgotPasswordResetScreen: CredentialsScreen {
     }
 
     override func bindActions() {
-        super.bindActions()
         continueButton.addTarget(self, action: #selector(submitAction), for: .touchUpInside)
         activatePasswordButton.addTarget(self, action: #selector(activatePassword), for: .touchUpInside)
         passwordField.delegate = self
     }
 
     override func style() {
-        super.style()
-
         ElloTextFieldView.styleAsPasswordField(passwordField)
 
         failureLabel.isMultiline = true

@@ -14,6 +14,9 @@ enum InterfaceImage: String {
         case red
         case green  // used by the "watching" lightning bolt
         case orange  // used by the "selected" star
+
+        case dynamic
+        case inverted
     }
 
     case elloLogo = "ello_logo"
@@ -133,6 +136,27 @@ enum InterfaceImage: String {
         case .red:      return redImage
         case .green:    return greenImage
         case .orange:    return orangeImage
+
+        case .dynamic:
+            if #available(iOS 13, *) {
+                if UITraitCollection.current.userInterfaceStyle == .dark {
+                    return whiteImage
+                } else {
+                    return normalImage
+                }
+            } else {
+                return normalImage
+            }
+        case .inverted:
+            if #available(iOS 13, *) {
+                if UITraitCollection.current.userInterfaceStyle == .dark {
+                    return normalImage
+                } else {
+                    return whiteImage
+                }
+            } else {
+                return whiteImage
+            }
         }
     }
 
@@ -182,6 +206,7 @@ enum InterfaceImage: String {
              .arrowUp,
              .backChevron,
              .breakLink,
+             .bolt,
              .bubbleBody,
              .camera,
              .checkSmall,
@@ -189,20 +214,28 @@ enum InterfaceImage: String {
              .circleCheckLarge,
              .comments,
              .commentsOutline,
+             .discover,
+             .elloType,
              .eye,
              .forwardChevron,
              .heart,
              .heartOutline,
+             .home,
              .invite,
              .library,
              .link,
              .mail,
+             .omni,
              .onePassword,
              .pencil,
+             .person,
+             .photoPicker,
              .plusSmall,
+             .reorder,
              .repost,
              .roleAdmin,
              .share,
+             .textPicker,
              .xBox,
              .x:
             return InterfaceImage.svgkImage("\(self.rawValue)_white")

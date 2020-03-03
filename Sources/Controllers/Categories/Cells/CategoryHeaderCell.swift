@@ -44,10 +44,13 @@ class CategoryHeaderCell: CollectionViewCell {
         didSet { updateConfig() }
     }
 
+    override func setup() {
+        infoButton.isUserInteractionEnabled = false
+    }
+
     override func style() {
         infoButton.title = InterfaceString.Info
         infoButton.contentEdgeInsets = UIEdgeInsets(tops: 10, sides: 20)
-        infoButton.isUserInteractionEnabled = false
         titleLabel.numberOfLines = 1
         titleLabel.adjustsFontSizeToFitWidth = true
         titleLabel.minimumScaleFactor = 0.25

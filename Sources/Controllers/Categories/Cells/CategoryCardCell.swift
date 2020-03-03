@@ -64,17 +64,20 @@ class CategoryCardCell: CollectionViewCell {
     private var subscribeContentConstraint: Constraint!
     private var onboardingContentConstraint: Constraint!
 
+    override func setup() {
+        subscribedCheckbox.isHidden = true
+        selectedImageView.isHidden = true
+    }
+
     override func style() {
         insetContentView.clipsToBounds = true
         label.isMultiline = true
         label.textAlignment = .center
-        subscribedCheckbox.isHidden = true
         subscribedCheckbox.setInterfaceImage(.circleCheckLarge, style: .green)
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         mainContentView.backgroundColor = .black
         mainContentView.alpha = 0.4
-        selectedImageView.isHidden = true
         selectedImageView.interfaceImage = .smallCheck
     }
 

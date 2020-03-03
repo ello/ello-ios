@@ -56,10 +56,6 @@ class SettingsCredentialsScreen: NavBarScreen, SettingsCredentialsScreenProtocol
         credentialsDescription.isMultiline = true
     }
 
-
-    override func bindActions() {
-    }
-
     override func setText() {
         navigationBar.title = InterfaceString.Settings.EditCredentials
         credentialsDescription.text = InterfaceString.Settings.CredentialsSettings

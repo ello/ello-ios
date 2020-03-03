@@ -43,7 +43,7 @@ class StreamTextCell: StreamRegionableCell, UIWebViewDelegate, UIGestureRecogniz
     var html: String = "" {
         didSet {
             if html != oldValue {
-                setupWebView(ElloWebView())
+                installWebView(ElloWebView())
                 let wrappedHtml = StreamTextCellHTML.postHTML(html)
                 webView.loadHTMLString(wrappedHtml, baseURL: URL(string: "/"))
             }
@@ -56,7 +56,7 @@ class StreamTextCell: StreamRegionableCell, UIWebViewDelegate, UIGestureRecogniz
     private let doubleTapGesture = UITapGestureRecognizer()
     private let longPressGesture = UILongPressGestureRecognizer()
 
-    func setupWebView(_ webView: ElloWebView) {
+    func installWebView(_ webView: ElloWebView) {
         self.webView.delegate = nil
         self.webView.removeFromSuperview()
 
@@ -80,12 +80,8 @@ class StreamTextCell: StreamRegionableCell, UIWebViewDelegate, UIGestureRecogniz
         self.webView = webView
     }
 
-    override func style() {
-        super.style()
-        setupWebView(webView)
-    }
-
     override func arrange() {
+        installWebView(webView)
         contentView.addSubview(webViewContainer)
 
         webViewContainer.snp.makeConstraints { make in

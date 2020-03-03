@@ -48,7 +48,6 @@ class BadgeCell: CollectionViewCell {
     }
 
     override func style() {
-        label.textViewDelegate = self
         label.backgroundColor = .clear
         label.isEditable = false
         label.allowsEditingTextAttributes = false
@@ -57,6 +56,10 @@ class BadgeCell: CollectionViewCell {
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         grayLine.backgroundColor = .greyE5
+    }
+
+    override func bindActions() {
+        label.textViewDelegate = self
     }
 
     override func arrange() {

@@ -228,6 +228,11 @@ class OmnibarScreen: Screen, OmnibarScreenProtocol {
         }
     }
 
+    override func style() {
+        backgroundColor = .background
+        toolbarContainer.backgroundColor = .background
+    }
+
     private func setupAutoComplete() {
         autoCompleteVC.view.frame = autoCompleteContainer.bounds
         autoCompleteVC.delegate = self
@@ -281,7 +286,7 @@ class OmnibarScreen: Screen, OmnibarScreenProtocol {
         addSubview(toolbarContainer)
         toolbarContainer.snp.makeConstraints { make in
             make.leading.trailing.equalTo(self)
-            toolbarPinToTopConstraint = make.top.equalTo(self).offset(StatusBar.Size.height + Size.margins.top).constraint
+            toolbarPinToTopConstraint = make.top.equalTo(self).offset(StatusBar.Size.height).constraint
             toolbarPinToNavConstraint = make.top.equalTo(navigationBar.snp.bottom).constraint
         }
         toolbarContainer.addSubview(cancelButton)
@@ -293,18 +298,22 @@ class OmnibarScreen: Screen, OmnibarScreenProtocol {
 
         cancelButton.snp.makeConstraints { make in
             make.leading.equalTo(toolbarContainer).inset(Size.margins)
-            make.top.bottom.equalTo(toolbarContainer).inset(Size.toolbarMargin)
+            make.top.equalTo(toolbarContainer).inset(Size.toolbarMargin.top + Size.margins.top)
+            make.bottom.equalTo(toolbarContainer).inset(Size.toolbarMargin)
         }
         addImageButton.snp.makeConstraints { make in
             make.trailing.equalTo(toolbarContainer).inset(Size.margins)
-            make.top.bottom.equalTo(toolbarContainer).inset(Size.toolbarMargin)
+            make.top.equalTo(toolbarContainer).inset(Size.toolbarMargin.top + Size.margins.top)
+            make.bottom.equalTo(toolbarContainer).inset(Size.toolbarMargin)
         }
         reorderButton.snp.makeConstraints { make in
-            make.top.bottom.equalTo(toolbarContainer).inset(Size.toolbarMargin)
+            make.top.equalTo(toolbarContainer).inset(Size.toolbarMargin.top + Size.margins.top)
+            make.bottom.equalTo(toolbarContainer).inset(Size.toolbarMargin)
             make.trailing.equalTo(addImageButton.snp.leading).offset(-Size.toolbarButtonSpacing)
         }
         buyButton.snp.makeConstraints { make in
-            make.top.bottom.equalTo(toolbarContainer).inset(Size.toolbarMargin)
+            make.top.equalTo(toolbarContainer).inset(Size.toolbarMargin.top + Size.margins.top)
+            make.bottom.equalTo(toolbarContainer).inset(Size.toolbarMargin)
             make.trailing.equalTo(reorderButton.snp.leading).offset(-Size.toolbarButtonSpacing - Size.additionalBuyPadding)
         }
         cancelImageButton.snp.makeConstraints { make in

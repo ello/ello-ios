@@ -62,10 +62,6 @@ class ArtistInviteBubbleCell: CollectionViewCell, ArtistInviteConfigurableCell {
         return height1 + height2
     }
 
-    override func bindActions() {
-        descriptionWebView.delegate = self
-    }
-
     override func style() {
         bg.layer.cornerRadius = Size.cornerRadius
         bg.clipsToBounds = true
@@ -81,6 +77,10 @@ class ArtistInviteBubbleCell: CollectionViewCell, ArtistInviteConfigurableCell {
         descriptionWebView.scrollView.isScrollEnabled = false
         descriptionWebView.scrollView.scrollsToTop = false
         descriptionWebView.isUserInteractionEnabled = false
+    }
+
+    override func bindActions() {
+        descriptionWebView.delegate = self
     }
 
     override func arrange() {

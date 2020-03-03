@@ -39,6 +39,7 @@ class EditorialPostStreamCell: EditorialCellContent {
 
     override func bindActions() {
         super.bindActions()
+
         pageControl.addTarget(self, action: #selector(pageTapped), for: .valueChanged)
         scrollView.delegate = self
 

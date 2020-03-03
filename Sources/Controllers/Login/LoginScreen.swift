@@ -63,7 +63,6 @@ class LoginScreen: CredentialsScreen {
     }
 
     override func bindActions() {
-        super.bindActions()
         continueButton.addTarget(self, action: #selector(submitAction), for: .touchUpInside)
         forgotPasswordButton.addTarget(self, action: #selector(forgotPasswordAction), for: .touchUpInside)
         passwordField.onePasswordButton.addTarget(self, action: #selector(onePasswordAction(_:)), for: .touchUpInside)
@@ -76,10 +75,7 @@ class LoginScreen: CredentialsScreen {
     }
 
     override func style() {
-        super.style()
-
         ElloTextFieldView.styleAsEmailField(usernameField)
-
         ElloTextFieldView.styleAsPasswordField(passwordField)
         passwordField.hasOnePassword = isOnePasswordAvailable
 

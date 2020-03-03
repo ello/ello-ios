@@ -5,8 +5,7 @@
 class ArtistInviteDetailScreen: StreamableScreen, ArtistInviteDetailScreenProtocol {
     private let successScreen = ArtistInviteSubmissionSuccessScreen()
 
-    override func style() {
-        super.style()
+    override func setup() {
         successScreen.alpha = 0
     }
 

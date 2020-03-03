@@ -43,9 +43,12 @@ class PostFeaturedControlCell: CollectionViewCell {
     override func style() {
         bg.backgroundColor = .greyF2
         icon.setImages(.featurePost)
-        icon.isUserInteractionEnabled = false
         label.text = InterfaceString.Post.Feature
         loader.isVisible = false
+    }
+
+    override func bindActions() {
+        icon.isUserInteractionEnabled = false
     }
 
     override func arrange() {

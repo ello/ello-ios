@@ -2,7 +2,7 @@
 ///  UserListItemCell.swift
 //
 
-class UserListItemCell: UICollectionViewCell {
+class UserListItemCell: CollectionViewCell {
     static let reuseIdentifier = "UserListItemCell"
 
     @IBOutlet weak var avatarButton: AvatarButton!
@@ -10,11 +10,6 @@ class UserListItemCell: UICollectionViewCell {
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var relationshipControl: RelationshipControl!
     var bottomBorder = CALayer()
-
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        style()
-    }
 
     func setUser(_ user: User?) {
         avatarButton.setUserAvatarURL(user?.avatarURL())
@@ -27,7 +22,11 @@ class UserListItemCell: UICollectionViewCell {
         nameLabel.text = user?.name
     }
 
-    private func style() {
+    override func arrange() {
+        self.layer.addSublayer(bottomBorder)
+    }
+
+    override func style() {
         usernameLabel.font = UIFont.defaultBoldFont(18)
         usernameLabel.textColor = UIColor.black
         usernameLabel.lineBreakMode = .byTruncatingTail
@@ -38,7 +37,6 @@ class UserListItemCell: UICollectionViewCell {
 
         // bottom border
         bottomBorder.backgroundColor = UIColor.greyF1.cgColor
-        self.layer.addSublayer(bottomBorder)
     }
 
     override func layoutSubviews() {

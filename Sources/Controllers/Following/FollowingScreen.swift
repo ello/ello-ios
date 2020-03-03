@@ -20,7 +20,7 @@ class FollowingScreen: HomeSubviewScreen, FollowingScreenProtocol {
     }
 
     override func style() {
-        super.style()
+        styleHomeScreenNavBar(navigationBar: navigationBar)
         navigationBar.sizeClass = .large
     }
 

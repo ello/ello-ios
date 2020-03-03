@@ -41,11 +41,18 @@ enum HomeScreenType {
     case discover
 }
 
+private let logoButtonTag = 0x312
+
 extension HomeScreenNavBar {
+
+    func styleHomeScreenNavBar(navigationBar: UIView) {
+        guard let logoButton: UIButton = navigationBar.findSubview({ $0.tag == logoButtonTag }) else { return }
+        logoButton.setImage(.elloType, imageStyle: .dynamic, for: .normal)
+    }
 
     func arrangeHomeScreenNavBar(type: HomeScreenType, navigationBar: UIView) {
         let logoButton = UIButton()
-        logoButton.setImage(.elloType, imageStyle: .normal, for: .normal)
+        logoButton.tag = logoButtonTag
         logoButton.addTarget(self, action: #selector(homeScreenScrollToTop), for: .touchUpInside)
 
         let tabBar = NestedTabBarView()
@@ -103,5 +110,7 @@ extension HomeScreenNavBar {
             make.leading.trailing.equalTo(navigationBar)
             make.top.equalTo(logoButton.snp.bottom).offset(HomeScreenNavBarSize.tabBarOffset)
         }
+
+        styleHomeScreenNavBar(navigationBar: navigationBar)
     }
 }

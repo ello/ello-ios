@@ -53,15 +53,19 @@ class NestedTabBarView: View {
         tabs.append(tab)
     }
 
+    override func style() {
+        backgroundColor = .background
+    }
+
     func select(tab selectedTab: Tab) {
         for tab in tabs {
             if tab == selectedTab {
-                tab.button.style = .clearBlack
-                tab.line.backgroundColor = .black
+                tab.button.style = .clearDynamic
+                tab.line.backgroundColor = .text
                 tab.button.isUserInteractionEnabled = false
             }
             else {
-                tab.button.style = .clearGray
+                tab.button.style = .clearGrayDynamic
                 tab.line.backgroundColor = .greyA
                 tab.button.isUserInteractionEnabled = true
             }

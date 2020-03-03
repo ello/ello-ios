@@ -95,6 +95,11 @@ class ElloTabBarController: BaseElloViewController, BottomBarController {
         fatalError("init(coder:) has not been implemented")
     }
 
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        didSetCurrentUser()
+    }
+
     override func didSetCurrentUser() {
         super.didSetCurrentUser()
 

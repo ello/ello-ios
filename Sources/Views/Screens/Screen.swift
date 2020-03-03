@@ -23,7 +23,8 @@ class Screen: UIView {
         addSubview(keyboardAnchor)
         backgroundColor = .white
 
-        screenInit()
+        keyboardInit()
+        setup()
         style()
         bindActions()
         setText()
@@ -36,7 +37,8 @@ class Screen: UIView {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
 
-        screenInit()
+        keyboardInit()
+        setup()
         style()
         bindActions()
         setText()
@@ -50,6 +52,12 @@ class Screen: UIView {
         teardownKeyboardObservers()
     }
 
+    override func traitCollectionDidChange(_ prev: UITraitCollection?) {
+        super.traitCollectionDidChange(prev)
+        style()
+    }
+
+    func setup() {}
     func style() {}
     func bindActions() {}
     func setText() {}
@@ -94,7 +102,7 @@ class Screen: UIView {
 
     func keyboardIsAnimating(_ keyboard: Keyboard) {}
 
-    private func screenInit() {
+    private func keyboardInit() {
         keyboardAnchor.snp.makeConstraints { make in
             make.leading.trailing.bottom.equalTo(self)
             keyboardTopConstraint = make.top.equalTo(self.snp.bottom).priority(Priority.required).constraint

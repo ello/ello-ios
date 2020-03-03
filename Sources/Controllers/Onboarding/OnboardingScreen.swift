@@ -31,10 +31,13 @@ class OnboardingScreen: EmptyScreen {
         set { promptButton.title = newValue ?? InterfaceString.Onboard.CreateProfile }
     }
 
-    override func style() {
-        buttonContainer.backgroundColor = .greyE5
+    override func setup() {
         abortButton.isHidden = true
         nextButton.isHidden = true
+    }
+
+    override func style() {
+        buttonContainer.backgroundColor = .greyE5
     }
 
     override func bindActions() {

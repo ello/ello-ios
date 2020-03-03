@@ -36,6 +36,7 @@ class EditorialInviteCell: EditorialCellContent {
 
     override func updateConfig() {
         super.updateConfig()
+
         textView.text = config.invite?.emails
 
         let showSent: Bool
@@ -60,15 +61,14 @@ class EditorialInviteCell: EditorialCellContent {
         timer = nil
     }
 
-    override func bindActions() {
-        super.bindActions()
-        submitButton.addTarget(self, action: #selector(submitTapped), for: .touchUpInside)
+    override func setup() {
+        super.setup()
+        submitButton.isEnabled = false
     }
 
     override func style() {
         super.style()
 
-        textView.delegate = self
         textView.backgroundColor = .clear
         textView.tintColor = .black
         textView.textColor = .black
@@ -96,8 +96,14 @@ class EditorialInviteCell: EditorialCellContent {
         sentLabel.text = InterfaceString.Editorials.InviteSent
         textBg.backgroundColor = .white
         textView.isEditable = true
-        submitButton.isEnabled = false
         submitButton.title = InterfaceString.Editorials.SubmitInvite
+    }
+
+    override func bindActions() {
+        super.bindActions()
+
+        textView.delegate = self
+        submitButton.addTarget(self, action: #selector(submitTapped), for: .touchUpInside)
     }
 
     override func arrange() {

@@ -126,9 +126,14 @@ class JoinScreen: CredentialsScreen {
         passwordField.delegate = self
     }
 
-    override func style() {
-        super.style()
+    override func setup() {
+        termsButtonNormal.isHidden = Keyboard.shared.isActive
+        termsButtonKeyboard.isVisible = Keyboard.shared.isActive
+        continueButton.isEnabled = false
+        nonceErrorLabel.isVisible = false
+    }
 
+    override func style() {
         let attrs = NSAttributedString.defaultAttrs([
             .foregroundColor: UIColor.greyA,
             .font: UIFont.defaultFont(Size.termsFontSize),
@@ -144,9 +149,7 @@ class JoinScreen: CredentialsScreen {
         termsButtonKeyboard.setAttributedTitle(attributedTitle, for: .normal)
 
         ElloTextFieldView.styleAsEmailField(emailField)
-
         ElloTextFieldView.styleAsUsernameField(usernameField)
-
         ElloTextFieldView.styleAsPasswordField(passwordField)
         passwordField.returnKeyType = .join
         passwordField.hasOnePassword = isOnePasswordAvailable
@@ -155,12 +158,7 @@ class JoinScreen: CredentialsScreen {
         messageLabel.isMultiline = true
         nonceErrorLabel.isMultiline = true
 
-        termsButtonNormal.isHidden = Keyboard.shared.isActive
-        termsButtonKeyboard.isVisible = Keyboard.shared.isActive
-
         continueBackground.backgroundColor = .white
-        continueButton.isEnabled = false
-        nonceErrorLabel.isVisible = false
     }
 
     override func arrange() {

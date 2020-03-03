@@ -98,14 +98,16 @@ class CategoryScreen: HomeSubviewScreen, CategoryScreenProtocol {
         editCategoriesGradient.frame = editCategoriesButton.bounds
     }
 
+    override func setup() {
+        editCategoriesButton.isHidden = true
+        categoryCardList.isHidden = usage == .detail
+    }
+
     override func style() {
-        super.style()
         iPhoneBlackBar.backgroundColor = .black
         backButton.setImages(.backChevron)
         shareButton.setImage(.share, imageStyle: .normal, for: .normal)
         editCategoriesButton.contentEdgeInsets = UIEdgeInsets(top: 0, left: 30, bottom: 0, right: 10)
-        editCategoriesButton.isHidden = true
-        categoryCardList.isHidden = usage == .detail
     }
 
     override func setText() {
@@ -114,7 +116,6 @@ class CategoryScreen: HomeSubviewScreen, CategoryScreenProtocol {
     }
 
     override func bindActions() {
-        super.bindActions()
         categoryCardList.delegate = self
         searchFieldButton.addTarget(self, action: #selector(searchFieldButtonTapped), for: .touchUpInside)
         backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)

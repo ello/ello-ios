@@ -105,7 +105,6 @@ class SettingsScreen: NavBarScreen, SettingsScreenProtocol {
         linksField.textField.keyboardType = .asciiCapable
 
         locationField.textField.autocorrectionType = .no
-        locationField.textField.leftView = UIImageView(image: InterfaceImage.marker.normalImage)
         locationField.textField.leftViewMode = .always
 
         coverImageView.backgroundColor = .greyA
@@ -218,6 +217,9 @@ class SettingsScreen: NavBarScreen, SettingsScreenProtocol {
             emailField,
             passwordField,
         ]
+
+        locationField.textField.leftView = UIImageView(image: InterfaceImage.marker.normalImage)
+
         let fields: [UIView] = credentialsFields + [
             nameField,
             bioLabel,

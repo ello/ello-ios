@@ -227,7 +227,7 @@ class ElloNavigationBar: UIView {
     private func privateInit() {
         tintColor = .greyA
         clipsToBounds = true
-        backgroundColor = .white
+        backgroundColor = .background
         isOpaque = true
         titleLabel.lineBreakMode = .byTruncatingTail
 

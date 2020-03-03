@@ -11,7 +11,6 @@ class AvatarButton: Button {
     var imageURL: URL?
 
     override func style() {
-        super.style()
         clipsToBounds = false
     }
 

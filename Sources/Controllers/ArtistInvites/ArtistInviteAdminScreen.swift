@@ -24,7 +24,6 @@ class ArtistInviteAdminScreen: StreamableScreen, ArtistInviteAdminScreenProtocol
     }
 
     override func style() {
-        super.style()
         navigationBar.sizeClass = .large
     }
 

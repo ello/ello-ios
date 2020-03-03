@@ -32,6 +32,16 @@ class ForgotPasswordEmailScreen: CredentialsScreen {
 
     let successLabel = StyledLabel(style: .white)
 
+    override func setup() {
+        successLabel.isHidden = true
+    }
+
+    override func style() {
+        ElloTextFieldView.styleAsEmailField(emailField)
+
+        successLabel.isMultiline = true
+    }
+
     override func setText() {
         titleLabel.text = InterfaceString.Startup.ForgotPasswordEnter
         successLabel.text = InterfaceString.Startup.ForgotPasswordEnterSuccess
@@ -40,19 +50,9 @@ class ForgotPasswordEmailScreen: CredentialsScreen {
     }
 
     override func bindActions() {
-        super.bindActions()
         continueButton.addTarget(self, action: #selector(submitAction), for: .touchUpInside)
         activateEmailButton.addTarget(self, action: #selector(activateEmail), for: .touchUpInside)
         emailField.delegate = self
-    }
-
-    override func style() {
-        super.style()
-
-        ElloTextFieldView.styleAsEmailField(emailField)
-
-        successLabel.isMultiline = true
-        successLabel.isHidden = true
     }
 
     override func arrange() {

@@ -33,9 +33,9 @@ class EditorialTitledCell: EditorialCellContent {
 
     override func style() {
         super.style()
+
         titleLabel.isMultiline = true
         authorLabel.isMultiline = false
-        subtitleWebView.delegate = self
         subtitleWebView.scrollView.isScrollEnabled = false
     }
 
@@ -56,6 +56,12 @@ class EditorialTitledCell: EditorialCellContent {
         else {
             subtitleWebView.loadHTMLString("", baseURL: URL(string: "/"))
         }
+    }
+
+    override func bindActions() {
+        super.bindActions()
+
+        subtitleWebView.delegate = self
     }
 
     override func arrange() {

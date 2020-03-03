@@ -72,17 +72,6 @@ class StreamHeaderCell: CollectionViewCell {
         repostedByButton.addTarget(self, action: #selector(reposterTapped), for: .touchUpInside)
         categoryButton.addTarget(self, action: #selector(categoryTapped), for: .touchUpInside)
         artistInviteSubmissionButton.addTarget(self, action: #selector(artistInviteSubmissionTapped), for: .touchUpInside)
-    }
-
-    override func style() {
-        contentView.backgroundColor = .white
-
-        categoryButton.titleLineBreakMode = .byTruncatingTail
-        repostedByButton.titleLineBreakMode = .byTruncatingTail
-        artistInviteSubmissionButton.titleLineBreakMode = .byTruncatingTail
-        artistInviteSubmissionButton.contentHorizontalAlignment = .left
-        usernameButton.titleLineBreakMode = .byTruncatingTail
-        usernameButton.contentHorizontalAlignment = .left
 
         let goToPostTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(postTapped(_:)))
         contentView.addGestureRecognizer(goToPostTapRecognizer)
@@ -90,15 +79,21 @@ class StreamHeaderCell: CollectionViewCell {
         let longPressGesture = UILongPressGestureRecognizer()
         longPressGesture.addTarget(self, action: #selector(longPressed(_:)))
         contentView.addGestureRecognizer(longPressGesture)
+    }
 
+    override func style() {
+        contentView.backgroundColor = .white
+        categoryButton.titleLineBreakMode = .byTruncatingTail
+        repostedByButton.titleLineBreakMode = .byTruncatingTail
+        artistInviteSubmissionButton.titleLineBreakMode = .byTruncatingTail
+        artistInviteSubmissionButton.contentHorizontalAlignment = .left
+        usernameButton.titleLineBreakMode = .byTruncatingTail
+        usernameButton.contentHorizontalAlignment = .left
         repostIconView.setInterfaceImage(.repost, style: .selected)
-
         artistInviteSubmissionButton.setTitle(InterfaceString.ArtistInvites.PostSubmissionHeader, for: .normal)
     }
 
     override func arrange() {
-        super.arrange()
-
         contentView.addSubview(avatarButton)
         contentView.addSubview(timestampLabel)
         contentView.addSubview(usernameButton)

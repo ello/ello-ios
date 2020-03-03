@@ -9,7 +9,32 @@ extension UIButton {
     }
 
     func setImages(_ interfaceImage: InterfaceImage, style imageStyle: InterfaceImage.Style = .normal) {
-        self.setImage(interfaceImage.image(imageStyle), for: .normal)
-        self.setImage(interfaceImage.selectedImage, for: .selected)
+        if #available(iOS 13, *) {
+            switch (imageStyle, UITraitCollection.current.userInterfaceStyle) {
+            case (.selected, .dark):
+                self.setImage(interfaceImage.whiteImage, for: .normal)
+            case (.dynamic, _), (.inverted, _):
+                self.setImage(interfaceImage.normalImage, for: .normal)
+            default:
+                self.setImage(interfaceImage.image(imageStyle), for: .normal)
+            }
+        }
+        else {
+            self.setImage(interfaceImage.image(imageStyle), for: .normal)
+        }
+
+        if #available(iOS 13, *) {
+            switch (imageStyle, UITraitCollection.current.userInterfaceStyle) {
+            case (.dynamic, .dark), (.inverted, .light):
+                self.setImage(interfaceImage.whiteImage, for: .selected)
+            case (.dynamic, .light), (.inverted, .dark):
+                self.setImage(interfaceImage.selectedImage, for: .selected)
+            default:
+                self.setImage(interfaceImage.selectedImage, for: .selected)
+            }
+        }
+        else {
+            self.setImage(interfaceImage.selectedImage, for: .selected)
+        }
     }
 }

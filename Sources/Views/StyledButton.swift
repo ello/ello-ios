@@ -233,6 +233,9 @@ extension StyledButton.Style {
     static let clearWhite = StyledButton.Style(
         titleColor: .white, disabledTitleColor: .greyA
         )
+    static let clearDynamic = StyledButton.Style(
+        titleColor: .text, selectedTitleColor: .selected, disabledTitleColor: .greyC
+        )
     static let clearBlack = StyledButton.Style(
         titleColor: .black, disabledTitleColor: .greyC
         )
@@ -241,6 +244,9 @@ extension StyledButton.Style {
         )
     static let clearGray = StyledButton.Style(
         titleColor: .greyA, highlightedTitleColor: .black, disabledTitleColor: .greyC
+        )
+    static let clearGrayDynamic = StyledButton.Style(
+        titleColor: .greyA, highlightedTitleColor: .text, selectedTitleColor: .selected, disabledTitleColor: .disabled
         )
     static let clearGreen = StyledButton.Style(
         titleColor: .greenD1, highlightedTitleColor: .greyA, disabledTitleColor: .greyC

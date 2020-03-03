@@ -726,6 +726,16 @@
 		1D652F5E1BC2FDCD00AF3B06 /* ElloTabBarSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D652F5D1BC2FDCD00AF3B06 /* ElloTabBarSpec.swift */; };
 		1D66803D1A8AA7B1003E93C8 /* NotificationsFilterBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D66803C1A8AA7B1003E93C8 /* NotificationsFilterBar.swift */; };
 		1D68CAF823FF2C5500C0CBE5 /* OmnibarSpacerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D68CAF723FF2C5400C0CBE5 /* OmnibarSpacerCell.swift */; };
+		1D68CAFA24004ECA00C0CBE5 /* home_white.svg in Resources */ = {isa = PBXBuildFile; fileRef = 1D68CAF924004ECA00C0CBE5 /* home_white.svg */; };
+		1D68CAFF2400512900C0CBE5 /* omni_white.svg in Resources */ = {isa = PBXBuildFile; fileRef = 1D68CAFB2400512800C0CBE5 /* omni_white.svg */; };
+		1D68CB002400512900C0CBE5 /* discover_white.svg in Resources */ = {isa = PBXBuildFile; fileRef = 1D68CAFC2400512800C0CBE5 /* discover_white.svg */; };
+		1D68CB012400512900C0CBE5 /* bolt_white.svg in Resources */ = {isa = PBXBuildFile; fileRef = 1D68CAFD2400512900C0CBE5 /* bolt_white.svg */; };
+		1D68CB022400512900C0CBE5 /* person_white.svg in Resources */ = {isa = PBXBuildFile; fileRef = 1D68CAFE2400512900C0CBE5 /* person_white.svg */; };
+		1D68CB04240082D100C0CBE5 /* ello_logo_white.svg in Resources */ = {isa = PBXBuildFile; fileRef = 1D68CB03240082D100C0CBE5 /* ello_logo_white.svg */; };
+		1D68CB062400834C00C0CBE5 /* ello_type_white.svg in Resources */ = {isa = PBXBuildFile; fileRef = 1D68CB052400834C00C0CBE5 /* ello_type_white.svg */; };
+		1D68CB08240087A900C0CBE5 /* reorder_white.svg in Resources */ = {isa = PBXBuildFile; fileRef = 1D68CB07240087A800C0CBE5 /* reorder_white.svg */; };
+		1D68CB0C2400880000C0CBE5 /* photo_picker_white.svg in Resources */ = {isa = PBXBuildFile; fileRef = 1D68CB0B240087FF00C0CBE5 /* photo_picker_white.svg */; };
+		1D68CB0E2400882D00C0CBE5 /* text_picker_white.svg in Resources */ = {isa = PBXBuildFile; fileRef = 1D68CB0D2400882D00C0CBE5 /* text_picker_white.svg */; };
 		1D69BBCF1C3EF5AA00FCBDE0 /* ElloSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D69BBCE1C3EF5AA00FCBDE0 /* ElloSegmentedControl.swift */; };
 		1D6A02431C73CC9B0054603B /* AssetsToRegions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A02421C73CC9B0054603B /* AssetsToRegions.swift */; };
 		1D6A02451C73CD390054603B /* AssetsToRegionsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A02441C73CD390054603B /* AssetsToRegionsSpec.swift */; };
@@ -1846,6 +1856,16 @@
 		1D652F5D1BC2FDCD00AF3B06 /* ElloTabBarSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ElloTabBarSpec.swift; sourceTree = "<group>"; };
 		1D66803C1A8AA7B1003E93C8 /* NotificationsFilterBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationsFilterBar.swift; sourceTree = "<group>"; };
 		1D68CAF723FF2C5400C0CBE5 /* OmnibarSpacerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OmnibarSpacerCell.swift; sourceTree = "<group>"; };
+		1D68CAF924004ECA00C0CBE5 /* home_white.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = home_white.svg; sourceTree = "<group>"; };
+		1D68CAFB2400512800C0CBE5 /* omni_white.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = omni_white.svg; sourceTree = "<group>"; };
+		1D68CAFC2400512800C0CBE5 /* discover_white.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = discover_white.svg; sourceTree = "<group>"; };
+		1D68CAFD2400512900C0CBE5 /* bolt_white.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = bolt_white.svg; sourceTree = "<group>"; };
+		1D68CAFE2400512900C0CBE5 /* person_white.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = person_white.svg; sourceTree = "<group>"; };
+		1D68CB03240082D100C0CBE5 /* ello_logo_white.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ello_logo_white.svg; sourceTree = "<group>"; };
+		1D68CB052400834C00C0CBE5 /* ello_type_white.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ello_type_white.svg; sourceTree = "<group>"; };
+		1D68CB07240087A800C0CBE5 /* reorder_white.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = reorder_white.svg; sourceTree = "<group>"; };
+		1D68CB0B240087FF00C0CBE5 /* photo_picker_white.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = photo_picker_white.svg; sourceTree = "<group>"; };
+		1D68CB0D2400882D00C0CBE5 /* text_picker_white.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = text_picker_white.svg; sourceTree = "<group>"; };
 		1D69BBCE1C3EF5AA00FCBDE0 /* ElloSegmentedControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ElloSegmentedControl.swift; sourceTree = "<group>"; };
 		1D6A02421C73CC9B0054603B /* AssetsToRegions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssetsToRegions.swift; sourceTree = "<group>"; };
 		1D6A02441C73CD390054603B /* AssetsToRegionsSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssetsToRegionsSpec.swift; sourceTree = "<group>"; };
@@ -4169,6 +4189,7 @@
 				1D6E430F1EA68AEA0029C9B1 /* badge_staff_selected.svg */,
 				76F8DE551B6C0BC4009BCF61 /* bolt_normal.svg */,
 				76F8DE561B6C0BC4009BCF61 /* bolt_selected.svg */,
+				1D68CAFD2400512900C0CBE5 /* bolt_white.svg */,
 				1D472C251C1F349E00B61E55 /* breaklink_normal.svg */,
 				1DF741701BFAAC02000F5349 /* breaklink_white.svg */,
 				1D9B74CB1BB1E62500ACD028 /* bubble_body_normal.svg */,
@@ -4213,15 +4234,18 @@
 				76F8DE6C1B6C0BC4009BCF61 /* danger_selected.svg */,
 				1D3EC0D91E97F5F70092C769 /* discover_normal.svg */,
 				1D3EC0DA1E97F5F70092C769 /* discover_selected.svg */,
+				1D68CAFC2400512800C0CBE5 /* discover_white.svg */,
 				1D59337C1D1450E900EAF03D /* dots_light_normal.svg */,
 				76F8DE6D1B6C0BC4009BCF61 /* dots_normal.svg */,
 				76F8DE6E1B6C0BC4009BCF61 /* dots_selected.svg */,
 				1DDF86FA1D80785B0058204A /* ello_gray_line_logo.svg */,
 				122034731DE66A4A0059E633 /* ello_logo_grey.svg */,
+				1D68CB03240082D100C0CBE5 /* ello_logo_white.svg */,
 				769051001AFD2A720011B09A /* ello_logo.svg */,
 				76F8DE6F1B6C0BC4009BCF61 /* ello_normal.svg */,
 				76F8DE701B6C0BC4009BCF61 /* ello_selected.svg */,
 				1D6511BD1F01AD2F00A34AF8 /* ello_type_normal.svg */,
+				1D68CB052400834C00C0CBE5 /* ello_type_white.svg */,
 				1D472C211C1F2E0400B61E55 /* embetter_audio_play.svg */,
 				1D472C221C1F2E0400B61E55 /* embetter_video_play.svg */,
 				76F8DE731B6C0BC4009BCF61 /* eye_normal.svg */,
@@ -4242,6 +4266,7 @@
 				76F8DE7B1B6C0BC4009BCF61 /* hearts_white.svg */,
 				12E2A5A11E5CD357000EFFBA /* home_normal.svg */,
 				12E2A5A21E5CD357000EFFBA /* home_selected.svg */,
+				1D68CAF924004ECA00C0CBE5 /* home_white.svg */,
 				76F8DE571B6C0BC4009BCF61 /* library_normal.svg */,
 				76F8DE581B6C0BC4009BCF61 /* library_selected.svg */,
 				1DF490841FCDD57F00C0ACAC /* library_white.svg */,
@@ -4258,14 +4283,17 @@
 				1DF404071B150CF20073460B /* narration_pointer.svg */,
 				76F8DE801B6C0BC4009BCF61 /* omni_normal.svg */,
 				76F8DE811B6C0BC4009BCF61 /* omni_selected.svg */,
+				1D68CAFB2400512800C0CBE5 /* omni_white.svg */,
 				76F8DE821B6C0BC4009BCF61 /* pencil_normal.svg */,
 				76F8DE831B6C0BC4009BCF61 /* pencil_selected.svg */,
 				1DF741661BF6869B000F5349 /* pencil_white.svg */,
 				76F8DE841B6C0BC4009BCF61 /* person_normal.svg */,
 				76F8DE851B6C0BC4009BCF61 /* person_selected.svg */,
+				1D68CAFE2400512900C0CBE5 /* person_white.svg */,
 				1DF4907E1FCCC7C400C0ACAC /* photo_picker_disabled.svg */,
 				1DF490801FCCC7C500C0ACAC /* photo_picker_normal.svg */,
 				1DF4907F1FCCC7C400C0ACAC /* photo_picker_selected.svg */,
+				1D68CB0B240087FF00C0CBE5 /* photo_picker_white.svg */,
 				76F8DE881B6C0BC4009BCF61 /* pinterest_normal.svg */,
 				76F8DE891B6C0BC4009BCF61 /* pinterest_selected.svg */,
 				76F8DE8A1B6C0BC4009BCF61 /* plussmall_normal.svg */,
@@ -4277,6 +4305,7 @@
 				76F8DE901B6C0BC4009BCF61 /* relationships_white.svg */,
 				1DA8FD6E1B98A63600472B1E /* reorder_normal.svg */,
 				1DA8FD6F1B98A63600472B1E /* reorder_selected.svg */,
+				1D68CB07240087A800C0CBE5 /* reorder_white.svg */,
 				76F8DE911B6C0BC4009BCF61 /* reply_normal.svg */,
 				76F8DE921B6C0BC4009BCF61 /* reply_selected.svg */,
 				76F8DE931B6C0BC4009BCF61 /* replyall_normal.svg */,
@@ -4300,6 +4329,7 @@
 				1DDC234A1F32439400E68B0E /* star_orange.svg */,
 				1DF490861FCDE26300C0ACAC /* text_picker_normal.svg */,
 				1DF490881FCDE26400C0ACAC /* text_picker_selected.svg */,
+				1D68CB0D2400882D00C0CBE5 /* text_picker_white.svg */,
 				1D209BEB1D9C249400CFBF92 /* watch_green.svg */,
 				1D209BEC1D9C249400CFBF92 /* watch_normal.svg */,
 				76F8DEA31B6C0BC4009BCF61 /* x_normal.svg */,
@@ -4637,6 +4667,7 @@
 				1D9CF9A51D4966F7004A95B7 /* $_set_selected.svg in Resources */,
 				128C5AF71C59812D00EFC226 /* (null) in Resources */,
 				76F8DF021B6C0BC4009BCF61 /* x_selected.svg in Resources */,
+				1D68CAFF2400512900C0CBE5 /* omni_white.svg in Resources */,
 				1D5E3DED20FCC81F00044C39 /* loves_creating_a_love.json in Resources */,
 				1D59EF961D6640C50029C106 /* mail_normal.svg in Resources */,
 				1D6E43181EA68AEA0029C9B1 /* badge_staff_selected.svg in Resources */,
@@ -4675,6 +4706,7 @@
 				76F8DEB01B6C0BC4009BCF61 /* arrow_up_selected.svg in Resources */,
 				1D942C091EC3AF8700056761 /* bubble_outline_normal.svg in Resources */,
 				1D0A39032053351100AE9109 /* logo_medium.svg in Resources */,
+				1D68CB062400834C00C0CBE5 /* ello_type_white.svg in Resources */,
 				76F8DEBC1B6C0BC4009BCF61 /* camera_selected.svg in Resources */,
 				1D7672E420C730770057E03F /* feature_post_normal.svg in Resources */,
 				1D6E43171EA68AEA0029C9B1 /* badge_staff_normal.svg in Resources */,
@@ -4754,6 +4786,7 @@
 				76F8DEC71B6C0BC4009BCF61 /* danger_normal.svg in Resources */,
 				1D493C6A200D6614002BB6C2 /* eye_white.svg in Resources */,
 				1DF4908B1FCDE26500C0ACAC /* text_picker_selected.svg in Resources */,
+				1D68CB08240087A900C0CBE5 /* reorder_white.svg in Resources */,
 				1D5E3DE820FCC81F00044C39 /* profile.json in Resources */,
 				1D612BF61D3EA39500B4079C /* $_add_selected.svg in Resources */,
 				1DD89B0921139B1600C332B4 /* jwt-auth-is-staff.json in Resources */,
@@ -4766,6 +4799,7 @@
 				1D59337E1D1455E700EAF03D /* dots_light_normal.svg in Resources */,
 				76F8DEF11B6C0BC4009BCF61 /* replyall_selected.svg in Resources */,
 				1D5E3DEF20FCC81F00044C39 /* profile_listing_blocked_users.json in Resources */,
+				1D68CB012400512900C0CBE5 /* bolt_white.svg in Resources */,
 				12A1D8311DAD511A00A327D6 /* badge_featured_selected.svg in Resources */,
 				1D209BED1D9C249400CFBF92 /* watch_green.svg in Resources */,
 				76F8DEBE1B6C0BC4009BCF61 /* check_normal.svg in Resources */,
@@ -4787,15 +4821,18 @@
 				1D5E3DF620FCC81F00044C39 /* posts_loading_more_post_comments.json in Resources */,
 				1DF4907B1FCCC2D400C0ACAC /* chevron_disabled.svg in Resources */,
 				1DE3EC4A1D81CC3400BDE16F /* ElloDev.entitlements in Resources */,
+				1D68CB0E2400882D00C0CBE5 /* text_picker_white.svg in Resources */,
 				1D6E43151EA68AEA0029C9B1 /* badge_spam_normal.svg in Resources */,
 				1D242D641DDBCD87000A424C /* list_view_normal.svg in Resources */,
 				76F8DED31B6C0BC4009BCF61 /* flag_selected.svg in Resources */,
+				1D68CB0C2400880000C0CBE5 /* photo_picker_white.svg in Resources */,
 				1DD89B0A21139B1600C332B4 /* jwt-auth-no-staff.json in Resources */,
 				1D7152C11D6F777E005998FE /* 1password_normal.svg in Resources */,
 				76F8DECC1B6C0BC4009BCF61 /* ello_normal.svg in Resources */,
 				1D942C101EC3AF8B00056761 /* hearts_outline_selected.svg in Resources */,
 				1D5E3DF120FCC81F00044C39 /* category.json in Resources */,
 				76F8DF041B6C0BC4009BCF61 /* xbox_normal.svg in Resources */,
+				1D68CB022400512900C0CBE5 /* person_white.svg in Resources */,
 				1D5E3DE720FCC81F00044C39 /* activity_streams_notifications.json in Resources */,
 				76F8DEC31B6C0BC4009BCF61 /* circ_normal.svg in Resources */,
 				128C5AF51C59802600EFC226 /* (null) in Resources */,
@@ -4826,7 +4863,9 @@
 				1D3EC0DB1E97F5F70092C769 /* discover_normal.svg in Resources */,
 				1DF404081B150CF20073460B /* narration_pointer.svg in Resources */,
 				1D1CD49E20696D2800A57314 /* categoryNav.json in Resources */,
+				1D68CB002400512900C0CBE5 /* discover_white.svg in Resources */,
 				76F8DEE91B6C0BC4009BCF61 /* plussmall_white.svg in Resources */,
+				1D68CB04240082D100C0CBE5 /* ello_logo_white.svg in Resources */,
 				12F6AEA11A433F3D00493660 /* www in Resources */,
 				1D6E43131EA68AEA0029C9B1 /* badge_experimental_selected.svg in Resources */,
 				76F8DEDE1B6C0BC4009BCF61 /* omni_selected.svg in Resources */,
@@ -4854,6 +4893,7 @@
 				76F8DECD1B6C0BC4009BCF61 /* ello_selected.svg in Resources */,
 				76F8DEE21B6C0BC4009BCF61 /* person_selected.svg in Resources */,
 				1D9B74D11BB1E62500ACD028 /* bubble_body_normal.svg in Resources */,
+				1D68CAFA24004ECA00C0CBE5 /* home_white.svg in Resources */,
 				1DB68E991D46CE0F00D446C7 /* $_add_disabled.svg in Resources */,
 				12931BD41BFE8E30009B26F9 /* checkmini_selected.svg in Resources */,
 				12F0E3A81A4333150012CEA2 /* LaunchScreen.xib in Resources */,

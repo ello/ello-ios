@@ -89,27 +89,10 @@ class ProfileScreen: StreamableScreen, ProfileScreenProtocol {
         roleAdminButton.layer.cornerRadius = roleAdminButton.frame.size.height / 2
     }
 
-    override func setText() {
-        collaborateButton.title = InterfaceString.Profile.Collaborate
-        hireButton.title = InterfaceString.Profile.Hire
-        inviteButton.title = InterfaceString.Profile.Invite
-        editButton.title = InterfaceString.Profile.EditProfile
-        mentionButton.title = InterfaceString.Profile.Mention
-    }
-
-    override func style() {
+    override func setup() {
         persistentBackButton.alpha = 0
-        whiteSolidView.backgroundColor = .white
-        relationshipControl.usage = .profileView
-        profileButtonsEffect.effect = UIBlurEffect(style: .light)
-        coverImageView.contentMode = .scaleAspectFill
 
-        roleAdminButton.setImage(.roleAdmin, imageStyle: .white, for: .normal)
-        roleAdminButton.setImage(.roleAdmin, imageStyle: .normal, for: .selected)
         roleAdminButton.isHidden = true
-        roleAdminButton.backgroundColor = .black
-        roleAdminButton.layer.masksToBounds = true
-
         collaborateButton.isHidden = true
         hireButton.isHidden = true
         mentionButton.isHidden = true
@@ -120,6 +103,26 @@ class ProfileScreen: StreamableScreen, ProfileScreenProtocol {
         ghostRightButton.isVisible = true
         ghostLeftButton.isEnabled = false
         ghostRightButton.isEnabled = false
+    }
+
+    override func setText() {
+        collaborateButton.title = InterfaceString.Profile.Collaborate
+        hireButton.title = InterfaceString.Profile.Hire
+        inviteButton.title = InterfaceString.Profile.Invite
+        editButton.title = InterfaceString.Profile.EditProfile
+        mentionButton.title = InterfaceString.Profile.Mention
+    }
+
+    override func style() {
+        whiteSolidView.backgroundColor = .white
+        relationshipControl.usage = .profileView
+        profileButtonsEffect.effect = UIBlurEffect(style: .light)
+        coverImageView.contentMode = .scaleAspectFill
+
+        roleAdminButton.setImage(.roleAdmin, imageStyle: .white, for: .normal)
+        roleAdminButton.setImage(.roleAdmin, imageStyle: .normal, for: .selected)
+        roleAdminButton.backgroundColor = .black
+        roleAdminButton.layer.masksToBounds = true
     }
 
     override func bindActions() {

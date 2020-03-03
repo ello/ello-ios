@@ -37,6 +37,11 @@ class BuyButtonLinkScreen: View, BuyButtonLinkScreenProtocol {
         }
     }
 
+    override func setup() {
+        submitButton.isEnabled = false
+        removeButton.isHidden = true
+    }
+
     override func style() {
         backgroundButton.backgroundColor = .dimmedModalBackground
 
@@ -54,9 +59,6 @@ class BuyButtonLinkScreen: View, BuyButtonLinkScreenProtocol {
         productLinkField.keyboardAppearance = .dark
         productLinkField.enablesReturnKeyAutomatically = true
         productLinkField.returnKeyType = .default
-
-        submitButton.isEnabled = false
-        removeButton.isHidden = true
     }
 
     override func bindActions() {

@@ -21,13 +21,12 @@ class ArtistInvitesScreen: HomeSubviewScreen {
     }
 
     override func style() {
-        super.style()
+        styleHomeScreenNavBar(navigationBar: navigationBar)
         navigationBar.sizeClass = .large
     }
 
     override func arrange() {
         super.arrange()
-
         arrangeHomeScreenNavBar(type: .artistInvites(loggedIn: usage == .loggedIn), navigationBar: navigationBar)
     }
 }

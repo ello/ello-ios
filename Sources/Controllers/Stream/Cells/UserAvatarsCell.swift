@@ -2,7 +2,7 @@
 ///  UserAvatarsCell.swift
 //
 
-class UserAvatarsCell: UICollectionViewCell {
+class UserAvatarsCell: CollectionViewCell {
     static let reuseIdentifier = "UserAvatarsCell"
 
     @IBOutlet weak var imageView: UIImageView!
@@ -21,12 +21,7 @@ class UserAvatarsCell: UICollectionViewCell {
         }
     }
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        style()
-    }
-
-    private func style() {
+    override func style() {
         loadingLabel.textColor = UIColor.greyA
         loadingLabel.font = UIFont.defaultFont()
         seeAllButton.titleLabel?.textColor = UIColor.greyA

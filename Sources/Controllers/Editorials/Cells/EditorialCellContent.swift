@@ -30,7 +30,6 @@ protocol EditorialToolsResponder: class {
 
 
 class EditorialCellContent: View {
-
     struct Size {
         static let aspect: CGFloat = 1
         static let smallTopMargin: CGFloat = 28
@@ -84,13 +83,16 @@ class EditorialCellContent: View {
         return EditorialGradientLayer()
     }
 
+    override func setup() {
+        spinner.startAnimating()
+    }
+
     override func style() {
         bg.clipsToBounds = true
         bg.backgroundColor = .black
         gradientView.layer.addSublayer(gradientLayer)
         imageView.contentMode = .scaleAspectFill
         loadingView.backgroundColor = .greyA
-        spinner.startAnimating()
     }
 
     override func bindActions() {

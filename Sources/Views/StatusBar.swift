@@ -12,8 +12,11 @@ class StatusBar: View {
     }
 
     override func style() {
-        autoresizingMask = [.flexibleWidth, .flexibleBottomMargin]
         backgroundColor = .black
+    }
+
+    override func arrange() {
+        autoresizingMask = [.flexibleWidth, .flexibleBottomMargin]
     }
 
     override var intrinsicContentSize: CGSize {

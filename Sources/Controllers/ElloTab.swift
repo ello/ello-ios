@@ -27,7 +27,7 @@ enum ElloTab: Int {
 
         guard let squareImage = profile.squareImage(),
             let resizedImage = squareImage.resizeToSize(CGSize(width: 38, height: 38), padding: 4),
-            let roundedImage = resizedImage.roundCorners(padding: 4)
+            let roundedImage = resizedImage.toCircle(padding: 4)
         else { return nil }
 
         let image = roundedImage.withRenderingMode(.alwaysOriginal)
@@ -91,11 +91,11 @@ private func circleOutline(image: UIImage) -> UIImage {
     image.draw(in: rect)
     let ctx = UIGraphicsGetCurrentContext()
     ctx?.saveGState()
-    ctx?.setStrokeColor(UIColor.white.cgColor)
+    ctx?.setStrokeColor(UIColor.background.cgColor)
     ctx?.setLineWidth(3)
     ctx?.strokeEllipse(in: rect.insetBy(dx: 1, dy: 1))
 
-    ctx?.setStrokeColor(UIColor.black.cgColor)
+    ctx?.setStrokeColor(UIColor.text.cgColor)
     ctx?.setLineWidth(1)
     ctx?.strokeEllipse(in: rect.insetBy(dx: 1, dy: 1))
     ctx?.restoreGState()

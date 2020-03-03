@@ -22,6 +22,11 @@ class TableViewCell: UITableViewCell {
         layoutIfNeeded()
     }
 
+    override func traitCollectionDidChange(_ prev: UITraitCollection?) {
+        super.traitCollectionDidChange(prev)
+        styleCell()
+    }
+
     func styleCell() {}
     func bindActions() {}
     func setText() {}

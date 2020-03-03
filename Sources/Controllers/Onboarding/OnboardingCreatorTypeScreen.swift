@@ -77,20 +77,20 @@ class OnboardingCreatorTypeScreen: StreamableScreen {
     private let creatorButtonsContainer = Container()
     private var creatorButtons: [UIView] = []
 
-    override func style() {
-        super.style()
-        headerLabel.isMultiline = true
+    override func setup() {
         creatorButtonsContainer.alpha = 0
     }
 
+    override func style() {
+        headerLabel.isMultiline = true
+    }
+
     override func bindActions() {
-        super.bindActions()
         artistButton.addTarget(self, action: #selector(toggleCreatorType(sender:)), for: .touchUpInside)
         fanButton.addTarget(self, action: #selector(toggleCreatorType(sender:)), for: .touchUpInside)
     }
 
     override func setText() {
-        super.setText()
         headerLabel.text = InterfaceString.Onboard.CreatorTypeHeader
         hereAsLabel.text = InterfaceString.Onboard.HereAs
         artistButton.title = InterfaceString.Onboard.Artist

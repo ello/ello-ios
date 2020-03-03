@@ -6,15 +6,16 @@ class StreamRegionableCell: CollectionViewCell {
     var leftBorder = CALayer()
 
     override func style() {
-        super.style()
         leftBorder.backgroundColor = UIColor.black.cgColor
     }
 
     func showBorder() {
+        guard !(layer.sublayers ?? []).contains(leftBorder) else { return }
         layer.addSublayer(leftBorder)
     }
 
     func hideBorder() {
+        guard (layer.sublayers ?? []).contains(leftBorder) else { return }
         leftBorder.removeFromSuperlayer()
     }
 
