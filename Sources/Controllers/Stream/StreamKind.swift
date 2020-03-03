@@ -28,7 +28,8 @@ enum StreamKind {
         switch self {
         case .announcements: return ""
         case .category: return ""
-        case .onboardingCategories, .manageCategories, .chooseCategory: return InterfaceString.Discover.Categories
+        case .onboardingCategories, .manageCategories, .chooseCategory:
+            return InterfaceString.Discover.Categories
         case .editorials: return InterfaceString.Editorials.Title
         case .following: return InterfaceString.Following.Title
         case .notifications: return InterfaceString.Notifications.Title
@@ -95,7 +96,8 @@ enum StreamKind {
 
     var layoutInsets: UIEdgeInsets {
         switch self {
-        case .manageCategories, .chooseCategory: return UIEdgeInsets(sides: CategoryCardCell.Size.cardMargins)
+        case .manageCategories, .chooseCategory:
+            return UIEdgeInsets(sides: CategoryCardCell.Size.cardMargins)
         default: return .zero
         }
     }
@@ -141,7 +143,8 @@ enum StreamKind {
     var endpoint: ElloAPI? {
         switch self {
         case .announcements: return .announcements
-        case .category, .onboardingCategories, .manageCategories, .chooseCategory: return .categories
+        case .category, .onboardingCategories, .manageCategories, .chooseCategory:
+            return .categories
         case .editorials: return .editorials
         case .artistInvites: return .artistInvites
         case .artistInviteSubmissions: return .artistInviteSubmissions
@@ -151,9 +154,9 @@ enum StreamKind {
         case let .simpleStream(endpoint, _): return endpoint
         case let .userStream(userParam): return .userStream(userParam: userParam)
         case .userLoves,
-             .userFollowing,
-             .userFollowers,
-             .unknown:
+            .userFollowing,
+            .userFollowers,
+            .unknown:
             return nil
         }
     }
@@ -170,7 +173,9 @@ enum StreamKind {
             }
         case .notifications:
             if let activities = jsonables as? [Activity] {
-                let notifications: [Notification] = activities.map { return Notification(activity: $0) }
+                let notifications: [Notification] = activities.map {
+                    return Notification(activity: $0)
+                }
                 return notifications.filter { return $0.isValidKind }
             }
             else {
@@ -189,7 +194,8 @@ enum StreamKind {
     var isGridView: Bool {
         var defaultGrid: Bool
         switch self {
-        case .category, .onboardingCategories, .manageCategories, .chooseCategory: defaultGrid = true
+        case .category, .onboardingCategories, .manageCategories, .chooseCategory:
+            defaultGrid = true
         default: defaultGrid = false
         }
         return GroupDefaults["\(cacheKey)IsGridView"].bool ?? defaultGrid
@@ -198,8 +204,8 @@ enum StreamKind {
     var hasGridViewToggle: Bool {
         switch self {
         case .following,
-             .category,
-             .userLoves:
+            .category,
+            .userLoves:
             return true
         case let .simpleStream(endpoint, _):
             switch endpoint {
@@ -214,7 +220,8 @@ enum StreamKind {
 
     func isDetail(post: Post) -> Bool {
         switch self {
-        case let .postDetail(postParam): return postParam == post.id || postParam == "~\(post.token)"
+        case let .postDetail(postParam):
+            return postParam == post.id || postParam == "~\(post.token)"
         default: return false
         }
     }

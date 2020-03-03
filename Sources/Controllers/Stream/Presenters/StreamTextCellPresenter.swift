@@ -9,8 +9,8 @@ struct StreamTextCellPresenter {
         streamCellItem: StreamCellItem,
         streamKind: StreamKind,
         indexPath: IndexPath,
-        currentUser: User?)
-    {
+        currentUser: User?
+    ) {
         guard let cell = cell as? StreamTextCell else { return }
 
         let isGridView = streamCellItem.isGridView(streamKind: streamKind)
@@ -27,7 +27,10 @@ struct StreamTextCellPresenter {
                 else {
                     streamCellItem.calculatedCellHeights.oneColumn = actualHeight
                 }
-                postNotification(StreamNotification.UpdateCellHeightNotification, value: streamCellItem)
+                postNotification(
+                    StreamNotification.UpdateCellHeightNotification,
+                    value: streamCellItem
+                )
             }
         }
 

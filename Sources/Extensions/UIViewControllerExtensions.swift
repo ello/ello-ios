@@ -58,8 +58,8 @@ extension UIViewController: GestureNavigation {
             guard
                 let controller = controller,
                 controller.isViewLoaded, controller.view.window != nil,
-                let testType = controller as? T,
-                test?(testType) != false
+                    let testType = controller as? T,
+                    test?(testType) != false
             else { return nil }
             return testType
         }
@@ -69,7 +69,7 @@ extension UIViewController: GestureNavigation {
         }
 
         for subcontroller in children {
-            guard let subcontroller: T = subcontroller.findChildController(test) else { continue }
+            guard let subcontroller:T = subcontroller.findChildController(test) else { continue }
             return subcontroller
         }
 
@@ -92,25 +92,30 @@ extension UIViewController {
         to toViewController: UIViewController,
         duration: TimeInterval = 0,
         options: UIView.AnimationOptions = [],
-        animations: Block? = nil, completion: BoolBlock? = nil)
-    {
+        animations: Block? = nil,
+        completion: BoolBlock? = nil
+    ) {
         if Globals.isTesting {
             animations?()
-            self.transition(from: fromViewController,
+            self.transition(
+                from: fromViewController,
                 to: toViewController,
                 duration: duration,
                 options: options,
                 animations: nil,
-                completion: nil)
+                completion: nil
+            )
             completion?(true)
         }
         else {
-            self.transition(from: fromViewController,
+            self.transition(
+                from: fromViewController,
                 to: toViewController,
                 duration: duration,
                 options: options,
                 animations: animations,
-                completion: completion)
+                completion: completion
+            )
         }
     }
 }

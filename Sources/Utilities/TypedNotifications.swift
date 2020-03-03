@@ -23,10 +23,15 @@ class NotificationObserver {
     let observer: NSObjectProtocol
 
     init<A>(notification: TypedNotification<A>, block aBlock: @escaping (A) -> Void) {
-        observer = NotificationCenter.default.addObserver(forName: notification.name, object: nil, queue: nil) { note in
+        observer = NotificationCenter.default.addObserver(
+            forName: notification.name,
+            object: nil,
+            queue: nil
+        ) { note in
             if let value = (note.userInfo?["value"] as? Box<A>)?.value {
                 aBlock(value)
-            } else {
+            }
+            else {
                 assert(false, "Couldn't understand user info")
             }
         }

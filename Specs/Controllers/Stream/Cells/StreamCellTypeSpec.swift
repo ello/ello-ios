@@ -16,10 +16,16 @@ class StreamCellTypeSpec: QuickSpec {
                         it("checking equality \(type)") {
                             for (cmpIndex, cmpType) in StreamCellType.all.enumerated() {
                                 if index == cmpIndex {
-                                    expect(type).to(equal(cmpType), description: "should equal \(cmpType)")
+                                    expect(type).to(
+                                        equal(cmpType),
+                                        description: "should equal \(cmpType)"
+                                    )
                                 }
                                 else {
-                                    expect(type).notTo(equal(cmpType), description: "should not equal \(cmpType)")
+                                    expect(type).notTo(
+                                        equal(cmpType),
+                                        description: "should not equal \(cmpType)"
+                                    )
                                 }
                             }
                         }

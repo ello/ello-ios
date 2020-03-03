@@ -38,7 +38,10 @@ class ProfileHeaderBioSizeCalculator: CellSizeCalculator {
             return
         }
 
-        webView.loadHTMLString(StreamTextCellHTML.postHTML(formattedShortBio), baseURL: URL(string: "/"))
+        webView.loadHTMLString(
+            StreamTextCellHTML.postHTML(formattedShortBio),
+            baseURL: URL(string: "/")
+        )
     }
 }
 
@@ -46,7 +49,9 @@ extension ProfileHeaderBioSizeCalculator: UIWebViewDelegate {
 
     func webViewDidFinishLoad(_ webView: UIWebView) {
         let webViewHeight = webView.windowContentSize()?.height ?? 0
-        let totalHeight = ProfileHeaderBioSizeCalculator.calculateHeight(webViewHeight: webViewHeight)
+        let totalHeight = ProfileHeaderBioSizeCalculator.calculateHeight(
+            webViewHeight: webViewHeight
+        )
         assignCellHeight(all: totalHeight)
     }
 

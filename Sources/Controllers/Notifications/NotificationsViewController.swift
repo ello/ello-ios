@@ -18,7 +18,9 @@ class NotificationsViewController: StreamableViewController, NotificationsScreen
     private var reloadNotificationsObserver: NotificationObserver?
     private var newAnnouncementsObserver: NotificationObserver?
     var categoryFilterType = NotificationFilterType.all
-    var categoryStreamKind: StreamKind { return .notifications(category: categoryFilterType.category) }
+    var categoryStreamKind: StreamKind {
+        return .notifications(category: categoryFilterType.category)
+    }
 
     override func loadView() {
         self.view = NotificationsScreen(frame: UIScreen.main.bounds)
@@ -79,7 +81,9 @@ class NotificationsViewController: StreamableViewController, NotificationsScreen
     override public func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-        let jsonables = streamViewController.collectionViewDataSource.visibleCellItems.map { $0.jsonable }
+        let jsonables = streamViewController.collectionViewDataSource.visibleCellItems.map {
+            $0.jsonable
+        }
         track(jsonables: jsonables)
     }
 
@@ -197,7 +201,9 @@ extension NotificationsViewController: NotificationResponder {
 private extension NotificationsViewController {
 
     func addNotificationObservers() {
-        reloadNotificationsObserver = NotificationObserver(notification: NewContentNotifications.reloadNotifications) { [weak self] in
+        reloadNotificationsObserver = NotificationObserver(
+            notification: NewContentNotifications.reloadNotifications
+        ) { [weak self] in
             guard let `self` = self else { return }
             if self.navigationController?.children.count == 1 {
                 self.reload(showSpinner: true)
@@ -207,7 +213,9 @@ private extension NotificationsViewController {
             }
         }
 
-        newAnnouncementsObserver = NotificationObserver(notification: NewContentNotifications.newAnnouncements) { [weak self] in
+        newAnnouncementsObserver = NotificationObserver(
+            notification: NewContentNotifications.newAnnouncements
+        ) { [weak self] in
             guard let `self` = self else { return }
             self.reloadAnnouncements()
         }
@@ -225,7 +233,11 @@ extension NotificationsViewController: StreamDestination {
         set { streamViewController.isPagingEnabled = newValue }
     }
 
-    func replacePlaceholder(type: StreamCellType.PlaceholderType, items: [StreamCellItem], completion: @escaping Block) {
+    func replacePlaceholder(
+        type: StreamCellType.PlaceholderType,
+        items: [StreamCellItem],
+        completion: @escaping Block
+    ) {
         if type == .announcements {
             let jsonables = items.map { $0.jsonable }
             track(jsonables: jsonables)

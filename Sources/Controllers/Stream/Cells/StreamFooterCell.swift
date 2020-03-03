@@ -41,8 +41,7 @@ class StreamFooterCell: CollectionViewCell {
         loveVisibility: InteractionVisibility,
         repostVisibility: InteractionVisibility,
         shareVisibility: InteractionVisibility
-        )
-    {
+    ) {
         var toolbarItems: [PostToolbar.Item] = []
 
         toolbar.loves.isEnabled = loveVisibility.isEnabled

@@ -47,7 +47,7 @@ class PreloaderSpec: QuickSpec {
             xhdpi = Attachment.stub([
                 "url": URL(string: "http://www.example.com/xhdpi.jpg")!,
                 "height": 2, "width": 5, "type": "jpeg", "size": 45644
-                ])
+            ])
 
             regular = Attachment.stub([
                 "url": URL(string: "http://www.example.com/regular.jpg")!,

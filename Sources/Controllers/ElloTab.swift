@@ -47,39 +47,39 @@ enum ElloTab: Int {
     var redDotMargins: CGPoint {
         switch self {
         case .notifications: return CGPoint(x: 12, y: 9)
-        case .home:          return CGPoint(x: 12, y: 9)
-        default:             return .zero
+        case .home: return CGPoint(x: 12, y: 9)
+        default: return .zero
         }
     }
 
     var narrationDefaultKey: String {
         let defaultPrefix = "ElloTabBarControllerDidShowNarration"
         switch self {
-        case .home:     return "\(defaultPrefix)Stream"
-        case .discover:      return "\(defaultPrefix)Discover"
-        case .omnibar:       return "\(defaultPrefix)Omnibar"
+        case .home: return "\(defaultPrefix)Stream"
+        case .discover: return "\(defaultPrefix)Discover"
+        case .omnibar: return "\(defaultPrefix)Omnibar"
         case .notifications: return "\(defaultPrefix)Notifications"
-        case .profile:       return "\(defaultPrefix)Profile"
+        case .profile: return "\(defaultPrefix)Profile"
         }
     }
 
     var narrationTitle: String {
         switch self {
-        case .home:     return InterfaceString.Tab.PopupTitle.Following
-        case .discover:      return InterfaceString.Tab.PopupTitle.Discover
-        case .omnibar:       return InterfaceString.Tab.PopupTitle.Omnibar
+        case .home: return InterfaceString.Tab.PopupTitle.Following
+        case .discover: return InterfaceString.Tab.PopupTitle.Discover
+        case .omnibar: return InterfaceString.Tab.PopupTitle.Omnibar
         case .notifications: return InterfaceString.Tab.PopupTitle.Notifications
-        case .profile:       return InterfaceString.Tab.PopupTitle.Profile
+        case .profile: return InterfaceString.Tab.PopupTitle.Profile
         }
     }
 
     var narrationText: String {
         switch self {
-        case .home:     return InterfaceString.Tab.PopupText.Following
-        case .discover:      return InterfaceString.Tab.PopupText.Discover
-        case .omnibar:       return InterfaceString.Tab.PopupText.Omnibar
+        case .home: return InterfaceString.Tab.PopupText.Following
+        case .discover: return InterfaceString.Tab.PopupText.Discover
+        case .omnibar: return InterfaceString.Tab.PopupText.Omnibar
         case .notifications: return InterfaceString.Tab.PopupText.Notifications
-        case .profile:       return InterfaceString.Tab.PopupText.Profile
+        case .profile: return InterfaceString.Tab.PopupText.Profile
         }
     }
 

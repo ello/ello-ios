@@ -2,7 +2,9 @@
 ///  StreamHeaderCell.swift
 //
 
-let streamHeaderCellDidOpenNotification = TypedNotification<UICollectionViewCell>(name: "StreamCellDidOpenNotification")
+let streamHeaderCellDidOpenNotification = TypedNotification<UICollectionViewCell>(
+    name: "StreamCellDidOpenNotification"
+)
 
 
 class StreamHeaderCell: CollectionViewCell {
@@ -58,7 +60,7 @@ class StreamHeaderCell: CollectionViewCell {
 
     let editItem = ElloPostToolBarOption.edit.barButtonItem(isDark: false)
     var editControl: ImageLabelControl {
-       return self.editItem.customView as! ImageLabelControl
+        return self.editItem.customView as! ImageLabelControl
     }
 
     let deleteItem = ElloPostToolBarOption.delete.barButtonItem(isDark: false)
@@ -71,9 +73,16 @@ class StreamHeaderCell: CollectionViewCell {
         usernameButton.addTarget(self, action: #selector(userTapped), for: .touchUpInside)
         repostedByButton.addTarget(self, action: #selector(reposterTapped), for: .touchUpInside)
         categoryButton.addTarget(self, action: #selector(categoryTapped), for: .touchUpInside)
-        artistInviteSubmissionButton.addTarget(self, action: #selector(artistInviteSubmissionTapped), for: .touchUpInside)
+        artistInviteSubmissionButton.addTarget(
+            self,
+            action: #selector(artistInviteSubmissionTapped),
+            for: .touchUpInside
+        )
 
-        let goToPostTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(postTapped(_:)))
+        let goToPostTapRecognizer = UITapGestureRecognizer(
+            target: self,
+            action: #selector(postTapped(_:))
+        )
         contentView.addGestureRecognizer(goToPostTapRecognizer)
 
         let longPressGesture = UILongPressGestureRecognizer()
@@ -90,7 +99,10 @@ class StreamHeaderCell: CollectionViewCell {
         usernameButton.titleLineBreakMode = .byTruncatingTail
         usernameButton.contentHorizontalAlignment = .left
         repostIconView.setInterfaceImage(.repost, style: .selected)
-        artistInviteSubmissionButton.setTitle(InterfaceString.ArtistInvites.PostSubmissionHeader, for: .normal)
+        artistInviteSubmissionButton.setTitle(
+            InterfaceString.ArtistInvites.PostSubmissionHeader,
+            for: .normal
+        )
     }
 
     override func arrange() {
@@ -136,8 +148,17 @@ class StreamHeaderCell: CollectionViewCell {
         artistInviteSubmissionButton.isVisible = aiSubmissionVisible
 
         if let category = category, categoryVisible {
-            let attributedString = NSAttributedString(label: "in ", style: .gray, lineBreakMode: .byTruncatingTail)
-            let categoryName = NSAttributedString(button: category.name, style: .grayUnderlined, alignment: .left, lineBreakMode: .byTruncatingTail)
+            let attributedString = NSAttributedString(
+                label: "in ",
+                style: .gray,
+                lineBreakMode: .byTruncatingTail
+            )
+            let categoryName = NSAttributedString(
+                button: category.name,
+                style: .grayUnderlined,
+                alignment: .left,
+                lineBreakMode: .byTruncatingTail
+            )
             categoryButton.setAttributedTitle(attributedString + categoryName, for: .normal)
             categoryButton.titleLineBreakMode = .byTruncatingTail
             categoryButton.sizeToFit()
@@ -161,7 +182,7 @@ class StreamHeaderCell: CollectionViewCell {
             y: contentView.frame.midY - avatarSize.height / 2,
             width: avatarSize.height,
             height: avatarSize.height
-            )
+        )
         let usernameX = avatarButton.frame.maxX + avatarPadding
 
         timestampLabel.sizeToFit()
@@ -171,15 +192,19 @@ class StreamHeaderCell: CollectionViewCell {
         if followButtonVisible {
             let relationshipControlSize = relationshipControl.intrinsicContentSize
             relationshipControl.frame.size = relationshipControlSize
-            relationshipControl.frame.origin.y = (contentView.frame.height - relationshipControlSize.height) / 2
+            relationshipControl.frame.origin.y = (
+                contentView.frame.height - relationshipControlSize.height
+            ) / 2
 
             if showUsername {
                 let relationshipControlPadding: CGFloat = 7
-                relationshipControl.frame.origin.x = contentView.frame.width - relationshipControlPadding - relationshipControlSize.width
+                relationshipControl.frame.origin.x = contentView.frame.width
+                    - relationshipControlPadding - relationshipControlSize.width
             }
             else {
                 let relationshipControlPadding: CGFloat = 15
-                relationshipControl.frame.origin.x = avatarButton.frame.maxX + relationshipControlPadding
+                relationshipControl.frame.origin.x = avatarButton.frame.maxX
+                    + relationshipControlPadding
             }
         }
 
@@ -189,7 +214,7 @@ class StreamHeaderCell: CollectionViewCell {
             y: 0,
             width: timestampLabel.frame.width,
             height: contentView.frame.height
-            )
+        )
 
         var maxUsernameWidth: CGFloat = 0
         if isGridView {
@@ -200,9 +225,18 @@ class StreamHeaderCell: CollectionViewCell {
         }
         let maxRepostedWidth = maxUsernameWidth - 26
 
-        let usernameWidth = max(minimumUsernameWidth, min(usernameButton.frame.width, maxUsernameWidth))
-        let repostedWidth = max(minimumRepostedWidth, min(repostedByButton.frame.width, maxRepostedWidth))
-        let categoryWidth = max(minimumRepostedWidth, min(categoryButton.frame.width, maxUsernameWidth))
+        let usernameWidth = max(
+            minimumUsernameWidth,
+            min(usernameButton.frame.width, maxUsernameWidth)
+        )
+        let repostedWidth = max(
+            minimumRepostedWidth,
+            min(repostedByButton.frame.width, maxRepostedWidth)
+        )
+        let categoryWidth = max(
+            minimumRepostedWidth,
+            min(categoryButton.frame.width, maxUsernameWidth)
+        )
 
         let hasRepostAuthor = repostedByButton.isVisible
         let hasCategory = categoryButton.isVisible
@@ -218,7 +252,8 @@ class StreamHeaderCell: CollectionViewCell {
             if followButtonVisible {
                 let relationshipControlCorrection: CGFloat = 2
                 let repostLabelCorrection: CGFloat = 2
-                relationshipControl.frame.origin.y -= usernameButtonHeight / 2 - relationshipControlCorrection
+                relationshipControl.frame.origin.y -= usernameButtonHeight / 2
+                    - relationshipControlCorrection
                 secondaryLabelY = relationshipControl.frame.maxY + repostLabelCorrection
             }
             else {
@@ -257,7 +292,7 @@ class StreamHeaderCell: CollectionViewCell {
         artistInviteSubmissionButton.frame.origin = CGPoint(
             x: usernameX,
             y: secondaryLabelY
-            )
+        )
         artistInviteSubmissionButton.frame.size.width = maxUsernameWidth
         artistInviteSubmissionButton.frame.size.height = usernameButtonHeight
     }
@@ -329,7 +364,9 @@ extension StreamHeaderCell {
         var repostIconView: UIImageView! { return target.repostIconView }
         var repostedByButton: StyledButton! { return target.repostedByButton }
         var categoryButton: StyledButton! { return target.categoryButton }
-        var artistInviteSubmissionButton: StyledButton! { return target.artistInviteSubmissionButton }
+        var artistInviteSubmissionButton: StyledButton! {
+            return target.artistInviteSubmissionButton
+        }
 
         init(_ target: StreamHeaderCell) {
             self.target = target

@@ -19,7 +19,7 @@ class SimpleMessageCellSpec: QuickSpec {
             ]
 
             for (size, desc) in sizes {
-                it("\(desc) should match snapshot"){
+                it("\(desc) should match snapshot") {
                     let subject = SimpleMessageCell()
                     subject.frame.size = size
                     subject.title = "Nothing To See Here"

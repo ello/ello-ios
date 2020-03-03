@@ -81,7 +81,8 @@ class NarrationView: UIView {
             .paragraphStyle: style
         ]
 
-        label.attributedText = NSAttributedString(string: title + "\n", attributes: titleAttributes) + NSAttributedString(string: text, attributes: textAttributes)
+        label.attributedText = NSAttributedString(string: title + "\n", attributes: titleAttributes)
+            + NSAttributedString(string: text, attributes: textAttributes)
     }
 
     override func layoutSubviews() {
@@ -93,15 +94,20 @@ class NarrationView: UIView {
         closeButton.frame.origin = CGPoint(
             x: bounds.width - Size.margins - closeButton.frame.width,
             y: Size.margins
-            )
+        )
 
         bg.frame = CGRect(
             x: 0,
             y: 0,
             width: bounds.width,
             height: bounds.height - pointer.frame.height
-            )
-        label.frame = bg.frame.inset(top: Size.margins, left: Size.margins, bottom: 0, right: 2 * Size.margins + closeButton.frame.width)
+        )
+        label.frame = bg.frame.inset(
+            top: Size.margins,
+            left: Size.margins,
+            bottom: 0,
+            right: 2 * Size.margins + closeButton.frame.width
+        )
     }
 
 }

@@ -67,7 +67,7 @@ class Parser {
             guard
                 let linkedObjects = json[jsonKey].array,
                 let parser = linkTable.parser
-                else { continue }
+            else { continue }
 
             var ids: [String] = []
             for linkedJSON in linkedObjects {

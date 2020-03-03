@@ -10,7 +10,7 @@ class OnboardingProfileViewController: BaseElloViewController {
     }
 
     var onboardingViewController: OnboardingViewController?
-    var onboardingData: OnboardingData! { didSet { didSetOnboardingData() }}
+    var onboardingData: OnboardingData! { didSet { didSetOnboardingData() } }
     var didSetName = false
     var didSetBio = false
     var didSetLinks = false
@@ -19,11 +19,9 @@ class OnboardingProfileViewController: BaseElloViewController {
     var didUploadCoverImage = false
     var didUploadAvatarImage = false
     var isProfileValid: Bool {
-        return (didSetName ||
-            didSetBio ||
-            didSetLinks ||
-            didUploadCoverImage ||
-            didUploadAvatarImage) && (!didSetLinks || linksAreValid)
+        return (
+            didSetName || didSetBio || didSetLinks || didUploadCoverImage || didUploadAvatarImage
+        ) && (!didSetLinks || linksAreValid)
     }
 
     override func loadView() {
@@ -126,7 +124,10 @@ extension OnboardingProfileViewController: OnboardingStepController {
         screen.avatarImage = onboardingData.avatarImage
     }
 
-    func onboardingWillProceed(abort: Bool, proceedClosure: @escaping (_ success: OnboardingViewController.OnboardingProceed) -> Void) {
+    func onboardingWillProceed(
+        abort: Bool,
+        proceedClosure: @escaping (_ success: OnboardingViewController.OnboardingProceed) -> Void
+    ) {
         var properties: [Profile.Property: Any] = [:]
         if let name = onboardingData.name, didSetName {
             Tracker.shared.enteredOnboardName()
@@ -159,8 +160,10 @@ extension OnboardingProfileViewController: OnboardingStepController {
         }
 
         ProfileService().updateUserImages(
-            avatarImage: avatarImage, coverImage: coverImage,
-            properties: properties)
+            avatarImage: avatarImage,
+            coverImage: coverImage,
+            properties: properties
+        )
             .done { _avatarURL, _coverImageURL, user in
                 self.appViewController?.currentUser = user
                 self.goToNextStep(abort, proceedClosure: proceedClosure)
@@ -182,7 +185,10 @@ extension OnboardingProfileViewController: OnboardingStepController {
             }
     }
 
-    func goToNextStep(_ abort: Bool, proceedClosure: @escaping (_ success: OnboardingViewController.OnboardingProceed) -> Void) {
+    func goToNextStep(
+        _ abort: Bool,
+        proceedClosure: @escaping (_ success: OnboardingViewController.OnboardingProceed) -> Void
+    ) {
         guard
             let presenter = onboardingViewController?.appViewController,
             !abort
@@ -192,34 +198,39 @@ extension OnboardingProfileViewController: OnboardingStepController {
         }
 
         Tracker.shared.inviteFriendsTapped()
-        AddressBookController.promptForAddressBookAccess(fromController: self, completion: { result in
-            switch result {
-            case let .success(addressBook):
-                Tracker.shared.contactAccessPreferenceChanged(true)
+        AddressBookController.promptForAddressBookAccess(
+            fromController: self,
+            completion: { result in
+                switch result {
+                case let .success(addressBook):
+                    Tracker.shared.contactAccessPreferenceChanged(true)
 
-                let vc = OnboardingInviteViewController(addressBook: addressBook)
-                vc.currentUser = self.currentUser
-                vc.onboardingViewController = self.onboardingViewController
-                self.onboardingViewController?.inviteFriendsController = vc
+                    let vc = OnboardingInviteViewController(addressBook: addressBook)
+                    vc.currentUser = self.currentUser
+                    vc.onboardingViewController = self.onboardingViewController
+                    self.onboardingViewController?.inviteFriendsController = vc
 
-                proceedClosure(.continue)
-            case let .failure(addressBookError):
-                guard addressBookError != .cancelled else {
-                    proceedClosure(.error)
-                    return
+                    proceedClosure(.continue)
+                case let .failure(addressBookError):
+                    guard addressBookError != .cancelled else {
+                        proceedClosure(.error)
+                        return
+                    }
+
+                    Tracker.shared.contactAccessPreferenceChanged(false)
+                    let message = addressBookError.rawValue
+                    let alertController = AlertViewController(
+                        confirmation: InterfaceString.Friends.ImportError(message)
+                    )
+                    presenter.present(alertController, animated: true, completion: nil)
                 }
-
-                Tracker.shared.contactAccessPreferenceChanged(false)
-                let message = addressBookError.rawValue
-                let alertController = AlertViewController(confirmation: InterfaceString.Friends.ImportError(message))
-                presenter.present(alertController, animated: true, completion: nil)
-            }
-        },
+            },
             cancelCompletion: {
                 guard let onboardingView = self.onboardingViewController?.view else { return }
                 ElloHUD.hideLoadingHudInView(onboardingView)
 
                 proceedClosure(.continue)
-        })
+            }
+        )
     }
 }

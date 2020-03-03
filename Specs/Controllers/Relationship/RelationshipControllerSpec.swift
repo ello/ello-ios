@@ -37,7 +37,12 @@ class RelationshipControllerSpec: QuickSpec {
                 it("succeeds") {
                     var expectedStatus: RelationshipRequestStatus = .failure
 
-                    subject.updateRelationship("", userId: "test-user-id", prev: RelationshipPriorityWrapper(priority: .none), relationshipPriority: RelationshipPriorityWrapper(priority: .following)) {
+                    subject.updateRelationship(
+                        "",
+                        userId: "test-user-id",
+                        prev: RelationshipPriorityWrapper(priority: .none),
+                        relationshipPriority: RelationshipPriorityWrapper(priority: .following)
+                    ) {
                         (statusWrapper, _, _) in
                         expectedStatus = statusWrapper.status
                     }
@@ -49,7 +54,12 @@ class RelationshipControllerSpec: QuickSpec {
 
                     var expectedStatus: RelationshipRequestStatus = .success
 
-                    subject.updateRelationship("", userId: "test-user-id", prev: RelationshipPriorityWrapper(priority: .none), relationshipPriority: RelationshipPriorityWrapper(priority: .following)) {
+                    subject.updateRelationship(
+                        "",
+                        userId: "test-user-id",
+                        prev: RelationshipPriorityWrapper(priority: .none),
+                        relationshipPriority: RelationshipPriorityWrapper(priority: .following)
+                    ) {
                         (statusWrapper, _, _) in
                         expectedStatus = statusWrapper.status
                     }
@@ -60,10 +70,15 @@ class RelationshipControllerSpec: QuickSpec {
             describe("-launchBlockModal:userAtName:relationship:changeClosure:") {
 
                 it("launches the block user modal view controller") {
-                    subject.launchBlockModal("user-id", userAtName: "@666", relationshipPriority: RelationshipPriorityWrapper(priority: .following)) {
+                    subject.launchBlockModal(
+                        "user-id",
+                        userAtName: "@666",
+                        relationshipPriority: RelationshipPriorityWrapper(priority: .following)
+                    ) {
                         _ in
                     }
-                    let presentedVC = subject.responderChainable.controller?.presentedViewController as? BlockUserModalViewController
+                    let presentedVC = subject.responderChainable.controller?.presentedViewController
+                        as? BlockUserModalViewController
                     expect(presentedVC).to(beAKindOf(BlockUserModalViewController.self))
                 }
 

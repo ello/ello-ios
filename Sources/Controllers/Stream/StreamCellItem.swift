@@ -11,7 +11,8 @@ enum StreamCellState {
 
 
 final class StreamCellItem: NSObject, NSCopying {
-    typealias CalculatorGeneratorWithStreamKind = (StreamKind, StreamCellItem, CGFloat, Int) -> CellSizeCalculator
+    typealias CalculatorGeneratorWithStreamKind = (StreamKind, StreamCellItem, CGFloat, Int) ->
+        CellSizeCalculator
     typealias CalculatorGenerator = (StreamCellItem, CGFloat, Int) -> CellSizeCalculator
 
     var jsonable: Model
@@ -34,7 +35,12 @@ final class StreamCellItem: NSObject, NSCopying {
         self.init(jsonable: Model(version: 1), type: type, placeholderType: placeholderType)
     }
 
-    convenience init(jsonable: Model, type: StreamCellType, placeholderType: StreamCellType.PlaceholderType, groupId: String? = nil) {
+    convenience init(
+        jsonable: Model,
+        type: StreamCellType,
+        placeholderType: StreamCellType.PlaceholderType,
+        groupId: String? = nil
+    ) {
         self.init(jsonable: jsonable, type: type, groupId: groupId)
         self.placeholderType = placeholderType
     }
@@ -55,7 +61,7 @@ final class StreamCellItem: NSObject, NSCopying {
         let copy = Swift.type(of: self).init(
             jsonable: self.jsonable,
             type: self.type
-            )
+        )
         copy.calculatedCellHeights.webContent = self.calculatedCellHeights.webContent
         copy.calculatedCellHeights.oneColumn = self.calculatedCellHeights.oneColumn
         copy.calculatedCellHeights.multiColumn = self.calculatedCellHeights.multiColumn
@@ -73,7 +79,8 @@ final class StreamCellItem: NSObject, NSCopying {
     }
 
     override var description: String {
-        var description = "StreamCellItem(type: \(type.reuseIdentifier), jsonable: \(Swift.type(of: jsonable)), state: \(state)"
+        var description =
+            "StreamCellItem(type: \(type.reuseIdentifier), jsonable: \(Swift.type(of: jsonable)), state: \(state)"
         if case let .text(data) = type,
             let textRegion = data as? TextRegion
         {
@@ -88,17 +95,28 @@ final class StreamCellItem: NSObject, NSCopying {
     }
 
 
-    static var textCellSizeCalculator: CalculatorGeneratorWithStreamKind = StreamTextCellSizeCalculator.init
-    static var imageCellSizeCalculator: CalculatorGeneratorWithStreamKind = StreamImageCellSizeCalculator.init
-    static var notificationCellSizeCalculator: CalculatorGenerator = NotificationCellSizeCalculator.init
-    static var announcementCellSizeCalculator: CalculatorGenerator = AnnouncementCellSizeCalculator.init
-    static var promoHeaderCellSizeCalculator: CalculatorGenerator = PromotionalHeaderCellSizeCalculator.init
-    static var profileNameCellSizeCalculator: CalculatorGenerator = ProfileHeaderNamesSizeCalculator.init
-    static var profileBioCellSizeCalculator: CalculatorGenerator = ProfileHeaderBioSizeCalculator.init
-    static var profileLinksCellSizeCalculator: CalculatorGenerator = ProfileHeaderLinksSizeCalculator.init
-    static var artistInviteCellSizeCalculator: CalculatorGenerator = ArtistInviteCellSizeCalculator.init
+    static var textCellSizeCalculator: CalculatorGeneratorWithStreamKind =
+        StreamTextCellSizeCalculator.init
+    static var imageCellSizeCalculator: CalculatorGeneratorWithStreamKind =
+        StreamImageCellSizeCalculator.init
+    static var notificationCellSizeCalculator: CalculatorGenerator = NotificationCellSizeCalculator
+        .init
+    static var announcementCellSizeCalculator: CalculatorGenerator = AnnouncementCellSizeCalculator
+        .init
+    static var promoHeaderCellSizeCalculator: CalculatorGenerator =
+        PromotionalHeaderCellSizeCalculator.init
+    static var profileNameCellSizeCalculator: CalculatorGenerator = ProfileHeaderNamesSizeCalculator
+        .init
+    static var profileBioCellSizeCalculator: CalculatorGenerator = ProfileHeaderBioSizeCalculator
+        .init
+    static var profileLinksCellSizeCalculator: CalculatorGenerator =
+        ProfileHeaderLinksSizeCalculator.init
+    static var artistInviteCellSizeCalculator: CalculatorGenerator = ArtistInviteCellSizeCalculator
+        .init
 
-    func sizeCalculator(streamKind: StreamKind, width: CGFloat, columnCount: Int) -> CellSizeCalculator? {
+    func sizeCalculator(streamKind: StreamKind, width: CGFloat, columnCount: Int)
+        -> CellSizeCalculator?
+    {
         if type.data is TextRegion {
             return StreamCellItem.textCellSizeCalculator(streamKind, self, width, columnCount)
         }

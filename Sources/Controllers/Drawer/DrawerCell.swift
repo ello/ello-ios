@@ -61,7 +61,8 @@ class DrawerCell: TableViewCell {
 
         label.snp.makeConstraints { make in
             make.centerY.equalTo(contentView)
-            hasImageConstraint = make.leading.equalTo(logoView.snp.trailing).offset(Size.inset.left).constraint
+            hasImageConstraint =
+                make.leading.equalTo(logoView.snp.trailing).offset(Size.inset.left).constraint
             noImageConstraint = make.leading.equalTo(contentView).inset(Size.inset).constraint
         }
 

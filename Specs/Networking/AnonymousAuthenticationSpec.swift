@@ -26,7 +26,8 @@ class AnonymousAuthenticationSpec: QuickSpec {
                     .catch { _ in
                         failed = true
                     }
-                expect(AuthToken().token) == "0237a2b08dfe6c30bd3c1525767efadffac942bbb6c045c924ff2eba1350c4aa"
+                expect(AuthToken().token)
+                    == "0237a2b08dfe6c30bd3c1525767efadffac942bbb6c045c924ff2eba1350c4aa"
                 expect(AuthToken().isPasswordBased) == false
                 expect(succeeded) == true
                 expect(failed) == false
@@ -44,13 +45,16 @@ class AnonymousAuthenticationSpec: QuickSpec {
                     .catch { _ in
                         failed = true
                     }
-                expect(AuthToken().token) == "0237a2b08dfe6c30bd3c1525767efadffac942bbb6c045c924ff2eba1350c4aa"
+                expect(AuthToken().token)
+                    == "0237a2b08dfe6c30bd3c1525767efadffac942bbb6c045c924ff2eba1350c4aa"
                 expect(AuthToken().isPasswordBased) == false
                 expect(succeeded) == true
                 expect(failed) == false
             }
 
-            it("should fail requests that need authentication when anonymous credentials are available") {
+            it(
+                "should fail requests that need authentication when anonymous credentials are available"
+            ) {
                 AuthenticationManager.shared.specs(setAuthState: .anonymous)
 
                 var succeeded = false
@@ -68,7 +72,10 @@ class AnonymousAuthenticationSpec: QuickSpec {
 
             it("should fail anonymous requests when anonymous credentials are invalid") {
                 ElloProvider.moya = ElloProvider.RecordedStubbingProvider([
-                    RecordedResponse(endpoint: .availability(content: [:]), response: .networkResponse(401, Data())),
+                    RecordedResponse(
+                        endpoint: .availability(content: [:]),
+                        response: .networkResponse(401, Data())
+                    ),
                 ])
                 AuthenticationManager.shared.specs(setAuthState: .anonymous)
 

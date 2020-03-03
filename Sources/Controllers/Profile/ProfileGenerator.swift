@@ -49,7 +49,9 @@ final class ProfileGenerator: StreamGenerator {
 
         let username = user?.username
         if let username = username {
-            self.nextRequestGenerator = { next in return API().userPosts(username: username, before: next) }
+            self.nextRequestGenerator = { next in
+                return API().userPosts(username: username, before: next)
+            }
         }
 
         localToken = loadingToken.resetInitialPageLoadingToken()
@@ -85,7 +87,8 @@ final class ProfileGenerator: StreamGenerator {
             let nextPageRequest = nextPageRequest
         else { return nil }
 
-        return nextPageRequest
+        return
+            nextPageRequest
             .execute()
             .map { (pageConfig, posts) -> [Model] in
                 self.setNextPageConfig(pageConfig)
@@ -93,7 +96,9 @@ final class ProfileGenerator: StreamGenerator {
             }
             .recover { error -> Promise<[Model]> in
                 let errorConfig = PageConfig(next: nil, isLastPage: true)
-                self.destination?.setPagingConfig(responseConfig: ResponseConfig(pageConfig: errorConfig))
+                self.destination?.setPagingConfig(
+                    responseConfig: ResponseConfig(pageConfig: errorConfig)
+                )
                 throw error
             }
     }
@@ -137,13 +142,20 @@ extension ProfileGenerator {
         API().userDetail(token: .fromParam(userParam))
             .execute()
             .done { user in
-                guard self.loadingToken.isValidInitialPageLoadingToken(self.localToken) else { return }
+                guard self.loadingToken.isValidInitialPageLoadingToken(self.localToken) else {
+                    return
+                }
 
                 self.user = user
                 let username = user.username
-                self.nextRequestGenerator = { next in return API().userPosts(username: username, before: next) }
+                self.nextRequestGenerator = { next in
+                    return API().userPosts(username: username, before: next)
+                }
                 self.destination?.setPrimary(jsonable: user)
-                self.destination?.replacePlaceholder(type: .profileHeader, items: self.headerItems())
+                self.destination?.replacePlaceholder(
+                    type: .profileHeader,
+                    items: self.headerItems()
+                )
                 doneOperation.run()
             }
             .catch { _ in
@@ -160,7 +172,9 @@ extension ProfileGenerator {
         API().userPosts(username: username)
             .execute()
             .done { pageConfig, posts in
-                guard self.loadingToken.isValidInitialPageLoadingToken(self.localToken) else { return }
+                guard self.loadingToken.isValidInitialPageLoadingToken(self.localToken) else {
+                    return
+                }
 
                 self.setNextPageConfig(pageConfig)
 
@@ -172,18 +186,28 @@ extension ProfileGenerator {
                             self.hasPosts = false
                             let user: User = self.user ?? User.empty(id: self.userParam)
                             let noItems = [StreamCellItem(jsonable: user, type: .noPosts)]
-                            self.destination?.replacePlaceholder(type: .streamItems, items: noItems) {
+                            self.destination?.replacePlaceholder(type: .streamItems, items: noItems)
+                            {
                                 self.destination?.isPagingEnabled = false
                             }
-                            self.destination?.replacePlaceholder(type: .profileHeader, items: self.headerItems())
+                            self.destination?.replacePlaceholder(
+                                type: .profileHeader,
+                                items: self.headerItems()
+                            )
                         }
                         else {
                             let updateHeaderItems = self.hasPosts == false
                             self.hasPosts = true
                             if updateHeaderItems {
-                                self.destination?.replacePlaceholder(type: .profileHeader, items: self.headerItems())
+                                self.destination?.replacePlaceholder(
+                                    type: .profileHeader,
+                                    items: self.headerItems()
+                                )
                             }
-                            self.destination?.replacePlaceholder(type: .streamItems, items: userPostItems) {
+                            self.destination?.replacePlaceholder(
+                                type: .streamItems,
+                                items: userPostItems
+                            ) {
                                 self.destination?.isPagingEnabled = true
                             }
                         }
@@ -200,7 +224,9 @@ extension ProfileGenerator {
 
         UserService().loadUserPosts(userParam)
             .done { posts, responseConfig in
-                guard self.loadingToken.isValidInitialPageLoadingToken(self.localToken) else { return }
+                guard self.loadingToken.isValidInitialPageLoadingToken(self.localToken) else {
+                    return
+                }
 
                 self.destination?.setPagingConfig(responseConfig: responseConfig)
                 self.posts = posts
@@ -211,18 +237,28 @@ extension ProfileGenerator {
                             self.hasPosts = false
                             let user: User = self.user ?? User.empty(id: self.userParam)
                             let noItems = [StreamCellItem(jsonable: user, type: .noPosts)]
-                            self.destination?.replacePlaceholder(type: .streamItems, items: noItems) {
+                            self.destination?.replacePlaceholder(type: .streamItems, items: noItems)
+                            {
                                 self.destination?.isPagingEnabled = false
                             }
-                            self.destination?.replacePlaceholder(type: .profileHeader, items: self.headerItems())
+                            self.destination?.replacePlaceholder(
+                                type: .profileHeader,
+                                items: self.headerItems()
+                            )
                         }
                         else {
                             let updateHeaderItems = self.hasPosts == false
                             self.hasPosts = true
                             if updateHeaderItems {
-                                self.destination?.replacePlaceholder(type: .profileHeader, items: self.headerItems())
+                                self.destination?.replacePlaceholder(
+                                    type: .profileHeader,
+                                    items: self.headerItems()
+                                )
                             }
-                            self.destination?.replacePlaceholder(type: .streamItems, items: userPostItems) {
+                            self.destination?.replacePlaceholder(
+                                type: .streamItems,
+                                items: userPostItems
+                            ) {
                                 self.destination?.isPagingEnabled = true
                             }
                         }

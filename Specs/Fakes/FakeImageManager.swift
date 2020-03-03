@@ -12,7 +12,9 @@ class FakeImageManager: PINRemoteImageManager {
         downloads = [URL]()
     }
 
-    override func prefetchImage(with url: URL, options: PINRemoteImageManagerDownloadOptions = []) -> UUID? {
+    override func prefetchImage(with url: URL, options: PINRemoteImageManagerDownloadOptions = [])
+        -> UUID?
+    {
         downloads.append(url)
         return nil
     }

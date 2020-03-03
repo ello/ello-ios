@@ -51,7 +51,11 @@ enum ElloPostToolBarOption {
         if let disabledImage = interfaceImage.disabledImage {
             iconDisabled = UIImageView(image: disabledImage)
         }
-        let basicIcon = BasicIcon(normalIconView: icon, selectedIconView: iconSelected, disabledIconView: iconDisabled)
+        let basicIcon = BasicIcon(
+            normalIconView: icon,
+            selectedIconView: iconSelected,
+            disabledIconView: iconDisabled
+        )
         return ImageLabelControl(icon: basicIcon, title: "")
     }
 

@@ -59,7 +59,9 @@ extension FollowingGenerator {
             .execute()
             .map { pageConfig, posts in
                 self.before = pageConfig.next
-                self.destination?.setPagingConfig(responseConfig: ResponseConfig(pageConfig: pageConfig))
+                self.destination?.setPagingConfig(
+                    responseConfig: ResponseConfig(pageConfig: pageConfig)
+                )
                 return posts
             }
     }

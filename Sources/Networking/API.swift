@@ -33,7 +33,9 @@ struct API {
         }
     }
 
-    func followingPostStream(filter: CategoryFilter = .recent, before: String? = nil) -> GraphQLRequest<(PageConfig, [Post])> {
+    func followingPostStream(filter: CategoryFilter = .recent, before: String? = nil)
+        -> GraphQLRequest<(PageConfig, [Post])>
+    {
         let request = GraphQLRequest(
             endpointName: "followingPostStream",
             parser: PageParser<Post>("posts", PostParser()).parse,
@@ -46,7 +48,9 @@ struct API {
         return request
     }
 
-    func globalPostStream(filter: CategoryFilter, before: String? = nil) -> GraphQLRequest<(PageConfig, [Post])> {
+    func globalPostStream(filter: CategoryFilter, before: String? = nil) -> GraphQLRequest<
+        (PageConfig, [Post])
+    > {
         let request = GraphQLRequest(
             endpointName: "globalPostStream",
             parser: PageParser<Post>("posts", PostParser()).parse,
@@ -59,7 +63,9 @@ struct API {
         return request
     }
 
-    func categoryPostStream(categorySlug: String, filter: CategoryFilter, before: String? = nil) -> GraphQLRequest<(PageConfig, [Post])> {
+    func categoryPostStream(categorySlug: String, filter: CategoryFilter, before: String? = nil)
+        -> GraphQLRequest<(PageConfig, [Post])>
+    {
         let request = GraphQLRequest(
             endpointName: "categoryPostStream",
             parser: PageParser<Post>("posts", PostParser()).parse,
@@ -73,11 +79,15 @@ struct API {
         return request
     }
 
-    func categoryAdmins(categorySlug: String) -> GraphQLRequest<(moderators: [User], curators: [User])> {
+    func categoryAdmins(categorySlug: String) -> GraphQLRequest<
+        (moderators: [User], curators: [User])
+    > {
         let request = GraphQLRequest(
             endpointName: "category",
             parser: { (json: JSON) -> (moderators: [User], curators: [User]) in
-                guard let categoryUsers = json["categoryUsers"].array else { throw Parser.Error.parsingError }
+                guard let categoryUsers = json["categoryUsers"].array else {
+                    throw Parser.Error.parsingError
+                }
 
                 let userParser = UserParser()
                 var moderators: [User] = []
@@ -102,7 +112,9 @@ struct API {
         return request
     }
 
-    func subscribedPostStream(filter: CategoryFilter, before: String? = nil) -> GraphQLRequest<(PageConfig, [Post])> {
+    func subscribedPostStream(filter: CategoryFilter, before: String? = nil) -> GraphQLRequest<
+        (PageConfig, [Post])
+    > {
         let request = GraphQLRequest(
             endpointName: "subscribedPostStream",
             parser: PageParser<Post>("posts", PostParser()).parse,
@@ -159,7 +171,9 @@ struct API {
         return request
     }
 
-    func postComments(postToken: Token, before: String? = nil) -> GraphQLRequest<(PageConfig, [ElloComment])> {
+    func postComments(postToken: Token, before: String? = nil) -> GraphQLRequest<
+        (PageConfig, [ElloComment])
+    > {
         let request = GraphQLRequest(
             endpointName: "commentStream",
             parser: PageParser<ElloComment>("comments", CommentParser()).parse,
@@ -184,7 +198,8 @@ struct API {
         return request
     }
 
-    func userPosts(username: String, before: String? = nil) -> GraphQLRequest<(PageConfig, [Post])> {
+    func userPosts(username: String, before: String? = nil) -> GraphQLRequest<(PageConfig, [Post])>
+    {
         let request = GraphQLRequest(
             endpointName: "userPostStream",
             parser: PageParser<Post>("posts", PostParser()).parse,
@@ -197,7 +212,8 @@ struct API {
         return request
     }
 
-    func userLoves(username: String, before: String? = nil) -> GraphQLRequest<(PageConfig, [Love])> {
+    func userLoves(username: String, before: String? = nil) -> GraphQLRequest<(PageConfig, [Love])>
+    {
         let request = GraphQLRequest(
             endpointName: "userLoveStream",
             parser: PageParser<Love>("loves", LoveParser()).parse,

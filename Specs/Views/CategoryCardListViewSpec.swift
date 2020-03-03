@@ -31,7 +31,12 @@ class CategoryCardListViewSpec: QuickSpec {
         var subject: CategoryCardListView!
         var delegate: MockCategoryCardListDelegate!
         beforeEach {
-            subject = CategoryCardListView(frame: CGRect(origin: .zero, size: CGSize(width: 320, height: CategoryCardListView.Size.height)))
+            subject = CategoryCardListView(
+                frame: CGRect(
+                    origin: .zero,
+                    size: CGSize(width: 320, height: CategoryCardListView.Size.height)
+                )
+            )
             delegate = MockCategoryCardListDelegate()
             subject.delegate = delegate
         }

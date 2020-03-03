@@ -54,13 +54,23 @@ class ManageCategoriesViewController: StreamableViewController {
 
     override func showNavBars(animated: Bool) {
         super.showNavBars(animated: animated)
-        positionNavBar(screen.navigationBar, visible: true, withConstraint: screen.navigationBarTopConstraint, animated: animated)
+        positionNavBar(
+            screen.navigationBar,
+            visible: true,
+            withConstraint: screen.navigationBarTopConstraint,
+            animated: animated
+        )
         updateInsets()
     }
 
     override func hideNavBars(animated: Bool) {
         super.hideNavBars(animated: animated)
-        positionNavBar(screen.navigationBar, visible: false, withConstraint: screen.navigationBarTopConstraint, animated: animated)
+        positionNavBar(
+            screen.navigationBar,
+            visible: false,
+            withConstraint: screen.navigationBarTopConstraint,
+            animated: animated
+        )
         updateInsets()
     }
 
@@ -85,7 +95,9 @@ class ManageCategoriesViewController: StreamableViewController {
 
     override func closeButtonTapped() {
         if hasPendingChanges() {
-            let alertController = AlertViewController(message: InterfaceString.Settings.AbortChanges)
+            let alertController = AlertViewController(
+                message: InterfaceString.Settings.AbortChanges
+            )
 
             let okCancelAction = AlertAction(style: .okCancel) { _ in
                 super.backButtonTapped()
@@ -158,7 +170,11 @@ extension ManageCategoriesViewController: StreamDestination {
         set { streamViewController.isPagingEnabled = newValue }
     }
 
-    func replacePlaceholder(type: StreamCellType.PlaceholderType, items: [StreamCellItem], completion: @escaping Block) {
+    func replacePlaceholder(
+        type: StreamCellType.PlaceholderType,
+        items: [StreamCellItem],
+        completion: @escaping Block
+    ) {
         streamViewController.replacePlaceholder(type: type, items: items) {
             if type == .streamItems, let currentUser = self.currentUser {
                 for (row, item) in items.enumerated() {
@@ -167,7 +183,11 @@ extension ManageCategoriesViewController: StreamDestination {
                         currentUser.subscribedTo(categoryId: category.id)
                     else { continue }
 
-                    self.streamViewController.collectionView.selectItem(at: IndexPath(row: row, section: 0), animated: false, scrollPosition: [])
+                    self.streamViewController.collectionView.selectItem(
+                        at: IndexPath(row: row, section: 0),
+                        animated: false,
+                        scrollPosition: []
+                    )
                 }
             }
 

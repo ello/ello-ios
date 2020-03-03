@@ -4,10 +4,18 @@
 
 class Keyboard {
     struct Notifications {
-        static let KeyboardWillShow = TypedNotification<Keyboard>(name: "com.Ello.Keyboard.KeyboardWillShow")
-        static let KeyboardDidShow = TypedNotification<Keyboard>(name: "com.Ello.Keyboard.KeyboardDidShow")
-        static let KeyboardWillHide = TypedNotification<Keyboard>(name: "com.Ello.Keyboard.KeyboardWillHide")
-        static let KeyboardDidHide = TypedNotification<Keyboard>(name: "com.Ello.Keyboard.KeyboardDidHide")
+        static let KeyboardWillShow = TypedNotification<Keyboard>(
+            name: "com.Ello.Keyboard.KeyboardWillShow"
+        )
+        static let KeyboardDidShow = TypedNotification<Keyboard>(
+            name: "com.Ello.Keyboard.KeyboardDidShow"
+        )
+        static let KeyboardWillHide = TypedNotification<Keyboard>(
+            name: "com.Ello.Keyboard.KeyboardWillHide"
+        )
+        static let KeyboardDidHide = TypedNotification<Keyboard>(
+            name: "com.Ello.Keyboard.KeyboardDidHide"
+        )
     }
 
     static let shared = Keyboard()
@@ -27,10 +35,30 @@ class Keyboard {
 
     init() {
         let center: NotificationCenter = NotificationCenter.default
-        center.addObserver(self, selector: #selector(Keyboard.willShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-        center.addObserver(self, selector: #selector(Keyboard.didShow(_:)), name: UIResponder.keyboardDidShowNotification, object: nil)
-        center.addObserver(self, selector: #selector(Keyboard.willHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
-        center.addObserver(self, selector: #selector(Keyboard.didHide(_:)), name: UIResponder.keyboardDidHideNotification, object: nil)
+        center.addObserver(
+            self,
+            selector: #selector(Keyboard.willShow(_:)),
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil
+        )
+        center.addObserver(
+            self,
+            selector: #selector(Keyboard.didShow(_:)),
+            name: UIResponder.keyboardDidShowNotification,
+            object: nil
+        )
+        center.addObserver(
+            self,
+            selector: #selector(Keyboard.willHide(_:)),
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil
+        )
+        center.addObserver(
+            self,
+            selector: #selector(Keyboard.didHide(_:)),
+            name: UIResponder.keyboardDidHideNotification,
+            object: nil
+        )
     }
 
     deinit {
@@ -40,7 +68,10 @@ class Keyboard {
 
     func keyboardBottomInset(inView: UIView) -> CGFloat {
         let window: UIView = inView.window ?? inView
-        let bottom = window.convert(CGPoint(x: 0, y: window.bounds.size.height - bottomInset), to: inView.superview).y
+        let bottom = window.convert(
+            CGPoint(x: 0, y: window.bounds.size.height - bottomInset),
+            to: inView.superview
+        ).y
         let inset = inView.frame.size.height - bottom
         if inset < 0 {
             return 0
@@ -62,14 +93,18 @@ class Keyboard {
     }
 
     func setFromNotification(_ notification: Foundation.Notification) {
-        if let durationValue = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? NSNumber {
+        if let durationValue =
+            notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? NSNumber
+        {
             duration = durationValue.doubleValue
         }
         else {
             duration = 0
         }
 
-        if let rawCurveValue = (notification.userInfo?[UIResponder.keyboardAnimationCurveUserInfoKey] as? NSNumber) {
+        if let rawCurveValue = (
+            notification.userInfo?[UIResponder.keyboardAnimationCurveUserInfoKey] as? NSNumber
+        ) {
             let rawCurve = rawCurveValue.intValue
             curve = UIView.AnimationCurve(rawValue: rawCurve) ?? .easeOut
             let curveInt = UInt(rawCurve << 16)

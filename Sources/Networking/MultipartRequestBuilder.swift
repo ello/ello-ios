@@ -10,12 +10,15 @@ class MultipartRequestBuilder {
 
     init(url: URL, capacity: Int = 0) {
         let cachePolicy = URLRequest.CachePolicy.reloadIgnoringLocalCacheData
-        boundaryConstant = "Boundary-7MA4YWxkTLLu0UIW" // This should be randomly-generated.
+        boundaryConstant = "Boundary-7MA4YWxkTLLu0UIW"  // This should be randomly-generated.
 
         request = URLRequest(url: url, cachePolicy: cachePolicy, timeoutInterval: 10.0)
         request.httpMethod = "POST"
 
-        request.setValue("multipart/form-data; boundary=\(boundaryConstant)", forHTTPHeaderField: "Content-Type")
+        request.setValue(
+            "multipart/form-data; boundary=\(boundaryConstant)",
+            forHTTPHeaderField: "Content-Type"
+        )
 
         body = Data(capacity: capacity)
     }
@@ -26,7 +29,11 @@ class MultipartRequestBuilder {
         }
 
         body.append("--\(boundaryConstant)\r\n".data(using: String.Encoding.utf8)!)
-        body.append("Content-Disposition: form-data; name=\"\(name)\"\r\n".data(using: String.Encoding.utf8)!)
+        body.append(
+            "Content-Disposition: form-data; name=\"\(name)\"\r\n".data(
+                using: String.Encoding.utf8
+            )!
+        )
         body.append("\r\n".data(using: String.Encoding.utf8)!)
         body.append(value.data(using: String.Encoding.utf8)!)
         body.append("\r\n".data(using: String.Encoding.utf8)!)
@@ -38,7 +45,11 @@ class MultipartRequestBuilder {
         }
 
         body.append("--\(boundaryConstant)\r\n".data(using: String.Encoding.utf8)!)
-        body.append("Content-Disposition: form-data; name=\"\(name)\"; filename=\"\(filename)\"\r\n".data(using: String.Encoding.utf8)!)
+        body.append(
+            "Content-Disposition: form-data; name=\"\(name)\"; filename=\"\(filename)\"\r\n".data(
+                using: String.Encoding.utf8
+            )!
+        )
         body.append("Content-Type: \(contentType)\r\n".data(using: String.Encoding.utf8)!)
         body.append("\r\n".data(using: String.Encoding.utf8)!)
         body.append(data)

@@ -9,11 +9,17 @@ import Nimble
 // GROSS, thanks Apple for making it hard to change Locale for testing purposes
 extension NSLocale {
     class func defaultToArab() {
-        method_exchangeImplementations(class_getClassMethod(self, #selector(getter: NSLocale.current))!, class_getClassMethod(self, #selector(NSLocale.ello_currentLocale))!)
+        method_exchangeImplementations(
+            class_getClassMethod(self, #selector(getter:NSLocale.current))!,
+            class_getClassMethod(self, #selector(NSLocale.ello_currentLocale))!
+        )
     }
 
     class func defaultToNormal() {
-        method_exchangeImplementations(class_getClassMethod(self, #selector(NSLocale.ello_currentLocale))!, class_getClassMethod(self, #selector(getter: NSLocale.current))!)
+        method_exchangeImplementations(
+            class_getClassMethod(self, #selector(NSLocale.ello_currentLocale))!,
+            class_getClassMethod(self, #selector(getter:NSLocale.current))!
+        )
     }
 
     // MARK: - Method Swizzling
@@ -33,7 +39,8 @@ class DateFormattingSpec: QuickSpec {
 
                     it("returns an Date from an http data string") {
                         let sep_30_1978 = Date(timeIntervalSince1970: 275961600)
-                        expect("Sat, 30 Sep 1978 00:00:00 GMT".toDate(HTTPDateFormatter)) == sep_30_1978
+                        expect("Sat, 30 Sep 1978 00:00:00 GMT".toDate(HTTPDateFormatter))
+                            == sep_30_1978
                     }
                 }
 

@@ -10,7 +10,9 @@ struct NewContentNotifications {
     static let newAnnouncements = TypedNotification<()>(name: "NewAnnouncementsNotification")
     static let newNotifications = TypedNotification<()>(name: "NewNotificationsNotification")
     static let newFollowingContent = TypedNotification<()>(name: "NewFollowingContentNotification")
-    static let reloadFollowingContent = TypedNotification<()>(name: "ReloadFollowingContentNotification")
+    static let reloadFollowingContent = TypedNotification<()>(
+        name: "ReloadFollowingContentNotification"
+    )
     static let reloadNotifications = TypedNotification<()>(name: "ReloadNotificationsNotification")
     static let pause = TypedNotification<()>(name: "NewContentService-pause")
     static let resume = TypedNotification<()>(name: "NewContentService-resume")
@@ -25,13 +27,16 @@ class NewContentService {
     private var postCreatedObserver: NotificationObserver?
 
     init() {
-        pauseObserver = NotificationObserver(notification: NewContentNotifications.pause) { [weak self] _ in
+        pauseObserver = NotificationObserver(notification: NewContentNotifications.pause) {
+            [weak self] _ in
             self?.pauseCount += 1
         }
-        resumeObserver = NotificationObserver(notification: NewContentNotifications.resume) { [weak self] _ in
+        resumeObserver = NotificationObserver(notification: NewContentNotifications.resume) {
+            [weak self] _ in
             self?.pauseCount -= 1
         }
-        postCreatedObserver = NotificationObserver(notification: PostChangedNotification) { [weak self] (post, change) in
+        postCreatedObserver = NotificationObserver(notification: PostChangedNotification) {
+            [weak self] (post, change) in
             if change == .create {
                 self?.updateCreatedAt([post], streamKind: .following)
             }
@@ -52,7 +57,13 @@ extension NewContentService {
     }
 
     private func restartPolling() {
-        timer = Timer.scheduledTimer(timeInterval: TimeInterval(10), target: self, selector: #selector(NewContentService.checkForNewContent), userInfo: nil, repeats: false)
+        timer = Timer.scheduledTimer(
+            timeInterval: TimeInterval(10),
+            target: self,
+            selector: #selector(NewContentService.checkForNewContent),
+            userInfo: nil,
+            repeats: false
+        )
     }
 
     func stillPolling() -> Bool {
@@ -122,11 +133,11 @@ private extension NewContentService {
         let storedKey = StreamKind.announcements.lastViewedCreatedAtKey!
         let storedDate = GroupDefaults[storedKey].date
 
-         return ElloProvider.shared.request(.announcementsNewContent(createdAt: storedDate))
-             .done { (_, responseConfig) in
+        return ElloProvider.shared.request(.announcementsNewContent(createdAt: storedDate))
+            .done { (_, responseConfig) in
                 guard responseConfig.statusCode == 204 else { return }
                 postNotification(NewContentNotifications.newAnnouncements, value: ())
-             }
+            }
     }
 
     func checkForNewFollowingContent() -> Promise<Void> {

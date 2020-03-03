@@ -42,7 +42,7 @@ class RoleAdminGenerator {
             categoryId: categoryId,
             userId: userId,
             role: role.rawValue
-            )
+        )
         ElloProvider.shared.request(endpoint)
             .done { jsonable, config in
                 seal.fulfill(jsonable as! CategoryUser)
@@ -52,13 +52,14 @@ class RoleAdminGenerator {
         return promise
     }
 
-    func edit(categoryId: String, userId: String, role: CategoryUser.Role) -> Promise<CategoryUser> {
+    func edit(categoryId: String, userId: String, role: CategoryUser.Role) -> Promise<CategoryUser>
+    {
         let (promise, seal) = Promise<CategoryUser>.pending()
         let endpoint: ElloAPI = .editCategoryUser(
             categoryId: categoryId,
             userId: userId,
             role: role.rawValue
-            )
+        )
         ElloProvider.shared.request(endpoint)
             .done { jsonable, config in
                 seal.fulfill(jsonable as! CategoryUser)

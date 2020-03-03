@@ -10,17 +10,29 @@ struct ElloProvider_Specs {
 
     static func errorEndpointsClosure(_ target: ElloAPI) -> Endpoint {
         let sampleResponseClosure = { () -> EndpointSampleResponse in
-            return .networkResponse(ElloProvider_Specs.errorStatusCode.rawValue, ElloProvider_Specs.errorStatusCode.defaultData)
+            return .networkResponse(
+                ElloProvider_Specs.errorStatusCode.rawValue,
+                ElloProvider_Specs.errorStatusCode.defaultData
+            )
         }
 
-        return Endpoint(url: url(target), sampleResponseClosure: sampleResponseClosure, method: target.method, task: target.task, httpHeaderFields: target.headers)
+        return Endpoint(
+            url: url(target),
+            sampleResponseClosure: sampleResponseClosure,
+            method: target.method,
+            task: target.task,
+            httpHeaderFields: target.headers
+        )
     }
 
-    static func recordedEndpointsClosure(_ recordings: [RecordedResponse]) -> (_ target: ElloAPI) -> Endpoint {
+    static func recordedEndpointsClosure(_ recordings: [RecordedResponse]) -> (_ target: ElloAPI) ->
+        Endpoint
+    {
         var playback = recordings
         return { (target: ElloAPI) -> Endpoint in
             var responseClosure: ((_ target: ElloAPI) -> EndpointSampleResponse)?
-            for (index, recording) in playback.enumerated() where recording.endpoint.debugDescription == target.debugDescription {
+            for (index, recording) in playback.enumerated()
+            where recording.endpoint.debugDescription == target.debugDescription {
                 responseClosure = recording.responseClosure
                 playback.remove(at: index)
                 break
@@ -38,7 +50,13 @@ struct ElloProvider_Specs {
                 }
             }
 
-            return Endpoint(url: url(target), sampleResponseClosure: sampleResponseClosure, method: target.method, task: target.task, httpHeaderFields: target.headers)
+            return Endpoint(
+                url: url(target),
+                sampleResponseClosure: sampleResponseClosure,
+                method: target.method,
+                task: target.task,
+                httpHeaderFields: target.headers
+            )
         }
     }
 
@@ -48,19 +66,32 @@ struct ElloProvider_Specs {
 extension ElloProvider {
 
     static func StubbingProvider() -> MoyaProvider<ElloAPI> {
-        return MoyaProvider<ElloAPI>(endpointClosure: ElloProvider.endpointClosure, stubClosure: MoyaProvider.immediatelyStub)
+        return MoyaProvider<ElloAPI>(
+            endpointClosure: ElloProvider.endpointClosure,
+            stubClosure: MoyaProvider.immediatelyStub
+        )
     }
 
     static func DelayedStubbingProvider() -> MoyaProvider<ElloAPI> {
-        return MoyaProvider<ElloAPI>(endpointClosure: ElloProvider.endpointClosure, stubClosure: MoyaProvider.delayedStub(1))
+        return MoyaProvider<ElloAPI>(
+            endpointClosure: ElloProvider.endpointClosure,
+            stubClosure: MoyaProvider.delayedStub(1)
+        )
     }
 
     static func ErrorStubbingProvider() -> MoyaProvider<ElloAPI> {
-        return MoyaProvider<ElloAPI>(endpointClosure: ElloProvider_Specs.errorEndpointsClosure, stubClosure: MoyaProvider.immediatelyStub)
+        return MoyaProvider<ElloAPI>(
+            endpointClosure: ElloProvider_Specs.errorEndpointsClosure,
+            stubClosure: MoyaProvider.immediatelyStub
+        )
     }
 
-    static func RecordedStubbingProvider(_ recordings: [RecordedResponse]) -> MoyaProvider<ElloAPI> {
-        return MoyaProvider<ElloAPI>(endpointClosure: ElloProvider_Specs.recordedEndpointsClosure(recordings), stubClosure: MoyaProvider.immediatelyStub)
+    static func RecordedStubbingProvider(_ recordings: [RecordedResponse]) -> MoyaProvider<ElloAPI>
+    {
+        return MoyaProvider<ElloAPI>(
+            endpointClosure: ElloProvider_Specs.recordedEndpointsClosure(recordings),
+            stubClosure: MoyaProvider.immediatelyStub
+        )
     }
 
 }

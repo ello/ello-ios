@@ -86,7 +86,9 @@ class OnboardingViewController: BaseElloViewController {
         }
 
         for controller in onboardingViewControllers {
-            guard let controller = controller as? ControllerThatMightHaveTheCurrentUser else { continue }
+            guard let controller = controller as? ControllerThatMightHaveTheCurrentUser else {
+                continue
+            }
             controller.currentUser = currentUser
         }
     }
@@ -107,9 +109,12 @@ class OnboardingViewController: BaseElloViewController {
         super.viewDidLayoutSubviews()
 
         visibleViewController?.view.frame.origin.y = screen.controllerContainer.bounds.origin.y
-        visibleViewController?.view.frame.size.height = screen.controllerContainer.bounds.size.height
-        transitioningViewController?.view.frame.origin.y = screen.controllerContainer.bounds.origin.y
-        transitioningViewController?.view.frame.size.height = screen.controllerContainer.bounds.size.height
+        visibleViewController?.view.frame.size.height =
+            screen.controllerContainer.bounds.size.height
+        transitioningViewController?.view.frame.origin.y =
+            screen.controllerContainer.bounds.origin.y
+        transitioningViewController?.view.frame.size.height =
+            screen.controllerContainer.bounds.size.height
     }
 
 }
@@ -142,7 +147,10 @@ extension OnboardingViewController: OnboardingScreenDelegate {
 
 // MARK: Child View Controller handling
 extension OnboardingViewController {
-    override func size(forChildContentContainer container: UIContentContainer, withParentContainerSize: CGSize) -> CGSize {
+    override func size(
+        forChildContentContainer container: UIContentContainer,
+        withParentContainerSize: CGSize
+    ) -> CGSize {
         return screen.controllerContainer.frame.size
     }
 }
@@ -252,7 +260,8 @@ extension OnboardingViewController {
             return
         }
 
-        if let prevViewController = onboardingViewControllers.safeValue(visibleViewControllerIndex) {
+        if let prevViewController = onboardingViewControllers.safeValue(visibleViewControllerIndex)
+        {
             goToController(prevViewController, direction: .left)
         }
     }
@@ -269,7 +278,8 @@ extension OnboardingViewController {
 
 extension OnboardingViewController {
 
-    private func goToController(_ viewController: UIViewController, direction: OnboardingDirection) {
+    private func goToController(_ viewController: UIViewController, direction: OnboardingDirection)
+    {
         guard let visibleViewController = visibleViewController else { return }
 
         if let step = OnboardingStep(rawValue: visibleViewControllerIndex) {
@@ -278,7 +288,11 @@ extension OnboardingViewController {
 
         prepareOnboardingController(viewController)
 
-        transitionFromViewController(visibleViewController, toViewController: viewController, direction: direction)
+        transitionFromViewController(
+            visibleViewController,
+            toViewController: viewController,
+            direction: direction
+        )
     }
 
     private func prepareOnboardingController(_ viewController: UIViewController) {
@@ -287,7 +301,11 @@ extension OnboardingViewController {
         onboardingStep.onboardingStepBegin()
     }
 
-    private func transitionFromViewController(_ visibleViewController: UIViewController, toViewController nextViewController: UIViewController, direction: OnboardingDirection) {
+    private func transitionFromViewController(
+        _ visibleViewController: UIViewController,
+        toViewController nextViewController: UIViewController,
+        direction: OnboardingDirection
+    ) {
         if isTransitioning {
             return
         }
@@ -298,11 +316,11 @@ extension OnboardingViewController {
 
         nextViewController.view.alpha = 1
         nextViewController.view.frame = CGRect(
-                x: direction.rawValue * screen.controllerContainer.frame.width,
-                y: 0,
-                width: screen.controllerContainer.frame.width,
-                height: screen.controllerContainer.frame.height
-            )
+            x: direction.rawValue * screen.controllerContainer.frame.width,
+            y: 0,
+            width: screen.controllerContainer.frame.width,
+            height: screen.controllerContainer.frame.height
+        )
 
         transitioningViewController = nextViewController
         transitionControllers(
@@ -311,8 +329,12 @@ extension OnboardingViewController {
             duration: 0.4,
             options: UIView.AnimationOptions(),
             animations: {
-                self.screen.controllerContainer.insertSubview(nextViewController.view, aboveSubview: visibleViewController.view)
-                visibleViewController.view.frame.origin.x = -direction.rawValue * visibleViewController.view.frame.width
+                self.screen.controllerContainer.insertSubview(
+                    nextViewController.view,
+                    aboveSubview: visibleViewController.view
+                )
+                visibleViewController.view.frame.origin.x = -direction.rawValue
+                    * visibleViewController.view.frame.width
                 nextViewController.view.frame.origin.x = 0
             },
             completion: { _ in
@@ -321,7 +343,8 @@ extension OnboardingViewController {
                 visibleViewController.removeFromParent()
                 self.visibleViewController = nextViewController
                 self.transitioningViewController = nil
-            })
+            }
+        )
     }
 
 }

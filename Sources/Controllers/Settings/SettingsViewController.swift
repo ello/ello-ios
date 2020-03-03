@@ -36,9 +36,9 @@ class SettingsViewController: BaseElloViewController {
         super.init(nibName: nil, bundle: nil)
 
         scrollLogic = ElloScrollLogic(
-                onShow: { [weak self] in self?.showNavBars(animated: true) },
-                onHide: { [weak self] in self?.hideNavBars(animated: true) }
-            )
+            onShow: { [weak self] in self?.showNavBars(animated: true) },
+            onHide: { [weak self] in self?.hideNavBars(animated: true) }
+        )
 
         self.currentUser = currentUser
         generator.delegate = self
@@ -73,10 +73,14 @@ class SettingsViewController: BaseElloViewController {
 
         updateScreenFromUser()
 
-        blockedCountChangedNotification = NotificationObserver(notification: BlockedCountChangedNotification) { [unowned self] userId, delta in
+        blockedCountChangedNotification = NotificationObserver(
+            notification: BlockedCountChangedNotification
+        ) { [unowned self] userId, delta in
             self.blockedMutedCountChanged(deltaBlocked: delta, deltaMuted: 0)
         }
-        mutedCountChangedNotification = NotificationObserver(notification: MutedCountChangedNotification) { [unowned self] userId, delta in
+        mutedCountChangedNotification = NotificationObserver(
+            notification: MutedCountChangedNotification
+        ) { [unowned self] userId, delta in
             self.blockedMutedCountChanged(deltaBlocked: 0, deltaMuted: delta)
         }
 
@@ -86,9 +90,18 @@ class SettingsViewController: BaseElloViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        keyboardWillShowObserver = NotificationObserver(notification: Keyboard.Notifications.KeyboardWillShow, block: self.keyboardWillShow)
-        keyboardDidHideObserver = NotificationObserver(notification: Keyboard.Notifications.KeyboardDidHide, block: self.keyboardDidHide)
-        keyboardWillHideObserver = NotificationObserver(notification: Keyboard.Notifications.KeyboardWillHide, block: self.keyboardWillHide)
+        keyboardWillShowObserver = NotificationObserver(
+            notification: Keyboard.Notifications.KeyboardWillShow,
+            block: self.keyboardWillShow
+        )
+        keyboardDidHideObserver = NotificationObserver(
+            notification: Keyboard.Notifications.KeyboardDidHide,
+            block: self.keyboardDidHide
+        )
+        keyboardWillHideObserver = NotificationObserver(
+            notification: Keyboard.Notifications.KeyboardWillHide,
+            block: self.keyboardWillHide
+        )
     }
 
     override func viewDidDisappear(_ animated: Bool) {
@@ -115,7 +128,9 @@ class SettingsViewController: BaseElloViewController {
 
     override func closeButtonTapped() {
         if pendingChanges().count > 0 {
-            let alertController = AlertViewController(message: InterfaceString.Settings.AbortChanges)
+            let alertController = AlertViewController(
+                message: InterfaceString.Settings.AbortChanges
+            )
 
             let okCancelAction = AlertAction(style: .okCancel) { _ in
                 super.backButtonTapped()
@@ -155,7 +170,9 @@ class SettingsViewController: BaseElloViewController {
 
     private func pendingChanges() -> [Profile.Property: Any] {
         var profileUpdates: [Profile.Property: Any] = [:]
-        guard let currentUser = currentUser, let profile = currentUser.profile else { return profileUpdates }
+        guard let currentUser = currentUser, let profile = currentUser.profile else {
+            return profileUpdates
+        }
 
         if !(currentUser.name =?= screen.name) {
             profileUpdates[.name] = screen.name ?? ""
@@ -176,7 +193,8 @@ class SettingsViewController: BaseElloViewController {
         return profileUpdates
     }
 
-    private func saveAndExit(_ profileUpdates: [Profile.Property: Any], onSuccess: @escaping Block) {
+    private func saveAndExit(_ profileUpdates: [Profile.Property: Any], onSuccess: @escaping Block)
+    {
         view.isUserInteractionEnabled = false
         ElloHUD.showLoadingHudInView(view)
 
@@ -218,14 +236,14 @@ class SettingsViewController: BaseElloViewController {
         screen.links = currentUser.externalLinksString
         screen.location = currentUser.location
 
-        if let cachedImage: UIImage = TemporaryCache.load(.coverImage) {
+        if let cachedImage:UIImage = TemporaryCache.load(.coverImage) {
             screen.setImage(.coverImage, image: cachedImage)
         }
         else if let imageURL = currentUser.coverImageURL(viewsAdultContent: true, animated: true) {
             screen.setImage(.coverImage, url: imageURL)
         }
 
-        if let cachedImage: UIImage = TemporaryCache.load(.avatar) {
+        if let cachedImage:UIImage = TemporaryCache.load(.avatar) {
             screen.setImage(.avatar, image: cachedImage)
         }
         else if let imageURL = currentUser.avatar?.large?.url {
@@ -235,7 +253,7 @@ class SettingsViewController: BaseElloViewController {
         screen.updateAllSettings(
             blockCount: profile.blockedCount,
             mutedCount: profile.mutedCount
-            )
+        )
     }
 }
 
@@ -324,16 +342,24 @@ extension SettingsViewController: SettingsScreenDelegate {
             controller = creatorTypeController
 
         case .dynamicSettings, .accountDeletion:
-            let dynamicSettingsController = DynamicSettingsViewController(category: settingsCategory)
+            let dynamicSettingsController = DynamicSettingsViewController(
+                category: settingsCategory
+            )
             dynamicSettingsController.currentUser = currentUser
             controller = dynamicSettingsController
 
         case .blocked:
-            let streamController = SimpleStreamViewController(endpoint: .currentUserBlockedList, title: InterfaceString.Settings.BlockedTitle)
+            let streamController = SimpleStreamViewController(
+                endpoint: .currentUserBlockedList,
+                title: InterfaceString.Settings.BlockedTitle
+            )
             controller = streamController
 
         case .muted:
-            let streamController = SimpleStreamViewController(endpoint: .currentUserMutedList, title: InterfaceString.Settings.MutedTitle)
+            let streamController = SimpleStreamViewController(
+                endpoint: .currentUserMutedList,
+                title: InterfaceString.Settings.MutedTitle
+            )
             controller = streamController
 
         }
@@ -350,7 +376,13 @@ extension SettingsViewController: SettingsScreenDelegate {
             return
         }
 
-        autoCompleteVC.load(AutoCompleteMatch(type: .location, range: locationText.startIndex ..< locationText.endIndex, text: locationText)) { count in
+        autoCompleteVC.load(
+            AutoCompleteMatch(
+                type: .location,
+                range: locationText.startIndex..<locationText.endIndex,
+                text: locationText
+            )
+        ) { count in
             guard locationText == self.screen.location else { return }
             self.locationAutoCompleteResultCount = count
         }
@@ -392,7 +424,7 @@ extension SettingsViewController: SettingsGeneratorDelegate {
         screen.updateAllSettings(
             blockCount: currentUser?.profile?.blockedCount ?? 0,
             mutedCount: currentUser?.profile?.mutedCount ?? 0
-            )
+        )
     }
 
     func currentUserReloaded(_ currentUser: User) {
@@ -401,10 +433,11 @@ extension SettingsViewController: SettingsGeneratorDelegate {
     }
 
     func dynamicSettingsLoaded(_ settings: [DynamicSettingCategory]) {
-        screen.updateDynamicSettings(settings,
+        screen.updateDynamicSettings(
+            settings,
             blockCount: currentUser?.profile?.blockedCount ?? 0,
             mutedCount: currentUser?.profile?.mutedCount ?? 0
-            )
+        )
     }
 
     func categoriesLoaded(_ categories: [Category]) {
@@ -434,8 +467,15 @@ extension SettingsViewController: AutoCompleteDelegate {
         let y = view.frame.height - inset
 
         animateWithKeyboard(animated: animated) {
-            self.autoCompleteVC.view.alpha = (self.locationTextViewSelected && self.locationAutoCompleteResultCount > 0) ? 1 : 0
-            self.autoCompleteVC.view.frame = CGRect(x: 0, y: y, width: self.view.frame.width, height: height)
+            self.autoCompleteVC.view.alpha = (
+                self.locationTextViewSelected && self.locationAutoCompleteResultCount > 0
+            ) ? 1 : 0
+            self.autoCompleteVC.view.frame = CGRect(
+                x: 0,
+                y: y,
+                width: self.view.frame.width,
+                height: height
+            )
         }
 
         if locationTextViewSelected {
@@ -443,7 +483,8 @@ extension SettingsViewController: AutoCompleteDelegate {
         }
     }
 
-    func autoComplete(_ controller: AutoCompleteViewController, itemSelected item: AutoCompleteItem) {
+    func autoComplete(_ controller: AutoCompleteViewController, itemSelected item: AutoCompleteItem)
+    {
         guard let locationText = item.result.name else { return }
 
         screen.location = locationText

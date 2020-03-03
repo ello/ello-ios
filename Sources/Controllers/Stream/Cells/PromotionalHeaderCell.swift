@@ -87,7 +87,11 @@ class PromotionalHeaderCell: CollectionViewCell {
 
     override func bindActions() {
         bodyWebView.delegate = self
-        callToActionButton.addTarget(self, action: #selector(callToActionTapped), for: .touchUpInside)
+        callToActionButton.addTarget(
+            self,
+            action: #selector(callToActionTapped),
+            for: .touchUpInside
+        )
         postedByButton.addTarget(self, action: #selector(postedByTapped), for: .touchUpInside)
         postedByAvatar.addTarget(self, action: #selector(postedByTapped), for: .touchUpInside)
     }
@@ -128,8 +132,11 @@ class PromotionalHeaderCell: CollectionViewCell {
         }
 
         titleLabel.snp.makeConstraints { make in
-            titleCenteredConstraint = make.centerX.equalTo(contentView).priority(Priority.high).constraint
-            titleLeftConstraint = make.leading.equalTo(contentView).inset(Size.defaultMargin).priority(Priority.low).constraint
+            titleCenteredConstraint =
+                make.centerX.equalTo(contentView).priority(Priority.high).constraint
+            titleLeftConstraint =
+                make.leading.equalTo(contentView).inset(Size.defaultMargin).priority(Priority.low)
+                .constraint
             make.leading.greaterThanOrEqualTo(contentView).inset(Size.defaultMargin)
             make.trailing.lessThanOrEqualTo(contentView).inset(Size.defaultMargin)
             make.top.equalTo(contentView).offset(Size.topMargin)
@@ -160,8 +167,12 @@ class PromotionalHeaderCell: CollectionViewCell {
         postedByButton.snp.makeConstraints { make in
             make.trailing.equalTo(postedByAvatar.snp.leading).offset(-Size.avatarMargin)
             make.centerY.equalTo(postedByAvatar).offset(3)
-            postedByButtonAlignedConstraint = make.top.equalTo(callToActionButton).priority(Priority.high).constraint
-            postedByButtonStackedConstraint = make.top.equalTo(callToActionButton.snp.bottom).offset(Size.stackedMargin).priority(Priority.low).constraint
+            postedByButtonAlignedConstraint =
+                make.top.equalTo(callToActionButton).priority(Priority.high).constraint
+            postedByButtonStackedConstraint =
+                make.top.equalTo(callToActionButton.snp.bottom).offset(Size.stackedMargin).priority(
+                    Priority.low
+                ).constraint
         }
 
         postedByAvatar.snp.makeConstraints { make in
@@ -181,7 +192,9 @@ class PromotionalHeaderCell: CollectionViewCell {
             postedByButtonStackedConstraint.update(priority: Priority.high)
             setNeedsLayout()
         }
-        else if callToActionButton.frame.maxX < postedByButton.frame.minX && callToActionButton.frame.maxY < postedByButton.frame.minY {
+        else if callToActionButton.frame.maxX < postedByButton.frame.minX
+            && callToActionButton.frame.maxY < postedByButton.frame.minY
+        {
             // frames should be restored to horizontal arrangement
             postedByButtonAlignedConstraint.update(priority: Priority.high)
             postedByButtonStackedConstraint.update(priority: Priority.low)
@@ -308,18 +321,25 @@ private extension PromotionalHeaderCell {
         failBackgroundView.isVisible = true
         circle.stopPulse()
         imageSize = nil
-        UIView.animate(withDuration: 0.15, animations: {
-            self.failImage.alpha = 1.0
-            self.imageView.backgroundColor = UIColor.greyF1
-            self.failBackgroundView.backgroundColor = UIColor.greyF1
-            self.imageView.alpha = 1.0
-            self.failBackgroundView.alpha = 1.0
-        })
+        UIView.animate(
+            withDuration: 0.15,
+            animations: {
+                self.failImage.alpha = 1.0
+                self.imageView.backgroundColor = UIColor.greyF1
+                self.failBackgroundView.backgroundColor = UIColor.greyF1
+                self.imageView.alpha = 1.0
+                self.failBackgroundView.alpha = 1.0
+            }
+        )
     }
 }
 
 extension PromotionalHeaderCell: UIWebViewDelegate {
-    func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebView.NavigationType) -> Bool {
+    func webView(
+        _ webView: UIWebView,
+        shouldStartLoadWith request: URLRequest,
+        navigationType: UIWebView.NavigationType
+    ) -> Bool {
         if let scheme = request.url?.scheme, scheme == "default" {
             // let responder: StreamCellResponder? = findResponder()
             // responder?.streamCellTapped(cell: self)
@@ -335,8 +355,15 @@ extension PromotionalHeaderCell.Config {
 
     var attributedTitle: NSAttributedString {
         switch style {
-        case .category: return NSAttributedString(title, color: .white, font: .regularBlackFont(16), alignment: .center)
-        case .generic, .editorial, .artistInvite: return NSAttributedString(title, color: .white, font: .regularBlackFont(32))
+        case .category:
+            return NSAttributedString(
+                title,
+                color: .white,
+                font: .regularBlackFont(16),
+                alignment: .center
+            )
+        case .generic, .editorial, .artistInvite:
+            return NSAttributedString(title, color: .white, font: .regularBlackFont(32))
         }
     }
 
@@ -345,12 +372,13 @@ extension PromotionalHeaderCell.Config {
 
         switch style {
         case .category: return NSAttributedString(body, color: .white)
-        case .generic, .editorial, .artistInvite: return NSAttributedString(body, color: .white, font: .defaultFont(18))
+        case .generic, .editorial, .artistInvite:
+            return NSAttributedString(body, color: .white, font: .defaultFont(18))
         }
     }
 
     var html: String? {
-        guard let body = body, hasHtml else { return nil}
+        guard let body = body, hasHtml else { return nil }
 
         return body
     }
@@ -358,8 +386,10 @@ extension PromotionalHeaderCell.Config {
     var attributedPostedBy: NSAttributedString? {
         guard let user = user else { return nil }
 
-        let postedBy = isSponsored == true ? InterfaceString.Category.SponsoredBy : InterfaceString.Category.PostedBy
-        let title = NSAttributedString("\(postedBy) ", color: .white) + NSAttributedString(user.atName, color: .white, underlineStyle: .single)
+        let postedBy = isSponsored == true
+            ? InterfaceString.Category.SponsoredBy : InterfaceString.Category.PostedBy
+        let title = NSAttributedString("\(postedBy) ", color: .white)
+            + NSAttributedString(user.atName, color: .white, underlineStyle: .single)
         return title
     }
 
@@ -367,7 +397,7 @@ extension PromotionalHeaderCell.Config {
         guard let callToAction = callToAction else { return nil }
 
         return NSAttributedString(callToAction, color: .white, underlineStyle: .single)
-   }
+    }
 }
 
 extension PromotionalHeaderCell.Config {

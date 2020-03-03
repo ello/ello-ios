@@ -12,30 +12,31 @@ final class Activity: Model {
 
     enum Kind: String {
         // Notifications
-        case newFollowerPost = "new_follower_post" // someone started following you
-        case newFollowedUserPost = "new_followed_user_post" // you started following someone
-        case invitationAcceptedPost = "invitation_accepted_post" // someone accepted your invitation
+        case newFollowerPost = "new_follower_post"  // someone started following you
+        case newFollowedUserPost = "new_followed_user_post"  // you started following someone
+        case invitationAcceptedPost = "invitation_accepted_post"  // someone accepted your invitation
 
-        case postMentionNotification = "post_mention_notification" // you were mentioned in a post
-        case commentMentionNotification = "comment_mention_notification" // you were mentioned in a comment
-        case commentNotification = "comment_notification" // someone commented on your post
-        case commentOnOriginalPostNotification = "comment_on_original_post_notification" // someone commented on your repost
-        case commentOnRepostNotification = "comment_on_repost_notification" // someone commented on other's repost of your post
+        case postMentionNotification = "post_mention_notification"  // you were mentioned in a post
+        case commentMentionNotification = "comment_mention_notification"  // you were mentioned in a comment
+        case commentNotification = "comment_notification"  // someone commented on your post
+        case commentOnOriginalPostNotification = "comment_on_original_post_notification"  // someone commented on your repost
+        case commentOnRepostNotification = "comment_on_repost_notification"  // someone commented on other's repost of your post
 
-        case welcomeNotification = "welcome_notification" // welcome to Ello
-        case repostNotification = "repost_notification" // someone reposted your post
+        case welcomeNotification = "welcome_notification"  // welcome to Ello
+        case repostNotification = "repost_notification"  // someone reposted your post
 
-        case watchNotification = "watch_notification" // someone watched your post on ello
-        case watchCommentNotification = "watch_comment_notification" // someone commented on a post you're watching
-        case watchOnRepostNotification = "watch_on_repost_notification" // someone watched your repost
-        case watchOnOriginalPostNotification = "watch_on_original_post_notification" // someone watched other's repost of your post
+        case watchNotification = "watch_notification"  // someone watched your post on ello
+        case watchCommentNotification = "watch_comment_notification"  // someone commented on a post you're watching
+        case watchOnRepostNotification = "watch_on_repost_notification"  // someone watched your repost
+        case watchOnOriginalPostNotification = "watch_on_original_post_notification"  // someone watched other's repost of your post
 
-        case loveNotification = "love_notification" // someone loved your post
-        case loveOnRepostNotification = "love_on_repost_notification" // someone loved your repost
-        case loveOnOriginalPostNotification = "love_on_original_post_notification" // someone loved other's repost of your post
+        case loveNotification = "love_notification"  // someone loved your post
+        case loveOnRepostNotification = "love_on_repost_notification"  // someone loved your repost
+        case loveOnOriginalPostNotification = "love_on_original_post_notification"  // someone loved other's repost of your post
 
-        case approvedArtistInviteSubmission = "approved_artist_invite_submission" // your submission has been accepted
-        case approvedArtistInviteSubmissionNotificationForFollowers = "approved_artist_invite_submission_notification_for_followers" // a person you follow had their submission accepted
+        case approvedArtistInviteSubmission = "approved_artist_invite_submission"  // your submission has been accepted
+        case approvedArtistInviteSubmissionNotificationForFollowers =
+            "approved_artist_invite_submission_notification_for_followers"  // a person you follow had their submission accepted
 
         case categoryPostFeatured = "category_post_featured"
         case categoryRepostFeatured = "category_repost_featured"
@@ -64,11 +65,12 @@ final class Activity: Model {
 
     var subject: Model? { return getLinkObject("subject") }
 
-    init(id: String,
+    init(
+        id: String,
         createdAt: Date,
         kind: Kind,
-        subjectType: SubjectType)
-    {
+        subjectType: SubjectType
+    ) {
         self.id = id
         self.createdAt = createdAt
         self.kind = kind
@@ -103,7 +105,8 @@ final class Activity: Model {
             id: json["created_at"].idValue,
             createdAt: json["created_at"].dateValue,
             kind: Kind(rawValue: json["kind"].stringValue) ?? Kind.unknown,
-            subjectType: SubjectType(rawValue: json["subject_type"].stringValue) ?? SubjectType.unknown
+            subjectType: SubjectType(rawValue: json["subject_type"].stringValue)
+                ?? SubjectType.unknown
         )
         activity.mergeLinks(data["links"] as? [String: Any])
 

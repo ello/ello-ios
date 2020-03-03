@@ -13,7 +13,10 @@ class StreamCreateCommentCellSpec: QuickSpec {
             var subject: StreamCreateCommentCell!
             beforeEach {
                 subject = StreamCreateCommentCell()
-                subject.frame = CGRect(origin: .zero, size: CGSize(width: 375, height: StreamCellType.createComment.oneColumnHeight))
+                subject.frame = CGRect(
+                    origin: .zero,
+                    size: CGSize(width: 375, height: StreamCellType.createComment.oneColumnHeight)
+                )
                 subject.avatarView.image = UIImage.imageWithColor(.blue)!
             }
             describe("snapshots") {

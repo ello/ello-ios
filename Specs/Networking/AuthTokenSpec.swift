@@ -103,7 +103,12 @@ class AuthTokenSpec: QuickSpec {
                 }
 
                 it("will store a password based token with user creds") {
-                    AuthToken.storeToken(data, isPasswordBased: true, email: "email", password: "password")
+                    AuthToken.storeToken(
+                        data,
+                        isPasswordBased: true,
+                        email: "email",
+                        password: "password"
+                    )
 
                     expect(token.token).notTo(beNil())
                     expect(token.type).notTo(beNil())

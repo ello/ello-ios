@@ -93,7 +93,11 @@ class ImageLabelControl: Control {
     override func bindActions() {
         contentContainer.isUserInteractionEnabled = false
         addTarget(self, action: #selector(buttonTouchEnter), for: [.touchDown, .touchDragEnter])
-        addTarget(self, action: #selector(buttonTouchExit), for: [.touchCancel, .touchDragExit, .touchUpInside])
+        addTarget(
+            self,
+            action: #selector(buttonTouchExit),
+            for: [.touchCancel, .touchDragExit, .touchUpInside]
+        )
     }
 
     private func updateText() {
@@ -114,9 +118,8 @@ class ImageLabelControl: Control {
         label.sizeToFit()
 
         let textWidth = label.frame.width
-        let contentWidth = textWidth == 0 ?
-            icon.view.frame.width :
-            icon.view.frame.width + Size.innerPadding + textWidth
+        let contentWidth = textWidth == 0
+            ? icon.view.frame.width : icon.view.frame.width + Size.innerPadding + textWidth
 
         var totalWidth: CGFloat = contentWidth + Size.outerPadding * 2
 
@@ -147,11 +150,14 @@ class ImageLabelControl: Control {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.alignment = .left
 
-        let attributed = NSAttributedString(string: title, attributes: [
-            .font: titleFont,
-            .foregroundColor: color,
-            .paragraphStyle: paragraphStyle
-        ])
+        let attributed = NSAttributedString(
+            string: title,
+            attributes: [
+                .font: titleFont,
+                .foregroundColor: color,
+                .paragraphStyle: paragraphStyle
+            ]
+        )
         return attributed
     }
 }

@@ -71,7 +71,8 @@ extension ElloAPI: CustomDebugStringConvertible {
         case let .custom(path, api):
             return "custom(path: \(path), elloApi: \(api))"
         case let .customRequest(request, api):
-            return "customRequest(path: \(request.url.path), method: \(request.method), elloApi: \(api))"
+            return
+                "customRequest(path: \(request.url.path), method: \(request.method), elloApi: \(api))"
         case let .infiniteScroll(_, api):
             return "infiniteScroll(elloApi: \(api))"
         case let .locationAutoComplete(terms):
@@ -87,7 +88,8 @@ extension ElloAPI: CustomDebugStringConvertible {
         case let .postDetail(postParam):
             return "postDetail(postParam: \(postParam))"
         case let .postViews(streamId, streamKind, postTokens, currentUserId):
-            return "postViews(streamId: \(streamId ?? "nil"), streamKind: \(streamKind), postTokens: \(postTokens), currentUserId: \(currentUserId ?? "nil"))"
+            return
+                "postViews(streamId: \(streamId ?? "nil"), streamKind: \(streamKind), postTokens: \(postTokens), currentUserId: \(currentUserId ?? "nil"))"
         case let .promotionalViews(tokens):
             return "promotionalViews(tokens: \(tokens))"
         case let .postLovers(postId):

@@ -15,7 +15,7 @@ class AnnouncementCellSpec: QuickSpec {
                     _ title: String,
                     _ body: String,
                     isStaffPreview: Bool = false
-                    ) -> AnnouncementCell.Config {
+                ) -> AnnouncementCell.Config {
                     var config = AnnouncementCell.Config()
                     config.isStaffPreview = isStaffPreview
                     config.title = title
@@ -28,16 +28,42 @@ class AnnouncementCellSpec: QuickSpec {
                 let expectations: [(String, AnnouncementCell.Config)] = [
                     ("short title, short description", config("short title", "short description")),
                     ("staff", config("short title", "short description", isStaffPreview: true)),
-                    ("long title, short description", config("Lorem ipsum dolor sit amet, consectetur adipiscing elit", "short description")),
-                    ("short title, long description", config("short title", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur molestie faucibus.")),
-                    ("long title, long description", config("Lorem ipsum dolor sit amet, consectetur adipiscing elit", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur molestie faucibus.")),
+                    (
+                        "long title, short description",
+                        config(
+                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
+                            "short description"
+                        )
+                    ),
+                    (
+                        "short title, long description",
+                        config(
+                            "short title",
+                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur molestie faucibus."
+                        )
+                    ),
+                    (
+                        "long title, long description",
+                        config(
+                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
+                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur molestie faucibus."
+                        )
+                    ),
                 ]
                 for (description, config) in expectations {
                     it("should have valid snapshot for \(description)") {
-                        let announcement = Announcement.stub(["header": config.title!, "body": config.body!, "ctaCaption": config.callToAction! ])
+                        let announcement = Announcement.stub([
+                            "header": config.title!, "body": config.body!,
+                            "ctaCaption": config.callToAction!
+                        ])
                         let width: CGFloat = 375
-                        let height = AnnouncementCellSizeCalculator.calculateAnnouncementHeight(announcement, cellWidth: width)
-                        let subject = AnnouncementCell(frame: CGRect(origin: .zero, size: CGSize(width: width, height: height)))
+                        let height = AnnouncementCellSizeCalculator.calculateAnnouncementHeight(
+                            announcement,
+                            cellWidth: width
+                        )
+                        let subject = AnnouncementCell(
+                            frame: CGRect(origin: .zero, size: CGSize(width: width, height: height))
+                        )
                         subject.config = config
                         expectValidSnapshot(subject)
                     }

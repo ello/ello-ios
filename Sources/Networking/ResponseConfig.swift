@@ -13,7 +13,7 @@ class ResponseConfig: CustomStringConvertible {
         ]
         return descripArray.joined(separator: "\n\t")
     }
-    var nextQuery: URLComponents? // before (older)
+    var nextQuery: URLComponents?  // before (older)
     var totalCount: String?
     var totalPages: String?
     var totalPagesRemaining: String?

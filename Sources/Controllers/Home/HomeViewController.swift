@@ -93,7 +93,10 @@ extension HomeViewController: HomeResponder {
         followingViewController.didMove(toParent: self)
         self.followingViewController = followingViewController
 
-        let discoverViewController = CategoryViewController(currentUser: currentUser, usage: .largeNav)
+        let discoverViewController = CategoryViewController(
+            currentUser: currentUser,
+            usage: .largeNav
+        )
         addChild(discoverViewController)
         discoverViewController.didMove(toParent: self)
         self.discoverViewController = discoverViewController
@@ -109,7 +112,10 @@ extension HomeViewController: HomeResponder {
         viewController.view.layoutIfNeeded()
 
         if let visibleViewController = visibleViewController {
-            screen.controllerContainer.insertSubview(viewController.view, aboveSubview: visibleViewController.view)
+            screen.controllerContainer.insertSubview(
+                viewController.view,
+                aboveSubview: visibleViewController.view
+            )
             visibleViewController.view.removeFromSuperview()
         }
         else {

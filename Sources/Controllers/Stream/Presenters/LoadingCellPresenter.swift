@@ -9,8 +9,8 @@ struct LoadingCellPresenter {
         streamCellItem: StreamCellItem,
         streamKind: StreamKind,
         indexPath: IndexPath,
-        currentUser: User?)
-    {
+        currentUser: User?
+    ) {
         guard let cell = cell as? LoadingCell else { return }
         cell.startAnimating()
     }

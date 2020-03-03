@@ -14,7 +14,7 @@ class CommentSpec: QuickSpec {
                     let post = Post.stub([:])
                     let comment = ElloComment.stub([
                         "parentPost": post,
-                        ])
+                    ])
                     expect(comment.postId) == post.id
                     expect(comment.loadedFromPostId) == post.id
                     expect(comment.parentPost).toNot(beNil())
@@ -26,7 +26,7 @@ class CommentSpec: QuickSpec {
                     let comment = ElloComment.stub([
                         "parentPost": post1,
                         "loadedFromPost": post2
-                        ])
+                    ])
                     expect(comment.postId) == post1.id
                     expect(comment.loadedFromPostId) == post2.id
                     expect(comment.parentPost).toNot(beNil())

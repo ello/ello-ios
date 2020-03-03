@@ -89,10 +89,12 @@ final class Profile: Model {
         case isCollaborateable = "is_collaborateable"
         case isHireable = "is_hireable"
         case notifyOfAnnouncementsViaPush = "notify_of_announcements_via_push"
-        case notifyOfApprovedSubmissionsFromFollowingViaEmail = "notify_of_approved_submissions_from_following_via_email"
+        case notifyOfApprovedSubmissionsFromFollowingViaEmail =
+            "notify_of_approved_submissions_from_following_via_email"
         case notifyOfFeaturedCategoryPostViaEmail = "notify_of_featured_category_post_via_email"
         case notifyOfFeaturedCategoryPostViaPush = "notify_of_featured_category_post_via_push"
-        case notifyOfApprovedSubmissionsFromFollowingViaPush = "notify_of_approved_submissions_from_following_via_push"
+        case notifyOfApprovedSubmissionsFromFollowingViaPush =
+            "notify_of_approved_submissions_from_following_via_push"
         case notifyOfApprovedSubmissionsViaPush = "notify_of_approved_submissions_via_push"
         case notifyOfCommentsOnPostWatchViaEmail = "notify_of_comments_on_post_watch_via_email"
         case notifyOfCommentsOnPostWatchViaPush = "notify_of_comments_on_post_watch_via_push"
@@ -213,8 +215,8 @@ final class Profile: Model {
         notifyOfApprovedSubmissionsFromFollowingViaPush: Bool,
         hasAnnouncementsEnabled: Bool,
         discoverable: Bool,
-        gaUniqueId: String?)
-    {
+        gaUniqueId: String?
+    ) {
         self.id = id
         self.createdAt = createdAt
         self.shortBio = shortBio
@@ -238,7 +240,8 @@ final class Profile: Model {
         self.notifyOfNewFollowersViaEmail = notifyOfNewFollowersViaEmail
         self.notifyOfRepostsViaEmail = notifyOfRepostsViaEmail
         self.notifyOfWhatYouMissedViaEmail = notifyOfWhatYouMissedViaEmail
-        self.notifyOfApprovedSubmissionsFromFollowingViaEmail = notifyOfApprovedSubmissionsFromFollowingViaEmail
+        self.notifyOfApprovedSubmissionsFromFollowingViaEmail =
+            notifyOfApprovedSubmissionsFromFollowingViaEmail
         self.notifyOfFeaturedCategoryPostViaEmail = notifyOfFeaturedCategoryPostViaEmail
         self.notifyOfFeaturedCategoryPostViaPush = notifyOfFeaturedCategoryPostViaPush
         self.subscribeToUsersEmailList = subscribeToUsersEmailList
@@ -257,7 +260,8 @@ final class Profile: Model {
         self.notifyOfWatchesViaEmail = notifyOfWatchesViaEmail
         self.notifyOfCommentsOnPostWatchViaPush = notifyOfCommentsOnPostWatchViaPush
         self.notifyOfCommentsOnPostWatchViaEmail = notifyOfCommentsOnPostWatchViaEmail
-        self.notifyOfApprovedSubmissionsFromFollowingViaPush = notifyOfApprovedSubmissionsFromFollowingViaPush
+        self.notifyOfApprovedSubmissionsFromFollowingViaPush =
+            notifyOfApprovedSubmissionsFromFollowingViaPush
         self.hasAnnouncementsEnabled = hasAnnouncementsEnabled
         self.discoverable = discoverable
         self.gaUniqueId = gaUniqueId
@@ -290,15 +294,21 @@ final class Profile: Model {
             self.notifyOfFeaturedCategoryPostViaPush = true
         }
         else {
-            self.notifyOfFeaturedCategoryPostViaEmail = decoder.decodeKey("notifyOfFeaturedCategoryPostViaEmail")
-            self.notifyOfFeaturedCategoryPostViaPush = decoder.decodeKey("notifyOfFeaturedCategoryPostViaPush")
+            self.notifyOfFeaturedCategoryPostViaEmail = decoder.decodeKey(
+                "notifyOfFeaturedCategoryPostViaEmail"
+            )
+            self.notifyOfFeaturedCategoryPostViaPush = decoder.decodeKey(
+                "notifyOfFeaturedCategoryPostViaPush"
+            )
         }
 
         if version < 10 {
             self.notifyOfApprovedSubmissionsFromFollowingViaEmail = true
         }
         else {
-            self.notifyOfApprovedSubmissionsFromFollowingViaEmail = decoder.decodeKey("notifyOfApprovedSubmissionsFromFollowingViaEmail")
+            self.notifyOfApprovedSubmissionsFromFollowingViaEmail = decoder.decodeKey(
+                "notifyOfApprovedSubmissionsFromFollowingViaEmail"
+            )
         }
 
         if version < 9 {
@@ -312,14 +322,18 @@ final class Profile: Model {
             self.notifyOfApprovedSubmissionsFromFollowingViaPush = true
         }
         else {
-            self.notifyOfApprovedSubmissionsFromFollowingViaPush = decoder.decodeKey("notifyOfApprovedSubmissionsFromFollowingViaPush")
+            self.notifyOfApprovedSubmissionsFromFollowingViaPush = decoder.decodeKey(
+                "notifyOfApprovedSubmissionsFromFollowingViaPush"
+            )
         }
 
         if version < 7 {
             self.notifyOfApprovedSubmissionsViaPush = true
         }
         else {
-            self.notifyOfApprovedSubmissionsViaPush = decoder.decodeKey("notifyOfApprovedSubmissionsViaPush")
+            self.notifyOfApprovedSubmissionsViaPush = decoder.decodeKey(
+                "notifyOfApprovedSubmissionsViaPush"
+            )
         }
 
         if version < 6 {
@@ -361,8 +375,12 @@ final class Profile: Model {
             self.hasAutoWatchEnabled = decoder.decodeKey("hasAutoWatchEnabled")
             self.notifyOfWatchesViaPush = decoder.decodeKey("notifyOfWatchesViaPush")
             self.notifyOfWatchesViaEmail = decoder.decodeKey("notifyOfWatchesViaEmail")
-            self.notifyOfCommentsOnPostWatchViaPush = decoder.decodeKey("notifyOfCommentsOnPostWatchViaPush")
-            self.notifyOfCommentsOnPostWatchViaEmail = decoder.decodeKey("notifyOfCommentsOnPostWatchViaEmail")
+            self.notifyOfCommentsOnPostWatchViaPush = decoder.decodeKey(
+                "notifyOfCommentsOnPostWatchViaPush"
+            )
+            self.notifyOfCommentsOnPostWatchViaEmail = decoder.decodeKey(
+                "notifyOfCommentsOnPostWatchViaEmail"
+            )
         }
 
         self.hasSharingEnabled = decoder.decodeKey("hasSharingEnabled")
@@ -370,7 +388,9 @@ final class Profile: Model {
         self.allowsAnalytics = decoder.decodeKey("allowsAnalytics")
         self.notifyOfCommentsViaEmail = decoder.decodeKey("notifyOfCommentsViaEmail")
         self.notifyOfLovesViaEmail = decoder.decodeKey("notifyOfLovesViaEmail")
-        self.notifyOfInvitationAcceptancesViaEmail = decoder.decodeKey("notifyOfInvitationAcceptancesViaEmail")
+        self.notifyOfInvitationAcceptancesViaEmail = decoder.decodeKey(
+            "notifyOfInvitationAcceptancesViaEmail"
+        )
         self.notifyOfMentionsViaEmail = decoder.decodeKey("notifyOfMentionsViaEmail")
         self.notifyOfNewFollowersViaEmail = decoder.decodeKey("notifyOfNewFollowersViaEmail")
         self.notifyOfRepostsViaEmail = decoder.decodeKey("notifyOfRepostsViaEmail")
@@ -383,7 +403,9 @@ final class Profile: Model {
         self.notifyOfMentionsViaPush = decoder.decodeKey("notifyOfMentionsViaPush")
         self.notifyOfRepostsViaPush = decoder.decodeKey("notifyOfRepostsViaPush")
         self.notifyOfNewFollowersViaPush = decoder.decodeKey("notifyOfNewFollowersViaPush")
-        self.notifyOfInvitationAcceptancesViaPush = decoder.decodeKey("notifyOfInvitationAcceptancesViaPush")
+        self.notifyOfInvitationAcceptancesViaPush = decoder.decodeKey(
+            "notifyOfInvitationAcceptancesViaPush"
+        )
         self.discoverable = decoder.decodeKey("discoverable")
         self.gaUniqueId = decoder.decodeOptionalKey("gaUniqueId")
         super.init(coder: coder)
@@ -409,7 +431,10 @@ final class Profile: Model {
         coder.encodeObject(allowsAnalytics, forKey: "allowsAnalytics")
         coder.encodeObject(notifyOfCommentsViaEmail, forKey: "notifyOfCommentsViaEmail")
         coder.encodeObject(notifyOfLovesViaEmail, forKey: "notifyOfLovesViaEmail")
-        coder.encodeObject(notifyOfInvitationAcceptancesViaEmail, forKey: "notifyOfInvitationAcceptancesViaEmail")
+        coder.encodeObject(
+            notifyOfInvitationAcceptancesViaEmail,
+            forKey: "notifyOfInvitationAcceptancesViaEmail"
+        )
         coder.encodeObject(notifyOfMentionsViaEmail, forKey: "notifyOfMentionsViaEmail")
         coder.encodeObject(notifyOfNewFollowersViaEmail, forKey: "notifyOfNewFollowersViaEmail")
         coder.encodeObject(notifyOfRepostsViaEmail, forKey: "notifyOfRepostsViaEmail")
@@ -419,21 +444,45 @@ final class Profile: Model {
         coder.encodeObject(subscribeToWeeklyEllo, forKey: "subscribeToWeeklyEllo")
         coder.encodeObject(subscribeToOnboardingDrip, forKey: "subscribeToOnboardingDrip")
         coder.encodeObject(notifyOfAnnouncementsViaPush, forKey: "notifyOfAnnouncementsViaPush")
-        coder.encodeObject(notifyOfApprovedSubmissionsViaPush, forKey: "notifyOfApprovedSubmissionsViaPush")
+        coder.encodeObject(
+            notifyOfApprovedSubmissionsViaPush,
+            forKey: "notifyOfApprovedSubmissionsViaPush"
+        )
         coder.encodeObject(notifyOfCommentsViaPush, forKey: "notifyOfCommentsViaPush")
         coder.encodeObject(notifyOfLovesViaPush, forKey: "notifyOfLovesViaPush")
         coder.encodeObject(notifyOfMentionsViaPush, forKey: "notifyOfMentionsViaPush")
         coder.encodeObject(notifyOfRepostsViaPush, forKey: "notifyOfRepostsViaPush")
         coder.encodeObject(notifyOfNewFollowersViaPush, forKey: "notifyOfNewFollowersViaPush")
-        coder.encodeObject(notifyOfInvitationAcceptancesViaPush, forKey: "notifyOfInvitationAcceptancesViaPush")
+        coder.encodeObject(
+            notifyOfInvitationAcceptancesViaPush,
+            forKey: "notifyOfInvitationAcceptancesViaPush"
+        )
         coder.encodeObject(notifyOfWatchesViaPush, forKey: "notifyOfWatchesViaPush")
         coder.encodeObject(notifyOfWatchesViaEmail, forKey: "notifyOfWatchesViaEmail")
-        coder.encodeObject(notifyOfCommentsOnPostWatchViaPush, forKey: "notifyOfCommentsOnPostWatchViaPush")
-        coder.encodeObject(notifyOfCommentsOnPostWatchViaEmail, forKey: "notifyOfCommentsOnPostWatchViaEmail")
-        coder.encodeObject(notifyOfApprovedSubmissionsFromFollowingViaPush, forKey: "notifyOfApprovedSubmissionsFromFollowingViaPush")
-        coder.encodeObject(notifyOfApprovedSubmissionsFromFollowingViaEmail, forKey: "notifyOfApprovedSubmissionsFromFollowingViaEmail")
-        coder.encodeObject(notifyOfFeaturedCategoryPostViaEmail, forKey: "notifyOfFeaturedCategoryPostViaEmail")
-        coder.encodeObject(notifyOfFeaturedCategoryPostViaPush, forKey: "notifyOfFeaturedCategoryPostViaPush")
+        coder.encodeObject(
+            notifyOfCommentsOnPostWatchViaPush,
+            forKey: "notifyOfCommentsOnPostWatchViaPush"
+        )
+        coder.encodeObject(
+            notifyOfCommentsOnPostWatchViaEmail,
+            forKey: "notifyOfCommentsOnPostWatchViaEmail"
+        )
+        coder.encodeObject(
+            notifyOfApprovedSubmissionsFromFollowingViaPush,
+            forKey: "notifyOfApprovedSubmissionsFromFollowingViaPush"
+        )
+        coder.encodeObject(
+            notifyOfApprovedSubmissionsFromFollowingViaEmail,
+            forKey: "notifyOfApprovedSubmissionsFromFollowingViaEmail"
+        )
+        coder.encodeObject(
+            notifyOfFeaturedCategoryPostViaEmail,
+            forKey: "notifyOfFeaturedCategoryPostViaEmail"
+        )
+        coder.encodeObject(
+            notifyOfFeaturedCategoryPostViaPush,
+            forKey: "notifyOfFeaturedCategoryPostViaPush"
+        )
         coder.encodeObject(hasAnnouncementsEnabled, forKey: "hasAnnouncementsEnabled")
         coder.encodeObject(discoverable, forKey: "discoverable")
         coder.encodeObject(gaUniqueId, forKey: "gaUniqueId")
@@ -442,9 +491,14 @@ final class Profile: Model {
 
     class func fromJSON(_ data: [String: Any]) -> Profile {
         let json = JSON(data)
-        let creatorTypeCategoryIds: [String] = json["creator_type_category_ids"].arrayValue.compactMap { $0.stringValue }
-        let moderatedCategoryIds: [String] = json["moderated_category_ids"].arrayValue.compactMap { $0.stringValue }
-        let curatedCategoryIds: [String] = json["curated_category_ids"].arrayValue.compactMap { $0.stringValue }
+        let creatorTypeCategoryIds: [String] = json["creator_type_category_ids"].arrayValue
+            .compactMap { $0.stringValue }
+        let moderatedCategoryIds: [String] = json["moderated_category_ids"].arrayValue.compactMap {
+            $0.stringValue
+        }
+        let curatedCategoryIds: [String] = json["curated_category_ids"].arrayValue.compactMap {
+            $0.stringValue
+        }
 
         let profile = Profile(
             id: json["id"].idValue,
@@ -465,31 +519,40 @@ final class Profile: Model {
             allowsAnalytics: json["allows_analytics"].bool ?? false,
             notifyOfCommentsViaEmail: json["notify_of_comments_via_email"].bool ?? true,
             notifyOfLovesViaEmail: json["notify_of_loves_via_email"].bool ?? true,
-            notifyOfInvitationAcceptancesViaEmail: json["notify_of_invitation_acceptances_via_email"].bool ?? true,
+            notifyOfInvitationAcceptancesViaEmail:
+                json["notify_of_invitation_acceptances_via_email"].bool ?? true,
             notifyOfMentionsViaEmail: json["notify_of_mentions_via_email"].bool ?? true,
             notifyOfNewFollowersViaEmail: json["notify_of_new_followers_via_email"].bool ?? true,
             notifyOfRepostsViaEmail: json["notify_of_reposts_via_email"].bool ?? true,
             notifyOfWhatYouMissedViaEmail: json["notify_of_what_you_missed_via_email"].bool ?? true,
-            notifyOfApprovedSubmissionsFromFollowingViaEmail: json["notify_of_approved_submissions_from_following_via_email"].bool ?? true,
-            notifyOfFeaturedCategoryPostViaEmail: json["notify_of_featured_category_post_via_email"].bool ?? true,
-            notifyOfFeaturedCategoryPostViaPush: json["notify_of_featured_category_post_via_push"].bool ?? true,
+            notifyOfApprovedSubmissionsFromFollowingViaEmail:
+                json["notify_of_approved_submissions_from_following_via_email"].bool ?? true,
+            notifyOfFeaturedCategoryPostViaEmail:
+                json["notify_of_featured_category_post_via_email"].bool ?? true,
+            notifyOfFeaturedCategoryPostViaPush:
+                json["notify_of_featured_category_post_via_push"].bool ?? true,
             subscribeToUsersEmailList: json["subscribe_to_users_email_list"].bool ?? true,
             subscribeToDailyEllo: json["subscribe_to_daily_ello"].bool ?? true,
             subscribeToWeeklyEllo: json["subscribe_to_weekly_ello"].bool ?? true,
             subscribeToOnboardingDrip: json["subscribe_to_onboarding_drip"].bool ?? true,
             notifyOfAnnouncementsViaPush: json["notify_of_announcements_via_push"].bool ?? true,
-            notifyOfApprovedSubmissionsViaPush: json["notify_of_approved_submissions_via_push"].bool ?? true,
+            notifyOfApprovedSubmissionsViaPush: json["notify_of_approved_submissions_via_push"].bool
+                ?? true,
             notifyOfCommentsViaPush: json["notify_of_comments_via_push"].bool ?? true,
             notifyOfLovesViaPush: json["notify_of_loves_via_push"].bool ?? true,
             notifyOfMentionsViaPush: json["notify_of_mentions_via_push"].bool ?? true,
             notifyOfRepostsViaPush: json["notify_of_reposts_via_push"].bool ?? true,
             notifyOfNewFollowersViaPush: json["notify_of_new_followers_via_push"].bool ?? true,
-            notifyOfInvitationAcceptancesViaPush: json["notify_of_invitation_acceptances_via_push"].bool ?? true,
+            notifyOfInvitationAcceptancesViaPush:
+                json["notify_of_invitation_acceptances_via_push"].bool ?? true,
             notifyOfWatchesViaPush: json["notify_of_watches_via_push"].bool ?? true,
             notifyOfWatchesViaEmail: json["notify_of_watches_via_email"].bool ?? true,
-            notifyOfCommentsOnPostWatchViaPush: json["notify_of_comments_on_post_watch_via_push"].bool ?? true,
-            notifyOfCommentsOnPostWatchViaEmail: json["notify_of_comments_on_post_watch_via_email"].bool ?? true,
-            notifyOfApprovedSubmissionsFromFollowingViaPush: json["notify_of_approved_submissions_from_following_via_push"].bool ?? true,
+            notifyOfCommentsOnPostWatchViaPush:
+                json["notify_of_comments_on_post_watch_via_push"].bool ?? true,
+            notifyOfCommentsOnPostWatchViaEmail:
+                json["notify_of_comments_on_post_watch_via_email"].bool ?? true,
+            notifyOfApprovedSubmissionsFromFollowingViaPush:
+                json["notify_of_approved_submissions_from_following_via_push"].bool ?? true,
             hasAnnouncementsEnabled: json["has_announcements_enabled"].bool ?? true,
             discoverable: json["discoverable"].bool ?? true,
             gaUniqueId: json["ga_unique_id"].string

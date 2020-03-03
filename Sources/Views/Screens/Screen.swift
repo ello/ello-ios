@@ -76,8 +76,14 @@ class Screen: UIView {
     }
 
     private func setupKeyboardObservers() {
-        keyboardWillShowObserver = NotificationObserver(notification: Keyboard.Notifications.KeyboardWillShow, block: keyboardWillChangeAnimated)
-        keyboardWillHideObserver = NotificationObserver(notification: Keyboard.Notifications.KeyboardWillHide, block: keyboardWillChangeAnimated)
+        keyboardWillShowObserver = NotificationObserver(
+            notification: Keyboard.Notifications.KeyboardWillShow,
+            block: keyboardWillChangeAnimated
+        )
+        keyboardWillHideObserver = NotificationObserver(
+            notification: Keyboard.Notifications.KeyboardWillHide,
+            block: keyboardWillChangeAnimated
+        )
     }
 
     private func teardownKeyboardObservers() {
@@ -105,7 +111,8 @@ class Screen: UIView {
     private func keyboardInit() {
         keyboardAnchor.snp.makeConstraints { make in
             make.leading.trailing.bottom.equalTo(self)
-            keyboardTopConstraint = make.top.equalTo(self.snp.bottom).priority(Priority.required).constraint
+            keyboardTopConstraint =
+                make.top.equalTo(self.snp.bottom).priority(Priority.required).constraint
         }
     }
 }

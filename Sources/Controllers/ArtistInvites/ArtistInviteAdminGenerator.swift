@@ -13,7 +13,12 @@ final class ArtistInviteAdminGenerator: StreamGenerator {
     private var localToken: String = ""
     private var loadingToken = LoadingToken()
 
-    init(artistInvite: ArtistInvite, stream: ArtistInvite.Stream, currentUser: User?, destination: StreamDestination) {
+    init(
+        artistInvite: ArtistInvite,
+        stream: ArtistInvite.Stream,
+        currentUser: User?,
+        destination: StreamDestination
+    ) {
         self.artistInvite = artistInvite
         self.stream = stream
         self.currentUser = currentUser
@@ -41,7 +46,9 @@ private extension ArtistInviteAdminGenerator {
     func loadArtistInvites() {
         StreamService().loadStream(endpoint: stream.endpoint)
             .done { response in
-                guard self.loadingToken.isValidInitialPageLoadingToken(self.localToken) else { return }
+                guard self.loadingToken.isValidInitialPageLoadingToken(self.localToken) else {
+                    return
+                }
 
                 if case .empty = response {
                     self.showEmptySubmissions()

@@ -9,8 +9,8 @@ struct StreamEmbedCellPresenter {
         streamCellItem: StreamCellItem,
         streamKind: StreamKind,
         indexPath: IndexPath,
-        currentUser: User?)
-    {
+        currentUser: User?
+    ) {
         guard let cell = cell as? StreamEmbedCell,
             let embedData = streamCellItem.type.data as? EmbedRegion
         else { return }

@@ -11,7 +11,9 @@ class DrawerViewControllerSpec: QuickSpec {
     override func spec() {
         describe("DrawerViewController") {
             describe("snapshots") {
-                validateAllSnapshots(named: "DrawerViewController") { return DrawerViewController() }
+                validateAllSnapshots(named: "DrawerViewController") {
+                    return DrawerViewController()
+                }
             }
         }
     }

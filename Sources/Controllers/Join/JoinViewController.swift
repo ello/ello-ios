@@ -101,7 +101,13 @@ extension JoinViewController: JoinScreenDelegate {
         screen.hideMessage()
         _ = screen.resignFirstResponder()
 
-        if let nonce = nonce, Validator.hasValidSignUpCredentials(email: email, username: username, password: password) {
+        if let nonce = nonce,
+            Validator.hasValidSignUpCredentials(
+                email: email,
+                username: username,
+                password: password
+            )
+        {
             screen.hideEmailError()
             screen.hideUsernameError()
             screen.hidePasswordError()
@@ -125,7 +131,7 @@ extension JoinViewController: JoinScreenDelegate {
                     password: password,
                     nonce: nonce.value,
                     invitationCode: self.invitationCode
-                    )
+                )
                     .done { user in
                         Tracker.shared.joinSuccessful()
                         self.showOnboardingScreen(user)
@@ -192,23 +198,29 @@ extension JoinViewController: JoinScreenDelegate {
             forURLString: ElloURI.baseURL,
             loginDetails: [
                 AppExtensionTitleKey: InterfaceString.Ello,
-            ], passwordGenerationOptions: [
+            ],
+            passwordGenerationOptions: [
                 AppExtensionGeneratedPasswordMinLengthKey: 8,
             ],
             for: self,
-            sender: sender) { loginDict, error in
-                guard let loginDict = loginDict else { return }
+            sender: sender
+        ) { loginDict, error in
+            guard let loginDict = loginDict else { return }
 
-                if let username = loginDict[AppExtensionUsernameKey] as? String {
-                    self.screen.username = username
-                }
-
-                if let password = loginDict[AppExtensionPasswordKey] as? String {
-                    self.screen.password = password
-                }
-
-                self.validate(email: self.screen.email, username: self.screen.username, password: self.screen.password)
+            if let username = loginDict[AppExtensionUsernameKey] as? String {
+                self.screen.username = username
             }
+
+            if let password = loginDict[AppExtensionPasswordKey] as? String {
+                self.screen.password = password
+            }
+
+            self.validate(
+                email: self.screen.email,
+                username: self.screen.username,
+                password: self.screen.password
+            )
+        }
     }
 }
 

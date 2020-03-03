@@ -10,11 +10,15 @@ class LovesViewController: GraphQLStreamViewController {
             initialRequest: {
                 return API().userLoves(username: username).execute().map { config, loves in
                     return (config, loves.compactMap { $0.post })
-                } },
+                }
+            },
             nextPageRequest: { before in
-                return API().userLoves(username: username, before: before).execute().map { config, loves in
+                return API().userLoves(username: username, before: before).execute().map {
+                    config,
+                    loves in
                     return (config, loves.compactMap { $0.post })
-                } }
-            )
+                }
+            }
+        )
     }
 }

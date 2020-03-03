@@ -80,15 +80,17 @@ class ProfileViewControllerSpec: QuickSpec {
                         (true, false),
                         (false, true),
                         (false, false),
-                        ]
+                    ]
                     for (isCollaborateable, isHireable) in expectations {
-                        context("user \(isCollaborateable ? "is" : "is not") collaborateable and \(isHireable ? "is" : "is not") hireable") {
+                        context(
+                            "user \(isCollaborateable ? "is" : "is not") collaborateable and \(isHireable ? "is" : "is not") hireable"
+                        ) {
                             beforeEach {
                                 currentUser = User.stub([
                                     "isCollaborateable": isCollaborateable,
                                     "isHireable": isHireable,
                                     "hasProfileData": true
-                                    ])
+                                ])
                                 subject = ProfileViewController(currentUser: currentUser)
                                 showController(subject)
                                 screen = subject.view as? ProfileScreen
@@ -126,22 +128,47 @@ class ProfileViewControllerSpec: QuickSpec {
                     expect(screen.navigationBar.leftItems.count) == 2
                 }
 
-                let expectations: [(collaborateable: Bool, hireable: Bool, collaborateButton: Bool, hireButtonVisible: Bool, mentionButtonVisible: Bool)] = [
-                    (collaborateable: true, hireable: true, collaborateButton: true, hireButtonVisible: true, mentionButtonVisible: false),
-                    (collaborateable: true, hireable: false, collaborateButton: true, hireButtonVisible: false, mentionButtonVisible: false),
-                    (collaborateable: false, hireable: true, collaborateButton: false, hireButtonVisible: true, mentionButtonVisible: false),
-                    (collaborateable: false, hireable: false, collaborateButton: false, hireButtonVisible: false, mentionButtonVisible: true),
+                let expectations:
+                    [(
+                        collaborateable: Bool, hireable: Bool, collaborateButton: Bool,
+                        hireButtonVisible: Bool, mentionButtonVisible: Bool
+                    )] = [
+                        (
+                            collaborateable: true, hireable: true, collaborateButton: true,
+                            hireButtonVisible: true, mentionButtonVisible: false
+                        ),
+                        (
+                            collaborateable: true, hireable: false, collaborateButton: true,
+                            hireButtonVisible: false, mentionButtonVisible: false
+                        ),
+                        (
+                            collaborateable: false, hireable: true, collaborateButton: false,
+                            hireButtonVisible: true, mentionButtonVisible: false
+                        ),
+                        (
+                            collaborateable: false, hireable: false, collaborateButton: false,
+                            hireButtonVisible: false, mentionButtonVisible: true
+                        ),
                     ]
-                for (collaborateable, hireable, collaborateButton, hireButtonVisible, mentionButtonVisible) in expectations {
-                    context("collaborateable \(collaborateable) and hireable \(hireable) affect profile buttons") {
+                for (
+                    collaborateable, hireable, collaborateButton, hireButtonVisible,
+                    mentionButtonVisible
+                ) in expectations {
+                    context(
+                        "collaborateable \(collaborateable) and hireable \(hireable) affect profile buttons"
+                    ) {
                         beforeEach {
                             let userId = "1234"
                             let user: User = stub([
                                 "id": userId,
                                 "isCollaborateable": collaborateable,
                                 "isHireable": hireable,
-                                ])
-                            ElloLinkedStore.shared.setObject(user, forKey: user.id, type: .usersType)
+                            ])
+                            ElloLinkedStore.shared.setObject(
+                                user,
+                                forKey: user.id,
+                                type: .usersType
+                            )
 
                             subject = ProfileViewController(userParam: userId)
                             subject.currentUser = currentUser
@@ -177,7 +204,7 @@ class ProfileViewControllerSpec: QuickSpec {
                 beforeEach {
                     let user: User = stub([
                         "hasSharingEnabled": false
-                        ])
+                    ])
                     ElloLinkedStore.shared.setObject(user, forKey: user.id, type: .usersType)
                     subject = ProfileViewController(userParam: user.id)
                     subject.currentUser = currentUser
@@ -230,7 +257,8 @@ class ProfileViewControllerSpec: QuickSpec {
                     it("not selected block") {
                         otherUser.relationshipPriority = .inactive
                         subject.moreButtonTapped()
-                        let presentedVC = subject.presentedViewController as! BlockUserModalViewController
+                        let presentedVC = subject.presentedViewController
+                            as! BlockUserModalViewController
                         presentedVC.updateRelationship(.block)
                         expect(otherUser.relationshipPriority) == RelationshipPriority.block
                     }
@@ -238,7 +266,8 @@ class ProfileViewControllerSpec: QuickSpec {
                     it("not selected mute") {
                         otherUser.relationshipPriority = .inactive
                         subject.moreButtonTapped()
-                        let presentedVC = subject.presentedViewController as! BlockUserModalViewController
+                        let presentedVC = subject.presentedViewController
+                            as! BlockUserModalViewController
                         presentedVC.updateRelationship(.mute)
                         expect(otherUser.relationshipPriority) == RelationshipPriority.mute
                     }
@@ -246,7 +275,8 @@ class ProfileViewControllerSpec: QuickSpec {
                     it("selected block") {
                         otherUser.relationshipPriority = .block
                         subject.moreButtonTapped()
-                        let presentedVC = subject.presentedViewController as! BlockUserModalViewController
+                        let presentedVC = subject.presentedViewController
+                            as! BlockUserModalViewController
                         presentedVC.updateRelationship(.inactive)
                         expect(otherUser.relationshipPriority) == RelationshipPriority.inactive
                     }
@@ -254,7 +284,8 @@ class ProfileViewControllerSpec: QuickSpec {
                     it("selected mute") {
                         otherUser.relationshipPriority = .mute
                         subject.moreButtonTapped()
-                        let presentedVC = subject.presentedViewController as! BlockUserModalViewController
+                        let presentedVC = subject.presentedViewController
+                            as! BlockUserModalViewController
                         presentedVC.updateRelationship(.inactive)
                         expect(otherUser.relationshipPriority) == RelationshipPriority.inactive
                     }
@@ -277,23 +308,30 @@ class ProfileViewControllerSpec: QuickSpec {
                     it("not selected block") {
                         otherUser.relationshipPriority = .inactive
                         subject.moreButtonTapped()
-                        let presentedVC = subject.presentedViewController as! BlockUserModalViewController
+                        let presentedVC = subject.presentedViewController
+                            as! BlockUserModalViewController
                         presentedVC.updateRelationship(.block)
-                        expect(otherUser.relationshipPriority).to(equal(RelationshipPriority.inactive))
+                        expect(otherUser.relationshipPriority).to(
+                            equal(RelationshipPriority.inactive)
+                        )
                     }
 
                     it("not selected mute") {
                         otherUser.relationshipPriority = .inactive
                         subject.moreButtonTapped()
-                        let presentedVC = subject.presentedViewController as! BlockUserModalViewController
+                        let presentedVC = subject.presentedViewController
+                            as! BlockUserModalViewController
                         presentedVC.updateRelationship(.mute)
-                        expect(otherUser.relationshipPriority).to(equal(RelationshipPriority.inactive))
+                        expect(otherUser.relationshipPriority).to(
+                            equal(RelationshipPriority.inactive)
+                        )
                     }
 
                     it("selected block") {
                         otherUser.relationshipPriority = .block
                         subject.moreButtonTapped()
-                        let presentedVC = subject.presentedViewController as! BlockUserModalViewController
+                        let presentedVC = subject.presentedViewController
+                            as! BlockUserModalViewController
                         presentedVC.updateRelationship(.inactive)
                         expect(otherUser.relationshipPriority).to(equal(RelationshipPriority.block))
                     }
@@ -301,7 +339,8 @@ class ProfileViewControllerSpec: QuickSpec {
                     it("selected mute") {
                         otherUser.relationshipPriority = .mute
                         subject.moreButtonTapped()
-                        let presentedVC = subject.presentedViewController as! BlockUserModalViewController
+                        let presentedVC = subject.presentedViewController
+                            as! BlockUserModalViewController
                         presentedVC.updateRelationship(.inactive)
                         expect(otherUser.relationshipPriority).to(equal(RelationshipPriority.mute))
                     }

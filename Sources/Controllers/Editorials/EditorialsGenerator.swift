@@ -25,7 +25,8 @@ final class EditorialsGenerator: StreamGenerator {
         loadEditorials()
     }
 
-    static func loadPostStreamEditorials(_ postStreamEditorials: [Editorial], afterAll: AfterBlock) {
+    static func loadPostStreamEditorials(_ postStreamEditorials: [Editorial], afterAll: AfterBlock)
+    {
         for editorial in postStreamEditorials {
             guard
                 editorial.kind == .postStream,
@@ -62,10 +63,15 @@ private extension EditorialsGenerator {
             .done { pageHeaders in
                 guard let pageHeader = pageHeaders.randomItem() else { return }
 
-                self.destination?.replacePlaceholder(type: .pageHeader, items: [
-                    StreamCellItem(jsonable: pageHeader, type: .promotionalHeader),
-                    StreamCellItem(type: .spacer(height: EditorialCellContent.Size.bgMargins.bottom)),
-                ])
+                self.destination?.replacePlaceholder(
+                    type: .pageHeader,
+                    items: [
+                        StreamCellItem(jsonable: pageHeader, type: .promotionalHeader),
+                        StreamCellItem(
+                            type: .spacer(height: EditorialCellContent.Size.bgMargins.bottom)
+                        ),
+                    ]
+                )
             }
             .ignoreErrors()
     }
@@ -90,7 +96,10 @@ private extension EditorialsGenerator {
                 editorialItems += self.parse(jsonables: editorials)
 
                 let postStreamEditorials = editorials.filter { $0.kind == .postStream }
-                EditorialsGenerator.loadPostStreamEditorials(postStreamEditorials, afterAll: afterAll)
+                EditorialsGenerator.loadPostStreamEditorials(
+                    postStreamEditorials,
+                    afterAll: afterAll
+                )
             }
             .catch { _ in
                 self.destination?.primaryModelNotFound()

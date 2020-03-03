@@ -4,11 +4,18 @@
 
 extension UIButton {
 
-    func setImage(_ interfaceImage: InterfaceImage, imageStyle: InterfaceImage.Style, for state: UIControl.State) {
+    func setImage(
+        _ interfaceImage: InterfaceImage,
+        imageStyle: InterfaceImage.Style,
+        for state: UIControl.State
+    ) {
         self.setImage(interfaceImage.image(imageStyle), for: state)
     }
 
-    func setImages(_ interfaceImage: InterfaceImage, style imageStyle: InterfaceImage.Style = .normal) {
+    func setImages(
+        _ interfaceImage: InterfaceImage,
+        style imageStyle: InterfaceImage.Style = .normal
+    ) {
         if #available(iOS 13, *) {
             switch (imageStyle, UITraitCollection.current.userInterfaceStyle) {
             case (.selected, .dark):

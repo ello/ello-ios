@@ -117,10 +117,22 @@ class JoinScreen: CredentialsScreen {
         continueButton.addTarget(self, action: #selector(submitAction), for: .touchUpInside)
         termsButtonNormal.addTarget(self, action: #selector(termsAction), for: .touchUpInside)
         termsButtonKeyboard.addTarget(self, action: #selector(termsAction), for: .touchUpInside)
-        passwordField.onePasswordButton.addTarget(self, action: #selector(onePasswordAction(_:)), for: .touchUpInside)
+        passwordField.onePasswordButton.addTarget(
+            self,
+            action: #selector(onePasswordAction(_:)),
+            for: .touchUpInside
+        )
         activateEmailButton.addTarget(self, action: #selector(activateEmail), for: .touchUpInside)
-        activateUsernameButton.addTarget(self, action: #selector(activateUsername), for: .touchUpInside)
-        activatePasswordButton.addTarget(self, action: #selector(activatePassword), for: .touchUpInside)
+        activateUsernameButton.addTarget(
+            self,
+            action: #selector(activateUsername),
+            for: .touchUpInside
+        )
+        activatePasswordButton.addTarget(
+            self,
+            action: #selector(activatePassword),
+            for: .touchUpInside
+        )
         emailField.delegate = self
         usernameField.delegate = self
         passwordField.delegate = self
@@ -144,7 +156,10 @@ class JoinScreen: CredentialsScreen {
             .font: UIFont.defaultFont(Size.termsFontSize),
         ])
         // needs i18n
-        let attributedTitle = NSAttributedString(string: "By clicking Continue you are agreeing to our ", attributes: attrs) + NSAttributedString(string: "Terms", attributes: linkAttrs)
+        let attributedTitle = NSAttributedString(
+            string: "By clicking Continue you are agreeing to our ",
+            attributes: attrs
+        ) + NSAttributedString(string: "Terms", attributes: linkAttrs)
         termsButtonNormal.setAttributedTitle(attributedTitle, for: .normal)
         termsButtonKeyboard.setAttributedTitle(attributedTitle, for: .normal)
 
@@ -200,7 +215,10 @@ class JoinScreen: CredentialsScreen {
             make.leading.trailing.equalTo(scrollView).inset(CredentialsScreen.Size.inset)
         }
         emailErrorLabel.snp.makeConstraints { make in
-            emailMarginConstraint = make.top.equalTo(emailField.snp.bottom).offset(Size.fieldsErrorMargin).priority(Priority.required).constraint
+            emailMarginConstraint =
+                make.top.equalTo(emailField.snp.bottom).offset(Size.fieldsErrorMargin).priority(
+                    Priority.required
+                ).constraint
             make.top.equalTo(emailField.snp.bottom).priority(Priority.medium)
             make.leading.trailing.equalTo(scrollView).inset(CredentialsScreen.Size.inset)
         }
@@ -216,14 +234,19 @@ class JoinScreen: CredentialsScreen {
             make.leading.trailing.equalTo(scrollView).inset(CredentialsScreen.Size.inset)
         }
         usernameErrorLabel.snp.makeConstraints { make in
-            usernameMarginConstraint = make.top.equalTo(usernameField.snp.bottom).offset(Size.fieldsErrorMargin).priority(Priority.required).constraint
+            usernameMarginConstraint =
+                make.top.equalTo(usernameField.snp.bottom).offset(Size.fieldsErrorMargin).priority(
+                    Priority.required
+                ).constraint
             make.top.equalTo(usernameField.snp.bottom).priority(Priority.medium)
             make.leading.trailing.equalTo(scrollView).inset(CredentialsScreen.Size.inset)
         }
         usernameMarginConstraint.deactivate()
 
         messageLabel.snp.makeConstraints { make in
-            messageMarginConstraint = make.top.equalTo(usernameErrorLabel.snp.bottom).offset(Size.fieldsErrorMargin).priority(Priority.required).constraint
+            messageMarginConstraint =
+                make.top.equalTo(usernameErrorLabel.snp.bottom).offset(Size.fieldsErrorMargin)
+                .priority(Priority.required).constraint
             make.top.equalTo(usernameErrorLabel.snp.bottom).priority(Priority.medium)
             make.leading.trailing.equalTo(scrollView).inset(CredentialsScreen.Size.inset)
         }
@@ -239,7 +262,10 @@ class JoinScreen: CredentialsScreen {
             make.leading.trailing.equalTo(scrollView).inset(CredentialsScreen.Size.inset)
         }
         passwordErrorLabel.snp.makeConstraints { make in
-            passwordMarginConstraint = make.top.equalTo(passwordField.snp.bottom).offset(Size.fieldsErrorMargin).priority(Priority.required).constraint
+            passwordMarginConstraint =
+                make.top.equalTo(passwordField.snp.bottom).offset(Size.fieldsErrorMargin).priority(
+                    Priority.required
+                ).constraint
             make.top.equalTo(passwordField.snp.bottom).priority(Priority.medium)
             make.leading.trailing.equalTo(scrollView).inset(CredentialsScreen.Size.inset)
             make.bottom.lessThanOrEqualTo(scrollView).inset(Size.inset)
@@ -292,17 +318,17 @@ extension JoinScreen {
 extension JoinScreen {
     @objc
     func activateEmail() {
-      _ = emailField.becomeFirstResponder()
+        _ = emailField.becomeFirstResponder()
     }
 
     @objc
     func activateUsername() {
-      _ = usernameField.becomeFirstResponder()
+        _ = usernameField.becomeFirstResponder()
     }
 
     @objc
     func activatePassword() {
-      _ = passwordField.becomeFirstResponder()
+        _ = passwordField.becomeFirstResponder()
     }
 
     @objc
@@ -329,7 +355,11 @@ extension JoinScreen: UITextFieldDelegate {
         textField.layoutIfNeeded()
     }
 
-    func textField(_ textField: UITextField, shouldChangeCharactersIn nsrange: NSRange, replacementString: String) -> Bool {
+    func textField(
+        _ textField: UITextField,
+        shouldChangeCharactersIn nsrange: NSRange,
+        replacementString: String
+    ) -> Bool {
         guard let delegate = delegate else { return true }
 
         var text = textField.text ?? ""
@@ -396,14 +426,20 @@ extension JoinScreen: JoinScreenProtocol {
         let plainAttrs: [NSAttributedString.Key: Any] = [
             .font: UIFont.defaultFont(12),
         ]
-        let suggestions: NSAttributedString = usernames.reduce(NSAttributedString(string: "", attributes: plainAttrs)) { attrdString, username in
+        let suggestions: NSAttributedString = usernames.reduce(
+            NSAttributedString(string: "", attributes: plainAttrs)
+        ) { attrdString, username in
             let usernameAttrd = NSAttributedString(string: username, attributes: usernameAttrs)
             if attrdString.string.isEmpty {
                 return usernameAttrd
             }
-            return attrdString + NSAttributedString(string: ", ", attributes: plainAttrs) + usernameAttrd
+            return attrdString + NSAttributedString(string: ", ", attributes: plainAttrs)
+                + usernameAttrd
         }
-        let msg = NSAttributedString(string: InterfaceString.Join.UsernameSuggestionPrefix, attributes: plainAttrs) + suggestions
+        let msg = NSAttributedString(
+            string: InterfaceString.Join.UsernameSuggestionPrefix,
+            attributes: plainAttrs
+        ) + suggestions
         showMessageAttributed(msg)
     }
 

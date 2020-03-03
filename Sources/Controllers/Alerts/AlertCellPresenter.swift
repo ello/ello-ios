@@ -25,7 +25,11 @@ struct AlertCellPresenter {
         cell.cancelButton.isHidden = true
     }
 
-    static func configureForTitle(_ cell: AlertCell, action: AlertAction, textAlignment: NSTextAlignment) {
+    static func configureForTitle(
+        _ cell: AlertCell,
+        action: AlertAction,
+        textAlignment: NSTextAlignment
+    ) {
         configureCell(cell)
 
         cell.button.isHidden = true
@@ -38,7 +42,11 @@ struct AlertCellPresenter {
         cell.background.backgroundColor = .white
     }
 
-    static func configureForSubtitle(_ cell: AlertCell, action: AlertAction, textAlignment: NSTextAlignment) {
+    static func configureForSubtitle(
+        _ cell: AlertCell,
+        action: AlertAction,
+        textAlignment: NSTextAlignment
+    ) {
         configureCell(cell)
 
         cell.button.isHidden = true
@@ -50,7 +58,11 @@ struct AlertCellPresenter {
         cell.background.backgroundColor = .white
     }
 
-    static func configureForMessage(_ cell: AlertCell, action: AlertAction, textAlignment: NSTextAlignment) {
+    static func configureForMessage(
+        _ cell: AlertCell,
+        action: AlertAction,
+        textAlignment: NSTextAlignment
+    ) {
         configureCell(cell)
 
         cell.button.isHidden = true
@@ -61,7 +73,11 @@ struct AlertCellPresenter {
         cell.background.backgroundColor = .white
     }
 
-    static func configureForWhiteAction(_ cell: AlertCell, action: AlertAction, textAlignment: NSTextAlignment) {
+    static func configureForWhiteAction(
+        _ cell: AlertCell,
+        action: AlertAction,
+        textAlignment: NSTextAlignment
+    ) {
         configureCell(cell)
 
         cell.button.text = action.title
@@ -70,7 +86,11 @@ struct AlertCellPresenter {
         cell.background.backgroundColor = .white
     }
 
-    static func configureForLightAction(_ cell: AlertCell, action: AlertAction, textAlignment: NSTextAlignment) {
+    static func configureForLightAction(
+        _ cell: AlertCell,
+        action: AlertAction,
+        textAlignment: NSTextAlignment
+    ) {
         configureCell(cell)
 
         cell.button.text = action.title
@@ -79,7 +99,11 @@ struct AlertCellPresenter {
         cell.background.backgroundColor = .greyE5
     }
 
-    static func configureForDarkAction(_ cell: AlertCell, action: AlertAction, textAlignment: NSTextAlignment) {
+    static func configureForDarkAction(
+        _ cell: AlertCell,
+        action: AlertAction,
+        textAlignment: NSTextAlignment
+    ) {
         configureCell(cell)
 
         cell.button.text = action.title
@@ -88,7 +112,11 @@ struct AlertCellPresenter {
         cell.background.backgroundColor = .black
     }
 
-    static func configureForGreenAction(_ cell: AlertCell, action: AlertAction, textAlignment: NSTextAlignment) {
+    static func configureForGreenAction(
+        _ cell: AlertCell,
+        action: AlertAction,
+        textAlignment: NSTextAlignment
+    ) {
         configureCell(cell)
 
         cell.button.text = action.title
@@ -97,7 +125,11 @@ struct AlertCellPresenter {
         cell.background.backgroundColor = .greenD1
     }
 
-    static func configureForGrayAction(_ cell: AlertCell, action: AlertAction, textAlignment: NSTextAlignment) {
+    static func configureForGrayAction(
+        _ cell: AlertCell,
+        action: AlertAction,
+        textAlignment: NSTextAlignment
+    ) {
         configureCell(cell)
 
         cell.button.text = action.title
@@ -125,7 +157,11 @@ struct AlertCellPresenter {
         cell.background.backgroundColor = .white
     }
 
-    static func configureForURLAction(_ cell: AlertCell, action: AlertAction, textAlignment: NSTextAlignment) {
+    static func configureForURLAction(
+        _ cell: AlertCell,
+        action: AlertAction,
+        textAlignment: NSTextAlignment
+    ) {
         configureForInputAction(cell, action: action)
 
         cell.input.keyboardType = .URL
@@ -134,7 +170,11 @@ struct AlertCellPresenter {
         cell.input.spellCheckingType = .no
     }
 
-    static func configureForOKCancelAction(_ cell: AlertCell, action: AlertAction, textAlignment: NSTextAlignment) {
+    static func configureForOKCancelAction(
+        _ cell: AlertCell,
+        action: AlertAction,
+        textAlignment: NSTextAlignment
+    ) {
         configureCell(cell)
 
         cell.background.backgroundColor = .clear

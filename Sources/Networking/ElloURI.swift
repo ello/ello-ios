@@ -76,90 +76,91 @@ enum ElloURI {
 
     var regexPattern: String {
         switch self {
-        case .email:                        return "(.+)@(.+)\\.([a-z]{2,})/?$"
-        case .external:                     return "https?://.{3,}"
+        case .email: return "(.+)@(.+)\\.([a-z]{2,})/?$"
+        case .external: return "https?://.{3,}"
         case .pushNotificationArtistInvite: return "notifications/artist-invites/([^/]+)$"
-        case .pushNotificationCategory:     return "notifications/category/([^/]+)$"
-        case .pushNotificationComment:      return "notifications/posts/([^/]+)/comments/([^/]+)$"
-        case .pushNotificationPost:         return "notifications/posts/([^/]+)/?$"
-        case .pushNotificationURL:          return "notifications/ello\\.co/(.+)$"
-        case .pushNotificationUser:         return "notifications/users/([^/]+)/?$"
+        case .pushNotificationCategory: return "notifications/category/([^/]+)$"
+        case .pushNotificationComment: return "notifications/posts/([^/]+)/comments/([^/]+)$"
+        case .pushNotificationPost: return "notifications/posts/([^/]+)/?$"
+        case .pushNotificationURL: return "notifications/ello\\.co/(.+)$"
+        case .pushNotificationUser: return "notifications/users/([^/]+)/?$"
 
-        case .post:             return "\(ElloURI.userPathRegex)post/([^/]+)/?$"
-        case .profile:          return "\(ElloURI.userPathRegex)(?:\\?.*?)?$"
+        case .post: return "\(ElloURI.userPathRegex)post/([^/]+)/?$"
+        case .profile: return "\(ElloURI.userPathRegex)(?:\\?.*?)?$"
         case .profileFollowers: return "\(ElloURI.userPathRegex)/followers/?$"
         case .profileFollowing: return "\(ElloURI.userPathRegex)/following/?$"
-        case .profileLoves:     return "\(ElloURI.userPathRegex)/loves/?$"
+        case .profileLoves: return "\(ElloURI.userPathRegex)/loves/?$"
 
         case .subdomain: return "//.+(?<!(w{3}|staging))\\.\(ElloURI.fuzzyDomain)"
 
         case .artistInvitesBrowse: return "\(ElloURI.fuzzyDomain)/invites/?$"
         case .artistInvitesDetail: return "\(ElloURI.fuzzyDomain)/invites/([^/]+)/?$"
-        case .betaPublicProfiles:  return "\(ElloURI.fuzzyDomain)/beta-public-profiles/?$"
-        case .category:            return "\(ElloURI.fuzzyDomain)/discover/([^/]+)/?$"
-        case .confirm:             return "\(ElloURI.fuzzyDomain)/confirm/?$"
-        case .discover:            return "\(ElloURI.fuzzyDomain)/discover(/featured|/recommended)?/?$"
-        case .discoverRandom:      return "\(ElloURI.fuzzyDomain)/discover/random/?$"
-        case .discoverRecent:      return "\(ElloURI.fuzzyDomain)/discover/recent/?$"
-        case .discoverRelated:     return "\(ElloURI.fuzzyDomain)/discover/related/?$"
-        case .discoverTrending:    return "\(ElloURI.fuzzyDomain)/discover/trending/?$"
-        case .enter:               return "\(ElloURI.fuzzyDomain)/enter/?$"
-        case .exit:                return "\(ElloURI.fuzzyDomain)/exit/?$"
-        case .explore:             return "\(ElloURI.fuzzyDomain)/explore/?$"
-        case .exploreRecent:       return "\(ElloURI.fuzzyDomain)/explore/recent/?$"
-        case .exploreRecommended:  return "\(ElloURI.fuzzyDomain)/explore/recommended/?$"
-        case .exploreTrending:     return "\(ElloURI.fuzzyDomain)/explore/trending/?$"
-        case .faceMaker:           return "\(ElloURI.fuzzyDomain)/facemaker/?$"
-        case .following:           return "\(ElloURI.fuzzyDomain)/following/?$"
-        case .forgotMyPassword:    return "\(ElloURI.fuzzyDomain)/forgot-password/?$"
-        case .freedomOfSpeech:     return "\(ElloURI.fuzzyDomain)/freedom-of-speech/?$"
-        case .friends:             return "\(ElloURI.fuzzyDomain)/friends/?$"
-        case .invitations:         return "\(ElloURI.fuzzyDomain)/invitations/?$"
-        case .invite:              return "\(ElloURI.fuzzyDomain)/join/([^/]+)/?$"
-        case .join:                return "\(ElloURI.fuzzyDomain)/join/?$"
-        case .login:               return "\(ElloURI.fuzzyDomain)/login/?$"
-        case .manifesto:           return "\(ElloURI.fuzzyDomain)/manifesto/?$"
-        case .nativeRedirect:      return "\(ElloURI.fuzzyDomain)/native_redirect/?$"
-        case .noise:               return "\(ElloURI.fuzzyDomain)/noise/?$"
-        case .notifications:       return "\(ElloURI.fuzzyDomain)/notifications(?:/?|/([^/]+)/?)$"
-        case .onboarding:          return "\(ElloURI.fuzzyDomain)/onboarding/?$"
-        case .passwordResetError:  return "\(ElloURI.fuzzyDomain)/password-reset-error/?$"
-        case .randomSearch:        return "\(ElloURI.fuzzyDomain)/random_searches/?$"
-        case .requestInvitation:   return "\(ElloURI.fuzzyDomain)/request-an-invitation/?$"
-        case .requestInvitations:  return "\(ElloURI.fuzzyDomain)/request_invitations/?$"
-        case .requestInvite:       return "\(ElloURI.fuzzyDomain)/request-an-invite/?$"
-        case .resetMyPassword:     return "\(ElloURI.fuzzyDomain)/auth/reset-my-password/?\\?reset_password_token=([^&]+)$"
-        case .resetPasswordError:  return "\(ElloURI.fuzzyDomain)/auth/password-reset-error/?$"
-        case .root:                return "\(ElloURI.fuzzyDomain)/?$"
-        case .search:              return "\(ElloURI.fuzzyDomain)/(search|find)/?(\\?.*)?$"
-        case .searchPeople:        return "\(ElloURI.fuzzyDomain)/(search|find)/people/?(\\?.*)?$"
-        case .searchPosts:         return "\(ElloURI.fuzzyDomain)/(search|find)/posts/?(\\?.*)?$"
-        case .settings:            return "\(ElloURI.fuzzyDomain)/settings/?$"
-        case .signup:              return "\(ElloURI.fuzzyDomain)/signup/?$"
-        case .starred:             return "\(ElloURI.fuzzyDomain)/starred/?$"
-        case .unblock:             return "\(ElloURI.fuzzyDomain)/unblock/?$"
-        case .whoMadeThis:         return "\(ElloURI.fuzzyDomain)/who-made-this/?$"
-        case .wtf:                 return "\(ElloURI.fuzzyDomain)/(wtf$|wtf/.*$)"
+        case .betaPublicProfiles: return "\(ElloURI.fuzzyDomain)/beta-public-profiles/?$"
+        case .category: return "\(ElloURI.fuzzyDomain)/discover/([^/]+)/?$"
+        case .confirm: return "\(ElloURI.fuzzyDomain)/confirm/?$"
+        case .discover: return "\(ElloURI.fuzzyDomain)/discover(/featured|/recommended)?/?$"
+        case .discoverRandom: return "\(ElloURI.fuzzyDomain)/discover/random/?$"
+        case .discoverRecent: return "\(ElloURI.fuzzyDomain)/discover/recent/?$"
+        case .discoverRelated: return "\(ElloURI.fuzzyDomain)/discover/related/?$"
+        case .discoverTrending: return "\(ElloURI.fuzzyDomain)/discover/trending/?$"
+        case .enter: return "\(ElloURI.fuzzyDomain)/enter/?$"
+        case .exit: return "\(ElloURI.fuzzyDomain)/exit/?$"
+        case .explore: return "\(ElloURI.fuzzyDomain)/explore/?$"
+        case .exploreRecent: return "\(ElloURI.fuzzyDomain)/explore/recent/?$"
+        case .exploreRecommended: return "\(ElloURI.fuzzyDomain)/explore/recommended/?$"
+        case .exploreTrending: return "\(ElloURI.fuzzyDomain)/explore/trending/?$"
+        case .faceMaker: return "\(ElloURI.fuzzyDomain)/facemaker/?$"
+        case .following: return "\(ElloURI.fuzzyDomain)/following/?$"
+        case .forgotMyPassword: return "\(ElloURI.fuzzyDomain)/forgot-password/?$"
+        case .freedomOfSpeech: return "\(ElloURI.fuzzyDomain)/freedom-of-speech/?$"
+        case .friends: return "\(ElloURI.fuzzyDomain)/friends/?$"
+        case .invitations: return "\(ElloURI.fuzzyDomain)/invitations/?$"
+        case .invite: return "\(ElloURI.fuzzyDomain)/join/([^/]+)/?$"
+        case .join: return "\(ElloURI.fuzzyDomain)/join/?$"
+        case .login: return "\(ElloURI.fuzzyDomain)/login/?$"
+        case .manifesto: return "\(ElloURI.fuzzyDomain)/manifesto/?$"
+        case .nativeRedirect: return "\(ElloURI.fuzzyDomain)/native_redirect/?$"
+        case .noise: return "\(ElloURI.fuzzyDomain)/noise/?$"
+        case .notifications: return "\(ElloURI.fuzzyDomain)/notifications(?:/?|/([^/]+)/?)$"
+        case .onboarding: return "\(ElloURI.fuzzyDomain)/onboarding/?$"
+        case .passwordResetError: return "\(ElloURI.fuzzyDomain)/password-reset-error/?$"
+        case .randomSearch: return "\(ElloURI.fuzzyDomain)/random_searches/?$"
+        case .requestInvitation: return "\(ElloURI.fuzzyDomain)/request-an-invitation/?$"
+        case .requestInvitations: return "\(ElloURI.fuzzyDomain)/request_invitations/?$"
+        case .requestInvite: return "\(ElloURI.fuzzyDomain)/request-an-invite/?$"
+        case .resetMyPassword:
+            return "\(ElloURI.fuzzyDomain)/auth/reset-my-password/?\\?reset_password_token=([^&]+)$"
+        case .resetPasswordError: return "\(ElloURI.fuzzyDomain)/auth/password-reset-error/?$"
+        case .root: return "\(ElloURI.fuzzyDomain)/?$"
+        case .search: return "\(ElloURI.fuzzyDomain)/(search|find)/?(\\?.*)?$"
+        case .searchPeople: return "\(ElloURI.fuzzyDomain)/(search|find)/people/?(\\?.*)?$"
+        case .searchPosts: return "\(ElloURI.fuzzyDomain)/(search|find)/posts/?(\\?.*)?$"
+        case .settings: return "\(ElloURI.fuzzyDomain)/settings/?$"
+        case .signup: return "\(ElloURI.fuzzyDomain)/signup/?$"
+        case .starred: return "\(ElloURI.fuzzyDomain)/starred/?$"
+        case .unblock: return "\(ElloURI.fuzzyDomain)/unblock/?$"
+        case .whoMadeThis: return "\(ElloURI.fuzzyDomain)/who-made-this/?$"
+        case .wtf: return "\(ElloURI.fuzzyDomain)/(wtf$|wtf/.*$)"
         }
     }
 
     var loadsInWebViewFromWebView: Bool {
         switch self {
         case .artistInvitesBrowse,
-             .artistInvitesDetail,
-             .discover,
-             .category,
-             .email,
-             .enter,
-             .explore,
-             .following,
-             .starred,
-             .notifications,
-             .post,
-             .profile,
-             .root,
-             .search,
-             .settings:
+            .artistInvitesDetail,
+            .discover,
+            .category,
+            .email,
+            .enter,
+            .explore,
+            .following,
+            .starred,
+            .notifications,
+            .post,
+            .profile,
+            .root,
+            .search,
+            .settings:
             return false
         default: return true
         }
@@ -168,7 +169,7 @@ enum ElloURI {
     var requiresLogin: Bool {
         switch self {
         case .settings, .notifications, .following, .starred, .friends, .noise,
-             .invitations, .onboarding, .unblock:
+            .invitations, .onboarding, .unblock:
             return true
         default:
             return false
@@ -178,21 +179,21 @@ enum ElloURI {
     var shouldLoadInApp: Bool {
         switch self {
         case .confirm,
-             .email,
-             .external,
-             .faceMaker,
-             .freedomOfSpeech,
-             .manifesto,
-             .nativeRedirect,
-             .passwordResetError,
-             .randomSearch,
-             .requestInvitation,
-             .requestInvitations,
-             .requestInvite,
-             .resetPasswordError,
-             .subdomain,
-             .unblock,
-             .whoMadeThis:
+            .email,
+            .external,
+            .faceMaker,
+            .freedomOfSpeech,
+            .manifesto,
+            .nativeRedirect,
+            .passwordResetError,
+            .randomSearch,
+            .requestInvitation,
+            .requestInvitations,
+            .requestInvite,
+            .resetPasswordError,
+            .subdomain,
+            .unblock,
+            .whoMadeThis:
             return false
         default:
             return true
@@ -202,12 +203,14 @@ enum ElloURI {
     static var baseURL: String { return APIKeys.shared.domain }
 
     // this is taken directly from app/models/user.rb
-    static let fuzzyDomain: String = "(?:(?:w{3}\\.)?ello\\.(?:ninja|co)|ello-stag(?:ing|e)\\d?\\.herokuapp\\.com|ello-fg-stage\\d?\\.herokuapp\\.com)"
+    static let fuzzyDomain: String =
+        "(?:(?:w{3}\\.)?ello\\.(?:ninja|co)|ello-stag(?:ing|e)\\d?\\.herokuapp\\.com|ello-fg-stage\\d?\\.herokuapp\\.com)"
     static var userPathRegex: String { return "\(ElloURI.fuzzyDomain)/([\\w\\-]+)\\??.*" }
 
     static func match(_ url: String) -> (type: ElloURI, data: String?) {
         let trimmed = ElloURI.replaceElloScheme(url)
-        for type in self.all where trimmed.range(of: type.regexPattern, options: .regularExpression) != nil {
+        for type in self.all
+        where trimmed.range(of: type.regexPattern, options: .regularExpression) != nil {
             return (type, type.data(trimmed))
         }
         return (self.external, self.external.data(trimmed))
@@ -240,15 +243,15 @@ enum ElloURI {
             let lastArr = last?.split { $0 == "?" }.map { String($0) }
             return lastArr?.first ?? last
         case .artistInvitesDetail,
-             .category,
-             .invite,
-             .notifications,
-             .profileFollowers, .profileFollowing, .profileLoves,
-             .pushNotificationArtistInvite, .pushNotificationCategory,
-             .pushNotificationComment, .pushNotificationPost,
-             .pushNotificationURL, .pushNotificationUser,
-             .profile,
-             .resetMyPassword:
+            .category,
+            .invite,
+            .notifications,
+            .profileFollowers, .profileFollowing, .profileLoves,
+            .pushNotificationArtistInvite, .pushNotificationCategory,
+            .pushNotificationComment, .pushNotificationPost,
+            .pushNotificationURL, .pushNotificationUser,
+            .profile,
+            .resetMyPassword:
             return regex?.matchingGroups(url).safeValue(1)
         case .search, .searchPosts, .searchPeople:
             guard let urlComponents = URLComponents(string: url),

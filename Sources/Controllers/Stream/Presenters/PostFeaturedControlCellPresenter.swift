@@ -9,8 +9,8 @@ struct PostFeaturedControlCellPresenter {
         streamCellItem: StreamCellItem,
         streamKind: StreamKind,
         indexPath: IndexPath,
-        currentUser: User?)
-    {
+        currentUser: User?
+    ) {
         guard
             let cell = cell as? PostFeaturedControlCell,
             let categoryPost = streamCellItem.jsonable as? CategoryPost

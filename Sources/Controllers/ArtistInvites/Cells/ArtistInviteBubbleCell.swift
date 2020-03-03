@@ -55,10 +55,20 @@ class ArtistInviteBubbleCell: CollectionViewCell, ArtistInviteConfigurableCell {
     private let dateLabel = StyledLabel(style: .gray)
     private let descriptionWebView = ElloWebView()
 
-    static func calculateDynamicHeights(title: String, inviteType: String, cellWidth: CGFloat) -> CGFloat {
+    static func calculateDynamicHeights(title: String, inviteType: String, cellWidth: CGFloat)
+        -> CGFloat
+    {
         let textWidth = cellWidth - Size.bubbleMargins.sides - Size.infoMargins.sides
-        let height1 = NSAttributedString(label: title, style: .artistInviteTitle, lineBreakMode: .byWordWrapping).heightForWidth(textWidth)
-        let height2 = NSAttributedString(label: inviteType, style: .gray, lineBreakMode: .byWordWrapping).heightForWidth(textWidth)
+        let height1 = NSAttributedString(
+            label: title,
+            style: .artistInviteTitle,
+            lineBreakMode: .byWordWrapping
+        ).heightForWidth(textWidth)
+        let height2 = NSAttributedString(
+            label: inviteType,
+            style: .gray,
+            lineBreakMode: .byWordWrapping
+        ).heightForWidth(textWidth)
         return height1 + height2
     }
 
@@ -113,10 +123,18 @@ class ArtistInviteBubbleCell: CollectionViewCell, ArtistInviteConfigurableCell {
             make.center.equalTo(headerImage)
             make.size.equalTo(Size.logoImageSize).priority(Priority.medium)
             make.width.lessThanOrEqualTo(bg).priority(Priority.required)
-            make.height.equalTo(logoImage.snp.width).multipliedBy(Size.logoImageSize.height / Size.logoImageSize.width).priority(Priority.required)
+            make.height.equalTo(logoImage.snp.width).multipliedBy(
+                Size.logoImageSize.height / Size.logoImageSize.width
+            ).priority(Priority.required)
         }
-        logoImage.setContentCompressionResistancePriority(UILayoutPriority.defaultLow, for: .vertical)
-        logoImage.setContentCompressionResistancePriority(UILayoutPriority.defaultLow, for: .horizontal)
+        logoImage.setContentCompressionResistancePriority(
+            UILayoutPriority.defaultLow,
+            for: .vertical
+        )
+        logoImage.setContentCompressionResistancePriority(
+            UILayoutPriority.defaultLow,
+            for: .horizontal
+        )
 
         titleLabel.snp.makeConstraints { make in
             make.leading.trailing.equalTo(bg).inset(Size.infoMargins)
@@ -169,7 +187,13 @@ class ArtistInviteBubbleCell: CollectionViewCell, ArtistInviteConfigurableCell {
 
     private func startTimer() {
         guard timer == nil else { return }
-        timer = Timer.scheduledTimer(timeInterval: 0.25, target: self, selector: #selector(updateDateText), userInfo: nil, repeats: true)
+        timer = Timer.scheduledTimer(
+            timeInterval: 0.25,
+            target: self,
+            selector: #selector(updateDateText),
+            userInfo: nil,
+            repeats: true
+        )
     }
 
     private func stopTimer() {
@@ -240,11 +264,26 @@ extension ArtistInvite.Status {
 
     var image: UIImage? {
         switch self {
-        case .preview: return SVGKImage(named: "artist_invite_status_preview.svg").uiImage.withRenderingMode(.alwaysOriginal)
-        case .upcoming: return SVGKImage(named: "artist_invite_status_upcoming.svg").uiImage.withRenderingMode(.alwaysOriginal)
-        case .open: return SVGKImage(named: "artist_invite_status_open.svg").uiImage.withRenderingMode(.alwaysOriginal)
-        case .selecting: return SVGKImage(named: "artist_invite_status_selecting.svg").uiImage.withRenderingMode(.alwaysOriginal)
-        case .closed: return SVGKImage(named: "artist_invite_status_closed.svg").uiImage.withRenderingMode(.alwaysOriginal)
+        case .preview:
+            return SVGKImage(named: "artist_invite_status_preview.svg").uiImage.withRenderingMode(
+                .alwaysOriginal
+            )
+        case .upcoming:
+            return SVGKImage(named: "artist_invite_status_upcoming.svg").uiImage.withRenderingMode(
+                .alwaysOriginal
+            )
+        case .open:
+            return SVGKImage(named: "artist_invite_status_open.svg").uiImage.withRenderingMode(
+                .alwaysOriginal
+            )
+        case .selecting:
+            return SVGKImage(named: "artist_invite_status_selecting.svg").uiImage.withRenderingMode(
+                .alwaysOriginal
+            )
+        case .closed:
+            return SVGKImage(named: "artist_invite_status_closed.svg").uiImage.withRenderingMode(
+                .alwaysOriginal
+            )
         }
     }
 
@@ -263,22 +302,22 @@ extension StyledLabel.Style {
     static let artistInviteTitle = StyledLabel.Style(
         textColor: .black,
         fontFamily: .artistInviteTitle
-        )
+    )
     static let artistInvitePreview = StyledLabel.Style(
         textColor: UIColor(hex: 0x0409FE)
-        )
+    )
     static let artistInviteUpcoming = StyledLabel.Style(
         textColor: UIColor(hex: 0xC000FF)
-        )
+    )
     static let artistInviteOpen = StyledLabel.Style(
         textColor: UIColor(hex: 0x00D100)
-        )
+    )
     static let artistInviteSelecting = StyledLabel.Style(
         textColor: UIColor(hex: 0xFDB02A)
-        )
+    )
     static let artistInviteClosed = StyledLabel.Style(
         textColor: UIColor(hex: 0xFE0404)
-        )
+    )
 }
 
 extension ArtistInviteBubbleCell.Config {
@@ -313,7 +352,11 @@ extension ArtistInviteBubbleCell.Config {
 }
 
 extension ArtistInviteBubbleCell: UIWebViewDelegate {
-    func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebView.NavigationType) -> Bool {
+    func webView(
+        _ webView: UIWebView,
+        shouldStartLoadWith request: URLRequest,
+        navigationType: UIWebView.NavigationType
+    ) -> Bool {
         if let scheme = request.url?.scheme, scheme == "default" {
             let responder: StreamCellResponder? = findResponder()
             responder?.streamCellTapped(cell: self)

@@ -24,7 +24,11 @@ class PostParser: IdParser {
         let repostedSource = json["repostedSource"]
         if let repostIdentifier = self.identifier(json: repostedSource) {
             flatten(json: repostedSource, identifier: repostIdentifier, db: &db)
-            json["links"] = ["reposted_source": ["id": repostIdentifier.id, "type": MappingType.postsType.rawValue]]
+            json["links"] = [
+                "reposted_source": [
+                    "id": repostIdentifier.id, "type": MappingType.postsType.rawValue
+                ]
+            ]
         }
 
         super.flatten(json: json, identifier: identifier, db: &db)
@@ -39,17 +43,23 @@ class PostParser: IdParser {
             createdAt: createdAt,
             authorId: json["author"]["id"].idValue,
             token: json["token"].stringValue,
-            isAdultContent: false, // json["is_adult_content"].boolValue,
-            contentWarning: "", // json["content_warning"].stringValue,
-            allowComments: true, // json["allow_comments"].boolValue,
+            isAdultContent: false,  // json["is_adult_content"].boolValue,
+            contentWarning: "",  // json["content_warning"].stringValue,
+            allowComments: true,  // json["allow_comments"].boolValue,
             isReposted: json["currentUserState"]["reposted"].bool ?? false,
             isLoved: json["currentUserState"]["loved"].bool ?? false,
             isWatching: json["currentUserState"]["watching"].bool ?? false,
             summary: RegionParser.graphQLRegions(json: json["summary"]),
-            content: RegionParser.graphQLRegions(json: json["content"], isRepostContent: repostContent.count > 0),
-            body: RegionParser.graphQLRegions(json: json["body"], isRepostContent: repostContent.count > 0),
+            content: RegionParser.graphQLRegions(
+                json: json["content"],
+                isRepostContent: repostContent.count > 0
+            ),
+            body: RegionParser.graphQLRegions(
+                json: json["body"],
+                isRepostContent: repostContent.count > 0
+            ),
             repostContent: repostContent
-            )
+        )
 
         post.artistInviteId = json["artistInviteSubmission"]["artistInvite"]["id"].id
         post.viewsCount = json["postStats"]["viewsCount"].int

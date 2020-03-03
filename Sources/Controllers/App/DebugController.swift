@@ -171,12 +171,16 @@ class DebugController: UIViewController, UITableViewDataSource, UITableViewDeleg
 
         addAction(name: "Show Notification") {
             appController.closeDebugController {
-                PushNotificationController.shared.receivedNotification(UIApplication.shared, action: nil, userInfo: [
-                    "application_target": "notifications/posts/6178",
-                    "aps": [
-                        "alert": ["body": "Hello, Ello!"]
+                PushNotificationController.shared.receivedNotification(
+                    UIApplication.shared,
+                    action: nil,
+                    userInfo: [
+                        "application_target": "notifications/posts/6178",
+                        "aps": [
+                            "alert": ["body": "Hello, Ello!"]
+                        ]
                     ]
-                ])
+                )
             }
         }
 
@@ -240,7 +244,10 @@ class DebugController: UIViewController, UITableViewDataSource, UITableViewDeleg
 }
 
 extension DebugController: MFMessageComposeViewControllerDelegate {
-    func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
+    func messageComposeViewController(
+        _ controller: MFMessageComposeViewController,
+        didFinishWith result: MessageComposeResult
+    ) {
         guard let viewController = controller.presentingViewController else {
             self.retainer = nil
             return

@@ -11,7 +11,12 @@ extension StreamCellItemParser {
         var retItems = [StreamCellItem]()
         for item in items {
             if let post = item as? Post {
-                retItems += testingPostCellItems(post, streamKind: .following, isGridView: false, currentUser: currentUser)
+                retItems += testingPostCellItems(
+                    post,
+                    streamKind: .following,
+                    isGridView: false,
+                    currentUser: currentUser
+                )
             }
             else if let comment = item as? ElloComment {
                 retItems += testingCommentCellItems(comment)

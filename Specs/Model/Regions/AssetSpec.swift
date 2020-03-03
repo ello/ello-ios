@@ -31,7 +31,7 @@ class AssetSpec: QuickSpec {
 
                 it("returns correct aspect ratio when no attachments available") {
                     let asset: Asset = stub([:])
-                    expect(asset.aspectRatio) == 4.0/3.0
+                    expect(asset.aspectRatio) == 4.0 / 3.0
                 }
             }
 

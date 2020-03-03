@@ -52,7 +52,8 @@ class SearchNavBarField: UITextField {
             string: InterfaceString.Search.Prompt,
             attributes: [
                 .foregroundColor: UIColor.greyA
-            ])
+            ]
+        )
 
         leftViewMode = .always
         leftView = UIImageView(image: InterfaceImage.searchField.normalImage)

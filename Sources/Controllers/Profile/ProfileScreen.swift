@@ -127,12 +127,20 @@ class ProfileScreen: StreamableScreen, ProfileScreenProtocol {
 
     override func bindActions() {
         mentionButton.addTarget(self, action: #selector(mentionTapped(_:)), for: .touchUpInside)
-        collaborateButton.addTarget(self, action: #selector(collaborateTapped(_:)), for: .touchUpInside)
+        collaborateButton.addTarget(
+            self,
+            action: #selector(collaborateTapped(_:)),
+            for: .touchUpInside
+        )
         roleAdminButton.addTarget(self, action: #selector(roleAdminTapped(_:)), for: .touchUpInside)
         hireButton.addTarget(self, action: #selector(hireTapped(_:)), for: .touchUpInside)
         editButton.addTarget(self, action: #selector(editTapped(_:)), for: .touchUpInside)
         inviteButton.addTarget(self, action: #selector(inviteTapped(_:)), for: .touchUpInside)
-        persistentBackButton.addTarget(navigationBar, action: #selector(ElloNavigationBar.backButtonTapped), for: .touchUpInside)
+        persistentBackButton.addTarget(
+            navigationBar,
+            action: #selector(ElloNavigationBar.backButtonTapped),
+            for: .touchUpInside
+        )
     }
 
     override func arrange() {
@@ -163,7 +171,9 @@ class ProfileScreen: StreamableScreen, ProfileScreenProtocol {
 
         coverImageView.snp.makeConstraints { make in
             coverImageHeight = make.height.equalTo(Size.whiteTopOffset).constraint
-            make.width.equalTo(coverImageView.snp.height).multipliedBy(ProfileHeaderAvatarCell.Size.ratio)
+            make.width.equalTo(coverImageView.snp.height).multipliedBy(
+                ProfileHeaderAvatarCell.Size.ratio
+            )
             make.top.equalTo(streamContainer.snp.top)
             make.centerX.equalTo(self)
         }
@@ -177,12 +187,19 @@ class ProfileScreen: StreamableScreen, ProfileScreenProtocol {
             profileButtonsContainerTopConstraint = make.top.equalTo(self).constraint
             make.centerX.equalTo(self)
             make.width.equalTo(self)
-            profileButtonsContainerHeightConstraint = make.height.equalTo(Size.profileButtonsContainerViewHeight).constraint
+            profileButtonsContainerHeightConstraint =
+                make.height.equalTo(Size.profileButtonsContainerViewHeight).constraint
         }
 
         profileButtonsLeadingGuide.snp.makeConstraints { make in
-            showBackButtonConstraint = make.leading.trailing.equalTo(persistentBackButton.snp.trailing).offset(Size.buttonMargin).constraint
-            hideBackButtonConstraint = make.leading.trailing.equalTo(profileButtonsContainer.snp.leading).offset(Size.buttonMargin).constraint
+            showBackButtonConstraint =
+                make.leading.trailing.equalTo(persistentBackButton.snp.trailing).offset(
+                    Size.buttonMargin
+                ).constraint
+            hideBackButtonConstraint =
+                make.leading.trailing.equalTo(profileButtonsContainer.snp.leading).offset(
+                    Size.buttonMargin
+                ).constraint
         }
         showBackButtonConstraint.deactivate()
 
@@ -202,8 +219,11 @@ class ProfileScreen: StreamableScreen, ProfileScreenProtocol {
         addLayoutGuide(buttonLeadingGuide)
 
         buttonLeadingGuide.snp.makeConstraints { make in
-            roleAdminHiddenConstraint = make.leading.equalTo(profileButtonsLeadingGuide.snp.trailing).constraint
-            roleAdminVisibleConstraint = make.leading.equalTo(roleAdminButton.snp.trailing).offset(Size.buttonMargin).constraint
+            roleAdminHiddenConstraint =
+                make.leading.equalTo(profileButtonsLeadingGuide.snp.trailing).constraint
+            roleAdminVisibleConstraint =
+                make.leading.equalTo(roleAdminButton.snp.trailing).offset(Size.buttonMargin)
+                .constraint
         }
         roleAdminHiddenConstraint.deactivate()
 
@@ -225,7 +245,9 @@ class ProfileScreen: StreamableScreen, ProfileScreenProtocol {
         hireButton.snp.makeConstraints { make in
             make.height.equalTo(Size.buttonHeight)
             hireLeftConstraint = make.leading.equalTo(buttonLeadingGuide).constraint
-            hireRightConstraint = make.leading.equalTo(collaborateButton.snp.trailing).offset(Size.innerButtonMargin).constraint
+            hireRightConstraint =
+                make.leading.equalTo(collaborateButton.snp.trailing).offset(Size.innerButtonMargin)
+                .constraint
             make.top.equalTo(mentionButton)
             make.width.equalTo(Size.buttonWidth).priority(Priority.required)
         }
@@ -242,12 +264,25 @@ class ProfileScreen: StreamableScreen, ProfileScreenProtocol {
 
         relationshipControl.snp.makeConstraints { make in
             make.height.equalTo(Size.buttonHeight)
-            make.width.lessThanOrEqualTo(Size.relationshipButtonMaxWidth).priority(Priority.required)
-            relationshipHireConstraint = make.leading.equalTo(hireButton.snp.trailing).offset(Size.relationshipControlLeadingMargin).priority(Priority.medium).constraint
-            relationshipCollabConstraint = make.leading.equalTo(collaborateButton.snp.trailing).offset(Size.relationshipControlLeadingMargin).priority(Priority.medium).constraint
-            relationshipMentionConstraint = make.leading.equalTo(mentionButton.snp.trailing).offset(Size.relationshipControlLeadingMargin).priority(Priority.medium).constraint
+            make.width.lessThanOrEqualTo(Size.relationshipButtonMaxWidth).priority(
+                Priority.required
+            )
+            relationshipHireConstraint =
+                make.leading.equalTo(hireButton.snp.trailing).offset(
+                    Size.relationshipControlLeadingMargin
+                ).priority(Priority.medium).constraint
+            relationshipCollabConstraint =
+                make.leading.equalTo(collaborateButton.snp.trailing).offset(
+                    Size.relationshipControlLeadingMargin
+                ).priority(Priority.medium).constraint
+            relationshipMentionConstraint =
+                make.leading.equalTo(mentionButton.snp.trailing).offset(
+                    Size.relationshipControlLeadingMargin
+                ).priority(Priority.medium).constraint
             make.bottom.equalTo(profileButtonsContainer).offset(-Size.buttonMargin)
-            make.trailing.equalTo(profileButtonsContainer).offset(-Size.buttonMargin).priority(Priority.required)
+            make.trailing.equalTo(profileButtonsContainer).offset(-Size.buttonMargin).priority(
+                Priority.required
+            )
         }
         relationshipHireConstraint.deactivate()
         relationshipCollabConstraint.deactivate()
@@ -367,7 +402,10 @@ class ProfileScreen: StreamableScreen, ProfileScreenProtocol {
         relationshipControl.relationshipPriority = relationshipPriority
     }
 
-    func updateHeaderHeightConstraints(max maxHeaderHeight: CGFloat, scrollAdjusted scrollAdjustedHeight: CGFloat) {
+    func updateHeaderHeightConstraints(
+        max maxHeaderHeight: CGFloat,
+        scrollAdjusted scrollAdjustedHeight: CGFloat
+    ) {
         coverImageHeight.update(offset: maxHeaderHeight)
         whiteSolidTop.update(offset: max(scrollAdjustedHeight, 0))
     }
@@ -398,7 +436,9 @@ class ProfileScreen: StreamableScreen, ProfileScreenProtocol {
             }
             else {
                 effectsTop = 0
-                effectsHeight = Globals.isIphoneX ? Size.profileButtonsContainerTallHeight : Size.profileButtonsContainerViewHeight
+                effectsHeight = Globals.isIphoneX
+                    ? Size.profileButtonsContainerTallHeight
+                    : Size.profileButtonsContainerViewHeight
             }
 
             self.updateNavBars(effectsTop: effectsTop, effectsHeight: effectsHeight)
@@ -415,7 +455,10 @@ class ProfileScreen: StreamableScreen, ProfileScreenProtocol {
         profileButtonsContainerHeightConstraint.update(offset: effectsHeight)
         profileButtonsEffect.frame.size.height = effectsHeight
 
-        [relationshipControl, roleAdminButton, collaborateButton, hireButton, mentionButton, inviteButton, editButton].forEach { button in
+        [
+            relationshipControl, roleAdminButton, collaborateButton, hireButton, mentionButton,
+            inviteButton, editButton
+        ].forEach { button in
             button.frame.origin.y = buttonTop
         }
     }

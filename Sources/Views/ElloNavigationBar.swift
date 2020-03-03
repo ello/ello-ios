@@ -147,7 +147,7 @@ class ElloNavigationBar: UIView {
     }
     private var defaultTitle: String? {
         guard
-            let controller: UIViewController = findResponder()
+            let controller:UIViewController = findResponder()
         else { return nil }
         return controller.title
     }
@@ -155,13 +155,25 @@ class ElloNavigationBar: UIView {
     private let navigationContainer = Container()
 
     var leftItems: [Item] = [] {
-        didSet { leftButtons = updateButtons(buttons: leftButtons, items: leftItems, container: leftButtonContainer) }
+        didSet {
+            leftButtons = updateButtons(
+                buttons: leftButtons,
+                items: leftItems,
+                container: leftButtonContainer
+            )
+        }
     }
     private var leftButtonContainer = Container()
     private var leftButtons: [UIButton] = []
 
     var rightItems: [Item] = [] {
-        didSet { rightButtons = updateButtons(buttons: rightButtons, items: rightItems, container: rightButtonContainer) }
+        didSet {
+            rightButtons = updateButtons(
+                buttons: rightButtons,
+                items: rightItems,
+                container: rightButtonContainer
+            )
+        }
     }
     private var rightButtonContainer = Container()
     private var rightButtons: [UIButton] = []
@@ -201,7 +213,7 @@ class ElloNavigationBar: UIView {
                 persistentBackButton.removeFromSuperview()
             }
 
-            if let superview: ArrangeNavBackButton = findResponder() {
+            if let superview:ArrangeNavBackButton = findResponder() {
                 superview.arrangeNavBackButton(persistentBackButton)
             }
             else if let superview = superview {
@@ -232,7 +244,11 @@ class ElloNavigationBar: UIView {
         titleLabel.lineBreakMode = .byTruncatingTail
 
         persistentBackButton.isHidden = true
-        persistentBackButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
+        persistentBackButton.addTarget(
+            self,
+            action: #selector(backButtonTapped),
+            for: .touchUpInside
+        )
 
         addSubview(titleLabel)
         addSubview(statusBar)
@@ -242,8 +258,12 @@ class ElloNavigationBar: UIView {
 
         titleLabel.snp.makeConstraints { make in
             make.center.equalTo(navigationContainer)
-            make.leading.greaterThanOrEqualTo(leftButtonContainer.snp.trailing).priority(Priority.required)
-            make.trailing.lessThanOrEqualTo(rightButtonContainer.snp.leading).priority(Priority.required)
+            make.leading.greaterThanOrEqualTo(leftButtonContainer.snp.trailing).priority(
+                Priority.required
+            )
+            make.trailing.lessThanOrEqualTo(rightButtonContainer.snp.leading).priority(
+                Priority.required
+            )
         }
 
         statusBar.snp.makeConstraints { make in
@@ -272,12 +292,16 @@ class ElloNavigationBar: UIView {
         return CGSize(width: UIView.noIntrinsicMetric, height: sizeClass.height)
     }
 
-    private func updateButtons(buttons oldButtons: [UIButton], items: [Item], container: UIView) -> [UIButton] {
+    private func updateButtons(buttons oldButtons: [UIButton], items: [Item], container: UIView)
+        -> [UIButton]
+    {
         for button in oldButtons {
             button.removeFromSuperview()
         }
 
-        let newButtons = items.map { $0.generateButton(target: self, action: #selector(tappedButton(_:)))}
+        let newButtons = items.map {
+            $0.generateButton(target: self, action: #selector(tappedButton(_:)))
+        }
         newButtons.eachPair { prevButton, button, isLast in
             container.addSubview(button)
 

@@ -30,17 +30,21 @@ class NotificationAttributedTitleSpec: QuickSpec {
                     (.loveOnOriginalPostNotification, post, "@ello loved a repost of your post."),
                     (.watchNotification, post, "@ello is watching your post."),
                     (.watchOnRepostNotification, post, "@ello is watching your repost."),
-                    (.watchOnOriginalPostNotification, post, "@ello is watching a repost of your post."),
+                    (
+                        .watchOnOriginalPostNotification, post,
+                        "@ello is watching a repost of your post."
+                    ),
                 ]
                 for (activityKind, subject, string) in expectations {
                     it("supports \(activityKind)") {
                         let activity: Activity = stub([
                             "kind": activityKind,
                             "subject": subject,
-                            ])
+                        ])
                         let notification = Notification(activity: activity)
                         notification.author = user
-                        expect(NotificationAttributedTitle.from(notification: notification).string) == string
+                        expect(NotificationAttributedTitle.from(notification: notification).string)
+                            == string
                     }
                 }
             }

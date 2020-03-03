@@ -43,7 +43,8 @@ final class Category: Model {
         return level == .primary || level == .secondary
     }
 
-    init(id: String,
+    init(
+        id: String,
         name: String,
         slug: String,
         description: String?,
@@ -52,8 +53,7 @@ final class Category: Model {
         isCreatorType: Bool,
         level: CategoryLevel,
         tileImage: Attachment?
-        )
-    {
+    ) {
         self.id = id
         self.name = name
         self.slug = slug
@@ -115,7 +115,9 @@ final class Category: Model {
     class func fromJSON(_ data: [String: Any]) -> Category {
         let json = JSON(data)
         let level: CategoryLevel = CategoryLevel(rawValue: json["level"].stringValue) ?? .unknown
-        let tileImage = (json["tile_image"]["large"].object as? [String: Any]).map { Attachment.fromJSON($0) }
+        let tileImage = (json["tile_image"]["large"].object as? [String: Any]).map {
+            Attachment.fromJSON($0)
+        }
 
         let category = Category(
             id: json["id"].idValue,
@@ -127,7 +129,7 @@ final class Category: Model {
             isCreatorType: json["is_creator_type"].bool ?? true,
             level: level,
             tileImage: tileImage
-            )
+        )
 
         category.mergeLinks(data["links"] as? [String: Any])
 

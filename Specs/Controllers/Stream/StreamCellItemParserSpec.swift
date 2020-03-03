@@ -23,24 +23,48 @@ class StreamCellItemParserSpec: QuickSpec {
                         let user: User = stub([
                             "badges": ["featured"],
                             "totalViewsCount": 0
-                            ])
+                        ])
                         let items = subject.userProfileItems(user)
-                        expect(items.any { $0.type == .profileHeaderAvatar }).to(be(true), description: "has .profileHeaderAvatar")
-                        expect(items.any { $0.type == .profileHeaderName }).to(be(true), description: "has .profileHeaderName")
-                        expect(items.any { $0.type == .profileHeaderStats }).to(be(true), description: "has .profileHeaderStats")
-                        expect(items.any { $0.type == .profileHeaderTotalAndBadges }).to(be(true), description: "has .profileHeaderTotalAndBadges")
+                        expect(items.any { $0.type == .profileHeaderAvatar }).to(
+                            be(true),
+                            description: "has .profileHeaderAvatar"
+                        )
+                        expect(items.any { $0.type == .profileHeaderName }).to(
+                            be(true),
+                            description: "has .profileHeaderName"
+                        )
+                        expect(items.any { $0.type == .profileHeaderStats }).to(
+                            be(true),
+                            description: "has .profileHeaderStats"
+                        )
+                        expect(items.any { $0.type == .profileHeaderTotalAndBadges }).to(
+                            be(true),
+                            description: "has .profileHeaderTotalAndBadges"
+                        )
                     }
 
                     it("when badges count is zero and total count is gt zero") {
                         let user: User = stub([
                             "badges": [String](),
                             "totalViewsCount": 1
-                            ])
+                        ])
                         let items = subject.userProfileItems(user)
-                        expect(items.any { $0.type == .profileHeaderAvatar }).to(be(true), description: "has .profileHeaderAvatar")
-                        expect(items.any { $0.type == .profileHeaderName }).to(be(true), description: "has .profileHeaderName")
-                        expect(items.any { $0.type == .profileHeaderStats }).to(be(true), description: "has .profileHeaderStats")
-                        expect(items.any { $0.type == .profileHeaderTotalAndBadges }).to(be(true), description: "has .profileHeaderTotalAndBadges")
+                        expect(items.any { $0.type == .profileHeaderAvatar }).to(
+                            be(true),
+                            description: "has .profileHeaderAvatar"
+                        )
+                        expect(items.any { $0.type == .profileHeaderName }).to(
+                            be(true),
+                            description: "has .profileHeaderName"
+                        )
+                        expect(items.any { $0.type == .profileHeaderStats }).to(
+                            be(true),
+                            description: "has .profileHeaderStats"
+                        )
+                        expect(items.any { $0.type == .profileHeaderTotalAndBadges }).to(
+                            be(true),
+                            description: "has .profileHeaderTotalAndBadges"
+                        )
                     }
                 }
 
@@ -49,12 +73,24 @@ class StreamCellItemParserSpec: QuickSpec {
                         let user: User = stub([
                             "badges": [String](),
                             "totalViewsCount": 0
-                            ])
+                        ])
                         let items = subject.userProfileItems(user)
-                        expect(items.any { $0.type == .profileHeaderAvatar }).to(be(true), description: "has .profileHeaderAvatar")
-                        expect(items.any { $0.type == .profileHeaderName }).to(be(true), description: "has .profileHeaderName")
-                        expect(items.any { $0.type == .profileHeaderStats }).to(be(true), description: "has .profileHeaderStats")
-                        expect(items.all { $0.type != .profileHeaderTotalAndBadges }).to(be(true), description: "does not have .profileHeaderTotalAndBadges")
+                        expect(items.any { $0.type == .profileHeaderAvatar }).to(
+                            be(true),
+                            description: "has .profileHeaderAvatar"
+                        )
+                        expect(items.any { $0.type == .profileHeaderName }).to(
+                            be(true),
+                            description: "has .profileHeaderName"
+                        )
+                        expect(items.any { $0.type == .profileHeaderStats }).to(
+                            be(true),
+                            description: "has .profileHeaderStats"
+                        )
+                        expect(items.all { $0.type != .profileHeaderTotalAndBadges }).to(
+                            be(true),
+                            description: "does not have .profileHeaderTotalAndBadges"
+                        )
                     }
                 }
 
@@ -62,12 +98,24 @@ class StreamCellItemParserSpec: QuickSpec {
                     it("when bio is not empty") {
                         let user: User = stub([
                             "formattedShortBio": "not empty",
-                            ])
+                        ])
                         let items = subject.userProfileItems(user)
-                        expect(items.any { $0.type == .profileHeaderAvatar }).to(be(true), description: "has .profileHeaderAvatar")
-                        expect(items.any { $0.type == .profileHeaderName }).to(be(true), description: "has .profileHeaderName")
-                        expect(items.any { $0.type == .profileHeaderStats }).to(be(true), description: "has .profileHeaderStats")
-                        expect(items.any { $0.type == .profileHeaderBio }).to(be(true), description: "has .profileHeaderBio")
+                        expect(items.any { $0.type == .profileHeaderAvatar }).to(
+                            be(true),
+                            description: "has .profileHeaderAvatar"
+                        )
+                        expect(items.any { $0.type == .profileHeaderName }).to(
+                            be(true),
+                            description: "has .profileHeaderName"
+                        )
+                        expect(items.any { $0.type == .profileHeaderStats }).to(
+                            be(true),
+                            description: "has .profileHeaderStats"
+                        )
+                        expect(items.any { $0.type == .profileHeaderBio }).to(
+                            be(true),
+                            description: "has .profileHeaderBio"
+                        )
                     }
                 }
 
@@ -75,21 +123,45 @@ class StreamCellItemParserSpec: QuickSpec {
                     it("when bio is empty") {
                         let user: User = stub([
                             "formattedShortBio": "",
-                            ])
+                        ])
                         let items = subject.userProfileItems(user)
-                        expect(items.any { $0.type == .profileHeaderAvatar }).to(be(true), description: "has .profileHeaderAvatar")
-                        expect(items.any { $0.type == .profileHeaderName }).to(be(true), description: "has .profileHeaderName")
-                        expect(items.any { $0.type == .profileHeaderStats }).to(be(true), description: "has .profileHeaderStats")
-                        expect(items.all { $0.type != .profileHeaderBio }).to(be(true), description: "does not have .profileHeaderBio")
+                        expect(items.any { $0.type == .profileHeaderAvatar }).to(
+                            be(true),
+                            description: "has .profileHeaderAvatar"
+                        )
+                        expect(items.any { $0.type == .profileHeaderName }).to(
+                            be(true),
+                            description: "has .profileHeaderName"
+                        )
+                        expect(items.any { $0.type == .profileHeaderStats }).to(
+                            be(true),
+                            description: "has .profileHeaderStats"
+                        )
+                        expect(items.all { $0.type != .profileHeaderBio }).to(
+                            be(true),
+                            description: "does not have .profileHeaderBio"
+                        )
                     }
 
                     it("when bio is nil") {
                         let user: User = stub([:])
                         let items = subject.userProfileItems(user)
-                        expect(items.any { $0.type == .profileHeaderAvatar }).to(be(true), description: "has .profileHeaderAvatar")
-                        expect(items.any { $0.type == .profileHeaderName }).to(be(true), description: "has .profileHeaderName")
-                        expect(items.any { $0.type == .profileHeaderStats }).to(be(true), description: "has .profileHeaderStats")
-                        expect(items.all { $0.type != .profileHeaderBio }).to(be(true), description: "does not have .profileHeaderBio")
+                        expect(items.any { $0.type == .profileHeaderAvatar }).to(
+                            be(true),
+                            description: "has .profileHeaderAvatar"
+                        )
+                        expect(items.any { $0.type == .profileHeaderName }).to(
+                            be(true),
+                            description: "has .profileHeaderName"
+                        )
+                        expect(items.any { $0.type == .profileHeaderStats }).to(
+                            be(true),
+                            description: "has .profileHeaderStats"
+                        )
+                        expect(items.all { $0.type != .profileHeaderBio }).to(
+                            be(true),
+                            description: "does not have .profileHeaderBio"
+                        )
                     }
                 }
 
@@ -97,12 +169,24 @@ class StreamCellItemParserSpec: QuickSpec {
                     it("when location is not empty") {
                         let user: User = stub([
                             "location": "not empty",
-                            ])
+                        ])
                         let items = subject.userProfileItems(user)
-                        expect(items.any { $0.type == .profileHeaderAvatar }).to(be(true), description: "has .profileHeaderAvatar")
-                        expect(items.any { $0.type == .profileHeaderName }).to(be(true), description: "has .profileHeaderName")
-                        expect(items.any { $0.type == .profileHeaderStats }).to(be(true), description: "has .profileHeaderStats")
-                        expect(items.any { $0.type == .profileHeaderLocation }).to(be(true), description: "has .profileHeaderLocation")
+                        expect(items.any { $0.type == .profileHeaderAvatar }).to(
+                            be(true),
+                            description: "has .profileHeaderAvatar"
+                        )
+                        expect(items.any { $0.type == .profileHeaderName }).to(
+                            be(true),
+                            description: "has .profileHeaderName"
+                        )
+                        expect(items.any { $0.type == .profileHeaderStats }).to(
+                            be(true),
+                            description: "has .profileHeaderStats"
+                        )
+                        expect(items.any { $0.type == .profileHeaderLocation }).to(
+                            be(true),
+                            description: "has .profileHeaderLocation"
+                        )
                     }
                 }
 
@@ -110,21 +194,45 @@ class StreamCellItemParserSpec: QuickSpec {
                     it("when location is empty") {
                         let user: User = stub([
                             "location": "",
-                            ])
+                        ])
                         let items = subject.userProfileItems(user)
-                        expect(items.any { $0.type == .profileHeaderAvatar }).to(be(true), description: "has .profileHeaderAvatar")
-                        expect(items.any { $0.type == .profileHeaderName }).to(be(true), description: "has .profileHeaderName")
-                        expect(items.any { $0.type == .profileHeaderStats }).to(be(true), description: "has .profileHeaderStats")
-                        expect(items.all { $0.type != .profileHeaderLocation }).to(be(true), description: "does not have .profileHeaderLocation")
+                        expect(items.any { $0.type == .profileHeaderAvatar }).to(
+                            be(true),
+                            description: "has .profileHeaderAvatar"
+                        )
+                        expect(items.any { $0.type == .profileHeaderName }).to(
+                            be(true),
+                            description: "has .profileHeaderName"
+                        )
+                        expect(items.any { $0.type == .profileHeaderStats }).to(
+                            be(true),
+                            description: "has .profileHeaderStats"
+                        )
+                        expect(items.all { $0.type != .profileHeaderLocation }).to(
+                            be(true),
+                            description: "does not have .profileHeaderLocation"
+                        )
                     }
 
                     it("when location is nil") {
                         let user: User = stub([:])
                         let items = subject.userProfileItems(user)
-                        expect(items.any { $0.type == .profileHeaderAvatar }).to(be(true), description: "has .profileHeaderAvatar")
-                        expect(items.any { $0.type == .profileHeaderName }).to(be(true), description: "has .profileHeaderName")
-                        expect(items.any { $0.type == .profileHeaderStats }).to(be(true), description: "has .profileHeaderStats")
-                        expect(items.all { $0.type != .profileHeaderLocation }).to(be(true), description: "does not have .profileHeaderLocation")
+                        expect(items.any { $0.type == .profileHeaderAvatar }).to(
+                            be(true),
+                            description: "has .profileHeaderAvatar"
+                        )
+                        expect(items.any { $0.type == .profileHeaderName }).to(
+                            be(true),
+                            description: "has .profileHeaderName"
+                        )
+                        expect(items.any { $0.type == .profileHeaderStats }).to(
+                            be(true),
+                            description: "has .profileHeaderStats"
+                        )
+                        expect(items.all { $0.type != .profileHeaderLocation }).to(
+                            be(true),
+                            description: "does not have .profileHeaderLocation"
+                        )
                     }
                 }
 
@@ -132,12 +240,24 @@ class StreamCellItemParserSpec: QuickSpec {
                     it("when links is not empty") {
                         let user: User = stub([
                             "externalLinksList": ["http://not.empty"],
-                            ])
+                        ])
                         let items = subject.userProfileItems(user)
-                        expect(items.any { $0.type == .profileHeaderAvatar }).to(be(true), description: "has .profileHeaderAvatar")
-                        expect(items.any { $0.type == .profileHeaderName }).to(be(true), description: "has .profileHeaderName")
-                        expect(items.any { $0.type == .profileHeaderStats }).to(be(true), description: "has .profileHeaderStats")
-                        expect(items.any { $0.type == .profileHeaderLinks }).to(be(true), description: "has .profileHeaderLinks")
+                        expect(items.any { $0.type == .profileHeaderAvatar }).to(
+                            be(true),
+                            description: "has .profileHeaderAvatar"
+                        )
+                        expect(items.any { $0.type == .profileHeaderName }).to(
+                            be(true),
+                            description: "has .profileHeaderName"
+                        )
+                        expect(items.any { $0.type == .profileHeaderStats }).to(
+                            be(true),
+                            description: "has .profileHeaderStats"
+                        )
+                        expect(items.any { $0.type == .profileHeaderLinks }).to(
+                            be(true),
+                            description: "has .profileHeaderLinks"
+                        )
                     }
                 }
 
@@ -145,21 +265,45 @@ class StreamCellItemParserSpec: QuickSpec {
                     it("when links is empty") {
                         let user: User = stub([
                             "externalLinksList": [String](),
-                            ])
+                        ])
                         let items = subject.userProfileItems(user)
-                        expect(items.any { $0.type == .profileHeaderAvatar }).to(be(true), description: "has .profileHeaderAvatar")
-                        expect(items.any { $0.type == .profileHeaderName }).to(be(true), description: "has .profileHeaderName")
-                        expect(items.any { $0.type == .profileHeaderStats }).to(be(true), description: "has .profileHeaderStats")
-                        expect(items.all { $0.type != .profileHeaderLinks }).to(be(true), description: "does not have .profileHeaderLinks")
+                        expect(items.any { $0.type == .profileHeaderAvatar }).to(
+                            be(true),
+                            description: "has .profileHeaderAvatar"
+                        )
+                        expect(items.any { $0.type == .profileHeaderName }).to(
+                            be(true),
+                            description: "has .profileHeaderName"
+                        )
+                        expect(items.any { $0.type == .profileHeaderStats }).to(
+                            be(true),
+                            description: "has .profileHeaderStats"
+                        )
+                        expect(items.all { $0.type != .profileHeaderLinks }).to(
+                            be(true),
+                            description: "does not have .profileHeaderLinks"
+                        )
                     }
 
                     it("when links is nil") {
                         let user: User = stub([:])
                         let items = subject.userProfileItems(user)
-                        expect(items.any { $0.type == .profileHeaderAvatar }).to(be(true), description: "has .profileHeaderAvatar")
-                        expect(items.any { $0.type == .profileHeaderName }).to(be(true), description: "has .profileHeaderName")
-                        expect(items.any { $0.type == .profileHeaderStats }).to(be(true), description: "has .profileHeaderStats")
-                        expect(items.all { $0.type != .profileHeaderLinks }).to(be(true), description: "does not have .profileHeaderLinks")
+                        expect(items.any { $0.type == .profileHeaderAvatar }).to(
+                            be(true),
+                            description: "has .profileHeaderAvatar"
+                        )
+                        expect(items.any { $0.type == .profileHeaderName }).to(
+                            be(true),
+                            description: "has .profileHeaderName"
+                        )
+                        expect(items.any { $0.type == .profileHeaderStats }).to(
+                            be(true),
+                            description: "has .profileHeaderStats"
+                        )
+                        expect(items.all { $0.type != .profileHeaderLinks }).to(
+                            be(true),
+                            description: "does not have .profileHeaderLinks"
+                        )
                     }
                 }
             }
@@ -167,15 +311,17 @@ class StreamCellItemParserSpec: QuickSpec {
             describe("parse(_, streamKind:)") {
 
                 it("sets collapsed and non collapsed state") {
-                    let posts: [Post] = (1 ... 10).map { index in
+                    let posts: [Post] = (1...10).map { index in
                         return Post.stub([
                             "contentWarning": index % 2 == 0 ? "" : "NSFW",
-                            ])
+                        ])
                     }
 
                     let cellItems = StreamCellItemParser().parse(posts, streamKind: .following)
                     for item in cellItems {
-                        guard let post = item.jsonable as? Post else { fail("this should be a post") ; break }
+                        guard let post = item.jsonable as? Post else {
+                            fail("this should be a post"); break
+                        }
 
                         if item.type == .streamFooter {
                             expect(item.state) == StreamCellState.none
@@ -203,7 +349,7 @@ class StreamCellItemParserSpec: QuickSpec {
                                 "content": [TextRegion](),
                                 "repostContent": [TextRegion.stub(["content": "<p>repost</p>"])],
                                 "summary": [TextRegion.stub(["content": "<p>repost summary</p>"])],
-                                ]),
+                            ]),
                         ]
                     }
 
@@ -255,7 +401,10 @@ class StreamCellItemParserSpec: QuickSpec {
                     }
 
                     it("doesn't include user's own post headers on a profile stream") {
-                        let cellItems = subject.parse(twoPosts, streamKind: .userStream(userParam: "42"))
+                        let cellItems = subject.parse(
+                            twoPosts,
+                            streamKind: .userStream(userParam: "42")
+                        )
                         let header = cellItems.find { $0.type == .streamHeader }
                         expect(header).to(beNil())
                     }
@@ -263,15 +412,23 @@ class StreamCellItemParserSpec: QuickSpec {
 
                 it("returns an empty array if an empty array of Activities is passed in") {
                     let notifications: [Ello.Notification] = []
-                    expect(subject.parse(notifications, streamKind: .notifications(category: nil)).count) == 0
+                    expect(
+                        subject.parse(notifications, streamKind: .notifications(category: nil))
+                            .count
+                    ) == 0
                 }
 
-                it("returns an array with the proper count of stream cell items when parsing friends.json's activities") {
+                it(
+                    "returns an array with the proper count of stream cell items when parsing friends.json's activities"
+                ) {
                     var loadedNotifications = [StreamCellItem]()
                     StreamService().loadStream(endpoint: .notificationsStream(category: nil))
                         .done { response in
                             if case let .jsonables(jsonables, _) = response {
-                                loadedNotifications = subject.parse(jsonables, streamKind: .notifications(category: nil))
+                                loadedNotifications = subject.parse(
+                                    jsonables,
+                                    streamKind: .notifications(category: nil)
+                                )
                             }
                         }
                         .catch { _ in }
@@ -312,11 +469,13 @@ class StreamCellItemParserSpec: QuickSpec {
                     let content = "<p>text</p>"
                     let region = TextRegion.stub([
                         "content": content
-                        ])
+                    ])
                     let streamCellTypes = subject.regionStreamCells(region)
                     expect(streamCellTypes.count) == 1
                     if let streamCellType = streamCellTypes.first {
-                        if case let .text(data) = streamCellType, let textRegion = data as? TextRegion {
+                        if case let .text(data) = streamCellType,
+                            let textRegion = data as? TextRegion
+                        {
                             expect(textRegion.content) == content
                         }
                         else {
@@ -330,17 +489,21 @@ class StreamCellItemParserSpec: QuickSpec {
                     let content2 = "<p>text2</p>"
                     let region = TextRegion.stub([
                         "content": content1 + content2
-                        ])
+                    ])
                     let streamCellTypes = subject.regionStreamCells(region)
                     expect(streamCellTypes.count) == 2
-                    if case let .text(data) = streamCellTypes[0], let textRegion = data as? TextRegion {
+                    if case let .text(data) = streamCellTypes[0],
+                        let textRegion = data as? TextRegion
+                    {
                         expect(textRegion.content) == content1
                     }
                     else {
                         fail("wrong cell type \(streamCellTypes[0])")
                     }
 
-                    if case let .text(data) = streamCellTypes[1], let textRegion = data as? TextRegion {
+                    if case let .text(data) = streamCellTypes[1],
+                        let textRegion = data as? TextRegion
+                    {
                         expect(textRegion.content) == content2
                     }
                     else {
@@ -353,10 +516,12 @@ class StreamCellItemParserSpec: QuickSpec {
                     let content2 = "text2"
                     let region = TextRegion.stub([
                         "content": "<p>\(content1)<br>\(content2)</p>"
-                        ])
+                    ])
                     let streamCellTypes = subject.regionStreamCells(region)
                     expect(streamCellTypes.count) == 1
-                    if case let .text(data) = streamCellTypes[0], let textRegion = data as? TextRegion {
+                    if case let .text(data) = streamCellTypes[0],
+                        let textRegion = data as? TextRegion
+                    {
                         expect(textRegion.content) == region.content
                     }
                     else {
@@ -367,10 +532,12 @@ class StreamCellItemParserSpec: QuickSpec {
                 it("should truncate ridiculous text") {
                     let region = TextRegion.stub([
                         "content": "<p>" + String(repeating: "a", count: 8000) + "</p>"
-                        ])
+                    ])
                     let streamCellTypes = subject.regionStreamCells(region)
                     expect(streamCellTypes.count) == 1
-                    if case let .text(data) = streamCellTypes[0], let textRegion = data as? TextRegion {
+                    if case let .text(data) = streamCellTypes[0],
+                        let textRegion = data as? TextRegion
+                    {
                         expect(textRegion.content).to(beginWith("<p>aaaaa"))
                         expect(textRegion.content).to(endWith("&hellip;</p>"))
                     }

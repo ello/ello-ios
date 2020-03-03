@@ -5,7 +5,7 @@
 extension UIView {
     var isVisible: Bool {
         get { return !isHidden }
-        set { isHidden = !newValue}
+        set { isHidden = !newValue }
     }
 
     var firstResponder: UIView? {
@@ -32,7 +32,7 @@ extension UIView {
         }
 
         for subview in subviews {
-            guard let subview: T = subview.findSubview(test) else { continue }
+            guard let subview:T = subview.findSubview(test) else { continue }
             return subview
         }
 

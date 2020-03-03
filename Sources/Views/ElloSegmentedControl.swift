@@ -22,7 +22,7 @@ class ElloSegmentedControl: UISegmentedControl {
         }
     }
 
-    var style: ElloSegmentedControlStyle = .normal { didSet { updateStyle() }}
+    var style: ElloSegmentedControlStyle = .normal { didSet { updateStyle() } }
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -43,8 +43,16 @@ class ElloSegmentedControl: UISegmentedControl {
         ]
         setTitleTextAttributes(normalTitleTextAttributes, for: .normal)
         setTitleTextAttributes(selectedTitleTextAttributes, for: .selected)
-        setBackgroundImage(UIImage.imageWithColor(UIColor.white), for: .normal, barMetrics: .default)
-        setBackgroundImage(UIImage.imageWithColor(UIColor.black), for: .selected, barMetrics: .default)
+        setBackgroundImage(
+            UIImage.imageWithColor(UIColor.white),
+            for: .normal,
+            barMetrics: .default
+        )
+        setBackgroundImage(
+            UIImage.imageWithColor(UIColor.black),
+            for: .selected,
+            barMetrics: .default
+        )
     }
 
     override func layoutSubviews() {

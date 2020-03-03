@@ -48,7 +48,8 @@ class NotificationCell: UICollectionViewCell, UIWebViewDelegate {
         static let CreatedAtFixedHeight = CreatedAtHeight + InnerMargin
 
         static func messageHtmlWidth(forCellWidth cellWidth: CGFloat, hasImage: Bool) -> CGFloat {
-            let messageLeftMargin: CGFloat = SideMargins + AvatarButton.Size.smallSize.width + InnerMargin
+            let messageLeftMargin: CGFloat = SideMargins + AvatarButton.Size.smallSize.width
+                + InnerMargin
             var messageRightMargin: CGFloat = SideMargins
             if hasImage {
                 messageRightMargin += InnerMargin + ImageWidth
@@ -58,7 +59,9 @@ class NotificationCell: UICollectionViewCell, UIWebViewDelegate {
 
         static func imageHeight(imageRegion: ImageRegion?) -> CGFloat {
             if let imageRegion = imageRegion {
-                let aspectRatio = StreamImageCellSizeCalculator.aspectRatioForImageRegion(imageRegion)
+                let aspectRatio = StreamImageCellSizeCalculator.aspectRatioForImageRegion(
+                    imageRegion
+                )
                 return ceil(ImageWidth / aspectRatio)
             }
             else {
@@ -81,7 +84,7 @@ class NotificationCell: UICollectionViewCell, UIWebViewDelegate {
     let messageWebView = ElloWebView()
     let notificationImageView = PINAnimatedImageView()
     let separator = UIView()
-    var aspectRatio: CGFloat = 4/3
+    var aspectRatio: CGFloat = 4 / 3
 
     var canReplyToComment: Bool {
         set {
@@ -116,7 +119,10 @@ class NotificationCell: UICollectionViewCell, UIWebViewDelegate {
                 else {
                     messageWebView.isVisible = true
                 }
-                messageWebView.loadHTMLString(StreamTextCellHTML.postHTML(value), baseURL: URL(string: "/"))
+                messageWebView.loadHTMLString(
+                    StreamTextCellHTML.postHTML(value),
+                    baseURL: URL(string: "/")
+                )
                 _messageHtml = value
             }
             else {
@@ -142,7 +148,8 @@ class NotificationCell: UICollectionViewCell, UIWebViewDelegate {
                 if let imageSize = result.imageSize {
                     self.aspectRatio = imageSize.width / imageSize.height
                 }
-                let currentRatio = self.notificationImageView.frame.width / self.notificationImageView.frame.height
+                let currentRatio = self.notificationImageView.frame.width
+                    / self.notificationImageView.frame.height
                 if currentRatio != self.aspectRatio {
                     self.setNeedsLayout()
                 }
@@ -210,9 +217,11 @@ class NotificationCell: UICollectionViewCell, UIWebViewDelegate {
 
         separator.backgroundColor = .greyE5
 
-        for view in [avatarButton, titleTextView, messageWebView,
-                     notificationImageView, buyButtonImage, createdAtLabel,
-                     replyButton, relationshipControl, separator] {
+        for view in [
+            avatarButton, titleTextView, messageWebView,
+            notificationImageView, buyButtonImage, createdAtLabel,
+            replyButton, relationshipControl, separator
+        ] {
             self.contentView.addSubview(view)
         }
     }
@@ -243,7 +252,10 @@ class NotificationCell: UICollectionViewCell, UIWebViewDelegate {
     override func layoutSubviews() {
         super.layoutSubviews()
         let outerFrame = contentView.bounds.inset(all: Size.SideMargins)
-        let titleWidth = Size.messageHtmlWidth(forCellWidth: self.frame.width, hasImage: mode.hasImage)
+        let titleWidth = Size.messageHtmlWidth(
+            forCellWidth: self.frame.width,
+            hasImage: mode.hasImage
+        )
         separator.frame = contentView.bounds.fromBottom().grow(up: 1)
 
         avatarButton.frame = outerFrame.with(size: AvatarButton.Size.smallSize)
@@ -261,7 +273,9 @@ class NotificationCell: UICollectionViewCell, UIWebViewDelegate {
             .shift(right: Size.InnerMargin)
             .with(width: titleWidth)
 
-        let tvSize = titleTextView.sizeThatFits(CGSize(width: titleWidth, height: .greatestFiniteMagnitude))
+        let tvSize = titleTextView.sizeThatFits(
+            CGSize(width: titleWidth, height: .greatestFiniteMagnitude)
+        )
         titleTextView.frame.size.height = ceil(tvSize.height)
 
         var createdAtY = titleTextView.frame.maxY + Size.InnerMargin
@@ -279,7 +293,7 @@ class NotificationCell: UICollectionViewCell, UIWebViewDelegate {
             y: createdAtY,
             width: titleWidth,
             height: Size.CreatedAtHeight
-            )
+        )
 
         let replyButtonWidth = replyButton.intrinsicContentSize.width
         replyButton.frame = CGRect(
@@ -287,7 +301,7 @@ class NotificationCell: UICollectionViewCell, UIWebViewDelegate {
             y: createdAtY + Size.CreatedAtHeight + Size.InnerMargin,
             width: replyButtonWidth,
             height: Size.ButtonHeight
-            )
+        )
         let relationshipControlWidth = relationshipControl.intrinsicContentSize.width
         relationshipControl.frame = replyButton.frame.with(width: relationshipControlWidth)
 
@@ -306,7 +320,10 @@ class NotificationCell: UICollectionViewCell, UIWebViewDelegate {
         // don't update the height if
         // - imageURL is set, but hasn't finished loading, OR
         // - messageHTML is set, but hasn't finished loading
-        if actualHeight != ceil(frame.size.height) && (imageURL == nil || notificationImageView.image != nil) && (!messageVisible || !messageWebView.isHidden) {
+        if actualHeight != ceil(frame.size.height)
+            && (imageURL == nil || notificationImageView.image != nil)
+            && (!messageVisible || !messageWebView.isHidden)
+        {
             self.onHeightMismatch?(actualHeight)
         }
     }
@@ -321,16 +338,19 @@ class NotificationCell: UICollectionViewCell, UIWebViewDelegate {
         avatarButton.setImage(nil, for: .normal)
         notificationImageView.pin_cancelImageDownload()
         notificationImageView.image = nil
-        aspectRatio = 4/3
+        aspectRatio = 4 / 3
         canReplyToComment = false
         canBackFollow = false
         imageURL = nil
         buyButtonImage.isHidden = true
     }
 
-    func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebView.NavigationType) -> Bool {
-        if let scheme = request.url?.scheme, scheme == "default"
-        {
+    func webView(
+        _ webView: UIWebView,
+        shouldStartLoadWith request: URLRequest,
+        navigationType: UIWebView.NavigationType
+    ) -> Bool {
+        if let scheme = request.url?.scheme, scheme == "default" {
             let responder: StreamCellResponder? = findResponder()
             responder?.streamCellTapped(cell: self)
 
@@ -394,7 +414,7 @@ extension NotificationCell {
 
     @objc
     func replyTapped() {
-        guard let responder: NotificationResponder = findResponder() else { return }
+        guard let responder:NotificationResponder = findResponder() else { return }
         if let post = post {
             responder.postTapped(post)
         }

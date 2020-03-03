@@ -28,7 +28,7 @@ final class Announcement: Model {
         ctaURL: URL?,
         ctaCaption: String,
         image: Asset?
-        ) {
+    ) {
         self.id = id
         self.isStaffPreview = isStaffPreview
         self.header = header
@@ -81,7 +81,7 @@ final class Announcement: Model {
             ctaURL: json["cta_href"].url,
             ctaCaption: json["cta_caption"].stringValue,
             image: Asset.parseAsset("image_\(id)", node: data["image"] as? [String: Any])
-            )
+        )
 
         announcement.mergeLinks(data["links"] as? [String: Any])
 

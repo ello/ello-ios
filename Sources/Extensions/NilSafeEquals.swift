@@ -2,7 +2,7 @@
 ///  NilSafeEquals.swift
 //
 
-infix operator =?= : ComparisonPrecedence
+infix operator =?=: ComparisonPrecedence
 
 func =?= <T>(lhs: T?, rhs: T?) -> Bool where T: Equatable {
     guard

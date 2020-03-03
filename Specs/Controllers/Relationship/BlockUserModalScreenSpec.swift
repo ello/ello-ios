@@ -8,16 +8,34 @@ import Nimble
 
 
 class BlockUserModalScreenSpec: QuickSpec {
-    class FakeBlockUserModalController: UIViewController, RelationshipResponder, BlockUserModalScreenDelegate {
-        func relationshipTapped(_ userId: String, prev prevRelationshipPriority: RelationshipPriorityWrapper, relationshipPriority: RelationshipPriorityWrapper, complete: @escaping RelationshipChangeCompletion) {
+    class FakeBlockUserModalController: UIViewController, RelationshipResponder,
+        BlockUserModalScreenDelegate
+    {
+        func relationshipTapped(
+            _ userId: String,
+            prev prevRelationshipPriority: RelationshipPriorityWrapper,
+            relationshipPriority: RelationshipPriorityWrapper,
+            complete: @escaping RelationshipChangeCompletion
+        ) {
             //
         }
 
-        func launchBlockModal(_ userId: String, userAtName: String, relationshipPriority: RelationshipPriorityWrapper, changeClosure: @escaping RelationshipChangeClosure) {
+        func launchBlockModal(
+            _ userId: String,
+            userAtName: String,
+            relationshipPriority: RelationshipPriorityWrapper,
+            changeClosure: @escaping RelationshipChangeClosure
+        ) {
             //
         }
 
-        func updateRelationship(_ currentUserId: String, userId: String, prev prevRelationshipPriority: RelationshipPriorityWrapper, relationshipPriority: RelationshipPriorityWrapper, complete: @escaping RelationshipChangeCompletion) {
+        func updateRelationship(
+            _ currentUserId: String,
+            userId: String,
+            prev prevRelationshipPriority: RelationshipPriorityWrapper,
+            relationshipPriority: RelationshipPriorityWrapper,
+            complete: @escaping RelationshipChangeCompletion
+        ) {
             //
         }
 
@@ -44,22 +62,32 @@ class BlockUserModalScreenSpec: QuickSpec {
             var blockButton: UIButton!
             var flagButton: UIButton!
 
-            func setupScreen(atName: String = "@archer", relationshipPriority: RelationshipPriority = .inactive) {
-                let config = BlockUserModalConfig(userId: "666", userAtName: atName, relationshipPriority: relationshipPriority, changeClosure: { _ in })
+            func setupScreen(
+                atName: String = "@archer",
+                relationshipPriority: RelationshipPriority = .inactive
+            ) {
+                let config = BlockUserModalConfig(
+                    userId: "666",
+                    userAtName: atName,
+                    relationshipPriority: relationshipPriority,
+                    changeClosure: { _ in }
+                )
                 controller = FakeBlockUserModalController()
                 subject = BlockUserModalScreen(config: config)
                 controller.view = subject
                 showController(controller)
 
                 muteButton = subject.findSubview {
-                    $0.currentTitle == InterfaceString.Relationship.MuteButton ||
-                    $0.currentTitle == InterfaceString.Relationship.UnmuteButton
+                    $0.currentTitle == InterfaceString.Relationship.MuteButton
+                        || $0.currentTitle == InterfaceString.Relationship.UnmuteButton
                 }
                 blockButton = subject.findSubview {
-                    $0.currentTitle == InterfaceString.Relationship.BlockButton ||
-                    $0.currentTitle == InterfaceString.Relationship.UnblockButton
+                    $0.currentTitle == InterfaceString.Relationship.BlockButton
+                        || $0.currentTitle == InterfaceString.Relationship.UnblockButton
                 }
-                flagButton = subject.findSubview { $0.currentTitle == InterfaceString.Relationship.FlagButton }
+                flagButton = subject.findSubview {
+                    $0.currentTitle == InterfaceString.Relationship.FlagButton
+                }
             }
 
             beforeEach {
@@ -85,7 +113,9 @@ class BlockUserModalScreenSpec: QuickSpec {
                     it("selected") {
                         setupScreen(atName: "@archer", relationshipPriority: .mute)
                         muteButton.sendActions(for: .touchUpInside)
-                        expect(controller.relationshipPriority).to(equal(RelationshipPriority.inactive))
+                        expect(controller.relationshipPriority).to(
+                            equal(RelationshipPriority.inactive)
+                        )
                     }
                 }
 
@@ -93,13 +123,17 @@ class BlockUserModalScreenSpec: QuickSpec {
                     it("not selected") {
                         setupScreen(atName: "@archer", relationshipPriority: .following)
                         blockButton.sendActions(for: .touchUpInside)
-                        expect(controller.relationshipPriority).to(equal(RelationshipPriority.block))
+                        expect(controller.relationshipPriority).to(
+                            equal(RelationshipPriority.block)
+                        )
                     }
 
                     it("selected") {
                         setupScreen(atName: "@archer", relationshipPriority: .block)
                         blockButton.sendActions(for: .touchUpInside)
-                        expect(controller.relationshipPriority).to(equal(RelationshipPriority.inactive))
+                        expect(controller.relationshipPriority).to(
+                            equal(RelationshipPriority.inactive)
+                        )
                     }
                 }
 

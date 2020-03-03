@@ -46,7 +46,8 @@ private let logoButtonTag = 0x312
 extension HomeScreenNavBar {
 
     func styleHomeScreenNavBar(navigationBar: UIView) {
-        guard let logoButton: UIButton = navigationBar.findSubview({ $0.tag == logoButtonTag }) else { return }
+        guard let logoButton:UIButton = navigationBar.findSubview({ $0.tag == logoButtonTag })
+        else { return }
         logoButton.setImage(.elloType, imageStyle: .dynamic, for: .normal)
     }
 
@@ -103,7 +104,9 @@ extension HomeScreenNavBar {
 
         logoButton.snp.makeConstraints { make in
             make.centerX.equalTo(navigationBar)
-            make.top.equalTo(navigationBar).offset(StatusBar.Size.height + HomeScreenNavBarSize.typeOffset)
+            make.top.equalTo(navigationBar).offset(
+                StatusBar.Size.height + HomeScreenNavBarSize.typeOffset
+            )
         }
 
         tabBar.snp.makeConstraints { make in

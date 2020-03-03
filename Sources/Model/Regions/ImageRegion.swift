@@ -11,7 +11,7 @@ let ImageRegionVersion = 1
 final class ImageRegion: Model, Regionable {
     let url: URL?
     let buyButtonURL: URL?
-    var isRepost: Bool  = false
+    var isRepost: Bool = false
     let kind: RegionKind = .image
 
     var asset: Asset? { return getLinkObject("assets") }

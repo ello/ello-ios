@@ -73,7 +73,10 @@ class ForgotPasswordEmailScreen: CredentialsScreen {
             make.leading.trailing.equalTo(scrollView).inset(CredentialsScreen.Size.inset)
         }
         emailErrorLabel.snp.makeConstraints { make in
-            emailMarginConstraint = make.top.equalTo(emailField.snp.bottom).offset(Size.fieldsErrorMargin).priority(Priority.required).constraint
+            emailMarginConstraint =
+                make.top.equalTo(emailField.snp.bottom).offset(Size.fieldsErrorMargin).priority(
+                    Priority.required
+                ).constraint
             make.top.equalTo(emailField.snp.bottom).priority(Priority.medium)
             make.leading.trailing.equalTo(scrollView).inset(CredentialsScreen.Size.inset)
         }
@@ -151,7 +154,11 @@ extension ForgotPasswordEmailScreen: UITextFieldDelegate {
         textField.layoutIfNeeded()
     }
 
-    func textField(_ textField: UITextField, shouldChangeCharactersIn nsrange: NSRange, replacementString: String) -> Bool {
+    func textField(
+        _ textField: UITextField,
+        shouldChangeCharactersIn nsrange: NSRange,
+        replacementString: String
+    ) -> Bool {
         guard let delegate = delegate else { return true }
 
         var email = textField.text ?? ""
@@ -170,7 +177,7 @@ extension ForgotPasswordEmailScreen: UITextFieldDelegate {
 extension ForgotPasswordEmailScreen {
     @objc
     func activateEmail() {
-      _ = emailField.becomeFirstResponder()
+        _ = emailField.becomeFirstResponder()
     }
 
     func allFieldsValid() -> Bool {

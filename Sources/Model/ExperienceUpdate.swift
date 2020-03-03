@@ -2,13 +2,27 @@
 ///  ExperienceUpdate.swift
 //
 
-let CommentChangedNotification = TypedNotification<(ElloComment, ContentChange)>(name: "commentChangedNotification")
-let PostChangedNotification = TypedNotification<(Post, ContentChange)>(name: "postChangedNotification")
-let PostCommentsCountChangedNotification = TypedNotification<(Post, Int)>(name: "postCommentsCountChangedNotification")
-let ModelChangedNotification = TypedNotification<(Model, ContentChange)>(name: "jsonableChangedNotification")
-let RelationshipChangedNotification = TypedNotification<User>(name: "relationshipChangedNotification")
-let BlockedCountChangedNotification = TypedNotification<(String, Int)>(name: "BlockedCountChangedNotification")
-let MutedCountChangedNotification = TypedNotification<(String, Int)>(name: "MutedCountChangedNotification")
+let CommentChangedNotification = TypedNotification<(ElloComment, ContentChange)>(
+    name: "commentChangedNotification"
+)
+let PostChangedNotification = TypedNotification<(Post, ContentChange)>(
+    name: "postChangedNotification"
+)
+let PostCommentsCountChangedNotification = TypedNotification<(Post, Int)>(
+    name: "postCommentsCountChangedNotification"
+)
+let ModelChangedNotification = TypedNotification<(Model, ContentChange)>(
+    name: "jsonableChangedNotification"
+)
+let RelationshipChangedNotification = TypedNotification<User>(
+    name: "relationshipChangedNotification"
+)
+let BlockedCountChangedNotification = TypedNotification<(String, Int)>(
+    name: "BlockedCountChangedNotification"
+)
+let MutedCountChangedNotification = TypedNotification<(String, Int)>(
+    name: "MutedCountChangedNotification"
+)
 let CurrentUserChangedNotification = TypedNotification<User>(name: "currentUserChangedNotification")
 let SettingChangedNotification = TypedNotification<User>(name: "settingChangedNotification")
 
@@ -37,7 +51,9 @@ enum ContentChange {
 
                 // this must happen AFTER the notification, otherwise the
                 // storedPost will be in-memory, and the notification will update the comment count
-                if let storedPost = ElloLinkedStore.shared.getObject(post.id, type: .postsType) as? Post {
+                if let storedPost = ElloLinkedStore.shared.getObject(post.id, type: .postsType)
+                    as? Post
+                {
                     storedPost.commentsCount = count + delta
                     ElloLinkedStore.shared.setObject(storedPost, forKey: post.id, type: .postsType)
                 }

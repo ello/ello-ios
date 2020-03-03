@@ -168,7 +168,7 @@ class EditorialCellContent: View {
 extension EditorialCellContent {
     @objc
     func doubleTapped(_ gesture: UIGestureRecognizer) {
-        guard let appViewController: AppViewController = findResponder() else { return }
+        guard let appViewController:AppViewController = findResponder() else { return }
         let location = gesture.location(in: appViewController.view)
 
         let responder: StreamEditingResponder? = findResponder()

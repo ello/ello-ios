@@ -3,12 +3,18 @@
 //
 
 class AnnouncementCellSizeCalculator: CellSizeCalculator {
-    static func calculateAnnouncementHeight(_ announcement: Announcement, cellWidth: CGFloat) -> CGFloat {
+    static func calculateAnnouncementHeight(_ announcement: Announcement, cellWidth: CGFloat)
+        -> CGFloat
+    {
         let attributedTitle = NSAttributedString(label: announcement.header, style: .boldWhite)
         let attributedBody = NSAttributedString(label: announcement.body, style: .white)
-        let attributedCTA = NSAttributedString(button: announcement.ctaCaption, style: .whiteUnderlined)
+        let attributedCTA = NSAttributedString(
+            button: announcement.ctaCaption,
+            style: .whiteUnderlined
+        )
 
-        let textWidth = cellWidth - AnnouncementCell.Size.margins - AnnouncementCell.Size.imageSize - AnnouncementCell.Size.textLeadingMargin - AnnouncementCell.Size.closeButtonSize
+        let textWidth = cellWidth - AnnouncementCell.Size.margins - AnnouncementCell.Size.imageSize
+            - AnnouncementCell.Size.textLeadingMargin - AnnouncementCell.Size.closeButtonSize
         var calcHeight: CGFloat = 0
         calcHeight += 2 * AnnouncementCell.Size.margins
         var textHeight: CGFloat = 0
@@ -37,7 +43,12 @@ class AnnouncementCellSizeCalculator: CellSizeCalculator {
             return
         }
 
-        assignCellHeight(all: AnnouncementCellSizeCalculator.calculateAnnouncementHeight(announcement, cellWidth: width))
+        assignCellHeight(
+            all: AnnouncementCellSizeCalculator.calculateAnnouncementHeight(
+                announcement,
+                cellWidth: width
+            )
+        )
     }
 
 }

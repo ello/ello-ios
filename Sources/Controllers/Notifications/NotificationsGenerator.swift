@@ -66,7 +66,9 @@ final class NotificationsGenerator: StreamGenerator {
 
         NotificationService().loadAnnouncements()
             .done { announcement in
-                guard self.loadingToken.isValidInitialPageLoadingToken(self.localToken) else { return }
+                guard self.loadingToken.isValidInitialPageLoadingToken(self.localToken) else {
+                    return
+                }
 
                 if let announcement = announcement {
                     self.compareAndUpdateAnnouncements([announcement])
@@ -84,20 +86,27 @@ final class NotificationsGenerator: StreamGenerator {
         guard !announcementsAreSame(newAnnouncements) else { return }
 
         self.announcements = newAnnouncements
-        let announcementItems = StreamCellItemParser().parse(newAnnouncements, streamKind: .announcements, currentUser: self.currentUser)
+        let announcementItems = StreamCellItemParser().parse(
+            newAnnouncements,
+            streamKind: .announcements,
+            currentUser: self.currentUser
+        )
         self.destination?.replacePlaceholder(type: .announcements, items: announcementItems)
     }
 
     func announcementsAreSame(_ newAnnouncements: [Announcement]) -> Bool {
-        return announcements.count == newAnnouncements.count && announcements.enumerated().all({ (index, announcement) in
-            return announcement.id == newAnnouncements[index].id
-        })
+        return announcements.count == newAnnouncements.count
+            && announcements.enumerated().all({ (index, announcement) in
+                return announcement.id == newAnnouncements[index].id
+            })
     }
 
     func loadNotifications() {
         StreamService().loadStream(streamKind: streamKind)
             .done { response in
-                guard self.loadingToken.isValidInitialPageLoadingToken(self.localToken) else { return }
+                guard self.loadingToken.isValidInitialPageLoadingToken(self.localToken) else {
+                    return
+                }
 
                 switch response {
                 case let .jsonables(jsonables, responseConfig):
@@ -114,13 +123,19 @@ final class NotificationsGenerator: StreamGenerator {
                             if notificationItems.count == 0 {
                                 let noContentItem = StreamCellItem(type: .emptyStream(height: 282))
                                 self.hasNotifications = false
-                                self.destination?.replacePlaceholder(type: .notifications, items: [noContentItem]) {
+                                self.destination?.replacePlaceholder(
+                                    type: .notifications,
+                                    items: [noContentItem]
+                                ) {
                                     self.destination?.isPagingEnabled = false
                                 }
                             }
                             else {
                                 self.hasNotifications = true
-                                self.destination?.replacePlaceholder(type: .notifications, items: notificationItems) {
+                                self.destination?.replacePlaceholder(
+                                    type: .notifications,
+                                    items: notificationItems
+                                ) {
                                     self.destination?.isPagingEnabled = true
                                 }
                             }
@@ -128,7 +143,10 @@ final class NotificationsGenerator: StreamGenerator {
                         .ignoreErrors()
                 case .empty:
                     let noContentItem = StreamCellItem(type: .emptyStream(height: 282))
-                    self.destination?.replacePlaceholder(type: .notifications, items: [noContentItem]) {
+                    self.destination?.replacePlaceholder(
+                        type: .notifications,
+                        items: [noContentItem]
+                    ) {
                         self.destination?.isPagingEnabled = false
                     }
                 }
@@ -138,18 +156,26 @@ final class NotificationsGenerator: StreamGenerator {
             }
     }
 
-    private func loadExtraNotificationContent(_ notificationActivities: [Activity]) -> Guarantee<Void> {
+    private func loadExtraNotificationContent(_ notificationActivities: [Activity]) -> Guarantee<
+        Void
+    > {
         let (promise, fulfill) = Guarantee<Void>.pending()
         let (afterAll, done) = afterN {
             fulfill(Void())
         }
         for activity in notificationActivities {
-            guard let submission = activity.subject as? ArtistInviteSubmission, submission.artistInvite == nil else { continue }
+            guard let submission = activity.subject as? ArtistInviteSubmission,
+                submission.artistInvite == nil
+            else { continue }
 
             let next = afterAll()
             ArtistInviteService().load(id: submission.artistInviteId)
                 .done { artistInvite in
-                    ElloLinkedStore.shared.setObject(artistInvite, forKey: submission.artistInviteId, type: .artistInvitesType)
+                    ElloLinkedStore.shared.setObject(
+                        artistInvite,
+                        forKey: submission.artistInviteId,
+                        type: .artistInvitesType
+                    )
                 }
                 .ensure { next() }
                 .ignoreErrors()

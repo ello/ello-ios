@@ -36,7 +36,8 @@ protocol StreamEditingResponder: class {
 
 typealias StreamCellItemGenerator = () -> [StreamCellItem]
 protocol StreamViewDelegate: class {
-    func streamViewStreamCellItems(jsonables: [Model], defaultGenerator: StreamCellItemGenerator) -> [StreamCellItem]?
+    func streamViewStreamCellItems(jsonables: [Model], defaultGenerator: StreamCellItemGenerator)
+        -> [StreamCellItem]?
     func streamWillPullToRefresh()
     func streamViewDidScroll(scrollView: UIScrollView)
     func streamViewWillBeginDragging(scrollView: UIScrollView)

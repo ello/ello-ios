@@ -12,7 +12,7 @@ class DynamicSettingsScreen: NavBarScreen, DynamicSettingsScreenProtocol {
         get { return navigationBar.title }
         set { navigationBar.title = newValue }
     }
-    var contentInset: UIEdgeInsets = .zero { didSet { updateInsets() }}
+    var contentInset: UIEdgeInsets = .zero { didSet { updateInsets() } }
 
     private let settings: [DynamicSetting]
     private let tableView = UITableView()
@@ -52,7 +52,10 @@ class DynamicSettingsScreen: NavBarScreen, DynamicSettingsScreenProtocol {
     }
 
     override func arrange() {
-        tableView.register(DynamicSettingCell.self, forCellReuseIdentifier: DynamicSettingCell.reuseIdentifier)
+        tableView.register(
+            DynamicSettingCell.self,
+            forCellReuseIdentifier: DynamicSettingCell.reuseIdentifier
+        )
         arrange(contentView: tableView)
 
         tableView.snp.makeConstraints { make in
@@ -76,12 +79,17 @@ extension DynamicSettingsScreen: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: DynamicSettingCell.reuseIdentifier, for: indexPath) as! DynamicSettingCell
+        let cell = tableView.dequeueReusableCell(
+            withIdentifier: DynamicSettingCell.reuseIdentifier,
+            for: indexPath
+        ) as! DynamicSettingCell
         guard let currentUser = delegate?.currentUser else { return cell }
 
-        DynamicSettingCellPresenter.configure(cell,
+        DynamicSettingCellPresenter.configure(
+            cell,
             setting: settings[indexPath.row],
-            currentUser: currentUser)
+            currentUser: currentUser
+        )
 
         return cell
     }

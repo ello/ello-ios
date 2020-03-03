@@ -3,7 +3,9 @@
 //
 
 typealias RelationshipChangeClosure = (_ relationshipPriority: RelationshipPriorityWrapper) -> Void
-typealias RelationshipChangeCompletion = (_ status: RelationshipRequestStatusWrapper, _ relationship: Relationship?, _ isFinalValue: Bool) -> Void
+typealias RelationshipChangeCompletion = (
+    _ status: RelationshipRequestStatusWrapper, _ relationship: Relationship?, _ isFinalValue: Bool
+) -> Void
 
 class RelationshipRequestStatusWrapper: NSObject {
     let status: RelationshipRequestStatus
@@ -17,9 +19,25 @@ enum RelationshipRequestStatus: String {
 
 @objc
 protocol RelationshipResponder: class {
-    func relationshipTapped(_ userId: String, prev prevRelationshipPriority: RelationshipPriorityWrapper, relationshipPriority: RelationshipPriorityWrapper, complete: @escaping RelationshipChangeCompletion)
-    func launchBlockModal(_ userId: String, userAtName: String, relationshipPriority: RelationshipPriorityWrapper, changeClosure: @escaping RelationshipChangeClosure)
-    func updateRelationship(_ currentUserId: String, userId: String, prev prevRelationshipPriority: RelationshipPriorityWrapper, relationshipPriority: RelationshipPriorityWrapper, complete: @escaping RelationshipChangeCompletion)
+    func relationshipTapped(
+        _ userId: String,
+        prev prevRelationshipPriority: RelationshipPriorityWrapper,
+        relationshipPriority: RelationshipPriorityWrapper,
+        complete: @escaping RelationshipChangeCompletion
+    )
+    func launchBlockModal(
+        _ userId: String,
+        userAtName: String,
+        relationshipPriority: RelationshipPriorityWrapper,
+        changeClosure: @escaping RelationshipChangeClosure
+    )
+    func updateRelationship(
+        _ currentUserId: String,
+        userId: String,
+        prev prevRelationshipPriority: RelationshipPriorityWrapper,
+        relationshipPriority: RelationshipPriorityWrapper,
+        complete: @escaping RelationshipChangeCompletion
+    )
 }
 
 class RelationshipController: UIResponder {
@@ -44,8 +62,8 @@ extension RelationshipController: RelationshipResponder {
         _ userId: String,
         prev prevRelationshipPriority: RelationshipPriorityWrapper,
         relationshipPriority: RelationshipPriorityWrapper,
-        complete: @escaping RelationshipChangeCompletion)
-    {
+        complete: @escaping RelationshipChangeCompletion
+    ) {
         guard currentUser != nil else {
             postNotification(LoggedOutNotifications.userActionAttempted, value: .relationshipChange)
             complete(RelationshipRequestStatusWrapper(status: .success), .none, true)
@@ -54,7 +72,13 @@ extension RelationshipController: RelationshipResponder {
         Tracker.shared.relationshipButtonTapped(relationshipPriority.priority, userId: userId)
 
         if let currentUserId = currentUser?.id {
-            self.updateRelationship(currentUserId, userId: userId, prev: prevRelationshipPriority, relationshipPriority: relationshipPriority, complete: complete)
+            self.updateRelationship(
+                currentUserId,
+                userId: userId,
+                prev: prevRelationshipPriority,
+                relationshipPriority: relationshipPriority,
+                complete: complete
+            )
         }
     }
 
@@ -62,9 +86,16 @@ extension RelationshipController: RelationshipResponder {
         _ userId: String,
         userAtName: String,
         relationshipPriority: RelationshipPriorityWrapper,
-        changeClosure: @escaping RelationshipChangeClosure)
-    {
-        let vc = BlockUserModalViewController(config: BlockUserModalConfig(userId: userId, userAtName: userAtName, relationshipPriority: relationshipPriority.priority, changeClosure: changeClosure))
+        changeClosure: @escaping RelationshipChangeClosure
+    ) {
+        let vc = BlockUserModalViewController(
+            config: BlockUserModalConfig(
+                userId: userId,
+                userAtName: userAtName,
+                relationshipPriority: relationshipPriority.priority,
+                changeClosure: changeClosure
+            )
+        )
         vc.currentUser = currentUser
         responderChainable.controller?.present(vc, animated: true, completion: nil)
     }
@@ -74,9 +105,13 @@ extension RelationshipController: RelationshipResponder {
         userId: String,
         prev prevRelationshipPriority: RelationshipPriorityWrapper,
         relationshipPriority newRelationshipPriority: RelationshipPriorityWrapper,
-        complete: @escaping RelationshipChangeCompletion)
-    {
-        let (optimisticRelationship, promise) = RelationshipService().updateRelationship(currentUserId: currentUserId, userId: userId, relationshipPriority: newRelationshipPriority.priority)
+        complete: @escaping RelationshipChangeCompletion
+    ) {
+        let (optimisticRelationship, promise) = RelationshipService().updateRelationship(
+            currentUserId: currentUserId,
+            userId: userId,
+            relationshipPriority: newRelationshipPriority.priority
+        )
         if let relationship = optimisticRelationship {
             complete(RelationshipRequestStatusWrapper(status: .success), relationship, false)
         }
@@ -109,8 +144,8 @@ extension RelationshipController: RelationshipResponder {
                 }
             }
         }
-        .catch { _ in
-            complete(RelationshipRequestStatusWrapper(status: .failure), nil, true)
-        }
+            .catch { _ in
+                complete(RelationshipRequestStatusWrapper(status: .failure), nil, true)
+            }
     }
 }

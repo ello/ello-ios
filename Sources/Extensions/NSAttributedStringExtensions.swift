@@ -9,7 +9,9 @@ struct ElloAttributedText {
 
 
 extension NSAttributedString {
-    static func defaultAttrs(_ allAddlAttrs: [NSAttributedString.Key: Any]...) -> [NSAttributedString.Key: Any] {
+    static func defaultAttrs(_ allAddlAttrs: [NSAttributedString.Key: Any]...)
+        -> [NSAttributedString.Key: Any]
+    {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 6
 
@@ -28,7 +30,14 @@ extension NSAttributedString {
         self.init(string: string, attributes: NSAttributedString.defaultAttrs())
     }
 
-    convenience init(_ string: String, color: UIColor = .black, underlineStyle: NSUnderlineStyle? = nil, font: UIFont = .defaultFont(), alignment: NSTextAlignment = .left, lineBreakMode: NSLineBreakMode? = nil) {
+    convenience init(
+        _ string: String,
+        color: UIColor = .black,
+        underlineStyle: NSUnderlineStyle? = nil,
+        font: UIFont = .defaultFont(),
+        alignment: NSTextAlignment = .left,
+        lineBreakMode: NSLineBreakMode? = nil
+    ) {
         let paragraphStyle = NSMutableParagraphStyle()
         if lineBreakMode != .byTruncatingTail {
             paragraphStyle.lineSpacing = 6
@@ -47,11 +56,30 @@ extension NSAttributedString {
         self.init(string: string, attributes: attrs)
     }
 
-    convenience init(label string: String, style: StyledLabel.Style, alignment: NSTextAlignment = .left, lineBreakMode: NSLineBreakMode? = nil) {
-        self.init(string, color: style.textColor, underlineStyle: style.underline ? .single : .none, font: style.font, alignment: alignment, lineBreakMode: lineBreakMode)
+    convenience init(
+        label string: String,
+        style: StyledLabel.Style,
+        alignment: NSTextAlignment = .left,
+        lineBreakMode: NSLineBreakMode? = nil
+    ) {
+        self.init(
+            string,
+            color: style.textColor,
+            underlineStyle: style.underline ? .single : .none,
+            font: style.font,
+            alignment: alignment,
+            lineBreakMode: lineBreakMode
+        )
     }
 
-    convenience init(button string: String, style: StyledButton.Style, state: UIControl.State = .normal, selected: Bool = false, alignment: NSTextAlignment = .center, lineBreakMode: NSLineBreakMode? = nil) {
+    convenience init(
+        button string: String,
+        style: StyledButton.Style,
+        state: UIControl.State = .normal,
+        selected: Bool = false,
+        alignment: NSTextAlignment = .center,
+        lineBreakMode: NSLineBreakMode? = nil
+    ) {
         let stateColor: UIColor?
         if state == .disabled {
             stateColor = style.disabledTitleColor
@@ -70,7 +98,14 @@ extension NSAttributedString {
         }
 
         let color = stateColor ?? style.titleColor ?? .black
-        self.init(string, color: color, underlineStyle: style.underline ? .single : .none, font: style.font, alignment: alignment, lineBreakMode: lineBreakMode)
+        self.init(
+            string,
+            color: color,
+            underlineStyle: style.underline ? .single : .none,
+            font: style.font,
+            alignment: alignment,
+            lineBreakMode: lineBreakMode
+        )
     }
 
     convenience init(primaryHeader: String, secondaryHeader: String) {
@@ -80,18 +115,23 @@ extension NSAttributedString {
             .foregroundColor: UIColor.black,
             .font: UIFont.defaultFont(16),
             .paragraphStyle: paragraphStyle,
-            ]
+        ]
         let plain: [NSAttributedString.Key: Any] = [
             .foregroundColor: UIColor.greyA,
             .font: UIFont.defaultFont(16),
             .paragraphStyle: paragraphStyle,
-            ]
-        let header = NSAttributedString(string: primaryHeader, attributes: bold) +
-            NSAttributedString(string: " \(secondaryHeader)", attributes: plain)
+        ]
+        let header = NSAttributedString(string: primaryHeader, attributes: bold)
+            + NSAttributedString(string: " \(secondaryHeader)", attributes: plain)
         self.init(attributedString: header)
     }
 
-    convenience init(featuredIn categories: [Category], font: UIFont = .defaultFont(18), color: UIColor = .white, alignment: NSTextAlignment = .center) {
+    convenience init(
+        featuredIn categories: [Category],
+        font: UIFont = .defaultFont(18),
+        color: UIColor = .white,
+        alignment: NSTextAlignment = .center
+    ) {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 6
         paragraphStyle.alignment = alignment
@@ -102,7 +142,10 @@ extension NSAttributedString {
             .foregroundColor: color,
         ])
 
-        let featuredIn = NSMutableAttributedString(string: InterfaceString.Profile.FeaturedIn, attributes: attributes)
+        let featuredIn = NSMutableAttributedString(
+            string: InterfaceString.Profile.FeaturedIn,
+            attributes: attributes
+        )
         let count = categories.count
         for (index, category) in categories.enumerated() {
             let prefix: NSAttributedString
@@ -116,11 +159,14 @@ extension NSAttributedString {
                 prefix = NSAttributedString(string: " ", attributes: attributes)
             }
 
-            let categoryString = NSAttributedString(string: category.name, attributes: attributes + [
-                ElloAttributedText.Link: "category",
-                ElloAttributedText.Object: category,
-                .underlineStyle: NSUnderlineStyle.single.rawValue,
-            ])
+            let categoryString = NSAttributedString(
+                string: category.name,
+                attributes: attributes + [
+                    ElloAttributedText.Link: "category",
+                    ElloAttributedText.Object: category,
+                    .underlineStyle: NSUnderlineStyle.single.rawValue,
+                ]
+            )
 
             featuredIn.append(prefix)
             featuredIn.append(categoryString)
@@ -136,15 +182,23 @@ extension NSAttributedString {
     }
 
     func heightForWidth(_ width: CGFloat) -> CGFloat {
-        return ceil(boundingRect(with: CGSize(width: width, height: CGFloat.greatestFiniteMagnitude),
-            options: [.usesLineFragmentOrigin, .usesFontLeading],
-            context: nil).size.height)
+        return ceil(
+            boundingRect(
+                with: CGSize(width: width, height: CGFloat.greatestFiniteMagnitude),
+                options: [.usesLineFragmentOrigin, .usesFontLeading],
+                context: nil
+            ).size.height
+        )
     }
 
     func widthForHeight(_ height: CGFloat) -> CGFloat {
-        return ceil(boundingRect(with: CGSize(width: CGFloat.greatestFiniteMagnitude, height: height),
-            options: [.usesLineFragmentOrigin, .usesFontLeading],
-            context: nil).size.width)
+        return ceil(
+            boundingRect(
+                with: CGSize(width: CGFloat.greatestFiniteMagnitude, height: height),
+                options: [.usesLineFragmentOrigin, .usesFontLeading],
+                context: nil
+            ).size.width
+        )
     }
 
     func joinWithNewlines(_ other: NSAttributedString) -> NSAttributedString {

@@ -24,10 +24,12 @@ class SettingsToggleButton: StyledButton {
         self.setTitle(InterfaceString.Yes, for: .selected)
         self.setTitle(InterfaceString.No, for: .normal)
         self.style = StyledButton.Style(
-            backgroundColor: .greyA, selectedBackgroundColor: .greenD1,
-            titleColor: .white, selectedTitleColor: .white,
+            backgroundColor: .greyA,
+            selectedBackgroundColor: .greenD1,
+            titleColor: .white,
+            selectedTitleColor: .white,
             cornerRadius: .pill
-            )
+        )
     }
 
     override func updateStyle() {

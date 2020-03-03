@@ -64,14 +64,38 @@ class LoginScreen: CredentialsScreen {
 
     override func bindActions() {
         continueButton.addTarget(self, action: #selector(submitAction), for: .touchUpInside)
-        forgotPasswordButton.addTarget(self, action: #selector(forgotPasswordAction), for: .touchUpInside)
-        passwordField.onePasswordButton.addTarget(self, action: #selector(onePasswordAction(_:)), for: .touchUpInside)
-        usernameField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+        forgotPasswordButton.addTarget(
+            self,
+            action: #selector(forgotPasswordAction),
+            for: .touchUpInside
+        )
+        passwordField.onePasswordButton.addTarget(
+            self,
+            action: #selector(onePasswordAction(_:)),
+            for: .touchUpInside
+        )
+        usernameField.addTarget(
+            self,
+            action: #selector(textFieldDidChange(_:)),
+            for: .editingChanged
+        )
         usernameField.delegate = self
-        activateUsernameButton.addTarget(self, action: #selector(activateUsername), for: .touchUpInside)
-        passwordField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+        activateUsernameButton.addTarget(
+            self,
+            action: #selector(activateUsername),
+            for: .touchUpInside
+        )
+        passwordField.addTarget(
+            self,
+            action: #selector(textFieldDidChange(_:)),
+            for: .editingChanged
+        )
         passwordField.delegate = self
-        activatePasswordButton.addTarget(self, action: #selector(activatePassword), for: .touchUpInside)
+        activatePasswordButton.addTarget(
+            self,
+            action: #selector(activatePassword),
+            for: .touchUpInside
+        )
     }
 
     override func style() {

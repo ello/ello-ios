@@ -36,7 +36,11 @@ class PromotionalHeaderCellSizeCalculator: CellSizeCalculator {
         webView.delegate = self
     }
 
-    static func calculatePageHeaderHeight(_ pageHeader: PageHeader, htmlHeight: CGFloat?, cellWidth: CGFloat) -> CGFloat {
+    static func calculatePageHeaderHeight(
+        _ pageHeader: PageHeader,
+        htmlHeight: CGFloat?,
+        cellWidth: CGFloat
+    ) -> CGFloat {
         let config = PromotionalHeaderCell.Config(pageHeader: pageHeader)
         var calcHeight: CGFloat = 0
         let textWidth = cellWidth - 2 * PromotionalHeaderCell.Size.defaultMargin
@@ -56,7 +60,9 @@ class PromotionalHeaderCellSizeCalculator: CellSizeCalculator {
 
         let ctaSize: CGSize
         if let attributedCallToAction = config.attributedCallToAction {
-            ctaSize = attributedCallToAction.boundingRect(with: boundingSize, options: [], context: nil).size.integral
+            ctaSize =
+                attributedCallToAction.boundingRect(with: boundingSize, options: [], context: nil)
+                .size.integral
         }
         else {
             ctaSize = .zero
@@ -64,7 +70,9 @@ class PromotionalHeaderCellSizeCalculator: CellSizeCalculator {
 
         let postedBySize: CGSize
         if let attributedPostedBy = config.attributedPostedBy {
-            postedBySize = attributedPostedBy.boundingRect(with: boundingSize, options: [], context: nil).size.integral
+            postedBySize =
+                attributedPostedBy.boundingRect(with: boundingSize, options: [], context: nil).size
+                .integral
         }
         else {
             postedBySize = .zero
@@ -72,7 +80,8 @@ class PromotionalHeaderCellSizeCalculator: CellSizeCalculator {
 
         calcHeight += PromotionalHeaderCell.Size.bodySpacing
         if ctaSize.width + postedBySize.width > textWidth {
-            calcHeight += ctaSize.height + PromotionalHeaderCell.Size.stackedMargin + postedBySize.height
+            calcHeight += ctaSize.height + PromotionalHeaderCell.Size.stackedMargin
+                + postedBySize.height
         }
         else {
             calcHeight += max(ctaSize.height, postedBySize.height)
@@ -89,7 +98,11 @@ class PromotionalHeaderCellSizeCalculator: CellSizeCalculator {
         }
 
         if pageHeader.kind == .category {
-            let calcHeight = PromotionalHeaderCellSizeCalculator.calculatePageHeaderHeight(pageHeader, htmlHeight: nil, cellWidth: width)
+            let calcHeight = PromotionalHeaderCellSizeCalculator.calculatePageHeaderHeight(
+                pageHeader,
+                htmlHeight: nil,
+                cellWidth: width
+            )
             let height = max(minHeight, calcHeight)
             assignCellHeight(all: height)
         }
@@ -104,7 +117,11 @@ class PromotionalHeaderCellSizeCalculator: CellSizeCalculator {
     }
 
     private func calculateHeight(pageHeader: PageHeader, htmlHeight: CGFloat?) {
-        let calcHeight = PromotionalHeaderCellSizeCalculator.calculatePageHeaderHeight(pageHeader, htmlHeight: htmlHeight, cellWidth: width)
+        let calcHeight = PromotionalHeaderCellSizeCalculator.calculatePageHeaderHeight(
+            pageHeader,
+            htmlHeight: htmlHeight,
+            cellWidth: width
+        )
         let height = max(minHeight, calcHeight)
         assignCellHeight(all: height)
     }

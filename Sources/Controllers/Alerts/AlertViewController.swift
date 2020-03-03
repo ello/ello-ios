@@ -136,8 +136,14 @@ extension AlertViewController {
         super.viewWillAppear(animated)
         resize()
 
-        keyboardWillShowObserver = NotificationObserver(notification: Keyboard.Notifications.KeyboardWillShow, block: self.keyboardUpdateFrame)
-        keyboardWillHideObserver = NotificationObserver(notification: Keyboard.Notifications.KeyboardWillHide, block: self.keyboardUpdateFrame)
+        keyboardWillShowObserver = NotificationObserver(
+            notification: Keyboard.Notifications.KeyboardWillShow,
+            block: self.keyboardUpdateFrame
+        )
+        keyboardWillHideObserver = NotificationObserver(
+            notification: Keyboard.Notifications.KeyboardWillHide,
+            block: self.keyboardUpdateFrame
+        )
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -207,10 +213,17 @@ extension AlertViewController {
 }
 
 extension AlertViewController: UIViewControllerTransitioningDelegate {
-    func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
+    func presentationController(
+        forPresented presented: UIViewController,
+        presenting: UIViewController?,
+        source: UIViewController
+    ) -> UIPresentationController? {
         guard presented == self else { return nil }
 
-        return AlertPresentationController(presentedViewController: presented, presenting: presenting)
+        return AlertPresentationController(
+            presentedViewController: presented,
+            presenting: presenting
+        )
     }
 }
 
@@ -241,7 +254,10 @@ extension AlertViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         guard !message.isEmpty else { return 0 }
-        let size = CGSize(width: Size.width - totalHorizontalPadding, height: .greatestFiniteMagnitude)
+        let size = CGSize(
+            width: Size.width - totalHorizontalPadding,
+            height: .greatestFiniteMagnitude
+        )
         return headerView.sizeThatFits(size).height
     }
 
@@ -257,7 +273,10 @@ extension AlertViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: AlertCell.reuseIdentifier, for: indexPath) as! AlertCell
+        let cell = tableView.dequeueReusableCell(
+            withIdentifier: AlertCell.reuseIdentifier,
+            for: indexPath
+        ) as! AlertCell
 
         guard let action = actions.safeValue(indexPath.row),
             let input = inputs.safeValue(indexPath.row)

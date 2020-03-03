@@ -6,7 +6,7 @@ class ElloDataSource: NSObject {
     // In StreamDataSource, visibleCellItems can be modified based on a stream
     // filter.  In CollectionViewDataSource, there is only the one list.
     var visibleCellItems: [StreamCellItem] = []
-    var streamKind: StreamKind { didSet { didSetStreamKind() }}
+    var streamKind: StreamKind { didSet { didSetStreamKind() } }
     var currentUser: User?
 
     init(streamKind: StreamKind) {
@@ -17,7 +17,8 @@ class ElloDataSource: NSObject {
     func didSetStreamKind() {}
 
     func isValidIndexPath(_ indexPath: IndexPath) -> Bool {
-        return indexPath.section == 0 && indexPath.item >= 0 && indexPath.item < visibleCellItems.count
+        return indexPath.section == 0 && indexPath.item >= 0
+            && indexPath.item < visibleCellItems.count
     }
 
     func streamCellItem(where filter: (StreamCellItem) -> Bool) -> StreamCellItem? {
@@ -33,15 +34,21 @@ class ElloDataSource: NSObject {
         return indexPath(where: { $0 == item })
     }
 
-    func indexPaths(forPlaceholderType placeholderType: StreamCellType.PlaceholderType) -> [IndexPath] {
-        return (0 ..< visibleCellItems.count).compactMap { index in
+    func indexPaths(forPlaceholderType placeholderType: StreamCellType.PlaceholderType)
+        -> [IndexPath]
+    {
+        return (0..<visibleCellItems.count).compactMap { index in
             guard visibleCellItems[index].placeholderType == placeholderType else { return nil }
             return IndexPath(item: index, section: 0)
         }
     }
 
-    func firstIndexPath(forPlaceholderType placeholderType: StreamCellType.PlaceholderType) -> IndexPath? {
-        if let index = self.visibleCellItems.firstIndex(where: { $0.placeholderType == placeholderType }) {
+    func firstIndexPath(forPlaceholderType placeholderType: StreamCellType.PlaceholderType)
+        -> IndexPath?
+    {
+        if let index = self.visibleCellItems.firstIndex(where: {
+            $0.placeholderType == placeholderType
+        }) {
             return IndexPath(item: index, section: 0)
         }
         return nil
@@ -50,8 +57,8 @@ class ElloDataSource: NSObject {
     func footerIndexPath(forPost searchPost: Post) -> IndexPath? {
         for (index, value) in visibleCellItems.enumerated() {
             if value.type == .streamFooter,
-               let post = value.jsonable as? Post,
-               post.id == searchPost.id
+                let post = value.jsonable as? Post,
+                post.id == searchPost.id
             {
                 return IndexPath(item: index, section: 0)
             }
@@ -60,7 +67,7 @@ class ElloDataSource: NSObject {
     }
 
     func streamCellItem(at indexPath: IndexPath) -> StreamCellItem? {
-        guard isValidIndexPath(indexPath) else { return nil}
+        guard isValidIndexPath(indexPath) else { return nil }
         return visibleCellItems[indexPath.item]
     }
 

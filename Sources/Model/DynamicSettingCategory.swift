@@ -26,7 +26,11 @@ final class DynamicSettingCategory: Model {
     var settings: [DynamicSetting]
     let section: DynamicSettingsSection
 
-    init(label: String, settings: [DynamicSetting], section: DynamicSettingsSection = .dynamicSettings) {
+    init(
+        label: String,
+        settings: [DynamicSetting],
+        section: DynamicSettingsSection = .dynamicSettings
+    ) {
         self.label = label
         self.settings = settings
         self.section = section
@@ -39,7 +43,8 @@ final class DynamicSettingCategory: Model {
         self.settings = decoder.decodeKey("settings")
         let version: Int = decoder.decodeKey("version")
         if version > 1 {
-            self.section = DynamicSettingsSection(rawValue: decoder.decodeKey("section")) ?? .dynamicSettings
+            self.section = DynamicSettingsSection(rawValue: decoder.decodeKey("section"))
+                ?? .dynamicSettings
         }
         else {
             self.section = .dynamicSettings
@@ -58,7 +63,9 @@ final class DynamicSettingCategory: Model {
     class func fromJSON(_ data: [String: Any]) -> DynamicSettingCategory {
         let json = JSON(data)
         let label = json["label"].stringValue
-        let settings: [DynamicSetting] = json["items"].arrayValue.map { DynamicSetting.fromJSON($0.object as! [String: Any]) }
+        let settings: [DynamicSetting] = json["items"].arrayValue.map {
+            DynamicSetting.fromJSON($0.object as! [String: Any])
+        }
 
         return DynamicSettingCategory(label: label, settings: settings)
     }
@@ -67,18 +74,34 @@ final class DynamicSettingCategory: Model {
 extension DynamicSettingCategory {
     static let creatorTypeCategory: DynamicSettingCategory = {
         let label = InterfaceString.Settings.CreatorType
-        return DynamicSettingCategory(label: label, settings: [DynamicSetting.creatorTypeSetting], section: .creatorType)
+        return DynamicSettingCategory(
+            label: label,
+            settings: [DynamicSetting.creatorTypeSetting],
+            section: .creatorType
+        )
     }()
     static let blockedCategory: DynamicSettingCategory = {
         let label = InterfaceString.Settings.BlockedTitle
-        return DynamicSettingCategory(label: label, settings: [DynamicSetting.blockedSetting], section: .blocked)
+        return DynamicSettingCategory(
+            label: label,
+            settings: [DynamicSetting.blockedSetting],
+            section: .blocked
+        )
     }()
     static let mutedCategory: DynamicSettingCategory = {
         let label = InterfaceString.Settings.MutedTitle
-        return DynamicSettingCategory(label: label, settings: [DynamicSetting.mutedSetting], section: .muted)
+        return DynamicSettingCategory(
+            label: label,
+            settings: [DynamicSetting.mutedSetting],
+            section: .muted
+        )
     }()
     static let accountDeletionCategory: DynamicSettingCategory = {
         let label = InterfaceString.Settings.DeleteAccountTitle
-        return DynamicSettingCategory(label: label, settings: [DynamicSetting.accountDeletionSetting], section: .accountDeletion)
+        return DynamicSettingCategory(
+            label: label,
+            settings: [DynamicSetting.accountDeletionSetting],
+            section: .accountDeletion
+        )
     }()
 }

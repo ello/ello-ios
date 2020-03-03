@@ -6,22 +6,22 @@
 ///
 /// As with all mutable state, this should be used carefully, for example as an optimization, rather than a default design choice. Most of the time, `Box<T>` will suffice where any `BoxType` is needed.
 final class MutableBox<T>: MutableBoxType, CustomStringConvertible {
-	/// Initializes a `MutableBox` with the given value.
-	init(_ value: T) {
-		self.value = value
-	}
+    /// Initializes a `MutableBox` with the given value.
+    init(_ value: T) {
+        self.value = value
+    }
 
-	/// The (mutable) value wrapped by the receiver.
-	var value: T
+    /// The (mutable) value wrapped by the receiver.
+    var value: T
 
-	/// Constructs a new MutableBox by transforming `value` by `f`.
-	func map<U>(_ f: (T) -> U) -> MutableBox<U> {
-		return MutableBox<U>(f(value))
-	}
+    /// Constructs a new MutableBox by transforming `value` by `f`.
+    func map<U>(_ f: (T) -> U) -> MutableBox<U> {
+        return MutableBox<U>(f(value))
+    }
 
-	// MARK: Printable
+    // MARK: Printable
 
-	var description: String {
-		return String(describing: value)
-	}
+    var description: String {
+        return String(describing: value)
+    }
 }

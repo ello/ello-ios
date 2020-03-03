@@ -16,9 +16,21 @@ class CategoryCardListView: View {
     }
 
     struct CategoryInfo {
-        static let all = CategoryInfo(title: InterfaceString.Discover.AllCategories, kind: .all, imageURL: nil)
-        static let subscribed = CategoryInfo(title: InterfaceString.Discover.Subscribed, kind: .subscribed, imageURL: nil)
-        static let zeroState = CategoryInfo(title: InterfaceString.Discover.ZeroState, kind: .zeroState, imageURL: nil)
+        static let all = CategoryInfo(
+            title: InterfaceString.Discover.AllCategories,
+            kind: .all,
+            imageURL: nil
+        )
+        static let subscribed = CategoryInfo(
+            title: InterfaceString.Discover.Subscribed,
+            kind: .subscribed,
+            imageURL: nil
+        )
+        static let zeroState = CategoryInfo(
+            title: InterfaceString.Discover.ZeroState,
+            kind: .zeroState,
+            imageURL: nil
+        )
 
         enum Kind {
             case all

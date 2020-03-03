@@ -8,7 +8,11 @@
 class FakeCellSizeCalculator: AnnouncementCellSizeCalculator {
     static func generator(height: CGFloat? = nil) -> StreamCellItem.CalculatorGenerator {
         return { streamCellItem, width, columnCount in
-            let calculator = FakeCellSizeCalculator(item: streamCellItem, width: width, columnCount: columnCount)
+            let calculator = FakeCellSizeCalculator(
+                item: streamCellItem,
+                width: width,
+                columnCount: columnCount
+            )
             if let height = height {
                 calculator.height = height
             }
@@ -16,9 +20,15 @@ class FakeCellSizeCalculator: AnnouncementCellSizeCalculator {
         }
     }
 
-    static func generatorWithStreamKind(height: CGFloat? = nil) -> StreamCellItem.CalculatorGeneratorWithStreamKind {
+    static func generatorWithStreamKind(height: CGFloat? = nil) -> StreamCellItem
+        .CalculatorGeneratorWithStreamKind
+    {
         return { _, streamCellItem, width, columnCount in
-            let calculator = FakeCellSizeCalculator(item: streamCellItem, width: width, columnCount: columnCount)
+            let calculator = FakeCellSizeCalculator(
+                item: streamCellItem,
+                width: width,
+                columnCount: columnCount
+            )
             if let height = height {
                 calculator.height = height
             }

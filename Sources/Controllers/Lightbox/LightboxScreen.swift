@@ -14,7 +14,12 @@ class LightboxScreen: Screen, LightboxScreenProtocol {
 
         private static func calculateInsets() -> UIEdgeInsets {
             if Globals.isIphoneX {
-                return UIEdgeInsets(top: Globals.statusBarHeight, left: 10, bottom: Globals.bestBottomMargin, right: 10)
+                return UIEdgeInsets(
+                    top: Globals.statusBarHeight,
+                    left: 10,
+                    bottom: Globals.bestBottomMargin,
+                    right: 10
+                )
             }
             return UIEdgeInsets(tops: 30, sides: 10)
         }
@@ -74,7 +79,7 @@ class LightboxScreen: Screen, LightboxScreenProtocol {
         nextPageView.isHidden = true
 
         nextPageViewWidth = nextPageView.intrinsicContentSize.width
-        minX = nextPageViewWidth * 3/4
+        minX = nextPageViewWidth * 3 / 4
         maxX = minX + nextPageViewWidth
         minAngle = .pi
         maxAngle = 2 * .pi
@@ -93,14 +98,23 @@ class LightboxScreen: Screen, LightboxScreenProtocol {
     override func bindActions() {
         toolbar.postToolsDelegate = self
 
-        scrollPanGesture = UIPanGestureRecognizer(target: self, action: #selector(scrollPanGestureMovement(gesture:)))
+        scrollPanGesture = UIPanGestureRecognizer(
+            target: self,
+            action: #selector(scrollPanGestureMovement(gesture:))
+        )
         imagesContainer.addGestureRecognizer(scrollPanGesture)
 
-        imagePanGesture = UIPanGestureRecognizer(target: self, action: #selector(imagePanGestureMovement(gesture:)))
+        imagePanGesture = UIPanGestureRecognizer(
+            target: self,
+            action: #selector(imagePanGestureMovement(gesture:))
+        )
         imagePanGesture.isEnabled = false
         imagesContainer.addGestureRecognizer(imagePanGesture)
 
-        imageScaleGesture = UIPinchGestureRecognizer(target: self, action: #selector(pinchGestureMovement(gesture:)))
+        imageScaleGesture = UIPinchGestureRecognizer(
+            target: self,
+            action: #selector(pinchGestureMovement(gesture:))
+        )
         imagesContainer.addGestureRecognizer(imageScaleGesture)
 
         loveGesture = UITapGestureRecognizer()
@@ -152,7 +166,8 @@ class LightboxScreen: Screen, LightboxScreenProtocol {
 
         toolbar.snp.makeConstraints { make in
             make.leading.trailing.equalTo(self)
-            toolbarVisibleConstraint = make.bottom.equalTo(self).offset(-Globals.bestBottomMargin).constraint
+            toolbarVisibleConstraint =
+                make.bottom.equalTo(self).offset(-Globals.bestBottomMargin).constraint
             toolbarHiddenConstraint = make.top.equalTo(self.snp.bottom).constraint
         }
         toolbarHiddenConstraint.deactivate()
@@ -196,14 +211,21 @@ class LightboxScreen: Screen, LightboxScreenProtocol {
         nextImageView.layer.zPosition = 2
 
         currLoadingLayer.position = currImageView.frame.center
-        toolbarGradientLayer.frame = toolbar.bounds.fromBottom().grow(up: Size.toolbarGradientHeight)
+        toolbarGradientLayer.frame = toolbar.bounds.fromBottom().grow(
+            up: Size.toolbarGradientHeight
+        )
 
-        nextPageView.center = CGPoint(x: nextImageView.frame.minX + nextPageViewWidth, y: nextImageView.frame.midY)
+        nextPageView.center = CGPoint(
+            x: nextImageView.frame.minX + nextPageViewWidth,
+            y: nextImageView.frame.midY
+        )
 
         if !isLoadingMore {
             let theta: CGFloat = clip(
                 map(-gestureDeltaX, fromInterval: (minX, maxX), toInterval: (minAngle, maxAngle)),
-                min: minAngle, max: maxAngle)
+                min: minAngle,
+                max: maxAngle
+            )
             let transform = CGAffineTransform(rotationAngle: theta)
             nextPageView.transform = transform
         }
@@ -243,7 +265,8 @@ class LightboxScreen: Screen, LightboxScreenProtocol {
         else if gesture.state == .changed {
             imageOffset = CGPoint(
                 x: tempOffset.x + translation.x,
-                y: tempOffset.y + translation.y)
+                y: tempOffset.y + translation.y
+            )
             updateImageTransform()
         }
         else if gesture.state == .ended {
@@ -280,14 +303,18 @@ class LightboxScreen: Screen, LightboxScreenProtocol {
             if let delta = delta {
                 switch delta {
                 case .prev:
-                    (prevImageView, currImageView, nextImageView) = (nextImageView, prevImageView, currImageView)
+                    (prevImageView, currImageView, nextImageView) = (
+                        nextImageView, prevImageView, currImageView
+                    )
                     (prevURL, currURL, nextURL) = (nil, prevURL, currURL)
 
                     setNeedsLayout()
                     layoutIfNeeded()
                     imagesContainer.frame.origin.x -= imageWidth
                 case .next:
-                    (prevImageView, currImageView, nextImageView) = (currImageView, nextImageView, prevImageView)
+                    (prevImageView, currImageView, nextImageView) = (
+                        currImageView, nextImageView, prevImageView
+                    )
                     (prevURL, currURL, nextURL) = (currURL, nextURL, nil)
 
                     setNeedsLayout()
@@ -365,7 +392,8 @@ class LightboxScreen: Screen, LightboxScreenProtocol {
         self.toolbarVisibleConstraint.activate()
         self.toolbarHiddenConstraint.deactivate()
         elloAnimate {
-            self.toolbar.frame.origin.y = self.frame.height - self.toolbar.frame.height - Globals.bestBottomMargin
+            self.toolbar.frame.origin.y = self.frame.height - self.toolbar.frame.height
+                - Globals.bestBottomMargin
             self.toolbarBlackBar.frame.origin.y = self.toolbar.frame.maxY
         }
     }
@@ -406,7 +434,7 @@ class LightboxScreen: Screen, LightboxScreenProtocol {
             (newPrevURL, prevURL, prevImageView),
             (newCurrURL, currURL, currImageView),
             (newNextURL, nextURL, nextImageView),
-            ]
+        ]
         for (newURL, oldURL, imageView) in items {
             if newURL == nil || newURL != oldURL {
                 imageView.pin_cancelImageDownload()
@@ -452,14 +480,22 @@ class LightboxScreen: Screen, LightboxScreenProtocol {
         else {
             guard let imageSize = currImageView.image?.size else { return }
 
-            let actualImageScale = min(currImageView.frame.width / imageSize.width, currImageView.frame.height / imageSize.height)
-            let actualImageSize = CGSize(width: imageSize.width * actualImageScale, height: imageSize.height * actualImageScale)
+            let actualImageScale = min(
+                currImageView.frame.width / imageSize.width,
+                currImageView.frame.height / imageSize.height
+            )
+            let actualImageSize = CGSize(
+                width: imageSize.width * actualImageScale,
+                height: imageSize.height * actualImageScale
+            )
             let adjustedActualFrame = CGRect(
-                x: currImageView.frame.minX + (currImageView.frame.width - actualImageSize.width) / 2,
-                y: currImageView.frame.minY + (currImageView.frame.height - actualImageSize.height) / 2,
+                x: currImageView.frame.minX + (currImageView.frame.width - actualImageSize.width)
+                    / 2,
+                y: currImageView.frame.minY + (currImageView.frame.height - actualImageSize.height)
+                    / 2,
                 width: actualImageSize.width,
                 height: actualImageSize.height
-                )
+            )
 
             if adjustedActualFrame.width < currImageFrame.width {
                 if adjustedActualFrame.minX < currImageFrame.minX {

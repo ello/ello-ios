@@ -20,9 +20,18 @@ class StreamEmbedCellPresenterSpec: QuickSpec {
                     ])
 
                     let cell: StreamEmbedCell = StreamEmbedCell.loadFromNib()
-                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .embed(data: embedRegion))
+                    let item: StreamCellItem = StreamCellItem(
+                        jsonable: post,
+                        type: .embed(data: embedRegion)
+                    )
 
-                    StreamEmbedCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: nil)
+                    StreamEmbedCellPresenter.configure(
+                        cell,
+                        streamCellItem: item,
+                        streamKind: .following,
+                        indexPath: IndexPath(item: 0, section: 0),
+                        currentUser: nil
+                    )
 
                     expect(cell.leadingConstraint.constant) == 30
                     expect(cell.leftBorder.superlayer).notTo(beNil())
@@ -43,9 +52,18 @@ class StreamEmbedCellPresenterSpec: QuickSpec {
                     ])
 
                     let cell: StreamEmbedCell = StreamEmbedCell.loadFromNib()
-                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .embed(data: embedRegion))
+                    let item: StreamCellItem = StreamCellItem(
+                        jsonable: post,
+                        type: .embed(data: embedRegion)
+                    )
 
-                    StreamEmbedCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: nil)
+                    StreamEmbedCellPresenter.configure(
+                        cell,
+                        streamCellItem: item,
+                        streamKind: .following,
+                        indexPath: IndexPath(item: 0, section: 0),
+                        currentUser: nil
+                    )
 
                     expect(cell.leadingConstraint.constant) == 0
                     expect(cell.leftBorder.superlayer).to(beNil())

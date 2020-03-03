@@ -29,7 +29,10 @@ class PostbarController: UIResponder {
     // on the post detail screen, the comments don't show/hide
     var toggleableComments: Bool = true
 
-    init(streamViewController: StreamViewController, collectionViewDataSource: CollectionViewDataSource) {
+    init(
+        streamViewController: StreamViewController,
+        collectionViewDataSource: CollectionViewDataSource
+    ) {
         self.streamViewController = streamViewController
         self.collectionView = streamViewController.collectionView
         self.collectionViewDataSource = collectionViewDataSource
@@ -40,7 +43,7 @@ class PostbarController: UIResponder {
     // `StreamViewController` isn't returned, this function returns the same
     // object as `findResponder`
     func findProperResponder<T>() -> T? {
-        if let responder: T? = findResponder() {
+        if let responder:T? = findResponder() {
             return responder
         }
         else {
@@ -120,14 +123,24 @@ class PostbarController: UIResponder {
                 .done { [weak self] (config, comments) in
                     guard
                         let `self` = self,
-                        let updatedIndexPath = self.collectionViewDataSource.indexPath(forItem: item)
+                        let updatedIndexPath = self.collectionViewDataSource.indexPath(
+                            forItem: item
+                        )
                     else { return }
 
                     item.state = .expanded
                     imageLabelControl.finishAnimation()
-                    let nextIndexPath = IndexPath(item: updatedIndexPath.row + 1, section: updatedIndexPath.section)
+                    let nextIndexPath = IndexPath(
+                        item: updatedIndexPath.row + 1,
+                        section: updatedIndexPath.section
+                    )
 
-                    self.commentLoadSuccess(post, comments: comments, indexPath: nextIndexPath, cell: cell)
+                    self.commentLoadSuccess(
+                        post,
+                        comments: comments,
+                        indexPath: nextIndexPath,
+                        cell: cell
+                    )
                 }
                 .catch { _ in
                     item.state = .collapsed
@@ -228,7 +241,9 @@ class PostbarController: UIResponder {
 
                 let love = Love(
                     id: "",
-                    isDeleted: true, postId: post.id, userId: currentUser.id
+                    isDeleted: true,
+                    postId: post.id,
+                    userId: currentUser.id
                 )
                 postNotification(ModelChangedNotification, value: (love, .delete))
             }
@@ -303,8 +318,12 @@ class PostbarController: UIResponder {
         alertController.resetActions()
         alertController.isDismissable = false
 
-        let spinnerContainer = Container(frame: CGRect(x: 0, y: 0, width: alertController.view.frame.size.width, height: 200))
-        let spinner = GradientLoadingView(frame: CGRect(origin: .zero, size: GradientLoadingView.Size.size))
+        let spinnerContainer = Container(
+            frame: CGRect(x: 0, y: 0, width: alertController.view.frame.size.width, height: 200)
+        )
+        let spinner = GradientLoadingView(
+            frame: CGRect(origin: .zero, size: GradientLoadingView.Size.size)
+        )
         spinner.center = spinnerContainer.bounds.center
         spinnerContainer.addSubview(spinner)
         alertController.contentView = spinnerContainer
@@ -353,7 +372,11 @@ class PostbarController: UIResponder {
         shareButtonTapped(post: post, sourceView: sourceView)
     }
 
-    func shareButtonTapped(post: Post, sourceView: UIView, presentingController presenter: UIViewController? = nil) {
+    func shareButtonTapped(
+        post: Post,
+        sourceView: UIView,
+        presentingController presenter: UIViewController? = nil
+    ) {
         guard
             let shareLink = post.shareLink,
             let shareURL = URL(string: shareLink),
@@ -361,15 +384,18 @@ class PostbarController: UIResponder {
         else { return }
 
         Tracker.shared.postShared(post)
-        let activityVC = UIActivityViewController(activityItems: [shareURL], applicationActivities: [SafariActivity()])
+        let activityVC = UIActivityViewController(
+            activityItems: [shareURL],
+            applicationActivities: [SafariActivity()]
+        )
         if UI_USER_INTERFACE_IDIOM() == .phone {
             activityVC.modalPresentationStyle = .fullScreen
-            presentingController.present(activityVC, animated: true) { }
+            presentingController.present(activityVC, animated: true) {}
         }
         else {
             activityVC.modalPresentationStyle = .popover
             activityVC.popoverPresentationController?.sourceView = sourceView
-            presentingController.present(activityVC, animated: true) { }
+            presentingController.present(activityVC, animated: true) {}
         }
     }
 
@@ -431,7 +457,11 @@ class PostbarController: UIResponder {
                     return memo + "@\(username) "
                 }
                 let responder: CreatePostResponder? = self.findProperResponder()
-                responder?.createComment(postId, text: usernamesText, fromController: presentingController)
+                responder?.createComment(
+                    postId,
+                    text: usernamesText,
+                    fromController: presentingController
+                )
             }
             .catch { [weak self] error in
                 guard let `self` = self else { return }
@@ -472,11 +502,20 @@ class PostbarController: UIResponder {
             }
     }
 
-    private func commentLoadSuccess(_ post: Post, comments jsonables: [Model], indexPath: IndexPath, cell: StreamFooterCell) {
+    private func commentLoadSuccess(
+        _ post: Post,
+        comments jsonables: [Model],
+        indexPath: IndexPath,
+        cell: StreamFooterCell
+    ) {
         let createCommentNow = jsonables.count == 0
         self.appendCreateCommentItem(post, at: indexPath)
 
-        var items = StreamCellItemParser().parse(jsonables, streamKind: StreamKind.following, currentUser: currentUser)
+        var items = StreamCellItemParser().parse(
+            jsonables,
+            streamKind: StreamKind.following,
+            currentUser: currentUser
+        )
 
         if let lastComment = jsonables.last,
             let postCommentsCount = post.commentsCount,
@@ -488,7 +527,8 @@ class PostbarController: UIResponder {
             items.append(StreamCellItem(type: .spacer(height: 10.0)))
         }
 
-        streamViewController.insertUnsizedCellItems(items, startingIndexPath: indexPath) { [weak self] in
+        streamViewController.insertUnsizedCellItems(items, startingIndexPath: indexPath) {
+            [weak self] in
             guard let `self` = self else { return }
 
             cell.comments.isEnabled = true

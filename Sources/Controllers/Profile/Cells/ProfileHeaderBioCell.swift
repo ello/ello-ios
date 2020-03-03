@@ -56,7 +56,9 @@ extension ProfileHeaderBioCell: UIWebViewDelegate {
             totalHeight = 0
         }
         else {
-            totalHeight = ProfileHeaderBioSizeCalculator.calculateHeight(webViewHeight: webViewHeight)
+            totalHeight = ProfileHeaderBioSizeCalculator.calculateHeight(
+                webViewHeight: webViewHeight
+            )
         }
 
         if totalHeight != frame.size.height {
@@ -64,7 +66,11 @@ extension ProfileHeaderBioCell: UIWebViewDelegate {
         }
     }
 
-    func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebView.NavigationType) -> Bool {
+    func webView(
+        _ webView: UIWebView,
+        shouldStartLoadWith request: URLRequest,
+        navigationType: UIWebView.NavigationType
+    ) -> Bool {
         return ElloWebViewHelper.handle(request: request, origin: self)
     }
 }

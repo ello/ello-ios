@@ -11,7 +11,9 @@ class ArtistInviteSubmissionSuccessScreenSpec: QuickSpec {
     override func spec() {
         describe("ArtistInviteSubmissionSuccessScreen") {
             describe("snapshots") {
-                validateAllSnapshots(named: "ArtistInviteSubmissionSuccessScreen") { return ArtistInviteSubmissionSuccessScreen() }
+                validateAllSnapshots(named: "ArtistInviteSubmissionSuccessScreen") {
+                    return ArtistInviteSubmissionSuccessScreen()
+                }
             }
         }
     }

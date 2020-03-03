@@ -114,8 +114,13 @@ class InterfaceImageSpec: QuickSpec {
                     ]
                     for image in selectedImages {
                         it("\(image) should have a selectedImage") {
-                            expect(SVGKSourceLocalFile.internalSourceAnywhereInBundle(usingName: "\(image.rawValue)_selected.svg")).toNot(beNil())
-                            expect(SVGKImage(named: "\(image.rawValue)_selected.svg").uiImage).toNot(beNil())
+                            expect(
+                                SVGKSourceLocalFile.internalSourceAnywhereInBundle(
+                                    usingName: "\(image.rawValue)_selected.svg"
+                                )
+                            ).toNot(beNil())
+                            expect(SVGKImage(named: "\(image.rawValue)_selected.svg").uiImage)
+                                .toNot(beNil())
                         }
                     }
                 }
@@ -136,8 +141,14 @@ class InterfaceImageSpec: QuickSpec {
                     ]
                     for image in whiteImages {
                         it("\(image) should have a whiteImage") {
-                            expect(SVGKSourceLocalFile.internalSourceAnywhereInBundle(usingName: "\(image.rawValue)_white.svg")).toNot(beNil())
-                            expect(SVGKImage(named: "\(image.rawValue)_white.svg").uiImage).toNot(beNil())
+                            expect(
+                                SVGKSourceLocalFile.internalSourceAnywhereInBundle(
+                                    usingName: "\(image.rawValue)_white.svg"
+                                )
+                            ).toNot(beNil())
+                            expect(SVGKImage(named: "\(image.rawValue)_white.svg").uiImage).toNot(
+                                beNil()
+                            )
                         }
                     }
                 }
@@ -147,8 +158,13 @@ class InterfaceImageSpec: QuickSpec {
                     ]
                     for image in disabledImages {
                         it("\(image) should have a disabledImage") {
-                            expect(SVGKSourceLocalFile.internalSourceAnywhereInBundle(usingName: "\(image.rawValue)_disabled.svg")).toNot(beNil())
-                            expect(SVGKImage(named: "\(image.rawValue)_disabled.svg").uiImage).toNot(beNil())
+                            expect(
+                                SVGKSourceLocalFile.internalSourceAnywhereInBundle(
+                                    usingName: "\(image.rawValue)_disabled.svg"
+                                )
+                            ).toNot(beNil())
+                            expect(SVGKImage(named: "\(image.rawValue)_disabled.svg").uiImage)
+                                .toNot(beNil())
                         }
                     }
                 }
@@ -158,8 +174,14 @@ class InterfaceImageSpec: QuickSpec {
                     ]
                     for image in redImages {
                         it("\(image) should have a redImage") {
-                            expect(SVGKSourceLocalFile.internalSourceAnywhereInBundle(usingName: "\(image.rawValue)_red.svg")).toNot(beNil())
-                            expect(SVGKImage(named: "\(image.rawValue)_red.svg").uiImage).toNot(beNil())
+                            expect(
+                                SVGKSourceLocalFile.internalSourceAnywhereInBundle(
+                                    usingName: "\(image.rawValue)_red.svg"
+                                )
+                            ).toNot(beNil())
+                            expect(SVGKImage(named: "\(image.rawValue)_red.svg").uiImage).toNot(
+                                beNil()
+                            )
                         }
                     }
                 }

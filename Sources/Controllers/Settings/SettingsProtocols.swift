@@ -40,7 +40,11 @@ protocol SettingsScreenProtocol: class {
     func showError(_ error: String?)
     func setImage(_ property: Profile.ImageProperty, url: URL?)
     func setImage(_ property: Profile.ImageProperty, image: UIImage?)
-    func updateDynamicSettings(_ settings: [DynamicSettingCategory], blockCount: Int, mutedCount: Int)
+    func updateDynamicSettings(
+        _ settings: [DynamicSettingCategory],
+        blockCount: Int,
+        mutedCount: Int
+    )
     func updateAllSettings(blockCount: Int, mutedCount: Int)
 }
 

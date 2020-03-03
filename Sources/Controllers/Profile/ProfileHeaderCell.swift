@@ -28,7 +28,7 @@ class ProfileHeaderCell: CollectionViewCell {
     // this little hack prevents constraints from breaking on initial load
     override var bounds: CGRect {
         didSet {
-          contentView.frame = bounds
+            contentView.frame = bounds
         }
     }
 

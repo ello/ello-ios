@@ -43,7 +43,8 @@ class LightboxViewController: BaseElloViewController {
     }
 
     private func addNotificationObservers() {
-        postChangedNotification = NotificationObserver(notification: PostChangedNotification) { [weak self] (post, change) in
+        postChangedNotification = NotificationObserver(notification: PostChangedNotification) {
+            [weak self] (post, change) in
             guard let `self` = self else { return }
             self.updateItems(post: post)
         }
@@ -131,7 +132,11 @@ extension LightboxViewController: LightboxScreenDelegate {
         guard let postbarController = streamViewController?.postbarController else { return }
 
         let post = allItems[selectedIndex].post
-        postbarController.shareButtonTapped(post: post, sourceView: control, presentingController: self)
+        postbarController.shareButtonTapped(
+            post: post,
+            sourceView: control,
+            presentingController: self
+        )
     }
 
     @objc
@@ -142,7 +147,9 @@ extension LightboxViewController: LightboxScreenDelegate {
     }
 
     func isDifferentPost(delta: Int) -> Bool {
-        guard selectedIndex + delta >= 0 && selectedIndex + delta < allItems.count else { return false }
+        guard selectedIndex + delta >= 0 && selectedIndex + delta < allItems.count else {
+            return false
+        }
         return allItems[selectedIndex + delta].post.id != allItems[selectedIndex].post.id
     }
 
@@ -161,7 +168,12 @@ extension LightboxViewController: LightboxScreenDelegate {
         toolbar.loves.title = post.lovesCount?.numberToHuman(rounding: 1)
         toolbar.comments.title = post.commentsCount?.numberToHuman(rounding: 1)
 
-        let (commentVisibility, loveVisibility, repostVisibility, shareVisibility) = StreamFooterCellPresenter.toolbarItemVisibility(post: post, currentUser: currentUser, isGridView: false)
+        let (commentVisibility, loveVisibility, repostVisibility, shareVisibility) =
+            StreamFooterCellPresenter.toolbarItemVisibility(
+                post: post,
+                currentUser: currentUser,
+                isGridView: false
+            )
         var toolbarItems: [PostToolbar.Item] = [.views]
 
         toolbar.loves.isEnabled = loveVisibility.isEnabled
@@ -215,9 +227,16 @@ extension LightboxViewController: LightboxScreenDelegate {
 }
 
 extension LightboxViewController: UIViewControllerTransitioningDelegate {
-    func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
+    func presentationController(
+        forPresented presented: UIViewController,
+        presenting: UIViewController?,
+        source: UIViewController
+    ) -> UIPresentationController? {
         guard presented == self else { return nil }
 
-        return AlertPresentationController(presentedViewController: presented, presenting: presenting)
+        return AlertPresentationController(
+            presentedViewController: presented,
+            presenting: presenting
+        )
     }
 }

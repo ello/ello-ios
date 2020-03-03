@@ -10,8 +10,15 @@ class DarkModalPresentationController: UIPresentationController {
         return background
     }()
 
-    init(presentedViewController: UIViewController, presentingViewController: UIViewController?, backgroundColor: UIColor) {
-        super.init(presentedViewController: presentedViewController, presenting: presentingViewController)
+    init(
+        presentedViewController: UIViewController,
+        presentingViewController: UIViewController?,
+        backgroundColor: UIColor
+    ) {
+        super.init(
+            presentedViewController: presentedViewController,
+            presenting: presentingViewController
+        )
         self.background.backgroundColor = backgroundColor
     }
 }
@@ -24,9 +31,12 @@ extension DarkModalPresentationController {
         containerView.addSubview(background)
 
         let transitionCoordinator = presentingViewController.transitionCoordinator
-        transitionCoordinator?.animate(alongsideTransition: { _ in
+        transitionCoordinator?.animate(
+            alongsideTransition: { _ in
                 self.background.alpha = 1
-            }, completion: nil)
+            },
+            completion: nil
+        )
         if let presentedView = presentedView {
             containerView.addSubview(presentedView)
         }
@@ -34,9 +44,12 @@ extension DarkModalPresentationController {
 
     override func dismissalTransitionWillBegin() {
         let transitionCoordinator = presentingViewController.transitionCoordinator
-        transitionCoordinator?.animate(alongsideTransition: { _ in
-            self.background.alpha = 0
-            }, completion: nil)
+        transitionCoordinator?.animate(
+            alongsideTransition: { _ in
+                self.background.alpha = 0
+            },
+            completion: nil
+        )
     }
 
     override func dismissalTransitionDidEnd(_ completed: Bool) {

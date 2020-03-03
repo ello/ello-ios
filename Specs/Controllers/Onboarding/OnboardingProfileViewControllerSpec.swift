@@ -183,12 +183,15 @@ class OnboardingProfileViewControllerSpec: QuickSpec {
                 var props: [String: Any] = [:]
                 beforeEach {
                     ElloProvider.moya = ElloProvider.RecordedStubbingProvider([
-                        RecordedResponse(endpoint: .profileUpdate(body: [:]), responseClosure: { target in
+                        RecordedResponse(
+                            endpoint: .profileUpdate(body: [:]),
+                            responseClosure: { target in
                                 if case let .profileUpdate(body) = target {
                                     props = body
                                 }
                                 return .networkResponse(401, Data())
-                            }),
+                            }
+                        ),
                     ])
                 }
 

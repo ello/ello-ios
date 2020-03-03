@@ -25,8 +25,11 @@ class ShareRegionProcessorSpec: QuickSpec {
 
                     expect(prepped.count) == 4
                     expect(prepped[0] == PostEditingService.PostContentRegion.text("yo")) == true
-                    expect(prepped[1] == PostEditingService.PostContentRegion.text("https://ello.co")) == true
-                    expect(prepped[2] == PostEditingService.PostContentRegion.image(expectedImage)) == true
+                    expect(
+                        prepped[1] == PostEditingService.PostContentRegion.text("https://ello.co")
+                    ) == true
+                    expect(prepped[2] == PostEditingService.PostContentRegion.image(expectedImage))
+                        == true
                     expect(prepped[3] == PostEditingService.PostContentRegion.text("hello")) == true
                 }
             }

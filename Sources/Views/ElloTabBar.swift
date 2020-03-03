@@ -127,16 +127,16 @@ class ElloTabBar: UIView {
     }
 
     func addRedDotFor(tab: ElloTab) -> UIView {
-         let redDot = UIView()
-         redDot.backgroundColor = .red
-         redDot.isHidden = true
-         addSubview(redDot)
+        let redDot = UIView()
+        redDot.backgroundColor = .red
+        redDot.isHidden = true
+        addSubview(redDot)
 
-         positionRedDot(redDot, forTab: tab)
-         return redDot
-     }
+        positionRedDot(redDot, forTab: tab)
+        return redDot
+    }
 
-     private func positionRedDot(_ redDot: UIView, forTab tab: ElloTab) {
+    private func positionRedDot(_ redDot: UIView, forTab tab: ElloTab) {
         layoutIfNeeded()
 
         let radius: CGFloat = 3

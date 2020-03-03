@@ -187,7 +187,11 @@ class JoinScreenSpec: QuickSpec {
 
             describe("changing text") {
                 beforeEach {
-                    _ = subject.textField(UITextField(), shouldChangeCharactersIn: NSRange(location: 0, length: 0), replacementString: "")
+                    _ = subject.textField(
+                        UITextField(),
+                        shouldChangeCharactersIn: NSRange(location: 0, length: 0),
+                        replacementString: ""
+                    )
                 }
                 it("should call 'validate' on the delegate") {
                     expect(delegate.didValidate) == true

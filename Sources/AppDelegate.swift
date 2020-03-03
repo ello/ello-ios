@@ -18,14 +18,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     var windowSizeChangedNotification: NotificationObserver?
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    func application(
+        _ application: UIApplication,
+        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+    ) -> Bool {
         #if DEBUG
-        NSSetUncaughtExceptionHandler { exception in
-            print(exception)
-            for sym in exception.callStackSymbols {
-                print(sym)
+            NSSetUncaughtExceptionHandler { exception in
+                print(exception)
+                for sym in exception.callStackSymbols {
+                    print(sym)
+                }
             }
-        }
         #endif
 
         if let debugServer = DebugServer.fromDefaults {
@@ -43,7 +46,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         if Globals.isTesting {
             if UIScreen.main.scale > 2 {
-                fatalError("Tests should be run in a @2x retina device (for snapshot specs to work)")
+                fatalError(
+                    "Tests should be run in a @2x retina device (for snapshot specs to work)"
+                )
             }
 
             if Bundle.main.bundleIdentifier != "co.ello.ElloDev" {
@@ -68,12 +73,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         checkAppStorage()
 
         if let payload = launchOptions?[.remoteNotification] as? [String: Any] {
-            PushNotificationController.shared.receivedNotification(application, action: nil, userInfo: payload)
+            PushNotificationController.shared.receivedNotification(
+                application,
+                action: nil,
+                userInfo: payload
+            )
         }
 
         Tracker.shared.sessionStarted()
 
-        windowSizeChangedNotification = NotificationObserver(notification: Application.Notifications.WindowSizeWillChange) { size in
+        windowSizeChangedNotification = NotificationObserver(
+            notification: Application.Notifications.WindowSizeWillChange
+        ) { size in
             Globals.windowSize = size
         }
 
@@ -106,7 +117,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func checkAppStorage() {
         clearCaches()
 
-        let killDate = Date(timeIntervalSince1970: 1516655690) // jan 22, 2018
+        let killDate = Date(timeIntervalSince1970: 1516655690)  // jan 22, 2018
         let (text, size) = Tmp.sizeDiagnostics()
         guard Globals.now < killDate, size > 300_000_000 else { return }
 
@@ -125,16 +136,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Tracker.setup()
 
         #if DEBUG
-        Tracker.shared.overrideAgent = NullAgent()
+            Tracker.shared.overrideAgent = NullAgent()
         #endif
 
         let agent = ForwardingAgent(agents: [
             SEGAnalytics.shared(),
             QuantcastAgent(),
-            ])
+        ])
         Tracker.shared.defaultAgent = agent
 
-        QuantcastMeasurement.sharedInstance()!.setupMeasurementSession(withAPIKey: "04tp1b6x6eh7o34z-434g4j5r683qwj6e", userIdentifier: nil, labels: nil)
+        QuantcastMeasurement.sharedInstance()!.setupMeasurementSession(
+            withAPIKey: "04tp1b6x6eh7o34z-434g4j5r683qwj6e",
+            userIdentifier: nil,
+            labels: nil
+        )
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
@@ -155,16 +170,32 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 // MARK: Notifications
 extension AppDelegate {
-    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+    func application(
+        _ application: UIApplication,
+        didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data
+    ) {
         PushNotificationController.shared.updateToken(deviceToken)
     }
 
-    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-        PushNotificationController.shared.receivedNotification(application, action: nil, userInfo: userInfo)
+    func application(
+        _ application: UIApplication,
+        didReceiveRemoteNotification userInfo: [AnyHashable: Any],
+        fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void
+    ) {
+        PushNotificationController.shared.receivedNotification(
+            application,
+            action: nil,
+            userInfo: userInfo
+        )
         completionHandler(.noData)
     }
 
-    func application(_ application: UIApplication, handleActionWithIdentifier identifier: String?, forRemoteNotification userInfo: [AnyHashable: Any], completionHandler: @escaping () -> Void) {
+    func application(
+        _ application: UIApplication,
+        handleActionWithIdentifier identifier: String?,
+        forRemoteNotification userInfo: [AnyHashable: Any],
+        completionHandler: @escaping () -> Void
+    ) {
         completionHandler()
     }
 }
@@ -183,7 +214,10 @@ extension AppDelegate {
 }
 
 extension AppDelegate {
-    func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
+    func application(
+        _ application: UIApplication,
+        supportedInterfaceOrientationsFor window: UIWindow?
+    ) -> UIInterfaceOrientationMask {
         if UIDevice.current.userInterfaceIdiom == .phone {
             if AppDelegate.restrictRotation {
                 return .portrait
@@ -196,7 +230,11 @@ extension AppDelegate {
 
 // universal links
 extension AppDelegate {
-    func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
+    func application(
+        _ application: UIApplication,
+        continue userActivity: NSUserActivity,
+        restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void
+    ) -> Bool {
         guard
             let webpageURL = userActivity.webpageURL,
             let appVC = window?.rootViewController as? AppViewController,

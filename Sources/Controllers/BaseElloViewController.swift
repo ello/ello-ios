@@ -34,7 +34,9 @@ class BaseElloViewController: UIViewController,
     }
 
     func fetchScreen<T>(_ mock: T?) -> T {
-        if !isViewLoaded && Globals.isSimulator && !Globals.isTesting { fatalError("should not be accessing 'screen' now") }
+        if !isViewLoaded && Globals.isSimulator && !Globals.isTesting {
+            fatalError("should not be accessing 'screen' now")
+        }
         return mock ?? self.view as! T
     }
 
@@ -133,7 +135,8 @@ class BaseElloViewController: UIViewController,
             (childController as? ControllerThatMightHaveTheCurrentUser)?.currentUser = currentUser
         }
 
-        (presentedViewController as? ControllerThatMightHaveTheCurrentUser)?.currentUser = currentUser
+        (presentedViewController as? ControllerThatMightHaveTheCurrentUser)?.currentUser =
+            currentUser
     }
 
     func showShareActivity(sender: UIView, url shareURL: URL, image: UIImage? = nil) {
@@ -142,15 +145,18 @@ class BaseElloViewController: UIViewController,
             items.append(image)
         }
 
-        let activityVC = UIActivityViewController(activityItems: items, applicationActivities: [SafariActivity()])
+        let activityVC = UIActivityViewController(
+            activityItems: items,
+            applicationActivities: [SafariActivity()]
+        )
         if UI_USER_INTERFACE_IDIOM() == .phone {
             activityVC.modalPresentationStyle = .fullScreen
-            present(activityVC, animated: true) { }
+            present(activityVC, animated: true) {}
         }
         else {
             activityVC.modalPresentationStyle = .popover
             activityVC.popoverPresentationController?.sourceView = sender
-            present(activityVC, animated: true) { }
+            present(activityVC, animated: true) {}
         }
     }
 
@@ -204,7 +210,9 @@ extension BaseElloViewController: PostTappedResponder {
     }
 
     @discardableResult
-    private func postTapped(postId: String, scrollToComment comment: ElloComment?) -> PostDetailViewController {
+    private func postTapped(postId: String, scrollToComment comment: ElloComment?)
+        -> PostDetailViewController
+    {
         let vc = PostDetailViewController(postParam: postId)
         vc.scrollToComment = comment
         vc.currentUser = currentUser
@@ -216,13 +224,22 @@ extension BaseElloViewController: PostTappedResponder {
 extension BaseElloViewController: CategoryResponder {
     @objc
     func categoryTapped(_ category: Category) {
-        let controller = CategoryViewController(currentUser: currentUser, category: category, usage: .detail)
+        let controller = CategoryViewController(
+            currentUser: currentUser,
+            category: category,
+            usage: .detail
+        )
         navigationController?.pushViewController(controller, animated: true)
     }
 
     @objc
     func categoryTapped(slug: String, name: String) {
-        let controller = CategoryViewController(currentUser: currentUser, slug: slug, name: name, usage: .detail)
+        let controller = CategoryViewController(
+            currentUser: currentUser,
+            slug: slug,
+            name: name,
+            usage: .detail
+        )
         navigationController?.pushViewController(controller, animated: true)
     }
 }
@@ -245,7 +262,7 @@ extension BaseElloViewController: UserTappedResponder {
 
     func userParamTapped(_ param: String, username: String?) {
         guard !DeepLinking.alreadyOnUserProfile(navVC: navigationController, userParam: param)
-            else { return }
+        else { return }
 
         let vc = ProfileViewController(userParam: param, username: username)
         vc.currentUser = currentUser
@@ -253,8 +270,7 @@ extension BaseElloViewController: UserTappedResponder {
     }
 
     private func alreadyOnUserProfile(_ user: User) -> Bool {
-        if let profileVC = self.navigationController?.topViewController as? ProfileViewController
-        {
+        if let profileVC = self.navigationController?.topViewController as? ProfileViewController {
             let param = profileVC.userParam
             if param.hasPrefix("~") {
                 return user.username == param.dropFirst()

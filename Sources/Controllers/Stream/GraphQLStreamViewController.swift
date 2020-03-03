@@ -29,8 +29,7 @@ class GraphQLStreamViewController: StreamableViewController {
         initialRequest: @escaping (() -> Promise<(PageConfig, [Post])>),
         nextPageRequest: @escaping ((String) -> Promise<(PageConfig, [Post])>),
         trackerInfo: (String, String?)? = nil
-        )
-    {
+    ) {
         self.streamKind = streamKind
         self.initialRequest = initialRequest
         self.nextPageRequest = nextPageRequest
@@ -56,7 +55,9 @@ class GraphQLStreamViewController: StreamableViewController {
             self.initialRequest()
                 .done { pageConfig, posts in
                     self.pageConfig = pageConfig
-                    self.streamViewController.responseConfig = ResponseConfig(pageConfig: pageConfig)
+                    self.streamViewController.responseConfig = ResponseConfig(
+                        pageConfig: pageConfig
+                    )
                     self.streamViewController.showInitialModels(posts)
                 }
                 .ignoreErrors()
@@ -71,13 +72,23 @@ class GraphQLStreamViewController: StreamableViewController {
 
     override func showNavBars(animated: Bool) {
         super.showNavBars(animated: animated)
-        positionNavBar(navigationBar, visible: true, withConstraint: navigationBarTopConstraint, animated: animated)
+        positionNavBar(
+            navigationBar,
+            visible: true,
+            withConstraint: navigationBarTopConstraint,
+            animated: animated
+        )
         updateInsets()
     }
 
     override func hideNavBars(animated: Bool) {
         super.hideNavBars(animated: animated)
-        positionNavBar(navigationBar, visible: false, withConstraint: navigationBarTopConstraint, animated: animated)
+        positionNavBar(
+            navigationBar,
+            visible: false,
+            withConstraint: navigationBarTopConstraint,
+            animated: animated
+        )
         updateInsets()
     }
 

@@ -54,28 +54,53 @@ class OnboardingProfileScreenSpec: QuickSpec {
             context("snapshots setting existing data") {
                 validateAllSnapshots(named: "OnboardingProfileScreen with data") {
                     subject.name = "name"
-                    subject.bio = "bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio"
-                    subject.links = "links links links links links links links links links links links links"
+                    subject.bio =
+                        "bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio"
+                    subject.links =
+                        "links links links links links links links links links links links links"
                     subject.linksValid = true
-                    subject.coverImage = ImageRegionData(image: UIImage.imageWithColor(.blue, size: CGSize(width: 1000, height: 1000))!)
+                    subject.coverImage = ImageRegionData(
+                        image: UIImage.imageWithColor(
+                            .blue,
+                            size: CGSize(width: 1000, height: 1000)
+                        )!
+                    )
                     subject.avatarImage = ImageRegionData(image: specImage(named: "specs-avatar")!)
                     return subject
                 }
             }
             context("setting text") {
                 it("should notify delegate of name change") {
-                    let textView: ClearTextView! = subject.findSubview { $0.placeholder?.contains("Name") ?? false }
-                    _ = subject.textView(textView, shouldChangeTextIn: NSRange(location: 0, length: 0), replacementText: "!")
+                    let textView: ClearTextView! = subject.findSubview {
+                        $0.placeholder?.contains("Name") ?? false
+                    }
+                    _ = subject.textView(
+                        textView,
+                        shouldChangeTextIn: NSRange(location: 0, length: 0),
+                        replacementText: "!"
+                    )
                     expect(delegate.didAssignName) == true
                 }
                 it("should notify delegate of bio change") {
-                    let textView: ClearTextView! = subject.findSubview { $0.placeholder?.contains("Bio") ?? false }
-                    _ = subject.textView(textView, shouldChangeTextIn: NSRange(location: 0, length: 0), replacementText: "!")
+                    let textView: ClearTextView! = subject.findSubview {
+                        $0.placeholder?.contains("Bio") ?? false
+                    }
+                    _ = subject.textView(
+                        textView,
+                        shouldChangeTextIn: NSRange(location: 0, length: 0),
+                        replacementText: "!"
+                    )
                     expect(delegate.didAssignBio) == true
                 }
                 it("should notify delegate of link change") {
-                    let textView: ClearTextView! = subject.findSubview { $0.placeholder?.contains("Links") ?? false }
-                    _ = subject.textView(textView, shouldChangeTextIn: NSRange(location: 0, length: 0), replacementText: "!")
+                    let textView: ClearTextView! = subject.findSubview {
+                        $0.placeholder?.contains("Links") ?? false
+                    }
+                    _ = subject.textView(
+                        textView,
+                        shouldChangeTextIn: NSRange(location: 0, length: 0),
+                        replacementText: "!"
+                    )
                     expect(delegate.didAssignLinks) == true
                 }
                 it("should notify delegate of avatar change") {

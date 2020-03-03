@@ -9,8 +9,8 @@ struct StreamInviteFriendsCellPresenter {
         streamCellItem: StreamCellItem,
         streamKind: StreamKind,
         indexPath: IndexPath,
-        currentUser: User?)
-    {
+        currentUser: User?
+    ) {
         if let cell = cell as? StreamInviteFriendsCell,
             let person = streamCellItem.jsonable as? LocalPerson
         {

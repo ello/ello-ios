@@ -75,12 +75,13 @@ class OmnibarImageCell: TableViewCell {
             size: CGSize(
                 width: min(intrinsicSize.width, innerFrame.size.width),
                 height: min(intrinsicSize.height, innerFrame.size.height)
-        )).inset(margins)
+            )
+        ).inset(margins)
 
         buyButton.frame.origin = CGPoint(
             x: flImageView.frame.maxX - 10 - buyButton.frame.size.width,
             y: 10
-            )
+        )
         buyButton.layer.cornerRadius = buyButton.frame.size.width / 2
     }
 

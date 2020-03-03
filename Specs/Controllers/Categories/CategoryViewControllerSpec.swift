@@ -9,7 +9,7 @@ import SnapKit
 
 
 class CategoryViewControllerSpec: QuickSpec {
-    class MockCategoryScreen: CategoryScreenProtocol {        
+    class MockCategoryScreen: CategoryScreenProtocol {
         var showSubscribed: Bool = true
         var showEditButton: Bool = true
         var categoriesLoaded: Bool = false
@@ -80,16 +80,19 @@ class CategoryViewControllerSpec: QuickSpec {
                         subject.screen = screen
                         subject.set(subscribedCategories: [
                             Category.stub(["name": "Art"])
-                            ])
+                        ])
                         expect(screen.categoryTitles) == ["All", "Art"]
                     }
                     it("is logged in with subscribed categories") {
-                        subject = CategoryViewController(currentUser: User.stub(["followedCategoryIds": ["1"]]), slug: "art")
+                        subject = CategoryViewController(
+                            currentUser: User.stub(["followedCategoryIds": ["1"]]),
+                            slug: "art"
+                        )
                         screen = MockCategoryScreen()
                         subject.screen = screen
                         subject.set(subscribedCategories: [
                             Category.stub(["name": "Art"])
-                            ])
+                        ])
                         expect(screen.categoryTitles) == ["All", "Subscribed", "Art"]
                     }
                     it("is logged in with no subscribed categories") {
@@ -98,8 +101,10 @@ class CategoryViewControllerSpec: QuickSpec {
                         subject.screen = screen
                         subject.set(subscribedCategories: [
                             Category.stub(["name": "Art"])
-                            ])
-                        expect(screen.categoryTitles) == ["All", "Art", InterfaceString.Discover.ZeroState]
+                        ])
+                        expect(screen.categoryTitles) == [
+                            "All", "Art", InterfaceString.Discover.ZeroState
+                        ]
                     }
                 }
             }

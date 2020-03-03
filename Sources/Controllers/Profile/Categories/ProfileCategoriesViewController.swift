@@ -30,11 +30,19 @@ final class ProfileCategoriesViewController: BaseElloViewController {
 
 extension ProfileCategoriesViewController: UIViewControllerTransitioningDelegate {
 
-    func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
+    func presentationController(
+        forPresented presented: UIViewController,
+        presenting: UIViewController?,
+        source: UIViewController
+    ) -> UIPresentationController? {
         guard presented == self
-            else { return .none }
+        else { return .none }
 
-        return DarkModalPresentationController(presentedViewController: presented, presentingViewController: presenting, backgroundColor: .dimmedModalBackground)
+        return DarkModalPresentationController(
+            presentedViewController: presented,
+            presentingViewController: presenting,
+            backgroundColor: .dimmedModalBackground
+        )
     }
 }
 
@@ -53,7 +61,11 @@ extension ProfileCategoriesViewController: ProfileCategoriesDelegate {
 
     func profileCategoryTapped(_ category: Category) {
         Tracker.shared.categoryOpened(category.slug)
-        let vc = CategoryViewController(currentUser: currentUser, category: category, usage: .detail)
+        let vc = CategoryViewController(
+            currentUser: currentUser,
+            category: category,
+            usage: .detail
+        )
 
         let presentingVC = self.presentingVC
         self.dismiss(animated: true) {

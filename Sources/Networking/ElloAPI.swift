@@ -59,14 +59,25 @@ indirect enum ElloAPI {
     case infiniteScroll(query: URLComponents, api: ElloAPI)
     case invitations(emails: [String])
     case inviteFriends(email: String)
-    case join(email: String, username: String, password: String, nonce: String, invitationCode: String?)
+    case join(
+        email: String,
+        username: String,
+        password: String,
+        nonce: String,
+        invitationCode: String?
+    )
     case joinNonce
     case locationAutoComplete(terms: String)
     case notificationsNewContent(createdAt: Date?)
     case notificationsStream(category: String?)
     case postComments(postId: String)
     case postDetail(postParam: String)
-    case postViews(streamId: String?, streamKind: String, postIds: Set<String>, currentUserId: String?)
+    case postViews(
+        streamId: String?,
+        streamKind: String,
+        postIds: Set<String>,
+        currentUserId: String?
+    )
     case promotionalViews(tokens: Set<String>)
     case postLovers(postId: String)
     case postReplyAll(postId: String)
@@ -116,7 +127,7 @@ indirect enum ElloAPI {
         case .postDetail:
             return .commentsType
         case .userStream,
-             .category:
+            .category:
             return .postsType
         case let .custom(_, api):
             return api.pagingMappingType
@@ -130,12 +141,12 @@ indirect enum ElloAPI {
     var mappingType: MappingType {
         switch self {
         case .anonymousCredentials,
-             .auth,
-             .reAuth,
-             .requestPasswordReset:
+            .auth,
+            .reAuth,
+            .requestPasswordReset:
             return .noContentType  // We do not current have a "Credentials" model, we interact directly with the keychain
         case .editCategoryUser,
-             .createCategoryUser:
+            .createCategoryUser:
             return .categoryUsersType
         case .announcements:
             return .announcementsType
@@ -144,7 +155,7 @@ indirect enum ElloAPI {
         case .availability:
             return .availabilityType
         case .categories,
-             .category:
+            .category:
             return .categoriesType
         case .categoryPostActions:
             return .categoryPostsType
@@ -159,69 +170,69 @@ indirect enum ElloAPI {
         case .joinNonce:
             return .noncesType
         case .currentUserBlockedList,
-             .currentUserMutedList,
-             .currentUserProfile,
-             .findFriends,
-             .join,
-             .postLovers,
-             .postReposters,
-             .profileUpdate,
-             .resetPassword,
-             .searchForUsers,
-             .userStream,
-             .userStreamFollowers,
-             .userStreamFollowing:
+            .currentUserMutedList,
+            .currentUserProfile,
+            .findFriends,
+            .join,
+            .postLovers,
+            .postReposters,
+            .profileUpdate,
+            .resetPassword,
+            .searchForUsers,
+            .userStream,
+            .userStreamFollowers,
+            .userStreamFollowing:
             return .usersType
         case let .custom(_, api):
             return api.mappingType
         case let .customRequest(_, api):
             return api.mappingType
         case .commentDetail,
-             .createComment,
-             .postComments,
-             .updateComment:
+            .createComment,
+            .postComments,
+            .updateComment:
             return .commentsType
         case .createLove:
             return .lovesType
         case .categoryPosts,
-             .createPost,
-             .following,
-             .postDetail,
-             .postRelatedPosts,
-             .rePost,
-             .searchForPosts,
-             .updatePost,
-             .userStreamPosts:
+            .createPost,
+            .following,
+            .postDetail,
+            .postRelatedPosts,
+            .rePost,
+            .searchForPosts,
+            .updatePost,
+            .userStreamPosts:
             return .postsType
         case .createWatchPost,
-             .deleteWatchPost:
+            .deleteWatchPost:
             return .watchesType
         case .emojiAutoComplete,
-             .userNameAutoComplete,
-             .locationAutoComplete:
+            .userNameAutoComplete,
+            .locationAutoComplete:
             return .autoCompleteResultType
         case .announcementsNewContent,
-             .collaborate,
-             .deleteCategoryUser,
-             .deleteComment,
-             .deleteLove,
-             .deletePost,
-             .deleteSubscriptions,
-             .flagComment,
-             .flagPost,
-             .flagUser,
-             .followingNewContent,
-             .hire,
-             .invitations,
-             .inviteFriends,
-             .markAnnouncementAsRead,
-             .notificationsNewContent,
-             .postViews,
-             .profileDelete,
-             .promotionalViews,
-             .pushSubscriptions,
-             .relationshipBatch,
-             .userCategories:
+            .collaborate,
+            .deleteCategoryUser,
+            .deleteComment,
+            .deleteLove,
+            .deletePost,
+            .deleteSubscriptions,
+            .flagComment,
+            .flagPost,
+            .flagUser,
+            .followingNewContent,
+            .hire,
+            .invitations,
+            .inviteFriends,
+            .markAnnouncementAsRead,
+            .notificationsNewContent,
+            .postViews,
+            .profileDelete,
+            .promotionalViews,
+            .pushSubscriptions,
+            .relationshipBatch,
+            .userCategories:
             return .noContentType
         case .notificationsStream:
             return .activitiesType
@@ -242,32 +253,32 @@ extension ElloAPI: AuthenticationEndpoint {
     var supportsAnonymousToken: Bool {
         switch self {
         case .artistInvites,
-             .artistInviteDetail,
-             .artistInviteSubmissions,
-             .availability,
-             .categories,
-             .category,
-             .categoryPosts,
-             .categoryPostActions,
-             .deleteSubscriptions,
-             .editorials,
-             .join,
-             .joinNonce,
-             .postComments,
-             .postDetail,
-             .postLovers,
-             .postRelatedPosts,
-             .postReposters,
-             .postViews,
-             .promotionalViews,
-             .requestPasswordReset,
-             .resetPassword,
-             .searchForPosts,
-             .searchForUsers,
-             .userStream,
-             .userStreamFollowers,
-             .userStreamFollowing,
-             .userStreamPosts:
+            .artistInviteDetail,
+            .artistInviteSubmissions,
+            .availability,
+            .categories,
+            .category,
+            .categoryPosts,
+            .categoryPostActions,
+            .deleteSubscriptions,
+            .editorials,
+            .join,
+            .joinNonce,
+            .postComments,
+            .postDetail,
+            .postLovers,
+            .postRelatedPosts,
+            .postReposters,
+            .postViews,
+            .promotionalViews,
+            .requestPasswordReset,
+            .resetPassword,
+            .searchForPosts,
+            .searchForUsers,
+            .userStream,
+            .userStreamFollowers,
+            .userStreamFollowing,
+            .userStreamPosts:
             return true
         case let .custom(_, api):
             return api.supportsAnonymousToken
@@ -283,8 +294,8 @@ extension ElloAPI: AuthenticationEndpoint {
     var requiresAnyToken: Bool {
         switch self {
         case .anonymousCredentials,
-             .auth,
-             .reAuth:
+            .auth,
+            .reAuth:
             return false
         default:
             return true
@@ -297,49 +308,49 @@ extension ElloAPI: Moya.TargetType {
     var method: Moya.Method {
         switch self {
         case .anonymousCredentials,
-             .auth,
-             .availability,
-             .createCategoryUser,
-             .createComment,
-             .createLove,
-             .createPost,
-             .editCategoryUser,
-             .findFriends,
-             .flagComment,
-             .flagPost,
-             .flagUser,
-             .hire,
-             .collaborate,
-             .invitations,
-             .inviteFriends,
-             .join,
-             .pushSubscriptions,
-             .reAuth,
-             .relationship,
-             .relationshipBatch,
-             .rePost,
-             .requestPasswordReset,
-             .createWatchPost:
+            .auth,
+            .availability,
+            .createCategoryUser,
+            .createComment,
+            .createLove,
+            .createPost,
+            .editCategoryUser,
+            .findFriends,
+            .flagComment,
+            .flagPost,
+            .flagUser,
+            .hire,
+            .collaborate,
+            .invitations,
+            .inviteFriends,
+            .join,
+            .pushSubscriptions,
+            .reAuth,
+            .relationship,
+            .relationshipBatch,
+            .rePost,
+            .requestPasswordReset,
+            .createWatchPost:
             return .post
         case .resetPassword,
-             .userCategories:
+            .userCategories:
             return .put
         case .deleteCategoryUser,
-             .deleteComment,
-             .deleteLove,
-             .deletePost,
-             .deleteSubscriptions,
-             .deleteWatchPost,
-             .profileDelete:
+            .deleteComment,
+            .deleteLove,
+            .deletePost,
+            .deleteSubscriptions,
+            .deleteWatchPost,
+            .profileDelete:
             return .delete
         case .followingNewContent,
-             .announcementsNewContent,
-             .notificationsNewContent:
+            .announcementsNewContent,
+            .notificationsNewContent:
             return .head
         case .markAnnouncementAsRead,
-             .profileUpdate,
-             .updateComment,
-             .updatePost:
+            .profileUpdate,
+            .updateComment,
+            .updatePost:
             return .patch
         case let .custom(_, api):
             return api.method
@@ -363,7 +374,7 @@ extension ElloAPI: Moya.TargetType {
         case .amazonLoggingCredentials:
             return "\(defaultPrefix)/assets/logging"
         case .announcements,
-             .announcementsNewContent:
+            .announcementsNewContent:
             return "\(defaultPrefix)/most_recent_announcements"
         case .artistInvites, .artistInviteSubmissions:
             return "\(defaultPrefix)/artist_invites"
@@ -372,8 +383,8 @@ extension ElloAPI: Moya.TargetType {
         case .markAnnouncementAsRead:
             return "\(ElloAPI.announcements.path)/mark_last_read_announcement"
         case .anonymousCredentials,
-             .auth,
-             .reAuth:
+            .auth,
+            .reAuth:
             return "/api/oauth/token"
         case let .custom(url, _):
             return url.path
@@ -404,7 +415,7 @@ extension ElloAPI: Moya.TargetType {
         case let .createLove(postId):
             return "\(defaultPrefix)/posts/\(postId)/loves"
         case .createPost,
-             .rePost:
+            .rePost:
             return "\(defaultPrefix)/posts"
         case let .createWatchPost(postId):
             return "\(defaultPrefix)/posts/\(postId)/watches"
@@ -417,7 +428,8 @@ extension ElloAPI: Moya.TargetType {
         case let .deletePost(postId):
             return "\(defaultPrefix)/posts/\(postId)"
         case let .deleteSubscriptions(tokenData):
-            return "\(ElloAPI.currentUserProfile.path)/push_subscriptions/apns/\(tokenStringFromData(tokenData))"
+            return
+                "\(ElloAPI.currentUserProfile.path)/push_subscriptions/apns/\(tokenStringFromData(tokenData))"
         case let .deleteWatchPost(postId):
             return "\(defaultPrefix)/posts/\(postId)/watch"
         case .editCategoryUser:
@@ -433,7 +445,7 @@ extension ElloAPI: Moya.TargetType {
         case let .flagUser(userId, kind):
             return "\(defaultPrefix)/users/\(userId)/flag/\(kind)"
         case .followingNewContent,
-             .following:
+            .following:
             return "\(defaultPrefix)/following/posts/recent"
         case let .hire(userId, _):
             return "\(defaultPrefix)/users/\(userId)/hire_me"
@@ -442,7 +454,7 @@ extension ElloAPI: Moya.TargetType {
         case let .infiniteScroll(query, api):
             return api.pagingPath ?? query.path
         case .invitations,
-             .inviteFriends:
+            .inviteFriends:
             return "\(defaultPrefix)/invitations"
         case .join:
             return "\(defaultPrefix)/join"
@@ -451,7 +463,7 @@ extension ElloAPI: Moya.TargetType {
         case .locationAutoComplete:
             return "\(defaultPrefix)/profile/location_autocomplete"
         case .notificationsNewContent,
-             .notificationsStream:
+            .notificationsStream:
             return "\(defaultPrefix)/notifications"
         case let .postComments(postId):
             return "\(defaultPrefix)/posts/\(postId)/comments"
@@ -468,8 +480,8 @@ extension ElloAPI: Moya.TargetType {
         case let .postReposters(postId):
             return "\(defaultPrefix)/posts/\(postId)/reposters"
         case .currentUserProfile,
-             .profileUpdate,
-             .profileDelete:
+            .profileUpdate,
+            .profileDelete:
             return "\(defaultPrefix)/profile"
         case .currentUserBlockedList:
             return "\(defaultPrefix)/profile/blocked"
@@ -478,7 +490,8 @@ extension ElloAPI: Moya.TargetType {
         case .profileToggles:
             return "\(ElloAPI.currentUserProfile.path)/settings"
         case let .pushSubscriptions(tokenData):
-            return "\(ElloAPI.currentUserProfile.path)/push_subscriptions/apns/\(tokenStringFromData(tokenData))"
+            return
+                "\(ElloAPI.currentUserProfile.path)/push_subscriptions/apns/\(tokenStringFromData(tokenData))"
         case let .relationship(userId, relationship):
             return "\(defaultPrefix)/users/\(userId)/add/\(relationship)"
         case .relationshipBatch:
@@ -510,9 +523,15 @@ extension ElloAPI: Moya.TargetType {
         switch self {
         case .postComments:
             let target = URL(string: url(self))!
-            let response = HTTPURLResponse(url: target, statusCode: 200, httpVersion: "1.1", headerFields: [
-                "Link": "<\(target)?before=2014-06-03T00%3A00%3A00.000000000%2B0000>; rel=\"next\""
-                ])!
+            let response = HTTPURLResponse(
+                url: target,
+                statusCode: 200,
+                httpVersion: "1.1",
+                headerFields: [
+                    "Link":
+                        "<\(target)?before=2014-06-03T00%3A00%3A00.000000000%2B0000>; rel=\"next\""
+                ]
+            )!
             return .response(response, sampleData)
         default:
             return .networkResponse(200, sampleData)
@@ -526,8 +545,8 @@ extension ElloAPI: Moya.TargetType {
         case .amazonCredentials, .amazonLoggingCredentials:
             return stubbedData("amazon-credentials")
         case .anonymousCredentials,
-             .auth,
-             .reAuth:
+            .auth,
+            .reAuth:
             return stubbedData("auth")
         case .artistInvites, .artistInviteDetail, .artistInviteSubmissions:
             return stubbedData("artist_invites")
@@ -538,7 +557,7 @@ extension ElloAPI: Moya.TargetType {
         case .createLove:
             return stubbedData("loves_creating_a_love")
         case .createPost,
-             .rePost:
+            .rePost:
             return stubbedData("create-post")
         case .createWatchPost:
             return stubbedData("watches_creating_a_watch")
@@ -549,31 +568,31 @@ extension ElloAPI: Moya.TargetType {
         case .categoryPostActions:
             return stubbedData("empty")
         case .announcementsNewContent,
-             .markAnnouncementAsRead,
-             .createCategoryUser,
-             .deleteCategoryUser,
-             .deleteComment,
-             .deleteLove,
-             .deletePost,
-             .deleteSubscriptions,
-             .deleteWatchPost,
-             .editCategoryUser,
-             .followingNewContent,
-             .hire,
-             .collaborate,
-             .invitations,
-             .inviteFriends,
-             .notificationsNewContent,
-             .profileDelete,
-             .postViews,
-             .promotionalViews,
-             .pushSubscriptions,
-             .flagComment,
-             .flagPost,
-             .flagUser,
-             .userCategories,
-             .resetPassword,
-             .requestPasswordReset:
+            .markAnnouncementAsRead,
+            .createCategoryUser,
+            .deleteCategoryUser,
+            .deleteComment,
+            .deleteLove,
+            .deletePost,
+            .deleteSubscriptions,
+            .deleteWatchPost,
+            .editCategoryUser,
+            .followingNewContent,
+            .hire,
+            .collaborate,
+            .invitations,
+            .inviteFriends,
+            .notificationsNewContent,
+            .profileDelete,
+            .postViews,
+            .promotionalViews,
+            .pushSubscriptions,
+            .flagComment,
+            .flagPost,
+            .flagUser,
+            .userCategories,
+            .resetPassword,
+            .requestPasswordReset:
             return stubbedData("empty")
         case .categoryPosts:
             return stubbedData("users_posts")
@@ -607,9 +626,9 @@ extension ElloAPI: Moya.TargetType {
         case .updateComment:
             return stubbedData("create-comment")
         case .searchForUsers,
-             .userStream,
-             .userStreamFollowers,
-             .userStreamFollowing:
+            .userStream,
+            .userStreamFollowers,
+            .userStreamFollowing:
             return stubbedData("users_user_details")
         case .postLovers:
             return stubbedData("posts_listing_users_who_have_loved_a_post")
@@ -763,9 +782,9 @@ extension ElloAPI: Moya.TargetType {
                 "meta": true,
             ]
         case .categoryPosts,
-             .following,
-             .postComments,
-             .userStreamPosts:
+            .following,
+            .postComments,
+            .userStreamPosts:
             return [
                 "per_page": 10,
             ]
@@ -782,7 +801,8 @@ extension ElloAPI: Moya.TargetType {
         case let .findFriends(contacts):
             var hashedContacts = [String: [String]]()
             for (key, emails) in contacts {
-                hashedContacts[key] = emails.map { $0.saltedSHA1String }.reduce([String]()) { (accum, hash) in
+                hashedContacts[key] = emails.map { $0.saltedSHA1String }.reduce([String]()) {
+                    (accum, hash) in
                     if let hash = hash {
                         return accum + [hash]
                     }
@@ -839,8 +859,10 @@ extension ElloAPI: Moya.TargetType {
                 "per_page": 4,
             ]
         case let .postViews(streamId, streamKind, postIds, userId):
-            let streamIdDict: [String: String] = streamId.map { streamId in return ["id": streamId]} ?? [:]
-            let userIdDict: [String: String] = userId.map { userId in return ["user_id": userId]} ?? [:]
+            let streamIdDict: [String: String] = streamId.map { streamId in return ["id": streamId]
+            } ?? [:]
+            let userIdDict: [String: String] = userId.map { userId in return ["user_id": userId] }
+                ?? [:]
             return [
                 "post_ids": postIds.reduce("") { memo, id in
                     if memo == "" { return id }
@@ -859,7 +881,7 @@ extension ElloAPI: Moya.TargetType {
         case let .profileUpdate(body):
             return body
         case .pushSubscriptions,
-             .deleteSubscriptions:
+            .deleteSubscriptions:
             var bundleIdentifier = "co.ello.ElloDev"
             var bundleShortVersionString = "unknown"
             var bundleVersion = "unknown"
@@ -868,7 +890,9 @@ extension ElloAPI: Moya.TargetType {
                 bundleIdentifier = bundleId
             }
 
-            if let shortVersionString = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
+            if let shortVersionString = Bundle.main.infoDictionary?["CFBundleShortVersionString"]
+                as? String
+            {
                 bundleShortVersionString = shortVersionString
             }
 
@@ -894,14 +918,14 @@ extension ElloAPI: Moya.TargetType {
                 "priority": relationship
             ]
         case let .rePost(postId):
-            return [ "repost_id": Int(postId) ?? -1 ]
+            return ["repost_id": Int(postId) ?? -1]
         case let .resetPassword(password, token):
             return [
                 "password": password,
                 "reset_password_token": token,
             ]
         case let .requestPasswordReset(email):
-            return [ "email": email ]
+            return ["email": email]
         case let .searchForPosts(terms):
             return [
                 "terms": terms,
@@ -949,7 +973,7 @@ private func tokenStringFromData(_ data: Data) -> String {
     return data.map { String(format: "%02x", $0) }.joined()
 }
 
-func += <KeyType, ValueType> (left: inout [KeyType: ValueType], right: [KeyType: ValueType]) {
+func += <KeyType, ValueType>(left: inout [KeyType: ValueType], right: [KeyType: ValueType]) {
     for (k, v) in right {
         left.updateValue(v, forKey: k)
     }

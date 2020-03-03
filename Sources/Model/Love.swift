@@ -17,11 +17,12 @@ final class Love: Model, PostActionable {
     var post: Post? { return getLinkObject("post") }
     var user: User? { return getLinkObject("user") }
 
-    init(id: String,
+    init(
+        id: String,
         isDeleted: Bool,
         postId: String,
-        userId: String)
-    {
+        userId: String
+    ) {
         self.id = id
         self.isDeleted = isDeleted
         self.postId = postId

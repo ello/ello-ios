@@ -35,7 +35,12 @@ class StreamInviteFriendsCell: UICollectionViewCell {
     }
 
     override func layoutSubviews() {
-        bottomBorder.frame = CGRect(x: 0, y: self.bounds.height - 1, width: self.bounds.width, height: 1)
+        bottomBorder.frame = CGRect(
+            x: 0,
+            y: self.bounds.height - 1,
+            width: self.bounds.width,
+            height: 1
+        )
         super.layoutSubviews()
     }
 

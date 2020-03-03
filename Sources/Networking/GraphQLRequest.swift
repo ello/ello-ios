@@ -25,7 +25,12 @@ class GraphQLRequest<T>: AuthenticationEndpoint {
     private var uuid: UUID!
     private var memoHttpBody: Data?
 
-    init(endpointName: String, parser: @escaping ((JSON) throws -> T), variables: [GQLVariable] = [], body: Fragments) {
+    init(
+        endpointName: String,
+        parser: @escaping ((JSON) throws -> T),
+        variables: [GQLVariable] = [],
+        body: Fragments
+    ) {
         self.endpointName = endpointName
         self.parser = parser
         self.variables = variables
@@ -47,7 +52,8 @@ class GraphQLRequest<T>: AuthenticationEndpoint {
             self.prevSeal = seal
         }
 
-        AuthenticationManager.shared.attemptRequest(self,
+        AuthenticationManager.shared.attemptRequest(
+            self,
             retry: { _ = self.execute() },
             proceed: { uuid in
                 self.uuid = uuid
@@ -64,9 +70,14 @@ class GraphQLRequest<T>: AuthenticationEndpoint {
                     }
             },
             cancel: {
-                let elloError = NSError(domain: ElloErrorDomain, code: 401, userInfo: [NSLocalizedFailureReasonErrorKey: "Logged Out"])
+                let elloError = NSError(
+                    domain: ElloErrorDomain,
+                    code: 401,
+                    userInfo: [NSLocalizedFailureReasonErrorKey: "Logged Out"]
+                )
                 seal.reject(elloError)
-            })
+            }
+        )
 
         return promise
     }
@@ -124,14 +135,25 @@ class GraphQLRequest<T>: AuthenticationEndpoint {
 
     private func handleServerOutOfDate(reject: (Error) -> Void) {
         postNotification(AuthenticationNotifications.outOfDateAPI, value: ())
-        let elloError = NSError(domain: ElloErrorDomain, code: 410, userInfo: [NSLocalizedFailureReasonErrorKey: "Server Out of Date"])
+        let elloError = NSError(
+            domain: ElloErrorDomain,
+            code: 410,
+            userInfo: [NSLocalizedFailureReasonErrorKey: "Server Out of Date"]
+        )
         reject(elloError)
     }
 
-    private func handleUserUnauthenticated(data: Data, statusCode: Int, reject: @escaping (Error) -> Void) {
+    private func handleUserUnauthenticated(
+        data: Data,
+        statusCode: Int,
+        reject: @escaping (Error) -> Void
+    ) {
         AuthenticationManager.shared.attemptAuthentication(
             uuid: uuid,
-            request: (self, { _ = self.execute() }, { self.handleServerError(data: data, statusCode: statusCode, reject: reject) })
+            request: (
+                self, { _ = self.execute() },
+                { self.handleServerError(data: data, statusCode: statusCode, reject: reject) }
+            )
         )
     }
 
@@ -187,14 +209,14 @@ extension GraphQLRequest {
 
     private func queryVariables() -> String {
         return variables.map({ variable in
-                return "$\(variable.name): \(variable.type)"
-            }).joined(separator: ", ")
+            return "$\(variable.name): \(variable.type)"
+        }).joined(separator: ", ")
     }
 
     private func endpointVariables() -> String {
         return variables.map({ variable in
-                return "\(variable.name): $\(variable.name)"
-            }).joined(separator: ", ")
+            return "\(variable.name): $\(variable.name)"
+        }).joined(separator: ", ")
     }
 
     private func httpBody() throws -> Data {

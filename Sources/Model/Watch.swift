@@ -16,10 +16,11 @@ final class Watch: Model, PostActionable {
     var post: Post? { return getLinkObject("post") }
     var user: User? { return getLinkObject("user") }
 
-    init(id: String,
+    init(
+        id: String,
         postId: String,
-        userId: String )
-    {
+        userId: String
+    ) {
         self.id = id
         self.postId = postId
         self.userId = userId

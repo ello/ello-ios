@@ -69,7 +69,8 @@ class ElloTextFieldView: View {
     }
     private var messageHeight: CGFloat {
         if hasMessage {
-            return messageLabel.sizeThatFits(CGSize(width: messageLabel.frame.width, height: 0)).height
+            return messageLabel.sizeThatFits(CGSize(width: messageLabel.frame.width, height: 0))
+                .height
         }
         else {
             return 0
@@ -112,7 +113,8 @@ class ElloTextFieldView: View {
 
         messageLabel.snp.makeConstraints { make in
             messageLabelHeight = make.height.equalTo(0).constraint
-            errorLabelSeparationSpacing = make.top.equalTo(errorLabel.snp.bottom).offset(Size.verticalSpacing).constraint
+            errorLabelSeparationSpacing =
+                make.top.equalTo(errorLabel.snp.bottom).offset(Size.verticalSpacing).constraint
             make.leading.bottom.equalTo(self).inset(Size.margins)
         }
 
@@ -215,7 +217,8 @@ extension ElloTextFieldView {
         textField.keyboardType = .emailAddress
     }
 
-    class func styleAsPassword(_ passwordView: ElloTextFieldView, returnKey: UIReturnKeyType = .go) {
+    class func styleAsPassword(_ passwordView: ElloTextFieldView, returnKey: UIReturnKeyType = .go)
+    {
         passwordView.label.text = InterfaceString.Join.Password
         styleAsPasswordField(passwordView.textField, returnKey: returnKey)
     }

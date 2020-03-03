@@ -4,7 +4,9 @@
 
 struct NotificationAttributedTitle {
 
-    static private func attrs(_ addlAttrs: [NSAttributedString.Key: Any] = [:]) -> [NSAttributedString.Key: Any] {
+    static private func attrs(_ addlAttrs: [NSAttributedString.Key: Any] = [:])
+        -> [NSAttributedString.Key: Any]
+    {
         let attrs: [NSAttributedString.Key: Any] = [
             .font: UIFont.defaultFont(),
             .foregroundColor: UIColor.greyA,
@@ -18,11 +20,14 @@ struct NotificationAttributedTitle {
 
     static private func styleUser(_ user: User?) -> NSAttributedString {
         if let user = user {
-            return NSAttributedString(string: user.atName, attributes: attrs([
-                ElloAttributedText.Link: "user",
-                ElloAttributedText.Object: user,
-                .underlineStyle: NSUnderlineStyle.single.rawValue,
-            ]))
+            return NSAttributedString(
+                string: user.atName,
+                attributes: attrs([
+                    ElloAttributedText.Link: "user",
+                    ElloAttributedText.Object: user,
+                    .underlineStyle: NSUnderlineStyle.single.rawValue,
+                ])
+            )
         }
         else {
             return styleText("Someone")
@@ -223,7 +228,9 @@ struct NotificationAttributedTitle {
                     .appending(styleText(" you’re watching."))
             }
             else {
-                return styleUser(author).appending(styleText(" commented on a post you’re watching."))
+                return styleUser(author).appending(
+                    styleText(" commented on a post you’re watching.")
+                )
             }
         case .watchOnRepostNotification:
             if let watch = subject as? Watch,
@@ -282,7 +289,8 @@ struct NotificationAttributedTitle {
         case .categoryPostFeatured:
             if let submission = subject as? CategoryPost,
                 let featuredBy = submission.featuredBy,
-                let categoryText = submission.category.map(({ styleCategory($0) })) ?? submission.categoryPartial.map({ styleCategory(partial: $0) }),
+                let categoryText = submission.category.map(({ styleCategory($0) }))
+                    ?? submission.categoryPartial.map({ styleCategory(partial: $0) }),
                 let post = submission.post
             {
                 return styleUser(featuredBy)
@@ -298,7 +306,8 @@ struct NotificationAttributedTitle {
         case .categoryRepostFeatured:
             if let submission = subject as? CategoryPost,
                 let featuredBy = submission.featuredBy,
-                let categoryText = submission.category.map(({ styleCategory($0) })) ?? submission.categoryPartial.map({ styleCategory(partial: $0) }),
+                let categoryText = submission.category.map(({ styleCategory($0) }))
+                    ?? submission.categoryPartial.map({ styleCategory(partial: $0) }),
                 let post = submission.post
             {
                 return styleUser(featuredBy)
@@ -314,7 +323,8 @@ struct NotificationAttributedTitle {
         case .categoryPostViaRepostFeatured:
             if let submission = subject as? CategoryPost,
                 let featuredBy = submission.featuredBy,
-                let categoryText = submission.category.map(({ styleCategory($0) })) ?? submission.categoryPartial.map({ styleCategory(partial: $0) }),
+                let categoryText = submission.category.map(({ styleCategory($0) }))
+                    ?? submission.categoryPartial.map({ styleCategory(partial: $0) }),
                 let repost = submission.post,
                 let source = repost.repostSource
             {

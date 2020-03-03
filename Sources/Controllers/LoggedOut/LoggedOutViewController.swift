@@ -69,7 +69,9 @@ class LoggedOutViewController: BaseElloViewController, BottomBarController {
 extension LoggedOutViewController {
 
     func setupNotificationObservers() {
-        userActionAttemptedObserver = NotificationObserver(notification: LoggedOutNotifications.userActionAttempted) { [weak self] action in
+        userActionAttemptedObserver = NotificationObserver(
+            notification: LoggedOutNotifications.userActionAttempted
+        ) { [weak self] action in
             switch action {
             case .relationshipChange:
                 Tracker.shared.loggedOutRelationshipAction()

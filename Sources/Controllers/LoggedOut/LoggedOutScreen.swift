@@ -89,7 +89,8 @@ class LoggedOutScreen: Screen, LoggedOutScreenProtocol {
         bottomBarView.snp.makeConstraints { make in
             make.trailing.leading.bottom.equalTo(self)
             bottomBarCollapsedConstraint = make.height.equalTo(Size.bottomBarHeight).constraint
-            bottomBarExpandedConstraint = make.top.equalTo(joinLabel.snp.top).offset(-Size.textMargin).constraint
+            bottomBarExpandedConstraint =
+                make.top.equalTo(joinLabel.snp.top).offset(-Size.textMargin).constraint
         }
         bottomBarExpandedConstraint.deactivate()
 
@@ -116,7 +117,9 @@ class LoggedOutScreen: Screen, LoggedOutScreenProtocol {
         }
 
         closeButton.snp.makeConstraints { make in
-            make.trailing.equalTo(bottomBarView).inset(Size.buttonInsets.right + Size.closeButtonOffset.x)
+            make.trailing.equalTo(bottomBarView).inset(
+                Size.buttonInsets.right + Size.closeButtonOffset.x
+            )
             make.top.equalTo(joinLabel).offset(Size.closeButtonOffset.y)
         }
     }
@@ -133,7 +136,9 @@ extension LoggedOutScreen {
     func showJoinText() {
         bottomBarCollapsedConstraint.deactivate()
         bottomBarExpandedConstraint.activate()
-        let height = Size.textMargin + joinLabel.frame.height + Size.textMargin + tagLabel.frame.height + Size.textMargin + joinButton.frame.height + Size.buttonInsets.bottom
+        let height = Size.textMargin + joinLabel.frame.height + Size.textMargin
+            + tagLabel.frame.height + Size.textMargin + joinButton.frame.height
+            + Size.buttonInsets.bottom
         elloAnimate {
             self.bottomBarView.frame = self.bounds.fromBottom().grow(up: height)
             self.joinLabel.frame.origin.y = Size.textMargin

@@ -15,7 +15,7 @@ class ElloHUD: View {
     }
 
     class func showLoadingHudInView(_ view: UIView) {
-        if let existingHud: ElloHUD = view.findSubview() {
+        if let existingHud:ElloHUD = view.findSubview() {
             existingHud.showCount += 1
             return
         }
@@ -31,7 +31,7 @@ class ElloHUD: View {
     }
 
     class func hideLoadingHudInView(_ view: UIView) {
-        guard let hud: ElloHUD = view.findSubview() else { return }
+        guard let hud:ElloHUD = view.findSubview() else { return }
         guard hud.showCount == 0 else {
             hud.showCount -= 1
             return

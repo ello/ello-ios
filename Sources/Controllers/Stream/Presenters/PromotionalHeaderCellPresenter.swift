@@ -9,14 +9,14 @@ struct PromotionalHeaderCellPresenter {
         streamCellItem: StreamCellItem,
         streamKind: StreamKind,
         indexPath: IndexPath,
-        currentUser: User?)
-    {
+        currentUser: User?
+    ) {
         guard
             let cell = cell as? PromotionalHeaderCell,
             let pageHeader = streamCellItem.jsonable as? PageHeader
         else { return }
 
-       let config = PromotionalHeaderCell.Config(pageHeader: pageHeader)
-       cell.config = config
+        let config = PromotionalHeaderCell.Config(pageHeader: pageHeader)
+        cell.config = config
     }
 }

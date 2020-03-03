@@ -27,7 +27,10 @@ class ArtistInvitesScreen: HomeSubviewScreen {
 
     override func arrange() {
         super.arrange()
-        arrangeHomeScreenNavBar(type: .artistInvites(loggedIn: usage == .loggedIn), navigationBar: navigationBar)
+        arrangeHomeScreenNavBar(
+            type: .artistInvites(loggedIn: usage == .loggedIn),
+            navigationBar: navigationBar
+        )
     }
 }
 

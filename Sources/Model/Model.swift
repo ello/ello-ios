@@ -34,7 +34,7 @@ class Model: NSObject, NSCoding {
     required init(coder: NSCoder) {
         let decoder = Coder(coder)
         self.links = [:]
-        if let decoderData: [String: Any] = decoder.decodeOptionalKey("links") {
+        if let decoderData:[String: Any] = decoder.decodeOptionalKey("links") {
             for (key, data) in decoderData {
                 guard let decoded = Link.decode(key, data) else { continue }
                 links[key] = decoded
@@ -85,7 +85,9 @@ extension Model {
 
         var arr = [T]()
         ElloLinkedStore.shared.readConnection.read { transaction in
-            arr = ids.compactMap { transaction.object(forKey: $0, inCollection: mappingType.rawValue) as? T }
+            arr = ids.compactMap {
+                transaction.object(forKey: $0, inCollection: mappingType.rawValue) as? T
+            }
         }
         return arr
     }
@@ -132,7 +134,7 @@ extension Model.Link {
 
         guard
             let data = rawData as? [String: Any],
-            let type: MappingType = (data["type"] as? String).flatMap({ MappingType(rawValue: $0) })
+            let type:MappingType = (data["type"] as? String).flatMap({ MappingType(rawValue: $0) })
         else { return nil }
 
         if let id = data["id"] as? String {

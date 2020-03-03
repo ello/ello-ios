@@ -20,7 +20,10 @@ class DeleteAccountConfirmationViewController: BaseElloViewController {
     private var counter = 5
 
     init() {
-        super.init(nibName: "DeleteAccountConfirmationView", bundle: Bundle(for: DeleteAccountConfirmationViewController.self))
+        super.init(
+            nibName: "DeleteAccountConfirmationView",
+            bundle: Bundle(for: DeleteAccountConfirmationViewController.self)
+        )
     }
 
     required init?(coder: NSCoder) {
@@ -52,7 +55,13 @@ class DeleteAccountConfirmationViewController: BaseElloViewController {
             let title = InterfaceString.Settings.AccountIsBeingDeleted
             titleLabel.text = title
             titleLabel.font = UIFont(descriptor: titleLabel.font.fontDescriptor, size: 18)
-            timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(DeleteAccountConfirmationViewController.tick), userInfo: .none, repeats: true)
+            timer = Timer.scheduledTimer(
+                timeInterval: 1.0,
+                target: self,
+                selector: #selector(DeleteAccountConfirmationViewController.tick),
+                userInfo: .none,
+                repeats: true
+            )
             infoLabel.isHidden = true
             buttonView.isHidden = true
             cancelView.isVisible = true

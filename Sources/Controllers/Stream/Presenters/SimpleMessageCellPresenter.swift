@@ -9,8 +9,8 @@ struct SimpleMessageCellPresenter {
         streamCellItem: StreamCellItem,
         streamKind: StreamKind,
         indexPath: IndexPath,
-        currentUser: User?)
-    {
+        currentUser: User?
+    ) {
         guard let cell = cell as? SimpleMessageCell else { return }
 
         cell.title = InterfaceString.EmptyStreamText
@@ -21,8 +21,8 @@ struct SimpleMessageCellPresenter {
         streamCellItem: StreamCellItem,
         streamKind: StreamKind,
         indexPath: IndexPath,
-        currentUser: User?)
-    {
+        currentUser: User?
+    ) {
         guard
             let cell = cell as? SimpleMessageCell,
             case let .error(message) = streamCellItem.type

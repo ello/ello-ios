@@ -66,14 +66,24 @@ class SearchViewController: StreamableViewController {
 
     override func showNavBars(animated: Bool) {
         super.showNavBars(animated: animated)
-        positionNavBar(screen.navigationBar, visible: true, withConstraint: screen.navigationBarTopConstraint, animated: animated)
+        positionNavBar(
+            screen.navigationBar,
+            visible: true,
+            withConstraint: screen.navigationBarTopConstraint,
+            animated: animated
+        )
         screen.showNavBars(animated: animated)
         updateInsets()
     }
 
     override func hideNavBars(animated: Bool) {
         super.hideNavBars(animated: animated)
-        positionNavBar(screen.navigationBar, visible: false, withConstraint: screen.navigationBarTopConstraint, animated: animated)
+        positionNavBar(
+            screen.navigationBar,
+            visible: false,
+            withConstraint: screen.navigationBarTopConstraint,
+            animated: animated
+        )
         screen.hideNavBars(animated: animated)
         updateInsets()
     }
@@ -87,7 +97,7 @@ class SearchViewController: StreamableViewController {
 extension SearchViewController: SearchScreenDelegate {
 
     func searchCanceled() {
-       _ = navigationController?.popViewController(animated: true)
+        _ = navigationController?.popViewController(animated: true)
     }
 
     func searchFieldCleared() {
@@ -126,7 +136,8 @@ extension SearchViewController: SearchScreenDelegate {
 
         self.isPostSearch = isPostSearch
         searchText = text
-        let endpoint = isPostSearch ? ElloAPI.searchForPosts(terms: text) : ElloAPI.searchForUsers(terms: text)
+        let endpoint = isPostSearch
+            ? ElloAPI.searchForPosts(terms: text) : ElloAPI.searchForUsers(terms: text)
         let streamKind = StreamKind.simpleStream(endpoint: endpoint, title: "")
         streamViewController.streamKind = streamKind
         streamViewController.removeAllCellItems()

@@ -67,7 +67,10 @@ class BlockUserModalScreen: View, BlockUserModalScreenProtocol {
         addSubview(modalView)
 
         modalView.addSubview(innerView)
-        let innerViews: [UIView] = [closeButton, titleLabel, muteButton, muteLabel, blockButton, blockLabel, flagButton, flagLabel]
+        let innerViews: [UIView] = [
+            closeButton, titleLabel, muteButton, muteLabel, blockButton, blockLabel, flagButton,
+            flagLabel
+        ]
         for view in innerViews {
             innerView.addSubview(view)
         }
@@ -93,9 +96,15 @@ extension BlockUserModalScreen {
 
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 6
-        let labels: [(UILabel, String)] = [(titleLabel, titleText), (muteLabel, muteText), (blockLabel, blockText), (flagLabel, flagText)]
+        let labels: [(UILabel, String)] = [
+            (titleLabel, titleText), (muteLabel, muteText), (blockLabel, blockText),
+            (flagLabel, flagText)
+        ]
         for (label, text) in labels {
-            label.attributedText = NSAttributedString(string: text, attributes: [.paragraphStyle: paragraphStyle])
+            label.attributedText = NSAttributedString(
+                string: text,
+                attributes: [.paragraphStyle: paragraphStyle]
+            )
         }
 
         resetButtons()
@@ -139,7 +148,8 @@ extension BlockUserModalScreen {
         let relationshipPriority: RelationshipPriority
         if sender.isSelected == true {
             relationshipPriority = .inactive
-        } else {
+        }
+        else {
             relationshipPriority = .block
         }
         delegate?.updateRelationship(relationshipPriority)
@@ -150,7 +160,8 @@ extension BlockUserModalScreen {
         let relationshipPriority: RelationshipPriority
         if sender.isSelected == true {
             relationshipPriority = .inactive
-        } else {
+        }
+        else {
             relationshipPriority = .mute
         }
         delegate?.updateRelationship(relationshipPriority)
@@ -182,17 +193,21 @@ extension BlockUserModalScreen {
         closeButton.frame = CGRect(
             x: innerWidth - Size.closeButtonSize,
             y: 0,
-            width: Size.closeButtonSize, height: Size.closeButtonSize
-            )
+            width: Size.closeButtonSize,
+            height: Size.closeButtonSize
+        )
         titleLabel.frame = CGRect(
-            x: 0, y: 0,
+            x: 0,
+            y: 0,
             width: titleWidth,
             height: 10
-            )
+        )
         titleLabel.sizeToFit()
 
         var y: CGFloat = titleLabel.frame.maxY
-        for (button, label) in [(muteButton, muteLabel), (blockButton, blockLabel), (flagButton, flagLabel)] {
+        for (button, label) in [
+            (muteButton, muteLabel), (blockButton, blockLabel), (flagButton, flagLabel)
+        ] {
             for view in [button, label] {
                 view.frame.origin.x = 0
                 view.frame.size.width = innerWidth
@@ -211,7 +226,9 @@ extension BlockUserModalScreen {
         let innerFrame = CGRect(
             x: Size.innerMargins.left,
             y: Size.innerMargins.top,
-            width: innerWidth, height: y)
+            width: innerWidth,
+            height: y
+        )
         innerView.frame = innerFrame
 
         modalView.contentSize = CGSize(width: modalWidth, height: innerFrame.maxY)
@@ -220,8 +237,9 @@ extension BlockUserModalScreen {
         modalView.frame = CGRect(
             x: Size.outerMargins.left,
             y: Size.outerMargins.top,
-            width: modalWidth, height: min(bestScrollHeight, maxScrollHeight)
-            )
+            width: modalWidth,
+            height: min(bestScrollHeight, maxScrollHeight)
+        )
     }
 
 }

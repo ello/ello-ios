@@ -20,10 +20,15 @@ struct ElloAttributedString {
 
     static func render(_ input: NSAttributedString) -> String {
         var output = ""
-        input.enumerateAttributes(in: NSRange(location: 0, length: input.length), options: .longestEffectiveRangeNotRequired) { attrs, nsrange, stopPtr in
+        input.enumerateAttributes(
+            in: NSRange(location: 0, length: input.length),
+            options: .longestEffectiveRangeNotRequired
+        ) { attrs, nsrange, stopPtr in
             // (tagName, attributes?)
             var tags = [HtmlTagTuple]()
-            if let underlineStyle = attrs[.underlineStyle] as? Int, underlineStyle == NSUnderlineStyle.single.rawValue {
+            if let underlineStyle = attrs[.underlineStyle] as? Int,
+                underlineStyle == NSUnderlineStyle.single.rawValue
+            {
                 tags.append(HtmlTagTuple("u"))
             }
 
@@ -41,7 +46,12 @@ struct ElloAttributedString {
             }
 
             if let link = attrs[.link] as? URL {
-                tags.append(HtmlTagTuple("a", attributes: "href=\"\(link.absoluteString.entitiesEncoded())\""))
+                tags.append(
+                    HtmlTagTuple(
+                        "a",
+                        attributes: "href=\"\(link.absoluteString.entitiesEncoded())\""
+                    )
+                )
             }
 
             for htmlTag in tags {

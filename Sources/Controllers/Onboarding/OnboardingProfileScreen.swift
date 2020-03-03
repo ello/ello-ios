@@ -140,8 +140,16 @@ class OnboardingProfileScreen: Screen, OnboardingProfileScreenProtocol {
         nameTextView.delegate = self
         bioTextView.delegate = self
         linksTextView.delegate = self
-        uploadCoverImageButton.addTarget(self, action: #selector(uploadCoverImageAction), for: .touchUpInside)
-        uploadAvatarButton.addTarget(self, action: #selector(uploadAvatarAction), for: .touchUpInside)
+        uploadCoverImageButton.addTarget(
+            self,
+            action: #selector(uploadCoverImageAction),
+            for: .touchUpInside
+        )
+        uploadAvatarButton.addTarget(
+            self,
+            action: #selector(uploadAvatarAction),
+            for: .touchUpInside
+        )
     }
 
     override func setText() {
@@ -150,7 +158,7 @@ class OnboardingProfileScreen: Screen, OnboardingProfileScreenProtocol {
         headerLabel.attributedText = NSAttributedString(
             primaryHeader: InterfaceString.Onboard.CreateProfilePrimary,
             secondaryHeader: InterfaceString.Onboard.CreateProfileSecondary
-            )
+        )
         uploadCoverImagePrompt.text = InterfaceString.Onboard.UploadCoverImagePrompt
         uploadAvatarPrompt.text = InterfaceString.Onboard.UploadAvatarPrompt
         nameTextView.placeholder = InterfaceString.Onboard.NamePlaceholder
@@ -183,7 +191,10 @@ class OnboardingProfileScreen: Screen, OnboardingProfileScreenProtocol {
             make.width.equalTo(self).priority(Priority.required)
         }
 
-        headerLabel.setContentCompressionResistancePriority(UILayoutPriority.defaultLow, for: .horizontal)
+        headerLabel.setContentCompressionResistancePriority(
+            UILayoutPriority.defaultLow,
+            for: .horizontal
+        )
         headerLabel.snp.makeConstraints { make in
             make.top.equalTo(scrollView)
             make.leading.trailing.equalTo(scrollView).inset(Size.insets)
@@ -257,7 +268,8 @@ extension OnboardingProfileScreen {
         config.addImage = { _ in return InterfaceString.ImagePicker.ChooseImage }
         let pickerSheet = UIImagePickerController.imagePickerSheetForImagePicker(
             config: config,
-            callback: openImageSheet)
+            callback: openImageSheet
+        )
         pickerSheet.maximumSelection = 1
         delegate?.present(controller: pickerSheet)
     }
@@ -270,14 +282,18 @@ extension OnboardingProfileScreen {
         config.addImage = { _ in return InterfaceString.ImagePicker.ChooseImage }
         let pickerSheet = UIImagePickerController.imagePickerSheetForImagePicker(
             config: config,
-            callback: openImageSheet)
+            callback: openImageSheet
+        )
         pickerSheet.maximumSelection = 1
         delegate?.present(controller: pickerSheet)
     }
 }
 
 extension OnboardingProfileScreen: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
-    func imagePickerController(_ controller: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
+    func imagePickerController(
+        _ controller: UIImagePickerController,
+        didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
+    ) {
         guard
             let uploading = uploading
         else {
@@ -292,7 +308,11 @@ extension OnboardingProfileScreen: UINavigationControllerDelegate, UIImagePicker
         else if let image = info[.originalImage] as? UIImage {
             image.copyWithCorrectOrientationAndSize { image in
                 if let image = image {
-                    self.setImage(ImageRegionData(image: image), target: uploading, updateDelegate: true)
+                    self.setImage(
+                        ImageRegionData(image: image),
+                        target: uploading,
+                        updateDelegate: true
+                    )
                 }
 
                 self.delegate?.dismissController()
@@ -316,17 +336,25 @@ extension OnboardingProfileScreen: UINavigationControllerDelegate, UIImagePicker
         }
     }
 
-    func setImage(_ imageRegion: ImageRegionData?, target uploading: ImageTarget, updateDelegate: Bool) {
+    func setImage(
+        _ imageRegion: ImageRegionData?,
+        target uploading: ImageTarget,
+        updateDelegate: Bool
+    ) {
         let imageView: PINAnimatedImageView
         switch uploading {
         case .coverImage:
             imageView = coverImageView
             uploadCoverImageButton.style = (imageRegion == nil) ? .green : .roundedGrayOutline
-            if let imageRegion = imageRegion, updateDelegate { delegate?.assign(coverImage: imageRegion) }
+            if let imageRegion = imageRegion, updateDelegate {
+                delegate?.assign(coverImage: imageRegion)
+            }
         case .avatar:
             imageView = avatarImageView
             uploadAvatarButton.style = (imageRegion == nil) ? .green : .roundedGrayOutline
-            if let imageRegion = imageRegion, updateDelegate  { delegate?.assign(avatarImage: imageRegion) }
+            if let imageRegion = imageRegion, updateDelegate {
+                delegate?.assign(avatarImage: imageRegion)
+            }
         }
 
         if let imageRegion = imageRegion {
@@ -360,7 +388,11 @@ extension OnboardingProfileScreen: UINavigationControllerDelegate, UIImagePicker
 }
 
 extension OnboardingProfileScreen: UITextViewDelegate {
-    func textView(_ textView: UITextView, shouldChangeTextIn nsrange: NSRange, replacementText: String) -> Bool {
+    func textView(
+        _ textView: UITextView,
+        shouldChangeTextIn nsrange: NSRange,
+        replacementText: String
+    ) -> Bool {
         var text = textView.text ?? ""
         let originalText = text
         if let range = text.rangeFromNSRange(nsrange) {

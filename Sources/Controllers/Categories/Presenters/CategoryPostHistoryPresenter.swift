@@ -9,8 +9,8 @@ struct CategoryPostHistoryCellPresenter {
         streamCellItem: StreamCellItem,
         streamKind: StreamKind,
         indexPath: IndexPath,
-        currentUser: User?)
-    {
+        currentUser: User?
+    ) {
         guard
             let cell = cell as? CategoryPostHistoryCell,
             let categoryPost = streamCellItem.type.data as? CategoryPost,
@@ -38,7 +38,9 @@ struct CategoryPostHistoryCellPresenter {
             labels.append(.postedInto(category))
         }
         // Added to ___ by ___
-        else if let category = categoryPost.category, let submittedBy = categoryPost.submittedBy, submittedBy.id != categoryPost.featuredBy?.id {
+        else if let category = categoryPost.category, let submittedBy = categoryPost.submittedBy,
+            submittedBy.id != categoryPost.featuredBy?.id
+        {
             labels.append(.addedToBy(category, submittedBy))
         }
 

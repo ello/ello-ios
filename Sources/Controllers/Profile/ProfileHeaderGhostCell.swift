@@ -52,7 +52,10 @@ class ProfileHeaderGhostCell: CollectionViewCell {
 
     override func style() {
         whiteBackground.backgroundColor = .white
-        let ghostsViews = [avatar, name, totalCountLeft, totalCountRight, stat1Top, stat1Bottom, stat2Top, stat2Bottom, stat3Top, stat3Bottom, stat4Top, stat4Bottom]
+        let ghostsViews = [
+            avatar, name, totalCountLeft, totalCountRight, stat1Top, stat1Bottom, stat2Top,
+            stat2Bottom, stat3Top, stat3Bottom, stat4Top, stat4Bottom
+        ]
         for view in ghostsViews {
             view.backgroundColor = .greyF2
         }

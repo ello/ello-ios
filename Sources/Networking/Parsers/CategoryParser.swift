@@ -13,7 +13,9 @@ class CategoryParser: IdParser {
 
     override func parse(json: JSON) -> Category {
         let level: CategoryLevel = CategoryLevel(rawValue: json["level"].stringValue) ?? .unknown
-        let tileImage = (json["tileImage"]["large"].object as? [String: Any]).map { Attachment.fromJSON($0) }
+        let tileImage = (json["tileImage"]["large"].object as? [String: Any]).map {
+            Attachment.fromJSON($0)
+        }
 
         let category = Category(
             id: json["id"].idValue,
@@ -25,7 +27,7 @@ class CategoryParser: IdParser {
             isCreatorType: json["isCreatorType"].bool ?? true,
             level: level,
             tileImage: tileImage
-            )
+        )
 
         category.mergeLinks(json["links"].dictionaryObject)
 

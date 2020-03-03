@@ -82,7 +82,8 @@ class ClearTextView: UITextView {
         addSubview(rightView)
 
         placeholderLabel.snp.makeConstraints { make in
-            placeholderTopConstraint = make.top.equalTo(self).offset(textContainerInset.top).constraint
+            placeholderTopConstraint =
+                make.top.equalTo(self).offset(textContainerInset.top).constraint
             make.leading.trailing.equalTo(self)
         }
 
@@ -115,13 +116,18 @@ class ClearTextView: UITextView {
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        rightView.frame.origin = CGPoint(x: frame.size.width - rightView.frame.size.width - 10, y: 0)
+        rightView.frame.origin = CGPoint(
+            x: frame.size.width - rightView.frame.size.width - 10,
+            y: 0
+        )
         line.frame = CGRect(x: 0, y: frame.height - 1, width: frame.width, height: 1)
     }
 
     override var intrinsicContentSize: CGSize {
         let fixedWidth = max(self.frame.size.width, 20)
-        let newSize = self.sizeThatFits(CGSize(width: fixedWidth, height: CGFloat.greatestFiniteMagnitude))
+        let newSize = self.sizeThatFits(
+            CGSize(width: fixedWidth, height: CGFloat.greatestFiniteMagnitude)
+        )
         return CGSize(width: fixedWidth, height: max(newSize.height + 2.5, Size.minTextViewHeight))
     }
 

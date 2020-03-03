@@ -27,7 +27,12 @@ class AuthenticationManager {
     // set queue to nil in specs, and reauth requests are sent synchronously.
     var queue: DispatchQueue? = DispatchQueue(label: "com.ello.ReauthQueue", attributes: [])
 
-    func attemptRequest(_ target: AuthenticationEndpoint, retry: @escaping Block, proceed: (UUID) -> Void, cancel: @escaping Block) {
+    func attemptRequest(
+        _ target: AuthenticationEndpoint,
+        retry: @escaping Block,
+        proceed: (UUID) -> Void,
+        cancel: @escaping Block
+    ) {
         let uuid = AuthState.uuid
 
         if authState.isUndetermined {
@@ -113,35 +118,45 @@ class AuthenticationManager {
             case .authenticated, .shouldTryRefreshToken:
                 self.authState = .refreshTokenSent
 
-                ReAuthService().reAuthenticateToken(success: {
-                    self.advanceAuthState(.authenticated)
-                },
-                failure: { _ in
-                    self.advanceAuthState(.shouldTryUserCreds)
-                }, noNetwork: {
-                    self.advanceAuthState(.shouldTryRefreshToken)
-                })
+                ReAuthService().reAuthenticateToken(
+                    success: {
+                        self.advanceAuthState(.authenticated)
+                    },
+                    failure: { _ in
+                        self.advanceAuthState(.shouldTryUserCreds)
+                    },
+                    noNetwork: {
+                        self.advanceAuthState(.shouldTryRefreshToken)
+                    }
+                )
             case .shouldTryUserCreds:
                 self.authState = .userCredsSent
 
-                ReAuthService().reAuthenticateUserCreds(success: {
-                    self.advanceAuthState(.authenticated)
-                },
-                failure: { _ in
-                    self.advanceAuthState(.noToken)
-                }, noNetwork: {
-                    self.advanceAuthState(.shouldTryUserCreds)
-                })
+                ReAuthService().reAuthenticateUserCreds(
+                    success: {
+                        self.advanceAuthState(.authenticated)
+                    },
+                    failure: { _ in
+                        self.advanceAuthState(.noToken)
+                    },
+                    noNetwork: {
+                        self.advanceAuthState(.shouldTryUserCreds)
+                    }
+                )
             case .shouldTryAnonymousCreds, .noToken:
                 self.authState = .anonymousCredsSent
 
-                AnonymousAuthService().authenticateAnonymously(success: {
-                    self.advanceAuthState(.anonymous)
-                }, failure: { _ in
-                    self.advanceAuthState(.noToken)
-                }, noNetwork: {
-                    self.advanceAuthState(.shouldTryAnonymousCreds)
-                })
+                AnonymousAuthService().authenticateAnonymously(
+                    success: {
+                        self.advanceAuthState(.anonymous)
+                    },
+                    failure: { _ in
+                        self.advanceAuthState(.noToken)
+                    },
+                    noNetwork: {
+                        self.advanceAuthState(.shouldTryAnonymousCreds)
+                    }
+                )
             case .refreshTokenSent, .userCredsSent, .anonymousCredsSent:
                 break
             }

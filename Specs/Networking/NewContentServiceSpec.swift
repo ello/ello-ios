@@ -43,7 +43,8 @@ class NewContentServiceSpec: QuickSpec {
                         GroupDefaults[streamKind.lastViewedCreatedAtKey!] = nil
                         subject.updateCreatedAt(jsonables, streamKind: streamKind)
 
-                        expect(GroupDefaults[streamKind.lastViewedCreatedAtKey!].date) == mar_01_2015
+                        expect(GroupDefaults[streamKind.lastViewedCreatedAtKey!].date)
+                            == mar_01_2015
                     }
                 }
 
@@ -53,7 +54,8 @@ class NewContentServiceSpec: QuickSpec {
                         GroupDefaults[streamKind.lastViewedCreatedAtKey!] = sep_30_1978
                         subject.updateCreatedAt(jsonables, streamKind: streamKind)
 
-                        expect(GroupDefaults[streamKind.lastViewedCreatedAtKey!].date) == mar_01_2015
+                        expect(GroupDefaults[streamKind.lastViewedCreatedAtKey!].date)
+                            == mar_01_2015
                     }
                 }
 
@@ -63,7 +65,8 @@ class NewContentServiceSpec: QuickSpec {
                         GroupDefaults[streamKind.lastViewedCreatedAtKey!] = apr_01_2015
                         subject.updateCreatedAt(jsonables, streamKind: streamKind)
 
-                        expect(GroupDefaults[streamKind.lastViewedCreatedAtKey!].date) == apr_01_2015
+                        expect(GroupDefaults[streamKind.lastViewedCreatedAtKey!].date)
+                            == apr_01_2015
                     }
                 }
 

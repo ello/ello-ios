@@ -10,8 +10,12 @@ private let NeedsPermissionKey = "PushNotificationNeedsPermission"
 private let DeniedPermissionKey = "PushNotificationDeniedPermission"
 
 struct PushNotificationNotifications {
-    static let interactedWithPushNotification = TypedNotification<PushPayload>(name: "com.Ello.PushNotification.Interaction")
-    static let receivedPushNotification = TypedNotification<PushPayload>(name: "com.Ello.PushNotification.Received")
+    static let interactedWithPushNotification = TypedNotification<PushPayload>(
+        name: "com.Ello.PushNotification.Interaction"
+    )
+    static let receivedPushNotification = TypedNotification<PushPayload>(
+        name: "com.Ello.PushNotification.Received"
+    )
 }
 
 struct PushActions {
@@ -32,7 +36,10 @@ struct PushActions {
 }
 
 class PushNotificationController: NSObject {
-    static let shared = PushNotificationController(defaults: GroupDefaults, keychain: ElloKeychain())
+    static let shared = PushNotificationController(
+        defaults: GroupDefaults,
+        keychain: ElloKeychain()
+    )
 
     private let defaults: UserDefaults
     private var keychain: KeychainType
@@ -57,19 +64,36 @@ extension PushNotificationController: UNUserNotificationCenterDelegate {
 
     // foreground - notification incoming while using the app
     @objc @available(iOS 10.0, *)
-    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        receivedNotification(UIApplication.shared, action: nil, userInfo: notification.request.content.userInfo)
+    func userNotificationCenter(
+        _ center: UNUserNotificationCenter,
+        willPresent notification: UNNotification,
+        withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) ->
+            Void
+    ) {
+        receivedNotification(
+            UIApplication.shared,
+            action: nil,
+            userInfo: notification.request.content.userInfo
+        )
         completionHandler(UNNotificationPresentationOptions.sound)
     }
 
     // background - user interacted with notification outside of the app
     @objc @available(iOS 10.0, *)
-    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+    func userNotificationCenter(
+        _ center: UNUserNotificationCenter,
+        didReceive response: UNNotificationResponse,
+        withCompletionHandler completionHandler: @escaping () -> Void
+    ) {
         var userInfo = response.notification.request.content.userInfo
         if let response = response as? UNTextInputNotificationResponse {
             userInfo[PushActions.userInputKey] = response.userText
         }
-        receivedNotification(UIApplication.shared, action: response.actionIdentifier, userInfo: userInfo)
+        receivedNotification(
+            UIApplication.shared,
+            action: response.actionIdentifier,
+            userInfo: userInfo
+        )
         completionHandler()
     }
 }
@@ -93,30 +117,85 @@ extension PushNotificationController {
         registerStoredToken()
         let app = UIApplication.shared
 
-        if #available(iOS 10.0, *){
-            let replyAction = UNTextInputNotificationAction(identifier: PushActions.commentReply, title: InterfaceString.PushNotifications.CommentReply, options: [.authenticationRequired, .foreground], textInputButtonTitle: InterfaceString.Send, textInputPlaceholder: "")
-            let messageAction = UNTextInputNotificationAction(identifier: PushActions.messageUser, title: InterfaceString.PushNotifications.MessageUser, options: [.authenticationRequired, .foreground], textInputButtonTitle: InterfaceString.Send, textInputPlaceholder: "")
-            let commentAction = UNTextInputNotificationAction(identifier: PushActions.postComment, title: InterfaceString.PushNotifications.PostComment, options: [.authenticationRequired, .foreground], textInputButtonTitle: InterfaceString.Send, textInputPlaceholder: "")
-            let loveAction = UNNotificationAction(identifier: PushActions.lovePost, title: InterfaceString.PushNotifications.LovePost, options: [.authenticationRequired])
-            let followAction = UNNotificationAction(identifier: PushActions.followUser, title: InterfaceString.PushNotifications.FollowUser, options: [.authenticationRequired])
-            let viewAction = UNNotificationAction(identifier: PushActions.view, title: InterfaceString.PushNotifications.View, options: [.authenticationRequired, .foreground])
+        if #available(iOS 10.0, *) {
+            let replyAction = UNTextInputNotificationAction(
+                identifier: PushActions.commentReply,
+                title: InterfaceString.PushNotifications.CommentReply,
+                options: [.authenticationRequired, .foreground],
+                textInputButtonTitle: InterfaceString.Send,
+                textInputPlaceholder: ""
+            )
+            let messageAction = UNTextInputNotificationAction(
+                identifier: PushActions.messageUser,
+                title: InterfaceString.PushNotifications.MessageUser,
+                options: [.authenticationRequired, .foreground],
+                textInputButtonTitle: InterfaceString.Send,
+                textInputPlaceholder: ""
+            )
+            let commentAction = UNTextInputNotificationAction(
+                identifier: PushActions.postComment,
+                title: InterfaceString.PushNotifications.PostComment,
+                options: [.authenticationRequired, .foreground],
+                textInputButtonTitle: InterfaceString.Send,
+                textInputPlaceholder: ""
+            )
+            let loveAction = UNNotificationAction(
+                identifier: PushActions.lovePost,
+                title: InterfaceString.PushNotifications.LovePost,
+                options: [.authenticationRequired]
+            )
+            let followAction = UNNotificationAction(
+                identifier: PushActions.followUser,
+                title: InterfaceString.PushNotifications.FollowUser,
+                options: [.authenticationRequired]
+            )
+            let viewAction = UNNotificationAction(
+                identifier: PushActions.view,
+                title: InterfaceString.PushNotifications.View,
+                options: [.authenticationRequired, .foreground]
+            )
 
-            let postCategory = UNNotificationCategory(identifier: PushActions.postCategory, actions: [loveAction, commentAction, viewAction], intentIdentifiers: [], options: [])
-            let commentCategory = UNNotificationCategory(identifier: PushActions.commentCategory, actions: [replyAction, viewAction], intentIdentifiers: [], options: [])
-            let userCategory = UNNotificationCategory(identifier: PushActions.userCategory, actions: [followAction, messageAction, viewAction], intentIdentifiers: [], options: [])
-            let userMessageCategory = UNNotificationCategory(identifier: PushActions.userMessageCategory, actions: [messageAction, viewAction], intentIdentifiers: [], options: [])
+            let postCategory = UNNotificationCategory(
+                identifier: PushActions.postCategory,
+                actions: [loveAction, commentAction, viewAction],
+                intentIdentifiers: [],
+                options: []
+            )
+            let commentCategory = UNNotificationCategory(
+                identifier: PushActions.commentCategory,
+                actions: [replyAction, viewAction],
+                intentIdentifiers: [],
+                options: []
+            )
+            let userCategory = UNNotificationCategory(
+                identifier: PushActions.userCategory,
+                actions: [followAction, messageAction, viewAction],
+                intentIdentifiers: [],
+                options: []
+            )
+            let userMessageCategory = UNNotificationCategory(
+                identifier: PushActions.userMessageCategory,
+                actions: [messageAction, viewAction],
+                intentIdentifiers: [],
+                options: []
+            )
 
             let center = UNUserNotificationCenter.current()
             center.delegate = self
-            center.setNotificationCategories([postCategory, commentCategory, userCategory, userMessageCategory])
+            center.setNotificationCategories([
+                postCategory, commentCategory, userCategory, userMessageCategory
+            ])
             center.requestAuthorization(options: [.badge, .sound, .alert]) { granted, _ in
                 if granted {
                     nextTick(app.registerForRemoteNotifications)
                 }
             }
         }
-        else { //If user is not on iOS 10 use the old methods we've been using
-            let settings = UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: [])
+        else {  //If user is not on iOS 10 use the old methods we've been using
+            let settings = UIUserNotificationSettings(
+                types: [.alert, .badge, .sound],
+                categories: []
+            )
             app.registerUserNotificationSettings(settings)
             app.registerForRemoteNotifications()
         }
@@ -139,7 +218,11 @@ extension PushNotificationController {
         }
     }
 
-    func receivedNotification(_ application: UIApplication, action: String?, userInfo: [AnyHashable: Any]) {
+    func receivedNotification(
+        _ application: UIApplication,
+        action: String?,
+        userInfo: [AnyHashable: Any]
+    ) {
         updateBadgeCount(userInfo)
         if !hasAlert(userInfo) { return }
 
@@ -170,7 +253,9 @@ extension PushNotificationController {
                     shouldInteract = false
                 }
             case PushActions.lovePost:
-                if type == .pushNotificationPost || type == .pushNotificationComment, let postId = data {
+                if type == .pushNotificationPost || type == .pushNotificationComment,
+                    let postId = data
+                {
                     actionLovePost(postId: postId, payload: payload)
                     shouldInteract = false
                 }
@@ -179,13 +264,20 @@ extension PushNotificationController {
             }
 
             if shouldInteract {
-                postNotification(PushNotificationNotifications.interactedWithPushNotification, value: payload)
+                postNotification(
+                    PushNotificationNotifications.interactedWithPushNotification,
+                    value: payload
+                )
             }
         }
     }
 
     private func actionPostComment(postId: String, text: String, payload: PushPayload) {
-        actionSendMessage(text: text, postEditingService: PostEditingService(parentPostId: postId), payload: payload)
+        actionSendMessage(
+            text: text,
+            postEditingService: PostEditingService(parentPostId: postId),
+            payload: payload
+        )
     }
 
     private func actionMessageUser(userId: String, text: String, payload: PushPayload) {
@@ -198,12 +290,20 @@ extension PushNotificationController {
                 else {
                     postText = "\(user.atName) \(text)"
                 }
-                self.actionSendMessage(text: postText, postEditingService: PostEditingService(), payload: payload)
+                self.actionSendMessage(
+                    text: postText,
+                    postEditingService: PostEditingService(),
+                    payload: payload
+                )
             }
             .ignoreErrors()
     }
 
-    private func actionSendMessage(text: String, postEditingService: PostEditingService, payload: PushPayload) {
+    private func actionSendMessage(
+        text: String,
+        postEditingService: PostEditingService,
+        payload: PushPayload
+    ) {
         postEditingService.create(content: [.text(text)])
             .done { _ in
                 let message: String
@@ -215,7 +315,10 @@ extension PushNotificationController {
                 }
                 NotificationBanner.displayAlert(message: message)
                 postNotification(HapticFeedbackNotifications.successfulUserEvent, value: ())
-                postNotification(PushNotificationNotifications.interactedWithPushNotification, value: payload)
+                postNotification(
+                    PushNotificationNotifications.interactedWithPushNotification,
+                    value: payload
+                )
             }
             .catch { _ in
                 if postEditingService.parentPostId != nil {
@@ -225,16 +328,25 @@ extension PushNotificationController {
     }
 
     private func actionFollowUser(userId: String, payload: PushPayload) {
-        let (_, promise) = RelationshipService().updateRelationship(userId: userId, relationshipPriority: .following)
+        let (_, promise) = RelationshipService().updateRelationship(
+            userId: userId,
+            relationshipPriority: .following
+        )
         promise.ensure {
-            postNotification(PushNotificationNotifications.interactedWithPushNotification, value: payload)
+            postNotification(
+                PushNotificationNotifications.interactedWithPushNotification,
+                value: payload
+            )
         }.ignoreErrors()
     }
 
     private func actionLovePost(postId: String, payload: PushPayload) {
         LovesService().lovePost(postId: postId)
             .ensure {
-                postNotification(PushNotificationNotifications.interactedWithPushNotification, value: payload)
+                postNotification(
+                    PushNotificationNotifications.interactedWithPushNotification,
+                    value: payload
+                )
             }.ignoreErrors()
     }
 
@@ -242,7 +354,7 @@ extension PushNotificationController {
         guard
             let aps = userInfo["aps"] as? [AnyHashable: Any],
             let badges = aps["badge"] as? Int
-        else { return  }
+        else { return }
 
         updateBadgeNumber(badges)
     }
@@ -262,12 +374,18 @@ private extension PushNotificationController {
         let alert = AlertViewController(message: InterfaceString.PushNotifications.PermissionPrompt)
         alert.isDismissable = false
 
-        let allowAction = AlertAction(title: InterfaceString.PushNotifications.PermissionYes, style: .dark) { _ in
+        let allowAction = AlertAction(
+            title: InterfaceString.PushNotifications.PermissionYes,
+            style: .dark
+        ) { _ in
             self.registerForRemoteNotifications()
         }
         alert.addAction(allowAction)
 
-        let disallowAction = AlertAction(title: InterfaceString.PushNotifications.PermissionNo, style: .light) { _ in
+        let disallowAction = AlertAction(
+            title: InterfaceString.PushNotifications.PermissionNo,
+            style: .light
+        ) { _ in
             self.needsPermission = false
             self.permissionDenied = true
         }

@@ -64,7 +64,9 @@ class OnboardingScreen: EmptyScreen {
 
         buttonContainer.snp.makeConstraints { make in
             make.leading.trailing.bottom.equalTo(self)
-            make.top.equalTo(keyboardAnchor.snp.top).offset(-(2 * Size.buttonInset + Size.buttonHeight))
+            make.top.equalTo(keyboardAnchor.snp.top).offset(
+                -(2 * Size.buttonInset + Size.buttonHeight)
+            )
         }
 
         promptButton.snp.makeConstraints { make in

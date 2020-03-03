@@ -60,16 +60,40 @@ class DrawerViewDataSource: NSObject {
     private func drawerItems() -> [DrawerItem] {
         var items: [DrawerItem] = [
             DrawerItem(title: InterfaceString.Drawer.Invite, type: .invite, tracking: "invite"),
-            DrawerItem(title: InterfaceString.Drawer.Giveaways, type: .giveaways, tracking: "giveaways"),
-            DrawerItem(title: InterfaceString.Drawer.Store, type: .external("http://store.ello.co/"), tracking: "store"),
-            DrawerItem(title: InterfaceString.Drawer.Help, type: .external("https://ello.co/wtf/"), tracking: "help"),
+            DrawerItem(
+                title: InterfaceString.Drawer.Giveaways,
+                type: .giveaways,
+                tracking: "giveaways"
+            ),
+            DrawerItem(
+                title: InterfaceString.Drawer.Store,
+                type: .external("http://store.ello.co/"),
+                tracking: "store"
+            ),
+            DrawerItem(
+                title: InterfaceString.Drawer.Help,
+                type: .external("https://ello.co/wtf/"),
+                tracking: "help"
+            ),
             DrawerItem(title: InterfaceString.Drawer.Logout, type: .logout, tracking: "logout"),
             DrawerItem(type: .spacer),
 
             DrawerItem(title: InterfaceString.Drawer.Twitter, type: .twitter, tracking: "twitter"),
-            DrawerItem(title: InterfaceString.Drawer.Instagram, type: .instagram, tracking: "instagram"),
-            DrawerItem(title: InterfaceString.Drawer.Facebook, type: .facebook, tracking: "facebook"),
-            DrawerItem(title: InterfaceString.Drawer.Pinterest, type: .pinterest, tracking: "pinterest"),
+            DrawerItem(
+                title: InterfaceString.Drawer.Instagram,
+                type: .instagram,
+                tracking: "instagram"
+            ),
+            DrawerItem(
+                title: InterfaceString.Drawer.Facebook,
+                type: .facebook,
+                tracking: "facebook"
+            ),
+            DrawerItem(
+                title: InterfaceString.Drawer.Pinterest,
+                type: .pinterest,
+                tracking: "pinterest"
+            ),
             DrawerItem(title: InterfaceString.Drawer.Tumblr, type: .tumblr, tracking: "tumblr"),
             DrawerItem(title: InterfaceString.Drawer.Medium, type: .medium, tracking: "medium"),
         ]
@@ -91,7 +115,10 @@ extension DrawerViewDataSource: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: DrawerCell.reuseIdentifier, for: indexPath) as! DrawerCell
+        let cell = tableView.dequeueReusableCell(
+            withIdentifier: DrawerCell.reuseIdentifier,
+            for: indexPath
+        ) as! DrawerCell
         guard let item = items.safeValue(indexPath.row) else { return cell }
 
         DrawerCellPresenter.configure(cell, item: item, isLast: item == items.last)

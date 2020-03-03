@@ -26,7 +26,8 @@ class EditorialsViewController: StreamableViewController {
         title = InterfaceString.Editorials.NavbarTitle
         generator = EditorialsGenerator(
             currentUser: currentUser,
-            destination: self)
+            destination: self
+        )
         streamViewController.streamKind = generator.streamKind
         streamViewController.initialLoadClosure = { [weak self] in self?.loadEditorials() }
     }
@@ -69,13 +70,23 @@ class EditorialsViewController: StreamableViewController {
 
     override func showNavBars(animated: Bool) {
         super.showNavBars(animated: animated)
-        positionNavBar(screen.navigationBar, visible: true, withConstraint: screen.navigationBarTopConstraint, animated: animated)
+        positionNavBar(
+            screen.navigationBar,
+            visible: true,
+            withConstraint: screen.navigationBarTopConstraint,
+            animated: animated
+        )
         updateInsets()
     }
 
     override func hideNavBars(animated: Bool) {
         super.hideNavBars(animated: animated)
-        positionNavBar(screen.navigationBar, visible: false, withConstraint: screen.navigationBarTopConstraint, animated: animated)
+        positionNavBar(
+            screen.navigationBar,
+            visible: false,
+            withConstraint: screen.navigationBarTopConstraint,
+            animated: animated
+        )
         updateInsets()
     }
 
@@ -112,9 +123,9 @@ extension EditorialsViewController: EditorialCellResponder {
             guard let post = editorial.post else { return }
             postTapped(post)
         case .postStream,
-             .invite,
-             .join,
-             .unknown:
+            .invite,
+            .join,
+            .unknown:
             break
         }
     }
@@ -140,27 +151,33 @@ extension EditorialsViewController: EditorialToolsResponder {
         else { return }
 
         editorial.invite = (emails: "", sent: Globals.now)
-        let emails: [String] = emailString.replacingOccurrences(of: "\n", with: ",").split(",").map { $0.trimmed() }
+        let emails: [String] = emailString.replacingOccurrences(of: "\n", with: ",").split(",").map
+        { $0.trimmed() }
         InviteService().sendInvitations(emails).ignoreErrors()
     }
 
     func submitJoin(cell: UICollectionViewCell, email: String, username: String, password: String) {
         guard currentUser == nil, let nonce = nonce else { return }
 
-        if Validator.hasValidSignUpCredentials(email: email, username: username, password: password) {
+        if Validator.hasValidSignUpCredentials(email: email, username: username, password: password)
+        {
             UserService().join(
                 email: email,
                 username: username,
                 password: password,
                 nonce: nonce.value
-                )
+            )
                 .done { user in
                     Tracker.shared.joinSuccessful()
                     self.appViewController?.showOnboardingScreen(user)
                 }
                 .catch { error in
                     Tracker.shared.joinFailed()
-                    self.showJoinViewController(email: email, username: username, password: password)
+                    self.showJoinViewController(
+                        email: email,
+                        username: username,
+                        password: password
+                    )
                 }
         }
         else {
@@ -201,7 +218,11 @@ extension EditorialsViewController: StreamDestination {
         generator.load()
     }
 
-    func replacePlaceholder(type: StreamCellType.PlaceholderType, items: [StreamCellItem], completion: @escaping Block) {
+    func replacePlaceholder(
+        type: StreamCellType.PlaceholderType,
+        items: [StreamCellItem],
+        completion: @escaping Block
+    ) {
         if type == .pageHeader,
             let pageHeader = items.compactMap({ $0.jsonable as? PageHeader }).first,
             let trackingPostToken = pageHeader.postToken
@@ -211,8 +232,13 @@ extension EditorialsViewController: StreamDestination {
         }
 
         streamViewController.replacePlaceholder(type: type, items: items) {
-            if self.streamViewController.hasCellItems(for: .pageHeader) && !self.streamViewController.hasCellItems(for: .editorials) {
-                self.streamViewController.replacePlaceholder(type: .editorials, items: [StreamCellItem(type: .streamLoading)])
+            if self.streamViewController.hasCellItems(for: .pageHeader)
+                && !self.streamViewController.hasCellItems(for: .editorials)
+            {
+                self.streamViewController.replacePlaceholder(
+                    type: .editorials,
+                    items: [StreamCellItem(type: .streamLoading)]
+                )
             }
 
             completion()

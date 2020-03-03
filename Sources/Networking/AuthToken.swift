@@ -66,7 +66,12 @@ struct AuthToken {
         set { keychain.isNabaroo = newValue }
     }
 
-    static func storeToken(_ data: Data, isPasswordBased: Bool, email: String? = nil, password: String? = nil) {
+    static func storeToken(
+        _ data: Data,
+        isPasswordBased: Bool,
+        email: String? = nil,
+        password: String? = nil
+    ) {
         guard let json = try? JSON(data: data) else { return }
 
         var authToken = AuthToken()

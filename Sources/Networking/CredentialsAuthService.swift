@@ -17,10 +17,18 @@ class CredentialsAuthService {
                 switch moyaResponse.statusCode {
                 case 200...299:
                     AuthenticationManager.shared.authenticated(isPasswordBased: true)
-                    AuthToken.storeToken(moyaResponse.data, isPasswordBased: true, email: email, password: password)
+                    AuthToken.storeToken(
+                        moyaResponse.data,
+                        isPasswordBased: true,
+                        email: email,
+                        password: password
+                    )
                     seal.fulfill(Void())
                 default:
-                    let elloError = ElloProvider.generateElloError(moyaResponse.data, statusCode: moyaResponse.statusCode)
+                    let elloError = ElloProvider.generateElloError(
+                        moyaResponse.data,
+                        statusCode: moyaResponse.statusCode
+                    )
                     seal.reject(elloError)
                 }
             case let .failure(error):

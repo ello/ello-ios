@@ -21,7 +21,11 @@ class NotificationsGeneratorSpec: QuickSpec {
             placeholderItems = items
         }
 
-        func replacePlaceholder(type: StreamCellType.PlaceholderType, items: [StreamCellItem], completion: @escaping Block) {
+        func replacePlaceholder(
+            type: StreamCellType.PlaceholderType,
+            items: [StreamCellItem],
+            completion: @escaping Block
+        ) {
             switch type {
             case .announcements:
                 announcementItems = items

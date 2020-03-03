@@ -18,7 +18,8 @@ extension Coder {
     func decodeKey(_ key: String) -> Bool {
         if coder.containsValue(forKey: key) {
             return coder.decodeBool(forKey: key)
-        } else {
+        }
+        else {
             return false
         }
     }
@@ -32,7 +33,8 @@ extension Coder {
     func decodeOptionalKey<T>(_ key: String) -> T? {
         if coder.containsValue(forKey: key) {
             return coder.decodeObject(forKey: key) as? T
-        } else {
+        }
+        else {
             return .none
         }
     }
@@ -40,7 +42,8 @@ extension Coder {
     func decodeOptionalKey(_ key: String) -> Bool? {
         if coder.containsValue(forKey: key) {
             return coder.decodeBool(forKey: key)
-        } else {
+        }
+        else {
             return .none
         }
     }
@@ -48,7 +51,8 @@ extension Coder {
     func decodeOptionalKey(_ key: String) -> Int? {
         if coder.containsValue(forKey: key) {
             return Int(coder.decodeCInt(forKey: key))
-        } else {
+        }
+        else {
             return .none
         }
     }

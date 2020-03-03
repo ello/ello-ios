@@ -91,7 +91,11 @@ extension ElloLinkedStore {
     }
 
     static func databaseFolder(appending appendURL: String? = nil) -> String? {
-        guard var baseURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: ElloGroupName) else { return nil }
+        guard
+            var baseURL = FileManager.default.containerURL(
+                forSecurityApplicationGroupIdentifier: ElloGroupName
+            )
+        else { return nil }
 
         if let appendURL = appendURL {
             baseURL = baseURL.appendingPathComponent(appendURL)
@@ -105,10 +109,10 @@ extension ElloLinkedStore {
     }
 
     func parseLinkedSync(_ linked: [String: [[String: Any]]]) {
-        for (type, typeObjects): (String, [[String: Any]]) in linked {
+        for (type, typeObjects):(String, [[String: Any]]) in linked {
             guard let mappingType = MappingType(rawValue: type) else { continue }
 
-            for object: [String: Any] in typeObjects {
+            for object:[String: Any] in typeObjects {
                 guard
                     let id = object["id"] as? String,
                     let jsonable = mappingType.fromJSON?(object)

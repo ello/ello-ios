@@ -26,7 +26,8 @@ class ArtistInviteAdminController: StreamableViewController {
             artistInvite: artistInvite,
             stream: stream,
             currentUser: currentUser,
-            destination: self)
+            destination: self
+        )
         streamViewController.streamKind = generator.streamKind
         streamViewController.isPagingEnabled = false
         streamViewController.reloadClosure = { [weak self] in self?.generator?.load(reload: true) }
@@ -67,13 +68,23 @@ class ArtistInviteAdminController: StreamableViewController {
 
     override func showNavBars(animated: Bool) {
         super.showNavBars(animated: animated)
-        positionNavBar(screen.navigationBar, visible: true, withConstraint: screen.navigationBarTopConstraint, animated: animated)
+        positionNavBar(
+            screen.navigationBar,
+            visible: true,
+            withConstraint: screen.navigationBarTopConstraint,
+            animated: animated
+        )
         updateInsets()
     }
 
     override func hideNavBars(animated: Bool) {
         super.hideNavBars(animated: animated)
-        positionNavBar(screen.navigationBar, visible: false, withConstraint: screen.navigationBarTopConstraint, animated: animated)
+        positionNavBar(
+            screen.navigationBar,
+            visible: false,
+            withConstraint: screen.navigationBarTopConstraint,
+            animated: animated
+        )
         updateInsets()
     }
 
@@ -110,12 +121,17 @@ extension ArtistInviteAdminController: ArtistInviteAdminScreenDelegate {
 }
 
 extension ArtistInviteAdminController: ArtistInviteAdminResponder {
-    func tappedArtistInviteAction(cell: ArtistInviteAdminControlsCell, action: ArtistInviteSubmission.Action) {
+    func tappedArtistInviteAction(
+        cell: ArtistInviteAdminControlsCell,
+        action: ArtistInviteSubmission.Action
+    ) {
         let collectionView = streamViewController.collectionView
 
         guard
             let indexPath = collectionView.indexPath(for: cell),
-            let streamCellItem = streamViewController.collectionViewDataSource.streamCellItem(at: indexPath)
+            let streamCellItem = streamViewController.collectionViewDataSource.streamCellItem(
+                at: indexPath
+            )
         else { return }
 
         ElloHUD.showLoadingHudInView(view)
@@ -138,7 +154,11 @@ extension ArtistInviteAdminController: StreamDestination {
         set { streamViewController.isPagingEnabled = newValue }
     }
 
-    func replacePlaceholder(type: StreamCellType.PlaceholderType, items: [StreamCellItem], completion: @escaping Block) {
+    func replacePlaceholder(
+        type: StreamCellType.PlaceholderType,
+        items: [StreamCellItem],
+        completion: @escaping Block
+    ) {
         streamViewController.replacePlaceholder(type: type, items: items, completion: completion)
 
         if type == .streamItems {

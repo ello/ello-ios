@@ -56,12 +56,14 @@ class ProfileHeaderStatsCell: ProfileHeaderCell {
     private let followersButton = UIButton()
     private let lovesButton = UIButton()
 
-    private var allThreeViews: [(count: UILabel, caption: UILabel, button: UIButton)] { return [
-        (postsCountLabel,     postsCaptionLabel,     postsButton),
-        (followingCountLabel, followingCaptionLabel, followingButton),
-        (followersCountLabel, followersCaptionLabel, followersButton),
-        (lovesCountLabel,     lovesCaptionLabel,     lovesButton),
-    ]}
+    private var allThreeViews: [(count: UILabel, caption: UILabel, button: UIButton)] {
+        return [
+            (postsCountLabel, postsCaptionLabel, postsButton),
+            (followingCountLabel, followingCaptionLabel, followingButton),
+            (followersCountLabel, followersCaptionLabel, followersButton),
+            (lovesCountLabel, lovesCaptionLabel, lovesButton),
+        ]
+    }
 
     override func style() {
         backgroundColor = .white
@@ -81,19 +83,59 @@ class ProfileHeaderStatsCell: ProfileHeaderCell {
 
     override func bindActions() {
         postsButton.addTarget(self, action: #selector(postsButtonTapped), for: .touchUpInside)
-        followingButton.addTarget(self, action: #selector(followingButtonTapped), for: .touchUpInside)
-        followersButton.addTarget(self, action: #selector(followersButtonTapped), for: .touchUpInside)
+        followingButton.addTarget(
+            self,
+            action: #selector(followingButtonTapped),
+            for: .touchUpInside
+        )
+        followersButton.addTarget(
+            self,
+            action: #selector(followersButtonTapped),
+            for: .touchUpInside
+        )
         lovesButton.addTarget(self, action: #selector(lovesButtonTapped), for: .touchUpInside)
 
-        postsButton.addTarget(self, action: #selector(buttonDown(_:)), for: [.touchDown, .touchDragEnter])
-        followingButton.addTarget(self, action: #selector(buttonDown(_:)), for: [.touchDown, .touchDragEnter])
-        followersButton.addTarget(self, action: #selector(buttonDown(_:)), for: [.touchDown, .touchDragEnter])
-        lovesButton.addTarget(self, action: #selector(buttonDown(_:)), for: [.touchDown, .touchDragEnter])
+        postsButton.addTarget(
+            self,
+            action: #selector(buttonDown(_:)),
+            for: [.touchDown, .touchDragEnter]
+        )
+        followingButton.addTarget(
+            self,
+            action: #selector(buttonDown(_:)),
+            for: [.touchDown, .touchDragEnter]
+        )
+        followersButton.addTarget(
+            self,
+            action: #selector(buttonDown(_:)),
+            for: [.touchDown, .touchDragEnter]
+        )
+        lovesButton.addTarget(
+            self,
+            action: #selector(buttonDown(_:)),
+            for: [.touchDown, .touchDragEnter]
+        )
 
-        postsButton.addTarget(self, action: #selector(buttonUp(_:)), for: [.touchUpInside, .touchCancel, .touchDragExit])
-        followingButton.addTarget(self, action: #selector(buttonUp(_:)), for: [.touchUpInside, .touchCancel, .touchDragExit])
-        followersButton.addTarget(self, action: #selector(buttonUp(_:)), for: [.touchUpInside, .touchCancel, .touchDragExit])
-        lovesButton.addTarget(self, action: #selector(buttonUp(_:)), for: [.touchUpInside, .touchCancel, .touchDragExit])
+        postsButton.addTarget(
+            self,
+            action: #selector(buttonUp(_:)),
+            for: [.touchUpInside, .touchCancel, .touchDragExit]
+        )
+        followingButton.addTarget(
+            self,
+            action: #selector(buttonUp(_:)),
+            for: [.touchUpInside, .touchCancel, .touchDragExit]
+        )
+        followersButton.addTarget(
+            self,
+            action: #selector(buttonUp(_:)),
+            for: [.touchUpInside, .touchCancel, .touchDragExit]
+        )
+        lovesButton.addTarget(
+            self,
+            action: #selector(buttonUp(_:)),
+            for: [.touchUpInside, .touchCancel, .touchDragExit]
+        )
     }
 
     override func setText() {
@@ -105,8 +147,11 @@ class ProfileHeaderStatsCell: ProfileHeaderCell {
 
     override func arrange() {
         var prevCountLabel: UIView?
-        let spaceBetween: CGFloat = (UIScreen.main.bounds.width - (Size.horizontalMargin * 2)) / CGFloat(allThreeViews.count - 1)
-        for (index, (count: countLabel, caption: captionLabel, button: button)) in allThreeViews.enumerated() {
+        let spaceBetween: CGFloat = (UIScreen.main.bounds.width - (Size.horizontalMargin * 2))
+            / CGFloat(allThreeViews.count - 1)
+        for (index, (count:countLabel, caption:captionLabel, button:button))
+            in allThreeViews.enumerated()
+        {
             contentView.addSubview(countLabel)
             contentView.addSubview(captionLabel)
             contentView.addSubview(button)

@@ -34,7 +34,11 @@ class CellSizeCalculator: NSObject {
         finish()
     }
 
-    func assignCellHeight(one oneColumnHeight: CGFloat, multi multiColumnHeight: CGFloat, web webColumnHeight: CGFloat? = nil) {
+    func assignCellHeight(
+        one oneColumnHeight: CGFloat,
+        multi multiColumnHeight: CGFloat,
+        web webColumnHeight: CGFloat? = nil
+    ) {
         cellItem.calculatedCellHeights.oneColumn = oneColumnHeight
         cellItem.calculatedCellHeights.multiColumn = multiColumnHeight
         cellItem.calculatedCellHeights.webContent = webColumnHeight

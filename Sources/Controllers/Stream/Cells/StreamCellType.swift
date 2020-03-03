@@ -192,7 +192,8 @@ enum StreamCellType: Equatable {
         case .artistInviteControls: return ArtistInviteControlsCell.reuseIdentifier
         case .artistInviteGuide: return ArtistInviteGuideCell.reuseIdentifier
         case .artistInviteHeader: return ArtistInviteHeaderCell.reuseIdentifier
-        case .artistInviteSubmissionsButton: return ArtistInviteSubmissionsButtonCell.reuseIdentifier
+        case .artistInviteSubmissionsButton:
+            return ArtistInviteSubmissionsButtonCell.reuseIdentifier
         case .badge: return BadgeCell.reuseIdentifier
         case .categoryHeader: return CategoryHeaderCell.reuseIdentifier
         case .categoryChooseCard, .categorySubscribeCard: return CategoryCardCell.reuseIdentifier
@@ -207,7 +208,8 @@ enum StreamCellType: Equatable {
         case .fullWidthSpacer: return "StreamSpacerCell"
         case .header: return TextHeaderCell.reuseIdentifier
         case .image: return StreamImageCell.reuseIdentifier
-        case .inviteFriends, .onboardingInviteFriends: return StreamInviteFriendsCell.reuseIdentifier
+        case .inviteFriends, .onboardingInviteFriends:
+            return StreamInviteFriendsCell.reuseIdentifier
         case .loadMoreComments: return StreamLoadMoreCommentsCell.reuseIdentifier
         case .noPosts: return NoPostsCell.reuseIdentifier
         case .notification: return NotificationCell.reuseIdentifier
@@ -215,7 +217,8 @@ enum StreamCellType: Equatable {
         case .postFeaturedControl: return PostFeaturedControlCell.reuseIdentifier
         case .profileHeaderAvatar: return ProfileHeaderAvatarCell.reuseIdentifier
         case .profileHeaderName: return ProfileHeaderNamesCell.reuseIdentifier
-        case .profileHeaderTotalAndBadges: return ProfileHeaderTotalCountAndBadgesCell.reuseIdentifier
+        case .profileHeaderTotalAndBadges:
+            return ProfileHeaderTotalCountAndBadgesCell.reuseIdentifier
         case .profileHeaderStats: return ProfileHeaderStatsCell.reuseIdentifier
         case .profileHeaderBio: return ProfileHeaderBioCell.reuseIdentifier
         case .profileHeaderLocation: return ProfileHeaderLocationCell.reuseIdentifier
@@ -223,7 +226,8 @@ enum StreamCellType: Equatable {
         case .profileHeaderSeparator: return ProfileHeaderSeparatorCell.reuseIdentifier
         case .profileHeaderGhost: return ProfileHeaderGhostCell.reuseIdentifier
         case .promotionalHeader: return PromotionalHeaderCell.reuseIdentifier
-        case .promotionalHeaderSubscription: return PromotionalHeaderSubscriptionCell.reuseIdentifier
+        case .promotionalHeaderSubscription:
+            return PromotionalHeaderSubscriptionCell.reuseIdentifier
         case .revealController: return RevealControllerCell.reuseIdentifier
         case .search: return SearchStreamCell.reuseIdentifier
         case .seeMoreComments: return StreamSeeMoreCommentsCell.reuseIdentifier
@@ -245,25 +249,25 @@ enum StreamCellType: Equatable {
     var isSelectable: Bool {
         switch self {
         case .announcement,
-             .artistInviteBubble,
-             .badge,
-             .categoryChooseCard,
-             .categoryHeader,
-             .categoryPostHistory,
-             .categorySubscribeCard,
-             .createComment,
-             .inviteFriends,
-             .loadMoreComments,
-             .notification,
-             .onboardingCategoryCard,
-             .onboardingInviteFriends,
-             .postFeaturedControl,
-             .promotionalHeaderSubscription,
-             .revealController,
-             .seeMoreComments,
-             .streamHeader,
-             .toggle,
-             .userListItem:
+            .artistInviteBubble,
+            .badge,
+            .categoryChooseCard,
+            .categoryHeader,
+            .categoryPostHistory,
+            .categorySubscribeCard,
+            .createComment,
+            .inviteFriends,
+            .loadMoreComments,
+            .notification,
+            .onboardingCategoryCard,
+            .onboardingInviteFriends,
+            .postFeaturedControl,
+            .promotionalHeaderSubscription,
+            .revealController,
+            .seeMoreComments,
+            .streamHeader,
+            .toggle,
+            .userListItem:
             return true
         default: return false
         }
@@ -288,7 +292,8 @@ enum StreamCellType: Equatable {
         case .artistInviteHeader: return ArtistInviteCellPresenter.configure
         case .badge: return BadgeCellPresenter.configure
         case .categoryHeader: return CategoryHeaderCellPresenter.configure
-        case .categoryChooseCard, .categorySubscribeCard, .onboardingCategoryCard: return CategoryCardCellPresenter.configure
+        case .categoryChooseCard, .categorySubscribeCard, .onboardingCategoryCard:
+            return CategoryCardCellPresenter.configure
         case .categoryPostHistory: return CategoryPostHistoryCellPresenter.configure
         case .commentHeader: return CommentHeaderCellPresenter.configure
         case .streamHeader: return StreamHeaderCellPresenter.configure
@@ -300,7 +305,8 @@ enum StreamCellType: Equatable {
         case .fullWidthSpacer: return { (cell, _, _, _, _) in cell.backgroundColor = .white }
         case .header: return TextHeaderCellPresenter.configure
         case .image: return StreamImageCellPresenter.configure
-        case .inviteFriends, .onboardingInviteFriends: return StreamInviteFriendsCellPresenter.configure
+        case .inviteFriends, .onboardingInviteFriends:
+            return StreamInviteFriendsCellPresenter.configure
         case .noPosts: return NoPostsCellPresenter.configure
         case .notification: return NotificationCellPresenter.configure
         case .postFeaturedControl: return PostFeaturedControlCellPresenter.configure
@@ -312,7 +318,8 @@ enum StreamCellType: Equatable {
         case .profileHeaderLocation: return ProfileHeaderCellPresenter.configure
         case .profileHeaderLinks: return ProfileHeaderCellPresenter.configure
         case .promotionalHeader: return PromotionalHeaderCellPresenter.configure
-        case .promotionalHeaderSubscription: return PromotionalHeaderSubscriptionCellPresenter.configure
+        case .promotionalHeaderSubscription:
+            return PromotionalHeaderSubscriptionCellPresenter.configure
         case .revealController: return RevealControllerCellPresenter.configure
         case .search: return SearchStreamCellPresenter.configure
         case .spacer: return { (cell, _, _, _, _) in cell.backgroundColor = .white }
@@ -339,7 +346,8 @@ enum StreamCellType: Equatable {
         case .artistInviteSubmissionsButton: return ArtistInviteSubmissionsButtonCell.self
         case .badge: return BadgeCell.self
         case .categoryHeader: return CategoryHeaderCell.self
-        case .categoryChooseCard, .categorySubscribeCard, .onboardingCategoryCard: return CategoryCardCell.self
+        case .categoryChooseCard, .categorySubscribeCard, .onboardingCategoryCard:
+            return CategoryCardCell.self
         case .categoryPostHistory: return CategoryPostHistoryCell.self
         case .commentHeader: return CommentHeaderCell.self
         case .streamHeader: return StreamHeaderCell.self
@@ -404,8 +412,8 @@ enum StreamCellType: Equatable {
         case .commentHeader:
             return CommentHeaderCell.Size.height
         case .inviteFriends,
-             .onboardingInviteFriends,
-             .seeMoreComments:
+            .onboardingInviteFriends,
+            .seeMoreComments:
             return 60
         case .createComment:
             return 75
@@ -464,19 +472,19 @@ enum StreamCellType: Equatable {
         case .profileHeaderSeparator:
             return ProfileHeaderSeparatorCell.Size.height
         case .artistInviteBubble,
-             .artistInviteControls,
-             .artistInviteGuide,
-             .artistInviteHeader,
-             .embed,
-             .image,
-             .placeholder,
-             .profileHeaderName,
-             .profileHeaderBio,
-             .profileHeaderLinks,
-             .profileHeaderGhost,
-             .promotionalHeader,
-             .text,
-             .unknown:
+            .artistInviteControls,
+            .artistInviteGuide,
+            .artistInviteHeader,
+            .embed,
+            .image,
+            .placeholder,
+            .profileHeaderName,
+            .profileHeaderBio,
+            .profileHeaderLinks,
+            .profileHeaderGhost,
+            .promotionalHeader,
+            .text,
+            .unknown:
             return 0
         }
     }
@@ -485,10 +493,16 @@ enum StreamCellType: Equatable {
         switch self {
         case .categoryChooseCard, .categorySubscribeCard:
             let columnCount = Window.columnCountFor(width: Globals.windowSize.width)
-            return CategoryCardCell.Size.calculateHeight(columnCount: columnCount, subscribing: true)
+            return CategoryCardCell.Size.calculateHeight(
+                columnCount: columnCount,
+                subscribing: true
+            )
         case .onboardingCategoryCard:
             let columnCount = Window.columnCountFor(width: Globals.windowSize.width)
-            return CategoryCardCell.Size.calculateHeight(columnCount: columnCount, subscribing: false)
+            return CategoryCardCell.Size.calculateHeight(
+                columnCount: columnCount,
+                subscribing: false
+            )
         case .streamHeader,
             .notification:
             return 60
@@ -500,61 +514,61 @@ enum StreamCellType: Equatable {
     var isFullWidth: Bool {
         switch self {
         case .announcement,
-             .artistInviteAdminControls,
-             .artistInviteBubble,
-             .artistInviteControls,
-             .artistInviteGuide,
-             .artistInviteHeader,
-             .artistInviteSubmissionsButton,
-             .badge,
-             .categoryHeader,
-             .commentHeader,
-             .createComment,
-             .editorial,
-             .emptyStream,
-             .error,
-             .fullWidthSpacer,
-             .header,
-             .inviteFriends,
-             .loadMoreComments,
-             .noPosts,
-             .notification,
-             .onboardingInviteFriends,
-             .profileHeaderAvatar,
-             .profileHeaderName,
-             .profileHeaderTotalAndBadges,
-             .profileHeaderStats,
-             .profileHeaderBio,
-             .profileHeaderLocation,
-             .profileHeaderLinks,
-             .profileHeaderSeparator,
-             .profileHeaderGhost,
-             .promotionalHeader,
-             .promotionalHeaderSubscription,
-             .revealController,
-             .search,
-             .seeMoreComments,
-             .streamLoading,
-             .streamPageLoading,
-             .streamSelection,
-             .tallHeader,
-             .userAvatars,
-             .userListItem:
+            .artistInviteAdminControls,
+            .artistInviteBubble,
+            .artistInviteControls,
+            .artistInviteGuide,
+            .artistInviteHeader,
+            .artistInviteSubmissionsButton,
+            .badge,
+            .categoryHeader,
+            .commentHeader,
+            .createComment,
+            .editorial,
+            .emptyStream,
+            .error,
+            .fullWidthSpacer,
+            .header,
+            .inviteFriends,
+            .loadMoreComments,
+            .noPosts,
+            .notification,
+            .onboardingInviteFriends,
+            .profileHeaderAvatar,
+            .profileHeaderName,
+            .profileHeaderTotalAndBadges,
+            .profileHeaderStats,
+            .profileHeaderBio,
+            .profileHeaderLocation,
+            .profileHeaderLinks,
+            .profileHeaderSeparator,
+            .profileHeaderGhost,
+            .promotionalHeader,
+            .promotionalHeaderSubscription,
+            .revealController,
+            .search,
+            .seeMoreComments,
+            .streamLoading,
+            .streamPageLoading,
+            .streamSelection,
+            .tallHeader,
+            .userAvatars,
+            .userListItem:
             return true
         case .categoryChooseCard,
-             .categoryPostHistory,
-             .categorySubscribeCard,
-             .embed,
-             .image,
-             .placeholder,
-             .postFeaturedControl,
-             .onboardingCategoryCard,
-             .spacer,
-             .streamFooter,
-             .streamHeader,
-             .text,
-             .toggle,
-             .unknown:
+            .categoryPostHistory,
+            .categorySubscribeCard,
+            .embed,
+            .image,
+            .placeholder,
+            .postFeaturedControl,
+            .onboardingCategoryCard,
+            .spacer,
+            .streamFooter,
+            .streamHeader,
+            .text,
+            .toggle,
+            .unknown:
             return false
         }
     }
@@ -633,8 +647,12 @@ enum StreamCellType: Equatable {
         ]
         for type in all {
             if noNibTypes.firstIndex(of: type) != nil {
-                collectionView.register(type.classType, forCellWithReuseIdentifier: type.reuseIdentifier)
-            } else {
+                collectionView.register(
+                    type.classType,
+                    forCellWithReuseIdentifier: type.reuseIdentifier
+                )
+            }
+            else {
                 let nib = UINib(nibName: type.reuseIdentifier, bundle: Bundle(for: type.classType))
                 collectionView.register(nib, forCellWithReuseIdentifier: type.reuseIdentifier)
             }

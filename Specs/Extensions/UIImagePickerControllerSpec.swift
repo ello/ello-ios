@@ -13,7 +13,8 @@ class UIImagePickerControllerSpec: QuickSpec {
             describe("alertControllerForImagePicker") {
                 it("should present the photo library if no camera is available") {
                     var imagePickerController: UIImagePickerController?
-                    let subject = UIImagePickerController.alertControllerForImagePicker { presentedPicker in
+                    let subject = UIImagePickerController.alertControllerForImagePicker {
+                        presentedPicker in
                         imagePickerController = presentedPicker
                     }
                     expect(subject).to(beNil())
@@ -23,7 +24,9 @@ class UIImagePickerControllerSpec: QuickSpec {
 
             describe("imagePickerSheetForImagePicker") {
                 it("should present an image picker with actions") {
-                    let subject = UIImagePickerController.imagePickerSheetForImagePicker(callback: { _ in })
+                    let subject = UIImagePickerController.imagePickerSheetForImagePicker(callback: {
+                        _ in
+                    })
                     expect(subject.actions.count) > 0
                 }
             }

@@ -28,7 +28,9 @@ class NotificationsFilterBarSpec: QuickSpec {
             describe("Can contain buttons") {
 
                 beforeEach() {
-                    subject = NotificationsFilterBar(frame: CGRect(x: 0, y: 0, width: 92, height: 50))
+                    subject = NotificationsFilterBar(
+                        frame: CGRect(x: 0, y: 0, width: 92, height: 50)
+                    )
                     button1 = UIButton(frame: CGRect(x: 0, y: 0, width: 1, height: 1))
                     button2 = UIButton(frame: CGRect(x: 0, y: 0, width: 1, height: 1))
                     button3 = UIButton(frame: CGRect(x: 0, y: 0, width: 1, height: 1))

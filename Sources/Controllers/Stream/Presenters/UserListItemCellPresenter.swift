@@ -9,8 +9,8 @@ struct UserListItemCellPresenter {
         streamCellItem: StreamCellItem,
         streamKind: StreamKind,
         indexPath: IndexPath,
-        currentUser: User?)
-    {
+        currentUser: User?
+    ) {
         if let cell = cell as? UserListItemCell,
             let user = streamCellItem.jsonable as? User
         {

@@ -15,7 +15,11 @@ final class PostDetailGenerator: StreamGenerator {
     var destination: StreamDestination? {
         get { return postDetailStreamDestination }
         set {
-            if !(newValue is PostDetailStreamDestination) { fatalError("CategoryGenerator.destination must conform to PostDetailStreamDestination") }
+            if !(newValue is PostDetailStreamDestination) {
+                fatalError(
+                    "CategoryGenerator.destination must conform to PostDetailStreamDestination"
+                )
+            }
             postDetailStreamDestination = newValue as? PostDetailStreamDestination
         }
     }
@@ -27,12 +31,13 @@ final class PostDetailGenerator: StreamGenerator {
     private var loadingToken = LoadingToken()
     private let queue = OperationQueue()
 
-    init(currentUser: User?,
-         postParam: String,
-         post: Post?,
-         streamKind: StreamKind,
-         destination: StreamDestination
-        ) {
+    init(
+        currentUser: User?,
+        postParam: String,
+        post: Post?,
+        streamKind: StreamKind,
+        destination: StreamDestination
+    ) {
         self.currentUser = currentUser
         self.post = post
         self.postParam = postParam
@@ -74,8 +79,14 @@ final class PostDetailGenerator: StreamGenerator {
                 let commentItems = self.parse(jsonables: comments)
                 self.postDetailStreamDestination?.appendComments(commentItems)
 
-                let loadMoreComments = self.loadMoreCommentItems(lastComment: comments.last, pageConfig: pageConfig)
-                self.destination?.replacePlaceholder(type: .postLoadingComments, items: loadMoreComments)
+                let loadMoreComments = self.loadMoreCommentItems(
+                    lastComment: comments.last,
+                    pageConfig: pageConfig
+                )
+                self.destination?.replacePlaceholder(
+                    type: .postLoadingComments,
+                    items: loadMoreComments
+                )
             }
             .catch { _ in
                 self.destination?.replacePlaceholder(type: .postLoadingComments, items: [])
@@ -92,13 +103,13 @@ extension PostDetailGenerator {
     static func userAvatarCellItems(
         users: [User],
         postParam: String,
-        type: UserAvatarCellModel.EndpointType) -> [StreamCellItem]
-    {
+        type: UserAvatarCellModel.EndpointType
+    ) -> [StreamCellItem] {
         let model = UserAvatarCellModel(
             type: type,
             users: users,
             postParam: postParam
-            )
+        )
 
         return [
             StreamCellItem(type: .spacer(height: 4.0)),
@@ -141,7 +152,9 @@ private extension PostDetailGenerator {
         API().postDetail(token: .fromParam(postParam), username: username)
             .execute()
             .done { post in
-                guard self.loadingToken.isValidInitialPageLoadingToken(self.localToken) else { return }
+                guard self.loadingToken.isValidInitialPageLoadingToken(self.localToken) else {
+                    return
+                }
 
                 self.post = post
                 self.destination?.setPrimary(jsonable: post)
@@ -162,7 +175,12 @@ private extension PostDetailGenerator {
             let commentingEnabled = post.author?.hasCommentingEnabled ?? true
             guard let currentUser = self.currentUser, commentingEnabled else { return }
 
-            let barItems = [StreamCellItem(jsonable: ElloComment.newCommentForPost(post, currentUser: currentUser), type: .createComment)]
+            let barItems = [
+                StreamCellItem(
+                    jsonable: ElloComment.newCommentForPost(post, currentUser: currentUser),
+                    type: .createComment
+                )
+            ]
             inForeground {
                 self.destination?.replacePlaceholder(type: .postCommentBar, items: barItems)
             }
@@ -174,7 +192,8 @@ private extension PostDetailGenerator {
         destination?.replacePlaceholder(type: .postSocialPadding, items: padding)
     }
 
-    func loadMoreCommentItems(lastComment: ElloComment?, pageConfig: PageConfig) -> [StreamCellItem] {
+    func loadMoreCommentItems(lastComment: ElloComment?, pageConfig: PageConfig) -> [StreamCellItem]
+    {
         if pageConfig.next != nil,
             let lastComment = lastComment
         {
@@ -195,16 +214,27 @@ private extension PostDetailGenerator {
         API().postComments(postToken: .fromParam(postParam))
             .execute()
             .done { pageConfig, comments in
-                guard self.loadingToken.isValidInitialPageLoadingToken(self.localToken) else { return }
+                guard self.loadingToken.isValidInitialPageLoadingToken(self.localToken) else {
+                    return
+                }
 
                 self.before = pageConfig.next
                 let commentItems = self.parse(jsonables: comments)
                 displayCommentsOperation.run {
                     inForeground {
-                        self.destination?.replacePlaceholder(type: .postComments, items: commentItems)
+                        self.destination?.replacePlaceholder(
+                            type: .postComments,
+                            items: commentItems
+                        )
                         if let lastComment = comments.last {
-                            let loadMoreComments = self.loadMoreCommentItems(lastComment: lastComment, pageConfig: pageConfig)
-                            self.destination?.replacePlaceholder(type: .postLoadingComments, items: loadMoreComments)
+                            let loadMoreComments = self.loadMoreCommentItems(
+                                lastComment: lastComment,
+                                pageConfig: pageConfig
+                            )
+                            self.destination?.replacePlaceholder(
+                                type: .postLoadingComments,
+                                items: loadMoreComments
+                            )
                         }
                     }
                 }
@@ -221,7 +251,9 @@ private extension PostDetailGenerator {
 
         PostService().loadPostLovers(postParam)
             .done { users in
-                guard self.loadingToken.isValidInitialPageLoadingToken(self.localToken) else { return }
+                guard self.loadingToken.isValidInitialPageLoadingToken(self.localToken) else {
+                    return
+                }
                 guard users.count > 0 else { return }
 
                 let loversItems = PostDetailGenerator.userAvatarCellItems(
@@ -248,7 +280,9 @@ private extension PostDetailGenerator {
 
         PostService().loadPostReposters(postParam)
             .done { users in
-                guard self.loadingToken.isValidInitialPageLoadingToken(self.localToken) else { return }
+                guard self.loadingToken.isValidInitialPageLoadingToken(self.localToken) else {
+                    return
+                }
                 guard users.count > 0 else { return }
 
                 let repostersItems = PostDetailGenerator.userAvatarCellItems(
@@ -259,7 +293,10 @@ private extension PostDetailGenerator {
                 displayRepostersOperation.run {
                     inForeground {
                         self.displaySocialPadding()
-                        self.destination?.replacePlaceholder(type: .postReposters, items: repostersItems)
+                        self.destination?.replacePlaceholder(
+                            type: .postReposters,
+                            items: repostersItems
+                        )
                     }
                 }
             }
@@ -275,17 +312,25 @@ private extension PostDetailGenerator {
 
         PostService().loadRelatedPosts(postParam)
             .done { relatedPosts in
-                guard self.loadingToken.isValidInitialPageLoadingToken(self.localToken) else { return }
+                guard self.loadingToken.isValidInitialPageLoadingToken(self.localToken) else {
+                    return
+                }
                 guard relatedPosts.count > 0 else { return }
 
-                let header = NSAttributedString(label: InterfaceString.Post.RelatedPosts, style: .largeGrayHeader)
+                let header = NSAttributedString(
+                    label: InterfaceString.Post.RelatedPosts,
+                    style: .largeGrayHeader
+                )
                 let headerCellItem = StreamCellItem(type: .tallHeader(header))
                 let postItems = self.parse(jsonables: relatedPosts, forceGrid: true)
                 let relatedPostItems = [headerCellItem] + postItems
 
                 displayRelatedPostsOperation.run {
                     inForeground {
-                        self.destination?.replacePlaceholder(type: .postRelatedPosts, items: relatedPostItems)
+                        self.destination?.replacePlaceholder(
+                            type: .postRelatedPosts,
+                            items: relatedPostItems
+                        )
                     }
                 }
             }

@@ -16,7 +16,8 @@ class ElloTextFieldViewSpec: QuickSpec {
 
                 expect(usernameView.label.text) == "Username"
                 expect(usernameView.textField.text) == ""
-                expect(usernameView.textField.autocapitalizationType) == UITextAutocapitalizationType.none
+                expect(usernameView.textField.autocapitalizationType)
+                    == UITextAutocapitalizationType.none
                 expect(usernameView.textField.autocorrectionType) == UITextAutocorrectionType.no
                 expect(usernameView.textField.spellCheckingType) == UITextSpellCheckingType.no
                 expect(usernameView.textField.keyboardAppearance) == UIKeyboardAppearance.dark
@@ -31,7 +32,8 @@ class ElloTextFieldViewSpec: QuickSpec {
 
                 expect(emailView.label.text) == "Email"
                 expect(emailView.textField.text) == ""
-                expect(emailView.textField.autocapitalizationType) == UITextAutocapitalizationType.none
+                expect(emailView.textField.autocapitalizationType)
+                    == UITextAutocapitalizationType.none
                 expect(emailView.textField.autocorrectionType) == UITextAutocorrectionType.no
                 expect(emailView.textField.spellCheckingType) == UITextSpellCheckingType.no
                 expect(emailView.textField.keyboardAppearance) == UIKeyboardAppearance.dark
@@ -45,7 +47,8 @@ class ElloTextFieldViewSpec: QuickSpec {
                 ElloTextFieldView.styleAsPassword(passwordView)
 
                 expect(passwordView.label.text) == "Password"
-                expect(passwordView.textField.autocapitalizationType) == UITextAutocapitalizationType.none
+                expect(passwordView.textField.autocapitalizationType)
+                    == UITextAutocapitalizationType.none
                 expect(passwordView.textField.autocorrectionType) == UITextAutocorrectionType.no
                 expect(passwordView.textField.spellCheckingType) == UITextSpellCheckingType.no
                 expect(passwordView.textField.keyboardAppearance) == UIKeyboardAppearance.dark

@@ -68,18 +68,26 @@ class RoleAdminViewController: BaseElloViewController {
     }
 
     private func updateRoles() {
-        screen.updateRoles(categoryUsers.map { categoryUser in
-            let currentUserCanEdit = RoleAdminPermissions.userCanEdit(currentUser: currentUser, categoryUser: categoryUser)
-            let currentUserCanDelete = RoleAdminPermissions.userCanDelete(currentUser: currentUser, categoryUser: categoryUser)
-            let roleInfo = RoleAdminScreen.RoleInfo(
-                categoryName: categoryUser.category?.name ?? "???",
-                imageURL: categoryUser.category?.tileURL,
-                role: categoryUser.role,
-                currentUserCanEdit: currentUserCanEdit,
-                currentUserCanDelete: currentUserCanDelete
+        screen.updateRoles(
+            categoryUsers.map { categoryUser in
+                let currentUserCanEdit = RoleAdminPermissions.userCanEdit(
+                    currentUser: currentUser,
+                    categoryUser: categoryUser
                 )
-            return roleInfo
-        })
+                let currentUserCanDelete = RoleAdminPermissions.userCanDelete(
+                    currentUser: currentUser,
+                    categoryUser: categoryUser
+                )
+                let roleInfo = RoleAdminScreen.RoleInfo(
+                    categoryName: categoryUser.category?.name ?? "???",
+                    imageURL: categoryUser.category?.tileURL,
+                    role: categoryUser.role,
+                    currentUserCanEdit: currentUserCanEdit,
+                    currentUserCanDelete: currentUserCanDelete
+                )
+                return roleInfo
+            }
+        )
     }
 
     override func backButtonTapped() {
@@ -101,7 +109,11 @@ extension RoleAdminViewController: RoleAdminScreenDelegate {
 
         self.currentAction = .add
 
-        let controller = ChooseCategoryViewController(currentUser: currentUser, category: nil, usage: .roleAdmin)
+        let controller = ChooseCategoryViewController(
+            currentUser: currentUser,
+            category: nil,
+            usage: .roleAdmin
+        )
         controller.categoryFilter = { category in
             if self.categoryUsers.any({ $0.category?.id == category.id }) {
                 return false
@@ -122,7 +134,10 @@ extension RoleAdminViewController: RoleAdminScreenDelegate {
         self.currentCategory = category
         self.currentAction = .edit(categoryUser)
 
-        let controller = ChooseRoleViewController(category: category, selectedRole: categoryUser.role)
+        let controller = ChooseRoleViewController(
+            category: category,
+            selectedRole: categoryUser.role
+        )
         controller.currentUser = currentUser
         controller.delegate = self
         navigationController?.pushViewController(controller, animated: true)
@@ -136,13 +151,17 @@ extension RoleAdminViewController: RoleAdminScreenDelegate {
         else { return }
 
         let alertController = AlertViewController()
-        alertController.attributedMessage = NSAttributedString(label: "Remove \(user.atName) from ", style: .black) +
-            NSAttributedString(label: category.name, style: .blackUnderlined) +
-            NSAttributedString(label: "?", style: .black)
+        alertController.attributedMessage = NSAttributedString(
+            label: "Remove \(user.atName) from ",
+            style: .black
+        ) + NSAttributedString(label: category.name, style: .blackUnderlined)
+            + NSAttributedString(label: "?", style: .black)
 
         let yesAction = AlertAction(title: InterfaceString.Yes, style: .green) { _ in
             var removeCategoryUser: CategoryUser?
-            let newCategoryUsers: [CategoryUser] = self.categoryUsers.enumerated().compactMap { existingIndex, categoryUser in
+            let newCategoryUsers: [CategoryUser] = self.categoryUsers.enumerated().compactMap {
+                existingIndex,
+                categoryUser in
                 if existingIndex == index {
                     removeCategoryUser = categoryUser
                     return nil
@@ -183,7 +202,8 @@ extension RoleAdminViewController: ChooseCategoryControllerDelegate {
         roleController.currentUser = currentUser
         roleController.delegate = self
 
-        let controllers: [UIViewController] = navigationController.viewControllers.map { controller in
+        let controllers: [UIViewController] = navigationController.viewControllers.map {
+            controller in
             if controller is ChooseCategoryViewController {
                 return roleController
             }
@@ -196,11 +216,19 @@ extension RoleAdminViewController: ChooseCategoryControllerDelegate {
 extension RoleAdminViewController: ChooseRoleControllerDelegate {
     func chooseRoleControllerRoleChosen(_ role: CategoryUser.Role) {
         navigationController?.popViewController(animated: true)
-        guard let currentAction = currentAction, let currentCategory = currentCategory else { return }
+        guard let currentAction = currentAction, let currentCategory = currentCategory else {
+            return
+        }
 
         switch currentAction {
         case .add:
-            guard RoleAdminPermissions.userCanAdd(currentUser: currentUser, category: currentCategory, role: role) else { return }
+            guard
+                RoleAdminPermissions.userCanAdd(
+                    currentUser: currentUser,
+                    category: currentCategory,
+                    role: role
+                )
+            else { return }
 
             ElloHUD.showLoadingHudInView(view)
             generator.add(categoryId: currentCategory.id, userId: user.id, role: role)
@@ -219,7 +247,12 @@ extension RoleAdminViewController: ChooseRoleControllerDelegate {
             if prevCategoryUser.role == role {
                 return
             }
-            guard RoleAdminPermissions.userCanEdit(currentUser: currentUser, categoryUser: prevCategoryUser) else { return }
+            guard
+                RoleAdminPermissions.userCanEdit(
+                    currentUser: currentUser,
+                    categoryUser: prevCategoryUser
+                )
+            else { return }
 
             ElloHUD.showLoadingHudInView(view)
             generator.edit(categoryId: currentCategory.id, userId: user.id, role: role)

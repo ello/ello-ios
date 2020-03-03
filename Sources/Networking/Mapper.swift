@@ -4,7 +4,8 @@
 
 struct Mapper {
 
-    static func mapToObjectArray(_ dicts: [[String: Any]], type mappingType: MappingType) -> [Model] {
+    static func mapToObjectArray(_ dicts: [[String: Any]], type mappingType: MappingType) -> [Model]
+    {
         return dicts.compactMap { object in
             return mapToObject(object, type: mappingType)
         }

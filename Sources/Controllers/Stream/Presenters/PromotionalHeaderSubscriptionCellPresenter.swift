@@ -9,8 +9,8 @@ struct PromotionalHeaderSubscriptionCellPresenter {
         streamCellItem: StreamCellItem,
         streamKind: StreamKind,
         indexPath: IndexPath,
-        currentUser: User?)
-    {
+        currentUser: User?
+    ) {
         guard
             let cell = cell as? PromotionalHeaderSubscriptionCell,
             let pageHeader = streamCellItem.jsonable as? PageHeader

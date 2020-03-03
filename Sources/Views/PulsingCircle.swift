@@ -15,7 +15,9 @@ class PulsingCircle: UIView {
     private func createPulser() -> UIView {
         let view = UIView(frame: CGRect(x: 0, y: 0, width: Size.size, height: Size.size))
         view.center = CGPoint(x: self.bounds.size.width / 2, y: self.bounds.size.height / 2)
-        view.autoresizingMask = [.flexibleTopMargin, .flexibleBottomMargin, .flexibleLeftMargin, .flexibleRightMargin]
+        view.autoresizingMask = [
+            .flexibleTopMargin, .flexibleBottomMargin, .flexibleLeftMargin, .flexibleRightMargin
+        ]
         view.layer.cornerRadius = Size.size / 2
         view.backgroundColor = UIColor.greyA
         view.clipsToBounds = true
@@ -45,7 +47,8 @@ class PulsingCircle: UIView {
     func stopPulse(_ completion: BoolBlock? = nil) {
         shouldReanimate = false
         isPulsing = false
-        UIView.animate(withDuration: 0.65,
+        UIView.animate(
+            withDuration: 0.65,
             delay: 0.0,
             options: .curveEaseOut,
             animations: {
@@ -66,7 +69,8 @@ class PulsingCircle: UIView {
 
     private func keepPulsing() {
         self.pulser.alpha = 1
-        UIView.animate(withDuration: 0.65,
+        UIView.animate(
+            withDuration: 0.65,
             delay: 0.0,
             options: .curveEaseOut,
             animations: {
@@ -74,7 +78,8 @@ class PulsingCircle: UIView {
             },
             completion: { done in
                 if self.isPulsing {
-                    UIView.animate(withDuration: 0.65,
+                    UIView.animate(
+                        withDuration: 0.65,
                         delay: 0.0,
                         options: .curveEaseOut,
                         animations: {
@@ -84,8 +89,10 @@ class PulsingCircle: UIView {
                             if self.isPulsing {
                                 self.keepPulsing()
                             }
-                        })
+                        }
+                    )
                 }
-        })
+            }
+        )
     }
 }

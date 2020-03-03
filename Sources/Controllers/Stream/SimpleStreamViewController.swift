@@ -55,7 +55,14 @@ class SimpleStreamViewController: StreamableViewController {
     }
 
     private func setupNavigationBar() {
-        navigationBar = ElloNavigationBar(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: ElloNavigationBar.Size.height))
+        navigationBar = ElloNavigationBar(
+            frame: CGRect(
+                x: 0,
+                y: 0,
+                width: view.frame.width,
+                height: ElloNavigationBar.Size.height
+            )
+        )
         navigationBar.autoresizingMask = [.flexibleBottomMargin, .flexibleWidth]
         view.addSubview(navigationBar)
     }

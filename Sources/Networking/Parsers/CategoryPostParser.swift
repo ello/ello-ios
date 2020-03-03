@@ -21,7 +21,9 @@ class CategoryPostParser: IdParser {
         var actions: [CategoryPost.Action] = []
         if let actionsJson = json["actions"].dictionary {
             for (name, actionJson) in actionsJson {
-                guard let action = CategoryPost.Action(name: name, json: actionJson) else { continue }
+                guard let action = CategoryPost.Action(name: name, json: actionJson) else {
+                    continue
+                }
                 actions.append(action)
             }
         }
@@ -36,7 +38,11 @@ class CategoryPostParser: IdParser {
             let categoryName = json["categoryName"].string,
             let categorySlug = json["categorySlug"].string
         {
-            categoryPartial = CategoryPartial(id: categoryId, name: categoryName, slug: categorySlug)
+            categoryPartial = CategoryPartial(
+                id: categoryId,
+                name: categoryName,
+                slug: categorySlug
+            )
         }
 
         let categoryPost = CategoryPost(

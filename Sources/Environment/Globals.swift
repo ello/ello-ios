@@ -14,12 +14,12 @@ func overrideGlobals(_ global: GlobalFactory) {
 
 
 class GlobalFactory {
-    var isDarkMode: Bool { _isDarkMode() } // this can change at runtime
+    var isDarkMode: Bool { _isDarkMode() }  // this can change at runtime
     lazy var isTesting: Bool = _isTesting()
     lazy var isSimulator: Bool = _isRunningOnSimulator()
     lazy var isIphoneX: Bool = _isIphoneX()
     lazy var isIpad: Bool = _isIpad()
-    var windowSize: CGSize = .zero // assigned in AppDelegate due to extensions
+    var windowSize: CGSize = .zero  // assigned in AppDelegate due to extensions
 
     lazy var statusBarHeight: CGFloat = _statusBarHeight()
     lazy var bestBottomMargin: CGFloat = _bestBottomMargin()
@@ -47,7 +47,8 @@ private func _isRunningOnSimulator() -> Bool {
 private func _isDarkMode() -> Bool {
     if #available(iOS 13, *) {
         return UITraitCollection.current.userInterfaceStyle == .dark
-    } else {
+    }
+    else {
         return false
     }
 }

@@ -4,17 +4,32 @@
 
 struct StreamCellItemParser {
 
-    func parse(_ items: [Model], streamKind: StreamKind, forceGrid: Bool = false, currentUser: User? = nil) -> [StreamCellItem] {
+    func parse(
+        _ items: [Model],
+        streamKind: StreamKind,
+        forceGrid: Bool = false,
+        currentUser: User? = nil
+    ) -> [StreamCellItem] {
         let viewsAdultContent = currentUser?.viewsAdultContent ?? false
         let isGridView = forceGrid || streamKind.isGridView
         let filteredItems = streamKind.filter(items, viewsAdultContent: viewsAdultContent)
         var streamItems: [StreamCellItem] = []
         for item in filteredItems {
             if let post = item as? Post ?? (item as? Love)?.post {
-                streamItems += postCellItems(post, streamKind: streamKind, isGridView: isGridView, currentUser: currentUser)
+                streamItems += postCellItems(
+                    post,
+                    streamKind: streamKind,
+                    isGridView: isGridView,
+                    currentUser: currentUser
+                )
             }
             else if let submission = item as? ArtistInviteSubmission {
-                streamItems += submissionCellItems(submission, streamKind: streamKind, isGridView: isGridView, currentUser: currentUser)
+                streamItems += submissionCellItems(
+                    submission,
+                    streamKind: streamKind,
+                    isGridView: isGridView,
+                    currentUser: currentUser
+                )
             }
             else if let comment = item as? ElloComment {
                 streamItems += commentCellItems(comment)
@@ -51,24 +66,39 @@ struct StreamCellItemParser {
         var items = [
             StreamCellItem(jsonable: user, type: .profileHeaderAvatar),
             StreamCellItem(jsonable: user, type: .profileHeaderName),
-            ]
+        ]
 
         if user.badges.count > 0 || user.totalViewsCount.map({ $0 > 0 }) == true {
-            items += [StreamCellItem(type: .profileHeaderSeparator), StreamCellItem(jsonable: user, type: .profileHeaderTotalAndBadges)]
+            items += [
+                StreamCellItem(type: .profileHeaderSeparator),
+                StreamCellItem(jsonable: user, type: .profileHeaderTotalAndBadges)
+            ]
         }
 
-        items += [StreamCellItem(type: .profileHeaderSeparator), StreamCellItem(jsonable: user, type: .profileHeaderStats)]
+        items += [
+            StreamCellItem(type: .profileHeaderSeparator),
+            StreamCellItem(jsonable: user, type: .profileHeaderStats)
+        ]
 
         if user.formattedShortBio?.isEmpty == false {
-            items += [StreamCellItem(type: .profileHeaderSeparator), StreamCellItem(jsonable: user, type: .profileHeaderBio)]
+            items += [
+                StreamCellItem(type: .profileHeaderSeparator),
+                StreamCellItem(jsonable: user, type: .profileHeaderBio)
+            ]
         }
 
         if user.location?.isEmpty == false {
-            items += [StreamCellItem(type: .profileHeaderSeparator), StreamCellItem(jsonable: user, type: .profileHeaderLocation)]
+            items += [
+                StreamCellItem(type: .profileHeaderSeparator),
+                StreamCellItem(jsonable: user, type: .profileHeaderLocation)
+            ]
         }
 
         if (user.externalLinksList?.count).map({ $0 > 0 }) == true {
-            items += [StreamCellItem(type: .profileHeaderSeparator), StreamCellItem(jsonable: user, type: .profileHeaderLinks)]
+            items += [
+                StreamCellItem(type: .profileHeaderSeparator),
+                StreamCellItem(jsonable: user, type: .profileHeaderLinks)
+            ]
         }
         return items
     }
@@ -80,20 +110,62 @@ struct StreamCellItemParser {
     private func artistInviteDetailItems(_ artistInvite: ArtistInvite) -> [StreamCellItem] {
         let groupId = "ArtistInvite-\(artistInvite.id)"
         return [
-            StreamCellItem(jsonable: artistInvite, type: .artistInviteHeader, placeholderType: .artistInvites, groupId: groupId),
+            StreamCellItem(
+                jsonable: artistInvite,
+                type: .artistInviteHeader,
+                placeholderType: .artistInvites,
+                groupId: groupId
+            ),
             // <-- the ↓submissions button goes here, so to separate these items we tag the placeholderType
             // the submissions button isn't inserted until the submission posts are loaded
-            StreamCellItem(jsonable: artistInvite, type: .artistInviteControls, placeholderType: .artistInviteDetails, groupId: groupId),
-        ] + artistInvite.guide.map({ StreamCellItem(jsonable: artistInvite, type: .artistInviteGuide($0), placeholderType: .artistInviteDetails, groupId: groupId) })
-        + [StreamCellItem(jsonable: artistInvite, type: .spacer(height: 30), placeholderType: .artistInviteDetails, groupId: groupId)]
+            StreamCellItem(
+                jsonable: artistInvite,
+                type: .artistInviteControls,
+                placeholderType: .artistInviteDetails,
+                groupId: groupId
+            ),
+        ]
+            + artistInvite.guide.map({
+                StreamCellItem(
+                    jsonable: artistInvite,
+                    type: .artistInviteGuide($0),
+                    placeholderType: .artistInviteDetails,
+                    groupId: groupId
+                )
+            })
+            + [
+                StreamCellItem(
+                    jsonable: artistInvite,
+                    type: .spacer(height: 30),
+                    placeholderType: .artistInviteDetails,
+                    groupId: groupId
+                )
+            ]
     }
 
-    private func submissionCellItems(_ submission: ArtistInviteSubmission, streamKind: StreamKind, isGridView: Bool, currentUser: User?) -> [StreamCellItem] {
+    private func submissionCellItems(
+        _ submission: ArtistInviteSubmission,
+        streamKind: StreamKind,
+        isGridView: Bool,
+        currentUser: User?
+    ) -> [StreamCellItem] {
         guard let post = submission.post else { return [] }
-        return postCellItems(post, streamKind: streamKind, isGridView: isGridView, currentUser: currentUser, submission: submission)
+        return postCellItems(
+            post,
+            streamKind: streamKind,
+            isGridView: isGridView,
+            currentUser: currentUser,
+            submission: submission
+        )
     }
 
-    private func postCellItems(_ post: Post, streamKind: StreamKind, isGridView: Bool, currentUser: User?, submission: ArtistInviteSubmission? = nil) -> [StreamCellItem] {
+    private func postCellItems(
+        _ post: Post,
+        streamKind: StreamKind,
+        isGridView: Bool,
+        currentUser: User?,
+        submission: ArtistInviteSubmission? = nil
+    ) -> [StreamCellItem] {
         let groupId = "Post-\(post.id)"
         var cellItems: [StreamCellItem] = []
 
@@ -101,18 +173,28 @@ struct StreamCellItemParser {
             cellItems.append(StreamCellItem(jsonable: post, type: .streamHeader, groupId: groupId))
         }
         else {
-            cellItems.append(StreamCellItem(jsonable: post, type: .spacer(height: 30), groupId: groupId))
+            cellItems.append(
+                StreamCellItem(jsonable: post, type: .spacer(height: 30), groupId: groupId)
+            )
         }
 
         if let submission = submission, submission.actions.count > 0 {
-            cellItems.append(StreamCellItem(jsonable: submission, type: .artistInviteAdminControls, groupId: groupId))
+            cellItems.append(
+                StreamCellItem(
+                    jsonable: submission,
+                    type: .artistInviteAdminControls,
+                    groupId: groupId
+                )
+            )
         }
 
         if streamKind.showsCurationTool,
             let currentUser = currentUser,
             let categoryPost = post.categoryPosts.first(where: currentUser.isCuratorOf)
         {
-            cellItems.append(StreamCellItem(jsonable: categoryPost, type: .postFeaturedControl, groupId: groupId))
+            cellItems.append(
+                StreamCellItem(jsonable: categoryPost, type: .postFeaturedControl, groupId: groupId)
+            )
         }
 
         cellItems += postToggleItems(post, groupId: groupId)
@@ -135,7 +217,13 @@ struct StreamCellItemParser {
             let categoryPost = post.categoryPosts.first,
             categoryPost.category != nil
         {
-            cellItems.append(StreamCellItem(jsonable: post, type: .categoryPostHistory(categoryPost), groupId: groupId))
+            cellItems.append(
+                StreamCellItem(
+                    jsonable: post,
+                    type: .categoryPostHistory(categoryPost),
+                    groupId: groupId
+                )
+            )
         }
 
         cellItems += [StreamCellItem(jsonable: post, type: .streamFooter, groupId: groupId)]
@@ -168,8 +256,12 @@ struct StreamCellItemParser {
         }
     }
 
-    private func regionItems(_ jsonable: Model, groupId: String, content: [Regionable]) -> [StreamCellItem] {
-        return content.flatMap(regionStreamCells).map { StreamCellItem(jsonable: jsonable, type: $0, groupId: groupId) }
+    private func regionItems(_ jsonable: Model, groupId: String, content: [Regionable])
+        -> [StreamCellItem]
+    {
+        return content.flatMap(regionStreamCells).map {
+            StreamCellItem(jsonable: jsonable, type: $0, groupId: groupId)
+        }
     }
 
     func regionStreamCells(_ region: Regionable) -> [StreamCellType] {
@@ -190,7 +282,7 @@ struct StreamCellItemParser {
                 guard line.count < max + 10 else {
                     let startIndex = line.startIndex
                     let endIndex = line.index(line.startIndex, offsetBy: max)
-                    return String(line[startIndex ..< endIndex]) + "&hellip;</p>"
+                    return String(line[startIndex..<endIndex]) + "&hellip;</p>"
                 }
                 return line + "</p>"
             }
@@ -218,8 +310,18 @@ extension StreamCellItemParser {
     func testingTypicalCellItems(_ jsonable: Model, type: StreamCellType) -> [StreamCellItem] {
         return typicalCellItems(jsonable, type: type)
     }
-    func testingPostCellItems(_ post: Post, streamKind: StreamKind, isGridView: Bool, currentUser: User?) -> [StreamCellItem] {
-        return postCellItems(post, streamKind: streamKind, isGridView: isGridView, currentUser: currentUser)
+    func testingPostCellItems(
+        _ post: Post,
+        streamKind: StreamKind,
+        isGridView: Bool,
+        currentUser: User?
+    ) -> [StreamCellItem] {
+        return postCellItems(
+            post,
+            streamKind: streamKind,
+            isGridView: isGridView,
+            currentUser: currentUser
+        )
     }
     func testingCommentCellItems(_ comment: ElloComment) -> [StreamCellItem] {
         return commentCellItems(comment)

@@ -6,14 +6,18 @@ struct ElloWebViewHelper {
     static let jsCommandProtocol = "ello://"
 
     @discardableResult
-    static func handle(request: URLRequest, origin: UIResponder?, fromWebView: Bool = false) -> Bool {
+    static func handle(request: URLRequest, origin: UIResponder?, fromWebView: Bool = false) -> Bool
+    {
         guard let requestUrlString = request.url?.absoluteString
         else { return true }
 
         if requestUrlString.hasPrefix(ElloWebViewHelper.jsCommandProtocol) {
             return false
         }
-        else if requestUrlString.range(of: "(https?:\\/\\/|mailto:)", options: String.CompareOptions.regularExpression) != nil {
+        else if requestUrlString.range(
+            of: "(https?:\\/\\/|mailto:)",
+            options: String.CompareOptions.regularExpression
+        ) != nil {
             let (type, data) = ElloURI.match(requestUrlString)
             if type == .email {
                 if let url = URL(string: requestUrlString) {
@@ -24,7 +28,11 @@ struct ElloWebViewHelper {
             else {
                 if fromWebView && type.loadsInWebViewFromWebView { return true }
                 let responder: WebLinkResponder? = origin?.findResponder()
-                responder?.webLinkTapped(path: requestUrlString, type: ElloURIWrapper(uri: type), data: data)
+                responder?.webLinkTapped(
+                    path: requestUrlString,
+                    type: ElloURIWrapper(uri: type),
+                    data: data
+                )
                 return false
             }
         }

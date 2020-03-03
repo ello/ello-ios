@@ -63,7 +63,8 @@ final class Post: Model, Authorable {
     private var lovedChangedNotification: NotificationObserver?
     private var commentsCountChangedNotification: NotificationObserver?
 
-    init(id: String,
+    init(
+        id: String,
         createdAt: Date,
         authorId: String,
         token: String,
@@ -77,8 +78,7 @@ final class Post: Model, Authorable {
         content: [Regionable],
         body: [Regionable],
         repostContent: [Regionable]
-        )
-    {
+    ) {
         self.id = id
         self.createdAt = createdAt
         self.authorId = authorId
@@ -95,13 +95,16 @@ final class Post: Model, Authorable {
         self.repostContent = repostContent
         super.init(version: PostVersion)
 
-        lovedChangedNotification = NotificationObserver(notification: PostChangedNotification) { [unowned self] (post, change) in
+        lovedChangedNotification = NotificationObserver(notification: PostChangedNotification) {
+            [unowned self] (post, change) in
             if post.id == self.id && change == .loved {
                 self.isLoved = post.isLoved
             }
         }
 
-        commentsCountChangedNotification = NotificationObserver(notification: PostCommentsCountChangedNotification) { [unowned self] (post, delta) in
+        commentsCountChangedNotification = NotificationObserver(
+            notification: PostCommentsCountChangedNotification
+        ) { [unowned self] (post, delta) in
             if post.id == self.id {
                 self.commentsCount = (self.commentsCount ?? 0) + delta
             }
@@ -144,13 +147,16 @@ final class Post: Model, Authorable {
         self.lovesCount = decoder.decodeOptionalKey("lovesCount")
         super.init(coder: coder)
 
-        lovedChangedNotification = NotificationObserver(notification: PostChangedNotification) { [unowned self] (post, change) in
+        lovedChangedNotification = NotificationObserver(notification: PostChangedNotification) {
+            [unowned self] (post, change) in
             if post.id == self.id && change == .loved {
                 self.isLoved = post.isLoved
             }
         }
 
-        commentsCountChangedNotification = NotificationObserver(notification: PostCommentsCountChangedNotification) { (post, delta) in
+        commentsCountChangedNotification = NotificationObserver(
+            notification: PostCommentsCountChangedNotification
+        ) { (post, delta) in
             if post.id == self.id {
                 self.commentsCount = (self.commentsCount ?? 0) + delta
             }
@@ -204,8 +210,14 @@ final class Post: Model, Authorable {
             isLoved: json["loved"].bool ?? false,
             isWatching: json["watching"].bool ?? false,
             summary: RegionParser.jsonRegions(json: json["summary"]),
-            content: RegionParser.jsonRegions(json: json["content"], isRepostContent: repostContent.count > 0),
-            body: RegionParser.jsonRegions(json: json["body"], isRepostContent: repostContent.count > 0),
+            content: RegionParser.jsonRegions(
+                json: json["content"],
+                isRepostContent: repostContent.count > 0
+            ),
+            body: RegionParser.jsonRegions(
+                json: json["body"],
+                isRepostContent: repostContent.count > 0
+            ),
             repostContent: repostContent
         )
 
@@ -217,7 +229,9 @@ final class Post: Model, Authorable {
 
         post.mergeLinks(data["links"] as? [String: Any])
         post.addLinkObject("author", id: post.authorId, type: .usersType)
-        if post.categoryPosts.isEmpty, let category = (post.getLinkArray("categories") as [Category]).first {
+        if post.categoryPosts.isEmpty,
+            let category = (post.getLinkArray("categories") as [Category]).first
+        {
             post.addLinkObject("category", id: category.id, type: .categoriesType)
         }
 

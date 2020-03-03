@@ -30,11 +30,19 @@ final class ProfileBadgeViewController: BaseElloViewController {
 
 extension ProfileBadgeViewController: UIViewControllerTransitioningDelegate {
 
-    func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
+    func presentationController(
+        forPresented presented: UIViewController,
+        presenting: UIViewController?,
+        source: UIViewController
+    ) -> UIPresentationController? {
         guard presented == self
-            else { return .none }
+        else { return .none }
 
-        return DarkModalPresentationController(presentedViewController: presented, presentingViewController: presenting, backgroundColor: .dimmedModalBackground)
+        return DarkModalPresentationController(
+            presentedViewController: presented,
+            presentingViewController: presenting,
+            backgroundColor: .dimmedModalBackground
+        )
     }
 }
 

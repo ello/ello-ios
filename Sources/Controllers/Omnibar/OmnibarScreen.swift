@@ -32,9 +32,10 @@ class OmnibarScreen: Screen, OmnibarScreenProtocol {
 
     class func canEditRegions(_ regions: [Regionable]?) -> Bool {
         if let regions = regions {
-            return regions.count > 0 && regions.all { region in
-                return region is TextRegion || region is ImageRegion
-            }
+            return regions.count > 0
+                && regions.all { region in
+                    return region is TextRegion || region is ImageRegion
+                }
         }
         return false
     }
@@ -198,12 +199,14 @@ class OmnibarScreen: Screen, OmnibarScreenProtocol {
         setupKeyboardViews()
         setupImageViews()
 
-        contentSizeObservation = regionsTableView.observe(\UITableView.contentSize) { [weak self] tableView, change in
+        contentSizeObservation = regionsTableView.observe(\UITableView.contentSize) {
+            [weak self] tableView, change in
             guard let `self` = self else { return }
             let contentSize = tableView.contentSize
             let regionsTableView = self.regionsTableView
 
-            let contentHeight: CGFloat = ceil(contentSize.height) + regionsTableView.contentInset.bottom
+            let contentHeight: CGFloat = ceil(contentSize.height)
+                + regionsTableView.contentInset.bottom
             let height: CGFloat = max(0, regionsTableView.frame.height - contentHeight)
             let y = regionsTableView.frame.height - height - regionsTableView.contentInset.bottom
             self.textEditingControl.frame = CGRect(
@@ -278,7 +281,11 @@ class OmnibarScreen: Screen, OmnibarScreenProtocol {
         addImageButton.isEnabled = UIImagePickerController.isSourceTypeAvailable(.photoLibrary)
 
         cancelImageButton.setImages(.textPicker, style: .selected)
-        cancelImageButton.addTarget(self, action: #selector(cancelImageButtonTapped), for: .touchUpInside)
+        cancelImageButton.addTarget(
+            self,
+            action: #selector(cancelImageButtonTapped),
+            for: .touchUpInside
+        )
         cancelImageButton.isHidden = true
 
         let line = Line(color: .greyF2)
@@ -286,7 +293,8 @@ class OmnibarScreen: Screen, OmnibarScreenProtocol {
         addSubview(toolbarContainer)
         toolbarContainer.snp.makeConstraints { make in
             make.leading.trailing.equalTo(self)
-            toolbarPinToTopConstraint = make.top.equalTo(self).offset(StatusBar.Size.height).constraint
+            toolbarPinToTopConstraint =
+                make.top.equalTo(self).offset(StatusBar.Size.height).constraint
             toolbarPinToNavConstraint = make.top.equalTo(navigationBar.snp.bottom).constraint
         }
         toolbarContainer.addSubview(cancelButton)
@@ -314,7 +322,9 @@ class OmnibarScreen: Screen, OmnibarScreenProtocol {
         buyButton.snp.makeConstraints { make in
             make.top.equalTo(toolbarContainer).inset(Size.toolbarMargin.top + Size.margins.top)
             make.bottom.equalTo(toolbarContainer).inset(Size.toolbarMargin)
-            make.trailing.equalTo(reorderButton.snp.leading).offset(-Size.toolbarButtonSpacing - Size.additionalBuyPadding)
+            make.trailing.equalTo(reorderButton.snp.leading).offset(
+                -Size.toolbarButtonSpacing - Size.additionalBuyPadding
+            )
         }
         cancelImageButton.snp.makeConstraints { make in
             make.edges.equalTo(addImageButton)
@@ -335,11 +345,26 @@ class OmnibarScreen: Screen, OmnibarScreenProtocol {
         regionsTableView.dataSource = self
         regionsTableView.delegate = self
         regionsTableView.separatorStyle = .none
-        regionsTableView.register(OmnibarTextCell.self, forCellReuseIdentifier: OmnibarTextCell.reuseIdentifier)
-        regionsTableView.register(OmnibarImageCell.self, forCellReuseIdentifier: OmnibarImageCell.reuseIdentifier)
-        regionsTableView.register(OmnibarImageDownloadCell.self, forCellReuseIdentifier: OmnibarImageDownloadCell.reuseIdentifier)
-        regionsTableView.register(OmnibarSpacerCell.self, forCellReuseIdentifier: OmnibarSpacerCell.reuseIdentifier)
-        regionsTableView.register(OmnibarErrorCell.self, forCellReuseIdentifier: OmnibarErrorCell.reuseIdentifier)
+        regionsTableView.register(
+            OmnibarTextCell.self,
+            forCellReuseIdentifier: OmnibarTextCell.reuseIdentifier
+        )
+        regionsTableView.register(
+            OmnibarImageCell.self,
+            forCellReuseIdentifier: OmnibarImageCell.reuseIdentifier
+        )
+        regionsTableView.register(
+            OmnibarImageDownloadCell.self,
+            forCellReuseIdentifier: OmnibarImageDownloadCell.reuseIdentifier
+        )
+        regionsTableView.register(
+            OmnibarSpacerCell.self,
+            forCellReuseIdentifier: OmnibarSpacerCell.reuseIdentifier
+        )
+        regionsTableView.register(
+            OmnibarErrorCell.self,
+            forCellReuseIdentifier: OmnibarErrorCell.reuseIdentifier
+        )
         regionsTableView.contentInset.top = Size.tableTopInset
         regionsTableView.estimatedRowHeight = 0
         regionsTableView.estimatedSectionHeaderHeight = 0
@@ -357,9 +382,15 @@ class OmnibarScreen: Screen, OmnibarScreenProtocol {
         regionsTableView.addSubview(textEditingControl)
 
         textScrollView.delegate = self
-        let stopEditingTapGesture = UITapGestureRecognizer(target: self, action: #selector(stopEditing))
+        let stopEditingTapGesture = UITapGestureRecognizer(
+            target: self,
+            action: #selector(stopEditing)
+        )
         textScrollView.addGestureRecognizer(stopEditingTapGesture)
-        let stopEditingSwipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(stopEditing))
+        let stopEditingSwipeGesture = UISwipeGestureRecognizer(
+            target: self,
+            action: #selector(stopEditing)
+        )
         stopEditingSwipeGesture.direction = .down
         textScrollView.addGestureRecognizer(stopEditingSwipeGesture)
         textScrollView.clipsToBounds = true
@@ -414,9 +445,21 @@ class OmnibarScreen: Screen, OmnibarScreenProtocol {
             clearCommunityButton.setImage(InterfaceImage.toUIImage(svgkImage), for: .normal)
             clearCommunityButton.contentMode = .center
         }
-        chooseCommunityButton.addTarget(self, action: #selector(chooseCommunityButtonTapped), for: .touchUpInside)
-        currentCommunityButton.addTarget(self, action: #selector(currentCommunityButtonTapped), for: .touchUpInside)
-        clearCommunityButton.addTarget(self, action: #selector(clearCommunityButtonTapped), for: .touchUpInside)
+        chooseCommunityButton.addTarget(
+            self,
+            action: #selector(chooseCommunityButtonTapped),
+            for: .touchUpInside
+        )
+        currentCommunityButton.addTarget(
+            self,
+            action: #selector(currentCommunityButtonTapped),
+            for: .touchUpInside
+        )
+        clearCommunityButton.addTarget(
+            self,
+            action: #selector(clearCommunityButtonTapped),
+            for: .touchUpInside
+        )
 
         submitButton.setImage(.pencil, imageStyle: .white, for: .normal)
         submitButton.setImage(.pencil, imageStyle: .selected, for: .highlighted)
@@ -440,23 +483,33 @@ class OmnibarScreen: Screen, OmnibarScreenProtocol {
                 make.size.equalTo(Size.keyboardButtonSize)
 
                 if isLast {
-                    make.trailing.equalTo(submitButton.snp.leading).offset(-Size.keyboardButtonsMargin.right)
-                    styleButtonsHiddenConstraint = make.trailing.equalTo(keyboardButtonsContainer.snp.leading).constraint
+                    make.trailing.equalTo(submitButton.snp.leading).offset(
+                        -Size.keyboardButtonsMargin.right
+                    )
+                    styleButtonsHiddenConstraint =
+                        make.trailing.equalTo(keyboardButtonsContainer.snp.leading).constraint
                 }
 
                 if let prevButton = prevButton {
                     make.leading.equalTo(prevButton.snp.trailing).offset(Size.keyboardButtonSpacing)
                 }
                 else {
-                    styleButtonsVisibleConstraint = make.leading.equalTo(keyboardButtonsContainer).inset(Size.keyboardButtonsMargin).constraint
+                    styleButtonsVisibleConstraint =
+                        make.leading.equalTo(keyboardButtonsContainer).inset(
+                            Size.keyboardButtonsMargin
+                        ).constraint
                 }
             }
         }
         styleButtonsVisibleConstraint.deactivate()
 
         chooseCommunityButton.snp.makeConstraints { make in
-            communityButtonVisibleConstraint = make.top.equalTo(keyboardButtonsContainer).inset(Size.keyboardContainerMargin).constraint
-            make.leading.trailing.equalTo(keyboardButtonsContainer).inset(Size.keyboardContainerMargin)
+            communityButtonVisibleConstraint =
+                make.top.equalTo(keyboardButtonsContainer).inset(Size.keyboardContainerMargin)
+                .constraint
+            make.leading.trailing.equalTo(keyboardButtonsContainer).inset(
+                Size.keyboardContainerMargin
+            )
             make.height.equalTo(Size.keyboardButtonSize.height)
         }
 
@@ -474,9 +527,16 @@ class OmnibarScreen: Screen, OmnibarScreenProtocol {
         }
 
         submitButton.snp.makeConstraints { make in
-            communityButtonHiddenConstraint = make.top.equalTo(keyboardButtonsContainer).inset(Size.keyboardContainerMargin).constraint
-            communityButtonsStackedConstraint = make.top.equalTo(chooseCommunityButton.snp.bottom).offset(Size.keyboardContainerSpacing).constraint
-            make.bottom.trailing.equalTo(keyboardButtonsContainer).inset(Size.keyboardContainerMargin)
+            communityButtonHiddenConstraint =
+                make.top.equalTo(keyboardButtonsContainer).inset(Size.keyboardContainerMargin)
+                .constraint
+            communityButtonsStackedConstraint =
+                make.top.equalTo(chooseCommunityButton.snp.bottom).offset(
+                    Size.keyboardContainerSpacing
+                ).constraint
+            make.bottom.trailing.equalTo(keyboardButtonsContainer).inset(
+                Size.keyboardContainerMargin
+            )
             make.height.equalTo(Size.keyboardButtonSize.height)
         }
 
@@ -521,18 +581,45 @@ class OmnibarScreen: Screen, OmnibarScreenProtocol {
         nativeLibraryButton.backgroundColor = .greyF2
 
         let extraButtonsSize = CGSize(width: 60, height: (imageContentHeight - 3 * imageMargin) / 2)
-        nativeCameraButton.frame = CGRect(x: imageMargin, y: imageMargin, width: extraButtonsSize.width, height: extraButtonsSize.height)
-        nativeCameraButton.addTarget(self, action: #selector(openNativeCameraTapped), for: .touchUpInside)
+        nativeCameraButton.frame = CGRect(
+            x: imageMargin,
+            y: imageMargin,
+            width: extraButtonsSize.width,
+            height: extraButtonsSize.height
+        )
+        nativeCameraButton.addTarget(
+            self,
+            action: #selector(openNativeCameraTapped),
+            for: .touchUpInside
+        )
         imagesScrollView.addSubview(nativeCameraButton)
 
-        nativeLibraryButton.frame = CGRect(x: imageMargin, y: nativeCameraButton.frame.maxY + imageMargin, width: extraButtonsSize.width, height: extraButtonsSize.height)
-        nativeLibraryButton.addTarget(self, action: #selector(openNativeLibraryTapped), for: .touchUpInside)
+        nativeLibraryButton.frame = CGRect(
+            x: imageMargin,
+            y: nativeCameraButton.frame.maxY + imageMargin,
+            width: extraButtonsSize.width,
+            height: extraButtonsSize.height
+        )
+        nativeLibraryButton.addTarget(
+            self,
+            action: #selector(openNativeLibraryTapped),
+            for: .touchUpInside
+        )
         imagesScrollView.addSubview(nativeLibraryButton)
 
         nativeAdditionalImagesButton.setImage(.dots, imageStyle: .normal, for: .normal)
         nativeAdditionalImagesButton.backgroundColor = .white
-        nativeAdditionalImagesButton.addTarget(self, action: #selector(openNativeLibraryTapped), for: .touchUpInside)
-        nativeAdditionalImagesButton.frame = CGRect(x: 0, y: imageMargin, width: extraButtonsSize.width, height: extraButtonsSize.height * 2 + imageMargin)
+        nativeAdditionalImagesButton.addTarget(
+            self,
+            action: #selector(openNativeLibraryTapped),
+            for: .touchUpInside
+        )
+        nativeAdditionalImagesButton.frame = CGRect(
+            x: 0,
+            y: imageMargin,
+            width: extraButtonsSize.width,
+            height: extraButtonsSize.height * 2 + imageMargin
+        )
         imagesScrollView.addSubview(nativeAdditionalImagesButton)
     }
 
@@ -607,10 +694,13 @@ class OmnibarScreen: Screen, OmnibarScreenProtocol {
         textViewDidChangeSelection(textView)
     }
 
-    func updateEditingAtPath(_ path: IndexPath, scrollPosition: UITableView.ScrollPosition = .middle) {
+    func updateEditingAtPath(
+        _ path: IndexPath,
+        scrollPosition: UITableView.ScrollPosition = .middle
+    ) {
         guard let cell = regionsTableView.cellForRow(at: path) else { return }
 
-        let rect = cell.frame//regionsTableView.rectForRow(at: path)
+        let rect = cell.frame  //regionsTableView.rectForRow(at: path)
         textScrollView.contentSize = regionsTableView.contentSize
         textView.frame = OmnibarTextCell.boundsForTextView(rect)
         textContainer.frame = textView.frame.grow(all: 10)
@@ -655,7 +745,8 @@ class OmnibarScreen: Screen, OmnibarScreenProtocol {
         }
     }
 
-    private func convertReorderableRegions(_ reorderableRegions: [IndexedRegion]) -> [OmnibarRegion] {
+    private func convertReorderableRegions(_ reorderableRegions: [IndexedRegion]) -> [OmnibarRegion]
+    {
         var regions = [OmnibarRegion]()
         var buffer = NSAttributedString(defaults: "")
         var lastRegionIsText = false
@@ -711,7 +802,10 @@ class OmnibarScreen: Screen, OmnibarScreenProtocol {
     }
 
     func reportError(_ title: String, errorMessage: String) {
-        let alertController = AlertViewController(message: "\(title)\n\n\(errorMessage)\n\nIf you are uploading multiple images, this error could be due to slow internet and/or too many images.")
+        let alertController = AlertViewController(
+            message:
+                "\(title)\n\n\(errorMessage)\n\nIf you are uploading multiple images, this error could be due to slow internet and/or too many images."
+        )
 
         let cancelAction = AlertAction(title: InterfaceString.OK, style: .light, handler: .none)
         alertController.addAction(cancelAction)
@@ -719,7 +813,7 @@ class OmnibarScreen: Screen, OmnibarScreenProtocol {
         delegate?.omnibarPresentController(alertController)
     }
 
-// MARK: Keyboard events - animate layout update in conjunction with keyboard animation
+    // MARK: Keyboard events - animate layout update in conjunction with keyboard animation
 
     func keyboardWillShow() {
         if !Keyboard.shared.isAdjusting {
@@ -755,10 +849,12 @@ class OmnibarScreen: Screen, OmnibarScreenProtocol {
 
         let keyboardContainerHeight: CGFloat
         if communityPickerEditability == .hidden {
-            keyboardContainerHeight = Size.keyboardContainerMargin.tops + Size.keyboardButtonSize.height
+            keyboardContainerHeight = Size.keyboardContainerMargin.tops
+                + Size.keyboardButtonSize.height
         }
         else {
-            keyboardContainerHeight = Size.keyboardContainerMargin.tops + 2 * Size.keyboardButtonSize.height + Size.keyboardContainerSpacing
+            keyboardContainerHeight = Size.keyboardContainerMargin.tops + 2
+                * Size.keyboardButtonSize.height + Size.keyboardContainerSpacing
         }
         bottomInset += keyboardContainerHeight
 
@@ -768,7 +864,9 @@ class OmnibarScreen: Screen, OmnibarScreenProtocol {
 
         photoAccessoryContainer.frame.size.width = frame.width
         photoAccessoryContainer.frame.origin.x = 0
-        photoAccessoryContainer.frame.origin.y = frame.height - Keyboard.shared.keyboardBottomInset(inView: self) - photoAccessoryContainer.frame.height
+        photoAccessoryContainer.frame.origin.y = frame.height
+            - Keyboard.shared.keyboardBottomInset(inView: self)
+            - photoAccessoryContainer.frame.height
     }
 
     func synchronizeScrollViews() {
@@ -809,7 +907,7 @@ class OmnibarScreen: Screen, OmnibarScreenProtocol {
         }
     }
 
-// MARK: Button Actions
+    // MARK: Button Actions
 
     @objc
     func cancelButtonTapped() {
@@ -819,12 +917,20 @@ class OmnibarScreen: Screen, OmnibarScreenProtocol {
         else if canPost() && !isEditing {
             let alertController = AlertViewController()
 
-            let deleteAction = AlertAction(title: InterfaceString.Delete, style: ActionStyle.dark, handler: { _ in
-                self.resetEditor()
-            })
+            let deleteAction = AlertAction(
+                title: InterfaceString.Delete,
+                style: ActionStyle.dark,
+                handler: { _ in
+                    self.resetEditor()
+                }
+            )
             alertController.addAction(deleteAction)
 
-            let cancelAction = AlertAction(title: InterfaceString.Cancel, style: .light, handler: .none)
+            let cancelAction = AlertAction(
+                title: InterfaceString.Cancel,
+                style: .light,
+                handler: .none
+            )
             alertController.addAction(cancelAction)
 
             delegate?.omnibarPresentController(alertController)
@@ -919,8 +1025,7 @@ class OmnibarScreen: Screen, OmnibarScreenProtocol {
     }
 
     func applyFont(_ newFont: UIFont) {
-        if let selection = textView.selectedTextRange, !selection.isEmpty
-        {
+        if let selection = textView.selectedTextRange, !selection.isEmpty {
             let range = textView.selectedRange
             let currentText = NSMutableAttributedString(attributedString: textView.attributedText)
             currentText.addAttributes([.font: newFont], range: textView.selectedRange)
@@ -945,7 +1050,11 @@ class OmnibarScreen: Screen, OmnibarScreenProtocol {
             range.location -= 1
 
             var effectiveRange: NSRange? = NSRange(location: 0, length: 0)
-            if textView.textStorage.attribute(.link, at: range.location, effectiveRange: &effectiveRange!) != nil,
+            if textView.textStorage.attribute(
+                .link,
+                at: range.location,
+                effectiveRange: &effectiveRange!
+            ) != nil,
                 let effectiveRange = effectiveRange
             {
                 range = effectiveRange
@@ -965,10 +1074,13 @@ class OmnibarScreen: Screen, OmnibarScreenProtocol {
                     return
                 }
 
-                self.textView.textStorage.addAttributes([
-                    .link: url,
-                    .underlineStyle: NSUnderlineStyle.single.rawValue,
-                    ], range: range)
+                self.textView.textStorage.addAttributes(
+                    [
+                        .link: url,
+                        .underlineStyle: NSUnderlineStyle.single.rawValue,
+                    ],
+                    range: range
+                )
                 self.linkButton.isSelected = true
                 self.linkButton.isEnabled = true
                 self.updateCurrentText(self.textView.textStorage)
@@ -994,7 +1106,7 @@ class OmnibarScreen: Screen, OmnibarScreenProtocol {
         delegate?.omnibarPresentController(alertController)
     }
 
-// MARK: Post logic
+    // MARK: Post logic
 
     func canPost() -> Bool {
         return submitableRegions.any { !$0.isEmpty }
@@ -1004,7 +1116,7 @@ class OmnibarScreen: Screen, OmnibarScreenProtocol {
         return submitableRegions.any { $0.isImage }
     }
 
-// MARK: Images
+    // MARK: Images
 
     // Notes on UITableView animations: since the modal is used here, the
     // animations only added complicated logic, no visual "bonus".  `reloadData`
@@ -1030,7 +1142,11 @@ class OmnibarScreen: Screen, OmnibarScreenProtocol {
         reorderableRegions = generateReorderableRegions(submitableRegions)
 
         regionsTableView.reloadData()
-        regionsTableView.scrollToRow(at: IndexPath(row: self.tableViewRegions.count - 1, section: 0), at: .none, animated: true)
+        regionsTableView.scrollToRow(
+            at: IndexPath(row: self.tableViewRegions.count - 1, section: 0),
+            at: .none,
+            animated: true
+        )
 
         updateButtons()
     }
@@ -1043,7 +1159,7 @@ class OmnibarScreen: Screen, OmnibarScreenProtocol {
         }
     }
 
-// MARK: Camera / Image Picker
+    // MARK: Camera / Image Picker
 
     @objc
     func addImageButtonTapped() {
@@ -1109,7 +1225,9 @@ class OmnibarScreen: Screen, OmnibarScreenProtocol {
         spinner.startAnimating()
         let view = UIView(frame: CGRect(x: 0, y: 0, width: frame.width, height: imageContentHeight))
         spinner.center = view.center
-        spinner.autoresizingMask = [.flexibleTopMargin, .flexibleBottomMargin, .flexibleLeftMargin, .flexibleRightMargin]
+        spinner.autoresizingMask = [
+            .flexibleTopMargin, .flexibleBottomMargin, .flexibleLeftMargin, .flexibleRightMargin
+        ]
         view.addSubview(spinner)
         view.backgroundColor = UIColor.white.withAlphaComponent(0.5)
         setPhotoAccessoryView(view)
@@ -1156,7 +1274,12 @@ class OmnibarScreen: Screen, OmnibarScreenProtocol {
             }
         }
         else {
-            imageManager.requestImage(for: asset, targetSize: targetSize, contentMode: .aspectFill, options: requestOptions) { image, _ in
+            imageManager.requestImage(
+                for: asset,
+                targetSize: targetSize,
+                contentMode: .aspectFill,
+                options: requestOptions
+            ) { image, _ in
                 retVal = image
             }
         }
@@ -1255,7 +1378,10 @@ class OmnibarScreen: Screen, OmnibarScreenProtocol {
 }
 
 extension OmnibarScreen: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
+    func imagePickerController(
+        _ picker: UIImagePickerController,
+        didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
+    ) {
         guard
             let image = info[.originalImage] as? UIImage
         else {
@@ -1266,7 +1392,11 @@ extension OmnibarScreen: UINavigationControllerDelegate, UIImagePickerController
         if let asset = info[.phAsset] as? PHAsset {
             AssetsToRegions.processPHAssets([asset]) { imageData in
                 for imageDatum in imageData {
-                    self.addImage(imageDatum.image, data: imageDatum.data, type: imageDatum.contentType)
+                    self.addImage(
+                        imageDatum.image,
+                        data: imageDatum.data,
+                        type: imageDatum.contentType
+                    )
                 }
             }
             delegate?.omnibarDismissController()
@@ -1295,22 +1425,25 @@ extension OmnibarScreen: HasBackButton {
 
 extension StyledButton.Style {
     static let boldButton = StyledButton.Style(
-        backgroundColor: .greyE5, selectedBackgroundColor: .black,
+        backgroundColor: .greyE5,
+        selectedBackgroundColor: .black,
         titleColor: .white,
         font: .defaultBoldFont(),
         cornerRadius: .pill
-        )
+    )
     static let italicButton = StyledButton.Style(
-        backgroundColor: .greyE5, selectedBackgroundColor: .black,
+        backgroundColor: .greyE5,
+        selectedBackgroundColor: .black,
         titleColor: .white,
         font: .defaultItalicFont(),
         cornerRadius: .pill
-        )
+    )
     static let linkButton = StyledButton.Style(
-        backgroundColor: .greyE5, selectedBackgroundColor: .black,
+        backgroundColor: .greyE5,
+        selectedBackgroundColor: .black,
         titleColor: .white,
         cornerRadius: .pill
-        )
+    )
 }
 
 extension OmnibarScreen {

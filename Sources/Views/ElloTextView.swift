@@ -24,15 +24,25 @@ enum ElloAttributedObject {
         case "post":
             if let post = object as? Post { return ElloAttributedObject.attributedPost(post: post) }
         case "comment":
-            if let comment = object as? ElloComment { return ElloAttributedObject.attributedComment(comment: comment) }
+            if let comment = object as? ElloComment {
+                return ElloAttributedObject.attributedComment(comment: comment)
+            }
         case "artistInvite":
-            if let artistInvite = object as? ArtistInvite { return ElloAttributedObject.attributedArtistInvite(artistInvite: artistInvite) }
+            if let artistInvite = object as? ArtistInvite {
+                return ElloAttributedObject.attributedArtistInvite(artistInvite: artistInvite)
+            }
         case "category":
-            if let category = object as? Category { return ElloAttributedObject.attributedCategory(category: category) }
+            if let category = object as? Category {
+                return ElloAttributedObject.attributedCategory(category: category)
+            }
         case "categoryPartial":
-            if let category = object as? CategoryPartial { return ElloAttributedObject.attributedCategoryPartial(category: category) }
+            if let category = object as? CategoryPartial {
+                return ElloAttributedObject.attributedCategoryPartial(category: category)
+            }
         case "userId":
-            if let userId = object as? String { return ElloAttributedObject.attributedUserId(userId: userId) }
+            if let userId = object as? String {
+                return ElloAttributedObject.attributedUserId(userId: userId)
+            }
         default: break
         }
         return .unknown
@@ -59,7 +69,7 @@ class ElloTextView: UITextView {
         attributedText = NSAttributedString(string: "")
     }
 
-    private func defaultAttrs() -> [NSAttributedString.Key: Any]  {
+    private func defaultAttrs() -> [NSAttributedString.Key: Any] {
         return [
             .font: self.customFont ?? UIFont.defaultFont(),
             .foregroundColor: UIColor.greyA,
@@ -89,7 +99,10 @@ class ElloTextView: UITextView {
     }
 
     private func addTarget() {
-        let recognizer = UITapGestureRecognizer(target: self, action: #selector(ElloTextView.textViewTapped(_:)))
+        let recognizer = UITapGestureRecognizer(
+            target: self,
+            action: #selector(ElloTextView.textViewTapped(_:))
+        )
         recognizer.numberOfTapsRequired = 1
         recognizer.numberOfTouchesRequired = 1
         addGestureRecognizer(recognizer)

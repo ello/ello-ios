@@ -29,9 +29,12 @@ class ManyParser<T> {
             parser.flatten(json: object, identifier: identifier, db: &db)
         }
 
-        let many: [Model]? = (ids.count > 0 ? ids.compactMap { identifier in
-            return Parser.saveToDB(parser: parser, identifier: identifier, db: &db)
-            } : nil)
+        let many: [Model]? = (
+            ids.count > 0
+                ? ids.compactMap { identifier in
+                    return Parser.saveToDB(parser: parser, identifier: identifier, db: &db)
+                } : nil
+        )
 
         for (table, objects) in db {
             guard let tableParser = table.parser else { continue }

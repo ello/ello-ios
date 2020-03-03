@@ -11,11 +11,18 @@ import SwiftyUserDefaults
 class OnboardingSpec: QuickSpec {
     override func spec() {
         describe("Onboarding") {
-            let expectations: [(currentValue: Int?, shouldShowOnboarding: Bool, shouldShowCreatorType: Bool)] = [
-                (currentValue: nil, shouldShowOnboarding: true, shouldShowCreatorType: false),
-                (currentValue: Onboarding.currentVersion - 1, shouldShowOnboarding: false, shouldShowCreatorType: true),
-                (currentValue: Onboarding.currentVersion, shouldShowOnboarding: false, shouldShowCreatorType: false),
-            ]
+            let expectations:
+                [(currentValue: Int?, shouldShowOnboarding: Bool, shouldShowCreatorType: Bool)] = [
+                    (currentValue: nil, shouldShowOnboarding: true, shouldShowCreatorType: false),
+                    (
+                        currentValue: Onboarding.currentVersion - 1, shouldShowOnboarding: false,
+                        shouldShowCreatorType: true
+                    ),
+                    (
+                        currentValue: Onboarding.currentVersion, shouldShowOnboarding: false,
+                        shouldShowCreatorType: false
+                    ),
+                ]
             for (currentValue, shouldShowOnboarding, shouldShowCreatorType) in expectations {
                 let value = currentValue.map { String($0) } ?? "nil"
                 let user: User
@@ -34,7 +41,8 @@ class OnboardingSpec: QuickSpec {
 
                 describe("Onboarding.shouldShowCreatorType(\(value))") {
                     it("should be \(shouldShowCreatorType)") {
-                        expect(Onboarding.shared.shouldShowCreatorType(user)) == shouldShowCreatorType
+                        expect(Onboarding.shared.shouldShowCreatorType(user))
+                            == shouldShowCreatorType
                     }
                 }
             }

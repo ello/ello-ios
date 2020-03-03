@@ -94,13 +94,13 @@ final class Asset: Model {
             attachment = tryAttachment
         }
 
-        if  let attachment = attachment,
+        if let attachment = attachment,
             let width = attachment.width,
             let height = attachment.height
         {
-            return CGFloat(width)/CGFloat(height)
+            return CGFloat(width) / CGFloat(height)
         }
-        return 4.0/3.0
+        return 4.0 / 3.0
     }
 
     convenience init(url: URL) {
@@ -209,13 +209,13 @@ final class Asset: Model {
 extension Asset {
     func replace(attachmentType: AttachmentType, with attachment: Attachment?) {
         switch attachmentType {
-        case .optimized:    optimized = attachment
-        case .mdpi:         mdpi = attachment
-        case .hdpi:         hdpi = attachment
-        case .xhdpi:        xhdpi = attachment
-        case .original:     original = attachment
-        case .large:        large = attachment
-        case .regular:      regular = attachment
+        case .optimized: optimized = attachment
+        case .mdpi: mdpi = attachment
+        case .hdpi: hdpi = attachment
+        case .xhdpi: xhdpi = attachment
+        case .original: original = attachment
+        case .large: large = attachment
+        case .regular: regular = attachment
         }
     }
 }

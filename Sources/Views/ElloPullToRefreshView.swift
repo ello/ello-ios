@@ -33,7 +33,7 @@ class ElloPullToRefreshView: UIView, SSPullToRefreshContentView {
         elloLogo.center = CGPoint(x: self.bounds.size.width / 2.0, y: self.bounds.size.height / 2.0)
     }
 
-// MARK: SSPullToRefreshContentView
+    // MARK: SSPullToRefreshContentView
 
     func setState(_ state: SSPullToRefreshViewState, with view: SSPullToRefreshView!) {
         switch state {
@@ -52,7 +52,11 @@ class ElloPullToRefreshView: UIView, SSPullToRefreshContentView {
     }
 
     func setPullProgress(_ pullProgress: CGFloat) {
-        let alpha: CGFloat = clip(map(pullProgress, fromInterval: (0.25, 0.8), toInterval: (0, 1)), min: 0, max: 1)
+        let alpha: CGFloat = clip(
+            map(pullProgress, fromInterval: (0.25, 0.8), toInterval: (0, 1)),
+            min: 0,
+            max: 1
+        )
         elloLogo.alpha = alpha
     }
 

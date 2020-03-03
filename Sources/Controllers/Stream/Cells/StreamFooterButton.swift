@@ -6,7 +6,11 @@ class StreamFooterButton: UIButton {
 
     var attributedText: NSMutableAttributedString = NSMutableAttributedString(string: "")
 
-    func setButtonTitleWithPadding(_ title: String?, titlePadding: CGFloat = 4.0, contentPadding: CGFloat = 5.0) {
+    func setButtonTitleWithPadding(
+        _ title: String?,
+        titlePadding: CGFloat = 4.0,
+        contentPadding: CGFloat = 5.0
+    ) {
 
         if let title = title {
             setButtonTitle(title, color: UIColor.greyA, for: .normal)
@@ -14,8 +18,18 @@ class StreamFooterButton: UIButton {
             setButtonTitle(title, color: UIColor.black, for: .selected)
         }
 
-        titleEdgeInsets = UIEdgeInsets(top: 0.0, left: titlePadding, bottom: 0.0, right: -(titlePadding))
-        contentEdgeInsets = UIEdgeInsets(top: 0.0, left: contentPadding, bottom: 0.0, right: contentPadding)
+        titleEdgeInsets = UIEdgeInsets(
+            top: 0.0,
+            left: titlePadding,
+            bottom: 0.0,
+            right: -(titlePadding)
+        )
+        contentEdgeInsets = UIEdgeInsets(
+            top: 0.0,
+            left: contentPadding,
+            bottom: 0.0,
+            right: contentPadding
+        )
         sizeToFit()
     }
 
@@ -23,11 +37,14 @@ class StreamFooterButton: UIButton {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.alignment = .center
 
-        attributedText = NSMutableAttributedString(string: title, attributes: [
-            .font: UIFont.defaultFont(),
-            .foregroundColor: color,
-            .paragraphStyle: paragraphStyle
-        ])
+        attributedText = NSMutableAttributedString(
+            string: title,
+            attributes: [
+                .font: UIFont.defaultFont(),
+                .foregroundColor: color,
+                .paragraphStyle: paragraphStyle
+            ]
+        )
 
         contentHorizontalAlignment = .center
         self.titleLabel?.textAlignment = .center

@@ -107,8 +107,10 @@ class RoleAdminScreen: NavBarScreen, RoleAdminScreenProtocol {
 
                 editImage.image = InterfaceImage.pencil.whiteImage
                 removeButton.setImages(.xBox, style: .white)
-                label.attributedText = NSAttributedString(label: roleInfo.role.title + " in ", style: .white) +
-                    NSAttributedString(label: roleInfo.categoryName, style: .whiteUnderlined)
+                label.attributedText = NSAttributedString(
+                    label: roleInfo.role.title + " in ",
+                    style: .white
+                ) + NSAttributedString(label: roleInfo.categoryName, style: .whiteUnderlined)
 
                 if let imageURL = roleInfo.imageURL {
                     editButton.pin_setImage(from: imageURL)
@@ -160,8 +162,16 @@ class RoleAdminScreen: NavBarScreen, RoleAdminScreenProtocol {
                     make.leading.equalTo(editButton).offset(Size.innerButtonMargin)
                 }
 
-                editButton.addTarget(self, action: #selector(editButtonTapped(_:)), for: .touchUpInside)
-                removeButton.addTarget(self, action: #selector(removeButtonTapped(_:)), for: .touchUpInside)
+                editButton.addTarget(
+                    self,
+                    action: #selector(editButtonTapped(_:)),
+                    for: .touchUpInside
+                )
+                removeButton.addTarget(
+                    self,
+                    action: #selector(removeButtonTapped(_:)),
+                    for: .touchUpInside
+                )
 
                 return view
             }
@@ -194,7 +204,7 @@ class RoleAdminScreen: NavBarScreen, RoleAdminScreenProtocol {
     @objc
     private func editButtonTapped(_ button: UIButton) {
         guard
-            let container: Container = button.findParentView(),
+            let container:Container = button.findParentView(),
             let index = rolesContainer.subviews.firstIndex(of: container)
         else { return }
 
@@ -204,7 +214,7 @@ class RoleAdminScreen: NavBarScreen, RoleAdminScreenProtocol {
     @objc
     private func removeButtonTapped(_ button: UIButton) {
         guard
-            let container: Container = button.findParentView(),
+            let container:Container = button.findParentView(),
             let index = rolesContainer.subviews.firstIndex(of: container)
         else { return }
 

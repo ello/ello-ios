@@ -27,7 +27,9 @@ class UIViewControllerExtensionSpec: QuickSpec {
                     let tabBarController = UITabBarController()
                     tabBarController.viewControllers = [navController]
                     tabBarController.title = "foo"
-                    let found: UIViewController? = controller.findParentController { vc in vc.title == "foo" }
+                    let found: UIViewController? = controller.findParentController { vc in
+                        vc.title == "foo"
+                    }
                     expect(found).to(equal(tabBarController))
                 }
             }

@@ -13,8 +13,8 @@ class ImageRegionSpec: QuickSpec {
             it("parses protocol relative URLs correctly") {
                 var imageRegionData = stubbedJSONData("image-region", "region")
                 guard var data = imageRegionData["data"] as? [String: String],
-                    let urlString = data["url"] else
-                {
+                    let urlString = data["url"]
+                else {
                     fail("image-region.json does not have data.url")
                     return
                 }

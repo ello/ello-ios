@@ -30,7 +30,8 @@ class ElloScrollLogicSpec: QuickSpec {
                     },
                     onHide: { [unowned self] in
                         self.didHide = true
-                    })
+                    }
+                )
                 logic.isRunningSpecs = true
 
                 scrollView.contentOffset = CGPoint(x: 0, y: scrollStart)
@@ -126,7 +127,10 @@ class ElloScrollLogicSpec: QuickSpec {
 
             describe("should ignore all scrolling if there is not 'much' content") {
                 beforeEach() {
-                    scrollView.contentSize = CGSize(width: 320, height: scrollView.frame.size.height + CGFloat(10))
+                    scrollView.contentSize = CGSize(
+                        width: 320,
+                        height: scrollView.frame.size.height + CGFloat(10)
+                    )
                 }
 
                 it("should ignore -30") {

@@ -27,7 +27,8 @@ protocol RequestSender {
 }
 
 protocol RequestManager {
-    func request(_ request: URLRequest, sender: RequestSender, _ handler: @escaping RequestHandler) -> RequestTask
+    func request(_ request: URLRequest, sender: RequestSender, _ handler: @escaping RequestHandler)
+        -> RequestTask
 }
 
 
@@ -43,12 +44,12 @@ struct ElloManager: RequestManager {
             policyDict = ElloCerts.policy
         }
         else {
-#if DEBUG
-            // avoid policy certs on any debug build
-            policyDict = [:]
-#else
-            policyDict = ElloCerts.policy
-#endif
+            #if DEBUG
+                // avoid policy certs on any debug build
+                policyDict = [:]
+            #else
+                policyDict = ElloCerts.policy
+            #endif
         }
         return policyDict
     }
@@ -64,7 +65,11 @@ struct ElloManager: RequestManager {
         )
     }()
 
-    func request(_ urlRequest: URLRequest, sender: RequestSender, _ handler: @escaping RequestHandler) -> RequestTask {
+    func request(
+        _ urlRequest: URLRequest,
+        sender: RequestSender,
+        _ handler: @escaping RequestHandler
+    ) -> RequestTask {
         let manager = ElloManager.alamofireManager
         let task = manager.request(urlRequest)
         return task.response { response in

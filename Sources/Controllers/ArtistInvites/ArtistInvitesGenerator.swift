@@ -41,10 +41,15 @@ private extension ArtistInvitesGenerator {
             .done { pageHeaders in
                 guard let pageHeader = pageHeaders.randomItem() else { return }
 
-                self.destination?.replacePlaceholder(type: .pageHeader, items: [
-                    StreamCellItem(jsonable: pageHeader, type: .promotionalHeader),
-                    StreamCellItem(type: .spacer(height: ArtistInviteBubbleCell.Size.bubbleMargins.bottom)),
-                ])
+                self.destination?.replacePlaceholder(
+                    type: .pageHeader,
+                    items: [
+                        StreamCellItem(jsonable: pageHeader, type: .promotionalHeader),
+                        StreamCellItem(
+                            type: .spacer(height: ArtistInviteBubbleCell.Size.bubbleMargins.bottom)
+                        ),
+                    ]
+                )
             }
             .ignoreErrors()
     }
@@ -61,7 +66,8 @@ private extension ArtistInvitesGenerator {
                 self.destination?.setPagingConfig(responseConfig: responseConfig)
 
                 let artistInviteItems = self.parse(jsonables: artistInvites)
-                self.destination?.replacePlaceholder(type: .artistInvites, items: artistInviteItems) {
+                self.destination?.replacePlaceholder(type: .artistInvites, items: artistInviteItems)
+                {
                     self.destination?.isPagingEnabled = artistInviteItems.count > 0
                 }
             }

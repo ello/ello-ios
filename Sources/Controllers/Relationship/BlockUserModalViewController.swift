@@ -67,7 +67,8 @@ class BlockUserModalViewController: BaseElloViewController, BlockUserModalScreen
             currentUserId,
             userId: userId,
             prev: RelationshipPriorityWrapper(priority: relationshipPriority),
-            relationshipPriority: RelationshipPriorityWrapper(priority: newRelationship))
+            relationshipPriority: RelationshipPriorityWrapper(priority: newRelationship)
+        )
         { [weak self] statusWrapper, relationship, isFinalValue in
             guard let `self` = self else { return }
             switch statusWrapper.status {

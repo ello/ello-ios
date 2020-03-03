@@ -20,7 +20,11 @@ class ArtistInviteSubmissionsButtonCell: CollectionViewCell {
     }
 
     override func bindActions() {
-        submissionsButton.addTarget(self, action: #selector(tappedSubmissionsButton), for: .touchUpInside)
+        submissionsButton.addTarget(
+            self,
+            action: #selector(tappedSubmissionsButton),
+            for: .touchUpInside
+        )
     }
 
     override func setText() {
@@ -46,9 +50,12 @@ extension ArtistInviteSubmissionsButtonCell {
 
 extension StyledButton.Style {
     static let artistInviteSubmissions = StyledButton.Style(
-        backgroundColor: .white, highlightedBackgroundColor: .greenD1,
-        titleColor: .greenD1, highlightedTitleColor: .white,
-        borderColor: .greenD1, highlightedBorderColor: .white,
+        backgroundColor: .white,
+        highlightedBackgroundColor: .greenD1,
+        titleColor: .greenD1,
+        highlightedTitleColor: .white,
+        borderColor: .greenD1,
+        highlightedBorderColor: .white,
         cornerRadius: .rounded
-        )
+    )
 }

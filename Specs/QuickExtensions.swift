@@ -82,7 +82,14 @@ enum SnapshotDevice {
     }
 }
 
-func expectValidSnapshot(_ subject: Snapshotable, named name: String? = nil, device: SnapshotDevice? = nil, record: Bool = false, file: String = #file, line: UInt = #line) {
+func expectValidSnapshot(
+    _ subject: Snapshotable,
+    named name: String? = nil,
+    device: SnapshotDevice? = nil,
+    record: Bool = false,
+    file: String = #file,
+    line: UInt = #line
+) {
     if let size = device?.size ?? subject.snapshotObject?.frame.size {
         prepareForSnapshot(subject, size: size)
     }
@@ -98,14 +105,29 @@ func expectValidSnapshot(_ subject: Snapshotable, named name: String? = nil, dev
         localName = nil
     }
 
-    expect(subject, file: file, line: line).to(record ? recordSnapshot(named: localName) : haveValidSnapshot(named: localName))
+    expect(subject, file: file, line: line).to(
+        record ? recordSnapshot(named: localName) : haveValidSnapshot(named: localName)
+    )
 }
 
-func validateAllSnapshots(named name: String? = nil, record: Bool = false, file: String = #file, line: UInt = #line, subject: @escaping () -> Snapshotable) {
+func validateAllSnapshots(
+    named name: String? = nil,
+    record: Bool = false,
+    file: String = #file,
+    line: UInt = #line,
+    subject: @escaping () -> Snapshotable
+) {
     for device in SnapshotDevice.all {
         context(device.description) {
             it("should match the screenshot", file: file, line: line) {
-                expectValidSnapshot(subject(), named: name, device: device, record: record, file: file, line: line)
+                expectValidSnapshot(
+                    subject(),
+                    named: name,
+                    device: device,
+                    record: record,
+                    file: file,
+                    line: line
+                )
             }
         }
     }
@@ -133,9 +155,11 @@ func prepareForSnapshot(_ subject: Snapshotable, size: CGSize) {
     }
     // another weird fix, table view separators aren't hiding:
     let tableViews: [UITableView] = view.findAllSubviews { v in v.separatorStyle == .none }
-    let separators: [UIView] = tableViews.flatMap({ $0.findAllSubviews { v in
-        return v.readableClassName() == "_UITableViewCellSeparatorView"
-        }})
+    let separators: [UIView] = tableViews.flatMap({
+        $0.findAllSubviews { v in
+            return v.readableClassName() == "_UITableViewCellSeparatorView"
+        }
+    })
     for separator in separators {
         separator.isHidden = true
     }
@@ -150,8 +174,11 @@ func prepareForSnapshot(_ subject: Snapshotable, size: CGSize) {
 
 extension UIStoryboard {
 
-    class func storyboardWithId(_ identifier: String, storyboardName: String = "Main") -> UIViewController {
-        return UIStoryboard(name: storyboardName, bundle: Bundle(for: AppDelegate.self)).instantiateViewController(withIdentifier: identifier)
+    class func storyboardWithId(_ identifier: String, storyboardName: String = "Main")
+        -> UIViewController
+    {
+        return UIStoryboard(name: storyboardName, bundle: Bundle(for: AppDelegate.self))
+            .instantiateViewController(withIdentifier: identifier)
     }
 
 }
@@ -161,7 +188,10 @@ func haveRegisteredIdentifier<T: UITableView>(_ identifier: String) -> Predicate
         let tableView = try! actualExpression.evaluate()!
         tableView.reloadData()
         // Using the side effect of a runtime crash when dequeing a cell here, if it works :thumbsup:
-        let _ = tableView.dequeueReusableCell(withIdentifier: identifier, for: IndexPath(row: 0, section: 0))
+        let _ = tableView.dequeueReusableCell(
+            withIdentifier: identifier,
+            for: IndexPath(row: 0, section: 0)
+        )
         return PredicateResult(status: PredicateStatus(bool: true), message: msg)
     }
 }
@@ -173,7 +203,9 @@ func beVisibleIn<S: UIView>(_ view: UIView) -> Predicate<S> {
             let childView = subject
         else { return PredicateResult(status: .fail, message: msg) }
 
-        if childView.isHidden || childView.alpha < 0.01 || childView.frame.size.width < 0.1 || childView.frame.size.height < 0.1 {
+        if childView.isHidden || childView.alpha < 0.01 || childView.frame.size.width < 0.1
+            || childView.frame.size.height < 0.1
+        {
             return PredicateResult(status: .fail, message: msg)
         }
 

@@ -31,15 +31,21 @@ class StreamDataSource: ElloDataSource {
         self.updateFilteredItems()
         let lastIndex = visibleCellItems.count
 
-        return (startIndex ..< lastIndex).map { IndexPath(item: $0, section: 0) }
+        return (startIndex..<lastIndex).map { IndexPath(item: $0, section: 0) }
     }
 
     @discardableResult
-    func replacePlaceholder(type placeholderType: StreamCellType.PlaceholderType, items cellItems: [StreamCellItem])
+    func replacePlaceholder(
+        type placeholderType: StreamCellType.PlaceholderType,
+        items cellItems: [StreamCellItem]
+    )
         -> (deleted: [IndexPath], inserted: [IndexPath])
     {
         guard cellItems.count > 0 else {
-            return replacePlaceholder(type: placeholderType, items: [StreamCellItem(type: .placeholder, placeholderType: placeholderType)])
+            return replacePlaceholder(
+                type: placeholderType,
+                items: [StreamCellItem(type: .placeholder, placeholderType: placeholderType)]
+            )
         }
 
         for item in cellItems {
@@ -50,12 +56,17 @@ class StreamDataSource: ElloDataSource {
         guard deletedIndexPaths.count > 0 else { return (deleted: [], inserted: []) }
 
         removeItems(at: deletedIndexPaths)
-        let insertedIndexPaths = insertStreamCellItems(cellItems, startingIndexPath: deletedIndexPaths[0])
+        let insertedIndexPaths = insertStreamCellItems(
+            cellItems,
+            startingIndexPath: deletedIndexPaths[0]
+        )
         return (deleted: deletedIndexPaths, inserted: insertedIndexPaths)
     }
 
     @discardableResult
-    func insertStreamCellItems(_ cellItems: [StreamCellItem], startingIndexPath: IndexPath) -> [IndexPath] {
+    func insertStreamCellItems(_ cellItems: [StreamCellItem], startingIndexPath: IndexPath)
+        -> [IndexPath]
+    {
         // startingIndex represents the filtered index,
         // arrayIndex is the allStreamCellItems index
         let startingIndex = startingIndexPath.item
@@ -84,7 +95,7 @@ class StreamDataSource: ElloDataSource {
         let initialCount = visibleCellItems.count
         updateFilteredItems()
         let finalCount = visibleCellItems.count - initialCount
-        return (0 ..< finalCount).map { IndexPath(item: startingIndex + $0, section: 0) }
+        return (0..<finalCount).map { IndexPath(item: startingIndex + $0, section: 0) }
     }
 
     // MARK: retrieving/searching for items
@@ -209,7 +220,11 @@ class StreamDataSource: ElloDataSource {
             visibleCellItems[firstPath.item].type == .createComment
         {
             let indexPath = IndexPath(item: firstPath.item + 1, section: 0)
-            let items = StreamCellItemParser().parse([comment], streamKind: streamKind, currentUser: currentUser)
+            let items = StreamCellItemParser().parse(
+                [comment],
+                streamKind: streamKind,
+                currentUser: currentUser
+            )
             for item in items {
                 item.placeholderType = .streamItems
             }
@@ -249,7 +264,11 @@ class StreamDataSource: ElloDataSource {
 
         guard let indexPath = firstInsertPath else { return }
 
-        let items = StreamCellItemParser().parse([post], streamKind: streamKind, currentUser: currentUser)
+        let items = StreamCellItemParser().parse(
+            [post],
+            streamKind: streamKind,
+            currentUser: currentUser
+        )
         for item in items {
             item.placeholderType = .streamItems
         }
@@ -279,25 +298,38 @@ class StreamDataSource: ElloDataSource {
             indexPath(where: { ($0.jsonable as? Post)?.id == post.id }) == nil
         else { return }
 
-        let items = StreamCellItemParser().parse([love], streamKind: streamKind, currentUser: currentUser)
+        let items = StreamCellItemParser().parse(
+            [love],
+            streamKind: streamKind,
+            currentUser: currentUser
+        )
         for item in items {
             item.placeholderType = .streamItems
         }
         calculateCellItems(items, withWidth: Globals.windowSize.width) {
-            let indexPaths = self.insertStreamCellItems(items, startingIndexPath: IndexPath(item: 0, section: 0))
+            let indexPaths = self.insertStreamCellItems(
+                items,
+                startingIndexPath: IndexPath(item: 0, section: 0)
+            )
             streamViewController.performDataChange { collectionView in
                 collectionView.insertItems(at: indexPaths)
             }
         }
     }
 
-    func modifyItems(_ jsonable: Model, change: ContentChange, streamViewController: StreamViewController) {
+    func modifyItems(
+        _ jsonable: Model,
+        change: ContentChange,
+        streamViewController: StreamViewController
+    ) {
         // get items that match id and type -> [IndexPath]
         // based on change decide to update/remove those items
         switch change {
         case .create:
             // in post detail, show/hide the love drawer
-            if let love = jsonable as? Love, love.post.map({ streamKind.isDetail(post: $0) }) == true {
+            if let love = jsonable as? Love,
+                love.post.map({ streamKind.isDetail(post: $0) }) == true
+            {
                 guard let post = love.post, let user = love.user else { return }
 
                 if hasCellItems(for: .postLovers) {
@@ -320,7 +352,10 @@ class StreamDataSource: ElloDataSource {
                         postParam: post.id,
                         type: .lovers
                     )
-                    let (deleted, inserted) = self.replacePlaceholder(type: .postLovers, items: items)
+                    let (deleted, inserted) = self.replacePlaceholder(
+                        type: .postLovers,
+                        items: items
+                    )
                     streamViewController.performDataChange { collectionView in
                         collectionView.deleteItems(at: deleted)
                         collectionView.insertItems(at: inserted)
@@ -329,7 +364,10 @@ class StreamDataSource: ElloDataSource {
 
                 if hasCellItems(for: .postReposters) {
                     let padding = PostDetailGenerator.socialPadding()
-                    let (deleted, inserted) = self.replacePlaceholder(type: .postSocialPadding, items: padding)
+                    let (deleted, inserted) = self.replacePlaceholder(
+                        type: .postSocialPadding,
+                        items: padding
+                    )
                     streamViewController.performDataChange { collectionView in
                         collectionView.deleteItems(at: deleted)
                         collectionView.insertItems(at: inserted)
@@ -356,12 +394,16 @@ class StreamDataSource: ElloDataSource {
             {
                 for (index, item) in visibleCellItems.enumerated() {
                     guard let userAvatars = item.jsonable as? UserAvatarCellModel,
-                        userAvatars.belongsTo(post: post, type: .lovers) else { continue }
+                        userAvatars.belongsTo(post: post, type: .lovers)
+                    else { continue }
 
                     userAvatars.remove(user: user)
 
                     if userAvatars.users.count == 0 {
-                        let (deleted, inserted) = self.replacePlaceholder(type: .postLovers, items: [])
+                        let (deleted, inserted) = self.replacePlaceholder(
+                            type: .postLovers,
+                            items: []
+                        )
                         streamViewController.performDataChange { collectionView in
                             collectionView.deleteItems(at: deleted)
                             collectionView.insertItems(at: inserted)
@@ -377,7 +419,10 @@ class StreamDataSource: ElloDataSource {
                 }
 
                 if !hasCellItems(for: .postLovers) && !hasCellItems(for: .postReposters) {
-                    let (deleted, inserted) = self.replacePlaceholder(type: .postSocialPadding, items: [])
+                    let (deleted, inserted) = self.replacePlaceholder(
+                        type: .postSocialPadding,
+                        items: []
+                    )
                     streamViewController.performDataChange { collectionView in
                         collectionView.deleteItems(at: deleted)
                         collectionView.insertItems(at: inserted)
@@ -393,10 +438,17 @@ class StreamDataSource: ElloDataSource {
             let (oldIndexPaths, _) = elementsFor(jsonable: jsonable, change: change)
             guard let firstIndexPath = oldIndexPaths.first else { return }
 
-            let items = StreamCellItemParser().parse([jsonable], streamKind: self.streamKind, currentUser: currentUser)
+            let items = StreamCellItemParser().parse(
+                [jsonable],
+                streamKind: self.streamKind,
+                currentUser: currentUser
+            )
             calculateCellItems(items, withWidth: Globals.windowSize.width) {
                 self.removeItems(at: oldIndexPaths)
-                let newIndexPaths = self.insertStreamCellItems(items, startingIndexPath: firstIndexPath)
+                let newIndexPaths = self.insertStreamCellItems(
+                    items,
+                    startingIndexPath: firstIndexPath
+                )
                 streamViewController.performDataChange { collectionView in
                     collectionView.deleteItems(at: oldIndexPaths)
                     collectionView.insertItems(at: newIndexPaths)
@@ -414,17 +466,29 @@ class StreamDataSource: ElloDataSource {
             }
 
             if shouldReload {
-                mergeAndReloadElementsFor(jsonable: jsonable, change: change, streamViewController: streamViewController)
+                mergeAndReloadElementsFor(
+                    jsonable: jsonable,
+                    change: change,
+                    streamViewController: streamViewController
+                )
             }
         case .loved,
-             .reposted,
-             .watching:
-            mergeAndReloadElementsFor(jsonable: jsonable, change: change, streamViewController: streamViewController)
+            .reposted,
+            .watching:
+            mergeAndReloadElementsFor(
+                jsonable: jsonable,
+                change: change,
+                streamViewController: streamViewController
+            )
         default: break
         }
     }
 
-    func mergeAndReloadElementsFor(jsonable: Model, change: ContentChange, streamViewController: StreamViewController) {
+    func mergeAndReloadElementsFor(
+        jsonable: Model,
+        change: ContentChange,
+        streamViewController: StreamViewController
+    ) {
         let (indexPaths, items) = elementsFor(jsonable: jsonable, change: change)
         let T = type(of: jsonable)
         var modified = false
@@ -476,14 +540,19 @@ class StreamDataSource: ElloDataSource {
         }
     }
 
-    private func updateUserRelationshipControls(_ user: User, streamViewController: StreamViewController) {
+    private func updateUserRelationshipControls(
+        _ user: User,
+        streamViewController: StreamViewController
+    ) {
         var indexPaths = [IndexPath]()
         var changedItems = [StreamCellItem]()
         for (index, item) in visibleCellItems.enumerated() {
             guard
                 item.type.showsUserRelationship,
-                (item.jsonable as? User)?.id == user.id || (item.jsonable as? Authorable)?.author?.id == user.id || (item.jsonable as? Post)?.repostAuthor?.id == user.id
-            else { continue}
+                (item.jsonable as? User)?.id == user.id
+                    || (item.jsonable as? Authorable)?.author?.id == user.id
+                    || (item.jsonable as? Post)?.repostAuthor?.id == user.id
+            else { continue }
 
             indexPaths.append(IndexPath(item: index, section: 0))
             changedItems.append(item)
@@ -514,7 +583,7 @@ class StreamDataSource: ElloDataSource {
 
     func modifyUserSettingsItems(_ user: User, streamViewController: StreamViewController) {
         let (indexPaths, changedItems) = elementsFor(jsonable: user, change: .update)
-        for item in changedItems where item.jsonable is User{
+        for item in changedItems where item.jsonable is User {
             item.jsonable = user
         }
         streamViewController.performDataUpdate { collectionView in
@@ -542,7 +611,9 @@ class StreamDataSource: ElloDataSource {
 
     // the IndexPaths returned are guaranteed to be in order, so that the first
     // item has the lowest row/item value.
-    private func elementsFor(jsonable: Model, change: ContentChange) -> ([IndexPath], [StreamCellItem]) {
+    private func elementsFor(jsonable: Model, change: ContentChange) -> (
+        [IndexPath], [StreamCellItem]
+    ) {
         var indexPaths = [IndexPath]()
         var items = [StreamCellItem]()
         if let post = jsonable as? Post {
@@ -555,13 +626,18 @@ class StreamDataSource: ElloDataSource {
                     }
                 }
                 else if change == .delete {
-                    if let itemComment = item.jsonable as? ElloComment, itemComment.loadedFromPostId == post.id || itemComment.postId == post.id {
+                    if let itemComment = item.jsonable as? ElloComment,
+                        itemComment.loadedFromPostId == post.id || itemComment.postId == post.id
+                    {
                         indexPaths.append(IndexPath(item: index, section: 0))
                         items.append(item)
                     }
                 }
                 else if change == .watching {
-                    if let itemComment = item.jsonable as? ElloComment, (itemComment.loadedFromPostId == post.id || itemComment.postId == post.id) && item.type == .createComment {
+                    if let itemComment = item.jsonable as? ElloComment,
+                        (itemComment.loadedFromPostId == post.id || itemComment.postId == post.id)
+                            && item.type == .createComment
+                    {
                         indexPaths.append(IndexPath(item: index, section: 0))
                         items.append(item)
                     }
@@ -577,14 +653,16 @@ class StreamDataSource: ElloDataSource {
                         items.append(item)
                     }
                     else if let itemComment = item.jsonable as? ElloComment {
-                        if  user.id == itemComment.authorId ||
-                            user.id == itemComment.loadedFromPost?.authorId
+                        if user.id == itemComment.authorId
+                            || user.id == itemComment.loadedFromPost?.authorId
                         {
                             indexPaths.append(IndexPath(item: index, section: 0))
                             items.append(item)
                         }
                     }
-                    else if let itemNotification = item.jsonable as? Notification, user.id == itemNotification.author?.id {
+                    else if let itemNotification = item.jsonable as? Notification,
+                        user.id == itemNotification.author?.id
+                    {
                         indexPaths.append(IndexPath(item: index, section: 0))
                         items.append(item)
                     }
@@ -592,7 +670,9 @@ class StreamDataSource: ElloDataSource {
                         indexPaths.append(IndexPath(item: index, section: 0))
                         items.append(item)
                     }
-                    else if let itemPost = item.jsonable as? Post, user.id == itemPost.repostAuthor?.id {
+                    else if let itemPost = item.jsonable as? Post,
+                        user.id == itemPost.repostAuthor?.id
+                    {
                         indexPaths.append(IndexPath(item: index, section: 0))
                         items.append(item)
                     }
@@ -608,8 +688,7 @@ class StreamDataSource: ElloDataSource {
             let identifier = jsonable.uniqueId
         {
             for (index, item) in visibleCellItems.enumerated() {
-                if
-                    let itemJsonable = item.jsonable as? JSONSaveable,
+                if let itemJsonable = item.jsonable as? JSONSaveable,
                     identifier == itemJsonable.uniqueId
                 {
                     indexPaths.append(IndexPath(item: index, section: 0))
@@ -623,11 +702,21 @@ class StreamDataSource: ElloDataSource {
 
 extension StreamDataSource {
 
-    func calculateCellItems(_ cellItems: [StreamCellItem], withWidth width: CGFloat, completion: @escaping Block) {
+    func calculateCellItems(
+        _ cellItems: [StreamCellItem],
+        withWidth width: CGFloat,
+        completion: @escaping Block
+    ) {
         let (afterAll, done) = afterN(on: DispatchQueue.main, execute: completion)
 
         for item in cellItems {
-            guard let calculator = item.sizeCalculator(streamKind: streamKind, width: width, columnCount: columnCount) else { continue }
+            guard
+                let calculator = item.sizeCalculator(
+                    streamKind: streamKind,
+                    width: width,
+                    columnCount: columnCount
+                )
+            else { continue }
             let unmanaged = Unmanaged.passRetained(calculator)
             let completion = afterAll()
             calculator.begin {

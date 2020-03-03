@@ -21,15 +21,21 @@ class ElloWebBrowserViewControllerSpec: QuickSpec {
             }
             it("has a fancy done button") {
                 let nav = ElloWebBrowserViewController.navigationControllerWithWebBrowser()
-                let browser: ElloWebBrowserViewController = nav.rootWebBrowser() as! ElloWebBrowserViewController
+                let browser: ElloWebBrowserViewController = nav.rootWebBrowser()
+                    as! ElloWebBrowserViewController
                 let xButton = browser.navigationItem.leftBarButtonItem!
-                expect(xButton.action).to(equal(#selector(ElloWebBrowserViewController.doneButtonPressed(_:))))
+                expect(xButton.action).to(
+                    equal(#selector(ElloWebBrowserViewController.doneButtonPressed(_:)))
+                )
             }
             it("has a fancy share button") {
                 let nav = ElloWebBrowserViewController.navigationControllerWithWebBrowser()
-                let browser: ElloWebBrowserViewController = nav.rootWebBrowser() as! ElloWebBrowserViewController
+                let browser: ElloWebBrowserViewController = nav.rootWebBrowser()
+                    as! ElloWebBrowserViewController
                 let shareButton = browser.navigationItem.rightBarButtonItem!
-                expect(shareButton.action).to(equal(#selector(ElloWebBrowserViewController.shareButtonPressed(_:))))
+                expect(shareButton.action).to(
+                    equal(#selector(ElloWebBrowserViewController.shareButtonPressed(_:)))
+                )
             }
         }
     }

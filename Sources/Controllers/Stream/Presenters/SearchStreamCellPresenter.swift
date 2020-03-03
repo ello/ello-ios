@@ -9,8 +9,8 @@ struct SearchStreamCellPresenter {
         streamCellItem: StreamCellItem,
         streamKind: StreamKind,
         indexPath: IndexPath,
-        currentUser: User?)
-    {
+        currentUser: User?
+    ) {
         guard
             let cell = cell as? SearchStreamCell,
             let search = streamCellItem.jsonable as? SearchString,

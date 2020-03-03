@@ -89,7 +89,11 @@ class ArtistInviteCellSizeCalculator: CellSizeCalculator {
         totalHeight += ArtistInviteBubbleCell.Size.bubbleMargins.top
         totalHeight += ArtistInviteBubbleCell.Size.headerImageHeight
         if let artistInvite = item.jsonable as? ArtistInvite {
-            totalHeight += ArtistInviteBubbleCell.calculateDynamicHeights(title: artistInvite.title, inviteType: artistInvite.inviteType, cellWidth: width)
+            totalHeight += ArtistInviteBubbleCell.calculateDynamicHeights(
+                title: artistInvite.title,
+                inviteType: artistInvite.inviteType,
+                cellWidth: width
+            )
         }
         totalHeight += ArtistInviteBubbleCell.Size.infoTotalHeight
         totalHeight += (webHeight > 0 ? ArtistInviteBubbleCell.Size.descriptionMargins.bottom : 0)
@@ -102,7 +106,11 @@ class ArtistInviteCellSizeCalculator: CellSizeCalculator {
         totalHeight += ArtistInviteHeaderCell.Size.headerImageHeight
         totalHeight += ArtistInviteHeaderCell.Size.remainingTextHeight
         if let artistInvite = item.jsonable as? ArtistInvite {
-            totalHeight += ArtistInviteHeaderCell.calculateDynamicHeights(title: artistInvite.title, inviteType: artistInvite.inviteType, cellWidth: width)
+            totalHeight += ArtistInviteHeaderCell.calculateDynamicHeights(
+                title: artistInvite.title,
+                inviteType: artistInvite.inviteType,
+                cellWidth: width
+            )
         }
         return totalHeight
     }

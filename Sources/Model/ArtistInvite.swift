@@ -77,8 +77,8 @@ final class ArtistInvite: Model {
         inviteType: String,
         status: Status,
         openedAt: Date?,
-        closedAt: Date?)
-    {
+        closedAt: Date?
+    ) {
         self.id = id
         self.slug = slug
         self.title = title
@@ -136,31 +136,42 @@ final class ArtistInvite: Model {
             inviteType: json["invite_type"].stringValue,
             status: Status(rawValue: json["status"].stringValue) ?? .closed,
             openedAt: json["opened_at"].string?.toDate(),
-            closedAt: json["closed_at"].string?.toDate())
+            closedAt: json["closed_at"].string?.toDate()
+        )
 
-        artistInvite.headerImage = Asset.parseAsset("artist_invite_header_\(id)", node: data["header_image"] as? [String: Any])
-        artistInvite.logoImage = Asset.parseAsset("artist_invite_logo_\(id)", node: data["logo_image"] as? [String: Any])
+        artistInvite.headerImage = Asset.parseAsset(
+            "artist_invite_header_\(id)",
+            node: data["header_image"] as? [String: Any]
+        )
+        artistInvite.logoImage = Asset.parseAsset(
+            "artist_invite_logo_\(id)",
+            node: data["logo_image"] as? [String: Any]
+        )
         artistInvite.redirectURL = json["redirect_url"].url
 
-        if let approvedSubmissionsLink = json["links"]["approved_submissions"].object as? [String: Any],
+        if let approvedSubmissionsLink = json["links"]["approved_submissions"].object
+            as? [String: Any],
             let stream = Stream(link: approvedSubmissionsLink, submissionsStatus: .approved)
         {
             artistInvite.approvedSubmissionsStream = stream
         }
 
-        if let selectedSubmissionsLink = json["links"]["selected_submissions"].object as? [String: Any],
+        if let selectedSubmissionsLink = json["links"]["selected_submissions"].object
+            as? [String: Any],
             let stream = Stream(link: selectedSubmissionsLink, submissionsStatus: .selected)
         {
             artistInvite.selectedSubmissionsStream = stream
         }
 
-        if let unapprovedSubmissionsLink = json["links"]["unapproved_submissions"].object as? [String: Any],
+        if let unapprovedSubmissionsLink = json["links"]["unapproved_submissions"].object
+            as? [String: Any],
             let stream = Stream(link: unapprovedSubmissionsLink, submissionsStatus: .unapproved)
         {
             artistInvite.unapprovedSubmissionsStream = stream
         }
 
-        if let declinedSubmissionsLink = json["links"]["declined_submissions"].object as? [String: Any],
+        if let declinedSubmissionsLink = json["links"]["declined_submissions"].object
+            as? [String: Any],
             let stream = Stream(link: declinedSubmissionsLink, submissionsStatus: .declined)
         {
             artistInvite.declinedSubmissionsStream = stream

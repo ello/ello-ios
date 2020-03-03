@@ -26,7 +26,10 @@ class StreamSelectionCellSpec: QuickSpec {
 
             beforeEach {
                 responder = FakeStreamSelectionCellResponder()
-                let frame = CGRect(origin: .zero, size: CGSize(width: 320, height: StreamSelectionCell.Size.height))
+                let frame = CGRect(
+                    origin: .zero,
+                    size: CGSize(width: 320, height: StreamSelectionCell.Size.height)
+                )
                 subject = StreamSelectionCell(frame: frame)
                 showView(subject, container: responder)
             }

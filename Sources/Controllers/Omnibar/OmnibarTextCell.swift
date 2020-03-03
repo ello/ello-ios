@@ -14,7 +14,9 @@ class OmnibarTextCell: UITableViewCell {
     var isFirst = false {
         didSet {
             if isFirst && attributedText.string.isEmpty {
-                textView.attributedText = NSAttributedString(defaults: InterfaceString.Omnibar.SayEllo)
+                textView.attributedText = NSAttributedString(
+                    defaults: InterfaceString.Omnibar.SayEllo
+                )
             }
         }
     }
@@ -43,10 +45,14 @@ class OmnibarTextCell: UITableViewCell {
                 textView.attributedText = attributedText
             }
             else if isFirst {
-                textView.attributedText = NSAttributedString(defaults: InterfaceString.Omnibar.SayEllo)
+                textView.attributedText = NSAttributedString(
+                    defaults: InterfaceString.Omnibar.SayEllo
+                )
             }
             else {
-                textView.attributedText = NSAttributedString(defaults: InterfaceString.Omnibar.AddMoreText)
+                textView.attributedText = NSAttributedString(
+                    defaults: InterfaceString.Omnibar.AddMoreText
+                )
             }
         }
     }
@@ -79,7 +85,11 @@ class OmnibarTextCell: UITableViewCell {
         return frame.inset(Size.textMargins)
     }
 
-    class func heightForText(_ attributedText: NSAttributedString, tableWidth: CGFloat, editing: Bool) -> CGFloat {
+    class func heightForText(
+        _ attributedText: NSAttributedString,
+        tableWidth: CGFloat,
+        editing: Bool
+    ) -> CGFloat {
         var textWidth = tableWidth - Size.textMargins.sides
         if editing {
             textWidth -= 80

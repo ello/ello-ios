@@ -26,20 +26,31 @@ class ProfileHeaderNamesSizeCalculator: CellSizeCalculator {
             nameSize = .zero
         }
         else {
-            nameSize = user.name.boundingRect(
-                with: maxSize, options: [],
-                attributes: [
-                    .font: nameFont,
-                ], context: nil).size.integral
+            nameSize =
+                user.name.boundingRect(
+                    with: maxSize,
+                    options: [],
+                    attributes: [
+                        .font: nameFont,
+                    ],
+                    context: nil
+                ).size.integral
         }
 
         let usernameSize = user.atName.boundingRect(
-            with: maxSize, options: [],
+            with: maxSize,
+            options: [],
             attributes: [
                 .font: usernameFont,
-            ], context: nil).size.integral
+            ],
+            context: nil
+        ).size.integral
 
-        let (height, _) = ProfileHeaderNamesCell.preferredHeight(nameSize: nameSize, usernameSize: usernameSize, width: width)
+        let (height, _) = ProfileHeaderNamesCell.preferredHeight(
+            nameSize: nameSize,
+            usernameSize: usernameSize,
+            width: width
+        )
         let totalHeight = height + ProfileHeaderNamesCell.Size.outerMargins.tops
         assignCellHeight(all: totalHeight)
     }

@@ -9,8 +9,8 @@ struct RevealControllerCellPresenter {
         streamCellItem: StreamCellItem,
         streamKind: StreamKind,
         indexPath: IndexPath,
-        currentUser: User?)
-    {
+        currentUser: User?
+    ) {
         guard
             let cell = cell as? RevealControllerCell,
             case let .revealController(label, _) = streamCellItem.type

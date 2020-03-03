@@ -10,7 +10,8 @@ class SearchTextField: UITextField {
                     string: placeholder,
                     attributes: [
                         .foregroundColor: UIColor.greyA
-                    ])
+                    ]
+                )
             }
         }
     }

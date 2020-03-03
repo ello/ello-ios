@@ -11,15 +11,18 @@ class CategoryAnimation: NSObject {
     required init(
         categoryViewController: CategoryDetailViewController,
         categoryCell: UIView
-        )
-    {
+    ) {
         if let window = categoryCell.window,
-            let categoryViewSnapshot = categoryViewController.view.snapshotView(afterScreenUpdates: true),
+            let categoryViewSnapshot = categoryViewController.view.snapshotView(
+                afterScreenUpdates: true
+            ),
             let categoryCellSnapshot = categoryCell.snapshotView(afterScreenUpdates: true)
         {
             categoryViewSnapshot.contentMode = .top
             categoryViewSnapshot.clipsToBounds = true
-            self.categoryViewInfo = (categoryViewSnapshot, window.convertFrame(of: categoryViewController.view))
+            self.categoryViewInfo = (
+                categoryViewSnapshot, window.convertFrame(of: categoryViewController.view)
+            )
             self.categoryCellInfo = (categoryCellSnapshot, window.convertFrame(of: categoryCell))
         }
         else {
@@ -33,8 +36,10 @@ class CategoryAnimation: NSObject {
 }
 
 class CategoryPresentAnimation: CategoryAnimation, UIViewControllerAnimatedTransitioning {
-    func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
-      return self.transitionDuration
+    func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?)
+        -> TimeInterval
+    {
+        return self.transitionDuration
     }
 
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
@@ -75,8 +80,10 @@ class CategoryPresentAnimation: CategoryAnimation, UIViewControllerAnimatedTrans
 }
 
 class CategoryDismissAnimation: CategoryAnimation, UIViewControllerAnimatedTransitioning {
-    func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
-      return self.transitionDuration
+    func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?)
+        -> TimeInterval
+    {
+        return self.transitionDuration
     }
 
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {

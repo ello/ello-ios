@@ -34,7 +34,7 @@ class ElloAPISpec: QuickSpec {
                         (.category(slug: "art"), "/api/v2/categories/art/posts/recent"),
                         (.postDetail(postParam: "some-param"), "/api/v2/posts/some-param/comments"),
                         (.userStream(userParam: "999"), "/api/v2/users/999/posts"),
-                        ]
+                    ]
                     for (api, pagingPath) in expectations {
                         it("\(api).pagingPath is valid") {
                             expect(api.pagingPath) == pagingPath
@@ -44,7 +44,8 @@ class ElloAPISpec: QuickSpec {
             }
 
             describe("headers") {
-                let expectedBuildNumber = Bundle.main.infoDictionary![kCFBundleVersionKey as String] as! String
+                let expectedBuildNumber = Bundle.main.infoDictionary![kCFBundleVersionKey as String]
+                    as! String
                 let date = Globals.now
                 let endpoints: [ElloAPI] = [
                     .followingNewContent(createdAt: date),
@@ -58,7 +59,8 @@ class ElloAPISpec: QuickSpec {
                         expect(endpoint.headers!["If-Modified-Since"]) == date.toHTTPDateString()
                         expect(endpoint.headers!["X-iOS-Build-Number"]) == expectedBuildNumber
                         expect(endpoint.headers!["X-iOS-Build-Number"]).to(match("^\\d+$"))
-                        expect(endpoint.headers!["Authorization"]) == AuthToken().tokenWithBearer ?? ""
+                        expect(endpoint.headers!["Authorization"]) == AuthToken().tokenWithBearer
+                            ?? ""
                     }
                 }
 
@@ -84,17 +86,24 @@ class ElloAPISpec: QuickSpec {
 
                 it("availability") {
                     let content = ["username": "sterlingarcher"]
-                    expect(ElloAPI.availability(content: content).parameters as? [String: String]) == content
+                    expect(ElloAPI.availability(content: content).parameters as? [String: String])
+                        == content
                 }
 
                 it("createComment") {
                     let content = ["text": "my sweet comment content"]
-                    expect(ElloAPI.createComment(parentPostId: "id", body: content as [String: Any]).parameters as? [String: String]) == content
+                    expect(
+                        ElloAPI.createComment(parentPostId: "id", body: content as [String: Any])
+                            .parameters as? [String: String]
+                    ) == content
                 }
 
                 it("createPost") {
                     let content = ["text": "my sweet post content"]
-                    expect(ElloAPI.createPost(body: content as [String: Any]).parameters as? [String: String]) == content
+                    expect(
+                        ElloAPI.createPost(body: content as [String: Any]).parameters
+                            as? [String: String]
+                    ) == content
                 }
 
                 it("categoryPosts") {
@@ -108,7 +117,10 @@ class ElloAPISpec: QuickSpec {
                 }
 
                 it("infiniteScroll") {
-                    let query = URLComponents(string: "ttp://ello.co/api/v2/posts/278/comments?after=2014-06-02T00%3A00%3A00.000000000%2B0000&per_page=2")!
+                    let query = URLComponents(
+                        string:
+                            "ttp://ello.co/api/v2/posts/278/comments?after=2014-06-02T00%3A00%3A00.000000000%2B0000&per_page=2"
+                    )!
                     let infiniteScroll: ElloAPI = .infiniteScroll(query: query, api: .editorials)
                     let params = infiniteScroll.parameters!
                     expect(params["per_page"] as? String) == "2"
@@ -127,7 +139,12 @@ class ElloAPISpec: QuickSpec {
 
                 describe("Join") {
                     context("without an invitation code") {
-                        let params = ElloAPI.join(email: "me@me.me", username: "sweetness", password: "password", invitationCode: nil).parameters!
+                        let params = ElloAPI.join(
+                            email: "me@me.me",
+                            username: "sweetness",
+                            password: "password",
+                            invitationCode: nil
+                        ).parameters!
                         expect(params["email"] as? String) == "me@me.me"
                         expect(params["username"] as? String) == "sweetness"
                         expect(params["password"] as? String) == "password"
@@ -135,7 +152,12 @@ class ElloAPISpec: QuickSpec {
                     }
 
                     context("with an invitation code") {
-                        let params = ElloAPI.join(email: "me@me.me", username: "sweetness", password: "password", invitationCode: "my-sweet-code").parameters!
+                        let params = ElloAPI.join(
+                            email: "me@me.me",
+                            username: "sweetness",
+                            password: "password",
+                            invitationCode: "my-sweet-code"
+                        ).parameters!
                         expect(params["email"] as? String) == "me@me.me"
                         expect(params["username"] as? String) == "sweetness"
                         expect(params["password"] as? String) == "password"
@@ -166,28 +188,50 @@ class ElloAPISpec: QuickSpec {
 
                 describe("postViews endpoint") {
                     it("with email") {
-                        let params = ElloAPI.postViews(streamId: "123", streamKind: "post", postIds: Set(["555"]), currentUserId: "666").parameters!
+                        let params = ElloAPI.postViews(
+                            streamId: "123",
+                            streamKind: "post",
+                            postIds: Set(["555"]),
+                            currentUserId: "666"
+                        ).parameters!
                         expect(params["post_ids"] as? String) == "555"
                         expect(params["user_id"] as? String) == "666"
                         expect(params["kind"] as? String) == "post"
                         expect(params["id"] as? String) == "123"
                     }
                     it("with no streamId") {
-                        let params = ElloAPI.postViews(streamId: nil, streamKind: "post", postIds: Set(["555"]), currentUserId: "666").parameters!
+                        let params = ElloAPI.postViews(
+                            streamId: nil,
+                            streamKind: "post",
+                            postIds: Set(["555"]),
+                            currentUserId: "666"
+                        ).parameters!
                         expect(params["post_ids"] as? String) == "555"
                         expect(params["user_id"] as? String) == "666"
                         expect(params["kind"] as? String) == "post"
                         expect(params["id"]).to(beNil())
                     }
                     it("with many posts") {
-                        let params = ElloAPI.postViews(streamId: "123", streamKind: "post", postIds: Set(["555", "777"]), currentUserId: "666").parameters!
-                        expect(params["post_ids"] as? String).to(satisfyAnyOf(equal("555,777"), equal("777,555")))
+                        let params = ElloAPI.postViews(
+                            streamId: "123",
+                            streamKind: "post",
+                            postIds: Set(["555", "777"]),
+                            currentUserId: "666"
+                        ).parameters!
+                        expect(params["post_ids"] as? String).to(
+                            satisfyAnyOf(equal("555,777"), equal("777,555"))
+                        )
                         expect(params["user_id"] as? String) == "666"
                         expect(params["kind"] as? String) == "post"
                         expect(params["id"] as? String) == "123"
                     }
                     it("anonymous") {
-                        let params = ElloAPI.postViews(streamId: "123", streamKind: "post", postIds: Set(["555"]), currentUserId: nil).parameters!
+                        let params = ElloAPI.postViews(
+                            streamId: "123",
+                            streamKind: "post",
+                            postIds: Set(["555"]),
+                            currentUserId: nil
+                        ).parameters!
                         expect(params["post_ids"] as? String) == "555"
                         expect(params["user_id"] as? String).to(beNil())
                         expect(params["kind"] as? String) == "post"
@@ -204,7 +248,10 @@ class ElloAPISpec: QuickSpec {
                 }
 
                 it("relationshipBatch") {
-                    let params = ElloAPI.relationshipBatch(userIds: ["1", "2", "8"], relationship: "friend").parameters!
+                    let params = ElloAPI.relationshipBatch(
+                        userIds: ["1", "2", "8"],
+                        relationship: "friend"
+                    ).parameters!
                     expect(params["user_ids"] as? [String]) == ["1", "2", "8"]
                     expect(params["priority"] as? String) == "friend"
                 }
@@ -232,7 +279,8 @@ class ElloAPISpec: QuickSpec {
                 }
 
                 it("userCategories") {
-                    let params = ElloAPI.userCategories(categoryIds: ["456"], onboarding: false).parameters!
+                    let params = ElloAPI.userCategories(categoryIds: ["456"], onboarding: false)
+                        .parameters!
                     expect(params["followed_category_ids"] as? [String]) == ["456"]
                     expect(params["disable_follows"] as? Bool) == true
                 }

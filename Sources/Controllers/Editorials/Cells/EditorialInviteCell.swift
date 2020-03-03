@@ -31,7 +31,13 @@ class EditorialInviteCell: EditorialCellContent {
         inviteControls.isHidden = true
         sentLabel.isVisible = true
         textView.text = ""
-        timer = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(showControls), userInfo: .none, repeats: false)
+        timer = Timer.scheduledTimer(
+            timeInterval: 2,
+            target: self,
+            selector: #selector(showControls),
+            userInfo: .none,
+            repeats: false
+        )
     }
 
     override func updateConfig() {
@@ -44,7 +50,13 @@ class EditorialInviteCell: EditorialCellContent {
         if let sent = config.invite?.sent, now.timeIntervalSince(sent) < 2 {
             showSent = true
             let timeRemaining = 2 - now.timeIntervalSince(sent)
-            timer = Timer.scheduledTimer(timeInterval: timeRemaining, target: self, selector: #selector(showControls), userInfo: .none, repeats: false)
+            timer = Timer.scheduledTimer(
+                timeInterval: timeRemaining,
+                target: self,
+                selector: #selector(showControls),
+                userInfo: .none,
+                repeats: false
+            )
         }
         else {
             showSent = false
@@ -130,14 +142,16 @@ class EditorialInviteCell: EditorialCellContent {
         inviteLabel.snp.makeConstraints { make in
             make.top.equalTo(editorialContentView).inset(Size.smallTopMargin)
             make.leading.equalTo(editorialContentView).inset(Size.defaultMargin)
-            make.trailing.lessThanOrEqualTo(editorialContentView).inset(Size.defaultMargin).priority(Priority.required)
+            make.trailing.lessThanOrEqualTo(editorialContentView).inset(Size.defaultMargin)
+                .priority(Priority.required)
         }
         inviteLabel.setContentHuggingPriority(UILayoutPriority.required, for: .vertical)
 
         inviteCaption.snp.makeConstraints { make in
             make.top.equalTo(inviteLabel.snp.bottom).offset(Size.textFieldMargin)
             make.leading.equalTo(editorialContentView).inset(Size.defaultMargin)
-            make.trailing.lessThanOrEqualTo(editorialContentView).inset(Size.defaultMargin).priority(Priority.required)
+            make.trailing.lessThanOrEqualTo(editorialContentView).inset(Size.defaultMargin)
+                .priority(Priority.required)
         }
         inviteCaption.setContentHuggingPriority(UILayoutPriority.required, for: .vertical)
 
@@ -153,7 +167,8 @@ class EditorialInviteCell: EditorialCellContent {
         inviteInstructions.snp.makeConstraints { make in
             make.top.equalTo(textBg.snp.bottom).offset(Size.textFieldMargin)
             make.leading.equalTo(editorialContentView).inset(Size.defaultMargin)
-            make.trailing.lessThanOrEqualTo(editorialContentView).inset(Size.defaultMargin).priority(Priority.required)
+            make.trailing.lessThanOrEqualTo(editorialContentView).inset(Size.defaultMargin)
+                .priority(Priority.required)
             collapseInstructions = make.height.equalTo(0).priority(Priority.required).constraint
         }
         inviteInstructions.setContentHuggingPriority(UILayoutPriority.required, for: .vertical)

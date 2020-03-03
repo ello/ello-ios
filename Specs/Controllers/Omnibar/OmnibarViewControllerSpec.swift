@@ -124,20 +124,28 @@ class OmnibarViewControllerSpec: QuickSpec {
                     let content = subject.generatePostRegions(regions)
                     expect(content.count) == 3
 
-                    guard case let PostEditingService.PostContentRegion.image(outImage) = content[0] else {
+                    guard case let PostEditingService.PostContentRegion.image(outImage) = content[0]
+                    else {
                         fail("content[0] is not PostEditingService.PostContentRegion.Image")
                         return
                     }
                     expect(outImage) == image
 
-                    guard case let PostEditingService.PostContentRegion.imageData(_, outData, outType) = content[1] else {
+                    guard
+                        case let PostEditingService.PostContentRegion.imageData(
+                            _,
+                            outData,
+                            outType
+                        ) = content[1]
+                    else {
                         fail("content[1] is not PostEditingService.PostContentRegion.ImageData")
                         return
                     }
                     expect(outData) == data
                     expect(outType) == contentType
 
-                    guard case let PostEditingService.PostContentRegion.text(outText) = content[2] else {
+                    guard case let PostEditingService.PostContentRegion.text(outText) = content[2]
+                    else {
                         fail("content[2] is not PostEditingService.PostContentRegion.Text")
                         return
                     }
@@ -180,14 +188,21 @@ class OmnibarViewControllerSpec: QuickSpec {
                 beforeEach {
                     // need to pull the parent post id out of the create-comment sample json
                     let commentData = ElloAPI.createComment(parentPostId: "-", body: [:]).sampleData
-                    let commentJSON = try! JSONSerialization.jsonObject(with: commentData, options: []) as! [String: Any]
+                    let commentJSON = try! JSONSerialization.jsonObject(
+                        with: commentData,
+                        options: []
+                    ) as! [String: Any]
                     let postId = (commentJSON["comments"] as! [String: Any])["post_id"] as! String
                     post = Post.stub(["id": postId, "watching": false])
 
                     ElloProvider.moya = ElloProvider.RecordedStubbingProvider([
-                        RecordedResponse(endpoint: .postDetail(postParam: postId), response: .networkResponse(200,
-                            // the id of this stubbed post must match the postId above ("52" last time I checked)
-                            stubbedData("post_detail__watching"))
+                        RecordedResponse(
+                            endpoint: .postDetail(postParam: postId),
+                            response: .networkResponse(
+                                200,
+                                // the id of this stubbed post must match the postId above ("52" last time I checked)
+                                stubbedData("post_detail__watching")
+                            )
                         ),
                     ])
 
@@ -199,8 +214,11 @@ class OmnibarViewControllerSpec: QuickSpec {
                     subject.submitted(regions: regions, buyButtonURL: nil)
                 }
 
-                it("sets the watching property of the parent post to true after submitting the post") {
-                    let parentPost = ElloLinkedStore.shared.getObject(post.id, type: .postsType) as! Post
+                it(
+                    "sets the watching property of the parent post to true after submitting the post"
+                ) {
+                    let parentPost = ElloLinkedStore.shared.getObject(post.id, type: .postsType)
+                        as! Post
                     expect(parentPost.isWatching) == true
                 }
             }

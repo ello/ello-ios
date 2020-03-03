@@ -23,7 +23,9 @@ class ElloNavigationController: UINavigationController, ControllerThatMightHaveT
 
     func didSetCurrentUser() {
         for controller in self.viewControllers {
-            guard let controller = controller as? ControllerThatMightHaveTheCurrentUser else { return }
+            guard let controller = controller as? ControllerThatMightHaveTheCurrentUser else {
+                return
+            }
             controller.currentUser = currentUser
         }
     }
@@ -34,12 +36,16 @@ class ElloNavigationController: UINavigationController, ControllerThatMightHaveT
 
         delegate = self
 
-        backGesture = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(ElloNavigationController.handleBackGesture(_:)))
+        backGesture = UIScreenEdgePanGestureRecognizer(
+            target: self,
+            action: #selector(ElloNavigationController.handleBackGesture(_:))
+        )
         if let backGesture = backGesture {
             self.view.addGestureRecognizer(backGesture)
         }
 
-        postChangedNotification = NotificationObserver(notification: PostChangedNotification) { (post, change) in
+        postChangedNotification = NotificationObserver(notification: PostChangedNotification) {
+            (post, change) in
             switch change {
             case .delete:
                 var keepers = [UIViewController]()
@@ -58,7 +64,9 @@ class ElloNavigationController: UINavigationController, ControllerThatMightHaveT
             }
         }
 
-        relationshipChangedNotification = NotificationObserver(notification: RelationshipChangedNotification) { user in
+        relationshipChangedNotification = NotificationObserver(
+            notification: RelationshipChangedNotification
+        ) { user in
             switch user.relationshipPriority {
             case .block:
                 var keepers = [UIViewController]()
@@ -92,7 +100,8 @@ class ElloNavigationController: UINavigationController, ControllerThatMightHaveT
         case .ended, .cancelled:
             if percentThroughView > 0.5 {
                 interactionController?.finish()
-            } else {
+            }
+            else {
                 interactionController?.cancel()
             }
             interactionController = nil
@@ -105,7 +114,10 @@ class ElloNavigationController: UINavigationController, ControllerThatMightHaveT
 
 extension ElloNavigationController: UIGestureRecognizerDelegate {
 
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+    func gestureRecognizer(
+        _ gestureRecognizer: UIGestureRecognizer,
+        shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer
+    ) -> Bool {
         return true
     }
 
@@ -113,11 +125,20 @@ extension ElloNavigationController: UIGestureRecognizerDelegate {
 
 extension ElloNavigationController: UINavigationControllerDelegate {
 
-    func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {
+    func navigationController(
+        _ navigationController: UINavigationController,
+        didShow viewController: UIViewController,
+        animated: Bool
+    ) {
         backGesture?.edges = viewController.backGestureEdges
     }
 
-    func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    func navigationController(
+        _ navigationController: UINavigationController,
+        animationControllerFor operation: UINavigationController.Operation,
+        from fromVC: UIViewController,
+        to toVC: UIViewController
+    ) -> UIViewControllerAnimatedTransitioning? {
 
         switch operation {
         case .push: return ForwardAnimator()
@@ -126,7 +147,10 @@ extension ElloNavigationController: UINavigationControllerDelegate {
         }
     }
 
-    func navigationController(_ navigationController: UINavigationController, interactionControllerFor animationController: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
+    func navigationController(
+        _ navigationController: UINavigationController,
+        interactionControllerFor animationController: UIViewControllerAnimatedTransitioning
+    ) -> UIViewControllerInteractiveTransitioning? {
         return interactionController
     }
 

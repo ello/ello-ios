@@ -33,7 +33,10 @@ struct ElloKeychain: KeychainType {
 
     init() {
         let appIdentifierPrefix: String = ElloKeys().teamId()
-        keychain = Keychain(service: "co.ello.Ello", accessGroup: "\(appIdentifierPrefix).co.ello.Ello")
+        keychain = Keychain(
+            service: "co.ello.Ello",
+            accessGroup: "\(appIdentifierPrefix).co.ello.Ello"
+        )
     }
 
     var pushToken: Data? {

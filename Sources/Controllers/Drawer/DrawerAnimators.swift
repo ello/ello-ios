@@ -4,21 +4,22 @@
 
 typealias Animator = (_ animations: @escaping Block, _ completion: @escaping BoolBlock) -> Void
 
-class DrawerAnimator: NSObject, UIViewControllerTransitioningDelegate  {
+class DrawerAnimator: NSObject, UIViewControllerTransitioningDelegate {
     let popControl = DrawerPopControl()
 
     func animationController(
-        forPresented presented: UIViewController, presenting: UIViewController,
+        forPresented presented: UIViewController,
+        presenting: UIViewController,
         source: UIViewController
-        ) -> UIViewControllerAnimatedTransitioning? {
-            popControl.presentingController = presenting
-            return DrawerPushAnimator(popControl: popControl)
+    ) -> UIViewControllerAnimatedTransitioning? {
+        popControl.presentingController = presenting
+        return DrawerPushAnimator(popControl: popControl)
     }
 
     func animationController(
         forDismissed dismissed: UIViewController
-        ) -> UIViewControllerAnimatedTransitioning? {
-            return DrawerPopAnimator(popControl: popControl)
+    ) -> UIViewControllerAnimatedTransitioning? {
+        return DrawerPopAnimator(popControl: popControl)
     }
 
 }
@@ -31,26 +32,33 @@ class DrawerPushAnimator: NSObject, UIViewControllerAnimatedTransitioning {
         super.init()
     }
 
-    func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
+    func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?)
+        -> TimeInterval
+    {
         return TransitionAnimationDuration
     }
 
     func animateTransition(using context: UIViewControllerContextTransitioning) {
-        let streamController = context.viewController(forKey: UITransitionContextViewControllerKey.from)!
+        let streamController = context.viewController(
+            forKey: UITransitionContextViewControllerKey.from
+        )!
         let drawerView = context.view(forKey: UITransitionContextViewKey.to)!
         let streamView = streamController.view
         let containerView = context.containerView
         let animator: Animator = { animations, completion in
-            UIView.animate(withDuration: self.transitionDuration(using: context),
+            UIView.animate(
+                withDuration: self.transitionDuration(using: context),
                 delay: 0.0,
                 options: .curveEaseIn,
                 animations: animations,
                 completion: completion
-                )
+            )
         }
 
         animateTransition(
-            streamView: streamView!, drawerView: drawerView, containerView: containerView,
+            streamView: streamView!,
+            drawerView: drawerView,
+            containerView: containerView,
             animator: animator
         ) {
             context.completeTransition(!context.transitionWasCancelled)
@@ -58,8 +66,11 @@ class DrawerPushAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     }
 
     func animateTransition(
-        streamView: UIView, drawerView: UIView, containerView: UIView,
-        animator: Animator, completion: @escaping Block
+        streamView: UIView,
+        drawerView: UIView,
+        containerView: UIView,
+        animator: Animator,
+        completion: @escaping Block
     ) {
         popControl.frame = streamView.bounds
 
@@ -68,12 +79,15 @@ class DrawerPushAnimator: NSObject, UIViewControllerAnimatedTransitioning {
         streamView.addSubview(popControl)
         drawerView.addSubview(streamView)
 
-        animator({
-            let deltaX = streamView.frame.size.width - 150
-            streamView.frame.origin.x += deltaX
-        }, { _ in
-            completion()
-        })
+        animator(
+            {
+                let deltaX = streamView.frame.size.width - 150
+                streamView.frame.origin.x += deltaX
+            },
+            { _ in
+                completion()
+            }
+        )
     }
 }
 
@@ -86,7 +100,9 @@ class DrawerPopAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     }
 
     func transitionDuration(using context: UIViewControllerContextTransitioning?) -> TimeInterval {
-        if let drawerController = context?.viewController(forKey: UITransitionContextViewControllerKey.from) as? DrawerViewController {
+        if let drawerController = context?.viewController(
+            forKey: UITransitionContextViewControllerKey.from
+        ) as? DrawerViewController {
             if drawerController.isLoggingOut {
                 return 0
             }
@@ -95,21 +111,26 @@ class DrawerPopAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     }
 
     func animateTransition(using context: UIViewControllerContextTransitioning) {
-        let streamController = context.viewController(forKey: UITransitionContextViewControllerKey.to)!
+        let streamController = context.viewController(
+            forKey: UITransitionContextViewControllerKey.to
+        )!
         let streamView = streamController.view
         let drawerView = context.view(forKey: UITransitionContextViewKey.from)!
         let containerView = context.containerView
         let animator: Animator = { animations, completion in
-            UIView.animate(withDuration: self.transitionDuration(using: context),
+            UIView.animate(
+                withDuration: self.transitionDuration(using: context),
                 delay: 0.0,
                 options: .curveEaseIn,
                 animations: animations,
                 completion: completion
-                )
+            )
         }
 
         animateTransition(
-            streamView: streamView!, drawerView: drawerView, containerView: containerView,
+            streamView: streamView!,
+            drawerView: drawerView,
+            containerView: containerView,
             animator: animator
         ) {
             context.completeTransition(!context.transitionWasCancelled)
@@ -117,25 +138,31 @@ class DrawerPopAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     }
 
     func animateTransition(
-        streamView: UIView, drawerView: UIView, containerView: UIView,
-        animator: Animator, completed: @escaping Block
+        streamView: UIView,
+        drawerView: UIView,
+        containerView: UIView,
+        animator: Animator,
+        completed: @escaping Block
     ) {
         containerView.insertSubview(drawerView, at: 0)
 
-        animator({
-            self.popControl.frame.origin.x = 0
-            streamView.frame.origin.x = 0
-        }, { _ in
-            self.popControl.removeFromSuperview()
-            drawerView.removeFromSuperview()
-            completed()
-
-            if let windowOpt = UIApplication.shared.delegate?.window,
-                let window = windowOpt,
-                let rootViewController = window.rootViewController
+        animator(
             {
-                window.addSubview(rootViewController.view)
+                self.popControl.frame.origin.x = 0
+                streamView.frame.origin.x = 0
+            },
+            { _ in
+                self.popControl.removeFromSuperview()
+                drawerView.removeFromSuperview()
+                completed()
+
+                if let windowOpt = UIApplication.shared.delegate?.window,
+                    let window = windowOpt,
+                    let rootViewController = window.rootViewController
+                {
+                    window.addSubview(rootViewController.view)
+                }
             }
-        })
+        )
     }
 }

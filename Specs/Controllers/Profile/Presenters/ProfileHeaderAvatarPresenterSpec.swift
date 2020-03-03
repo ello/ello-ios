@@ -33,7 +33,8 @@ class ProfileHeaderAvatarPresenterSpec: QuickSpec {
                         "height": 0,
                         "width": 0,
                         "type": "png",
-                        "size": 0]
+                        "size": 0
+                    ]
                     )
                     let asset = Asset.stub(["attachment": attachment])
 

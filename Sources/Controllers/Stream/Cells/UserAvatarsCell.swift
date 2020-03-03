@@ -38,7 +38,11 @@ class UserAvatarsCell: CollectionViewCell {
             let ab = AvatarButton()
             ab.frame = CGRect(origin: CGPoint(x: startX, y: 0), size: AvatarButton.Size.smallSize)
             ab.setUserAvatarURL(user.avatarURL())
-            ab.addTarget(self, action: #selector(UserAvatarsCell.avatarTapped(_:)), for: .touchUpInside)
+            ab.addTarget(
+                self,
+                action: #selector(UserAvatarsCell.avatarTapped(_:)),
+                for: .touchUpInside
+            )
             avatarsView.addSubview(ab)
             avatarButtons.append(ab)
             startX += 40
@@ -58,7 +62,10 @@ class UserAvatarsCell: CollectionViewCell {
         else { return }
 
         let responder: SimpleStreamResponder? = findResponder()
-        responder?.showSimpleStream(boxedEndpoint: BoxedElloAPI(endpoint: model.endpoint), title: model.seeMoreTitle)
+        responder?.showSimpleStream(
+            boxedEndpoint: BoxedElloAPI(endpoint: model.endpoint),
+            title: model.seeMoreTitle
+        )
     }
 
     @IBAction func avatarTapped(_ sender: AvatarButton) {

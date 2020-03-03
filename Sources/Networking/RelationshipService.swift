@@ -13,8 +13,7 @@ class RelationshipService: NSObject {
         currentUserId: String? = nil,
         userId: String,
         relationshipPriority: RelationshipPriority
-        ) -> (Relationship?, Promise<Relationship?>)
-    {
+    ) -> (Relationship?, Promise<Relationship?>) {
         // optimistic success
         let optimisticRelationship: Relationship? = currentUserId.map({ currentUserId in
             return Relationship(
@@ -32,7 +31,10 @@ class RelationshipService: NSObject {
             returnedRelationship = optimisticRelationship
         }
 
-        let endpoint: ElloAPI = .relationship(userId: userId, relationship: relationshipPriority.rawValue)
+        let endpoint: ElloAPI = .relationship(
+            userId: userId,
+            relationship: relationshipPriority.rawValue
+        )
         return (
             returnedRelationship,
             ElloProvider.shared.request(endpoint)
@@ -41,9 +43,12 @@ class RelationshipService: NSObject {
                     return jsonable as? Relationship
                 }
                 .recover { error -> Promise<Relationship?> in
-                    Tracker.shared.relationshipStatusUpdateFailed(relationshipPriority, userId: userId)
+                    Tracker.shared.relationshipStatusUpdateFailed(
+                        relationshipPriority,
+                        userId: userId
+                    )
                     throw error
                 }
-            )
+        )
     }
 }

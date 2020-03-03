@@ -45,7 +45,9 @@ class HireScreenSpec: QuickSpec {
                 var submitButton: UIButton?
                 beforeEach {
                     subject = HireScreen()
-                    submitButton = subject.findSubview { $0.tag == HireScreen.Specs.successButtonTag }
+                    submitButton = subject.findSubview {
+                        $0.tag == HireScreen.Specs.successButtonTag
+                    }
                 }
                 it("submitButton is disabled") {
                     let textView: UITextView! = subject.findSubview()

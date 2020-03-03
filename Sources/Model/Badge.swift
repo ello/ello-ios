@@ -44,14 +44,14 @@ final class Badge: Model {
         super.init(version: BadgeVersion)
     }
 
-    init(slug: String,
+    init(
+        slug: String,
         name: String,
         caption: String,
         url: URL?,
         imageURL: URL? = nil,
         interfaceImage: InterfaceImage? = nil
-        )
-    {
+    ) {
         self.slug = slug
         self.name = name
         self.caption = caption
@@ -92,7 +92,7 @@ final class Badge: Model {
             caption: json["learn_more_caption"].stringValue,
             url: json["learn_more_href"].url,
             imageURL: json["image"]["url"].url
-            )
+        )
     }
 
 }
@@ -117,6 +117,7 @@ private func saveBadgesData(_ data: Data) {
 }
 
 private func badgesFileURL() -> URL? {
-    guard let pathURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return nil }
+    guard let pathURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
+    else { return nil }
     return pathURL.appendingPathComponent("badges-v2.data")
 }

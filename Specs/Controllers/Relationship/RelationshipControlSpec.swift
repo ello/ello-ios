@@ -27,7 +27,7 @@ class RelationshipControlSpec: QuickSpec {
                 subject = RelationshipControl()
                 presentingController = StreamableViewController()
                 presentingController.viewContainer = viewContainer
-                presentingController.view.addSubview(subject) // <-- super ghetto
+                presentingController.view.addSubview(subject)  // <-- super ghetto
                 relationshipController = presentingController.relationshipController
                 showController(presentingController)
             }
@@ -38,7 +38,8 @@ class RelationshipControlSpec: QuickSpec {
                     expect(subject.intrinsicContentSize) == expectedSize
                     subject.frame.size = expectedSize
                     subject.layoutIfNeeded()
-                    expect(subject.followingButton.frame) == CGRect(x: 0, y: 0, width: 105, height: 30)
+                    expect(subject.followingButton.frame)
+                        == CGRect(x: 0, y: 0, width: 105, height: 30)
                 }
             }
 
@@ -51,13 +52,17 @@ class RelationshipControlSpec: QuickSpec {
 
                     describe("tapping the following button") {
 
-                        for relationshipPriority in [RelationshipPriority.inactive, RelationshipPriority.none, RelationshipPriority.null] {
+                        for relationshipPriority in [
+                            RelationshipPriority.inactive, RelationshipPriority.none,
+                            RelationshipPriority.null
+                        ] {
                             context("RelationshipPriority.\(relationshipPriority)") {
 
                                 it("unfollows the user") {
                                     subject.relationshipPriority = relationshipPriority
                                     subject.followingButton.sendActions(for: .touchUpInside)
-                                    expect(subject.relationshipPriority) == RelationshipPriority.following
+                                    expect(subject.relationshipPriority)
+                                        == RelationshipPriority.following
                                 }
                             }
                         }
@@ -67,7 +72,8 @@ class RelationshipControlSpec: QuickSpec {
                             it("unfollows the user") {
                                 subject.relationshipPriority = .following
                                 subject.followingButton.sendActions(for: .touchUpInside)
-                                expect(subject.relationshipPriority) == RelationshipPriority.inactive
+                                expect(subject.relationshipPriority)
+                                    == RelationshipPriority.inactive
                             }
                         }
                     }
@@ -81,7 +87,9 @@ class RelationshipControlSpec: QuickSpec {
                         it("launches the block modal") {
                             subject.relationshipPriority = .mute
                             subject.followingButton.sendActions(for: .touchUpInside)
-                            let presentedVC = relationshipController.responderChainable.controller!.presentedViewController as? BlockUserModalViewController
+                            let presentedVC =
+                                relationshipController.responderChainable.controller!
+                                    .presentedViewController as? BlockUserModalViewController
                             expect(presentedVC).notTo(beNil())
                         }
                     }

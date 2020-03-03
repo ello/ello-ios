@@ -18,7 +18,10 @@ class ArtistInviteDetailController: StreamableViewController {
     }
     var generator: ArtistInviteDetailGenerator!
 
-    static func open(_ controller: ArtistInviteDetailController, in navigationController: UINavigationController) {
+    static func open(
+        _ controller: ArtistInviteDetailController,
+        in navigationController: UINavigationController
+    ) {
         if let redirectURL = controller.artistInvite?.redirectURL {
             UIApplication.shared.open(redirectURL, options: [:], completionHandler: nil)
         }
@@ -38,7 +41,8 @@ class ArtistInviteDetailController: StreamableViewController {
         generator = ArtistInviteDetailGenerator(
             artistInviteId: artistInviteId,
             currentUser: currentUser,
-            destination: self)
+            destination: self
+        )
         streamViewController.streamKind = generator.streamKind
         streamViewController.isPagingEnabled = false
         streamViewController.reloadClosure = { [weak self] in self?.generator?.load(reload: true) }
@@ -49,7 +53,7 @@ class ArtistInviteDetailController: StreamableViewController {
         self.init(id: artistInvite.id)
         self.setPrimary(jsonable: artistInvite)
         generator.artistInvite = artistInvite
-   }
+    }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -95,13 +99,23 @@ class ArtistInviteDetailController: StreamableViewController {
 
     override func showNavBars(animated: Bool) {
         super.showNavBars(animated: animated)
-        positionNavBar(screen.navigationBar, visible: true, withConstraint: screen.navigationBarTopConstraint, animated: animated)
+        positionNavBar(
+            screen.navigationBar,
+            visible: true,
+            withConstraint: screen.navigationBarTopConstraint,
+            animated: animated
+        )
         updateInsets()
     }
 
     override func hideNavBars(animated: Bool) {
         super.hideNavBars(animated: animated)
-        positionNavBar(screen.navigationBar, visible: false, withConstraint: screen.navigationBarTopConstraint, animated: animated)
+        positionNavBar(
+            screen.navigationBar,
+            visible: false,
+            withConstraint: screen.navigationBarTopConstraint,
+            animated: animated
+        )
         updateInsets()
     }
 
@@ -120,7 +134,11 @@ extension ArtistInviteDetailController: StreamDestination {
         set { streamViewController.isPagingEnabled = newValue }
     }
 
-    func replacePlaceholder(type: StreamCellType.PlaceholderType, items: [StreamCellItem], completion: @escaping Block) {
+    func replacePlaceholder(
+        type: StreamCellType.PlaceholderType,
+        items: [StreamCellItem],
+        completion: @escaping Block
+    ) {
         streamViewController.replacePlaceholder(type: type, items: items, completion: completion)
 
         if type == .artistInvites {

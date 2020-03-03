@@ -124,7 +124,9 @@ final class CategoryViewController: StreamableViewController {
         streamViewController.streamKind = generator.streamKind
         streamViewController.initialLoadClosure = {}
         streamViewController.reloadClosure = { [unowned self] in self.reloadCurrentCategory() }
-        streamViewController.toggleClosure = { [unowned self] isGridView in self.toggleGrid(isGridView) }
+        streamViewController.toggleClosure = { [unowned self] isGridView in
+            self.toggleGrid(isGridView)
+        }
 
         self.initialLoadCategory()
     }
@@ -139,14 +141,24 @@ final class CategoryViewController: StreamableViewController {
 
     override func showNavBars(animated: Bool) {
         super.showNavBars(animated: animated)
-        positionNavBar(screen.navigationBar, visible: true, withConstraint: screen.navigationBarTopConstraint, animated: animated)
+        positionNavBar(
+            screen.navigationBar,
+            visible: true,
+            withConstraint: screen.navigationBarTopConstraint,
+            animated: animated
+        )
         screen.toggleCategoriesList(navBarVisible: true, animated: animated)
         updateInsets()
     }
 
     override func hideNavBars(animated: Bool) {
         super.hideNavBars(animated: animated)
-        positionNavBar(screen.navigationBar, visible: false, withConstraint: screen.navigationBarTopConstraint, animated: animated)
+        positionNavBar(
+            screen.navigationBar,
+            visible: false,
+            withConstraint: screen.navigationBarTopConstraint,
+            animated: animated
+        )
         screen.toggleCategoriesList(navBarVisible: false, animated: animated)
         updateInsets()
     }
@@ -215,10 +227,19 @@ extension CategoryViewController: CategoryStreamDestination, StreamDestination {
         set { streamViewController.isPagingEnabled = newValue }
     }
 
-    func replacePlaceholder(type: StreamCellType.PlaceholderType, items: [StreamCellItem], completion: @escaping Block) {
+    func replacePlaceholder(
+        type: StreamCellType.PlaceholderType,
+        items: [StreamCellItem],
+        completion: @escaping Block
+    ) {
         streamViewController.replacePlaceholder(type: type, items: items) {
-            if self.streamViewController.hasCellItems(for: .pageHeader) && !self.streamViewController.hasCellItems(for: .streamItems) {
-                self.streamViewController.replacePlaceholder(type: .streamItems, items: [StreamCellItem(type: .streamLoading)])
+            if self.streamViewController.hasCellItems(for: .pageHeader)
+                && !self.streamViewController.hasCellItems(for: .streamItems)
+            {
+                self.streamViewController.replacePlaceholder(
+                    type: .streamItems,
+                    items: [StreamCellItem(type: .streamLoading)]
+                )
             }
 
             completion()
@@ -270,7 +291,8 @@ extension CategoryViewController: CategoryStreamDestination, StreamDestination {
             screen.showSubscribed = false
         }
 
-        info += subscribedCategories.map { (category: Category) -> CategoryCardListView.CategoryInfo in
+        info += subscribedCategories.map {
+            (category: Category) -> CategoryCardListView.CategoryInfo in
             return CategoryCardListView.CategoryInfo(category: category)
         }
 
@@ -497,18 +519,19 @@ extension CategoryViewController: PostFeaturedResponder {
             }
         }
 
-         ElloProvider.shared.request(action.endpoint)
-             .done { (jsonable, _) in
-                 guard let newCategoryPost = jsonable as? CategoryPost else { return }
-                 streamCellItem.jsonable = newCategoryPost
-             }
-             .ensure {
-                guard let indexPath = self.streamViewController.indexPath(forItem: streamCellItem) else { return }
+        ElloProvider.shared.request(action.endpoint)
+            .done { (jsonable, _) in
+                guard let newCategoryPost = jsonable as? CategoryPost else { return }
+                streamCellItem.jsonable = newCategoryPost
+            }
+            .ensure {
+                guard let indexPath = self.streamViewController.indexPath(forItem: streamCellItem)
+                else { return }
                 streamCellItem.state = .none
                 self.streamViewController.performDataUpdate { collectionView in
                     collectionView.reloadItems(at: [indexPath])
                 }
-             }
+            }
             .ignoreErrors()
     }
 }
@@ -526,26 +549,37 @@ extension CategoryViewController: StreamSelectionCellResponder {
 }
 
 extension CategoryViewController: UIViewControllerTransitioningDelegate {
-    func animationController(forPresented presented: UIViewController,
+    func animationController(
+        forPresented presented: UIViewController,
         presenting: UIViewController,
-        source: UIViewController) -> UIViewControllerAnimatedTransitioning?
-    {
+        source: UIViewController
+    ) -> UIViewControllerAnimatedTransitioning? {
         guard
             let navigationController = presented as? UINavigationController,
-            let categoryViewController = navigationController.topViewController as? CategoryDetailViewController,
+            let categoryViewController = navigationController.topViewController
+                as? CategoryDetailViewController,
             let categoryCell = presentingCell
         else { return nil }
 
-        return CategoryPresentAnimation(categoryViewController: categoryViewController, categoryCell: categoryCell)
+        return CategoryPresentAnimation(
+            categoryViewController: categoryViewController,
+            categoryCell: categoryCell
+        )
     }
 
-    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    func animationController(forDismissed dismissed: UIViewController)
+        -> UIViewControllerAnimatedTransitioning?
+    {
         guard
             let navigationController = dismissed as? UINavigationController,
-            let categoryViewController = navigationController.topViewController as? CategoryDetailViewController,
+            let categoryViewController = navigationController.topViewController
+                as? CategoryDetailViewController,
             let categoryCell = presentingCell
         else { return nil }
 
-        return CategoryDismissAnimation(categoryViewController: categoryViewController, categoryCell: categoryCell)
+        return CategoryDismissAnimation(
+            categoryViewController: categoryViewController,
+            categoryCell: categoryCell
+        )
     }
 }

@@ -9,8 +9,8 @@ struct NotificationCellPresenter {
         streamCellItem: StreamCellItem,
         streamKind: StreamKind,
         indexPath: IndexPath,
-        currentUser: User?)
-    {
+        currentUser: User?
+    ) {
         guard
             let cell = cell as? NotificationCell,
             let notification = streamCellItem.jsonable as? Notification
@@ -21,8 +21,15 @@ struct NotificationCellPresenter {
                 let webContent = streamCellItem.calculatedCellHeights.webContent,
                 ceil(actualHeight) != ceil(webContent)
             {
-                NotificationCellSizeCalculator.assignTotalHeight(actualHeight, item: streamCellItem, cellWidth: cell.frame.width)
-                postNotification(StreamNotification.UpdateCellHeightNotification, value: streamCellItem)
+                NotificationCellSizeCalculator.assignTotalHeight(
+                    actualHeight,
+                    item: streamCellItem,
+                    cellWidth: cell.frame.width
+                )
+                postNotification(
+                    StreamNotification.UpdateCellHeightNotification,
+                    value: streamCellItem
+                )
             }
         }
 

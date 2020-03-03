@@ -16,7 +16,8 @@ struct AddressBookHelpers {
         }
     }
 
-    static func process(_ contacts: [(LocalPerson, User?)], currentUser: User?) -> [StreamCellItem] {
+    static func process(_ contacts: [(LocalPerson, User?)], currentUser: User?) -> [StreamCellItem]
+    {
         var foundItems = [StreamCellItem]()
         var inviteItems = [StreamCellItem]()
         let currentUserEmail = currentUser?.profile?.email
@@ -31,8 +32,14 @@ struct AddressBookHelpers {
                 }
             }
         }
-        foundItems.sort { ($0.jsonable as! User).username.lowercased() < ($1.jsonable as! User).username.lowercased() }
-        inviteItems.sort { ($0.jsonable as! LocalPerson).name.lowercased() < ($1.jsonable as! LocalPerson).name.lowercased() }
+        foundItems.sort {
+            ($0.jsonable as! User).username.lowercased()
+                < ($1.jsonable as! User).username.lowercased()
+        }
+        inviteItems.sort {
+            ($0.jsonable as! LocalPerson).name.lowercased()
+                < ($1.jsonable as! LocalPerson).name.lowercased()
+        }
         return foundItems + inviteItems
     }
 }

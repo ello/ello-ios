@@ -19,7 +19,8 @@ class CategoryCardCell: CollectionViewCell {
             }
 
             let horizontalColumnSpacing: CGFloat = subscribing ? 10 : 2
-            let width = (windowWidth - horizontalColumnSpacing * (CGFloat(columnCount) - 1)) / CGFloat(columnCount)
+            let width = (windowWidth - horizontalColumnSpacing * (CGFloat(columnCount) - 1))
+                / CGFloat(columnCount)
             var height = ceil(width / aspect)
             if subscribing {
                 height += subscribeButtonHeight + cardMargins
@@ -82,7 +83,11 @@ class CategoryCardCell: CollectionViewCell {
     }
 
     override func bindActions() {
-        subscribeButton.addTarget(self, action: #selector(subscribeButtonTapped), for: .touchUpInside)
+        subscribeButton.addTarget(
+            self,
+            action: #selector(subscribeButtonTapped),
+            for: .touchUpInside
+        )
     }
 
     override func arrange() {
@@ -146,7 +151,8 @@ class CategoryCardCell: CollectionViewCell {
             subscribedCheckbox.isVisible = isSelected
             subscribeButton.isSelected = isSelected
             subscribeButton.isVisible = true
-            subscribeButton.title = isSelected ? InterfaceString.Discover.Subscribed : InterfaceString.Discover.Subscribe
+            subscribeButton.title = isSelected
+                ? InterfaceString.Discover.Subscribed : InterfaceString.Discover.Subscribe
             selectedImageView.isHidden = true
             insetConstraint.update(inset: Size.cardMargins)
             mainContentView.alpha = isSelected ? 0.7 : 0.5

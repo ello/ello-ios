@@ -14,15 +14,26 @@ struct UserService {
         username: String,
         password: String,
         nonce: String,
-        invitationCode: String? = nil) -> Promise<User>
-    {
-        return ElloProvider.shared.request(.join(email: email, username: username, password: password, nonce: nonce, invitationCode: invitationCode))
+        invitationCode: String? = nil
+    ) -> Promise<User> {
+        return ElloProvider.shared.request(
+            .join(
+                email: email,
+                username: username,
+                password: password,
+                nonce: nonce,
+                invitationCode: invitationCode
+            )
+        )
             .then { data, _ -> Promise<User> in
                 guard let user = data as? User else {
                     throw NSError.uncastableModel()
                 }
 
-                let promise: Promise<User> = CredentialsAuthService().authenticate(email: email, password: password)
+                let promise: Promise<User> = CredentialsAuthService().authenticate(
+                    email: email,
+                    password: password
+                )
                     .map { _ -> User in
                         return user
                     }

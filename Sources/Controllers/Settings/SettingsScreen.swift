@@ -22,20 +22,24 @@ class SettingsScreen: NavBarScreen, SettingsScreenProtocol {
     }
 
     weak var delegate: SettingsScreenDelegate?
-    var categoriesEnabled: Bool = false { didSet {
-        categoriesButton?.isEnabled = categoriesEnabled
-        categoriesLabel?.style = categoriesEnabled ? .largeBold : .largeBoldGray
-    }}
+    var categoriesEnabled: Bool = false {
+        didSet {
+            categoriesButton?.isEnabled = categoriesEnabled
+            categoriesLabel?.style = categoriesEnabled ? .largeBold : .largeBoldGray
+        }
+    }
 
     private var dynamicSettings: [DynamicSettingCategory]?
-    private var categoriesButton: UIControl? { didSet {
-        categoriesLabel?.style = categoriesEnabled ? .largeBold : .largeBoldGray
-    }}
+    private var categoriesButton: UIControl? {
+        didSet {
+            categoriesLabel?.style = categoriesEnabled ? .largeBold : .largeBoldGray
+        }
+    }
     private var categoriesLabel: StyledLabel? {
         return categoriesButton?.findSubview()
     }
-    private var navigationInsets: UIEdgeInsets = .zero { didSet { updateInsets() }}
-    private var bottomInset: CGFloat = 0 { didSet { updateInsets() }}
+    private var navigationInsets: UIEdgeInsets = .zero { didSet { updateInsets() } }
+    private var bottomInset: CGFloat = 0 { didSet { updateInsets() } }
     private var uploadingProperty: Profile.ImageProperty?
 
     var username: String? {
@@ -115,7 +119,11 @@ class SettingsScreen: NavBarScreen, SettingsScreenProtocol {
         scrollView.delegate = self
         coverImageButton.addTarget(self, action: #selector(coverImageTapped), for: .touchUpInside)
         avatarImageButton.addTarget(self, action: #selector(avatarImageTapped), for: .touchUpInside)
-        credentialsButton.addTarget(self, action: #selector(credentialFieldTapped), for: .touchUpInside)
+        credentialsButton.addTarget(
+            self,
+            action: #selector(credentialFieldTapped),
+            for: .touchUpInside
+        )
 
         let updateLocationFunction = debounce(0.5) { [weak self] in
             guard let `self` = self else { return }
@@ -274,7 +282,10 @@ class SettingsScreen: NavBarScreen, SettingsScreenProtocol {
     override func layoutSubviews() {
         super.layoutSubviews()
         widthConstraint.update(offset: frame.width)
-        avatarImageView.layer.cornerRadius = min(avatarImageView.frame.width, avatarImageView.frame.height) / 2
+        avatarImageView.layer.cornerRadius = min(
+            avatarImageView.frame.width,
+            avatarImageView.frame.height
+        ) / 2
     }
 
     override func showNavBars(animated: Bool) {
@@ -326,7 +337,11 @@ class SettingsScreen: NavBarScreen, SettingsScreenProtocol {
 }
 
 extension SettingsScreen {
-    func updateDynamicSettings(_ dynamicSettings: [DynamicSettingCategory], blockCount: Int, mutedCount: Int) {
+    func updateDynamicSettings(
+        _ dynamicSettings: [DynamicSettingCategory],
+        blockCount: Int,
+        mutedCount: Int
+    ) {
         self.dynamicSettings = dynamicSettings
         updateAllSettings(blockCount: blockCount, mutedCount: mutedCount)
     }
@@ -362,7 +377,11 @@ extension SettingsScreen {
                 button.isEnabled = categoriesEnabled
                 self.categoriesButton = button
             }
-            button.addTarget(self, action: #selector(dynamicSettingsTapped(_:)), for: .touchUpInside)
+            button.addTarget(
+                self,
+                action: #selector(dynamicSettingsTapped(_:)),
+                for: .touchUpInside
+            )
             settingsLookup[button] = settings
             return button
         }
@@ -479,7 +498,10 @@ extension SettingsScreen {
 
 extension SettingsScreen: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
+    func imagePickerController(
+        _ picker: UIImagePickerController,
+        didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
+    ) {
         guard
             let delegate = delegate,
             let uploadingProperty = self.uploadingProperty

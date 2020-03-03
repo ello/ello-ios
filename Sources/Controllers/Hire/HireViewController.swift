@@ -64,8 +64,14 @@ class HireViewController: BaseElloViewController {
 
         bottomBarController?.setNavigationBarsVisible(true, animated: false)
 
-        keyboardWillShowObserver = NotificationObserver(notification: Keyboard.Notifications.KeyboardWillShow, block: self.keyboardWillShow)
-        keyboardWillHideObserver = NotificationObserver(notification: Keyboard.Notifications.KeyboardWillHide, block: self.keyboardWillHide)
+        keyboardWillShowObserver = NotificationObserver(
+            notification: Keyboard.Notifications.KeyboardWillShow,
+            block: self.keyboardWillShow
+        )
+        keyboardWillHideObserver = NotificationObserver(
+            notification: Keyboard.Notifications.KeyboardWillHide,
+            block: self.keyboardWillHide
+        )
         screen.toggleKeyboard(visible: Keyboard.shared.isActive)
     }
 
@@ -119,7 +125,9 @@ extension HireViewController: HireScreenDelegate {
             }
             .catch { error in
                 self.screen.hideSuccess()
-                let alertController = AlertViewController(confirmation: InterfaceString.GenericError)
+                let alertController = AlertViewController(
+                    confirmation: InterfaceString.GenericError
+                )
                 self.present(alertController, animated: true, completion: nil)
             }
     }

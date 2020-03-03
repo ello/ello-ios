@@ -19,7 +19,7 @@ struct APIKeys {
             segmentKey: ElloKeys().segmentKey(),
             domain: ElloKeys().domain(),
             hasGraphQL: false
-            )
+        )
     }()
     static let ninja: APIKeys = {
         return APIKeys(
@@ -28,7 +28,7 @@ struct APIKeys {
             segmentKey: ElloKeys().stagingSegmentKey(),
             domain: ElloKeys().ninjaDomain(),
             hasGraphQL: false
-            )
+        )
     }()
     static let stage1: APIKeys = {
         return APIKeys(
@@ -37,7 +37,7 @@ struct APIKeys {
             segmentKey: ElloKeys().stagingSegmentKey(),
             domain: ElloKeys().stage1Domain(),
             hasGraphQL: false
-            )
+        )
     }()
     static let stage2: APIKeys = {
         return APIKeys(
@@ -46,7 +46,7 @@ struct APIKeys {
             segmentKey: ElloKeys().stagingSegmentKey(),
             domain: ElloKeys().stage2Domain(),
             hasGraphQL: true
-            )
+        )
     }()
     static let rainbow: APIKeys = {
         return APIKeys(
@@ -55,7 +55,7 @@ struct APIKeys {
             segmentKey: ElloKeys().stagingSegmentKey(),
             domain: ElloKeys().rainbowDomain(),
             hasGraphQL: false
-            )
+        )
     }()
 
     static var shared = APIKeys.default

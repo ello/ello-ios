@@ -27,7 +27,13 @@ class CategoryDetailScreen: Screen {
         let user: User?
         let isSubscribed: Bool
 
-        init(title: String = "", description: String = "", imageURL: URL? = nil, user: User? = nil, isSubscribed: Bool = false) {
+        init(
+            title: String = "",
+            description: String = "",
+            imageURL: URL? = nil,
+            user: User? = nil,
+            isSubscribed: Bool = false
+        ) {
             self.title = title
             self.description = description
             self.imageURL = imageURL
@@ -63,7 +69,7 @@ class CategoryDetailScreen: Screen {
                 imageURL: config.imageURL,
                 user: config.user,
                 isSubscribed: config.isSubscribed
-                )
+            )
         }
     }
 
@@ -137,7 +143,8 @@ class CategoryDetailScreen: Screen {
         moderatorsContainer.snp.makeConstraints { make in
             make.top.equalTo(aboutLabel.snp.bottom).offset(Size.sectionSpacing)
             make.leading.trailing.equalTo(scrollView).inset(Size.textSideMargin)
-            moderatorsContainerCollapsed = make.height.equalTo(0).priority(Priority.required).constraint
+            moderatorsContainerCollapsed =
+                make.height.equalTo(0).priority(Priority.required).constraint
         }
         moderatorsContainerCollapsed.deactivate()
 
@@ -151,9 +158,12 @@ class CategoryDetailScreen: Screen {
         }
 
         curatorsContainer.snp.makeConstraints { make in
-            curatorsContainerSpacing = make.top.equalTo(moderatorsContainer.snp.bottom).offset(Size.sectionSpacing).constraint
+            curatorsContainerSpacing =
+                make.top.equalTo(moderatorsContainer.snp.bottom).offset(Size.sectionSpacing)
+                .constraint
             make.leading.trailing.equalTo(scrollView).inset(Size.textSideMargin)
-            curatorsContainerCollapsed = make.height.equalTo(0).priority(Priority.required).constraint
+            curatorsContainerCollapsed =
+                make.height.equalTo(0).priority(Priority.required).constraint
 
             make.bottom.equalTo(scrollView).inset(Size.defaultMargin)
         }
@@ -184,17 +194,29 @@ class CategoryDetailScreen: Screen {
     func updateUsers(moderators: [User], curators: [User]) {
         curatorsContainerSpacing.update(offset: moderators.isEmpty ? 0 : Size.sectionSpacing)
 
-        moderatorViews = updateUserContainer(container: moderatorsContainer, label: moderatorsLabel,
+        moderatorViews = updateUserContainer(
+            container: moderatorsContainer,
+            label: moderatorsLabel,
             collapsedConstraint: moderatorsContainerCollapsed,
-            users: moderators, prevViews: moderatorViews
-            )
-        curatorViews = updateUserContainer(container: curatorsContainer, label: curatorsLabel,
+            users: moderators,
+            prevViews: moderatorViews
+        )
+        curatorViews = updateUserContainer(
+            container: curatorsContainer,
+            label: curatorsLabel,
             collapsedConstraint: curatorsContainerCollapsed,
-            users: curators, prevViews: curatorViews
-            )
+            users: curators,
+            prevViews: curatorViews
+        )
     }
 
-    private func updateUserContainer(container: UIView, label: UIView, collapsedConstraint: Constraint, users: [User], prevViews: [UIView]) -> [UIView] {
+    private func updateUserContainer(
+        container: UIView,
+        label: UIView,
+        collapsedConstraint: Constraint,
+        users: [User],
+        prevViews: [UIView]
+    ) -> [UIView] {
         collapsedConstraint.set(isActivated: users.count == 0)
         container.isVisible = users.count > 0
 

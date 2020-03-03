@@ -16,7 +16,9 @@ class CommentHeaderCell: CollectionViewCell {
     }
 
     private var isOpen = false
-    private var bottomContainerWidth: CGFloat { return bottomControlsContainer.frame.width - Size.spaceCorrection }
+    private var bottomContainerWidth: CGFloat {
+        return bottomControlsContainer.frame.width - Size.spaceCorrection
+    }
 
     private var foregroundWidthConstraint: Constraint!
     private var foregroundHeightConstraint: Constraint!
@@ -97,7 +99,8 @@ class CommentHeaderCell: CollectionViewCell {
         longPressGesture.addTarget(self, action: #selector(longPressed(_:)))
         contentView.addGestureRecognizer(longPressGesture)
 
-        cellOpenObserver = NotificationObserver(notification: streamHeaderCellDidOpenNotification) { [weak self] cell in
+        cellOpenObserver = NotificationObserver(notification: streamHeaderCellDidOpenNotification) {
+            [weak self] cell in
             guard let `self` = self, cell != self, self.isOpen else { return }
 
             nextTick {
@@ -125,8 +128,10 @@ class CommentHeaderCell: CollectionViewCell {
 
         foregroundBackground.snp.makeConstraints { make in
             make.leading.top.bottom.equalTo(scrollView).priority(Priority.required)
-            foregroundWidthConstraint = make.width.equalTo(frame.size.width).priority(Priority.required).constraint
-            foregroundHeightConstraint = make.height.equalTo(frame.size.height).priority(Priority.required).constraint
+            foregroundWidthConstraint =
+                make.width.equalTo(frame.size.width).priority(Priority.required).constraint
+            foregroundHeightConstraint =
+                make.height.equalTo(frame.size.height).priority(Priority.required).constraint
         }
 
         avatarButton.snp.makeConstraints { make in
@@ -339,7 +344,8 @@ extension CommentHeaderCell: UIScrollViewDelegate {
             else {
                 angle = nil
             }
-        } else {
+        }
+        else {
             angle = -CGFloat.pi + CGFloat.pi * scrollView.contentOffset.x / bottomContainerWidth
         }
 
@@ -354,7 +360,11 @@ extension CommentHeaderCell: UIScrollViewDelegate {
         }
     }
 
-    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+    func scrollViewWillEndDragging(
+        _ scrollView: UIScrollView,
+        withVelocity velocity: CGPoint,
+        targetContentOffset: UnsafeMutablePointer<CGPoint>
+    ) {
         if velocity.x > 0 {
             targetContentOffset.pointee.x = bottomContainerWidth
             isOpen = true

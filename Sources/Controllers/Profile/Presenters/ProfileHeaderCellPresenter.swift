@@ -9,8 +9,8 @@ struct ProfileHeaderCellPresenter {
         streamCellItem: StreamCellItem,
         streamKind: StreamKind,
         indexPath: IndexPath,
-        currentUser: User?)
-    {
+        currentUser: User?
+    ) {
         guard
             let cell = cell as? ProfileHeaderCell,
             let user = streamCellItem.jsonable as? User
@@ -31,7 +31,11 @@ struct ProfileHeaderCellPresenter {
             ProfileHeaderStatsPresenter.configure(cell, user: user, currentUser: currentUser)
         }
         else if let cell = cell as? ProfileHeaderTotalCountAndBadgesCell {
-            ProfileHeaderTotalCountAndBadgesPresenter.configure(cell, user: user, currentUser: currentUser)
+            ProfileHeaderTotalCountAndBadgesPresenter.configure(
+                cell,
+                user: user,
+                currentUser: currentUser
+            )
         }
         else if let cell = cell as? ProfileHeaderBioCell {
             ProfileHeaderBioPresenter.configure(cell, user: user, currentUser: currentUser)

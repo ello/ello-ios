@@ -45,21 +45,22 @@ extension LoginViewController: LoginScreenDelegate {
         OnePasswordExtension.shared().findLogin(
             forURLString: ElloURI.baseURL,
             for: self,
-            sender: sender) { loginDict, error in
-                guard let loginDict = loginDict else { return }
+            sender: sender
+        ) { loginDict, error in
+            guard let loginDict = loginDict else { return }
 
-                if let username = loginDict[AppExtensionUsernameKey] as? String {
-                    self.screen.username = username
-                }
-
-                if let password = loginDict[AppExtensionPasswordKey] as? String {
-                    self.screen.password = password
-                }
-
-                if !self.screen.username.isEmpty && !self.screen.password.isEmpty {
-                    self.submit(username: self.screen.username, password: self.screen.password)
-                }
+            if let username = loginDict[AppExtensionUsernameKey] as? String {
+                self.screen.username = username
             }
+
+            if let password = loginDict[AppExtensionPasswordKey] as? String {
+                self.screen.password = password
+            }
+
+            if !self.screen.username.isEmpty && !self.screen.password.isEmpty {
+                self.submit(username: self.screen.username, password: self.screen.password)
+            }
+        }
     }
 
     func validate(username: String, password: String) {
@@ -102,7 +103,10 @@ extension LoginViewController: LoginScreenDelegate {
         }
         else {
             Tracker.shared.loginInvalid()
-            if let errorTitle = Validator.invalidLoginCredentialsReason(username: username, password: password) {
+            if let errorTitle = Validator.invalidLoginCredentialsReason(
+                username: username,
+                password: password
+            ) {
                 screen.showError(errorTitle)
             }
         }

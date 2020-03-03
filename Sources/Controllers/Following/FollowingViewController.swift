@@ -106,7 +106,9 @@ extension FollowingViewController {
     }
 
     private func addTemporaryNotificationObservers() {
-        reloadFollowingContentObserver = NotificationObserver(notification: NewContentNotifications.reloadFollowingContent) { [weak self] in
+        reloadFollowingContentObserver = NotificationObserver(
+            notification: NewContentNotifications.reloadFollowingContent
+        ) { [weak self] in
             guard let `self` = self else { return }
 
             self.streamViewController.showLoadingSpinner()
@@ -120,7 +122,9 @@ extension FollowingViewController {
     }
 
     private func addNotificationObservers() {
-        newFollowingContentObserver = NotificationObserver(notification: NewContentNotifications.newFollowingContent) { [weak self] in
+        newFollowingContentObserver = NotificationObserver(
+            notification: NewContentNotifications.newFollowingContent
+        ) { [weak self] in
             guard let `self` = self else { return }
 
             self.screen.newPostsButtonVisible = true
@@ -144,7 +148,11 @@ extension FollowingViewController: StreamDestination {
         generator.load()
     }
 
-    func replacePlaceholder(type: StreamCellType.PlaceholderType, items: [StreamCellItem], completion: @escaping Block) {
+    func replacePlaceholder(
+        type: StreamCellType.PlaceholderType,
+        items: [StreamCellItem],
+        completion: @escaping Block
+    ) {
         streamViewController.replacePlaceholder(type: type, items: items, completion: completion)
 
         if type == .streamItems {

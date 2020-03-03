@@ -23,18 +23,28 @@ class CollectionViewDataSource: ElloDataSource, UICollectionViewDataSource {
         return !isFullWidth(at: indexPath)
     }
 
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int)
+        -> Int
+    {
         return visibleCellItems.count
     }
 
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath)
+        -> UICollectionViewCell
+    {
         guard isValidIndexPath(indexPath) else {
-            return collectionView.dequeueReusableCell(withReuseIdentifier: StreamCellType.unknown.reuseIdentifier, for: indexPath)
+            return collectionView.dequeueReusableCell(
+                withReuseIdentifier: StreamCellType.unknown.reuseIdentifier,
+                for: indexPath
+            )
         }
 
         let streamCellItem = visibleCellItems[indexPath.item]
 
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: streamCellItem.type.reuseIdentifier, for: indexPath)
+        let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: streamCellItem.type.reuseIdentifier,
+            for: indexPath
+        )
 
         switch streamCellItem.type {
         case .inviteFriends, .onboardingInviteFriends:

@@ -86,13 +86,19 @@ final class ArtistInviteSubmission: Model, PostActionable {
 
         init?(name nameStr: String, json: JSON) {
             guard
-                let method = json["method"].string.map({ $0.uppercased() }).flatMap({ Moya.Method(rawValue: $0) }),
+                let method = json["method"].string.map({ $0.uppercased() }).flatMap({
+                    Moya.Method(rawValue: $0)
+                }),
                 let url = json["href"].url
             else { return nil }
 
             let label = json["label"].stringValue
             let parameters = json["body"].object as? [String: Any]
-            self.init(name: Name(nameStr), label: label, request: ElloRequest(url: url, method: method, parameters: parameters))
+            self.init(
+                name: Name(nameStr),
+                label: label,
+                request: ElloRequest(url: url, method: method, parameters: parameters)
+            )
         }
     }
 
@@ -151,7 +157,8 @@ final class ArtistInviteSubmission: Model, PostActionable {
             id: json["id"].idValue,
             artistInviteId: artistInviteId,
             postId: postId,
-            status: status)
+            status: status
+        )
         submission.mergeLinks(data["links"] as? [String: Any])
         submission.addLinkObject("artist_invite", id: artistInviteId, type: .artistInvitesType)
 
@@ -184,7 +191,8 @@ extension ArtistInviteSubmission.Action {
         ]
     }
 
-    static func decode(_ decodeable: [String: Any], version: Int) -> ArtistInviteSubmission.Action? {
+    static func decode(_ decodeable: [String: Any], version: Int) -> ArtistInviteSubmission.Action?
+    {
         guard
             let nameStr = decodeable["name"] as? String,
             let url = decodeable["url"] as? URL,
@@ -193,6 +201,10 @@ extension ArtistInviteSubmission.Action {
         else { return nil }
 
         let label = decodeable["label"] as? String
-        return ArtistInviteSubmission.Action(name: Name(nameStr), label: label, request: ElloRequest(url: url, method: method, parameters: parameters))
+        return ArtistInviteSubmission.Action(
+            name: Name(nameStr),
+            label: label,
+            request: ElloRequest(url: url, method: method, parameters: parameters)
+        )
     }
 }

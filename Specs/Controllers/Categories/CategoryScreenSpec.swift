@@ -59,12 +59,12 @@ class CategoryScreenSpec: QuickSpec {
                     title: "Art",
                     kind: .category,
                     imageURL: URL(string: "https://example.com")
-                    )
+                )
                 let infoB = CategoryCardListView.CategoryInfo(
                     title: "Lorem ipsum dolor sit amet",
                     kind: .category,
                     imageURL: URL(string: "https://example.com")
-                    )
+                )
                 subject = CategoryScreen(usage: .default)
                 categoryInfo = [CategoryCardListView.CategoryInfo.all, infoA, infoB, infoA, infoB]
                 subject.set(categoriesInfo: categoryInfo, completion: {})

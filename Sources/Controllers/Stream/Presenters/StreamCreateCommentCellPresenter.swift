@@ -9,8 +9,8 @@ struct StreamCreateCommentCellPresenter {
         streamCellItem: StreamCellItem,
         streamKind: StreamKind,
         indexPath: IndexPath,
-        currentUser: User?)
-    {
+        currentUser: User?
+    ) {
         guard
             let cell = cell as? StreamCreateCommentCell,
             let comment = streamCellItem.jsonable as? ElloComment,

@@ -26,7 +26,12 @@ class TypedNotificationSpec: QuickSpec {
             describe("posting a notification") {
                 beforeEach() {
                     self.didNotify = nil
-                    NotificationCenter.default.addObserver(self, selector: #selector(TypedNotificationSpec.receivedNotification(_:)), name: self.notification.name, object: nil)
+                    NotificationCenter.default.addObserver(
+                        self,
+                        selector: #selector(TypedNotificationSpec.receivedNotification(_:)),
+                        name: self.notification.name,
+                        object: nil
+                    )
                 }
 
                 afterEach() {
@@ -48,7 +53,11 @@ class TypedNotificationSpec: QuickSpec {
                 }
 
                 it("should receive a notification") {
-                    NotificationCenter.default.post(name: self.notification.name, object: nil, userInfo: ["value": Box("testing")])
+                    NotificationCenter.default.post(
+                        name: self.notification.name,
+                        object: nil,
+                        userInfo: ["value": Box("testing")]
+                    )
                     expect(self.didNotify).to(equal("testing"))
                 }
             }
@@ -63,7 +72,11 @@ class TypedNotificationSpec: QuickSpec {
 
                 it("should be able to stop observing") {
                     self.observer!.removeObserver()
-                    NotificationCenter.default.post(name: self.notification.name, object: nil, userInfo: ["value": Box("testing")])
+                    NotificationCenter.default.post(
+                        name: self.notification.name,
+                        object: nil,
+                        userInfo: ["value": Box("testing")]
+                    )
                     expect(self.didNotify).to(beNil())
                 }
             }

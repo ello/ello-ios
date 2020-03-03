@@ -8,7 +8,13 @@ import Nimble
 
 
 class ProfileHeaderStatsPresenterSpec: QuickSpec {
-    func createUser(isEllo: Bool = false, postsCount: Int = 0, followingCount: Int = 0, followersCount: Int = 0, lovesCount: Int = 0) -> User {
+    func createUser(
+        isEllo: Bool = false,
+        postsCount: Int = 0,
+        followingCount: Int = 0,
+        followersCount: Int = 0,
+        lovesCount: Int = 0
+    ) -> User {
         return User.stub([
             "username": isEllo ? "ello" : "user",
             "postsCount": postsCount,
@@ -16,7 +22,7 @@ class ProfileHeaderStatsPresenterSpec: QuickSpec {
             "followersCount": followersCount,
             "lovesCount": lovesCount,
             "totalViewsCount": 0
-            ])
+        ])
     }
 
     override func spec() {

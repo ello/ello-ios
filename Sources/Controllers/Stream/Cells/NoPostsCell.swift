@@ -53,10 +53,13 @@ class NoPostsCell: CollectionViewCell {
         noPostsHeader.font = UIFont.regularBoldFont(18)
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 4
-        let attrString = NSMutableAttributedString(string: noPostsBodyText, attributes: [
-            .font: UIFont.defaultFont(),
-            .paragraphStyle: paragraphStyle,
-            ])
+        let attrString = NSMutableAttributedString(
+            string: noPostsBodyText,
+            attributes: [
+                .font: UIFont.defaultFont(),
+                .paragraphStyle: paragraphStyle,
+            ]
+        )
         noPostsBody.attributedText = attrString
     }
 }

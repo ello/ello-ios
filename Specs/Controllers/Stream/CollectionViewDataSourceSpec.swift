@@ -40,7 +40,10 @@ class CollectionViewDataSourceSpec: QuickSpec {
                     }
 
                     it("returns the correct number of rows") {
-                        let rowCount = subject.collectionView(streamViewController.collectionView, numberOfItemsInSection: 0)
+                        let rowCount = subject.collectionView(
+                            streamViewController.collectionView,
+                            numberOfItemsInSection: 0
+                        )
                         expect(rowCount) == cellItems.count
                     }
                 }
@@ -49,7 +52,9 @@ class CollectionViewDataSourceSpec: QuickSpec {
             describe("-height(at:numberOfColumns:)") {
                 beforeEach {
                     var items = [StreamCellItem]()
-                    items.append(StreamCellItem(jsonable: ElloComment.stub([:]), type: .createComment))
+                    items.append(
+                        StreamCellItem(jsonable: ElloComment.stub([:]), type: .createComment)
+                    )
 
                     subject.visibleCellItems = items
                 }
@@ -143,8 +148,22 @@ class CollectionViewDataSourceSpec: QuickSpec {
                     let parser = StreamCellItemParser()
                     post = Post.stub(["id": "666", "content": [TextRegion.stub([:])]])
                     items += parser.parse([post], streamKind: .following)
-                    items.append(StreamCellItem(jsonable: ElloComment.newCommentForPost(post, currentUser: User.stub([:])), type: .createComment))
-                    items += parser.parse([ElloComment.stub(["parentPostId": "666"]), ElloComment.stub(["parentPostId": "666"])], streamKind: .following)
+                    items.append(
+                        StreamCellItem(
+                            jsonable: ElloComment.newCommentForPost(
+                                post,
+                                currentUser: User.stub([:])
+                            ),
+                            type: .createComment
+                        )
+                    )
+                    items += parser.parse(
+                        [
+                            ElloComment.stub(["parentPostId": "666"]),
+                            ElloComment.stub(["parentPostId": "666"])
+                        ],
+                        streamKind: .following
+                    )
 
                     subject.visibleCellItems = items
                 }
@@ -167,7 +186,10 @@ class CollectionViewDataSourceSpec: QuickSpec {
                     let post2 = Post.stub(["id": "555"])
                     let items = parser.parse([post1, post2], streamKind: .following)
                     subject.visibleCellItems = items
-                    let secondPostIndexPath = IndexPath(item: subject.visibleCellItems.count - 1, section: 0)
+                    let secondPostIndexPath = IndexPath(
+                        item: subject.visibleCellItems.count - 1,
+                        section: 0
+                    )
 
                     let firstGroupId = subject.group(at: firstPostIndexPath)
                     let secondGroupId = subject.group(at: secondPostIndexPath)
@@ -187,7 +209,10 @@ class CollectionViewDataSourceSpec: QuickSpec {
                     let lastIndexPath = IndexPath(item: subject.visibleCellItems.count, section: 0)
                     let nonGroupable: Asset = stub(["id": "123"])
 
-                    let item = StreamCellItem(jsonable: nonGroupable, type: .image(data: ImageRegion.stub([:])))
+                    let item = StreamCellItem(
+                        jsonable: nonGroupable,
+                        type: .image(data: ImageRegion.stub([:]))
+                    )
 
                     subject.visibleCellItems = [item]
 

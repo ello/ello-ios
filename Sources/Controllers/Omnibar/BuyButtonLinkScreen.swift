@@ -65,7 +65,11 @@ class BuyButtonLinkScreen: View, BuyButtonLinkScreenProtocol {
         backgroundButton.addTarget(self, action: #selector(closeModal), for: .touchUpInside)
         submitButton.addTarget(self, action: #selector(submitLink), for: .touchUpInside)
         removeButton.addTarget(self, action: #selector(removeLink), for: .touchUpInside)
-        productLinkField.addTarget(self, action: #selector(productLinkDidChange), for: .editingChanged)
+        productLinkField.addTarget(
+            self,
+            action: #selector(productLinkDidChange),
+            for: .editingChanged
+        )
     }
 
     override func setText() {
@@ -103,8 +107,10 @@ class BuyButtonLinkScreen: View, BuyButtonLinkScreenProtocol {
         submitButton.snp.makeConstraints { make in
             make.top.equalTo(productLinkField.snp.bottom).offset(Size.sideMargin)
             make.leading.equalTo(self).offset(Size.sideMargin)
-            submitButtonTrailingRight = make.trailing.equalTo(self).offset(-Size.sideMargin).constraint
-            submitButtonTrailingRemove = make.trailing.equalTo(removeButton.snp.leading).offset(-Size.sideMargin).constraint
+            submitButtonTrailingRight =
+                make.trailing.equalTo(self).offset(-Size.sideMargin).constraint
+            submitButtonTrailingRemove =
+                make.trailing.equalTo(removeButton.snp.leading).offset(-Size.sideMargin).constraint
             make.height.equalTo(Size.buttonHeight)
         }
         submitButtonTrailingRemove.deactivate()

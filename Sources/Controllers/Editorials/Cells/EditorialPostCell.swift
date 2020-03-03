@@ -80,7 +80,7 @@ class EditorialPostCell: EditorialTitledCell {
     override func doubleTapped(_ gesture: UIGestureRecognizer) {
         guard
             let post = config.post,
-            let appViewController: AppViewController = findResponder()
+            let appViewController:AppViewController = findResponder()
         else { return }
 
         let location = gesture.location(in: appViewController.view)

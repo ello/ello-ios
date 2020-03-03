@@ -8,12 +8,18 @@ import AudioToolbox
 
 
 struct HapticFeedbackNotifications {
-    static let successfulUserEvent = TypedNotification<(Void)>(name: "co.ello.HapticFeedbackNotifications.successfulUserEvent")
+    static let successfulUserEvent = TypedNotification<(Void)>(
+        name: "co.ello.HapticFeedbackNotifications.successfulUserEvent"
+    )
 }
 
 struct StatusBarNotifications {
-    static let statusBarVisibility = TypedNotification<(Bool)>(name: "co.ello.StatusBarNotifications.statusBarVisibility")
-    static let alertStatusBarVisibility = TypedNotification<(Bool)>(name: "co.ello.StatusBarNotifications.alertStatusBarVisibility")
+    static let statusBarVisibility = TypedNotification<(Bool)>(
+        name: "co.ello.StatusBarNotifications.statusBarVisibility"
+    )
+    static let alertStatusBarVisibility = TypedNotification<(Bool)>(
+        name: "co.ello.StatusBarNotifications.alertStatusBarVisibility"
+    )
 }
 
 enum LoggedOutAction {
@@ -23,7 +29,9 @@ enum LoggedOutAction {
 }
 
 struct LoggedOutNotifications {
-    static let userActionAttempted = TypedNotification<LoggedOutAction>(name: "co.ello.LoggedOutNotifications.userActionAttempted")
+    static let userActionAttempted = TypedNotification<LoggedOutAction>(
+        name: "co.ello.LoggedOutNotifications.userActionAttempted"
+    )
 }
 
 
@@ -99,7 +107,10 @@ class AppViewController: BaseElloViewController {
         }
     }
 
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+    override func viewWillTransition(
+        to size: CGSize,
+        with coordinator: UIViewControllerTransitionCoordinator
+    ) {
         super.viewWillTransition(to: size, with: coordinator)
         postNotification(Application.Notifications.WindowSizeWillChange, value: size)
     }
@@ -165,10 +176,14 @@ class AppViewController: BaseElloViewController {
     }
 
     private func setupNotificationObservers() {
-        statusBarVisibilityObserver = NotificationObserver(notification: StatusBarNotifications.statusBarVisibility) { [weak self] visible in
+        statusBarVisibilityObserver = NotificationObserver(
+            notification: StatusBarNotifications.statusBarVisibility
+        ) { [weak self] visible in
             self?.statusBarIsVisible = visible
         }
-        alertStatusBarVisibilityObserver = NotificationObserver(notification: StatusBarNotifications.alertStatusBarVisibility) { [weak self] visible in
+        alertStatusBarVisibilityObserver = NotificationObserver(
+            notification: StatusBarNotifications.alertStatusBarVisibility
+        ) { [weak self] visible in
             if !visible {
                 self?.alertStatusBarIsVisible = false
             }
@@ -176,22 +191,32 @@ class AppViewController: BaseElloViewController {
                 self?.alertStatusBarIsVisible = nil
             }
         }
-        userLoggedOutObserver = NotificationObserver(notification: AuthenticationNotifications.userLoggedOut) { [weak self] in
+        userLoggedOutObserver = NotificationObserver(
+            notification: AuthenticationNotifications.userLoggedOut
+        ) { [weak self] in
             self?.userLoggedOut()
         }
-        successfulUserEventObserver = NotificationObserver(notification: HapticFeedbackNotifications.successfulUserEvent) { _ in
+        successfulUserEventObserver = NotificationObserver(
+            notification: HapticFeedbackNotifications.successfulUserEvent
+        ) { _ in
             AudioServicesPlaySystemSound(1520)
         }
-        receivedPushNotificationObserver = NotificationObserver(notification: PushNotificationNotifications.interactedWithPushNotification) { [weak self] payload in
+        receivedPushNotificationObserver = NotificationObserver(
+            notification: PushNotificationNotifications.interactedWithPushNotification
+        ) { [weak self] payload in
             self?.receivedPushNotification(payload)
         }
-        externalWebObserver = NotificationObserver(notification: ExternalWebNotification) { [weak self] url in
+        externalWebObserver = NotificationObserver(notification: ExternalWebNotification) {
+            [weak self] url in
             self?.showExternalWebView(url)
         }
-        internalWebObserver = NotificationObserver(notification: InternalWebNotification) { [weak self] url in
+        internalWebObserver = NotificationObserver(notification: InternalWebNotification) {
+            [weak self] url in
             self?.navigateToDeepLink(url)
         }
-        apiOutOfDateObserver = NotificationObserver(notification: AuthenticationNotifications.outOfDateAPI) { [weak self] _ in
+        apiOutOfDateObserver = NotificationObserver(
+            notification: AuthenticationNotifications.outOfDateAPI
+        ) { [weak self] _ in
             guard let `self` = self else { return }
             let message = InterfaceString.App.OldVersion
             let alertController = AlertViewController(confirmation: message)
@@ -255,7 +280,9 @@ extension AppViewController {
 
             ArtistInviteDetailController.open(vc, in: navigationController)
         }
-        let joinController = JoinViewController(prompt: InterfaceString.ArtistInvites.SubmissionJoinPrompt)
+        let joinController = JoinViewController(
+            prompt: InterfaceString.ArtistInvites.SubmissionJoinPrompt
+        )
         showLoggedOutControllers(joinController)
     }
 
@@ -360,7 +387,8 @@ extension AppViewController {
             UIApplication.shared.open(externalURL, options: [:], completionHandler: nil)
         }
         else {
-            let externalWebController = ElloWebBrowserViewController.navigationControllerWithWebBrowser()
+            let externalWebController =
+                ElloWebBrowserViewController.navigationControllerWithWebBrowser()
             present(externalWebController, animated: true, completion: nil)
 
             if let externalWebView = externalWebController.rootWebBrowser() {
@@ -371,11 +399,16 @@ extension AppViewController {
         Tracker.shared.webViewAppeared(url)
     }
 
-    override func present(_ viewControllerToPresent: UIViewController, animated flag: Bool, completion: Block?) {
+    override func present(
+        _ viewControllerToPresent: UIViewController,
+        animated flag: Bool,
+        completion: Block?
+    ) {
         // Unsure why WKWebView calls this controller - instead of it's own parent controller
         if let vc = presentedViewController {
             vc.present(viewControllerToPresent, animated: flag, completion: completion)
-        } else {
+        }
+        else {
             super.present(viewControllerToPresent, animated: flag, completion: completion)
         }
     }
@@ -432,15 +465,19 @@ extension AppViewController {
                 tabBarController.deactivateTabBar()
             }
 
-            UIView.animate(withDuration: 0.2, animations: {
-                visibleViewController.view.alpha = 0
-            }, completion: { _ in
-                self.showStartupScreen()
-                visibleViewController.view.removeFromSuperview()
-                visibleViewController.removeFromParent()
-                self.visibleViewController = nil
-                completion()
-            })
+            UIView.animate(
+                withDuration: 0.2,
+                animations: {
+                    visibleViewController.view.alpha = 0
+                },
+                completion: { _ in
+                    self.showStartupScreen()
+                    visibleViewController.view.removeFromSuperview()
+                    visibleViewController.removeFromParent()
+                    self.visibleViewController = nil
+                    completion()
+                }
+            )
         }
         else {
             showStartupScreen()
@@ -481,7 +518,8 @@ extension AppViewController {
     }
 
     func isLoggedIn() -> Bool {
-        if let visibleViewController = visibleViewController, visibleViewController is ElloTabBarController
+        if let visibleViewController = visibleViewController,
+            visibleViewController is ElloTabBarController
         {
             return true
         }
@@ -517,29 +555,34 @@ extension AppViewController: InviteResponder {
         }
 
         Tracker.shared.inviteFriendsTapped()
-        AddressBookController.promptForAddressBookAccess(fromController: self, completion: { result in
-            nextTick {
-                switch result {
-                case let .success(addressBook):
-                    Tracker.shared.contactAccessPreferenceChanged(true)
-                    let vc = OnboardingInviteViewController(addressBook: addressBook)
-                    vc.currentUser = self.currentUser
-                    if let navigationController = self.navigationController {
-                        navigationController.pushViewController(vc, animated: true)
-                    }
-                    else {
-                        self.present(vc, animated: true, completion: nil)
-                    }
-                case let .failure(addressBookError):
-                    guard addressBookError != .cancelled else { return }
+        AddressBookController.promptForAddressBookAccess(
+            fromController: self,
+            completion: { result in
+                nextTick {
+                    switch result {
+                    case let .success(addressBook):
+                        Tracker.shared.contactAccessPreferenceChanged(true)
+                        let vc = OnboardingInviteViewController(addressBook: addressBook)
+                        vc.currentUser = self.currentUser
+                        if let navigationController = self.navigationController {
+                            navigationController.pushViewController(vc, animated: true)
+                        }
+                        else {
+                            self.present(vc, animated: true, completion: nil)
+                        }
+                    case let .failure(addressBookError):
+                        guard addressBookError != .cancelled else { return }
 
-                    Tracker.shared.contactAccessPreferenceChanged(false)
-                    let message = addressBookError.rawValue
-                    let alertController = AlertViewController(confirmation: InterfaceString.Friends.ImportError(message))
-                    self.present(alertController, animated: true, completion: nil)
+                        Tracker.shared.contactAccessPreferenceChanged(false)
+                        let message = addressBookError.rawValue
+                        let alertController = AlertViewController(
+                            confirmation: InterfaceString.Friends.ImportError(message)
+                        )
+                        self.present(alertController, animated: true, completion: nil)
+                    }
                 }
             }
-        })
+        )
     }
 
     func sendInvite(person: LocalPerson, isOnboarding: Bool, completion: @escaping Block) {
@@ -568,7 +611,8 @@ extension AppViewController {
     func receivedPushNotification(_ payload: PushPayload) {
         if self.visibleViewController is ElloTabBarController {
             navigateToDeepLink(payload.applicationTarget)
-        } else {
+        }
+        else {
             self.pushPayload = payload
         }
     }
@@ -615,15 +659,15 @@ extension AppViewController {
         case .artistInvitesDetail, .pushNotificationArtistInvite:
             showArtistInvitesScreen(slug: data)
         case .exploreRecommended,
-             .exploreRecent,
-             .exploreTrending,
-             .discover:
+            .exploreRecent,
+            .exploreTrending,
+            .discover:
             showCategoryScreen()
         case .discoverRandom,
-             .discoverRecent,
-             .discoverRelated,
-             .discoverTrending,
-             .category:
+            .discoverRecent,
+            .discoverRelated,
+            .discoverTrending,
+            .category:
             guard let slug = data else { return }
             showCategoryScreen(slug: slug)
         case .invitations:
@@ -638,9 +682,9 @@ extension AppViewController {
         case .exit, .root, .explore:
             break
         case .friends,
-             .following,
-             .noise,
-             .starred:
+            .following,
+            .noise,
+            .starred:
             showFollowingScreen()
         case .notifications:
             guard let category = data else { return }
@@ -652,7 +696,7 @@ extension AppViewController {
             guard let postId = data else { return }
             showPostDetailScreen(postParam: postId, isSlug: true, path: path)
         case .pushNotificationComment,
-             .pushNotificationPost:
+            .pushNotificationPost:
             guard let postId = data else { return }
             showPostDetailScreen(postParam: postId, isSlug: false, path: path)
         case .profile:
@@ -665,15 +709,15 @@ extension AppViewController {
             guard let userId = data else { return }
             showProfileScreen(userParam: userId, isSlug: false, path: path)
         case .profileFollowers,
-             .profileFollowing:
+            .profileFollowing:
             guard let username = data else { return }
             showProfileFollowersScreen(username: username)
         case .profileLoves:
             guard let username = data else { return }
             showProfileLovesScreen(username: username)
         case .search,
-             .searchPeople,
-             .searchPosts:
+            .searchPeople,
+            .searchPosts:
             showSearchScreen(terms: data)
         case .settings:
             showSettingsScreen()
@@ -735,7 +779,10 @@ extension AppViewController {
         if let slug = slug {
             guard
                 let navigationController = pushDeepNavigationController(),
-                !DeepLinking.alreadyOnArtistInvites(navVC: pushDeepNavigationController(), slug: slug)
+                !DeepLinking.alreadyOnArtistInvites(
+                    navVC: pushDeepNavigationController(),
+                    slug: slug
+                )
             else { return }
 
             Tracker.shared.artistInviteOpened(slug: slug)
@@ -764,8 +811,7 @@ extension AppViewController {
             catVC = navVC?.viewControllers.first as? CategoryViewController
             navVC?.popToRootViewController(animated: true)
         }
-        else if
-            let topNav = self.visibleViewController as? UINavigationController,
+        else if let topNav = self.visibleViewController as? UINavigationController,
             let loggedOutController = topNav.viewControllers.first as? LoggedOutViewController,
             let childNav = loggedOutController.children.first as? UINavigationController,
             let categoryViewController = childNav.viewControllers.first as? CategoryViewController
@@ -832,14 +878,20 @@ extension AppViewController {
 
     private func showProfileFollowersScreen(username: String) {
         let endpoint = ElloAPI.userStreamFollowers(userId: "~\(username)")
-        let followersVC = SimpleStreamViewController(endpoint: endpoint, title: "@" + username + "'s " + InterfaceString.Followers.Title)
+        let followersVC = SimpleStreamViewController(
+            endpoint: endpoint,
+            title: "@" + username + "'s " + InterfaceString.Followers.Title
+        )
         followersVC.currentUser = currentUser
         pushDeepLinkViewController(followersVC)
     }
 
     private func showProfileFollowingScreen(_ username: String) {
         let endpoint = ElloAPI.userStreamFollowing(userId: "~\(username)")
-        let vc = SimpleStreamViewController(endpoint: endpoint, title: "@" + username + "'s " + InterfaceString.Following.Title)
+        let vc = SimpleStreamViewController(
+            endpoint: endpoint,
+            title: "@" + username + "'s " + InterfaceString.Following.Title
+        )
         vc.currentUser = currentUser
         pushDeepLinkViewController(vc)
     }
@@ -854,7 +906,14 @@ extension AppViewController {
         let search = SearchViewController()
         search.currentUser = currentUser
         if let terms = terms, !terms.isEmpty {
-            search.searchForPosts(terms.urlDecoded().replacingOccurrences(of: "+", with: " ", options: NSString.CompareOptions.literal, range: nil))
+            search.searchForPosts(
+                terms.urlDecoded().replacingOccurrences(
+                    of: "+",
+                    with: " ",
+                    options: NSString.CompareOptions.literal,
+                    range: nil
+                )
+            )
         }
         pushDeepLinkViewController(search)
     }
@@ -871,15 +930,13 @@ extension AppViewController {
     private func pushDeepNavigationController() -> UINavigationController? {
         var navController: UINavigationController?
 
-        if
-            let tabController = self.visibleViewController as? ElloTabBarController,
+        if let tabController = self.visibleViewController as? ElloTabBarController,
             let tabNavController = tabController.selectedViewController as? UINavigationController
         {
             let topNavVC = topViewController(self)?.navigationController
             navController = topNavVC ?? tabNavController
         }
-        else if
-            let nav = self.visibleViewController as? UINavigationController,
+        else if let nav = self.visibleViewController as? UINavigationController,
             let loggedOutVC = nav.viewControllers.first as? LoggedOutViewController,
             let childNav = loggedOutVC.children.first as? UINavigationController
         {
@@ -936,26 +993,63 @@ extension AppViewController {
     override var keyCommands: [UIKeyCommand]? {
         guard isFirstResponder else { return nil }
         return [
-            UIKeyCommand(input: UIKeyCommand.inputEscape, modifierFlags: [], action: #selector(escapeKeyPressed), discoverabilityTitle: "Back"),
-            UIKeyCommand(input: "1", modifierFlags: [], action: #selector(tabKeyPressed(_:)), discoverabilityTitle: "Home"),
-            UIKeyCommand(input: "2", modifierFlags: [], action: #selector(tabKeyPressed(_:)), discoverabilityTitle: "Discover"),
-            UIKeyCommand(input: "3", modifierFlags: [], action: #selector(tabKeyPressed(_:)), discoverabilityTitle: "Omnibar"),
-            UIKeyCommand(input: "4", modifierFlags: [], action: #selector(tabKeyPressed(_:)), discoverabilityTitle: "Notifications"),
-            UIKeyCommand(input: "5", modifierFlags: [], action: #selector(tabKeyPressed(_:)), discoverabilityTitle: "Profile"),
-            UIKeyCommand(input: " ", modifierFlags: [], action: #selector(scrollDownOnePage), discoverabilityTitle: "Scroll one page"),
+            UIKeyCommand(
+                input: UIKeyCommand.inputEscape,
+                modifierFlags: [],
+                action: #selector(escapeKeyPressed),
+                discoverabilityTitle: "Back"
+            ),
+            UIKeyCommand(
+                input: "1",
+                modifierFlags: [],
+                action: #selector(tabKeyPressed(_:)),
+                discoverabilityTitle: "Home"
+            ),
+            UIKeyCommand(
+                input: "2",
+                modifierFlags: [],
+                action: #selector(tabKeyPressed(_:)),
+                discoverabilityTitle: "Discover"
+            ),
+            UIKeyCommand(
+                input: "3",
+                modifierFlags: [],
+                action: #selector(tabKeyPressed(_:)),
+                discoverabilityTitle: "Omnibar"
+            ),
+            UIKeyCommand(
+                input: "4",
+                modifierFlags: [],
+                action: #selector(tabKeyPressed(_:)),
+                discoverabilityTitle: "Notifications"
+            ),
+            UIKeyCommand(
+                input: "5",
+                modifierFlags: [],
+                action: #selector(tabKeyPressed(_:)),
+                discoverabilityTitle: "Profile"
+            ),
+            UIKeyCommand(
+                input: " ",
+                modifierFlags: [],
+                action: #selector(scrollDownOnePage),
+                discoverabilityTitle: "Scroll one page"
+            ),
         ]
     }
 
     @objc
     func escapeKeyPressed() {
-        guard let navigationController: UINavigationController = findChildController() else { return }
+        guard let navigationController:UINavigationController = findChildController() else {
+            return
+        }
         navigationController.popViewController(animated: true)
     }
 
     @objc
     func tabKeyPressed(_ event: UIKeyCommand) {
         guard
-            let tabBarController: ElloTabBarController = findChildController(),
+            let tabBarController:ElloTabBarController = findChildController(),
             let tab = event.input.flatMap({ input in return tabKeys[input] })
         else { return }
 
@@ -964,7 +1058,7 @@ extension AppViewController {
 
     @objc
     func scrollDownOnePage() {
-        guard let streamViewController: StreamViewController = findChildController() else { return }
+        guard let streamViewController:StreamViewController = findChildController() else { return }
         streamViewController.scrollDownOnePage()
     }
 
@@ -1001,7 +1095,10 @@ extension AppViewController {
         bar.backgroundColor = .black
         nav.navigationBar.addSubview(bar)
 
-        let closeItem = UIBarButtonItem.closeButton(target: self, action: #selector(AppViewController.closeDebugControllerTapped))
+        let closeItem = UIBarButtonItem.closeButton(
+            target: self,
+            action: #selector(AppViewController.closeDebugControllerTapped)
+        )
         ctlr.navigationItem.leftBarButtonItem = closeItem
 
         present(nav, animated: true, completion: nil)

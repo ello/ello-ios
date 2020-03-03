@@ -15,7 +15,7 @@ class DynamicSettingCell: TableViewCell {
         set { titleLabel.text = newValue }
     }
     var info: String? {
-        get { return infoLabel.text}
+        get { return infoLabel.text }
         set { infoLabel.text = newValue }
     }
     var value: Bool {
@@ -106,7 +106,7 @@ class DynamicSettingCell: TableViewCell {
     private func toggleTapped() {
         guard
             let setting = setting,
-            let responder: DynamicSettingCellResponder = findResponder()
+            let responder:DynamicSettingCellResponder = findResponder()
         else { return }
 
         if setting == DynamicSetting.accountDeletionSetting {

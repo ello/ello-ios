@@ -9,8 +9,8 @@ struct ArtistInviteCellPresenter {
         streamCellItem: StreamCellItem,
         streamKind: StreamKind,
         indexPath: IndexPath,
-        currentUser: User?)
-    {
+        currentUser: User?
+    ) {
         guard
             let cell = cell as? ArtistInviteConfigurableCell,
             let artistInvite = streamCellItem.jsonable as? ArtistInvite
@@ -25,8 +25,8 @@ struct ArtistInviteCellPresenter {
         streamCellItem: StreamCellItem,
         streamKind: StreamKind,
         indexPath: IndexPath,
-        currentUser: User?)
-    {
+        currentUser: User?
+    ) {
         guard
             let cell = cell as? ArtistInviteGuideCell,
             let guide = streamCellItem.type.data as? ArtistInvite.Guide

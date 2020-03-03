@@ -91,12 +91,15 @@ class StreamTextCell: StreamRegionableCell, UIWebViewDelegate, UIGestureRecogniz
         }
     }
 
-    func gestureRecognizer(_: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith _: UIGestureRecognizer) -> Bool {
+    func gestureRecognizer(
+        _: UIGestureRecognizer,
+        shouldRecognizeSimultaneouslyWith _: UIGestureRecognizer
+    ) -> Bool {
         return true
     }
 
     @IBAction func doubleTapped(_ gesture: UIGestureRecognizer) {
-        guard let appViewController: AppViewController = findResponder() else { return }
+        guard let appViewController:AppViewController = findResponder() else { return }
         let location = gesture.location(in: appViewController.view)
 
         let responder: StreamEditingResponder? = findResponder()
@@ -120,7 +123,11 @@ class StreamTextCell: StreamRegionableCell, UIWebViewDelegate, UIGestureRecogniz
         webContentReady = nil
     }
 
-    func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebView.NavigationType) -> Bool {
+    func webView(
+        _ webView: UIWebView,
+        shouldStartLoadWith request: URLRequest,
+        navigationType: UIWebView.NavigationType
+    ) -> Bool {
         if let scheme = request.url?.scheme, scheme == "default" {
             let responder: StreamCellResponder? = findResponder()
             responder?.streamCellTapped(cell: self)

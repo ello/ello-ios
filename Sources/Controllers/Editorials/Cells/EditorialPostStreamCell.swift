@@ -105,13 +105,22 @@ extension EditorialPostStreamCell {
 
         let destPage = min(pageControl.numberOfPages - 1, max(0, page))
         let destX = scrollView.frame.width * CGFloat(destPage)
-        scrollView.setContentOffset(CGPoint(x: destX, y: scrollView.contentOffset.y), animated: true)
+        scrollView.setContentOffset(
+            CGPoint(x: destX, y: scrollView.contentOffset.y),
+            animated: true
+        )
     }
 
     private func startAutoscroll() {
         guard autoscrollTimer == nil else { return }
 
-        autoscrollTimer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(nextPage), userInfo: nil, repeats: true)
+        autoscrollTimer = Timer.scheduledTimer(
+            timeInterval: 5,
+            target: self,
+            selector: #selector(nextPage),
+            userInfo: nil,
+            repeats: true
+        )
     }
 
     private func stopAutoscroll() {
@@ -191,10 +200,13 @@ extension EditorialPostStreamCell: UIScrollViewDelegate {
 
         guard scrollView.contentSize.width > 0 else { return }
 
-        let pageFloat: CGFloat = round(map(
-            scrollView.contentOffset.x,
-            fromInterval: (0, scrollView.contentSize.width),
-            toInterval: (0, CGFloat(postCells.count))))
+        let pageFloat: CGFloat = round(
+            map(
+                scrollView.contentOffset.x,
+                fromInterval: (0, scrollView.contentSize.width),
+                toInterval: (0, CGFloat(postCells.count))
+            )
+        )
         pageControl.currentPage = max(0, min(postCells.count - 1, Int(pageFloat)))
     }
 }

@@ -32,11 +32,17 @@ class S3UploadingService {
             if let data = image.jpegData(compressionQuality: Globals.imageQuality) {
                 // Head back to the thread the original caller was on before heading into the service calls. I may be overthinking it.
                 nextTick {
-                    self.upload(data, contentType: "image/jpeg").done(seal.fulfill).catch(seal.reject)
+                    self.upload(data, contentType: "image/jpeg").done(seal.fulfill).catch(
+                        seal.reject
+                    )
                 }
             }
             else {
-                let error = NSError(domain: ElloErrorDomain, code: 500, userInfo: [NSLocalizedFailureReasonErrorKey: InterfaceString.Error.JPEGCompress])
+                let error = NSError(
+                    domain: ElloErrorDomain,
+                    code: 500,
+                    userInfo: [NSLocalizedFailureReasonErrorKey: InterfaceString.Error.JPEGCompress]
+                )
                 seal.reject(error)
             }
         }
@@ -51,7 +57,9 @@ class S3UploadingService {
         return upload(data, contentType: "text/plain", filename: filename)
     }
 
-    func upload(_ data: Data, contentType: String, filename overrideFilename: String? = nil) -> Promise<URL?> {
+    func upload(_ data: Data, contentType: String, filename overrideFilename: String? = nil)
+        -> Promise<URL?>
+    {
         return ElloProvider.shared.request(endpoint)
             .then { (jsonable, _) -> Promise<URL?> in
                 guard let credentials = jsonable as? AmazonCredentials else {
@@ -75,7 +83,12 @@ class S3UploadingService {
                     }
                 }
 
-                return ElloS3(credentials: credentials, filename: filename, data: data, contentType: contentType)
+                return ElloS3(
+                    credentials: credentials,
+                    filename: filename,
+                    data: data,
+                    contentType: contentType
+                )
                     .start()
                     .map { data -> URL? in
                         let endpoint: String = credentials.endpoint

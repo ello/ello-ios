@@ -37,7 +37,9 @@ class NotificationsFilterBar: UIView {
         if buttons.count > 0 {
             var x: CGFloat = 0
             let y: CGFloat = StatusBar.Size.height
-            let w: CGFloat = (self.frame.size.width - Size.buttonPadding * CGFloat(buttons.count - 1)) / CGFloat(buttons.count)
+            let w: CGFloat = (
+                self.frame.size.width - Size.buttonPadding * CGFloat(buttons.count - 1)
+            ) / CGFloat(buttons.count)
             for button in buttons {
                 let frame = CGRect(x: x, y: y, width: w, height: self.frame.size.height - y)
                 button.frame = frame

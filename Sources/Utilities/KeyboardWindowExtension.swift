@@ -9,7 +9,9 @@ extension Keyboard {
         isAdjusting = bottomInset > 0
 
         setFromNotification(notification)
-        endFrame = (notification.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
+        endFrame =
+            (notification.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! NSValue)
+            .cgRectValue
         let window = UIWindow.mainWindow
         bottomInset = window.frame.size.height - endFrame.origin.y
         isExternal = endFrame.size.height > bottomInset
@@ -20,7 +22,9 @@ extension Keyboard {
     @objc
     func willHide(_ notification: Foundation.Notification) {
         setFromNotification(notification)
-        endFrame = (notification.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
+        endFrame =
+            (notification.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! NSValue)
+            .cgRectValue
         bottomInset = 0
         isAdjusting = false
 

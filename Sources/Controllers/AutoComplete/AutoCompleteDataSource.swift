@@ -29,7 +29,10 @@ extension AutoCompleteDataSource: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard
-            let cell = tableView.dequeueReusableCell(withIdentifier: AutoCompleteCell.reuseIdentifier, for: indexPath) as? AutoCompleteCell,
+            let cell = tableView.dequeueReusableCell(
+                withIdentifier: AutoCompleteCell.reuseIdentifier,
+                for: indexPath
+            ) as? AutoCompleteCell,
             let item = items.safeValue(indexPath.row)
         else { return UITableViewCell() }
 

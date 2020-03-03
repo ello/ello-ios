@@ -32,7 +32,12 @@ class CategoryDetailHeaderView: View {
         let user: User?
         let isSubscribed: Bool
 
-        init(title: String = "", imageURL: URL? = nil, user: User? = nil, isSubscribed: Bool = false) {
+        init(
+            title: String = "",
+            imageURL: URL? = nil,
+            user: User? = nil,
+            isSubscribed: Bool = false
+        ) {
             self.title = title
             self.imageURL = imageURL
             self.user = user
@@ -154,7 +159,8 @@ class CategoryDetailHeaderView: View {
         postedByAvatar.setUserAvatarURL(config.user?.avatarURL())
 
         subscribedButton.isSelected = config.isSubscribed
-        subscribedButton.title = config.isSubscribed ? InterfaceString.Discover.Subscribed : InterfaceString.Discover.Subscribe
+        subscribedButton.title = config.isSubscribed
+            ? InterfaceString.Discover.Subscribed : InterfaceString.Discover.Subscribe
     }
 
     func setImageURL(_ url: URL?) {
@@ -231,13 +237,16 @@ private extension CategoryDetailHeaderView {
         failImage.isVisible = true
         failBackgroundView.isVisible = true
         circle.stopPulse()
-        UIView.animate(withDuration: 0.15, animations: {
-            self.failImage.alpha = 1.0
-            self.imageView.backgroundColor = UIColor.greyF1
-            self.failBackgroundView.backgroundColor = UIColor.greyF1
-            self.imageView.alpha = 1.0
-            self.failBackgroundView.alpha = 1.0
-        })
+        UIView.animate(
+            withDuration: 0.15,
+            animations: {
+                self.failImage.alpha = 1.0
+                self.imageView.backgroundColor = UIColor.greyF1
+                self.failBackgroundView.backgroundColor = UIColor.greyF1
+                self.imageView.alpha = 1.0
+                self.failBackgroundView.alpha = 1.0
+            }
+        )
     }
 }
 

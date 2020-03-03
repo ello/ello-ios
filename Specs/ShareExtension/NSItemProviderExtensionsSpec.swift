@@ -15,12 +15,18 @@ class NSItemProviderExtensionsSpec: QuickSpec {
             describe("isURL()") {
 
                 it("returns true when it is a url") {
-                    let item = NSItemProvider(item: URL(string: "https://ello.co") as NSSecureCoding?, typeIdentifier: String(kUTTypeURL))
+                    let item = NSItemProvider(
+                        item: URL(string: "https://ello.co") as NSSecureCoding?,
+                        typeIdentifier: String(kUTTypeURL)
+                    )
                     expect(item.isURL()) == true
                 }
 
                 it("returns false when it is not a url") {
-                    let item = NSItemProvider(item: "not a url" as NSSecureCoding?, typeIdentifier: String(kUTTypeText))
+                    let item = NSItemProvider(
+                        item: "not a url" as NSSecureCoding?,
+                        typeIdentifier: String(kUTTypeText)
+                    )
                     expect(item.isURL()) == false
                 }
             }
@@ -33,7 +39,10 @@ class NSItemProviderExtensionsSpec: QuickSpec {
                 }
 
                 it("returns false when it is not an image") {
-                    let item = NSItemProvider(item: "not an image" as NSSecureCoding?, typeIdentifier: String(kUTTypeText))
+                    let item = NSItemProvider(
+                        item: "not an image" as NSSecureCoding?,
+                        typeIdentifier: String(kUTTypeText)
+                    )
                     expect(item.isImage()) == false
                 }
             }
@@ -41,12 +50,18 @@ class NSItemProviderExtensionsSpec: QuickSpec {
             describe("isText()") {
 
                 it("returns true when it is text") {
-                    let item = NSItemProvider(item: "it is text!" as NSSecureCoding?, typeIdentifier: String(kUTTypeText))
+                    let item = NSItemProvider(
+                        item: "it is text!" as NSSecureCoding?,
+                        typeIdentifier: String(kUTTypeText)
+                    )
                     expect(item.isText()) == true
                 }
 
                 it("returns true when it is not text") {
-                    let item = NSItemProvider(item: URL(string: "https://ello.co") as NSSecureCoding?, typeIdentifier: String(kUTTypeURL))
+                    let item = NSItemProvider(
+                        item: URL(string: "https://ello.co") as NSSecureCoding?,
+                        typeIdentifier: String(kUTTypeURL)
+                    )
                     expect(item.isText()) == false
                 }
             }
@@ -54,7 +69,10 @@ class NSItemProviderExtensionsSpec: QuickSpec {
             describe("loadText(_:completion)") {
 
                 it("returns text") {
-                    let item = NSItemProvider(item: "it is text!" as NSSecureCoding?, typeIdentifier: String(kUTTypeText))
+                    let item = NSItemProvider(
+                        item: "it is text!" as NSSecureCoding?,
+                        typeIdentifier: String(kUTTypeText)
+                    )
                     waitUntil(timeout: 30) { done in
                         item.loadText(nil) { (item, error) in
                             if let item = item as? String {
@@ -69,7 +87,10 @@ class NSItemProviderExtensionsSpec: QuickSpec {
             describe("loadURL(_:completion)") {
 
                 it("returns a url") {
-                    let item = NSItemProvider(item: URL(string: "https://ello.co") as NSSecureCoding?, typeIdentifier: String(kUTTypeURL))
+                    let item = NSItemProvider(
+                        item: URL(string: "https://ello.co") as NSSecureCoding?,
+                        typeIdentifier: String(kUTTypeURL)
+                    )
                     waitUntil(timeout: 30) { done in
                         item.loadURL(nil) { (item, error) in
                             if let item = item as? URL {

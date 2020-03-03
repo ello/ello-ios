@@ -91,17 +91,29 @@ class StreamableViewController: BaseElloViewController {
         super.trackScreenAppeared()
 
         guard let (streamKind, streamId) = trackerStreamInfo() else { return }
-        let posts = streamViewController.collectionViewDataSource.visibleCellItems.compactMap { streamCellItem in
+        let posts = streamViewController.collectionViewDataSource.visibleCellItems.compactMap {
+            streamCellItem in
             return streamCellItem.jsonable as? Post
         }
-        PostService().sendPostViews(posts: posts, streamId: streamId, streamKind: streamKind, userId: currentUser?.id)
+        PostService().sendPostViews(
+            posts: posts,
+            streamId: streamId,
+            streamKind: streamKind,
+            userId: currentUser?.id
+        )
 
-        let comments = streamViewController.collectionViewDataSource.visibleCellItems.compactMap { streamCellItem -> ElloComment? in
+        let comments = streamViewController.collectionViewDataSource.visibleCellItems.compactMap {
+            streamCellItem -> ElloComment? in
             guard streamCellItem.type != .createComment else { return nil }
             return streamCellItem.jsonable as? ElloComment
         }
         if let post = posts.first, streamKind == "post", comments.count > 0 {
-            PostService().sendPostViews(comments: comments, streamId: post.id, streamKind: "comment", userId: currentUser?.id)
+            PostService().sendPostViews(
+                comments: comments,
+                streamId: post.id,
+                streamKind: "comment",
+                userId: currentUser?.id
+            )
         }
     }
 
@@ -164,7 +176,12 @@ class StreamableViewController: BaseElloViewController {
         streamViewController.contentInset = contentInset
     }
 
-    func positionNavBar(_ navBar: UIView, visible: Bool, withConstraint navigationBarTopConstraint: Constraint? = nil, animated: Bool) {
+    func positionNavBar(
+        _ navBar: UIView,
+        visible: Bool,
+        withConstraint navigationBarTopConstraint: Constraint? = nil,
+        animated: Bool
+    ) {
         let upAmount: CGFloat
         if visible {
             upAmount = 0
@@ -205,7 +222,10 @@ extension StreamableViewController {
 
 extension StreamableViewController: StreamViewDelegate {
     @objc
-    func streamViewStreamCellItems(jsonables: [Model], defaultGenerator generator: StreamCellItemGenerator) -> [StreamCellItem]? {
+    func streamViewStreamCellItems(
+        jsonables: [Model],
+        defaultGenerator generator: StreamCellItemGenerator
+    ) -> [StreamCellItem]? {
         return nil
     }
 

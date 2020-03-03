@@ -57,7 +57,11 @@ class RelationshipControl: View {
     }
 
     override func bindActions() {
-        followingButton.addTarget(self, action: #selector(RelationshipControl.followingButtonTapped(_:)), for: .touchUpInside)
+        followingButton.addTarget(
+            self,
+            action: #selector(RelationshipControl.followingButtonTapped(_:)),
+            for: .touchUpInside
+        )
     }
 
     override func arrange() {
@@ -113,7 +117,9 @@ extension RelationshipControl {
             return
         }
 
-        let prevRelationshipPriority = RelationshipPriorityWrapper(priority: self.relationshipPriority)
+        let prevRelationshipPriority = RelationshipPriorityWrapper(
+            priority: self.relationshipPriority
+        )
 
         let responder: RelationshipResponder? = findResponder()
         responder?.launchBlockModal(
@@ -136,7 +142,9 @@ extension RelationshipControl {
 
     private func handleRelationship(_ newRelationshipPriority: RelationshipPriority) {
         self.isUserInteractionEnabled = false
-        let prevRelationshipPriority = RelationshipPriorityWrapper(priority: self.relationshipPriority)
+        let prevRelationshipPriority = RelationshipPriorityWrapper(
+            priority: self.relationshipPriority
+        )
         self.relationshipPriority = newRelationshipPriority
 
         let responder: RelationshipResponder? = findResponder()

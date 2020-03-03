@@ -14,11 +14,23 @@ extension OmnibarScreen: UITableViewDelegate, UITableViewDataSource {
         if let (_, region) = tableViewRegions.safeValue(path.row) {
             switch region {
             case let .attributedText(attrdString):
-                return OmnibarTextCell.heightForText(attrdString, tableWidth: regionsTableView.frame.width, editing: isReordering)
+                return OmnibarTextCell.heightForText(
+                    attrdString,
+                    tableWidth: regionsTableView.frame.width,
+                    editing: isReordering
+                )
             case let .image(image):
-                return OmnibarImageCell.heightForImage(image, tableWidth: regionsTableView.frame.width, editing: isReordering)
+                return OmnibarImageCell.heightForImage(
+                    image,
+                    tableWidth: regionsTableView.frame.width,
+                    editing: isReordering
+                )
             case let .imageData(image, _, _):
-                return OmnibarImageCell.heightForImage(image, tableWidth: regionsTableView.frame.width, editing: isReordering)
+                return OmnibarImageCell.heightForImage(
+                    image,
+                    tableWidth: regionsTableView.frame.width,
+                    editing: isReordering
+                )
             case .imageURL:
                 return OmnibarImageDownloadCell.Size.height
             case .spacer:
@@ -32,7 +44,10 @@ extension OmnibarScreen: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt path: IndexPath) -> UITableViewCell {
         if let (_, region) = tableViewRegions.safeValue(path.row) {
-            let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: region.reuseIdentifier, for: path)
+            let cell: UITableViewCell = tableView.dequeueReusableCell(
+                withIdentifier: region.reuseIdentifier,
+                for: path
+            )
             cell.selectionStyle = .none
             cell.showsReorderControl = true
 
@@ -85,7 +100,11 @@ extension OmnibarScreen: UITableViewDelegate, UITableViewDataSource {
         return false
     }
 
-    func tableView(_ tableView: UITableView, moveRowAt sourcePath: IndexPath, to destPath: IndexPath) {
+    func tableView(
+        _ tableView: UITableView,
+        moveRowAt sourcePath: IndexPath,
+        to destPath: IndexPath
+    ) {
         if let source = reorderableRegions.safeValue(sourcePath.row) {
             reorderableRegions.remove(at: sourcePath.row)
             reorderableRegions.insert(source, at: destPath.row)
@@ -99,7 +118,11 @@ extension OmnibarScreen: UITableViewDelegate, UITableViewDataSource {
         return false
     }
 
-    func tableView(_ tableView: UITableView, commit style: UITableViewCell.EditingStyle, forRowAt path: IndexPath) {
+    func tableView(
+        _ tableView: UITableView,
+        commit style: UITableViewCell.EditingStyle,
+        forRowAt path: IndexPath
+    ) {
         if style == .delete {
             if isReordering {
                 deleteReorderableAtIndexPath(path)
@@ -111,8 +134,7 @@ extension OmnibarScreen: UITableViewDelegate, UITableViewDataSource {
     }
 
     func deleteReorderableAtIndexPath(_ path: IndexPath) {
-        if let (_, region) = reorderableRegions.safeValue(path.row), region.isEditable
-        {
+        if let (_, region) = reorderableRegions.safeValue(path.row), region.isEditable {
             reorderableRegions.remove(at: path.row)
             regionsTableView.deleteRows(at: [path], with: .automatic)
             if reorderableRegions.count == 0 {

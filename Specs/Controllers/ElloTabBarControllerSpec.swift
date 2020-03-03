@@ -51,17 +51,25 @@ class ElloTabBarControllerSpec: QuickSpec {
             }
 
             it("sets home as the selected tab") {
-                if let navigationController = subject.selectedViewController as? ElloNavigationController {
+                if let navigationController = subject.selectedViewController
+                    as? ElloNavigationController
+                {
                     navigationController.currentUser = User.stub(["username": "foo"])
-                    if let firstController = navigationController.topViewController as? BaseElloViewController {
+                    if let firstController = navigationController.topViewController
+                        as? BaseElloViewController
+                    {
                         expect(firstController).to(beAKindOf(HomeViewController.self))
                     }
                     else {
-                        fail("navigation controller doesn't have a topViewController, or it isn't a BaseElloViewController")
+                        fail(
+                            "navigation controller doesn't have a topViewController, or it isn't a BaseElloViewController"
+                        )
                     }
                 }
                 else {
-                    fail("tab bar controller does not have a selectedViewController, or it isn't a ElloNavigationController")
+                    fail(
+                        "tab bar controller does not have a selectedViewController, or it isn't a ElloNavigationController"
+                    )
                 }
             }
 
@@ -123,7 +131,9 @@ class ElloTabBarControllerSpec: QuickSpec {
                     var responded = false
 
                     beforeEach {
-                        responder = NotificationObserver(notification: NewContentNotifications.reloadNotifications) {
+                        responder = NotificationObserver(
+                            notification: NewContentNotifications.reloadNotifications
+                        ) {
                             responded = true
                         }
                         subject = ElloTabBarController()
@@ -167,7 +177,8 @@ class ElloTabBarControllerSpec: QuickSpec {
                         ElloTab.home: GroupDefaults[ElloTab.home.narrationDefaultKey].bool,
                         ElloTab.discover: GroupDefaults[ElloTab.discover.narrationDefaultKey].bool,
                         ElloTab.omnibar: GroupDefaults[ElloTab.omnibar.narrationDefaultKey].bool,
-                        ElloTab.notifications: GroupDefaults[ElloTab.notifications.narrationDefaultKey].bool,
+                        ElloTab.notifications: GroupDefaults[
+                            ElloTab.notifications.narrationDefaultKey].bool,
                         ElloTab.profile: GroupDefaults[ElloTab.profile.narrationDefaultKey].bool
                     ]
 
@@ -192,11 +203,16 @@ class ElloTabBarControllerSpec: QuickSpec {
                 }
 
                 it("should never change the key") {
-                    expect(ElloTab.home.narrationDefaultKey) == "ElloTabBarControllerDidShowNarrationStream"
-                    expect(ElloTab.discover.narrationDefaultKey) == "ElloTabBarControllerDidShowNarrationDiscover"
-                    expect(ElloTab.omnibar.narrationDefaultKey) == "ElloTabBarControllerDidShowNarrationOmnibar"
-                    expect(ElloTab.notifications.narrationDefaultKey) == "ElloTabBarControllerDidShowNarrationNotifications"
-                    expect(ElloTab.profile.narrationDefaultKey) == "ElloTabBarControllerDidShowNarrationProfile"
+                    expect(ElloTab.home.narrationDefaultKey)
+                        == "ElloTabBarControllerDidShowNarrationStream"
+                    expect(ElloTab.discover.narrationDefaultKey)
+                        == "ElloTabBarControllerDidShowNarrationDiscover"
+                    expect(ElloTab.omnibar.narrationDefaultKey)
+                        == "ElloTabBarControllerDidShowNarrationOmnibar"
+                    expect(ElloTab.notifications.narrationDefaultKey)
+                        == "ElloTabBarControllerDidShowNarrationNotifications"
+                    expect(ElloTab.profile.narrationDefaultKey)
+                        == "ElloTabBarControllerDidShowNarrationProfile"
                 }
 
                 it("should set the narration values") {
@@ -213,7 +229,9 @@ class ElloTabBarControllerSpec: QuickSpec {
                     GroupDefaults[tab.narrationDefaultKey] = true
                     expect(ElloTabBarController.didShowNarration(tab)).to(beTrue())
                 }
-                it("should NOT show the narrationView when changing to a tab that has already shown the narrationView") {
+                it(
+                    "should NOT show the narrationView when changing to a tab that has already shown the narrationView"
+                ) {
                     ElloTabBarController.didShowNarration(.home, true)
                     ElloTabBarController.didShowNarration(.discover, true)
                     ElloTabBarController.didShowNarration(.omnibar, true)
@@ -225,7 +243,9 @@ class ElloTabBarControllerSpec: QuickSpec {
                     expect(subject.shouldShowNarration).to(beFalse())
                     expect(subject.isShowingNarration).to(beFalse())
                 }
-                it("should show the narrationView when changing to a tab that hasn't shown the narrationView yet") {
+                it(
+                    "should show the narrationView when changing to a tab that hasn't shown the narrationView yet"
+                ) {
                     ElloTabBarController.didShowNarration(.home, false)
                     ElloTabBarController.didShowNarration(.discover, false)
                     ElloTabBarController.didShowNarration(.omnibar, false)
@@ -233,9 +253,18 @@ class ElloTabBarControllerSpec: QuickSpec {
                     ElloTabBarController.didShowNarration(.profile, false)
 
                     subject.tabBar(subject.tabBar, didSelect: ElloTab(rawValue: 0)!)
-                    expect(subject.selectedViewController).to(equal(child1), description: "selectedViewController")
-                    expect(subject.shouldShowNarration).to(beTrue(), description: "shouldShowNarration")
-                    expect(subject.isShowingNarration).to(beTrue(), description: "isShowingNarration")
+                    expect(subject.selectedViewController).to(
+                        equal(child1),
+                        description: "selectedViewController"
+                    )
+                    expect(subject.shouldShowNarration).to(
+                        beTrue(),
+                        description: "shouldShowNarration"
+                    )
+                    expect(subject.isShowingNarration).to(
+                        beTrue(),
+                        description: "isShowingNarration"
+                    )
                 }
             }
         }

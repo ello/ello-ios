@@ -7,23 +7,57 @@ private let sharedApplication = Application()
 class Application {
 
     struct Notifications {
-        static let DidChangeStatusBarFrame = TypedNotification<Application>(name: "com.Ello.Application.DidChangeStatusBarFrame")
-        static let DidChangeStatusBarOrientation = TypedNotification<UIInterfaceOrientation>(name: "com.Ello.Application.DidChangeStatusBarOrientation")
-        static let DidEnterBackground = TypedNotification<Application>(name: "com.Ello.Application.DidEnterBackground")
-        static let DidFinishLaunching = TypedNotification<Application>(name: "com.Ello.Application.DidFinishLaunching")
-        static let DidReceiveMemoryWarning = TypedNotification<Application>(name: "com.Ello.Application.DidReceiveMemoryWarning")
-        static let ProtectedDataDidBecomeAvailable = TypedNotification<Application>(name: "com.Ello.Application.ProtectedDataDidBecomeAvailable")
-        static let ProtectedDataWillBecomeUnavailable = TypedNotification<Application>(name: "com.Ello.Application.ProtectedDataWillBecomeUnavailable")
-        static let SignificantTimeChange = TypedNotification<Application>(name: "com.Ello.Application.SignificantTimeChange")
-        static let UserDidTakeScreenshot = TypedNotification<Application>(name: "com.Ello.Application.UserDidTakeScreenshot")
-        static let WillChangeStatusBarOrientation = TypedNotification<Application>(name: "com.Ello.Application.WillChangeStatusBarOrientation")
-        static let WillChangeStatusBarFrame = TypedNotification<Application>(name: "com.Ello.Application.WillChangeStatusBarFrame")
-        static let WillEnterForeground = TypedNotification<Application>(name: "com.Ello.Application.WillEnterForeground")
-        static let WillResignActive = TypedNotification<Application>(name: "com.Ello.Application.WillResignActive")
-        static let WillTerminate = TypedNotification<Application>(name: "com.Ello.Application.WillTerminate")
-        static let SizeCategoryDidChange = TypedNotification<Application>(name: "com.Ello.Application.SizeCategoryDidChange")
-        static let TraitCollectionDidChange = TypedNotification<UITraitCollection>(name: "com.Ello.Application.TraitCollectionDidChange")
-        static let WindowSizeWillChange = TypedNotification<CGSize>(name: "com.Ello.Application.WindowSizeWillChange")
+        static let DidChangeStatusBarFrame = TypedNotification<Application>(
+            name: "com.Ello.Application.DidChangeStatusBarFrame"
+        )
+        static let DidChangeStatusBarOrientation = TypedNotification<UIInterfaceOrientation>(
+            name: "com.Ello.Application.DidChangeStatusBarOrientation"
+        )
+        static let DidEnterBackground = TypedNotification<Application>(
+            name: "com.Ello.Application.DidEnterBackground"
+        )
+        static let DidFinishLaunching = TypedNotification<Application>(
+            name: "com.Ello.Application.DidFinishLaunching"
+        )
+        static let DidReceiveMemoryWarning = TypedNotification<Application>(
+            name: "com.Ello.Application.DidReceiveMemoryWarning"
+        )
+        static let ProtectedDataDidBecomeAvailable = TypedNotification<Application>(
+            name: "com.Ello.Application.ProtectedDataDidBecomeAvailable"
+        )
+        static let ProtectedDataWillBecomeUnavailable = TypedNotification<Application>(
+            name: "com.Ello.Application.ProtectedDataWillBecomeUnavailable"
+        )
+        static let SignificantTimeChange = TypedNotification<Application>(
+            name: "com.Ello.Application.SignificantTimeChange"
+        )
+        static let UserDidTakeScreenshot = TypedNotification<Application>(
+            name: "com.Ello.Application.UserDidTakeScreenshot"
+        )
+        static let WillChangeStatusBarOrientation = TypedNotification<Application>(
+            name: "com.Ello.Application.WillChangeStatusBarOrientation"
+        )
+        static let WillChangeStatusBarFrame = TypedNotification<Application>(
+            name: "com.Ello.Application.WillChangeStatusBarFrame"
+        )
+        static let WillEnterForeground = TypedNotification<Application>(
+            name: "com.Ello.Application.WillEnterForeground"
+        )
+        static let WillResignActive = TypedNotification<Application>(
+            name: "com.Ello.Application.WillResignActive"
+        )
+        static let WillTerminate = TypedNotification<Application>(
+            name: "com.Ello.Application.WillTerminate"
+        )
+        static let SizeCategoryDidChange = TypedNotification<Application>(
+            name: "com.Ello.Application.SizeCategoryDidChange"
+        )
+        static let TraitCollectionDidChange = TypedNotification<UITraitCollection>(
+            name: "com.Ello.Application.TraitCollectionDidChange"
+        )
+        static let WindowSizeWillChange = TypedNotification<CGSize>(
+            name: "com.Ello.Application.WindowSizeWillChange"
+        )
     }
 
     class func shared() -> Application {
@@ -36,21 +70,96 @@ class Application {
 
     init() {
         let center: NotificationCenter = NotificationCenter.default
-        center.addObserver(self, selector: #selector(Application.didChangeStatusBarFrame(_:)), name: UIApplication.didChangeStatusBarFrameNotification, object: nil)
-        center.addObserver(self, selector: #selector(Application.didChangeStatusBarOrientation(_:)), name: UIApplication.didChangeStatusBarOrientationNotification, object: nil)
-        center.addObserver(self, selector: #selector(Application.didEnterBackground(_:)), name: UIApplication.didEnterBackgroundNotification, object: nil)
-        center.addObserver(self, selector: #selector(Application.didFinishLaunching(_:)), name: UIApplication.didReceiveMemoryWarningNotification, object: nil)
-        center.addObserver(self, selector: #selector(Application.didReceiveMemoryWarning(_:)), name: UIApplication.didChangeStatusBarFrameNotification, object: nil)
-        center.addObserver(self, selector: #selector(Application.protectedDataDidBecomeAvailable(_:)), name: UIApplication.protectedDataDidBecomeAvailableNotification, object: nil)
-        center.addObserver(self, selector: #selector(Application.protectedDataWillBecomeUnavailable(_:)), name: UIApplication.protectedDataWillBecomeUnavailableNotification, object: nil)
-        center.addObserver(self, selector: #selector(Application.significantTimeChange(_:)), name: UIApplication.significantTimeChangeNotification, object: nil)
-        center.addObserver(self, selector: #selector(Application.userDidTakeScreenshot(_:)), name: UIApplication.userDidTakeScreenshotNotification, object: nil)
-        center.addObserver(self, selector: #selector(Application.willChangeStatusBarOrientation(_:)), name: UIApplication.didChangeStatusBarFrameNotification, object: nil)
-        center.addObserver(self, selector: #selector(Application.willChangeStatusBarFrame(_:)), name: UIApplication.willChangeStatusBarFrameNotification, object: nil)
-        center.addObserver(self, selector: #selector(Application.willEnterForeground(_:)), name: UIApplication.willEnterForegroundNotification, object: nil)
-        center.addObserver(self, selector: #selector(Application.willResignActive(_:)), name: UIApplication.willResignActiveNotification, object: nil)
-        center.addObserver(self, selector: #selector(Application.willTerminate(_:)), name: UIApplication.willTerminateNotification, object: nil)
-        center.addObserver(self, selector: #selector(Application.sizeCategoryDidChange(_:)), name: UIContentSizeCategory.didChangeNotification, object: nil)
+        center.addObserver(
+            self,
+            selector: #selector(Application.didChangeStatusBarFrame(_:)),
+            name: UIApplication.didChangeStatusBarFrameNotification,
+            object: nil
+        )
+        center.addObserver(
+            self,
+            selector: #selector(Application.didChangeStatusBarOrientation(_:)),
+            name: UIApplication.didChangeStatusBarOrientationNotification,
+            object: nil
+        )
+        center.addObserver(
+            self,
+            selector: #selector(Application.didEnterBackground(_:)),
+            name: UIApplication.didEnterBackgroundNotification,
+            object: nil
+        )
+        center.addObserver(
+            self,
+            selector: #selector(Application.didFinishLaunching(_:)),
+            name: UIApplication.didReceiveMemoryWarningNotification,
+            object: nil
+        )
+        center.addObserver(
+            self,
+            selector: #selector(Application.didReceiveMemoryWarning(_:)),
+            name: UIApplication.didChangeStatusBarFrameNotification,
+            object: nil
+        )
+        center.addObserver(
+            self,
+            selector: #selector(Application.protectedDataDidBecomeAvailable(_:)),
+            name: UIApplication.protectedDataDidBecomeAvailableNotification,
+            object: nil
+        )
+        center.addObserver(
+            self,
+            selector: #selector(Application.protectedDataWillBecomeUnavailable(_:)),
+            name: UIApplication.protectedDataWillBecomeUnavailableNotification,
+            object: nil
+        )
+        center.addObserver(
+            self,
+            selector: #selector(Application.significantTimeChange(_:)),
+            name: UIApplication.significantTimeChangeNotification,
+            object: nil
+        )
+        center.addObserver(
+            self,
+            selector: #selector(Application.userDidTakeScreenshot(_:)),
+            name: UIApplication.userDidTakeScreenshotNotification,
+            object: nil
+        )
+        center.addObserver(
+            self,
+            selector: #selector(Application.willChangeStatusBarOrientation(_:)),
+            name: UIApplication.didChangeStatusBarFrameNotification,
+            object: nil
+        )
+        center.addObserver(
+            self,
+            selector: #selector(Application.willChangeStatusBarFrame(_:)),
+            name: UIApplication.willChangeStatusBarFrameNotification,
+            object: nil
+        )
+        center.addObserver(
+            self,
+            selector: #selector(Application.willEnterForeground(_:)),
+            name: UIApplication.willEnterForegroundNotification,
+            object: nil
+        )
+        center.addObserver(
+            self,
+            selector: #selector(Application.willResignActive(_:)),
+            name: UIApplication.willResignActiveNotification,
+            object: nil
+        )
+        center.addObserver(
+            self,
+            selector: #selector(Application.willTerminate(_:)),
+            name: UIApplication.willTerminateNotification,
+            object: nil
+        )
+        center.addObserver(
+            self,
+            selector: #selector(Application.sizeCategoryDidChange(_:)),
+            name: UIContentSizeCategory.didChangeNotification,
+            object: nil
+        )
     }
 
     deinit {
@@ -65,8 +174,10 @@ class Application {
 
     @objc
     func didChangeStatusBarOrientation(_ notification: Foundation.Notification) {
-        if let orientationInt = notification.userInfo?[UIApplication.statusBarOrientationUserInfoKey] as? Int,
-            let orientation = UIInterfaceOrientation(rawValue: orientationInt) {
+        if let orientationInt =
+            notification.userInfo?[UIApplication.statusBarOrientationUserInfoKey] as? Int,
+            let orientation = UIInterfaceOrientation(rawValue: orientationInt)
+        {
             postNotification(Notifications.DidChangeStatusBarOrientation, value: orientation)
         }
     }

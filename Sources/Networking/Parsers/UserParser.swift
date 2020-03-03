@@ -15,7 +15,9 @@ class UserParser: IdParser {
     }
 
     override func parse(json: JSON) -> User {
-        let relationshipPriority = RelationshipPriority(stringValue: json["currentUserState"]["relationshipPriority"].string)
+        let relationshipPriority = RelationshipPriority(
+            stringValue: json["currentUserState"]["relationshipPriority"].string
+        )
 
         let user = User(
             id: json["id"].idValue,
@@ -32,8 +34,14 @@ class UserParser: IdParser {
             isHireable: json["settings"]["isHireable"].boolValue
         )
 
-        user.avatar = Asset.parseAsset("user_avatar_\(user.id)", node: json["avatar"].dictionaryObject)
-        user.coverImage = Asset.parseAsset("user_cover_image_\(user.id)", node: json["coverImage"].dictionaryObject)
+        user.avatar = Asset.parseAsset(
+            "user_avatar_\(user.id)",
+            node: json["avatar"].dictionaryObject
+        )
+        user.coverImage = Asset.parseAsset(
+            "user_cover_image_\(user.id)",
+            node: json["coverImage"].dictionaryObject
+        )
 
         // user.identifiableBy = json["identifiable_by"].string
         user.formattedShortBio = json["formattedShortBio"].string
@@ -45,8 +53,9 @@ class UserParser: IdParser {
             user.externalLinksList = externalLinks.compactMap { ExternalLink.fromDict($0) }
         }
 
-        if let badgeNames: [String] = json["badges"].array?.compactMap({ $0.string }) {
-            user.badges = badgeNames
+        if let badgeNames:[String] = json["badges"].array?.compactMap({ $0.string }) {
+            user.badges =
+                badgeNames
                 .compactMap { Badge.lookup(slug: $0) }
         }
 

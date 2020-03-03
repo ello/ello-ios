@@ -11,20 +11,35 @@ class AuthenticationManagerSpec: QuickSpec {
     override func spec() {
         describe("AuthenticationManager") {
             describe("canMakeRequest(ElloAPI)") {
-                let noTokenReqd: [ElloAPI] = [.auth(email: "", password: ""), .reAuth(token: ""), .anonymousCredentials]
-                let anonymous: [ElloAPI] = [.availability(content: [:]), .join(email: "", username: "", password: "", invitationCode: nil), .categories]
-                let authdOnly: [ElloAPI] = [.amazonCredentials, .currentUserProfile, .pushSubscriptions(token: Data())]
+                let noTokenReqd: [ElloAPI] = [
+                    .auth(email: "", password: ""), .reAuth(token: ""), .anonymousCredentials
+                ]
+                let anonymous: [ElloAPI] = [
+                    .availability(content: [:]),
+                    .join(email: "", username: "", password: "", invitationCode: nil), .categories
+                ]
+                let authdOnly: [ElloAPI] = [
+                    .amazonCredentials, .currentUserProfile, .pushSubscriptions(token: Data())
+                ]
                 let expectations: [(AuthState, supported: [ElloAPI], unsupported: [ElloAPI])] = [
                     (.noToken, supported: noTokenReqd, unsupported: authdOnly),
                     (.anonymous, supported: noTokenReqd + anonymous, unsupported: authdOnly),
                     (.authenticated, supported: authdOnly, unsupported: []),
                     (.initial, supported: noTokenReqd, unsupported: anonymous + authdOnly),
                     (.userCredsSent, supported: noTokenReqd, unsupported: anonymous + authdOnly),
-                    (.shouldTryUserCreds, supported: noTokenReqd, unsupported: anonymous + authdOnly),
+                    (.shouldTryUserCreds, supported: noTokenReqd, unsupported: anonymous + authdOnly
+                    ),
                     (.refreshTokenSent, supported: noTokenReqd, unsupported: anonymous + authdOnly),
-                    (.shouldTryRefreshToken, supported: noTokenReqd, unsupported: anonymous + authdOnly),
-                    (.anonymousCredsSent, supported: noTokenReqd, unsupported: anonymous + authdOnly),
-                    (.shouldTryAnonymousCreds, supported: noTokenReqd, unsupported: anonymous + authdOnly),
+                    (
+                        .shouldTryRefreshToken, supported: noTokenReqd,
+                        unsupported: anonymous + authdOnly
+                    ),
+                    (.anonymousCredsSent, supported: noTokenReqd, unsupported: anonymous + authdOnly
+                    ),
+                    (
+                        .shouldTryAnonymousCreds, supported: noTokenReqd,
+                        unsupported: anonymous + authdOnly
+                    ),
                 ]
 
                 for (state, supported, unsupported) in expectations {

@@ -46,13 +46,17 @@ extension AutoCompleteViewController {
         switch match.type {
         case .emoji:
             let results = service.loadEmojiResults(match.text)
-            self.dataSource.items = results.map { AutoCompleteItem(result: $0, type: match.type, match: match) }
+            self.dataSource.items = results.map {
+                AutoCompleteItem(result: $0, type: match.type, match: match)
+            }
             self.tableView.reloadData()
             loaded(self.dataSource.items.count)
         case .username:
             service.loadUsernameResults(match.text)
                 .done { results in
-                    self.dataSource.items = results.map { AutoCompleteItem(result: $0, type: match.type, match: match) }
+                    self.dataSource.items = results.map {
+                        AutoCompleteItem(result: $0, type: match.type, match: match)
+                    }
                     self.tableView.reloadData()
                     loaded(self.dataSource.items.count)
                 }
@@ -62,7 +66,9 @@ extension AutoCompleteViewController {
         case .location:
             service.loadLocationResults(match.text)
                 .done { results in
-                    self.dataSource.items = results.map { AutoCompleteItem(result: $0, type: match.type, match: match) }
+                    self.dataSource.items = results.map {
+                        AutoCompleteItem(result: $0, type: match.type, match: match)
+                    }
                     self.tableView.reloadData()
                     loaded(self.dataSource.items.count)
                 }
@@ -93,7 +99,10 @@ extension AutoCompleteViewController: UITableViewDelegate {
 
 private extension AutoCompleteViewController {
     func registerCells() {
-        tableView.register(AutoCompleteCell.self, forCellReuseIdentifier: AutoCompleteCell.reuseIdentifier)
+        tableView.register(
+            AutoCompleteCell.self,
+            forCellReuseIdentifier: AutoCompleteCell.reuseIdentifier
+        )
     }
 
     func style() {

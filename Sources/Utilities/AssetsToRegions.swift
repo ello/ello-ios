@@ -7,11 +7,18 @@ import Photos
 
 struct AssetsToRegions {
 
-    static func processPHAssets(_ assets: [PHAsset], completion: @escaping ([ImageRegionData]) -> Void) {
+    static func processPHAssets(
+        _ assets: [PHAsset],
+        completion: @escaping ([ImageRegionData]) -> Void
+    ) {
         nextPHAsset(assets, stack: [], completion: completion)
     }
 
-    private static func nextPHAsset(_ assets: [PHAsset], stack: [ImageRegionData], completion: @escaping ([ImageRegionData]) -> Void) {
+    private static func nextPHAsset(
+        _ assets: [PHAsset],
+        stack: [ImageRegionData],
+        completion: @escaping ([ImageRegionData]) -> Void
+    ) {
         guard let asset = assets.first else {
             completion(stack)
             return
@@ -19,7 +26,11 @@ struct AssetsToRegions {
         var newStack = stack
 
         func done() {
-            nextPHAsset([PHAsset](assets[1..<assets.count]), stack: newStack, completion: completion)
+            nextPHAsset(
+                [PHAsset](assets[1..<assets.count]),
+                stack: newStack,
+                completion: completion
+            )
         }
 
         var image: UIImage?
@@ -31,7 +42,14 @@ struct AssetsToRegions {
             }
 
             if UIImage.isGif(imageData) {
-                newStack.append(ImageRegionData(image: image, data: imageData, contentType: "image/gif", buyButtonURL: nil))
+                newStack.append(
+                    ImageRegionData(
+                        image: image,
+                        data: imageData,
+                        contentType: "image/gif",
+                        buyButtonURL: nil
+                    )
+                )
                 done()
             }
             else {

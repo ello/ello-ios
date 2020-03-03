@@ -127,7 +127,10 @@ extension ProfileHeaderTotalCountAndBadgesCell {
         paragraphStyle.alignment = .center
 
         let attributedCount = NSAttributedString(count + " ", color: .black)
-        let totalViewsText = NSAttributedString(InterfaceString.Profile.TotalViews, color: UIColor.greyA)
+        let totalViewsText = NSAttributedString(
+            InterfaceString.Profile.TotalViews,
+            color: UIColor.greyA
+        )
         totalLabel.attributedText = attributedCount + totalViewsText
     }
 
@@ -137,7 +140,7 @@ extension ProfileHeaderTotalCountAndBadgesCell {
         }
 
         self.badges = badges
-        badgeButtons = badges.safeRange(0 ..< maxBadges).compactMap { (badge: Badge) -> UIButton? in
+        badgeButtons = badges.safeRange(0..<maxBadges).compactMap { (badge: Badge) -> UIButton? in
             let button = UIButton()
             let imageView = PINAnimatedImageView()
             button.addTarget(self, action: #selector(badgeTapped(_:)), for: .touchUpInside)

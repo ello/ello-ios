@@ -45,7 +45,7 @@ class PostbarControllerSpec: QuickSpec {
         let currentUser: User = User.stub([
             "id": "user500",
             "lovesCount": 5,
-            ])
+        ])
         var controller: StreamViewController!
         var collectionView: FakeCollectionView!
         var collectionViewDataSource: CollectionViewDataSource!
@@ -58,9 +58,15 @@ class PostbarControllerSpec: QuickSpec {
             controller.currentUser = currentUser
             controller.streamKind = streamKind
 
-            collectionView = FakeCollectionView(frame: .zero, collectionViewLayout: StreamCollectionViewLayout())
+            collectionView = FakeCollectionView(
+                frame: .zero,
+                collectionViewLayout: StreamCollectionViewLayout()
+            )
 
-            subject = PostbarController(streamViewController: controller, collectionViewDataSource: collectionViewDataSource)
+            subject = PostbarController(
+                streamViewController: controller,
+                collectionViewDataSource: collectionViewDataSource
+            )
             subject.collectionView = collectionView
 
             responder = ReplyAllCreatePostResponder()
@@ -84,9 +90,14 @@ class PostbarControllerSpec: QuickSpec {
                     var postCellItems = parser.parse([post], streamKind: streamKind)
                     let newComment = ElloComment.newCommentForPost(post, currentUser: currentUser)
                     let groupId = "Post-\(post.id)"
-                    postCellItems += [StreamCellItem(jsonable: newComment, type: .createComment, groupId: groupId)]
+                    postCellItems += [
+                        StreamCellItem(jsonable: newComment, type: .createComment, groupId: groupId)
+                    ]
                     collectionViewDataSource.visibleCellItems = postCellItems
-                    collectionView.fakeIndexPath = IndexPath(item: postCellItems.count - 1, section: 0)
+                    collectionView.fakeIndexPath = IndexPath(
+                        item: postCellItems.count - 1,
+                        section: 0
+                    )
                 }
 
                 context("tapping replyToAll") {
@@ -109,9 +120,14 @@ class PostbarControllerSpec: QuickSpec {
                     var postCellItems = parser.parse([post], streamKind: streamKind)
                     let newComment = ElloComment.newCommentForPost(post, currentUser: currentUser)
                     let groupId = "Post-\(post.id)"
-                    postCellItems += [StreamCellItem(jsonable: newComment, type: .createComment, groupId: groupId)]
+                    postCellItems += [
+                        StreamCellItem(jsonable: newComment, type: .createComment, groupId: groupId)
+                    ]
                     collectionViewDataSource.visibleCellItems = postCellItems
-                    collectionView.fakeIndexPath = IndexPath(item: postCellItems.count - 1, section: 0)
+                    collectionView.fakeIndexPath = IndexPath(
+                        item: postCellItems.count - 1,
+                        section: 0
+                    )
                 }
 
                 it("should disable the cell during submission") {
@@ -145,7 +161,8 @@ class PostbarControllerSpec: QuickSpec {
                 }
                 it("should post a notification after success") {
                     var postedNotification = false
-                    let observer = NotificationObserver(notification: PostChangedNotification) { (post, contentChange) in
+                    let observer = NotificationObserver(notification: PostChangedNotification) {
+                        (post, contentChange) in
                         postedNotification = true
                     }
                     subject.watchPostTapped(true, cell: cell)
@@ -180,7 +197,8 @@ class PostbarControllerSpec: QuickSpec {
 
                         var lovesCount: Int?
                         var contentChange: ContentChange?
-                        let observer = NotificationObserver(notification: PostChangedNotification) { (post, change) in
+                        let observer = NotificationObserver(notification: PostChangedNotification) {
+                            (post, change) in
                             lovesCount = post.lovesCount
                             contentChange = change
                         }
@@ -197,7 +215,9 @@ class PostbarControllerSpec: QuickSpec {
 
                         let prevLovesCount = currentUser.lovesCount!
                         var lovesCount: Int?
-                        let observer = NotificationObserver(notification: CurrentUserChangedNotification) { (user) in
+                        let observer = NotificationObserver(
+                            notification: CurrentUserChangedNotification
+                        ) { (user) in
                             lovesCount = user.lovesCount
                         }
                         subject.lovesButtonTapped(cell: cell)
@@ -214,7 +234,8 @@ class PostbarControllerSpec: QuickSpec {
 
                         var lovesCount: Int?
                         var contentChange: ContentChange?
-                        let observer = NotificationObserver(notification: PostChangedNotification) { (post, change) in
+                        let observer = NotificationObserver(notification: PostChangedNotification) {
+                            (post, change) in
                             lovesCount = post.lovesCount
                             contentChange = change
                         }
@@ -231,7 +252,9 @@ class PostbarControllerSpec: QuickSpec {
 
                         let prevLovesCount = currentUser.lovesCount!
                         var lovesCount = 0
-                        let observer = NotificationObserver(notification: CurrentUserChangedNotification) { (user) in
+                        let observer = NotificationObserver(
+                            notification: CurrentUserChangedNotification
+                        ) { (user) in
                             lovesCount = user.lovesCount!
                         }
                         subject.lovesButtonTapped(cell: cell)
@@ -247,7 +270,8 @@ class PostbarControllerSpec: QuickSpec {
 
                         var lovesCount: Int?
                         var contentChange: ContentChange?
-                        let observer = NotificationObserver(notification: PostChangedNotification) { (post, change) in
+                        let observer = NotificationObserver(notification: PostChangedNotification) {
+                            (post, change) in
                             lovesCount = post.lovesCount
                             contentChange = change
                         }
@@ -263,7 +287,9 @@ class PostbarControllerSpec: QuickSpec {
 
                         let prevLovesCount = currentUser.lovesCount!
                         var lovesCount: Int?
-                        let observer = NotificationObserver(notification: CurrentUserChangedNotification) { (user) in
+                        let observer = NotificationObserver(
+                            notification: CurrentUserChangedNotification
+                        ) { (user) in
                             lovesCount = user.lovesCount
                         }
                         subject.toggleLove(nil, post: post, via: "")

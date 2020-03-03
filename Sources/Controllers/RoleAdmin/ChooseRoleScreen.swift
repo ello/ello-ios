@@ -71,10 +71,18 @@ class ChooseRoleScreen: NavBarScreen, ChooseRoleScreenProtocol {
     }
 
     override func bindActions() {
-        moderatorButton.addTarget(self, action: #selector(moderatorButtonTapped), for: .touchUpInside)
+        moderatorButton.addTarget(
+            self,
+            action: #selector(moderatorButtonTapped),
+            for: .touchUpInside
+        )
         curatorButton.addTarget(self, action: #selector(curatorButtonTapped), for: .touchUpInside)
         featuredButton.addTarget(self, action: #selector(featuredButtonTapped), for: .touchUpInside)
-        verifyFeaturedButton.addTarget(self, action: #selector(featuredButtonTapped), for: .touchUpInside)
+        verifyFeaturedButton.addTarget(
+            self,
+            action: #selector(featuredButtonTapped),
+            for: .touchUpInside
+        )
     }
 
     override func arrange() {
@@ -87,7 +95,9 @@ class ChooseRoleScreen: NavBarScreen, ChooseRoleScreenProtocol {
             make.leading.trailing.bottom.equalTo(self)
         }
 
-        [categoryButton, moderatorButton, curatorButton, featuredButton].eachPair { prevView, button in
+        [categoryButton, moderatorButton, curatorButton, featuredButton].eachPair {
+            prevView,
+            button in
             contentView.addSubview(button)
 
             button.snp.makeConstraints { make in

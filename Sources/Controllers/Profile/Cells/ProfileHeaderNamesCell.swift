@@ -11,7 +11,9 @@ class ProfileHeaderNamesCell: ProfileHeaderCell {
         static let outerMargins = UIEdgeInsets(top: 19, left: 15, bottom: 20, right: 15)
     }
 
-    static func preferredHeight(nameSize: CGSize, usernameSize: CGSize, width: CGFloat) -> (CGFloat, isVertical: Bool) {
+    static func preferredHeight(nameSize: CGSize, usernameSize: CGSize, width: CGFloat) -> (
+        CGFloat, isVertical: Bool
+    ) {
         let bothNamesWidth = nameSize.width + usernameSize.width + Size.horizNameMargin
         let maxAllowedWidth = width - Size.outerMargins.sides
         if bothNamesWidth > maxAllowedWidth {
@@ -60,25 +62,35 @@ class ProfileHeaderNamesCell: ProfileHeaderCell {
 
         nameLabel.frame.origin.y = Size.outerMargins.top
 
-        let (_, isVertical) = ProfileHeaderNamesCell.preferredHeight(nameSize: nameLabel.frame.size, usernameSize: usernameLabel.frame.size, width: frame.width)
+        let (_, isVertical) = ProfileHeaderNamesCell.preferredHeight(
+            nameSize: nameLabel.frame.size,
+            usernameSize: usernameLabel.frame.size,
+            width: frame.width
+        )
         if isVertical {
             nameLabel.frame.origin.x = (frame.width - nameLabel.frame.width) / 2
             usernameLabel.frame.origin = CGPoint(
                 x: (frame.width - usernameLabel.frame.width) / 2,
                 y: nameLabel.frame.maxY + Size.vertNameMargin
-                )
+            )
         }
         else {
-            nameLabel.frame.origin.x = (frame.width - nameLabel.frame.width - usernameLabel.frame.width - Size.horizNameMargin) / 2
+            nameLabel.frame.origin.x = (
+                frame.width - nameLabel.frame.width - usernameLabel.frame.width
+                    - Size.horizNameMargin
+            ) / 2
             usernameLabel.frame.origin = CGPoint(
                 x: nameLabel.frame.maxX + Size.horizNameMargin,
                 y: nameLabel.frame.maxY - usernameLabel.frame.height - 1
-                )
+            )
         }
 
         for label in [nameLabel, usernameLabel] {
             label.frame.origin.x = max(Size.outerMargins.left, label.frame.origin.x)
-            label.frame.size.width = min(frame.width - Size.outerMargins.sides, label.frame.size.width)
+            label.frame.size.width = min(
+                frame.width - Size.outerMargins.sides,
+                label.frame.size.width
+            )
         }
     }
 }

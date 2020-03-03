@@ -43,8 +43,14 @@ class SettingsCredentialsViewController: BaseElloViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        keyboardWillShowObserver = NotificationObserver(notification: Keyboard.Notifications.KeyboardWillShow, block: self.keyboardWillShow)
-        keyboardDidHideObserver = NotificationObserver(notification: Keyboard.Notifications.KeyboardDidHide, block: self.keyboardDidHide)
+        keyboardWillShowObserver = NotificationObserver(
+            notification: Keyboard.Notifications.KeyboardWillShow,
+            block: self.keyboardWillShow
+        )
+        keyboardDidHideObserver = NotificationObserver(
+            notification: Keyboard.Notifications.KeyboardDidHide,
+            block: self.keyboardDidHide
+        )
     }
 
     override func viewDidDisappear(_ animated: Bool) {
@@ -84,7 +90,9 @@ class SettingsCredentialsViewController: BaseElloViewController {
 
     override func closeButtonTapped() {
         if pendingChanges().count > 0 {
-            let alertController = AlertViewController(message: InterfaceString.Settings.AbortChanges)
+            let alertController = AlertViewController(
+                message: InterfaceString.Settings.AbortChanges
+            )
 
             let okCancelAction = AlertAction(style: .okCancel) { _ in
                 super.backButtonTapped()
@@ -100,7 +108,9 @@ class SettingsCredentialsViewController: BaseElloViewController {
 
     private func pendingChanges() -> [Profile.Property: Any] {
         var profileUpdates: [Profile.Property: Any] = [:]
-        guard let currentUser = currentUser, let profile = currentUser.profile else { return profileUpdates }
+        guard let currentUser = currentUser, let profile = currentUser.profile else {
+            return profileUpdates
+        }
 
         if !(currentUser.username =?= screen.username) {
             profileUpdates[.username] = screen.username ?? ""
@@ -117,7 +127,8 @@ class SettingsCredentialsViewController: BaseElloViewController {
         return profileUpdates
     }
 
-    private func saveAndExit(_ _profileUpdates: [Profile.Property: Any], onSuccess: @escaping Block) {
+    private func saveAndExit(_ _profileUpdates: [Profile.Property: Any], onSuccess: @escaping Block)
+    {
         guard
             let oldPassword = screen.oldPassword,
             !oldPassword.isEmpty

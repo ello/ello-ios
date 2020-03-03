@@ -63,13 +63,23 @@ class ChooseCategoryViewController: StreamableViewController {
 
     override func showNavBars(animated: Bool) {
         super.showNavBars(animated: animated)
-        positionNavBar(screen.navigationBar, visible: true, withConstraint: screen.navigationBarTopConstraint, animated: animated)
+        positionNavBar(
+            screen.navigationBar,
+            visible: true,
+            withConstraint: screen.navigationBarTopConstraint,
+            animated: animated
+        )
         updateInsets()
     }
 
     override func hideNavBars(animated: Bool) {
         super.hideNavBars(animated: animated)
-        positionNavBar(screen.navigationBar, visible: false, withConstraint: screen.navigationBarTopConstraint, animated: animated)
+        positionNavBar(
+            screen.navigationBar,
+            visible: false,
+            withConstraint: screen.navigationBarTopConstraint,
+            animated: animated
+        )
         updateInsets()
     }
 }
@@ -92,7 +102,11 @@ extension ChooseCategoryViewController: StreamDestination {
         set { streamViewController.isPagingEnabled = newValue }
     }
 
-    func replacePlaceholder(type: StreamCellType.PlaceholderType, items: [StreamCellItem], completion: @escaping Block) {
+    func replacePlaceholder(
+        type: StreamCellType.PlaceholderType,
+        items: [StreamCellItem],
+        completion: @escaping Block
+    ) {
         let filteredItems: [StreamCellItem]
         if type == .streamItems, let categoryFilter = categoryFilter {
             filteredItems = items.filter { item in
@@ -104,7 +118,11 @@ extension ChooseCategoryViewController: StreamDestination {
             filteredItems = items
         }
 
-        streamViewController.replacePlaceholder(type: type, items: filteredItems, completion: completion)
+        streamViewController.replacePlaceholder(
+            type: type,
+            items: filteredItems,
+            completion: completion
+        )
 
         if type == .streamItems {
             streamViewController.doneLoading()

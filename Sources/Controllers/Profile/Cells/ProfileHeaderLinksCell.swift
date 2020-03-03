@@ -76,10 +76,13 @@ extension ProfileHeaderLinksCell {
         var prevRow: UIButton?
         var iconsCount = 0
 
-        let textLinks = externalLinks.filter{$0.iconURL == nil && !$0.text.isEmpty}
-        let iconLinks = externalLinks.filter{$0.iconURL != nil}
+        let textLinks = externalLinks.filter { $0.iconURL == nil && !$0.text.isEmpty }
+        let iconLinks = externalLinks.filter { $0.iconURL != nil }
 
-        let (perRow, iconsBoxWidth) = ProfileHeaderLinksSizeCalculator.calculateIconsBoxWidth(externalLinks, width: bounds.width)
+        let (perRow, iconsBoxWidth) = ProfileHeaderLinksSizeCalculator.calculateIconsBoxWidth(
+            externalLinks,
+            width: bounds.width
+        )
 
         iconsBox.snp.updateConstraints { make in
             make.width.equalTo(iconsBoxWidth)
@@ -90,7 +93,14 @@ extension ProfileHeaderLinksCell {
         }
 
         for iconLink in iconLinks {
-            prevIcon = addIconButton(iconLink, iconsCount: iconsCount, prevIcon: prevIcon, prevRow: prevRow, perRow: perRow, hasTextLinks: textLinks.count > 0)
+            prevIcon = addIconButton(
+                iconLink,
+                iconsCount: iconsCount,
+                prevIcon: prevIcon,
+                prevRow: prevRow,
+                perRow: perRow,
+                hasTextLinks: textLinks.count > 0
+            )
             iconsCount += 1
             if iconsCount % perRow == 0 {
                 prevRow = prevIcon
@@ -102,7 +112,10 @@ extension ProfileHeaderLinksCell {
             totalHeight = 0
         }
         else {
-            totalHeight = ProfileHeaderLinksSizeCalculator.calculateHeight(externalLinks, width: bounds.width)
+            totalHeight = ProfileHeaderLinksSizeCalculator.calculateHeight(
+                externalLinks,
+                width: bounds.width
+            )
         }
 
         if totalHeight != frame.size.height {
@@ -110,7 +123,14 @@ extension ProfileHeaderLinksCell {
         }
     }
 
-    private func addIconButton(_ externalLink: ExternalLink, iconsCount: Int, prevIcon: UIButton?, prevRow: UIView?, perRow: Int, hasTextLinks: Bool) -> UIButton {
+    private func addIconButton(
+        _ externalLink: ExternalLink,
+        iconsCount: Int,
+        prevIcon: UIButton?,
+        prevRow: UIView?,
+        perRow: Int,
+        hasTextLinks: Bool
+    ) -> UIButton {
         let button = UIButton()
         button.addTarget(self, action: #selector(buttonTapped(_:)), for: .touchUpInside)
         buttonLinks[button] = externalLink
@@ -168,17 +188,29 @@ extension ProfileHeaderLinksCell {
             }
         }
 
-        button.setAttributedTitle(NSAttributedString(string: externalLink.text, attributes: [
-            .font: UIFont.defaultFont(),
-            .foregroundColor: UIColor.greyA,
-            .underlineStyle: NSUnderlineStyle.single.rawValue,
-        ]), for: .normal)
+        button.setAttributedTitle(
+            NSAttributedString(
+                string: externalLink.text,
+                attributes: [
+                    .font: UIFont.defaultFont(),
+                    .foregroundColor: UIColor.greyA,
+                    .underlineStyle: NSUnderlineStyle.single.rawValue,
+                ]
+            ),
+            for: .normal
+        )
 
-        button.setAttributedTitle(NSAttributedString(string: externalLink.text, attributes: [
-            .font: UIFont.defaultFont(),
-            .foregroundColor: UIColor.black,
-            .underlineStyle: NSUnderlineStyle.single.rawValue,
-        ]), for: .highlighted)
+        button.setAttributedTitle(
+            NSAttributedString(
+                string: externalLink.text,
+                attributes: [
+                    .font: UIFont.defaultFont(),
+                    .foregroundColor: UIColor.black,
+                    .underlineStyle: NSUnderlineStyle.single.rawValue,
+                ]
+            ),
+            for: .highlighted
+        )
 
         button.contentHorizontalAlignment = .left
         return button
@@ -188,7 +220,7 @@ extension ProfileHeaderLinksCell {
     func buttonTapped(_ button: UIButton) {
         guard
             let externalLink = buttonLinks[button]
-            else { return }
+        else { return }
 
         let request = URLRequest(url: externalLink.url)
         ElloWebViewHelper.handle(request: request, origin: self)

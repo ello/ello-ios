@@ -35,13 +35,14 @@ class ElloNetworkError: Model {
     let status: String?
     let title: String
 
-    init(attrs: [String: [String]]?,
+    init(
+        attrs: [String: [String]]?,
         code: CodeType,
         detail: String?,
         messages: [String]?,
         status: String?,
-        title: String )
-    {
+        title: String
+    ) {
         self.attrs = attrs
         self.code = code
         self.detail = detail

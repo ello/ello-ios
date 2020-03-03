@@ -18,9 +18,11 @@ class OnboardingViewControllerSpec: QuickSpec {
             it("sets onboardingData from currentUser") {
                 let user: User = stub([
                     "name": "any name",
-                    ])
+                ])
                 user.profile = Profile.stub(["shortBio": "<p>bio</p>"])
-                user.externalLinksList = [ExternalLink(url: URL(string: "http://ello.co")!, text: "ELLO")]
+                user.externalLinksList = [
+                    ExternalLink(url: URL(string: "http://ello.co")!, text: "ELLO")
+                ]
                 subject.currentUser = user
                 expect(subject.onboardingData.name) == user.name
                 expect(subject.onboardingData.bio) == "<p>bio</p>"
@@ -43,7 +45,8 @@ class OnboardingViewControllerSpec: QuickSpec {
                 expect(subject.visibleViewController).toNot(beNil())
             }
             it("assigns onboardingData to initial onboarding controller") {
-                expect((subject.visibleViewController as? OnboardingStepController)?.onboardingData) == subject.onboardingData
+                expect((subject.visibleViewController as? OnboardingStepController)?.onboardingData)
+                    == subject.onboardingData
             }
         }
     }

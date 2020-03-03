@@ -35,7 +35,7 @@ final class Notification: Model, Authorable {
         }
     }
     var canBackFollow: Bool {
-        return false // activity.kind == .newFollowerPost
+        return false  // activity.kind == .newFollowerPost
     }
 
     var isValidKind: Bool {
@@ -124,7 +124,10 @@ final class Notification: Model, Authorable {
         super.encode(with: coder.coder)
     }
 
-    private func assignRegionsFromContent(_ content: [Regionable], parentSummary: [Regionable]? = nil) {
+    private func assignRegionsFromContent(
+        _ content: [Regionable],
+        parentSummary: [Regionable]? = nil
+    ) {
         // assign textRegion and imageRegion from the post content - finds
         // the first of both kinds of regions
         var textContent: [String] = []

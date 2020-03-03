@@ -14,7 +14,8 @@ enum ImagePickerSheetResult {
 }
 
 extension UIImagePickerController {
-    static let elloPhotoLibraryPickerController: UIImagePickerController = createPhotoLibraryPickerController()
+    static let elloPhotoLibraryPickerController: UIImagePickerController =
+        createPhotoLibraryPickerController()
     static let elloCameraPickerController: UIImagePickerController = createCameraPickerController()
 
     static private func createImagePickerController() -> UIImagePickerController {
@@ -57,19 +58,25 @@ extension UIImagePickerController {
         return promise
     }
 
-    static func alertControllerForImagePicker(callback: @escaping (UIImagePickerController) -> Void) -> AlertViewController? {
+    static func alertControllerForImagePicker(callback: @escaping (UIImagePickerController) -> Void)
+        -> AlertViewController?
+    {
         let alertController: AlertViewController
 
         if UIImagePickerController.isSourceTypeAvailable(.camera) {
             alertController = AlertViewController(message: InterfaceString.ImagePicker.ChooseSource)
 
-            let cameraAction = AlertAction(title: InterfaceString.ImagePicker.Camera, style: .dark) { _ in
+            let cameraAction = AlertAction(title: InterfaceString.ImagePicker.Camera, style: .dark)
+            { _ in
                 Tracker.shared.imageAddedFromCamera()
                 callback(.elloCameraPickerController)
             }
             alertController.addAction(cameraAction)
 
-            let libraryAction = AlertAction(title: InterfaceString.ImagePicker.Library, style: .dark) { _ in
+            let libraryAction = AlertAction(
+                title: InterfaceString.ImagePicker.Library,
+                style: .dark
+            ) { _ in
                 Tracker.shared.imageAddedFromLibrary()
                 callback(.elloPhotoLibraryPickerController)
             }
@@ -79,12 +86,16 @@ extension UIImagePickerController {
                 Tracker.shared.addImageCanceled()
             }
             alertController.addAction(cancelAction)
-        } else if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
+        }
+        else if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
             Tracker.shared.imageAddedFromLibrary()
             callback(.elloPhotoLibraryPickerController)
             return nil
-        } else {
-            alertController = AlertViewController(message: InterfaceString.ImagePicker.NoSourceAvailable)
+        }
+        else {
+            alertController = AlertViewController(
+                message: InterfaceString.ImagePicker.NoSourceAvailable
+            )
 
             let cancelAction = AlertAction(title: InterfaceString.OK, style: .light, handler: .none)
             alertController.addAction(cancelAction)
@@ -96,8 +107,7 @@ extension UIImagePickerController {
     static func imagePickerSheetForImagePicker(
         config: ImagePickerSheetConfig = ImagePickerSheetConfig(),
         callback: @escaping (ImagePickerSheetResult) -> Void
-        ) -> ImagePickerSheetController
-    {
+    ) -> ImagePickerSheetController {
         let controller = ImagePickerSheetController(mediaType: config.mediaType)
 
         if UIImagePickerController.isSourceTypeAvailable(.camera) {
@@ -107,7 +117,8 @@ extension UIImagePickerController {
                     handler: { _ in
                         Tracker.shared.imageAddedFromCamera()
                         callback(.controller(.elloCameraPickerController))
-                    })
+                    }
+                )
             )
         }
         controller.addAction(
@@ -117,14 +128,22 @@ extension UIImagePickerController {
                 handler: { _ in
                     Tracker.shared.imageAddedFromLibrary()
                     callback(.controller(.elloPhotoLibraryPickerController))
-                }, secondaryHandler: { [weak controller] _, numberOfPhotos in
+                },
+                secondaryHandler: { [weak controller] _, numberOfPhotos in
                     guard let controller = controller else { return }
                     callback(.images(controller.selectedAssets))
-                })
+                }
+            )
         )
-        controller.addAction(ImagePickerAction(title: InterfaceString.Cancel, style: .cancel, handler: { _ in
-            Tracker.shared.addImageCanceled()
-        }))
+        controller.addAction(
+            ImagePickerAction(
+                title: InterfaceString.Cancel,
+                style: .cancel,
+                handler: { _ in
+                    Tracker.shared.addImageCanceled()
+                }
+            )
+        )
 
         return controller
     }

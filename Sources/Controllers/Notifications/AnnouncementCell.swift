@@ -22,7 +22,7 @@ class AnnouncementCell: CollectionViewCell {
         var title: String?
         var body: String?
         var imageURL: URL?
-        var image: UIImage? // for testing
+        var image: UIImage?  // for testing
         var callToAction: String?
         var isStaffPreview: Bool = false
 
@@ -50,7 +50,10 @@ class AnnouncementCell: CollectionViewCell {
 
         imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFill
-        imageView.setContentCompressionResistancePriority(UILayoutPriority.defaultLow, for: .vertical)
+        imageView.setContentCompressionResistancePriority(
+            UILayoutPriority.defaultLow,
+            for: .vertical
+        )
         titleLabel.isMultiline = true
         bodyLabel.isMultiline = true
         callToActionButton.contentHorizontalAlignment = .left
@@ -75,7 +78,9 @@ class AnnouncementCell: CollectionViewCell {
         imageView.snp.makeConstraints { make in
             make.top.leading.equalTo(contentView).inset(Size.margins)
             make.width.equalTo(Size.imageSize)
-            make.bottom.lessThanOrEqualTo(contentView.snp.bottom).inset(Size.margins).priority(Priority.high)
+            make.bottom.lessThanOrEqualTo(contentView.snp.bottom).inset(Size.margins).priority(
+                Priority.high
+            )
             imageHeightConstraint = make.height.equalTo(0).priority(Priority.medium).constraint
         }
         closeButton.snp.makeConstraints { make in
@@ -124,7 +129,7 @@ class AnnouncementCell: CollectionViewCell {
             imageView.pin_cancelImageDownload()
             let height: CGFloat
             if let image = config.image {
-                imageView.image = image // for testing, nice to be able to assign an image sync'ly
+                imageView.image = image  // for testing, nice to be able to assign an image sync'ly
                 let size = image.size
                 height = size.height * Size.imageSize / size.width
             }

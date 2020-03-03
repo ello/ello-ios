@@ -5,7 +5,7 @@
 class ForgotPasswordEmailViewController: BaseElloViewController {
     private var _mockScreen: ForgotPasswordEmailScreenProtocol?
     var screen: ForgotPasswordEmailScreenProtocol {
-        set(screen) { _mockScreen = screen}
+        set(screen) { _mockScreen = screen }
         get { return fetchScreen(_mockScreen) }
     }
 

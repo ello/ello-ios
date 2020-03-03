@@ -12,7 +12,11 @@ class StreamTextCellSizeCalculator: CellSizeCalculator, UIWebViewDelegate {
         }
         else {
             let columnCountFloat = CGFloat(columnCount)
-            columnWidth = floor(width / columnCountFloat - StreamKind.following.horizontalColumnSpacing * (columnCountFloat - 1))
+            columnWidth = floor(
+                width / columnCountFloat - StreamKind.following.horizontalColumnSpacing * (
+                    columnCountFloat - 1
+                )
+            )
         }
 
         // subtract right margin

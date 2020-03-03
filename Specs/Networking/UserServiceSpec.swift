@@ -16,11 +16,14 @@ class UserServiceSpec: QuickSpec {
             }
             describe("join(email:username:password:invitationCode:)") {
                 it("stores the email and password in the keychain") {
-                    subject.join(email: "fake@example.com",
+                    subject.join(
+                        email: "fake@example.com",
                         username: "fake-username",
                         password: "fake-password",
                         invitationCode: .none,
-                        success: {}, failure: .none)
+                        success: {},
+                        failure: .none
+                    )
 
                     let authToken = AuthToken()
                     expect(authToken.username) == "fake-username"

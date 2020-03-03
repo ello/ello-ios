@@ -36,10 +36,20 @@ class ArtistInviteHeaderCell: CollectionViewCell, ArtistInviteConfigurableCell {
     private let inviteTypeLabel = StyledLabel(style: .artistInviteDetailInfo)
     private let dateLabel = StyledLabel(style: .artistInviteDetailInfo)
 
-    static func calculateDynamicHeights(title: String, inviteType: String, cellWidth: CGFloat) -> CGFloat {
+    static func calculateDynamicHeights(title: String, inviteType: String, cellWidth: CGFloat)
+        -> CGFloat
+    {
         let textWidth = cellWidth - Size.textMargins.sides
-        let height1 = NSAttributedString(label: title, style: .artistInviteTitle, lineBreakMode: .byWordWrapping).heightForWidth(textWidth)
-        let height2 = NSAttributedString(label: inviteType, style: .artistInviteDetailInfo, lineBreakMode: .byWordWrapping).heightForWidth(textWidth)
+        let height1 = NSAttributedString(
+            label: title,
+            style: .artistInviteTitle,
+            lineBreakMode: .byWordWrapping
+        ).heightForWidth(textWidth)
+        let height2 = NSAttributedString(
+            label: inviteType,
+            style: .artistInviteDetailInfo,
+            lineBreakMode: .byWordWrapping
+        ).heightForWidth(textWidth)
         return height1 + height2
     }
 
@@ -76,10 +86,18 @@ class ArtistInviteHeaderCell: CollectionViewCell, ArtistInviteConfigurableCell {
             make.center.equalTo(headerImage)
             make.size.equalTo(Size.logoImageSize)
             make.width.lessThanOrEqualTo(contentView).priority(Priority.required)
-            make.height.equalTo(logoImage.snp.width).multipliedBy(Size.logoImageSize.height / Size.logoImageSize.width).priority(Priority.required)
+            make.height.equalTo(logoImage.snp.width).multipliedBy(
+                Size.logoImageSize.height / Size.logoImageSize.width
+            ).priority(Priority.required)
         }
-        logoImage.setContentCompressionResistancePriority(UILayoutPriority(rawValue: Priority.low.value), for: .vertical)
-        logoImage.setContentCompressionResistancePriority(UILayoutPriority(rawValue: Priority.low.value), for: .horizontal)
+        logoImage.setContentCompressionResistancePriority(
+            UILayoutPriority(rawValue: Priority.low.value),
+            for: .vertical
+        )
+        logoImage.setContentCompressionResistancePriority(
+            UILayoutPriority(rawValue: Priority.low.value),
+            for: .horizontal
+        )
 
         titleLabel.snp.makeConstraints { make in
             make.leading.trailing.equalTo(contentView).inset(Size.textMargins)
@@ -122,7 +140,13 @@ class ArtistInviteHeaderCell: CollectionViewCell, ArtistInviteConfigurableCell {
 
     private func startTimer() {
         guard timer == nil else { return }
-        timer = Timer.scheduledTimer(timeInterval: 0.25, target: self, selector: #selector(updateDateText), userInfo: nil, repeats: true)
+        timer = Timer.scheduledTimer(
+            timeInterval: 0.25,
+            target: self,
+            selector: #selector(updateDateText),
+            userInfo: nil,
+            repeats: true
+        )
     }
 
     private func stopTimer() {
@@ -175,26 +199,26 @@ extension StyledLabel.Style {
     static let artistInviteDetailInfo = StyledLabel.Style(
         textColor: .greyA,
         fontFamily: .artistInviteDetail
-        )
+    )
 
     static let artistInviteDetailPreview = StyledLabel.Style(
         textColor: UIColor(hex: 0x0409FE),
         fontFamily: .artistInviteDetail
-        )
+    )
     static let artistInviteDetailUpcoming = StyledLabel.Style(
         textColor: UIColor(hex: 0xC000FF),
         fontFamily: .artistInviteDetail
-        )
+    )
     static let artistInviteDetailOpen = StyledLabel.Style(
         textColor: UIColor(hex: 0x00D100),
         fontFamily: .artistInviteDetail
-        )
+    )
     static let artistInviteDetailSelecting = StyledLabel.Style(
         textColor: UIColor(hex: 0xFDB02A),
         fontFamily: .artistInviteDetail
-        )
+    )
     static let artistInviteDetailClosed = StyledLabel.Style(
         textColor: UIColor(hex: 0xFE0404),
         fontFamily: .artistInviteDetail
-        )
+    )
 }

@@ -24,7 +24,8 @@ enum AuthState {
         switch self {
         case .initial: return [.noToken, .shouldTryAnonymousCreds, .anonymous, .authenticated]
 
-        case .noToken: return [.authenticated, .userCredsSent, .anonymousCredsSent, .shouldTryAnonymousCreds]
+        case .noToken:
+            return [.authenticated, .userCredsSent, .anonymousCredsSent, .shouldTryAnonymousCreds]
         case .anonymous: return [.userCredsSent, .authenticated, .noToken]
         case .authenticated: return [.refreshTokenSent, .noToken]
 

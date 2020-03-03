@@ -18,7 +18,11 @@ class StreamImageViewer {
 
 
 extension StreamImageViewer {
-    func imageTapped(selected index: Int, allItems: [LightboxViewController.Item], currentUser: User?) {
+    func imageTapped(
+        selected index: Int,
+        allItems: [LightboxViewController.Item],
+        currentUser: User?
+    ) {
         guard let streamViewController = streamViewController else { return }
 
         // tell AppDelegate to allow rotation
@@ -38,7 +42,10 @@ extension StreamImageViewer: LightboxControllerDelegate {
         AppDelegate.restrictRotation = true
 
         if let prevSize = prevWindowSize, prevSize != UIWindow.windowSize() {
-            postNotification(Application.Notifications.WindowSizeWillChange, value: UIWindow.windowSize())
+            postNotification(
+                Application.Notifications.WindowSizeWillChange,
+                value: UIWindow.windowSize()
+            )
         }
     }
 }

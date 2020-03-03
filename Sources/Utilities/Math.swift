@@ -24,10 +24,22 @@ map(value: 0.4, fromInterval: (0, 1), toInterval: (0, 10)) // Returns 4
 
 Like Processing's map(). */
 func map(_ value: Double, fromInterval: (Double, Double), toInterval: (Double, Double)) -> Double {
-    return interpolate(from: toInterval.0, to: toInterval.1, at: (value - fromInterval.0) / (fromInterval.1 - fromInterval.0))
+    return interpolate(
+        from: toInterval.0,
+        to: toInterval.1,
+        at: (value - fromInterval.0) / (fromInterval.1 - fromInterval.0)
+    )
 }
-func map(_ value: CGFloat, fromInterval: (CGFloat, CGFloat), toInterval: (CGFloat, CGFloat)) -> CGFloat {
-    return CGFloat(map(Double(value), fromInterval: (Double(fromInterval.0), Double(fromInterval.1)), toInterval: (Double(toInterval.0), Double(toInterval.1))))
+func map(_ value: CGFloat, fromInterval: (CGFloat, CGFloat), toInterval: (CGFloat, CGFloat))
+    -> CGFloat
+{
+    return CGFloat(
+        map(
+            Double(value),
+            fromInterval: (Double(fromInterval.0), Double(fromInterval.1)),
+            toInterval: (Double(toInterval.0), Double(toInterval.1))
+        )
+    )
 }
 /** Clips a value so that it falls between the specified minimum and maximum. */
 func clip<T: Comparable>(_ value: T, min minValue: T, max maxValue: T) -> T {
@@ -37,15 +49,16 @@ func clip<T: Comparable>(_ value: T, min minValue: T, max maxValue: T) -> T {
 /** `ceil`s the value, snapping to screen's pixel values */
 func pixelAwareCeil(_ value: Double) -> Double {
     let scale = Double(UIScreen.main.scale)
-    return ceil(value*scale)/scale
+    return ceil(value * scale) / scale
 }
 
 /** `floor`s the value, snapping to screen's pixel values */
 func pixelAwareFloor(_ value: Double) -> Double {
     let scale = Double(UIScreen.main.scale)
-    return floor(value*scale)/scale
+    return floor(value * scale) / scale
 }
 
-func calculateColumnWidth(frameWidth: CGFloat, columnSpacing: CGFloat, columnCount: Int) -> CGFloat {
+func calculateColumnWidth(frameWidth: CGFloat, columnSpacing: CGFloat, columnCount: Int) -> CGFloat
+{
     return floor((frameWidth - columnSpacing * CGFloat(columnCount - 1)) / CGFloat(columnCount))
 }

@@ -16,11 +16,20 @@ class ElloProvider {
 
     static func endpointClosure(_ target: ElloAPI) -> Endpoint {
         let url = target.baseURL.appendingPathComponent(target.path).absoluteString
-        return Endpoint(url: url, sampleResponseClosure: { return target.stubbedNetworkResponse }, method: target.method, task: target.task, httpHeaderFields: target.headers)
+        return Endpoint(
+            url: url,
+            sampleResponseClosure: { return target.stubbedNetworkResponse },
+            method: target.method,
+            task: target.task,
+            httpHeaderFields: target.headers
+        )
     }
 
     static func DefaultProvider() -> MoyaProvider<ElloAPI> {
-        return MoyaProvider<ElloAPI>(endpointClosure: ElloProvider.endpointClosure, manager: ElloManager.alamofireManager)
+        return MoyaProvider<ElloAPI>(
+            endpointClosure: ElloProvider.endpointClosure,
+            manager: ElloManager.alamofireManager
+        )
     }
 
     static var defaultProvider: MoyaProvider<ElloAPI> = ElloProvider.DefaultProvider()
@@ -46,7 +55,8 @@ class ElloProvider {
     }
 
     private func sendRequest(_ request: RequestFuture) {
-        AuthenticationManager.shared.attemptRequest(request.target,
+        AuthenticationManager.shared.attemptRequest(
+            request.target,
             retry: { self.sendRequest(request) },
             proceed: { uuid in
                 ElloProvider.moya.request(request.target) { result in
@@ -55,11 +65,16 @@ class ElloProvider {
             },
             cancel: {
                 self.requestFailed(request: request)
-            })
+            }
+        )
     }
 
     private func requestFailed(request: RequestFuture) {
-        let elloError = NSError(domain: ElloErrorDomain, code: 401, userInfo: [NSLocalizedFailureReasonErrorKey: "Logged Out"])
+        let elloError = NSError(
+            domain: ElloErrorDomain,
+            code: 401,
+            userInfo: [NSLocalizedFailureReasonErrorKey: "Logged Out"]
+        )
         inForeground {
             request.reject(elloError)
         }
@@ -80,7 +95,11 @@ extension ElloProvider {
             case 401:
                 AuthenticationManager.shared.attemptAuthentication(
                     uuid: uuid,
-                    request: (request.target, { self.sendRequest(request) }, { self.handleServerError(request: request, response: moyaResponse) }))
+                    request: (
+                        request.target, { self.sendRequest(request) },
+                        { self.handleServerError(request: request, response: moyaResponse) }
+                    )
+                )
             default:
                 handleServerError(request: request, response: moyaResponse)
             }
@@ -89,7 +108,8 @@ extension ElloProvider {
         }
     }
 
-    private func handleNetworkSuccess(request: RequestFuture, response moyaResponse: Moya.Response) {
+    private func handleNetworkSuccess(request: RequestFuture, response moyaResponse: Moya.Response)
+    {
         let response = moyaResponse.response
         let data = moyaResponse.data
         let statusCode = moyaResponse.statusCode
@@ -107,7 +127,11 @@ extension ElloProvider {
         }
     }
 
-    private func parseLinked(request: RequestFuture, dict: [String: Any], responseConfig: ResponseConfig) {
+    private func parseLinked(
+        request: RequestFuture,
+        dict: [String: Any],
+        responseConfig: ResponseConfig
+    ) {
         let completion: Block = {
             let elloAPI = request.target
             let node = dict[elloAPI.mappingType.rawValue]
@@ -173,8 +197,11 @@ extension ElloProvider {
             config.lastModified = response.allHeaderFields["Last-Modified"] as? String
             config.totalPages = response.allHeaderFields["X-Total-Pages"] as? String
             config.totalCount = response.allHeaderFields["X-Total-Count"] as? String
-            config.totalPagesRemaining = response.allHeaderFields["X-Total-Pages-Remaining"] as? String
-            config.nextQuery = response.findLink(relation: "next").flatMap { URLComponents(string: $0.uri) }
+            config.totalPagesRemaining = response.allHeaderFields["X-Total-Pages-Remaining"]
+                as? String
+            config.nextQuery = response.findLink(relation: "next").flatMap {
+                URLComponents(string: $0.uri)
+            }
         }
 
         return config
@@ -188,16 +215,18 @@ extension ElloProvider {
             return true
         }
         // no content
-        return String(data: data, encoding: .utf8) == "" &&
-                statusCode >= 200 &&
-                statusCode < 400
+        return String(data: data, encoding: .utf8) == "" && statusCode >= 200 && statusCode < 400
     }
 
     private func handleServerError(request: RequestFuture, response moyaResponse: Moya.Response) {
         let data = moyaResponse.data
         let statusCode = moyaResponse.statusCode
         let elloError = ElloProvider.generateElloError(data, statusCode: statusCode)
-        Tracker.shared.encounteredNetworkError(request.target.path, error: elloError, statusCode: statusCode)
+        Tracker.shared.encounteredNetworkError(
+            request.target.path,
+            error: elloError,
+            statusCode: statusCode
+        )
         request.reject(elloError)
     }
 

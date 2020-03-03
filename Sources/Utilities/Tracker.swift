@@ -22,12 +22,12 @@ protocol AnalyticsAgent {
 }
 
 struct NullAgent: AnalyticsAgent {
-    func identify(_ userId: String?, traits: [String: Any]?) { }
-    func track(_ event: String) { }
-    func track(_ event: String, properties: [String: Any]?) { }
-    func screen(_ screenTitle: String) { }
-    func screen(_ screenTitle: String, properties: [String: Any]?) { }
-    func reset() { }
+    func identify(_ userId: String?, traits: [String: Any]?) {}
+    func track(_ event: String) {}
+    func track(_ event: String, properties: [String: Any]?) {}
+    func screen(_ screenTitle: String) {}
+    func screen(_ screenTitle: String, properties: [String: Any]?) {}
+    func reset() {}
 }
 
 struct ForwardingAgent: AnalyticsAgent {
@@ -70,7 +70,7 @@ struct ForwardingAgent: AnalyticsAgent {
     }
 }
 
-extension SEGAnalytics: AnalyticsAgent { }
+extension SEGAnalytics: AnalyticsAgent {}
 
 class Tracker {
     static let shared = Tracker()
@@ -116,7 +116,8 @@ class Tracker {
     }
 
     init() {
-        settingChangedNotification = NotificationObserver(notification: SettingChangedNotification) { user in
+        settingChangedNotification = NotificationObserver(notification: SettingChangedNotification)
+        { user in
             self.shouldTrackUser = user.profile?.allowsAnalytics ?? true
         }
     }
@@ -136,16 +137,20 @@ extension Tracker {
 
         if let analyticsId = user.profile?.gaUniqueId {
             let authToken = AuthToken()
-            agent.identify(analyticsId, traits: [
-                // camelCase is correct, so we have parity w/ webapp
-                "hasAccount": true,
-                "agent": "ios",
-                // leave these as snake_case since they are being used in reports
-                "is_nabaroo": authToken.isNabaroo,
-                "is_featured": user.isFeatured,
-                "is_experimental": user.experimentalFeatures ?? false,
-                "created_at": user.profile?.createdAt.toServerDateString() ?? "no-creation-date",
-            ])
+            agent.identify(
+                analyticsId,
+                traits: [
+                    // camelCase is correct, so we have parity w/ webapp
+                    "hasAccount": true,
+                    "agent": "ios",
+                    // leave these as snake_case since they are being used in reports
+                    "is_nabaroo": authToken.isNabaroo,
+                    "is_featured": user.isFeatured,
+                    "is_experimental": user.experimentalFeatures ?? false,
+                    "created_at": user.profile?.createdAt.toServerDateString()
+                        ?? "no-creation-date",
+                ]
+            )
         }
         else {
             agent.reset()
@@ -321,7 +326,10 @@ extension Tracker {
     }
 
     func onboardingCreatorTypeSelected(_ creatorType: Profile.CreatorType) {
-        track("completed creator type in onboarding", properties: ["creatorType": creatorType.trackerName])
+        track(
+            "completed creator type in onboarding",
+            properties: ["creatorType": creatorType.trackerName]
+        )
     }
 
     func onboardingCategorySelected(_ category: Category) {
@@ -430,7 +438,10 @@ extension Tracker {
         case let .category(slug): selectionDesc = "category \(slug)"
         }
 
-        track("category filter changed", properties: ["category": selectionDesc, "filter": filterName])
+        track(
+            "category filter changed",
+            properties: ["category": selectionDesc, "filter": filterName]
+        )
     }
 
     func categoryOpened(_ categorySlug: String) {
@@ -573,7 +584,10 @@ extension Tracker {
     }
 
     func contentFlagged(_ type: ContentType, flag: UserFlag, contentId: String) {
-        track("\(type.rawValue) flagged", properties: ["content_id": contentId, "flag": flag.rawValue])
+        track(
+            "\(type.rawValue) flagged",
+            properties: ["content_id": contentId, "flag": flag.rawValue]
+        )
     }
 
     func contentFlaggingCanceled(_ type: ContentType, contentId: String) {
@@ -581,7 +595,10 @@ extension Tracker {
     }
 
     func contentFlaggingFailed(_ type: ContentType, message: String, contentId: String) {
-        track("\(type.rawValue) flagging failed", properties: ["content_id": contentId, "message": message])
+        track(
+            "\(type.rawValue) flagging failed",
+            properties: ["content_id": contentId, "message": message]
+        )
     }
 
     func userShared(_ user: User) {
@@ -655,15 +672,27 @@ extension Tracker {
     }
 
     func relationshipStatusUpdated(_ relationshipPriority: RelationshipPriority, userId: String) {
-        track("Relationship Priority changed", properties: ["new_value": relationshipPriority.rawValue, "user_id": userId])
+        track(
+            "Relationship Priority changed",
+            properties: ["new_value": relationshipPriority.rawValue, "user_id": userId]
+        )
     }
 
-    func relationshipStatusUpdateFailed(_ relationshipPriority: RelationshipPriority, userId: String) {
-        track("Relationship Priority failed", properties: ["new_value": relationshipPriority.rawValue, "user_id": userId])
+    func relationshipStatusUpdateFailed(
+        _ relationshipPriority: RelationshipPriority,
+        userId: String
+    ) {
+        track(
+            "Relationship Priority failed",
+            properties: ["new_value": relationshipPriority.rawValue, "user_id": userId]
+        )
     }
 
     func relationshipButtonTapped(_ relationshipPriority: RelationshipPriority, userId: String) {
-        track("Relationship button tapped", properties: ["button": relationshipPriority.buttonName, "user_id": userId])
+        track(
+            "Relationship button tapped",
+            properties: ["button": relationshipPriority.buttonName, "user_id": userId]
+        )
     }
 
     func friendInvited() {
@@ -729,7 +758,10 @@ extension Tracker {
 // MARK: Errors
 extension Tracker {
     func encounteredNetworkError(_ path: String, error: NSError, statusCode: Int?) {
-        track("Encountered network error", properties: ["path": path, "message": error.description, "statusCode": statusCode ?? 0])
+        track(
+            "Encountered network error",
+            properties: ["path": path, "message": error.description, "statusCode": statusCode ?? 0]
+        )
     }
 }
 

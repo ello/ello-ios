@@ -37,7 +37,9 @@ class ArtistInviteAdminScreen: StreamableScreen, ArtistInviteAdminScreenProtocol
 
         titleLabel.snp.makeConstraints { make in
             make.centerX.equalTo(navigationBar)
-            make.top.equalTo(navigationBar).offset(StatusBar.Size.height + HomeScreenNavBarSize.typeOffset)
+            make.top.equalTo(navigationBar).offset(
+                StatusBar.Size.height + HomeScreenNavBarSize.typeOffset
+            )
         }
 
         unapprovedTab = tabBar.createTab(title: InterfaceString.ArtistInvites.AdminUnapprovedTab)

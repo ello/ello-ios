@@ -49,7 +49,9 @@ final class ProfileViewController: StreamableViewController {
 
         sharedInit()
 
-        relationshipChangedNotification = NotificationObserver(notification: RelationshipChangedNotification) { [unowned self] user in
+        relationshipChangedNotification = NotificationObserver(
+            notification: RelationshipChangedNotification
+        ) { [unowned self] user in
             if self.user?.id == user.id {
                 self.updateRelationshipPriority(user.relationshipPriority)
             }
@@ -66,7 +68,9 @@ final class ProfileViewController: StreamableViewController {
         self.currentUser = currentUser
         title = currentUser.atName
         sharedInit()
-        currentUserChangedNotification = NotificationObserver(notification: CurrentUserChangedNotification) { [weak self] user in
+        currentUserChangedNotification = NotificationObserver(
+            notification: CurrentUserChangedNotification
+        ) { [weak self] user in
             self?.updateCachedImages(user: user)
         }
     }
@@ -75,7 +79,9 @@ final class ProfileViewController: StreamableViewController {
         streamViewController.streamKind = .userStream(userParam: userParam)
         streamViewController.initialLoadClosure = { [weak self] in self?.loadProfile() }
         streamViewController.reloadClosure = { [weak self] in self?.reloadEntireProfile() }
-        streamViewController.toggleClosure = { [weak self] isGridView in self?.toggleGrid(isGridView) }
+        streamViewController.toggleClosure = { [weak self] isGridView in
+            self?.toggleGrid(isGridView)
+        }
 
         generator = ProfileGenerator(
             currentUser: currentUser,
@@ -129,9 +135,13 @@ final class ProfileViewController: StreamableViewController {
         super.viewDidLayoutSubviews()
         let ratio: CGFloat = ProfileHeaderAvatarCell.Size.ratio
         let headerHeight: CGFloat = view.frame.width / ratio
-        let scrollAdjustedHeight = headerHeight - streamViewController.collectionView.contentOffset.y
+        let scrollAdjustedHeight = headerHeight
+            - streamViewController.collectionView.contentOffset.y
         let maxHeaderHeight = max(scrollAdjustedHeight, headerHeight)
-        screen.updateHeaderHeightConstraints(max: maxHeaderHeight, scrollAdjusted: scrollAdjustedHeight)
+        screen.updateHeaderHeightConstraints(
+            max: maxHeaderHeight,
+            scrollAdjusted: scrollAdjustedHeight
+        )
 
         coverImageHeightStart = scrollAdjustedHeight
     }
@@ -146,14 +156,24 @@ final class ProfileViewController: StreamableViewController {
 
     override func showNavBars(animated: Bool) {
         super.showNavBars(animated: animated)
-        positionNavBar(screen.navigationBar, visible: true, withConstraint: screen.navigationBarTopConstraint, animated: animated)
+        positionNavBar(
+            screen.navigationBar,
+            visible: true,
+            withConstraint: screen.navigationBarTopConstraint,
+            animated: animated
+        )
         screen.showNavBars(animated: animated)
         updateInsets()
     }
 
     override func hideNavBars(animated: Bool) {
         super.hideNavBars(animated: animated)
-        positionNavBar(screen.navigationBar, visible: false, withConstraint: screen.navigationBarTopConstraint, animated: animated)
+        positionNavBar(
+            screen.navigationBar,
+            visible: false,
+            withConstraint: screen.navigationBarTopConstraint,
+            animated: animated
+        )
 
         let offset = self.streamViewController.collectionView.contentOffset
         let currentUser = (self.user?.id == self.currentUser?.id && self.user?.id != nil)
@@ -177,8 +197,11 @@ final class ProfileViewController: StreamableViewController {
     }
 
     private func setupNavigationItems() {
-        let gridListItem = ElloNavigationBar.Item.gridList(isGrid: streamViewController.streamKind.isGridView)
-        let isCurrentUser = userParam == currentUser?.id || userParam == currentUser.map { "~\($0.username)" }
+        let gridListItem = ElloNavigationBar.Item.gridList(
+            isGrid: streamViewController.streamKind.isGridView
+        )
+        let isCurrentUser = userParam == currentUser?.id
+            || userParam == currentUser.map { "~\($0.username)" }
 
         var leftItems: [ElloNavigationBar.Item] = []
         if !isRootViewController() {
@@ -194,8 +217,7 @@ final class ProfileViewController: StreamableViewController {
         if isCurrentUser {
             screen.navigationBar.rightItems = [.share, gridListItem]
         }
-        else if
-            let user = user,
+        else if let user = user,
             user.id != currentUser?.id
         {
             var rightItems: [ElloNavigationBar.Item] = []
@@ -217,7 +239,10 @@ final class ProfileViewController: StreamableViewController {
 
     override func streamViewDidScroll(scrollView: UIScrollView) {
         if let start = coverImageHeightStart {
-            screen.updateHeaderHeightConstraints(max: max(start - scrollView.contentOffset.y, start), scrollAdjusted: start - scrollView.contentOffset.y)
+            screen.updateHeaderHeightConstraints(
+                max: max(start - scrollView.contentOffset.y, start),
+                scrollAdjusted: start - scrollView.contentOffset.y
+            )
         }
         super.streamViewDidScroll(scrollView: scrollView)
     }
@@ -281,7 +306,7 @@ extension ProfileViewController: ProfileScreenDelegate {
     func roleAdminTapped() {
         guard
             let user = user, let currentUser = currentUser,
-            currentUser.canModifyAnyCategoryRole
+                currentUser.canModifyAnyCategoryRole
         else { return }
 
         postNotification(StatusBarNotifications.statusBarVisibility, value: true)
@@ -306,7 +331,10 @@ extension ProfileViewController {
         if let cachedCoverImage = cachedImage(.coverImage) {
             screen.coverImage = cachedCoverImage
         }
-        else if let coverImageURL = user.coverImageURL(viewsAdultContent: currentUser?.viewsAdultContent, animated: true) {
+        else if let coverImageURL = user.coverImageURL(
+            viewsAdultContent: currentUser?.viewsAdultContent,
+            animated: true
+        ) {
             screen.coverImageURL = coverImageURL
         }
     }
@@ -317,7 +345,10 @@ extension ProfileViewController {
         screen.hasRoleAdminButton = currentUser?.canModifyAnyCategoryRole ?? false
 
         guard user.id == self.currentUser?.id else {
-            screen.configureButtonsForNonCurrentUser(isHireable: user.isHireable, isCollaborateable: user.isCollaborateable)
+            screen.configureButtonsForNonCurrentUser(
+                isHireable: user.isHireable,
+                isCollaborateable: user.isCollaborateable
+            )
             return
         }
 
@@ -345,10 +376,16 @@ extension ProfileViewController {
 extension ProfileViewController: PostsTappedResponder {
     func onPostsTapped() {
         guard
-            let indexPath = streamViewController.collectionViewDataSource.firstIndexPath(forPlaceholderType: .streamItems)
+            let indexPath = streamViewController.collectionViewDataSource.firstIndexPath(
+                forPlaceholderType: .streamItems
+            )
         else { return }
 
-        streamViewController.collectionView.scrollToItem(at: indexPath, at: UICollectionView.ScrollPosition.top, animated: true)
+        streamViewController.collectionView.scrollToItem(
+            at: indexPath,
+            at: UICollectionView.ScrollPosition.top,
+            animated: true
+        )
     }
 }
 
@@ -420,7 +457,8 @@ extension ProfileViewController: ProfileHeaderResponder {
             boxedEndpoint: BoxedElloAPI(endpoint: .userStreamFollowing(userId: user.id)),
             title: InterfaceString.Following.Title
         )
-    }}
+    }
+}
 
 
 extension ProfileViewController: EditProfileResponder {
@@ -443,10 +481,19 @@ extension ProfileViewController: StreamDestination {
         set { streamViewController.isPagingEnabled = newValue }
     }
 
-    func replacePlaceholder(type: StreamCellType.PlaceholderType, items: [StreamCellItem], completion: @escaping Block) {
+    func replacePlaceholder(
+        type: StreamCellType.PlaceholderType,
+        items: [StreamCellItem],
+        completion: @escaping Block
+    ) {
         streamViewController.replacePlaceholder(type: type, items: items) {
-            if self.streamViewController.hasCellItems(for: .profileHeader) && !self.streamViewController.hasCellItems(for: .streamItems) {
-                self.streamViewController.replacePlaceholder(type: .streamItems, items: [StreamCellItem(type: .streamLoading)])
+            if self.streamViewController.hasCellItems(for: .profileHeader)
+                && !self.streamViewController.hasCellItems(for: .streamItems)
+            {
+                self.streamViewController.replacePlaceholder(
+                    type: .streamItems,
+                    items: [StreamCellItem(type: .streamLoading)]
+                )
             }
 
             completion()
@@ -475,7 +522,10 @@ extension ProfileViewController: StreamDestination {
         if let cachedImage = cachedImage(.coverImage) {
             screen.coverImage = cachedImage
         }
-        else if let coverImageURL = user.coverImageURL(viewsAdultContent: currentUser?.viewsAdultContent, animated: true) {
+        else if let coverImageURL = user.coverImageURL(
+            viewsAdultContent: currentUser?.viewsAdultContent,
+            animated: true
+        ) {
             screen.coverImageURL = coverImageURL
         }
     }
@@ -509,7 +559,9 @@ extension ProfileViewController: HasMoreButton {
 
         let userId = user.id
         let userAtName = user.atName
-        let prevRelationshipPriority = RelationshipPriorityWrapper(priority: user.relationshipPriority)
+        let prevRelationshipPriority = RelationshipPriorityWrapper(
+            priority: user.relationshipPriority
+        )
 
         let responder: RelationshipResponder? = findResponder()
         responder?.launchBlockModal(

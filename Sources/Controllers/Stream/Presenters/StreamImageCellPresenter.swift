@@ -4,7 +4,12 @@
 
 struct StreamImageCellPresenter {
 
-    static func preventImageStretching(_ cell: StreamImageCell, attachmentWidth: Int, columnWidth: CGFloat, leftMargin: CGFloat) {
+    static func preventImageStretching(
+        _ cell: StreamImageCell,
+        attachmentWidth: Int,
+        columnWidth: CGFloat,
+        leftMargin: CGFloat
+    ) {
         let width = CGFloat(attachmentWidth)
         if width < columnWidth - leftMargin {
             cell.imageRightConstraint.constant = columnWidth - width - leftMargin
@@ -17,8 +22,8 @@ struct StreamImageCellPresenter {
     static func calculateStreamImageMargin(
         _ cell: StreamImageCell,
         imageRegion: ImageRegion,
-        streamCellItem: StreamCellItem) -> StreamImageCell.StreamImageMargin
-    {
+        streamCellItem: StreamCellItem
+    ) -> StreamImageCell.StreamImageMargin {
         // Repost specifics
         if imageRegion.isRepost == true {
             return .repost
@@ -36,8 +41,8 @@ struct StreamImageCellPresenter {
         streamCellItem: StreamCellItem,
         streamKind: StreamKind,
         indexPath: IndexPath,
-        currentUser: User?)
-    {
+        currentUser: User?
+    ) {
         guard
             let cell = cell as? StreamImageCell,
             let imageRegion = streamCellItem.type.data as? ImageRegion
@@ -72,12 +77,21 @@ struct StreamImageCellPresenter {
         let cachedImage = attachmentToLoad?.image
         let imageURL = attachmentToLoad?.url
 
-        let cellMargin = calculateStreamImageMargin(cell, imageRegion: imageRegion, streamCellItem: streamCellItem)
+        let cellMargin = calculateStreamImageMargin(
+            cell,
+            imageRegion: imageRegion,
+            streamCellItem: streamCellItem
+        )
         cell.marginType = cellMargin
 
         if let attachmentWidth = attachmentToLoad?.width {
             let columnWidth: CGFloat = cell.frame.width
-            preventImageStretching(cell, attachmentWidth: attachmentWidth, columnWidth: columnWidth, leftMargin: cell.margin)
+            preventImageStretching(
+                cell,
+                attachmentWidth: attachmentWidth,
+                columnWidth: columnWidth,
+                leftMargin: cell.margin
+            )
         }
 
         cell.onHeightMismatch = { actualHeight in
@@ -94,7 +108,8 @@ struct StreamImageCellPresenter {
             cell.setImage(image)
         }
         else if let imageURL = imageURL {
-            cell.serverProvidedAspectRatio = StreamImageCellSizeCalculator.aspectRatioForImageRegion(imageRegion)
+            cell.serverProvidedAspectRatio =
+                StreamImageCellSizeCalculator.aspectRatioForImageRegion(imageRegion)
             cell.setImageURL(imageURL)
         }
         else if let imageURL = imageRegion.url {

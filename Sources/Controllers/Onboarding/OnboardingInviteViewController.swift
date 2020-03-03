@@ -52,7 +52,12 @@ class OnboardingInviteViewController: StreamableViewController {
 
         super.showNavBars(animated: animated)
 
-        positionNavBar(screen.navigationBar, visible: true, withConstraint: screen.navigationBarTopConstraint, animated: animated)
+        positionNavBar(
+            screen.navigationBar,
+            visible: true,
+            withConstraint: screen.navigationBarTopConstraint,
+            animated: animated
+        )
         updateInsets()
     }
 
@@ -61,7 +66,12 @@ class OnboardingInviteViewController: StreamableViewController {
 
         super.hideNavBars(animated: animated)
 
-        positionNavBar(screen.navigationBar, visible: false, withConstraint: screen.navigationBarTopConstraint, animated: animated)
+        positionNavBar(
+            screen.navigationBar,
+            visible: false,
+            withConstraint: screen.navigationBarTopConstraint,
+            animated: animated
+        )
         updateInsets()
     }
 
@@ -92,7 +102,9 @@ extension OnboardingInviteViewController {
                 self.setContacts(mixedContacts)
             }
             .catch { _ in
-                let mixedContacts: [(LocalPerson, User?)] = self.addressBook.localPeople.map { ($0, .none) }
+                let mixedContacts: [(LocalPerson, User?)] = self.addressBook.localPeople.map {
+                    ($0, .none)
+                }
                 self.setContacts(mixedContacts)
             }
             .finally {
@@ -106,11 +118,17 @@ extension OnboardingInviteViewController {
         let header = NSAttributedString(
             primaryHeader: InterfaceString.Onboard.InviteFriendsPrimary,
             secondaryHeader: InterfaceString.Onboard.InviteFriendsSecondary
-            )
+        )
         let headerCellItem = StreamCellItem(type: .tallHeader(header))
-        let searchItem = StreamCellItem(jsonable: searchString, type: .search(placeholder: InterfaceString.Onboard.Search))
+        let searchItem = StreamCellItem(
+            jsonable: searchString,
+            type: .search(placeholder: InterfaceString.Onboard.Search)
+        )
 
-        let addressBookItems: [StreamCellItem] = AddressBookHelpers.process(contacts, currentUser: currentUser).map { item in
+        let addressBookItems: [StreamCellItem] = AddressBookHelpers.process(
+            contacts,
+            currentUser: currentUser
+        ).map { item in
             if item.type == .inviteFriends {
                 item.type = .onboardingInviteFriends
             }
@@ -128,7 +146,10 @@ extension OnboardingInviteViewController: OnboardingStepController {
         onboardingViewController?.canGoNext = true
     }
 
-    func onboardingWillProceed(abort: Bool, proceedClosure: @escaping (_ success: OnboardingViewController.OnboardingProceed) -> Void) {
+    func onboardingWillProceed(
+        abort: Bool,
+        proceedClosure: @escaping (_ success: OnboardingViewController.OnboardingProceed) -> Void
+    ) {
         proceedClosure(.continue)
     }
 }

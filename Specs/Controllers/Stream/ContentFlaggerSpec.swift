@@ -16,17 +16,20 @@ class ContentFlaggerSpec: QuickSpec {
             var presentingController: UIViewController!
             beforeEach {
                 presentingController = UIViewController()
-                subject = ContentFlagger(presentingController: presentingController,
+                subject = ContentFlagger(
+                    presentingController: presentingController,
                     flaggableId: "123",
                     contentType: .post,
-                    commentPostId: nil)
+                    commentPostId: nil
+                )
                 showController(presentingController)
             }
 
             context("post flagging") {
                 it("the correct kind is associated with each flag type") {
                     subject.displayFlaggingSheet()
-                    let presentedVC = subject.presentingController?.presentedViewController as! AlertViewController
+                    let presentedVC = subject.presentingController?.presentedViewController
+                        as! AlertViewController
 
                     let actions = presentedVC.actions
 

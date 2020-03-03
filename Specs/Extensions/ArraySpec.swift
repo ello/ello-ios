@@ -11,7 +11,7 @@ class ArraySpec: QuickSpec {
     override func spec() {
         describe("Array") {
             describe("safeValue(_:Int)->T") {
-                let subject = [1,2,3]
+                let subject = [1, 2, 3]
                 it("should return Some<Int> when valid") {
                     let val1 = subject.safeValue(0)
                     expect(val1) == 1
@@ -26,7 +26,7 @@ class ArraySpec: QuickSpec {
                 }
             }
             describe("find(test:(T) -> Bool) -> Bool") {
-                let subject = [1,2,3]
+                let subject = [1, 2, 3]
                 it("should return 2 if test passes") {
                     expect(subject.find { $0 == 2 }) == 2
                 }
@@ -38,7 +38,7 @@ class ArraySpec: QuickSpec {
                 }
             }
             describe("any(test:(T) -> Bool) -> Bool") {
-                let subject = [1,2,3]
+                let subject = [1, 2, 3]
                 it("should return true if any pass") {
                     expect(subject.any { $0 == 2 }) == true
                 }
@@ -50,7 +50,7 @@ class ArraySpec: QuickSpec {
                 }
             }
             describe("all(test:(T) -> Bool) -> Bool") {
-                let subject = [1,2,3]
+                let subject = [1, 2, 3]
                 it("should return false if only one pass") {
                     expect(subject.all { $0 == 2 }) == false
                 }
@@ -88,7 +88,7 @@ class ArraySpec: QuickSpec {
                     expect(count) == subject.count
                 }
                 it("should work with two items") {
-                    let subject = [1,2]
+                    let subject = [1, 2]
                     subject.eachPair { prev, curr in
                         (a, b) = (prev, curr)
                         count += 1
@@ -98,7 +98,7 @@ class ArraySpec: QuickSpec {
                     expect(count) == subject.count
                 }
                 it("should work with more items") {
-                    let subject = [1,2,3]
+                    let subject = [1, 2, 3]
                     subject.eachPair { prev, curr in
                         switch count {
                         case 0:
@@ -146,7 +146,7 @@ class ArraySpec: QuickSpec {
                     expect(count) == subject.count
                 }
                 it("should work with two items") {
-                    let subject = [1,2]
+                    let subject = [1, 2]
                     var wasLast: Bool?
                     subject.eachPair { prev, curr, isLast in
                         wasLast = expectedIsLast
@@ -160,7 +160,7 @@ class ArraySpec: QuickSpec {
                     expect(count) == subject.count
                 }
                 it("should work with more items") {
-                    let subject = [1,2,3]
+                    let subject = [1, 2, 3]
                     subject.eachPair { prev, curr, isLast in
                         switch count {
                         case 0:
@@ -185,8 +185,8 @@ class ArraySpec: QuickSpec {
             }
             describe("unique() -> []") {
                 it("should remove duplicates and preserve order") {
-                    let subject = [1,2,3,3,2,4,1,5]
-                    expect(subject.unique()) == [1,2,3,4,5]
+                    let subject = [1, 2, 3, 3, 2, 4, 1, 5]
+                    expect(subject.unique()) == [1, 2, 3, 4, 5]
                 }
             }
         }

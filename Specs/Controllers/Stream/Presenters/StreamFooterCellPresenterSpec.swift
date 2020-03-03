@@ -27,7 +27,13 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                 it("configures a stream footer cell") {
                     StreamKind.following.setIsGridView(false)
 
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: nil)
+                    StreamFooterCellPresenter.configure(
+                        cell,
+                        streamCellItem: item,
+                        streamKind: .following,
+                        indexPath: IndexPath(item: 0, section: 0),
+                        currentUser: nil
+                    )
 
                     expect(cell.comments.isSelected).to(beFalse())
                     expect(cell.commentsOpened).to(beFalse())
@@ -45,7 +51,13 @@ class StreamFooterCellPresenterSpec: QuickSpec {
 
                     StreamKind.following.setIsGridView(true)
 
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: nil)
+                    StreamFooterCellPresenter.configure(
+                        cell,
+                        streamCellItem: item,
+                        streamKind: .following,
+                        indexPath: IndexPath(item: 0, section: 0),
+                        currentUser: nil
+                    )
 
                     expect(cell.comments.isSelected).to(beFalse())
                     expect(cell.commentsOpened).to(beFalse())
@@ -60,7 +72,13 @@ class StreamFooterCellPresenterSpec: QuickSpec {
 
                     StreamKind.following.setIsGridView(true)
 
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: nil)
+                    StreamFooterCellPresenter.configure(
+                        cell,
+                        streamCellItem: item,
+                        streamKind: .following,
+                        indexPath: IndexPath(item: 0, section: 0),
+                        currentUser: nil
+                    )
 
                     expect(cell.comments.isSelected).to(beFalse())
                     expect(cell.commentsOpened).to(beFalse())
@@ -74,7 +92,13 @@ class StreamFooterCellPresenterSpec: QuickSpec {
             context("detail streamkind") {
 
                 it("configures a stream footer cell") {
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .postDetail(postParam: post.id), indexPath: IndexPath(item: 0, section: 0), currentUser: nil)
+                    StreamFooterCellPresenter.configure(
+                        cell,
+                        streamCellItem: item,
+                        streamKind: .postDetail(postParam: post.id),
+                        indexPath: IndexPath(item: 0, section: 0),
+                        currentUser: nil
+                    )
 
                     expect(cell.comments.isSelected).to(beTrue())
                     expect(cell.views.title) == "9"
@@ -90,7 +114,13 @@ class StreamFooterCellPresenterSpec: QuickSpec {
             context("comment button") {
 
                 it("usually enabled and visible") {
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: nil)
+                    StreamFooterCellPresenter.configure(
+                        cell,
+                        streamCellItem: item,
+                        streamKind: .following,
+                        indexPath: IndexPath(item: 0, section: 0),
+                        currentUser: nil
+                    )
 
                     expect(toolbar.postItems).to(contain(.comments))
                 }
@@ -102,7 +132,13 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                     ])
                     item = StreamCellItem(jsonable: post, type: .streamFooter)
 
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: nil)
+                    StreamFooterCellPresenter.configure(
+                        cell,
+                        streamCellItem: item,
+                        streamKind: .following,
+                        indexPath: IndexPath(item: 0, section: 0),
+                        currentUser: nil
+                    )
 
                     expect(toolbar.postItems).to(contain(.comments))
                 }
@@ -114,7 +150,13 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                     ])
                     item = StreamCellItem(jsonable: post, type: .streamFooter)
 
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: nil)
+                    StreamFooterCellPresenter.configure(
+                        cell,
+                        streamCellItem: item,
+                        streamKind: .following,
+                        indexPath: IndexPath(item: 0, section: 0),
+                        currentUser: nil
+                    )
 
                     expect(toolbar.postItems).to(contain(.comments))
                 }
@@ -126,7 +168,13 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                     ])
                     item = StreamCellItem(jsonable: post, type: .streamFooter)
 
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: nil)
+                    StreamFooterCellPresenter.configure(
+                        cell,
+                        streamCellItem: item,
+                        streamKind: .following,
+                        indexPath: IndexPath(item: 0, section: 0),
+                        currentUser: nil
+                    )
 
                     expect(toolbar.postItems).toNot(contain(.comments))
                 }
@@ -138,7 +186,13 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                     ])
                     item = StreamCellItem(jsonable: post, type: .streamFooter)
 
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: nil)
+                    StreamFooterCellPresenter.configure(
+                        cell,
+                        streamCellItem: item,
+                        streamKind: .following,
+                        indexPath: IndexPath(item: 0, section: 0),
+                        currentUser: nil
+                    )
 
                     expect(toolbar.postItems).toNot(contain(.comments))
                 }
@@ -157,7 +211,13 @@ class StreamFooterCellPresenterSpec: QuickSpec {
 
                     StreamKind.following.setIsGridView(false)
 
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: nil)
+                    StreamFooterCellPresenter.configure(
+                        cell,
+                        streamCellItem: item,
+                        streamKind: .following,
+                        indexPath: IndexPath(item: 0, section: 0),
+                        currentUser: nil
+                    )
 
                     expect(toolbar.postItems).to(contain(.share))
                 }
@@ -173,7 +233,13 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                     ])
                     item = StreamCellItem(jsonable: post, type: .streamFooter)
 
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: nil)
+                    StreamFooterCellPresenter.configure(
+                        cell,
+                        streamCellItem: item,
+                        streamKind: .following,
+                        indexPath: IndexPath(item: 0, section: 0),
+                        currentUser: nil
+                    )
 
                     expect(toolbar.postItems).to(contain(.share))
                 }
@@ -190,7 +256,13 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                     item = StreamCellItem(jsonable: post, type: .streamFooter)
                     StreamKind.following.setIsGridView(true)
 
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: nil)
+                    StreamFooterCellPresenter.configure(
+                        cell,
+                        streamCellItem: item,
+                        streamKind: .following,
+                        indexPath: IndexPath(item: 0, section: 0),
+                        currentUser: nil
+                    )
 
                     expect(toolbar.postItems).notTo(contain(.share))
                 }
@@ -206,7 +278,13 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                     ])
                     item = StreamCellItem(jsonable: post, type: .streamFooter)
 
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: nil)
+                    StreamFooterCellPresenter.configure(
+                        cell,
+                        streamCellItem: item,
+                        streamKind: .following,
+                        indexPath: IndexPath(item: 0, section: 0),
+                        currentUser: nil
+                    )
 
                     expect(toolbar.postItems).toNot(contain(.share))
                 }
@@ -222,7 +300,13 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                     ])
                     item = StreamCellItem(jsonable: post, type: .streamFooter)
 
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: nil)
+                    StreamFooterCellPresenter.configure(
+                        cell,
+                        streamCellItem: item,
+                        streamKind: .following,
+                        indexPath: IndexPath(item: 0, section: 0),
+                        currentUser: nil
+                    )
 
                     expect(toolbar.postItems).toNot(contain(.share))
                 }
@@ -232,7 +316,13 @@ class StreamFooterCellPresenterSpec: QuickSpec {
 
                 it("usually enabled and visible") {
                     let user: User = stub([:])
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: user)
+                    StreamFooterCellPresenter.configure(
+                        cell,
+                        streamCellItem: item,
+                        streamKind: .following,
+                        indexPath: IndexPath(item: 0, section: 0),
+                        currentUser: user
+                    )
 
                     expect(cell.reposts.isEnabled).to(beTrue())
                     expect(toolbar.postItems).to(contain(.repost))
@@ -244,10 +334,16 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         "repostsCount": 4,
                         "commentsCount": 6,
                         "lovesCount": 55
-                        ])
+                    ])
                     item = StreamCellItem(jsonable: post, type: .streamFooter)
 
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: nil)
+                    StreamFooterCellPresenter.configure(
+                        cell,
+                        streamCellItem: item,
+                        streamKind: .following,
+                        indexPath: IndexPath(item: 0, section: 0),
+                        currentUser: nil
+                    )
 
                     expect(cell.reposts.isEnabled).to(beTrue())
                     expect(toolbar.postItems).to(contain(.repost))
@@ -264,7 +360,13 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                     ])
                     item = StreamCellItem(jsonable: post, type: .streamFooter)
 
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: nil)
+                    StreamFooterCellPresenter.configure(
+                        cell,
+                        streamCellItem: item,
+                        streamKind: .following,
+                        indexPath: IndexPath(item: 0, section: 0),
+                        currentUser: nil
+                    )
 
                     expect(toolbar.postItems).to(contain(.repost))
                 }
@@ -280,7 +382,13 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                     ])
                     item = StreamCellItem(jsonable: post, type: .streamFooter)
 
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: nil)
+                    StreamFooterCellPresenter.configure(
+                        cell,
+                        streamCellItem: item,
+                        streamKind: .following,
+                        indexPath: IndexPath(item: 0, section: 0),
+                        currentUser: nil
+                    )
 
                     expect(toolbar.postItems).to(contain(.repost))
                 }
@@ -298,7 +406,13 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                     ])
                     item = StreamCellItem(jsonable: post, type: .streamFooter)
 
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: currentUser)
+                    StreamFooterCellPresenter.configure(
+                        cell,
+                        streamCellItem: item,
+                        streamKind: .following,
+                        indexPath: IndexPath(item: 0, section: 0),
+                        currentUser: currentUser
+                    )
 
                     expect(cell.reposts.isEnabled).to(beFalse())
                     expect(toolbar.postItems).to(contain(.repost))
@@ -315,7 +429,13 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                     ])
                     item = StreamCellItem(jsonable: post, type: .streamFooter)
 
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: nil)
+                    StreamFooterCellPresenter.configure(
+                        cell,
+                        streamCellItem: item,
+                        streamKind: .following,
+                        indexPath: IndexPath(item: 0, section: 0),
+                        currentUser: nil
+                    )
 
                     expect(toolbar.postItems).toNot(contain(.repost))
                 }
@@ -331,7 +451,13 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                     ])
                     item = StreamCellItem(jsonable: post, type: .streamFooter)
 
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: nil)
+                    StreamFooterCellPresenter.configure(
+                        cell,
+                        streamCellItem: item,
+                        streamKind: .following,
+                        indexPath: IndexPath(item: 0, section: 0),
+                        currentUser: nil
+                    )
 
                     expect(toolbar.postItems).toNot(contain(.repost))
                 }
@@ -347,7 +473,13 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                     ])
                     item = StreamCellItem(jsonable: post, type: .streamFooter)
 
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: author)
+                    StreamFooterCellPresenter.configure(
+                        cell,
+                        streamCellItem: item,
+                        streamKind: .following,
+                        indexPath: IndexPath(item: 0, section: 0),
+                        currentUser: author
+                    )
 
                     expect(cell.reposts.isEnabled).to(beFalse())
                     expect(toolbar.postItems).to(contain(.repost))
@@ -366,7 +498,13 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                     ])
                     item = StreamCellItem(jsonable: post, type: .streamFooter)
 
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: repostAuthor)
+                    StreamFooterCellPresenter.configure(
+                        cell,
+                        streamCellItem: item,
+                        streamKind: .following,
+                        indexPath: IndexPath(item: 0, section: 0),
+                        currentUser: repostAuthor
+                    )
 
                     expect(cell.reposts.isEnabled).to(beFalse())
                     expect(toolbar.postItems).to(contain(.repost))
@@ -383,7 +521,13 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                     ])
                     item = StreamCellItem(jsonable: post, type: .streamFooter)
 
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: author)
+                    StreamFooterCellPresenter.configure(
+                        cell,
+                        streamCellItem: item,
+                        streamKind: .following,
+                        indexPath: IndexPath(item: 0, section: 0),
+                        currentUser: author
+                    )
 
                     expect(cell.reposts.isEnabled).to(beFalse())
                     expect(toolbar.postItems).to(contain(.repost))
@@ -400,7 +544,13 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                     ])
                     item = StreamCellItem(jsonable: post, type: .streamFooter)
 
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: author)
+                    StreamFooterCellPresenter.configure(
+                        cell,
+                        streamCellItem: item,
+                        streamKind: .following,
+                        indexPath: IndexPath(item: 0, section: 0),
+                        currentUser: author
+                    )
 
                     expect(toolbar.postItems).toNot(contain(.repost))
                 }
@@ -416,7 +566,13 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                     ])
                     item = StreamCellItem(jsonable: post, type: .streamFooter)
 
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: author)
+                    StreamFooterCellPresenter.configure(
+                        cell,
+                        streamCellItem: item,
+                        streamKind: .following,
+                        indexPath: IndexPath(item: 0, section: 0),
+                        currentUser: author
+                    )
 
                     expect(toolbar.postItems).toNot(contain(.repost))
                 }
@@ -425,7 +581,13 @@ class StreamFooterCellPresenterSpec: QuickSpec {
             context("loves button") {
 
                 it("usually enabled and visible") {
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: nil)
+                    StreamFooterCellPresenter.configure(
+                        cell,
+                        streamCellItem: item,
+                        streamKind: .following,
+                        indexPath: IndexPath(item: 0, section: 0),
+                        currentUser: nil
+                    )
 
                     expect(cell.loves.isEnabled).to(beTrue())
                     expect(toolbar.postItems).to(contain(.loves))
@@ -442,7 +604,13 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                     ])
                     item = StreamCellItem(jsonable: post, type: .streamFooter)
 
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: nil)
+                    StreamFooterCellPresenter.configure(
+                        cell,
+                        streamCellItem: item,
+                        streamKind: .following,
+                        indexPath: IndexPath(item: 0, section: 0),
+                        currentUser: nil
+                    )
 
                     expect(toolbar.postItems).to(contain(.loves))
                 }
@@ -458,7 +626,13 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                     ])
                     item = StreamCellItem(jsonable: post, type: .streamFooter)
 
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: nil)
+                    StreamFooterCellPresenter.configure(
+                        cell,
+                        streamCellItem: item,
+                        streamKind: .following,
+                        indexPath: IndexPath(item: 0, section: 0),
+                        currentUser: nil
+                    )
 
                     expect(toolbar.postItems).to(contain(.loves))
                 }
@@ -474,7 +648,13 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                     ])
                     item = StreamCellItem(jsonable: post, type: .streamFooter)
 
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: nil)
+                    StreamFooterCellPresenter.configure(
+                        cell,
+                        streamCellItem: item,
+                        streamKind: .following,
+                        indexPath: IndexPath(item: 0, section: 0),
+                        currentUser: nil
+                    )
 
                     expect(toolbar.postItems).toNot(contain(.loves))
                 }
@@ -490,7 +670,13 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                     ])
                     item = StreamCellItem(jsonable: post, type: .streamFooter)
 
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: nil)
+                    StreamFooterCellPresenter.configure(
+                        cell,
+                        streamCellItem: item,
+                        streamKind: .following,
+                        indexPath: IndexPath(item: 0, section: 0),
+                        currentUser: nil
+                    )
 
                     expect(toolbar.postItems).toNot(contain(.loves))
                 }
@@ -506,7 +692,13 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                     ])
                     item = StreamCellItem(jsonable: post, type: .streamFooter)
 
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: author)
+                    StreamFooterCellPresenter.configure(
+                        cell,
+                        streamCellItem: item,
+                        streamKind: .following,
+                        indexPath: IndexPath(item: 0, section: 0),
+                        currentUser: author
+                    )
 
                     expect(cell.loves.isEnabled) == true
                     expect(toolbar.postItems).to(contain(.loves))
@@ -523,7 +715,13 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                     ])
                     item = StreamCellItem(jsonable: post, type: .streamFooter)
 
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: author)
+                    StreamFooterCellPresenter.configure(
+                        cell,
+                        streamCellItem: item,
+                        streamKind: .following,
+                        indexPath: IndexPath(item: 0, section: 0),
+                        currentUser: author
+                    )
 
                     expect(cell.loves.isEnabled) == true
                     expect(toolbar.postItems).to(contain(.loves))
@@ -540,7 +738,13 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                     ])
                     item = StreamCellItem(jsonable: post, type: .streamFooter)
 
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: author)
+                    StreamFooterCellPresenter.configure(
+                        cell,
+                        streamCellItem: item,
+                        streamKind: .following,
+                        indexPath: IndexPath(item: 0, section: 0),
+                        currentUser: author
+                    )
 
                     expect(toolbar.postItems).toNot(contain(.loves))
                 }
@@ -556,7 +760,13 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                     ])
                     item = StreamCellItem(jsonable: post, type: .streamFooter)
 
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: author)
+                    StreamFooterCellPresenter.configure(
+                        cell,
+                        streamCellItem: item,
+                        streamKind: .following,
+                        indexPath: IndexPath(item: 0, section: 0),
+                        currentUser: author
+                    )
 
                     expect(toolbar.postItems).toNot(contain(.loves))
                 }
@@ -568,7 +778,13 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                     // set the state to loading
                     item.state = .loading
 
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: nil)
+                    StreamFooterCellPresenter.configure(
+                        cell,
+                        streamCellItem: item,
+                        streamKind: .following,
+                        indexPath: IndexPath(item: 0, section: 0),
+                        currentUser: nil
+                    )
 
                     expect(cell.commentsOpened).to(beFalse())
                     expect(cell.views.title) == "9"
@@ -588,7 +804,13 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         // set the state to expanded
                         item.state = .expanded
 
-                        StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: nil)
+                        StreamFooterCellPresenter.configure(
+                            cell,
+                            streamCellItem: item,
+                            streamKind: .following,
+                            indexPath: IndexPath(item: 0, section: 0),
+                            currentUser: nil
+                        )
 
                         expect(cell.commentsOpened).to(beTrue())
                         expect(cell.views.title) == "9"
@@ -607,7 +829,13 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         // set the state to none
                         item.state = .none
 
-                        StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .following, indexPath: IndexPath(item: 0, section: 0), currentUser: nil)
+                        StreamFooterCellPresenter.configure(
+                            cell,
+                            streamCellItem: item,
+                            streamKind: .following,
+                            indexPath: IndexPath(item: 0, section: 0),
+                            currentUser: nil
+                        )
 
                         expect(cell.commentsOpened).to(beFalse())
                         expect(item.state) == StreamCellState.collapsed

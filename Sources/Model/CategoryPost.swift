@@ -51,19 +51,33 @@ final class CategoryPost: Model {
 
         init?(name nameStr: String, json: JSON) {
             guard
-                let method = json["method"].string.map({ $0.uppercased() }).flatMap({ Moya.Method(rawValue: $0) }),
+                let method = json["method"].string.map({ $0.uppercased() }).flatMap({
+                    Moya.Method(rawValue: $0)
+                }),
                 let url = json["href"].url,
                 let name = Name(rawValue: nameStr)
             else { return nil }
 
             let label = json["label"].stringValue
             let parameters = json["body"].object as? [String: Any]
-            self.init(name: name, label: label, request: ElloRequest(url: url, method: method, parameters: parameters))
+            self.init(
+                name: name,
+                label: label,
+                request: ElloRequest(url: url, method: method, parameters: parameters)
+            )
         }
     }
 
-    init(id: String, categoryPartial: CategoryPartial?, status: Status, actions: [Action], submittedAt: Date?, featuredAt: Date?, unfeaturedAt: Date?, removedAt: Date?)
-    {
+    init(
+        id: String,
+        categoryPartial: CategoryPartial?,
+        status: Status,
+        actions: [Action],
+        submittedAt: Date?,
+        featuredAt: Date?,
+        unfeaturedAt: Date?,
+        removedAt: Date?
+    ) {
         self.id = id
         self.categoryPartial = categoryPartial
         self.status = status
@@ -108,7 +122,9 @@ final class CategoryPost: Model {
         var actions: [CategoryPost.Action] = []
         if let actionsJson = json["actions"].dictionary {
             for (name, actionJson) in actionsJson {
-                guard let action = CategoryPost.Action(name: name, json: actionJson) else { continue }
+                guard let action = CategoryPost.Action(name: name, json: actionJson) else {
+                    continue
+                }
                 actions.append(action)
             }
         }
@@ -123,7 +139,11 @@ final class CategoryPost: Model {
             let categoryName = json["category_name"].string,
             let categorySlug = json["category_slug"].string
         {
-            categoryPartial = CategoryPartial(id: categoryId, name: categoryName, slug: categorySlug)
+            categoryPartial = CategoryPartial(
+                id: categoryId,
+                name: categoryName,
+                slug: categorySlug
+            )
         }
 
         let categoryPost = CategoryPost(
@@ -176,6 +196,10 @@ extension CategoryPost.Action {
             let name = Name(rawValue: nameStr)
         else { return nil }
 
-        return CategoryPost.Action(name: name, label: label, request: ElloRequest(url: url, method: method, parameters: parameters))
+        return CategoryPost.Action(
+            name: name,
+            label: label,
+            request: ElloRequest(url: url, method: method, parameters: parameters)
+        )
     }
 }

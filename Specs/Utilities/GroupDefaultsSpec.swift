@@ -12,7 +12,8 @@ class GroupDefaultsSpec: QuickSpec {
         describe("GroupDefaults") {
             context("resetOnLogout") {
                 beforeEach {
-                    GroupDefaults[StreamKind.notifications(category: nil).lastViewedCreatedAtKey!] = Globals.now
+                    GroupDefaults[StreamKind.notifications(category: nil).lastViewedCreatedAtKey!] =
+                        Globals.now
                     GroupDefaults[StreamKind.announcements.lastViewedCreatedAtKey!] = Globals.now
                     GroupDefaults[StreamKind.following.lastViewedCreatedAtKey!] = Globals.now
                     GroupDefaults[ElloTab.discover.narrationDefaultKey] = true

@@ -29,7 +29,9 @@ final class PostDetailViewController: StreamableViewController {
         self.postParam = postParam
         super.init(nibName: nil, bundle: nil)
         if self.post == nil {
-            if let post = ElloLinkedStore.shared.getObject(self.postParam, type: .postsType) as? Post {
+            if let post = ElloLinkedStore.shared.getObject(self.postParam, type: .postsType)
+                as? Post
+            {
                 self.post = post
             }
         }
@@ -95,7 +97,14 @@ final class PostDetailViewController: StreamableViewController {
     }
 
     private func setupNavigationBar() {
-        navigationBar = ElloNavigationBar(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: ElloNavigationBar.Size.height))
+        navigationBar = ElloNavigationBar(
+            frame: CGRect(
+                x: 0,
+                y: 0,
+                width: self.view.frame.width,
+                height: ElloNavigationBar.Size.height
+            )
+        )
         navigationBar.autoresizingMask = [.flexibleBottomMargin, .flexibleWidth]
         view.addSubview(navigationBar)
 
@@ -127,7 +136,8 @@ final class PostDetailViewController: StreamableViewController {
 
     private func checkScrollToComment() {
         if let comment = self.scrollToComment {
-            let commentItem = streamViewController.collectionViewDataSource.visibleCellItems.find { item in
+            let commentItem = streamViewController.collectionViewDataSource.visibleCellItems.find {
+                item in
                 return (item.jsonable as? ElloComment)?.id == comment.id
             }
 
@@ -136,7 +146,8 @@ final class PostDetailViewController: StreamableViewController {
             }
         }
         else if scrollToComments {
-            let commentItem = streamViewController.collectionViewDataSource.visibleCellItems.find { item in
+            let commentItem = streamViewController.collectionViewDataSource.visibleCellItems.find {
+                item in
                 return item.type == .createComment
             }
 
@@ -147,7 +158,11 @@ final class PostDetailViewController: StreamableViewController {
     }
 
     private func scrollToItem(_ commentItem: StreamCellItem) {
-        guard let indexPath = streamViewController.collectionViewDataSource.indexPath(forItem: commentItem) else { return }
+        guard
+            let indexPath = streamViewController.collectionViewDataSource.indexPath(
+                forItem: commentItem
+            )
+        else { return }
 
         scrollToComment = nil
         scrollToComments = false
@@ -191,14 +206,23 @@ extension PostDetailViewController: PostDetailStreamDestination {
         set { streamViewController.isPagingEnabled = newValue }
     }
 
-    func replacePlaceholder(type: StreamCellType.PlaceholderType, items: [StreamCellItem], completion: @escaping Block) {
+    func replacePlaceholder(
+        type: StreamCellType.PlaceholderType,
+        items: [StreamCellItem],
+        completion: @escaping Block
+    ) {
         streamViewController.replacePlaceholder(type: type, items: items) {
             if type == .postComments {
                 self.checkScrollToComment()
             }
 
-            if self.streamViewController.hasCellItems(for: .profileHeader) && !self.streamViewController.hasCellItems(for: .streamItems) {
-                self.streamViewController.replacePlaceholder(type: .streamItems, items: [StreamCellItem(type: .streamLoading)])
+            if self.streamViewController.hasCellItems(for: .profileHeader)
+                && !self.streamViewController.hasCellItems(for: .streamItems)
+            {
+                self.streamViewController.replacePlaceholder(
+                    type: .streamItems,
+                    items: [StreamCellItem(type: .streamLoading)]
+                )
             }
             completion()
         }
@@ -277,9 +301,11 @@ extension PostDetailViewController: HasMoreButton {
     func moreButtonTapped() {
         guard let post = post else { return }
 
-        let flagger = ContentFlagger(presentingController: self,
+        let flagger = ContentFlagger(
+            presentingController: self,
             flaggableId: post.id,
-            contentType: .post)
+            contentType: .post
+        )
         flagger.displayFlaggingSheet()
     }
 }

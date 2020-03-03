@@ -81,10 +81,13 @@ class ClearTextField: UITextField {
     }
 
     override func drawPlaceholder(in rect: CGRect) {
-        placeholder?.draw(in: rect, withAttributes: [
-            .font: UIFont.defaultFont(18),
-            .foregroundColor: UIColor.white,
-        ])
+        placeholder?.draw(
+            in: rect,
+            withAttributes: [
+                .font: UIFont.defaultFont(18),
+                .foregroundColor: UIColor.white,
+            ]
+        )
     }
 
     override func becomeFirstResponder() -> Bool {
@@ -97,7 +100,7 @@ class ClearTextField: UITextField {
         return super.resignFirstResponder()
     }
 
-// MARK: Layout rects
+    // MARK: Layout rects
 
     override func textRect(forBounds bounds: CGRect) -> CGRect {
         return rectForBounds(bounds)

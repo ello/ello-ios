@@ -57,7 +57,8 @@ enum State: String {
 
     var nextPossibleStates: [State] {
         switch self {
-        case .start: return [.tagOpen, .doctype, .predoctypeWhitespace, .predoctypeCommentOpen, .text, .end]
+        case .start:
+            return [.tagOpen, .doctype, .predoctypeWhitespace, .predoctypeCommentOpen, .text, .end]
         case .doctype: return [.reset]
         case .reset: return [.tagOpen, .ieOpen, .ieClose, .commentOpen, .tagClose, .text, .end]
         case .end: return []
@@ -92,71 +93,71 @@ enum State: String {
 
     func match(_ str: String) -> String {
         switch self {
-        case .start:                  return ""
-        case .reset:                  return ""
-        case .doctype:                return (str.lowercased() ~ "^<!doctype .*?>") ?? ""
-        case .end:                    return ""
-        case .tagOpen:                return (str ~ "^<[a-zA-Z]([-_]?[a-zA-Z0-9])*") ?? ""
-        case .tagClose:               return (str ~ "^</[a-zA-Z]([-_]?[a-zA-Z0-9])*>") ?? ""
-        case .tagWs:                  return (str ~ "^[ \t\n]+") ?? ""
-        case .tagGt:                  return (str ~ "^>") ?? ""
-        case .singleton:              return (str ~ "^/>") ?? ""
-        case .attrReset:              return ""
-        case .attr:                   return (str ~ "^[a-zA-Z]([-_]?[a-zA-Z0-9])*") ?? ""
-        case .attrEq:                 return (str ~ "^=") ?? ""
-        case .attrDqt:                return (str ~ "^\"") ?? ""
-        case .attrSqt:                return (str ~ "^'") ?? ""
-        case .attrValue:              return (str ~ "^[a-zA-Z0-9]([-_]?[a-zA-Z0-9])*") ?? ""
-        case .attrDvalue:             return (str ~ "^[^\"]*") ?? ""
-        case .attrSvalue:             return (str ~ "^[^']*") ?? ""
-        case .attrCdqt:               return (str ~ "^\"") ?? ""
-        case .attrCsqt:               return (str ~ "^'") ?? ""
-        case .cdata:                  return (str ~ "^(//)?<!\\[CDATA\\[([^>]|>)*?//]]>") ?? ""
-        case .text:                   return (str ~ "^(.|\n)+?($|(?=<[!/a-zA-Z]))") ?? ""
-        case .ieOpen:                 return (str ~ "^<!(?:--)?\\[if.*?\\[>") ?? ""
-        case .ieClose:                return (str ~ "^<!\\[endif\\[(?:--)?>") ?? ""
-        case .predoctypeWhitespace:   return (str ~ "^[ \t\n]+") ?? ""
-        case .predoctypeCommentOpen:  return (str ~ "^<!--") ?? ""
-        case .predoctypeComment:      return (str ~ "^(.|\n)*?(?=-->)") ?? ""
+        case .start: return ""
+        case .reset: return ""
+        case .doctype: return (str.lowercased() ~ "^<!doctype .*?>") ?? ""
+        case .end: return ""
+        case .tagOpen: return (str ~ "^<[a-zA-Z]([-_]?[a-zA-Z0-9])*") ?? ""
+        case .tagClose: return (str ~ "^</[a-zA-Z]([-_]?[a-zA-Z0-9])*>") ?? ""
+        case .tagWs: return (str ~ "^[ \t\n]+") ?? ""
+        case .tagGt: return (str ~ "^>") ?? ""
+        case .singleton: return (str ~ "^/>") ?? ""
+        case .attrReset: return ""
+        case .attr: return (str ~ "^[a-zA-Z]([-_]?[a-zA-Z0-9])*") ?? ""
+        case .attrEq: return (str ~ "^=") ?? ""
+        case .attrDqt: return (str ~ "^\"") ?? ""
+        case .attrSqt: return (str ~ "^'") ?? ""
+        case .attrValue: return (str ~ "^[a-zA-Z0-9]([-_]?[a-zA-Z0-9])*") ?? ""
+        case .attrDvalue: return (str ~ "^[^\"]*") ?? ""
+        case .attrSvalue: return (str ~ "^[^']*") ?? ""
+        case .attrCdqt: return (str ~ "^\"") ?? ""
+        case .attrCsqt: return (str ~ "^'") ?? ""
+        case .cdata: return (str ~ "^(//)?<!\\[CDATA\\[([^>]|>)*?//]]>") ?? ""
+        case .text: return (str ~ "^(.|\n)+?($|(?=<[!/a-zA-Z]))") ?? ""
+        case .ieOpen: return (str ~ "^<!(?:--)?\\[if.*?\\[>") ?? ""
+        case .ieClose: return (str ~ "^<!\\[endif\\[(?:--)?>") ?? ""
+        case .predoctypeWhitespace: return (str ~ "^[ \t\n]+") ?? ""
+        case .predoctypeCommentOpen: return (str ~ "^<!--") ?? ""
+        case .predoctypeComment: return (str ~ "^(.|\n)*?(?=-->)") ?? ""
         case .predoctypeCommentClose: return (str ~ "^-->") ?? ""
-        case .commentOpen:            return (str ~ "^<!--") ?? ""
-        case .comment:                return (str ~ "^(.|\n)*?(?=-->)") ?? ""
-        case .commentClose:           return (str ~ "^-->") ?? ""
+        case .commentOpen: return (str ~ "^<!--") ?? ""
+        case .comment: return (str ~ "^(.|\n)*?(?=-->)") ?? ""
+        case .commentClose: return (str ~ "^-->") ?? ""
         }
     }
 
     func detect(_ str: String) -> Bool {
         switch self {
-        case .start:                  return true
-        case .reset:                  return true
-        case .doctype:                return str.lowercased() =~ "^<!doctype .*?>"
-        case .end:                    return str.isEmpty
-        case .tagOpen:                return str =~ "^<[a-zA-Z]([-_]?[a-zA-Z0-9])*"
-        case .tagClose:               return str =~ "^</[a-zA-Z]([-_]?[a-zA-Z0-9])*>"
-        case .tagWs:                  return str =~ "^[ \t\n]+"
-        case .tagGt:                  return str =~ "^>"
-        case .singleton:              return str =~ "^/>"
-        case .attrReset:              return true
-        case .attr:                   return str =~ "^[a-zA-Z]([-_]?[a-zA-Z0-9])*"
-        case .attrEq:                 return str =~ "^="
-        case .attrDqt:                return str =~ "^\""
-        case .attrSqt:                return str =~ "^'"
-        case .attrValue:              return str =~ "^[a-zA-Z0-9]([-_]?[a-zA-Z0-9])*"
-        case .attrDvalue:             return str =~ "^[^\"]*"
-        case .attrSvalue:             return str =~ "^[^']*"
-        case .attrCdqt:               return str =~ "^\""
-        case .attrCsqt:               return str =~ "^'"
-        case .cdata:                  return str =~ "^(//)?<!\\[CDATA\\[([^>]|>)*?//]]>"
-        case .text:                   return str =~ "^(.|\n)+?($|(?=<[!/a-zA-Z]))"
-        case .ieOpen:                 return str =~ "^<!(?:--)?\\[if.*?\\[>"
-        case .ieClose:                return str =~ "^<!\\[endif\\](?:--)?>"
-        case .predoctypeWhitespace:   return str =~ "^[ \t\n]+"
-        case .predoctypeCommentOpen:  return str =~ "^<!--"
-        case .predoctypeComment:      return str =~ "^(.|\n)*?(?=-->)"
+        case .start: return true
+        case .reset: return true
+        case .doctype: return str.lowercased() =~ "^<!doctype .*?>"
+        case .end: return str.isEmpty
+        case .tagOpen: return str =~ "^<[a-zA-Z]([-_]?[a-zA-Z0-9])*"
+        case .tagClose: return str =~ "^</[a-zA-Z]([-_]?[a-zA-Z0-9])*>"
+        case .tagWs: return str =~ "^[ \t\n]+"
+        case .tagGt: return str =~ "^>"
+        case .singleton: return str =~ "^/>"
+        case .attrReset: return true
+        case .attr: return str =~ "^[a-zA-Z]([-_]?[a-zA-Z0-9])*"
+        case .attrEq: return str =~ "^="
+        case .attrDqt: return str =~ "^\""
+        case .attrSqt: return str =~ "^'"
+        case .attrValue: return str =~ "^[a-zA-Z0-9]([-_]?[a-zA-Z0-9])*"
+        case .attrDvalue: return str =~ "^[^\"]*"
+        case .attrSvalue: return str =~ "^[^']*"
+        case .attrCdqt: return str =~ "^\""
+        case .attrCsqt: return str =~ "^'"
+        case .cdata: return str =~ "^(//)?<!\\[CDATA\\[([^>]|>)*?//]]>"
+        case .text: return str =~ "^(.|\n)+?($|(?=<[!/a-zA-Z]))"
+        case .ieOpen: return str =~ "^<!(?:--)?\\[if.*?\\[>"
+        case .ieClose: return str =~ "^<!\\[endif\\](?:--)?>"
+        case .predoctypeWhitespace: return str =~ "^[ \t\n]+"
+        case .predoctypeCommentOpen: return str =~ "^<!--"
+        case .predoctypeComment: return str =~ "^(.|\n)*?(?=-->)"
         case .predoctypeCommentClose: return str =~ "^-->"
-        case .commentOpen:            return str =~ "^<!--"
-        case .comment:                return str =~ "^(.|\n)*?(?=-->)"
-        case .commentClose:           return str =~ "^-->"
+        case .commentOpen: return str =~ "^<!--"
+        case .comment: return str =~ "^(.|\n)*?(?=-->)"
+        case .commentClose: return str =~ "^-->"
         }
     }
 }
@@ -198,7 +199,7 @@ class Tag: CustomStringConvertible {
 
         var c = html.startIndex
         while state != .end {
-            let current = String(html[c ..< html.endIndex])
+            let current = String(html[c..<html.endIndex])
 
             var nextPossibleStates = [State]()
             for possible in state.nextPossibleStates {
@@ -292,7 +293,9 @@ class Tag: CustomStringConvertible {
         }
     }
 
-    private func attrd(_ text: String, addlAttrs: [NSAttributedString.Key: Any] = [:]) -> NSAttributedString {
+    private func attrd(_ text: String, addlAttrs: [NSAttributedString.Key: Any] = [:])
+        -> NSAttributedString
+    {
         let defaultAttrs: [NSAttributedString.Key: Any] = [
             .font: UIFont.editorFont(),
             .foregroundColor: UIColor.black,
@@ -316,14 +319,18 @@ class Tag: CustomStringConvertible {
             case "u":
                 newAttrs[.underlineStyle] = NSUnderlineStyle.single.rawValue
             case "b", "strong":
-                if let existingFont = inheritedAttrs[.font] as? UIFont, existingFont.fontName == UIFont.editorItalicFont().fontName {
+                if let existingFont = inheritedAttrs[.font] as? UIFont,
+                    existingFont.fontName == UIFont.editorItalicFont().fontName
+                {
                     newAttrs[.font] = UIFont.editorBoldItalicFont()
                 }
                 else {
                     newAttrs[.font] = UIFont.editorBoldFont()
                 }
             case "i", "em":
-                if let existingFont = inheritedAttrs[.font] as? UIFont, existingFont.fontName == UIFont.editorBoldFont().fontName {
+                if let existingFont = inheritedAttrs[.font] as? UIFont,
+                    existingFont.fontName == UIFont.editorBoldFont().fontName
+                {
                     newAttrs[.font] = UIFont.editorBoldItalicFont()
                 }
                 else {
@@ -346,8 +353,7 @@ class Tag: CustomStringConvertible {
             innerText = tempText
         }
 
-        if let tag = name, let link = attrs["href"], tag == "a"
-        {
+        if let tag = name, let link = attrs["href"], tag == "a" {
             switch link {
             case let .value(url):
                 retval.append(attrd("["))
@@ -378,7 +384,7 @@ class Tag: CustomStringConvertible {
     }
 
     private func imageURL() -> URL? {
-        if let tag = name, let src: AttrValue = attrs["src"], tag == "img" {
+        if let tag = name, let src:AttrValue = attrs["src"], tag == "img" {
             switch src {
             case let .value(value):
                 return URL(string: value)

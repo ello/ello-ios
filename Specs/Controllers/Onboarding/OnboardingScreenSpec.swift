@@ -77,7 +77,11 @@ class OnboardingScreenSpec: QuickSpec {
                 it("styles correct for hasAbortButton=true, canGoNext=true") {
                     subject.hasAbortButton = true
                     subject.canGoNext = true
-                    expectValidSnapshot(subject, named: "canGoNextAndAbort", device: .phone6_Portrait)
+                    expectValidSnapshot(
+                        subject,
+                        named: "canGoNextAndAbort",
+                        device: .phone6_Portrait
+                    )
                 }
             }
             context("prompt") {

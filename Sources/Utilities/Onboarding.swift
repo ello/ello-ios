@@ -5,7 +5,6 @@
 import SwiftyUserDefaults
 
 
-
 class Onboarding {
     static let currentVersion = 3
     static let minCreatorTypeVersion = 1

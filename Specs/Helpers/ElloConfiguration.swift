@@ -23,9 +23,25 @@ class ElloConfiguration: QuickConfiguration {
 
             ElloLinkedStore.databaseName = "ello-test-v2.sqlite"
             Badge.badges = [
-                "featured": Badge(slug: "featured", name: "Featured", caption: "Learn More", url: nil, interfaceImage: .badgeFeatured),
-                "community": Badge(slug: "community", name: "Community", caption: "Learn More", url: nil),
-                "experimental": Badge(slug: "experimental", name: "Experimental", caption: "Learn More", url: nil),
+                "featured": Badge(
+                    slug: "featured",
+                    name: "Featured",
+                    caption: "Learn More",
+                    url: nil,
+                    interfaceImage: .badgeFeatured
+                ),
+                "community": Badge(
+                    slug: "community",
+                    name: "Community",
+                    caption: "Learn More",
+                    url: nil
+                ),
+                "experimental": Badge(
+                    slug: "experimental",
+                    name: "Experimental",
+                    caption: "Learn More",
+                    url: nil
+                ),
                 "staff": Badge(slug: "staff", name: "Staff", caption: "Meet our team", url: nil),
                 "spam": Badge(slug: "spam", name: "Spam", caption: "Learn More", url: nil),
                 "nsfw": Badge(slug: "nsfw", name: "Nsfw", caption: "Learn More", url: nil),
@@ -33,7 +49,10 @@ class ElloConfiguration: QuickConfiguration {
 
             Globals.nowGenerator = { return now }
 
-            UserDefaults.standard.setValue(false, forKey: "_UIConstraintBasedLayoutLogUnsatisfiable")
+            UserDefaults.standard.setValue(
+                false,
+                forKey: "_UIConstraintBasedLayoutLogUnsatisfiable"
+            )
         }
 
         config.beforeEach {
@@ -84,8 +103,8 @@ func stubbedJSONData(_ file: String, _ propertyName: String) -> ([String: Any]) 
     let json: Any = try! JSONSerialization.jsonObject(with: loadedData, options: [])
 
     var castJSON = json as! [String: Any]
-    let parsedProperty = castJSON[propertyName] as! [String:Any]
-    if let linkedJSON = castJSON["linked"] as? [String:[[String:Any]]] {
+    let parsedProperty = castJSON[propertyName] as! [String: Any]
+    if let linkedJSON = castJSON["linked"] as? [String: [[String: Any]]] {
         ElloLinkedStore.shared.parseLinked(linkedJSON, completion: {})
     }
 
@@ -96,9 +115,9 @@ func stubbedJSONDataArray(_ file: String, _ propertyName: String) -> [[String: A
     let loadedData: Data = stubbedData(file)
     let json: Any = try! JSONSerialization.jsonObject(with: loadedData, options: [])
 
-    var castJSON:[String:Any] = json as! [String: Any]
-    let parsedProperty = castJSON[propertyName] as! [[String:Any]]
-    if let linkedJSON = castJSON["linked"] as? [String:[[String:Any]]] {
+    var castJSON: [String: Any] = json as! [String: Any]
+    let parsedProperty = castJSON[propertyName] as! [[String: Any]]
+    if let linkedJSON = castJSON["linked"] as? [String: [[String: Any]]] {
         ElloLinkedStore.shared.parseLinked(linkedJSON, completion: {})
     }
 

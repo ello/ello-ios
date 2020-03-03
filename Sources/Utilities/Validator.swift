@@ -6,9 +6,10 @@ struct Validator {
 
     static func hasValidLinks(_ links: String) -> Bool {
         let splitLinks = links.split(",").map { $0.trimmed() }
-        return splitLinks.count > 0 && splitLinks.all {
-            return Validator.isValidLink($0)
-        }
+        return splitLinks.count > 0
+            && splitLinks.all {
+                return Validator.isValidLink($0)
+            }
     }
 
     static func isValidLink(_ link: String) -> Bool {
@@ -32,7 +33,8 @@ struct Validator {
         return host.contains(".") && !host.hasPrefix(".") && !host.hasSuffix(".")
     }
 
-    static func hasValidSignUpCredentials(email: String, username: String, password: String) -> Bool {
+    static func hasValidSignUpCredentials(email: String, username: String, password: String) -> Bool
+    {
         return isValidEmail(email) && isValidUsername(username) && isValidPassword(password)
     }
 

@@ -11,13 +11,21 @@ struct StreamTextCellHTML {
             return indexFile
         }
         else {
-            let indexHTML = Bundle.main.path(forResource: "index", ofType: "html", inDirectory: "www")!
+            let indexHTML = Bundle.main.path(
+                forResource: "index",
+                ofType: "html",
+                inDirectory: "www"
+            )!
 
             var error: NSError?
             let indexAsText: NSString?
             do {
-                indexAsText = try NSString(contentsOfFile: indexHTML, encoding: String.Encoding.utf8.rawValue)
-            } catch let error1 as NSError {
+                indexAsText = try NSString(
+                    contentsOfFile: indexHTML,
+                    encoding: String.Encoding.utf8.rawValue
+                )
+            }
+            catch let error1 as NSError {
                 error = error1
                 indexAsText = nil
             }
@@ -40,20 +48,32 @@ struct StreamTextCellHTML {
 
     static func editorialHTML(_ string: String) -> String {
         var htmlString = StreamTextCellHTML.postHTML(string)
-        htmlString = htmlString.replacingOccurrences(of: "background-color: white;", with: "background-color: transparent;")
-        htmlString = htmlString.replacingOccurrences(of: "</style>", with: "body { color: white; }</style>")
+        htmlString = htmlString.replacingOccurrences(
+            of: "background-color: white;",
+            with: "background-color: transparent;"
+        )
+        htmlString = htmlString.replacingOccurrences(
+            of: "</style>",
+            with: "body { color: white; }</style>"
+        )
         return htmlString
     }
 
     static func artistInviteHTML(_ string: String) -> String {
         var htmlString = StreamTextCellHTML.postHTML(string)
-        htmlString = htmlString.replacingOccurrences(of: "background-color: white;", with: "background-color: #f2f2f2;")
+        htmlString = htmlString.replacingOccurrences(
+            of: "background-color: white;",
+            with: "background-color: #f2f2f2;"
+        )
         return htmlString
     }
 
     static func artistInviteGuideHTML(_ string: String) -> String {
         var htmlString = StreamTextCellHTML.postHTML(string)
-        htmlString = htmlString.replacingOccurrences(of: "</style>", with: "body { color: #aaa; }</style>")
+        htmlString = htmlString.replacingOccurrences(
+            of: "</style>",
+            with: "body { color: #aaa; }</style>"
+        )
         return htmlString
     }
 }

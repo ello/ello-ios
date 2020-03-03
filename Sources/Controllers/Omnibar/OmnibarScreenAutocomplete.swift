@@ -35,14 +35,16 @@ extension OmnibarScreen {
                         self.hideAutoComplete(textView)
                     }
                 }
-            } else {
+            }
+            else {
                 self.hideAutoComplete(textView)
             }
         }
     }
 
     func emojiKeyboardShowing() -> Bool {
-        return textView.textInputMode?.primaryLanguage == nil || textView.textInputMode?.primaryLanguage == "emoji"
+        return textView.textInputMode?.primaryLanguage == nil
+            || textView.textInputMode?.primaryLanguage == "emoji"
     }
 
     func hideAutoComplete(_ textView: UITextView) {
@@ -68,7 +70,9 @@ extension OmnibarScreen {
         }
 
         let height = AutoCompleteCell.Size.height * min(CGFloat(3.5), CGFloat(count))
-        let constraintIndex = textView.inputAccessoryView?.constraints.firstIndex { $0.firstAttribute == .height }
+        let constraintIndex = textView.inputAccessoryView?.constraints.firstIndex {
+            $0.firstAttribute == .height
+        }
         if let index = constraintIndex,
             let inputAccessoryView = textView.inputAccessoryView,
             let constraint = inputAccessoryView.constraints.safeValue(index)
@@ -84,7 +88,8 @@ extension OmnibarScreen {
 
 
 extension OmnibarScreen: AutoCompleteDelegate {
-    func autoComplete(_ controller: AutoCompleteViewController, itemSelected item: AutoCompleteItem) {
+    func autoComplete(_ controller: AutoCompleteViewController, itemSelected item: AutoCompleteItem)
+    {
         guard
             let name = item.result.name
         else { return }
@@ -100,7 +105,10 @@ extension OmnibarScreen: AutoCompleteDelegate {
             suffix = ":"
         }
 
-        let newText = textView.text.replacingCharacters(in: item.match.range, with: "\(prefix)\(name)\(suffix) ")
+        let newText = textView.text.replacingCharacters(
+            in: item.match.range,
+            with: "\(prefix)\(name)\(suffix) "
+        )
         let currentText = NSAttributedString(defaults: newText)
         textView.attributedText = currentText
         textViewDidChange(textView)

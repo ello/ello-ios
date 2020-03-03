@@ -12,7 +12,7 @@ struct AutoCompleteMatch: CustomStringConvertible, Equatable {
     let range: Range<String.Index>
     let text: String
 
-    init(type: AutoCompleteType, range: Range<String.Index>, text: String ){
+    init(type: AutoCompleteType, range: Range<String.Index>, text: String) {
         self.type = type
         self.range = range
         self.text = text
@@ -31,7 +31,7 @@ enum AutoCompleteType {
 
 struct AutoComplete {
 
-    init(){}
+    init() {}
 
     func eagerCheck(_ text: String, location: Int) -> Bool {
         if location > text.count { return false }
@@ -44,8 +44,8 @@ struct AutoComplete {
         else {
             charEndIndex = text.index(wordStartIndex, offsetBy: 1)
         }
-        let char = text[wordStartIndex ..< charEndIndex]
-        let substr = text[wordStartIndex ..< wordEndIndex]
+        let char = text[wordStartIndex..<charEndIndex]
+        let substr = text[wordStartIndex..<wordEndIndex]
         if (substr.split { $0 == ":" }).count > 1 {
             return false
         }
@@ -91,7 +91,7 @@ private extension AutoComplete {
 
     func getIndexOfWordStart(_ index: Int, fromString str: String) -> String.Index {
         guard index > 0 else { return str.startIndex }
-        for indexOffset in (0 ..< index).reversed() {
+        for indexOffset in (0..<index).reversed() {
             let cursorIndex = str.index(str.startIndex, offsetBy: indexOffset)
             let letter = str[cursorIndex]
             let prevLetter: Character?

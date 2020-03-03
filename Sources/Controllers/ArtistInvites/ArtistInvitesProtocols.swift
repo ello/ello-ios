@@ -30,5 +30,8 @@ protocol ArtistInviteResponder: class {
 }
 
 protocol ArtistInviteAdminResponder: class {
-    func tappedArtistInviteAction(cell: ArtistInviteAdminControlsCell, action: ArtistInviteSubmission.Action)
+    func tappedArtistInviteAction(
+        cell: ArtistInviteAdminControlsCell,
+        action: ArtistInviteSubmission.Action
+    )
 }

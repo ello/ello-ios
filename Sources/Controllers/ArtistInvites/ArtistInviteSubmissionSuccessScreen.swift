@@ -43,9 +43,9 @@ extension StyledLabel.Style {
     static let submissionSuccessTitle = StyledLabel.Style(
         textColor: .greenD1,
         fontFamily: .artistInviteTitle
-        )
+    )
     static let submissionSuccessDescription = StyledLabel.Style(
         textColor: .greyA,
         fontFamily: .artistInviteTitle
-        )
+    )
 }

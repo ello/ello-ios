@@ -68,7 +68,10 @@ class DebugAgent: AnalyticsAgent {
         logTextView.backgroundColor = .black
         logTextView.isUserInteractionEnabled = false
         logView.addSubview(logTextView)
-        let recognizer = UITapGestureRecognizer(target: self, action: #selector(DebugAgent.viewTapped))
+        let recognizer = UITapGestureRecognizer(
+            target: self,
+            action: #selector(DebugAgent.viewTapped)
+        )
         logView.addGestureRecognizer(recognizer)
     }
 
@@ -89,7 +92,9 @@ class DebugAgent: AnalyticsAgent {
 
         postNotification(StatusBarNotifications.statusBarVisibility, value: false)
         animate {
-            self.logView.frame = UIWindow.mainWindow.bounds.fromTop().grow(down: ElloTabBar.Size.height)
+            self.logView.frame = UIWindow.mainWindow.bounds.fromTop().grow(
+                down: ElloTabBar.Size.height
+            )
             self.logTextView.frame.size = self.logView.frame.size
         }
     }
@@ -102,7 +107,10 @@ class DebugAgent: AnalyticsAgent {
         }
 
         if let shouldHideStatusBar = shouldHideStatusBar {
-            postNotification(StatusBarNotifications.statusBarVisibility, value: !shouldHideStatusBar)
+            postNotification(
+                StatusBarNotifications.statusBarVisibility,
+                value: !shouldHideStatusBar
+            )
         }
     }
 

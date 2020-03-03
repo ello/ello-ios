@@ -60,7 +60,16 @@ final class DynamicSetting: Model {
     let conflictsWith: [String]
     let setsAnother: [DynamicSetAnother]
 
-    init(label: String, key: String, info: String? = nil, linkLabel: String? = nil, linkURL: URL? = nil, dependentOn: [String] = [], conflictsWith: [String] = [], setsAnother: [DynamicSetAnother] = []) {
+    init(
+        label: String,
+        key: String,
+        info: String? = nil,
+        linkLabel: String? = nil,
+        linkURL: URL? = nil,
+        dependentOn: [String] = [],
+        conflictsWith: [String] = [],
+        setsAnother: [DynamicSetAnother] = []
+    ) {
         self.label = label
         self.key = key
         self.info = info
@@ -100,8 +109,8 @@ final class DynamicSetting: Model {
 
     func sets(_ anotherSetting: DynamicSetting, when: Bool) -> Bool? {
         for dynamicSetAnother in setsAnother
-        where dynamicSetAnother.key == anotherSetting.key &&
-            (dynamicSetAnother.when == nil || dynamicSetAnother.when == when)
+        where dynamicSetAnother.key == anotherSetting.key
+            && (dynamicSetAnother.when == nil || dynamicSetAnother.when == when)
         {
             return dynamicSetAnother.value
         }
@@ -146,7 +155,16 @@ final class DynamicSetting: Model {
         let linkLabel = json["link"]["label"].string
         let linkURL = json["link"]["url"].url
 
-        return DynamicSetting(label: label, key: key, info: info, linkLabel: linkLabel, linkURL: linkURL, dependentOn: dependentOn, conflictsWith: conflictsWith, setsAnother: setsAnother)
+        return DynamicSetting(
+            label: label,
+            key: key,
+            info: info,
+            linkLabel: linkLabel,
+            linkURL: linkURL,
+            dependentOn: dependentOn,
+            conflictsWith: conflictsWith,
+            setsAnother: setsAnother
+        )
     }
 }
 

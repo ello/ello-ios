@@ -24,11 +24,12 @@ private func getAllPeopleWithEmailAddresses(_ store: CNContactStore) -> [LocalPe
         CNContactEmailAddressesKey as CNKeyDescriptor,
         CNContactIdentifierKey as CNKeyDescriptor,
         CNContactFormatter.descriptorForRequiredKeys(for: .fullName)
-        ])
+    ])
     do {
         try store.enumerateContacts(with: fetchRequest) { contact, _ in
             let emails: [String] = contact.emailAddresses.compactMap { $0.value as String }
-            let name = CNContactFormatter.string(from: contact, style: .fullName) ?? emails.first ?? "NO NAME"
+            let name = CNContactFormatter.string(from: contact, style: .fullName) ?? emails.first
+                ?? "NO NAME"
             let id = contact.identifier
 
             persons.append(LocalPerson(name: name, emails: emails, id: id))

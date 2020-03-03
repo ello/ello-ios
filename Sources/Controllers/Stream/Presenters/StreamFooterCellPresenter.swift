@@ -22,8 +22,8 @@ struct StreamFooterCellPresenter {
         streamCellItem: StreamCellItem,
         streamKind: StreamKind,
         indexPath: IndexPath,
-        currentUser: User?)
-    {
+        currentUser: User?
+    ) {
         guard
             let cell = cell as? StreamFooterCell,
             let post = streamCellItem.jsonable as? Post
@@ -32,14 +32,20 @@ struct StreamFooterCellPresenter {
         let isGridView = streamCellItem.isGridView(streamKind: streamKind)
         configureDisplayCounts(cell, post: post, isGridView: isGridView)
         configureToolBarItems(cell, post: post, currentUser: currentUser, isGridView: isGridView)
-        configureCommentControl(cell, post: post, streamCellItem: streamCellItem, streamKind: streamKind, currentUser: currentUser)
+        configureCommentControl(
+            cell,
+            post: post,
+            streamCellItem: streamCellItem,
+            streamKind: streamKind,
+            currentUser: currentUser
+        )
     }
 
     private static func configureDisplayCounts(
         _ cell: StreamFooterCell,
         post: Post,
-        isGridView: Bool)
-    {
+        isGridView: Bool
+    ) {
         let rounding = isGridView ? 0 : 1
         if cell.frame.width < 155 {
             cell.views.title = ""
@@ -58,9 +64,10 @@ struct StreamFooterCellPresenter {
         _ cell: StreamFooterCell,
         post: Post,
         currentUser: User?,
-        isGridView: Bool)
-    {
-        let (commentVisibility, loveVisibility, repostVisibility, shareVisibility) = toolbarItemVisibility(post: post, currentUser: currentUser, isGridView: isGridView)
+        isGridView: Bool
+    ) {
+        let (commentVisibility, loveVisibility, repostVisibility, shareVisibility) =
+            toolbarItemVisibility(post: post, currentUser: currentUser, isGridView: isGridView)
 
         cell.updateToolbarItems(
             isGridView: isGridView,
@@ -71,11 +78,18 @@ struct StreamFooterCellPresenter {
         )
     }
 
-    static func toolbarItemVisibility(post: Post,
+    static func toolbarItemVisibility(
+        post: Post,
         currentUser: User?,
-        isGridView: Bool) -> (commentVisibility: InteractionVisibility, loveVisibility: InteractionVisibility, repostVisibility: InteractionVisibility, shareVisibility: InteractionVisibility)
-    {
-        let ownPost = (currentUser?.id == post.authorId || (post.repostAuthor?.id != nil && currentUser?.id == post.repostAuthor?.id))
+        isGridView: Bool
+    ) -> (
+        commentVisibility: InteractionVisibility, loveVisibility: InteractionVisibility,
+        repostVisibility: InteractionVisibility, shareVisibility: InteractionVisibility
+    ) {
+        let ownPost = (
+            currentUser?.id == post.authorId
+                || (post.repostAuthor?.id != nil && currentUser?.id == post.repostAuthor?.id)
+        )
 
         let commentingEnabled = post.author?.hasCommentingEnabled ?? true
         let commentVisibility: InteractionVisibility = commentingEnabled ? .enabled : .hidden
@@ -95,7 +109,10 @@ struct StreamFooterCellPresenter {
         let shareVisibility: InteractionVisibility = sharingEnabled ? .enabled : .hidden
 
 
-        return (commentVisibility: commentVisibility, loveVisibility: loveVisibility, repostVisibility: repostVisibility, shareVisibility: shareVisibility)
+        return (
+            commentVisibility: commentVisibility, loveVisibility: loveVisibility,
+            repostVisibility: repostVisibility, shareVisibility: shareVisibility
+        )
     }
 
     private static func configureCommentControl(
@@ -103,8 +120,8 @@ struct StreamFooterCellPresenter {
         post: Post,
         streamCellItem: StreamCellItem,
         streamKind: StreamKind,
-        currentUser: User?)
-    {
+        currentUser: User?
+    ) {
         if streamKind.isDetail(post: post) && currentUser == nil {
             let count = post.commentsCount ?? 0
             let open = count > 0

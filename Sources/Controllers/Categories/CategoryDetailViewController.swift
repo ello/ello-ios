@@ -37,7 +37,11 @@ class CategoryDetailViewController: BaseElloViewController {
             isSubscribed = false
         }
 
-        let config = CategoryDetailScreen.Config(category: category, pageHeader: pageHeader, isSubscribed: isSubscribed)
+        let config = CategoryDetailScreen.Config(
+            category: category,
+            pageHeader: pageHeader,
+            isSubscribed: isSubscribed
+        )
         screen.config = config
         screen.delegate = self
         screen.updateUsers(moderators: [], curators: [])

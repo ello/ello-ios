@@ -86,8 +86,16 @@ class OnboardingCreatorTypeScreen: StreamableScreen {
     }
 
     override func bindActions() {
-        artistButton.addTarget(self, action: #selector(toggleCreatorType(sender:)), for: .touchUpInside)
-        fanButton.addTarget(self, action: #selector(toggleCreatorType(sender:)), for: .touchUpInside)
+        artistButton.addTarget(
+            self,
+            action: #selector(toggleCreatorType(sender:)),
+            for: .touchUpInside
+        )
+        fanButton.addTarget(
+            self,
+            action: #selector(toggleCreatorType(sender:)),
+            for: .touchUpInside
+        )
     }
 
     override func setText() {
@@ -134,7 +142,8 @@ class OnboardingCreatorTypeScreen: StreamableScreen {
 
         creatorTypeContainer.snp.makeConstraints { make in
             creatorTypeContainerTop = make.top.equalTo(scrollView).offset(Size.hugeTop).constraint
-            creatorTypeContainerIntroTop = make.top.equalTo(headerLabel.snp.bottom).offset(Size.bigTop).constraint
+            creatorTypeContainerIntroTop =
+                make.top.equalTo(headerLabel.snp.bottom).offset(Size.bigTop).constraint
             make.leading.trailing.equalTo(scrollView).inset(Size.margins)
         }
 
@@ -162,7 +171,8 @@ class OnboardingCreatorTypeScreen: StreamableScreen {
         creatorButtonsContainer.snp.makeConstraints { make in
             make.top.equalTo(creatorTypeContainer.snp.bottom).offset(Size.containerOffset)
             make.leading.trailing.equalTo(creatorTypeContainer)
-            scrollViewArtistBottom = make.bottom.equalTo(scrollView).offset(-Size.margins).constraint
+            scrollViewArtistBottom =
+                make.bottom.equalTo(scrollView).offset(-Size.margins).constraint
         }
 
         creatorLabel.snp.makeConstraints { make in
@@ -206,7 +216,11 @@ class OnboardingCreatorTypeScreen: StreamableScreen {
         var prevView: UIView?
         for category in creatorCategories {
             let categoryView = StyledButton(style: .roundedGrayOutline)
-            categoryView.addTarget(self, action: #selector(toggleCreatorCategory(sender:)), for: .touchUpInside)
+            categoryView.addTarget(
+                self,
+                action: #selector(toggleCreatorCategory(sender:)),
+                for: .touchUpInside
+            )
             creatorButtons.append(categoryView)
             categoryView.title = category
             categoryView.titleLineBreakMode = .byTruncatingTail
@@ -326,15 +340,17 @@ class OnboardingCreatorTypeScreen: StreamableScreen {
         }
         elloAnimate(animated: animated) {
             self.creatorTypeContainer.frame.origin.y = creatorTypeY
-            self.creatorButtonsContainer.frame.origin.y = creatorTypeY + self.creatorTypeContainer.frame.height + Size.containerOffset
+            self.creatorButtonsContainer.frame.origin.y = creatorTypeY
+                + self.creatorTypeContainer.frame.height + Size.containerOffset
             self.creatorButtonsContainer.alpha = creatorButtonsAlpha
         }.done(completion)
     }
 
     func unselectAllCategories() {
-        creatorButtons.compactMap({ (button: UIView) -> UIButton? in return button as? UIButton }).forEach { button in
-            button.isSelected = false
-        }
+        creatorButtons.compactMap({ (button: UIView) -> UIButton? in return button as? UIButton })
+            .forEach { button in
+                button.isSelected = false
+            }
     }
 }
 
@@ -350,9 +366,10 @@ extension OnboardingCreatorTypeScreen: OnboardingCreatorTypeScreenProtocol {
             unselectAllCategories()
         case let .artist(categories):
             updateButtons(type: .artist([]), animated: false)
-            creatorButtons.compactMap({ (button: UIView) -> UIButton? in return button as? UIButton }).forEach { button in
-                button.isSelected = categories.any({ button.title(for: .normal) == $0.name })
-            }
+            creatorButtons.compactMap({ (button: UIView) -> UIButton? in return button as? UIButton
+                }).forEach { button in
+                    button.isSelected = categories.any({ button.title(for: .normal) == $0.name })
+                }
         }
     }
 

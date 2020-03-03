@@ -27,7 +27,9 @@ struct ImageRegionData {
     static func == (lhs: ImageRegionData, rhs: ImageRegionData) -> Bool {
         guard lhs.image == rhs.image else { return false }
 
-        if let lhData = lhs.data, let rhData = rhs.data, let lhContentType = lhs.contentType, let rhContentType = rhs.contentType {
+        if let lhData = lhs.data, let rhData = rhs.data, let lhContentType = lhs.contentType,
+            let rhContentType = rhs.contentType
+        {
             return lhData == rhData && lhContentType == rhContentType
         }
         return true

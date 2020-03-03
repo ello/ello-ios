@@ -9,7 +9,7 @@ import Nimble
 class FakePersistentLayer: PersistentLayer {
     var object: [Any]?
 
-    init() { }
+    init() {}
 
     func set(_ value: Any?, forKey: String) {
         object = value as? [String]

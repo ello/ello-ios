@@ -129,7 +129,11 @@ class PostToolbar: UIToolbar {
 
         let oldCommentsControl = commentsItem?.customView as? ImageLabelControl
         commentsItem = ElloPostToolBarOption.comments.barButtonItem(isDark: isDark)
-        commentsControl.addTarget(self, action: #selector(commentsButtonTapped), for: .touchUpInside)
+        commentsControl.addTarget(
+            self,
+            action: #selector(commentsButtonTapped),
+            for: .touchUpInside
+        )
         if let oldCommentsControl = oldCommentsControl {
             commentsControl.isEnabled = oldCommentsControl.isEnabled
             commentsControl.isSelected = oldCommentsControl.isSelected
@@ -166,16 +170,18 @@ class PostToolbar: UIToolbar {
     }
 
     private func updateItems() {
-        self.items = Array(postItems.map { item in
-            switch item {
-            case .views:    return viewsItem
-            case .loves:    return lovesItem
-            case .comments: return commentsItem
-            case .repost:   return repostItem
-            case .share:    return shareItem
-            case .space:    return fixedItem()
-            }
-        }.flatMap { [flexibleItem(), $0] }.dropFirst())
+        self.items = Array(
+            postItems.map { item in
+                switch item {
+                case .views: return viewsItem
+                case .loves: return lovesItem
+                case .comments: return commentsItem
+                case .repost: return repostItem
+                case .share: return shareItem
+                case .space: return fixedItem()
+                }
+            }.flatMap { [flexibleItem(), $0] }.dropFirst()
+        )
     }
 
     private func fixedItem() -> UIBarButtonItem {

@@ -21,7 +21,7 @@ class FreeMethodsSpec: QuickSpec {
             }
 
             describe("times with index") {
-                it( "calls the block 5 times, passing in the index") {
+                it("calls the block 5 times, passing in the index") {
                     var sum = 0
                     times(5) { index in
                         sum += index

@@ -66,21 +66,50 @@ class CategoryPostHistoryCell: CollectionViewCell {
 
             switch label {
             case let .featuredByIn(user, category):
-                attributedText.append(NSAttributedString(label: InterfaceString.Post.FeaturedBy + " ", style: .smallGray))
-                attributedText.append(NSAttributedString(label: user.atName, style: .smallGrayUnderlined))
+                attributedText.append(
+                    NSAttributedString(
+                        label: InterfaceString.Post.FeaturedBy + " ",
+                        style: .smallGray
+                    )
+                )
+                attributedText.append(
+                    NSAttributedString(label: user.atName, style: .smallGrayUnderlined)
+                )
                 attributedText.append(NSAttributedString(label: " in ", style: .smallGray))
-                attributedText.append(NSAttributedString(label: category.name, style: .smallGrayUnderlined))
+                attributedText.append(
+                    NSAttributedString(label: category.name, style: .smallGrayUnderlined)
+                )
             case let .featuredBy(user):
-                attributedText.append(NSAttributedString(label: InterfaceString.Post.FeaturedBy + " ", style: .smallGray))
-                attributedText.append(NSAttributedString(label: user.atName, style: .smallGrayUnderlined))
+                attributedText.append(
+                    NSAttributedString(
+                        label: InterfaceString.Post.FeaturedBy + " ",
+                        style: .smallGray
+                    )
+                )
+                attributedText.append(
+                    NSAttributedString(label: user.atName, style: .smallGrayUnderlined)
+                )
             case let .postedInto(category):
-                attributedText.append(NSAttributedString(label: InterfaceString.Post.PostedInto + " ", style: .smallGray))
-                attributedText.append(NSAttributedString(label: category.name, style: .smallGrayUnderlined))
+                attributedText.append(
+                    NSAttributedString(
+                        label: InterfaceString.Post.PostedInto + " ",
+                        style: .smallGray
+                    )
+                )
+                attributedText.append(
+                    NSAttributedString(label: category.name, style: .smallGrayUnderlined)
+                )
             case let .addedToBy(category, user):
-                attributedText.append(NSAttributedString(label: InterfaceString.Post.AddedTo + " ", style: .smallGray))
-                attributedText.append(NSAttributedString(label: category.name, style: .smallGrayUnderlined))
+                attributedText.append(
+                    NSAttributedString(label: InterfaceString.Post.AddedTo + " ", style: .smallGray)
+                )
+                attributedText.append(
+                    NSAttributedString(label: category.name, style: .smallGrayUnderlined)
+                )
                 attributedText.append(NSAttributedString(label: " by ", style: .smallGray))
-                attributedText.append(NSAttributedString(label: user.atName, style: .smallGrayUnderlined))
+                attributedText.append(
+                    NSAttributedString(label: user.atName, style: .smallGrayUnderlined)
+                )
             }
         }
         label.attributedText = attributedText

@@ -18,7 +18,7 @@ class StreamImageCell: StreamRegionableCell {
     // this little hack prevents constraints from breaking on initial load
     override var bounds: CGRect {
         didSet {
-          contentView.frame = bounds
+            contentView.frame = bounds
         }
     }
 
@@ -234,11 +234,14 @@ class StreamImageCell: StreamRegionableCell {
         failImage.isVisible = true
         circle.stopAnimating()
         largeImagePlayButton?.isHidden = true
-        UIView.animate(withDuration: 0.15, animations: {
-            self.failImage.alpha = 1.0
-            self.failBackgroundView.backgroundColor = .greyF1
-            self.failBackgroundView.alpha = 1.0
-        })
+        UIView.animate(
+            withDuration: 0.15,
+            animations: {
+                self.failImage.alpha = 1.0
+                self.failBackgroundView.backgroundColor = .greyF1
+                self.failBackgroundView.alpha = 1.0
+            }
+        )
     }
 
     override func prepareForReuse() {
@@ -283,7 +286,7 @@ class StreamImageCell: StreamRegionableCell {
     }
 
     @IBAction func imageDoubleTapped(_ gesture: UIGestureRecognizer) {
-        guard let appViewController: AppViewController = findResponder() else { return }
+        guard let appViewController:AppViewController = findResponder() else { return }
         let location = gesture.location(in: appViewController.view)
 
         let responder: StreamEditingResponder? = findResponder()

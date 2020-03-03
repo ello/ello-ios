@@ -10,7 +10,11 @@ import Nimble
 class MultipartRequestBuilderSpec: QuickSpec {
     override func spec() {
         let url = URL(string: "http://ello.co")!
-        var request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 10.0)
+        var request = URLRequest(
+            url: url,
+            cachePolicy: .reloadIgnoringLocalCacheData,
+            timeoutInterval: 10.0
+        )
         var content = ""
         var builder: MultipartRequestBuilder!
 

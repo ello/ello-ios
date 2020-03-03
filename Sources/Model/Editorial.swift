@@ -55,8 +55,8 @@ final class Editorial: Model {
         subtitle: String? = nil,
         renderedSubtitle: String? = nil,
         postStreamURL: URL? = nil,
-        url: URL? = nil)
-    {
+        url: URL? = nil
+    ) {
         self.id = id
         self.kind = kind
         self.title = title
@@ -95,7 +95,9 @@ final class Editorial: Model {
         let json = JSON(data)
 
         let externalURL: URL? = json["url"].url
-        let internalURL: URL? = json["path"].string.flatMap { URL(string: "\(ElloURI.baseURL)\($0)") }
+        let internalURL: URL? = json["path"].string.flatMap {
+            URL(string: "\(ElloURI.baseURL)\($0)")
+        }
         let editorial = Editorial(
             id: json["id"].idValue,
             kind: Kind(rawValue: json["kind"].stringValue) ?? .unknown,
@@ -103,7 +105,8 @@ final class Editorial: Model {
             subtitle: json["subtitle"].string,
             renderedSubtitle: json["rendered_subtitle"].string,
             postStreamURL: json["links"]["post_stream"]["href"].url,
-            url: externalURL ?? internalURL)
+            url: externalURL ?? internalURL
+        )
 
         editorial.mergeLinks(data["links"] as? [String: Any])
 

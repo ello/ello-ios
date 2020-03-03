@@ -9,8 +9,8 @@ struct BadgeCellPresenter {
         streamCellItem: StreamCellItem,
         streamKind: StreamKind,
         indexPath: IndexPath,
-        currentUser: User?)
-    {
+        currentUser: User?
+    ) {
         guard
             let cell = cell as? BadgeCell,
             let badge = streamCellItem.jsonable as? Badge
@@ -19,11 +19,12 @@ struct BadgeCellPresenter {
         if badge.isFeatured,
             let categories = badge.categories
         {
-            let title = NSAttributedString(featuredIn: categories,
+            let title = NSAttributedString(
+                featuredIn: categories,
                 font: UIFont.defaultFont(),
                 color: .black,
                 alignment: .left
-                )
+            )
             cell.attributedTitle = title
         }
         else {

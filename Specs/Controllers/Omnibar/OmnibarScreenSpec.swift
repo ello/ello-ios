@@ -70,7 +70,10 @@ enum RegionExpectation {
 
 class OmnibarScreenSpec: QuickSpec {
     class FakeGlobal: GlobalFactory {
-        override func fetchAssets(with options: PHFetchOptions, completion: @escaping (PHAsset, Int) -> Void) {
+        override func fetchAssets(
+            with options: PHFetchOptions,
+            completion: @escaping (PHAsset, Int) -> Void
+        ) {
         }
     }
 
@@ -96,7 +99,9 @@ class OmnibarScreenSpec: QuickSpec {
             describe("pressing add image") {
                 let status = UIImagePickerController.alreadyDeterminedStatus() ?? .notDetermined
                 guard status == .authorized else {
-                    it("should already have image access") { fail("\(status) should be .authorized") }
+                    it("should already have image access") {
+                        fail("\(status) should be .authorized")
+                    }
                     return
                 }
 
@@ -216,7 +221,14 @@ class OmnibarScreenSpec: QuickSpec {
                 context("func reportError(title: String, error: NSError)") {
                     context("when passing an NSError") {
                         it("should reportError") {
-                            subject.reportError("foo", error: NSError(domain: ElloErrorDomain, code: 0, userInfo: [NSLocalizedFailureReasonErrorKey: "failure"]))
+                            subject.reportError(
+                                "foo",
+                                error: NSError(
+                                    domain: ElloErrorDomain,
+                                    code: 0,
+                                    userInfo: [NSLocalizedFailureReasonErrorKey: "failure"]
+                                )
+                            )
                             expect(delegate.didPresentController) == true
                         }
                     }
@@ -441,15 +453,42 @@ class OmnibarScreenSpec: QuickSpec {
                     ("empty", [.text("")], [.text("")]),
                     ("text", [.text("some")], [.text("some")]),
                     ("image", [.image(UIImage())], [.image, .spacer, .text("")]),
-                    ("image,text", [.image(UIImage()), .text("some")], [.image, .spacer, .text("some")]),
-                    ("text,image", [.text("some"), .image(UIImage())], [.text("some"), .spacer, .image, .spacer, .text("")]),
-                    ("text,image,text", [.text("some"), .image(UIImage()), .text("more")], [.text("some"), .spacer, .image, .spacer, .text("more")]),
-                    ("text,image,image", [.text("some"), .image(UIImage()), .image(UIImage())], [.text("some"), .spacer, .image, .spacer, .image, .spacer, .text("")]),
-                    ("text,image,image,text", [.text("some"), .image(UIImage()), .image(UIImage()), .text("")], [.text("some"), .spacer, .image, .spacer, .image, .spacer, .text("")]),
-                    ("image,text,image", [.image(UIImage()), .text("some"), .image(UIImage())], [.image, .spacer, .text("some"), .spacer, .image, .spacer, .text("")]),
-                    ("text,image,image,image,text,image,image",
-                        [.text("some"), .image(UIImage()), .image(UIImage()), .image(UIImage()), .text("text"), .image(UIImage()), .image(UIImage())],
-                        [.text("some"), .spacer, .image, .spacer, .image, .spacer, .image, .spacer, .text("text"), .spacer, .image, .spacer, .image, .spacer, .text("")]
+                    (
+                        "image,text", [.image(UIImage()), .text("some")],
+                        [.image, .spacer, .text("some")]
+                    ),
+                    (
+                        "text,image", [.text("some"), .image(UIImage())],
+                        [.text("some"), .spacer, .image, .spacer, .text("")]
+                    ),
+                    (
+                        "text,image,text", [.text("some"), .image(UIImage()), .text("more")],
+                        [.text("some"), .spacer, .image, .spacer, .text("more")]
+                    ),
+                    (
+                        "text,image,image", [.text("some"), .image(UIImage()), .image(UIImage())],
+                        [.text("some"), .spacer, .image, .spacer, .image, .spacer, .text("")]
+                    ),
+                    (
+                        "text,image,image,text",
+                        [.text("some"), .image(UIImage()), .image(UIImage()), .text("")],
+                        [.text("some"), .spacer, .image, .spacer, .image, .spacer, .text("")]
+                    ),
+                    (
+                        "image,text,image", [.image(UIImage()), .text("some"), .image(UIImage())],
+                        [.image, .spacer, .text("some"), .spacer, .image, .spacer, .text("")]
+                    ),
+                    (
+                        "text,image,image,image,text,image,image",
+                        [
+                            .text("some"), .image(UIImage()), .image(UIImage()), .image(UIImage()),
+                            .text("text"), .image(UIImage()), .image(UIImage())
+                        ],
+                        [
+                            .text("some"), .spacer, .image, .spacer, .image, .spacer, .image,
+                            .spacer, .text("text"), .spacer, .image, .spacer, .image, .spacer,
+                            .text("")
+                        ]
                     ),
                 ]
                 for (name, regions, expectations) in expectationRules {
@@ -468,22 +507,59 @@ class OmnibarScreenSpec: QuickSpec {
 
             describe("generating reorderableRegions") {
                 let expectationRules: [(String, [OmnibarRegion], [RegionExpectation])] = [
-                    ("empty", [.text("")],[RegionExpectation]()),
-                    ("text", [.text("some")],[.text("some")]),
-                    ("text with newlines", [.text("some\ntext")],[.text("some\ntext")]),
-                    ("image,empty", [.image(UIImage()), .text("")],[.image]),
-                    ("image,text", [.image(UIImage()), .text("some")],[.image,.text("some")]),
-                    ("text,image,empty", [.text("some"), .image(UIImage()),.text("")],[.text("some"),.image]),
-                    ("text,image,text", [.text("some"), .image(UIImage()),.text("text")],[.text("some"),.image,.text("text")]),
-                    ("text with newlines,image,text", [.text("some\n\ntext"), .image(UIImage()), .text("more")],[.text("some\n\ntext"),.image,.text("more")]),
-                    ("text,image,image,empty", [.text("some"), .image(UIImage()), .image(UIImage()), .text("")],[.text("some"),.image,.image]),
-                    ("text,image,image,text", [.text("some"), .image(UIImage()), .image(UIImage()), .text("more")],[.text("some"),.image,.image,.text("more")]),
-                    ("text,image,image,text w newlines", [.text("some"), .image(UIImage()), .image(UIImage()), .text("more\nlines")],[.text("some"),.image,.image,.text("more\nlines")]),
-                    ("image,text,image,empty", [.image(UIImage()), .text("some"), .image(UIImage()), .text("")],[.image,.text("some"),.image]),
-                    ("image,text,image,text", [.image(UIImage()), .text("some"), .image(UIImage()), .text("text")],[.image,.text("some"),.image,.text("text")]),
-                    ("text,image,image,image,text,image,text",
-                        [.text("some"), .image(UIImage()), .image(UIImage()), .image(UIImage()), .text("text"), .image(UIImage()), .image(UIImage()),.text("some")],
-                        [.text("some"), .image, .image, .image, .text("text"), .image, .image, .text("some")]
+                    ("empty", [.text("")], [RegionExpectation]()),
+                    ("text", [.text("some")], [.text("some")]),
+                    ("text with newlines", [.text("some\ntext")], [.text("some\ntext")]),
+                    ("image,empty", [.image(UIImage()), .text("")], [.image]),
+                    ("image,text", [.image(UIImage()), .text("some")], [.image, .text("some")]),
+                    (
+                        "text,image,empty", [.text("some"), .image(UIImage()), .text("")],
+                        [.text("some"), .image]
+                    ),
+                    (
+                        "text,image,text", [.text("some"), .image(UIImage()), .text("text")],
+                        [.text("some"), .image, .text("text")]
+                    ),
+                    (
+                        "text with newlines,image,text",
+                        [.text("some\n\ntext"), .image(UIImage()), .text("more")],
+                        [.text("some\n\ntext"), .image, .text("more")]
+                    ),
+                    (
+                        "text,image,image,empty",
+                        [.text("some"), .image(UIImage()), .image(UIImage()), .text("")],
+                        [.text("some"), .image, .image]
+                    ),
+                    (
+                        "text,image,image,text",
+                        [.text("some"), .image(UIImage()), .image(UIImage()), .text("more")],
+                        [.text("some"), .image, .image, .text("more")]
+                    ),
+                    (
+                        "text,image,image,text w newlines",
+                        [.text("some"), .image(UIImage()), .image(UIImage()), .text("more\nlines")],
+                        [.text("some"), .image, .image, .text("more\nlines")]
+                    ),
+                    (
+                        "image,text,image,empty",
+                        [.image(UIImage()), .text("some"), .image(UIImage()), .text("")],
+                        [.image, .text("some"), .image]
+                    ),
+                    (
+                        "image,text,image,text",
+                        [.image(UIImage()), .text("some"), .image(UIImage()), .text("text")],
+                        [.image, .text("some"), .image, .text("text")]
+                    ),
+                    (
+                        "text,image,image,image,text,image,text",
+                        [
+                            .text("some"), .image(UIImage()), .image(UIImage()), .image(UIImage()),
+                            .text("text"), .image(UIImage()), .image(UIImage()), .text("some")
+                        ],
+                        [
+                            .text("some"), .image, .image, .image, .text("text"), .image, .image,
+                            .text("some")
+                        ]
                     ),
                 ]
                 for (name, regions, expectations) in expectationRules {
@@ -503,19 +579,52 @@ class OmnibarScreenSpec: QuickSpec {
 
             describe("generating editableRegions") {
                 let expectationRules: [(String, [OmnibarRegion], [RegionExpectation])] = [
-                    ("empty", [OmnibarRegion](),[.text("")]),
-                    ("text", [.text("some")],[.text("some")]),
-                    ("text,text", [.text("some\ntext")],[.text("some\ntext")]),
-                    ("image,empty", [.image(UIImage())],[.image, .spacer, .text("")]),
-                    ("image,text", [.image(UIImage()),.text("some")],[.image, .spacer, .text("some")]),
-                    ("text,image,empty", [.text("some"),.image(UIImage())],[.text("some"), .spacer, .image, .spacer,.text("")]),
-                    ("text with newlines,image,text", [.text("some\n\ntext"),.image(UIImage()),.text("more")],[.text("some\n\ntext"), .spacer, .image, .spacer, .text("more")]),
-                    ("text,image,image,empty", [.text("some"),.image(UIImage()),.image(UIImage())],[.text("some"), .spacer, .image, .spacer, .image, .spacer, .text("")]),
-                    ("text,image,image,text", [.text("some"),.image(UIImage()),.image(UIImage()),.text("more\nlines")],[.text("some"), .spacer, .image, .spacer, .image, .spacer, .text("more\nlines")]),
-                    ("image,text,image,empty", [.image(UIImage()),.text("some"),.image(UIImage())],[.image, .spacer, .text("some"), .spacer, .image, .spacer, .text("")]),
-                    ("text,image,image,image,text,image,text",
-                        [.text("some"), .image(UIImage()), .image(UIImage()), .image(UIImage()), .text("text"), .image(UIImage()), .image(UIImage()), .text("some")],
-                        [.text("some"), .spacer, .image, .spacer, .image, .spacer, .image, .spacer, .text("text"), .spacer, .image, .spacer, .image, .spacer, .text("some")]
+                    ("empty", [OmnibarRegion](), [.text("")]),
+                    ("text", [.text("some")], [.text("some")]),
+                    ("text,text", [.text("some\ntext")], [.text("some\ntext")]),
+                    ("image,empty", [.image(UIImage())], [.image, .spacer, .text("")]),
+                    (
+                        "image,text", [.image(UIImage()), .text("some")],
+                        [.image, .spacer, .text("some")]
+                    ),
+                    (
+                        "text,image,empty", [.text("some"), .image(UIImage())],
+                        [.text("some"), .spacer, .image, .spacer, .text("")]
+                    ),
+                    (
+                        "text with newlines,image,text",
+                        [.text("some\n\ntext"), .image(UIImage()), .text("more")],
+                        [.text("some\n\ntext"), .spacer, .image, .spacer, .text("more")]
+                    ),
+                    (
+                        "text,image,image,empty",
+                        [.text("some"), .image(UIImage()), .image(UIImage())],
+                        [.text("some"), .spacer, .image, .spacer, .image, .spacer, .text("")]
+                    ),
+                    (
+                        "text,image,image,text",
+                        [.text("some"), .image(UIImage()), .image(UIImage()), .text("more\nlines")],
+                        [
+                            .text("some"), .spacer, .image, .spacer, .image, .spacer,
+                            .text("more\nlines")
+                        ]
+                    ),
+                    (
+                        "image,text,image,empty",
+                        [.image(UIImage()), .text("some"), .image(UIImage())],
+                        [.image, .spacer, .text("some"), .spacer, .image, .spacer, .text("")]
+                    ),
+                    (
+                        "text,image,image,image,text,image,text",
+                        [
+                            .text("some"), .image(UIImage()), .image(UIImage()), .image(UIImage()),
+                            .text("text"), .image(UIImage()), .image(UIImage()), .text("some")
+                        ],
+                        [
+                            .text("some"), .spacer, .image, .spacer, .image, .spacer, .image,
+                            .spacer, .text("text"), .spacer, .image, .spacer, .image, .spacer,
+                            .text("some")
+                        ]
                     ),
                 ]
                 for (name, regions, expectations) in expectationRules {
@@ -548,65 +657,206 @@ class OmnibarScreenSpec: QuickSpec {
             }
 
             describe("deleting regions") {
-                let expectationRules: [(String, [OmnibarRegion], IndexPath, [RegionExpectation])] = [
-                    ("text", [.text("some")], IndexPath(row: 0, section: 0),                               [.text("")]),
-                    ("image", [.image(UIImage())], IndexPath(row: 0, section: 0),                 [.text("")]),
-                    ("image,text(0)", [.image(UIImage()), .text("some")], IndexPath(row: 0, section: 0),  [.text("some")]),
-                    ("image,text(1)", [.image(UIImage()), .text("some")], IndexPath(row: 2, section: 0),  [.image, .spacer, .text("")]),
-                    ("text,image(0)", [.text("some"), .image(UIImage())], IndexPath(row: 0, section: 0),  [.image, .spacer, .text("")]),
-                    ("text,image(1)", [.text("some"), .image(UIImage())], IndexPath(row: 2, section: 0),  [.text("some")]),
-                    ("text,image,text(0)", [.text("some"), .image(UIImage()), .text("more")],IndexPath(row: 0, section: 0), [.image, .spacer, .text("more")]),
-                    ("text,image,text(1a)", [.text("some"), .image(UIImage()), .text("more")],IndexPath(row: 2, section: 0), [.text("some\n\nmore")]),
-                    ("text,image,text(1b)", [.text("some\n"), .image(UIImage()), .text("more")],IndexPath(row: 2, section: 0), [.text("some\n\nmore")]),
-                    ("text,image,text(1c)", [.text("some\n\n"), .image(UIImage()), .text("more")],IndexPath(row: 2, section: 0), [.text("some\n\nmore")]),
-                    ("text,image,text(1d)", [.text("some\n\n\n"), .image(UIImage()), .text("more")],IndexPath(row: 2, section: 0), [.text("some\n\n\nmore")]),
-                    ("text,image,text(2)", [.text("some"), .image(UIImage()), .text("more")], IndexPath(row: 4, section: 0), [.text("some"), .spacer, .image, .spacer, .text("")]),
-                    ("text,image,image(0)", [.text("some"), .image(UIImage()), .image(UIImage())], IndexPath(row: 0, section: 0), [.image, .spacer, .image, .spacer, .text("")]),
-                    ("text,image,image(1)", [.text("some"), .image(UIImage()), .image(UIImage())], IndexPath(row: 2, section: 0), [.text("some"), .spacer, .image, .spacer, .text("")]),
-                    ("text,image,image(2)", [.text("some"), .image(UIImage()), .image(UIImage())], IndexPath(row: 4, section: 0), [.text("some"), .spacer, .image, .spacer, .text("")]),
-                    ("text,image,image,text(0)", [.text("some"), .image(UIImage()), .image(UIImage()), .text("text")], IndexPath(row: 0, section: 0), [.image, .spacer, .image, .spacer, .text("text")]),
-                    ("text,image,image,text(1)", [.text("some"), .image(UIImage()), .image(UIImage()), .text("text")], IndexPath(row: 2, section: 0), [.text("some"), .spacer, .image, .spacer, .text("text")]),
-                    ("text,image,image,text(2)", [.text("some"), .image(UIImage()), .image(UIImage()), .text("text")], IndexPath(row: 4, section: 0), [.text("some"), .spacer, .image, .spacer, .text("text")]),
-                    ("text,image,image,text(3)", [.text("some"), .image(UIImage()), .image(UIImage()), .text("text")], IndexPath(row: 6, section: 0), [.text("some"), .spacer, .image, .spacer, .image, .spacer, .text("")]),
-                    ("image,text,image(0)", [.image(UIImage()), .text("some"), .image(UIImage())], IndexPath(row: 0, section: 0), [.text("some"), .spacer, .image, .spacer, .text("")]),
-                    ("image,text,image(1)", [.image(UIImage()), .text("some"), .image(UIImage())], IndexPath(row: 2, section: 0), [.image, .spacer, .image, .spacer, .text("")]),
-                    ("image,text,image(2)", [.image(UIImage()), .text("some"), .image(UIImage())], IndexPath(row: 4, section: 0), [.image, .spacer, .text("some")]),
-                    ("text,image,image,image,text,image,image(0)",
-                        [.text("some"), .image(UIImage()), .image(UIImage()), .image(UIImage()), .text("text"), .image(UIImage()), .image(UIImage())],
-                        IndexPath(row: 0, section: 0),
-                        [.image, .spacer, .image, .spacer, .image, .spacer, .text("text"), .spacer, .image, .spacer, .image, .spacer, .text("")]
-                    ),
-                    ("text,image,image,image,text,image,image(1)",
-                        [.text("some"), .image(UIImage()), .image(UIImage()), .image(UIImage()), .text("text"), .image(UIImage()), .image(UIImage())],
-                        IndexPath(row: 2, section: 0),
-                        [.text("some"), .spacer, .image, .spacer, .image, .spacer, .text("text"), .spacer, .image, .spacer, .image, .spacer, .text("")]
-                    ),
-                    ("text,image,image,image,text,image,image(2)",
-                        [.text("some"), .image(UIImage()), .image(UIImage()), .image(UIImage()), .text("text"), .image(UIImage()), .image(UIImage())],
-                        IndexPath(row: 4, section: 0),
-                        [.text("some"), .spacer, .image, .spacer, .image, .spacer, .text("text"), .spacer, .image, .spacer, .image, .spacer, .text("")]
-                    ),
-                    ("text,image,image,image,text,image,image(3)",
-                        [.text("some"), .image(UIImage()), .image(UIImage()), .image(UIImage()), .text("text"), .image(UIImage()), .image(UIImage())],
-                        IndexPath(row: 6, section: 0),
-                        [.text("some"), .spacer, .image, .spacer, .image, .spacer, .text("text"), .spacer, .image, .spacer, .image, .spacer, .text("")]
-                    ),
-                    ("text,image,image,image,text,image,image(4)",
-                        [.text("some"), .image(UIImage()), .image(UIImage()), .image(UIImage()), .text("text"), .image(UIImage()), .image(UIImage())],
-                        IndexPath(row: 8, section: 0),
-                        [.text("some"), .spacer, .image, .spacer, .image, .spacer, .image, .spacer, .image, .spacer, .image, .spacer, .text("")]
-                    ),
-                    ("text,image,image,image,text,image,image(5)",
-                        [.text("some"), .image(UIImage()), .image(UIImage()), .image(UIImage()), .text("text"), .image(UIImage()), .image(UIImage())],
-                        IndexPath(row: 10, section: 0),
-                        [.text("some"), .spacer, .image, .spacer, .image, .spacer, .image, .spacer, .text("text"), .spacer, .image, .spacer, .text("")]
-                    ),
-                    ("text,image,image,image,text,image,image(6)",
-                        [.text("some"), .image(UIImage()), .image(UIImage()), .image(UIImage()), .text("text"), .image(UIImage()), .image(UIImage())],
-                        IndexPath(row: 12, section: 0),
-                        [.text("some"), .spacer, .image, .spacer, .image, .spacer, .image, .spacer, .text("text"), .spacer, .image, .spacer, .text("")]
-                    ),
-                ]
+                let expectationRules: [(String, [OmnibarRegion], IndexPath, [RegionExpectation])] =
+                    [
+                        ("text", [.text("some")], IndexPath(row: 0, section: 0), [.text("")]),
+                        ("image", [.image(UIImage())], IndexPath(row: 0, section: 0), [.text("")]),
+                        (
+                            "image,text(0)", [.image(UIImage()), .text("some")],
+                            IndexPath(row: 0, section: 0), [.text("some")]
+                        ),
+                        (
+                            "image,text(1)", [.image(UIImage()), .text("some")],
+                            IndexPath(row: 2, section: 0), [.image, .spacer, .text("")]
+                        ),
+                        (
+                            "text,image(0)", [.text("some"), .image(UIImage())],
+                            IndexPath(row: 0, section: 0), [.image, .spacer, .text("")]
+                        ),
+                        (
+                            "text,image(1)", [.text("some"), .image(UIImage())],
+                            IndexPath(row: 2, section: 0), [.text("some")]
+                        ),
+                        (
+                            "text,image,text(0)", [.text("some"), .image(UIImage()), .text("more")],
+                            IndexPath(row: 0, section: 0), [.image, .spacer, .text("more")]
+                        ),
+                        (
+                            "text,image,text(1a)",
+                            [.text("some"), .image(UIImage()), .text("more")],
+                            IndexPath(row: 2, section: 0), [.text("some\n\nmore")]
+                        ),
+                        (
+                            "text,image,text(1b)",
+                            [.text("some\n"), .image(UIImage()), .text("more")],
+                            IndexPath(row: 2, section: 0), [.text("some\n\nmore")]
+                        ),
+                        (
+                            "text,image,text(1c)",
+                            [.text("some\n\n"), .image(UIImage()), .text("more")],
+                            IndexPath(row: 2, section: 0), [.text("some\n\nmore")]
+                        ),
+                        (
+                            "text,image,text(1d)",
+                            [.text("some\n\n\n"), .image(UIImage()), .text("more")],
+                            IndexPath(row: 2, section: 0), [.text("some\n\n\nmore")]
+                        ),
+                        (
+                            "text,image,text(2)", [.text("some"), .image(UIImage()), .text("more")],
+                            IndexPath(row: 4, section: 0),
+                            [.text("some"), .spacer, .image, .spacer, .text("")]
+                        ),
+                        (
+                            "text,image,image(0)",
+                            [.text("some"), .image(UIImage()), .image(UIImage())],
+                            IndexPath(row: 0, section: 0),
+                            [.image, .spacer, .image, .spacer, .text("")]
+                        ),
+                        (
+                            "text,image,image(1)",
+                            [.text("some"), .image(UIImage()), .image(UIImage())],
+                            IndexPath(row: 2, section: 0),
+                            [.text("some"), .spacer, .image, .spacer, .text("")]
+                        ),
+                        (
+                            "text,image,image(2)",
+                            [.text("some"), .image(UIImage()), .image(UIImage())],
+                            IndexPath(row: 4, section: 0),
+                            [.text("some"), .spacer, .image, .spacer, .text("")]
+                        ),
+                        (
+                            "text,image,image,text(0)",
+                            [.text("some"), .image(UIImage()), .image(UIImage()), .text("text")],
+                            IndexPath(row: 0, section: 0),
+                            [.image, .spacer, .image, .spacer, .text("text")]
+                        ),
+                        (
+                            "text,image,image,text(1)",
+                            [.text("some"), .image(UIImage()), .image(UIImage()), .text("text")],
+                            IndexPath(row: 2, section: 0),
+                            [.text("some"), .spacer, .image, .spacer, .text("text")]
+                        ),
+                        (
+                            "text,image,image,text(2)",
+                            [.text("some"), .image(UIImage()), .image(UIImage()), .text("text")],
+                            IndexPath(row: 4, section: 0),
+                            [.text("some"), .spacer, .image, .spacer, .text("text")]
+                        ),
+                        (
+                            "text,image,image,text(3)",
+                            [.text("some"), .image(UIImage()), .image(UIImage()), .text("text")],
+                            IndexPath(row: 6, section: 0),
+                            [.text("some"), .spacer, .image, .spacer, .image, .spacer, .text("")]
+                        ),
+                        (
+                            "image,text,image(0)",
+                            [.image(UIImage()), .text("some"), .image(UIImage())],
+                            IndexPath(row: 0, section: 0),
+                            [.text("some"), .spacer, .image, .spacer, .text("")]
+                        ),
+                        (
+                            "image,text,image(1)",
+                            [.image(UIImage()), .text("some"), .image(UIImage())],
+                            IndexPath(row: 2, section: 0),
+                            [.image, .spacer, .image, .spacer, .text("")]
+                        ),
+                        (
+                            "image,text,image(2)",
+                            [.image(UIImage()), .text("some"), .image(UIImage())],
+                            IndexPath(row: 4, section: 0), [.image, .spacer, .text("some")]
+                        ),
+                        (
+                            "text,image,image,image,text,image,image(0)",
+                            [
+                                .text("some"), .image(UIImage()), .image(UIImage()),
+                                .image(UIImage()), .text("text"), .image(UIImage()),
+                                .image(UIImage())
+                            ],
+                            IndexPath(row: 0, section: 0),
+                            [
+                                .image, .spacer, .image, .spacer, .image, .spacer, .text("text"),
+                                .spacer, .image, .spacer, .image, .spacer, .text("")
+                            ]
+                        ),
+                        (
+                            "text,image,image,image,text,image,image(1)",
+                            [
+                                .text("some"), .image(UIImage()), .image(UIImage()),
+                                .image(UIImage()), .text("text"), .image(UIImage()),
+                                .image(UIImage())
+                            ],
+                            IndexPath(row: 2, section: 0),
+                            [
+                                .text("some"), .spacer, .image, .spacer, .image, .spacer,
+                                .text("text"), .spacer, .image, .spacer, .image, .spacer, .text("")
+                            ]
+                        ),
+                        (
+                            "text,image,image,image,text,image,image(2)",
+                            [
+                                .text("some"), .image(UIImage()), .image(UIImage()),
+                                .image(UIImage()), .text("text"), .image(UIImage()),
+                                .image(UIImage())
+                            ],
+                            IndexPath(row: 4, section: 0),
+                            [
+                                .text("some"), .spacer, .image, .spacer, .image, .spacer,
+                                .text("text"), .spacer, .image, .spacer, .image, .spacer, .text("")
+                            ]
+                        ),
+                        (
+                            "text,image,image,image,text,image,image(3)",
+                            [
+                                .text("some"), .image(UIImage()), .image(UIImage()),
+                                .image(UIImage()), .text("text"), .image(UIImage()),
+                                .image(UIImage())
+                            ],
+                            IndexPath(row: 6, section: 0),
+                            [
+                                .text("some"), .spacer, .image, .spacer, .image, .spacer,
+                                .text("text"), .spacer, .image, .spacer, .image, .spacer, .text("")
+                            ]
+                        ),
+                        (
+                            "text,image,image,image,text,image,image(4)",
+                            [
+                                .text("some"), .image(UIImage()), .image(UIImage()),
+                                .image(UIImage()), .text("text"), .image(UIImage()),
+                                .image(UIImage())
+                            ],
+                            IndexPath(row: 8, section: 0),
+                            [
+                                .text("some"), .spacer, .image, .spacer, .image, .spacer, .image,
+                                .spacer, .image, .spacer, .image, .spacer, .text("")
+                            ]
+                        ),
+                        (
+                            "text,image,image,image,text,image,image(5)",
+                            [
+                                .text("some"), .image(UIImage()), .image(UIImage()),
+                                .image(UIImage()), .text("text"), .image(UIImage()),
+                                .image(UIImage())
+                            ],
+                            IndexPath(row: 10, section: 0),
+                            [
+                                .text("some"), .spacer, .image, .spacer, .image, .spacer, .image,
+                                .spacer, .text("text"), .spacer, .image, .spacer, .text("")
+                            ]
+                        ),
+                        (
+                            "text,image,image,image,text,image,image(6)",
+                            [
+                                .text("some"), .image(UIImage()), .image(UIImage()),
+                                .image(UIImage()), .text("text"), .image(UIImage()),
+                                .image(UIImage())
+                            ],
+                            IndexPath(row: 12, section: 0),
+                            [
+                                .text("some"), .spacer, .image, .spacer, .image, .spacer, .image,
+                                .spacer, .text("text"), .spacer, .image, .spacer, .text("")
+                            ]
+                        ),
+                    ]
                 for (name, regions, path, expectations) in expectationRules {
                     it("should correctly delete for \(name) at row \(path.row)") {
                         subject.regions = regions
@@ -628,149 +878,223 @@ class OmnibarScreenSpec: QuickSpec {
             }
 
             describe("reordering regions") {
-                let expectationRules: [(String, [OmnibarRegion], (IndexPath, IndexPath), [RegionExpectation])] = [
-                    ("image,text(0)",
-                        [.image(UIImage()), .text("some")],
-                        (IndexPath(row: 0, section: 0), IndexPath(row: 1, section: 0)),
-                        [.text("some"),.spacer,.image,.spacer,.text("")]
-                    ),
-                    ("image,text(1)",
-                        [.image(UIImage()), .text("some")],
-                        (IndexPath(row: 1, section: 0), IndexPath(row: 0, section: 0)),
-                        [.text("some"),.spacer,.image,.spacer,.text("")]
-                    ),
+                let expectationRules:
+                    [(String, [OmnibarRegion], (IndexPath, IndexPath), [RegionExpectation])] = [
+                        (
+                            "image,text(0)",
+                            [.image(UIImage()), .text("some")],
+                            (IndexPath(row: 0, section: 0), IndexPath(row: 1, section: 0)),
+                            [.text("some"), .spacer, .image, .spacer, .text("")]
+                        ),
+                        (
+                            "image,text(1)",
+                            [.image(UIImage()), .text("some")],
+                            (IndexPath(row: 1, section: 0), IndexPath(row: 0, section: 0)),
+                            [.text("some"), .spacer, .image, .spacer, .text("")]
+                        ),
 
-                    ("text,image,text(0)",
-                        [.text("some"),.spacer,.image(UIImage()),.text("text")],
-                        (IndexPath(row: 0, section: 0), IndexPath(row: 1, section: 0)),
-                        [.image,.spacer,.text("some\n\ntext")]
-                    ),
-                    ("text,image,text(1)",
-                        [.text("some"),.spacer,.image(UIImage()),.text("text")],
-                        (IndexPath(row: 0, section: 0), IndexPath(row: 2, section: 0)),
-                        [.image,.spacer,.text("text\n\nsome")]
-                    ),
-                    ("text,image,text(2)",
-                        [.text("some"),.spacer,.image(UIImage()),.text("text")],
-                        (IndexPath(row: 1, section: 0), IndexPath(row: 0, section: 0)),
-                        [.image,.spacer,.text("some\n\ntext")]
-                    ),
-                    ("text,image,text(3)",
-                        [.text("some"),.spacer,.image(UIImage()),.text("text")],
-                        (IndexPath(row: 1, section: 0), IndexPath(row: 2, section: 0)),
-                        [.text("some\n\ntext"),.spacer,.image,.spacer,.text("")]
-                    ),
-                    ("text,image,text(4)",
-                        [.text("some"),.image(UIImage()),.text("text")],
-                        (IndexPath(row: 2, section: 0), IndexPath(row: 0, section: 0)),
-                        [.text("text\n\nsome"),.spacer,.image,.spacer,.text("")]
-                    ),
-                    ("text,image,text(5)",
-                        [.text("some"),.image(UIImage()),.text("text")],
-                        (IndexPath(row: 2, section: 0), IndexPath(row: 1, section: 0)),
-                        [.text("some\n\ntext"),.spacer,.image,.spacer,.text("")]
-                    ),
+                        (
+                            "text,image,text(0)",
+                            [.text("some"), .spacer, .image(UIImage()), .text("text")],
+                            (IndexPath(row: 0, section: 0), IndexPath(row: 1, section: 0)),
+                            [.image, .spacer, .text("some\n\ntext")]
+                        ),
+                        (
+                            "text,image,text(1)",
+                            [.text("some"), .spacer, .image(UIImage()), .text("text")],
+                            (IndexPath(row: 0, section: 0), IndexPath(row: 2, section: 0)),
+                            [.image, .spacer, .text("text\n\nsome")]
+                        ),
+                        (
+                            "text,image,text(2)",
+                            [.text("some"), .spacer, .image(UIImage()), .text("text")],
+                            (IndexPath(row: 1, section: 0), IndexPath(row: 0, section: 0)),
+                            [.image, .spacer, .text("some\n\ntext")]
+                        ),
+                        (
+                            "text,image,text(3)",
+                            [.text("some"), .spacer, .image(UIImage()), .text("text")],
+                            (IndexPath(row: 1, section: 0), IndexPath(row: 2, section: 0)),
+                            [.text("some\n\ntext"), .spacer, .image, .spacer, .text("")]
+                        ),
+                        (
+                            "text,image,text(4)",
+                            [.text("some"), .image(UIImage()), .text("text")],
+                            (IndexPath(row: 2, section: 0), IndexPath(row: 0, section: 0)),
+                            [.text("text\n\nsome"), .spacer, .image, .spacer, .text("")]
+                        ),
+                        (
+                            "text,image,text(5)",
+                            [.text("some"), .image(UIImage()), .text("text")],
+                            (IndexPath(row: 2, section: 0), IndexPath(row: 1, section: 0)),
+                            [.text("some\n\ntext"), .spacer, .image, .spacer, .text("")]
+                        ),
 
-                    ("text with two trailing newlines,image,text",
-                        [.text("some\n\n"),.image(UIImage()), .text("more")],
-                        (IndexPath(row: 0, section: 0), IndexPath(row: 1, section: 0)),
-                        [.image,.spacer,.text("some\n\nmore")]
-                    ),
-                    ("text with many trailing newlines,image,text",
-                        [.text("some\n\n\n\n"),.image(UIImage()), .text("more")],
-                        (IndexPath(row: 0, section: 0), IndexPath(row: 1, section: 0)),
-                        [.image,.spacer,.text("some\n\n\n\nmore")]
-                    ),
-                    ("text with one trailing newline,image,text",
-                        [.text("some\n"),.image(UIImage()), .text("more")],
-                        (IndexPath(row: 0, section: 0), IndexPath(row: 1, section: 0)),
-                        [.image,.spacer,.text("some\n\nmore")]
-                    ),
+                        (
+                            "text with two trailing newlines,image,text",
+                            [.text("some\n\n"), .image(UIImage()), .text("more")],
+                            (IndexPath(row: 0, section: 0), IndexPath(row: 1, section: 0)),
+                            [.image, .spacer, .text("some\n\nmore")]
+                        ),
+                        (
+                            "text with many trailing newlines,image,text",
+                            [.text("some\n\n\n\n"), .image(UIImage()), .text("more")],
+                            (IndexPath(row: 0, section: 0), IndexPath(row: 1, section: 0)),
+                            [.image, .spacer, .text("some\n\n\n\nmore")]
+                        ),
+                        (
+                            "text with one trailing newline,image,text",
+                            [.text("some\n"), .image(UIImage()), .text("more")],
+                            (IndexPath(row: 0, section: 0), IndexPath(row: 1, section: 0)),
+                            [.image, .spacer, .text("some\n\nmore")]
+                        ),
 
-                    ("text with newlines,image,text(0)",
-                        [.text("some\n\ntext"),.image(UIImage()), .text("more")],
-                        (IndexPath(row: 0, section: 0), IndexPath(row: 1, section: 0)),
-                        [.image,.spacer,.text("some\n\ntext\n\nmore")]
-                    ),
-                    ("text with newlines,image,text(1)",
-                        [.text("some\n\ntext"),.image(UIImage()), .text("more")],
-                        (IndexPath(row: 0, section: 0), IndexPath(row: 2, section: 0)),
-                        [.image,.spacer,.text("more\n\nsome\n\ntext")]
-                    ),
+                        (
+                            "text with newlines,image,text(0)",
+                            [.text("some\n\ntext"), .image(UIImage()), .text("more")],
+                            (IndexPath(row: 0, section: 0), IndexPath(row: 1, section: 0)),
+                            [.image, .spacer, .text("some\n\ntext\n\nmore")]
+                        ),
+                        (
+                            "text with newlines,image,text(1)",
+                            [.text("some\n\ntext"), .image(UIImage()), .text("more")],
+                            (IndexPath(row: 0, section: 0), IndexPath(row: 2, section: 0)),
+                            [.image, .spacer, .text("more\n\nsome\n\ntext")]
+                        ),
 
-                    ("text,image,image,empty(0)",
-                        [.text("some"),.spacer,.image(UIImage()),.image(UIImage()), .text("")],
-                        (IndexPath(row: 0, section: 0), IndexPath(row: 1, section: 0)),
-                        [.image,.spacer,.text("some"),.spacer,.image,.spacer,.text("")]
-                    ),
-                    ("text,image,image,empty(1)",
-                        [.text("some"),.spacer,.image(UIImage()),.image(UIImage()), .text("")],
-                        (IndexPath(row: 1, section: 0), IndexPath(row: 0, section: 0)),
-                        [.image,.spacer,.text("some"),.spacer,.image,.spacer,.text("")]
-                    ),
-                    ("text,image,image,empty(2)",
-                        [.text("some"),.spacer,.image(UIImage()),.image(UIImage()), .text("")],
-                        (IndexPath(row: 2, section: 0), IndexPath(row: 0, section: 0)),
-                        [.image,.spacer,.text("some"),.spacer,.image,.spacer,.text("")]
-                    ),
-                    ("text,image,image,empty(3)",
-                        [.text("some"),.spacer,.image(UIImage()),.image(UIImage()), .text("")],
-                        (IndexPath(row: 0, section: 0), IndexPath(row: 2, section: 0)),
-                        [.image,.spacer,.image,.spacer,.text("some")]
-                    ),
+                        (
+                            "text,image,image,empty(0)",
+                            [.text("some"), .spacer, .image(UIImage()), .image(UIImage()), .text("")
+                            ],
+                            (IndexPath(row: 0, section: 0), IndexPath(row: 1, section: 0)),
+                            [.image, .spacer, .text("some"), .spacer, .image, .spacer, .text("")]
+                        ),
+                        (
+                            "text,image,image,empty(1)",
+                            [.text("some"), .spacer, .image(UIImage()), .image(UIImage()), .text("")
+                            ],
+                            (IndexPath(row: 1, section: 0), IndexPath(row: 0, section: 0)),
+                            [.image, .spacer, .text("some"), .spacer, .image, .spacer, .text("")]
+                        ),
+                        (
+                            "text,image,image,empty(2)",
+                            [.text("some"), .spacer, .image(UIImage()), .image(UIImage()), .text("")
+                            ],
+                            (IndexPath(row: 2, section: 0), IndexPath(row: 0, section: 0)),
+                            [.image, .spacer, .text("some"), .spacer, .image, .spacer, .text("")]
+                        ),
+                        (
+                            "text,image,image,empty(3)",
+                            [.text("some"), .spacer, .image(UIImage()), .image(UIImage()), .text("")
+                            ],
+                            (IndexPath(row: 0, section: 0), IndexPath(row: 2, section: 0)),
+                            [.image, .spacer, .image, .spacer, .text("some")]
+                        ),
 
-                    ("text,image,image,text(0)",
-                        [.text("some"),.spacer,.image(UIImage()),.image(UIImage()), .text("more")],
-                        (IndexPath(row: 0, section: 0), IndexPath(row: 1, section: 0)),
-                        [.image,.spacer,.text("some"),.spacer,.image,.spacer,.text("more")]
-                    ),
-                    ("text,image,image,text(1)",
-                        [.text("some"),.spacer,.image(UIImage()),.image(UIImage()), .text("more")],
-                        (IndexPath(row: 0, section: 0), IndexPath(row: 2, section: 0)),
-                        [.image,.spacer,.image,.spacer,.text("some\n\nmore")]
-                    ),
-                    ("text,image,image,text(2)",
-                        [.text("some"),.spacer,.image(UIImage()),.image(UIImage()), .text("more")],
-                        (IndexPath(row: 0, section: 0), IndexPath(row: 3, section: 0)),
-                        [.image,.spacer,.image,.spacer,.text("more\n\nsome")]
-                    ),
-                    ("text,image,image,text(3)",
-                        [.text("some"),.spacer,.image(UIImage()),.image(UIImage()), .text("more")],
-                        (IndexPath(row: 1, section: 0), IndexPath(row: 0, section: 0)),
-                        [.image,.spacer,.text("some"),.spacer,.image,.spacer,.text("more")]
-                    ),
-                    ("text,image,image,text(4)",
-                        [.text("some"),.spacer,.image(UIImage()),.image(UIImage()), .text("more")],
-                        (IndexPath(row: 1, section: 0), IndexPath(row: 2, section: 0)),
-                        [.text("some"),.spacer,.image,.spacer,.image,.spacer,.text("more")]
-                    ),
-                    ("text,image,image,text(5)",
-                        [.text("some"),.spacer,.image(UIImage()),.image(UIImage()), .text("more")],
-                        (IndexPath(row: 1, section: 0), IndexPath(row: 3, section: 0)),
-                        [.text("some"),.spacer,.image,.spacer,.text("more"),.spacer,.image,.spacer,.text("")]
-                    ),
+                        (
+                            "text,image,image,text(0)",
+                            [
+                                .text("some"), .spacer, .image(UIImage()), .image(UIImage()),
+                                .text("more")
+                            ],
+                            (IndexPath(row: 0, section: 0), IndexPath(row: 1, section: 0)),
+                            [.image, .spacer, .text("some"), .spacer, .image, .spacer, .text("more")
+                            ]
+                        ),
+                        (
+                            "text,image,image,text(1)",
+                            [
+                                .text("some"), .spacer, .image(UIImage()), .image(UIImage()),
+                                .text("more")
+                            ],
+                            (IndexPath(row: 0, section: 0), IndexPath(row: 2, section: 0)),
+                            [.image, .spacer, .image, .spacer, .text("some\n\nmore")]
+                        ),
+                        (
+                            "text,image,image,text(2)",
+                            [
+                                .text("some"), .spacer, .image(UIImage()), .image(UIImage()),
+                                .text("more")
+                            ],
+                            (IndexPath(row: 0, section: 0), IndexPath(row: 3, section: 0)),
+                            [.image, .spacer, .image, .spacer, .text("more\n\nsome")]
+                        ),
+                        (
+                            "text,image,image,text(3)",
+                            [
+                                .text("some"), .spacer, .image(UIImage()), .image(UIImage()),
+                                .text("more")
+                            ],
+                            (IndexPath(row: 1, section: 0), IndexPath(row: 0, section: 0)),
+                            [.image, .spacer, .text("some"), .spacer, .image, .spacer, .text("more")
+                            ]
+                        ),
+                        (
+                            "text,image,image,text(4)",
+                            [
+                                .text("some"), .spacer, .image(UIImage()), .image(UIImage()),
+                                .text("more")
+                            ],
+                            (IndexPath(row: 1, section: 0), IndexPath(row: 2, section: 0)),
+                            [.text("some"), .spacer, .image, .spacer, .image, .spacer, .text("more")
+                            ]
+                        ),
+                        (
+                            "text,image,image,text(5)",
+                            [
+                                .text("some"), .spacer, .image(UIImage()), .image(UIImage()),
+                                .text("more")
+                            ],
+                            (IndexPath(row: 1, section: 0), IndexPath(row: 3, section: 0)),
+                            [
+                                .text("some"), .spacer, .image, .spacer, .text("more"), .spacer,
+                                .image, .spacer, .text("")
+                            ]
+                        ),
 
-                    ("text,image,image,text w newlines(0)",
-                        [.text("some"),.spacer,.image(UIImage()),.image(UIImage()), .text("more\nlines")],
-                        (IndexPath(row: 0, section: 0), IndexPath(row: 2, section: 0)),
-                        [.image,.spacer,.image,.spacer,.text("some\n\nmore\nlines")]
-                    ),
-                    ("text,image,image,text w newlines(1)",
-                        [.text("some"),.spacer,.image(UIImage()),.image(UIImage()), .text("more\nlines")],
-                        (IndexPath(row: 0, section: 0), IndexPath(row: 3, section: 0)),
-                        [.image,.spacer,.image,.spacer,.text("more\nlines\n\nsome")]
-                    ),
-                    ("text,image,image,text w newlines(2)",
-                        [.text("some"),.spacer,.image(UIImage()),.image(UIImage()), .text("more\nlines")],
-                        (IndexPath(row: 2, section: 0), IndexPath(row: 0, section: 0)),
-                        [.image,.spacer,.text("some"),.spacer,.image,.spacer,.text("more\nlines")]
-                    ),
-                    ("text,image,image,text w newlines(3)",
-                        [.text("some"),.spacer,.image(UIImage()),.image(UIImage()), .text("more\nlines")],
-                        (IndexPath(row: 3, section: 0), IndexPath(row: 0, section: 0)),
-                        [.text("more\nlines\n\nsome"),.spacer,.image,.spacer,.image,.spacer,.text("")]
-                    ),
-                ]
+                        (
+                            "text,image,image,text w newlines(0)",
+                            [
+                                .text("some"), .spacer, .image(UIImage()), .image(UIImage()),
+                                .text("more\nlines")
+                            ],
+                            (IndexPath(row: 0, section: 0), IndexPath(row: 2, section: 0)),
+                            [.image, .spacer, .image, .spacer, .text("some\n\nmore\nlines")]
+                        ),
+                        (
+                            "text,image,image,text w newlines(1)",
+                            [
+                                .text("some"), .spacer, .image(UIImage()), .image(UIImage()),
+                                .text("more\nlines")
+                            ],
+                            (IndexPath(row: 0, section: 0), IndexPath(row: 3, section: 0)),
+                            [.image, .spacer, .image, .spacer, .text("more\nlines\n\nsome")]
+                        ),
+                        (
+                            "text,image,image,text w newlines(2)",
+                            [
+                                .text("some"), .spacer, .image(UIImage()), .image(UIImage()),
+                                .text("more\nlines")
+                            ],
+                            (IndexPath(row: 2, section: 0), IndexPath(row: 0, section: 0)),
+                            [
+                                .image, .spacer, .text("some"), .spacer, .image, .spacer,
+                                .text("more\nlines")
+                            ]
+                        ),
+                        (
+                            "text,image,image,text w newlines(3)",
+                            [
+                                .text("some"), .spacer, .image(UIImage()), .image(UIImage()),
+                                .text("more\nlines")
+                            ],
+                            (IndexPath(row: 3, section: 0), IndexPath(row: 0, section: 0)),
+                            [
+                                .text("more\nlines\n\nsome"), .spacer, .image, .spacer, .image,
+                                .spacer, .text("")
+                            ]
+                        ),
+                    ]
                 for (name, regions, reorder, expectations) in expectationRules {
                     describe("for \(name) conditions (from \(reorder.0.row) to \(reorder.1.row))") {
                         beforeEach {
@@ -793,20 +1117,50 @@ class OmnibarScreenSpec: QuickSpec {
             }
 
             describe("deleting regions while reordering") {
-                let expectationRules: [(String, [OmnibarRegion], IndexPath, [RegionExpectation])] = [
-                    ("text", [.text("some")], IndexPath(row: 0, section: 0),                               [.text("")]),
-                    ("image", [.image(UIImage())], IndexPath(row: 0, section: 0),                 [.text("")]),
-                    ("image,text(0)", [.image(UIImage()), .text("some")], IndexPath(row: 0, section: 0),  [.text("some")]),
-                    ("image,text(1)", [.image(UIImage()), .text("some")], IndexPath(row: 1, section: 0),  [.image,.spacer,.text("")]),
-                    ("text,image(0)", [.text("some"), .image(UIImage())], IndexPath(row: 0, section: 0),  [.image,.spacer,.text("")]),
-                    ("text,image(1)", [.text("some"), .image(UIImage())], IndexPath(row: 1, section: 0),  [.text("some")]),
-                    ("text,image,image(0)", [.text("some"), .image(UIImage()), .image(UIImage())], IndexPath(row: 0, section: 0), [.image,.spacer,.image,.spacer,.text("")]),
-                    ("text,image,image(1)", [.text("some"), .image(UIImage()), .image(UIImage())], IndexPath(row: 1, section: 0), [.text("some"),.spacer,.image,.spacer,.text("")]),
-                    ("text,image,image(2)", [.text("some"), .image(UIImage()), .image(UIImage())], IndexPath(row: 2, section: 0), [.text("some"),.spacer,.image,.spacer,.text("")]),
-                ]
+                let expectationRules: [(String, [OmnibarRegion], IndexPath, [RegionExpectation])] =
+                    [
+                        ("text", [.text("some")], IndexPath(row: 0, section: 0), [.text("")]),
+                        ("image", [.image(UIImage())], IndexPath(row: 0, section: 0), [.text("")]),
+                        (
+                            "image,text(0)", [.image(UIImage()), .text("some")],
+                            IndexPath(row: 0, section: 0), [.text("some")]
+                        ),
+                        (
+                            "image,text(1)", [.image(UIImage()), .text("some")],
+                            IndexPath(row: 1, section: 0), [.image, .spacer, .text("")]
+                        ),
+                        (
+                            "text,image(0)", [.text("some"), .image(UIImage())],
+                            IndexPath(row: 0, section: 0), [.image, .spacer, .text("")]
+                        ),
+                        (
+                            "text,image(1)", [.text("some"), .image(UIImage())],
+                            IndexPath(row: 1, section: 0), [.text("some")]
+                        ),
+                        (
+                            "text,image,image(0)",
+                            [.text("some"), .image(UIImage()), .image(UIImage())],
+                            IndexPath(row: 0, section: 0),
+                            [.image, .spacer, .image, .spacer, .text("")]
+                        ),
+                        (
+                            "text,image,image(1)",
+                            [.text("some"), .image(UIImage()), .image(UIImage())],
+                            IndexPath(row: 1, section: 0),
+                            [.text("some"), .spacer, .image, .spacer, .text("")]
+                        ),
+                        (
+                            "text,image,image(2)",
+                            [.text("some"), .image(UIImage()), .image(UIImage())],
+                            IndexPath(row: 2, section: 0),
+                            [.text("some"), .spacer, .image, .spacer, .text("")]
+                        ),
+                    ]
                 for (name, regions, path, expectations) in expectationRules {
                     describe("for \(name) at row \(path.row)") {
-                        let expectedBuyButton = expectations.reduce(false) { return $0 || $1.matches(.image(UIImage())) }
+                        let expectedBuyButton = expectations.reduce(false) {
+                            return $0 || $1.matches(.image(UIImage()))
+                        }
                         beforeEach {
                             subject.regions = regions
                             subject.reorderingTable(true)
@@ -840,10 +1194,16 @@ class OmnibarScreenSpec: QuickSpec {
 
             describe("adding images") {
                 let expectationRules: [(String, [OmnibarRegion], [RegionExpectation])] = [
-                    ("text", [.text("some")], [.text("some"),.spacer,.image,.spacer,.text("")]),
-                    ("image", [.image(UIImage())], [.image,.spacer,.image,.spacer,.text("")]),
-                    ("image,text", [.image(UIImage()), .text("some")], [.image,.spacer,.text("some"),.spacer,.image,.spacer,.text("")]),
-                    ("text,image", [.text("some"), .image(UIImage())], [.text("some"),.spacer,.image,.spacer,.image,.spacer,.text("")]),
+                    ("text", [.text("some")], [.text("some"), .spacer, .image, .spacer, .text("")]),
+                    ("image", [.image(UIImage())], [.image, .spacer, .image, .spacer, .text("")]),
+                    (
+                        "image,text", [.image(UIImage()), .text("some")],
+                        [.image, .spacer, .text("some"), .spacer, .image, .spacer, .text("")]
+                    ),
+                    (
+                        "text,image", [.text("some"), .image(UIImage())],
+                        [.text("some"), .spacer, .image, .spacer, .image, .spacer, .text("")]
+                    ),
                 ]
                 for (name, regions, expectations) in expectationRules {
                     describe("for \(name)") {

@@ -11,7 +11,12 @@ class ContentFlagger {
     let contentType: ContentType
     var commentPostId: String?
 
-    init(presentingController: UIViewController, flaggableId: String, contentType: ContentType, commentPostId: String? = nil) {
+    init(
+        presentingController: UIViewController,
+        flaggableId: String,
+        contentType: ContentType,
+        commentPostId: String? = nil
+    ) {
         self.presentingController = presentingController
         self.flaggableId = flaggableId
         self.contentType = contentType
@@ -26,19 +31,31 @@ class ContentFlagger {
             case .post:
                 endPoint = .flagPost(postId: flaggableId, kind: option.kind)
             case .comment:
-                endPoint = .flagComment(postId: commentPostId!, commentId: flaggableId, kind: option.kind)
+                endPoint = .flagComment(
+                    postId: commentPostId!,
+                    commentId: flaggableId,
+                    kind: option.kind
+                )
             case .user:
                 endPoint = .flagUser(userId: flaggableId, kind: option.kind)
             }
 
             ContentFlaggingService().flagContent(endPoint)
                 .done { _ in
-                    Tracker.shared.contentFlagged(self.contentType, flag: option, contentId: self.flaggableId)
+                    Tracker.shared.contentFlagged(
+                        self.contentType,
+                        flag: option,
+                        contentId: self.flaggableId
+                    )
                     self.isContentFlagged = true
                 }
                 .catch { error in
                     let message = error.elloErrorMessage ?? error.localizedDescription
-                    Tracker.shared.contentFlaggingFailed(self.contentType, message: message, contentId: self.flaggableId)
+                    Tracker.shared.contentFlaggingFailed(
+                        self.contentType,
+                        message: message,
+                        contentId: self.flaggableId
+                    )
                     self.isContentFlagged = false
                 }
         }
@@ -49,7 +66,10 @@ class ContentFlagger {
             return
         }
 
-        let alertController = AlertViewController(message: "Would you like to flag this content as:", buttonAlignment: .left)
+        let alertController = AlertViewController(
+            message: "Would you like to flag this content as:",
+            buttonAlignment: .left
+        )
 
         for option in UserFlag.all {
             let action = AlertAction(title: option.name, style: .dark, handler: handler)

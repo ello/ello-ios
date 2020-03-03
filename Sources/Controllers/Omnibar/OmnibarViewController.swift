@@ -170,7 +170,9 @@ class OmnibarViewController: BaseElloViewController {
             }
             else if let artistInvite = artistInvite {
                 communityPickerEditability = .hidden
-                screen.title = InterfaceString.Omnibar.CreateArtistInviteSubmission(title: artistInvite.title)
+                screen.title = InterfaceString.Omnibar.CreateArtistInviteSubmission(
+                    title: artistInvite.title
+                )
                 screen.submitTitle = InterfaceString.Omnibar.CreatePostButton
                 isComment = false
             }
@@ -191,9 +193,11 @@ class OmnibarViewController: BaseElloViewController {
             prepareScreenForEditing(defaultRegions, isComment: isComment)
 
             if let fileName = omnibarDataName(),
-                let data: Data = Tmp.read(fileName), (defaultText ?? "") == ""
+                let data:Data = Tmp.read(fileName), (defaultText ?? "") == ""
             {
-                if let omnibarData = NSKeyedUnarchiver.unarchiveObject(with: data) as? OmnibarCacheData {
+                if let omnibarData = NSKeyedUnarchiver.unarchiveObject(with: data)
+                    as? OmnibarCacheData
+                {
                     let regions: [OmnibarRegion] = omnibarData.regions.compactMap { obj in
                         if let region = OmnibarRegion.fromRaw(obj) {
                             return region
@@ -219,8 +223,14 @@ class OmnibarViewController: BaseElloViewController {
             self.previousTab = previousTab
         }
 
-        keyboardWillShowObserver = NotificationObserver(notification: Keyboard.Notifications.KeyboardWillShow, block: self.keyboardWillShow)
-        keyboardWillHideObserver = NotificationObserver(notification: Keyboard.Notifications.KeyboardWillHide, block: self.keyboardWillHide)
+        keyboardWillShowObserver = NotificationObserver(
+            notification: Keyboard.Notifications.KeyboardWillShow,
+            block: self.keyboardWillShow
+        )
+        keyboardWillHideObserver = NotificationObserver(
+            notification: Keyboard.Notifications.KeyboardWillHide,
+            block: self.keyboardWillHide
+        )
         view.setNeedsLayout()
 
         let isEditing = (editPost != nil || editComment != nil)
@@ -295,7 +305,11 @@ class OmnibarViewController: BaseElloViewController {
         for (index, imageURL) in downloads {
             PINRemoteImageManager.shared().downloadImage(with: imageURL, options: []) { result in
                 if let animatedImage = result.animatedImage {
-                    regions[index] = .imageData(animatedImage.coverImage, animatedImage.data, "image/gif")
+                    regions[index] = .imageData(
+                        animatedImage.coverImage,
+                        animatedImage.data,
+                        "image/gif"
+                    )
                 }
                 else if let image = result.image {
                     regions[index] = .image(image)
@@ -352,7 +366,11 @@ extension OmnibarViewController: OmnibarScreenDelegate {
     func chooseCommunityTapped() {
         guard let currentUser = currentUser else { return }
 
-        let controller = ChooseCategoryViewController(currentUser: currentUser, category: category, usage: .omnibar)
+        let controller = ChooseCategoryViewController(
+            currentUser: currentUser,
+            category: category,
+            usage: .omnibar
+        )
         controller.delegate = self
         navigationController?.pushViewController(controller, animated: true)
     }
@@ -443,13 +461,17 @@ extension OmnibarViewController {
             case let .imageData(image, data, contentType):
                 content.append(.imageData(image, data, contentType))
             default:
-                break // there are "non submittable" types from OmnibarRegion, like Spacer and ImageURL
+                break  // there are "non submittable" types from OmnibarRegion, like Spacer and ImageURL
             }
         }
         return content
     }
 
-    private func startPosting(_ authorId: String, _ content: [PostEditingService.PostContentRegion], buyButtonURL: URL?) {
+    private func startPosting(
+        _ authorId: String,
+        _ content: [PostEditingService.PostContentRegion],
+        buyButtonURL: URL?
+    ) {
         let service: PostEditingService
         let didGoToPreviousTab: Bool
         let alertText: String
@@ -491,7 +513,7 @@ extension OmnibarViewController {
             buyButtonURL: buyButtonURL,
             categoryId: category?.id,
             artistInviteId: artistInvite?.id
-            )
+        )
             .done { postOrComment in
                 if self.editPost != nil || self.editComment != nil {
                     URLCache.shared.removeAllCachedResponses()

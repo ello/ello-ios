@@ -30,7 +30,9 @@ class ElloWebViewHelperSpec: QuickSpec {
                     }
 
                     it("returns false with http://wallpapers.ello.co/anything") {
-                        let request = URLRequest(url: URL(string: "http://wallpapers.ello.co/anything")!)
+                        let request = URLRequest(
+                            url: URL(string: "http://wallpapers.ello.co/anything")!
+                        )
                         expect(ElloWebViewHelper.handle(request: request, origin: nil)) == false
                     }
 
@@ -50,17 +52,37 @@ class ElloWebViewHelperSpec: QuickSpec {
 
                     it("returns true with http://ello.co/wtf") {
                         let request = URLRequest(url: URL(string: "http://ello.co/wtf")!)
-                        expect(ElloWebViewHelper.handle(request: request, origin: nil, fromWebView: true)) == true
+                        expect(
+                            ElloWebViewHelper.handle(
+                                request: request,
+                                origin: nil,
+                                fromWebView: true
+                            )
+                        ) == true
                     }
 
                     it("returns true with http://wallpapers.ello.co/anything") {
-                        let request = URLRequest(url: URL(string: "http://wallpapers.ello.co/anything")!)
-                        expect(ElloWebViewHelper.handle(request: request, origin: nil, fromWebView: true)) == true
+                        let request = URLRequest(
+                            url: URL(string: "http://wallpapers.ello.co/anything")!
+                        )
+                        expect(
+                            ElloWebViewHelper.handle(
+                                request: request,
+                                origin: nil,
+                                fromWebView: true
+                            )
+                        ) == true
                     }
 
                     it("returns true with http://www.google.com") {
                         let request = URLRequest(url: URL(string: "http://www.google.com")!)
-                        expect(ElloWebViewHelper.handle(request: request, origin: nil, fromWebView: true)) == true
+                        expect(
+                            ElloWebViewHelper.handle(
+                                request: request,
+                                origin: nil,
+                                fromWebView: true
+                            )
+                        ) == true
                     }
 
                 }

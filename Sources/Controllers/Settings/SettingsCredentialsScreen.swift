@@ -30,8 +30,8 @@ class SettingsCredentialsScreen: NavBarScreen, SettingsCredentialsScreenProtocol
         set { oldPasswordField.textField.text = newValue }
     }
 
-    private var navigationInsets: UIEdgeInsets = .zero { didSet { updateInsets() }}
-    private var bottomInset: CGFloat = 0 { didSet { updateInsets() }}
+    private var navigationInsets: UIEdgeInsets = .zero { didSet { updateInsets() } }
+    private var bottomInset: CGFloat = 0 { didSet { updateInsets() } }
 
     private var widthConstraint: Constraint!
     private let scrollView = UIScrollView()
@@ -101,7 +101,8 @@ class SettingsCredentialsScreen: NavBarScreen, SettingsCredentialsScreenProtocol
 
                 if isLast {
                     make.bottom.equalTo(scrollView)
-                    widthConstraint = make.width.equalTo(frame.width).priority(Priority.required).constraint
+                    widthConstraint =
+                        make.width.equalTo(frame.width).priority(Priority.required).constraint
                 }
             }
         }

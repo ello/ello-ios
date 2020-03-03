@@ -27,7 +27,9 @@ class StubbedManager: Ello.RequestManager {
         stubs.append(stub)
     }
 
-    func request(_ request: URLRequest, sender: RequestSender, _ handler: @escaping RequestHandler) -> RequestTask {
+    func request(_ request: URLRequest, sender: RequestSender, _ handler: @escaping RequestHandler)
+        -> RequestTask
+    {
         var newStubs: [Stub] = []
         var matchingData: Data?
         for stub in stubs {
@@ -55,14 +57,15 @@ struct StubbedTask: Ello.RequestTask {
             url: request.url!,
             statusCode: 200,
             httpVersion: nil,
-            headerFields: nil)
+            headerFields: nil
+        )
 
         let response = StubbedResponse(
-                    request: request,
-                    response: httpResponse,
-                    data: data,
-                    error: nil
-                )
+            request: request,
+            response: httpResponse,
+            data: data,
+            error: nil
+        )
         self.handler(response)
     }
 }

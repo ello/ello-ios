@@ -12,7 +12,9 @@
 import PromiseKit
 
 
-func == (lhs: PostEditingService.PostContentRegion, rhs: PostEditingService.PostContentRegion) -> Bool {
+func == (lhs: PostEditingService.PostContentRegion, rhs: PostEditingService.PostContentRegion)
+    -> Bool
+{
     switch (lhs, rhs) {
     case let (.text(a), .text(b)):
         return a == b
@@ -58,8 +60,8 @@ class PostEditingService {
         content rawContent: [PostContentRegion],
         buyButtonURL: URL? = nil,
         categoryId: String? = nil,
-        artistInviteId: String? = nil) -> Promise<Any>
-    {
+        artistInviteId: String? = nil
+    ) -> Promise<Any> {
         var textEntries = [(Int, String)]()
         var imageDataEntries = [(Int, ImageRegionData)]()
 
@@ -70,13 +72,26 @@ class PostEditingService {
             case let .text(text):
                 textEntries.append((index, text))
             case let .image(image):
-                imageDataEntries.append((index, ImageRegionData(image: image, buyButtonURL: buyButtonURL)))
+                imageDataEntries.append(
+                    (index, ImageRegionData(image: image, buyButtonURL: buyButtonURL))
+                )
             case let .imageData(image, data, type):
-                imageDataEntries.append((index, ImageRegionData(image: image, data: data, contentType: type, buyButtonURL: buyButtonURL)))
+                imageDataEntries.append(
+                    (
+                        index,
+                        ImageRegionData(
+                            image: image,
+                            data: data,
+                            contentType: type,
+                            buyButtonURL: buyButtonURL
+                        )
+                    )
+                )
             }
         }
 
-        var indexedRegions: [(Int, Regionable)] = textEntries.map { (index, text) -> (Int, Regionable) in
+        var indexedRegions: [(Int, Regionable)] = textEntries.map {
+            (index, text) -> (Int, Regionable) in
             return (index, TextRegion(content: text))
         }
 
@@ -88,21 +103,31 @@ class PostEditingService {
                         return (index, region as Regionable)
                     }
 
-                    return self.create(self.sortedRegions(indexedRegions), categoryId: categoryId, artistInviteId: artistInviteId)
+                    return self.create(
+                        self.sortedRegions(indexedRegions),
+                        categoryId: categoryId,
+                        artistInviteId: artistInviteId
+                    )
                 }
         }
         else {
-            return create(sortedRegions(indexedRegions), categoryId: categoryId, artistInviteId: artistInviteId)
+            return create(
+                sortedRegions(indexedRegions),
+                categoryId: categoryId,
+                artistInviteId: artistInviteId
+            )
         }
     }
 
-    func create(_ regions: [Regionable], categoryId: String?, artistInviteId: String?) -> Promise<Any> {
+    func create(_ regions: [Regionable], categoryId: String?, artistInviteId: String?) -> Promise<
+        Any
+    > {
         var body: [[String: Any]] = []
         for region in regions {
             body.append(region.toJSON())
         }
 
-        var params: [String: Any]  = ["body": body]
+        var params: [String: Any] = ["body": body]
 
         if let categoryId = categoryId {
             params["category_ids"] = [categoryId]
@@ -123,7 +148,11 @@ class PostEditingService {
             endpoint = ElloAPI.updatePost(postId: editPostId, body: params)
         }
         else if let editComment = editComment {
-            endpoint = ElloAPI.updateComment(postId: editComment.postId, commentId: editComment.id, body: params)
+            endpoint = ElloAPI.updateComment(
+                postId: editComment.postId,
+                commentId: editComment.id,
+                body: params
+            )
         }
         else {
             endpoint = ElloAPI.createPost(body: params)
@@ -137,7 +166,10 @@ class PostEditingService {
                 switch endpoint {
                 case .createComment:
                     let comment = data as! ElloComment
-                    comment.content = self.replaceLocalImageRegions(comment.content, regions: regions)
+                    comment.content = self.replaceLocalImageRegions(
+                        comment.content,
+                        regions: regions
+                    )
                 case .createPost, .updatePost:
                     let post = data as! Post
                     post.content = self.replaceLocalImageRegions(post.content, regions: regions)
@@ -152,7 +184,8 @@ class PostEditingService {
     func replaceLocalImageRegions(_ content: [Regionable], regions: [Regionable]) -> [Regionable] {
         var replacedContent = content
         for (index, regionable) in content.enumerated() {
-            if let replaceRegion = regions.safeValue(index) as? ImageRegion, regionable is ImageRegion
+            if let replaceRegion = regions.safeValue(index) as? ImageRegion,
+                regionable is ImageRegion
             {
                 replacedContent[index] = replaceRegion
             }
@@ -193,7 +226,10 @@ class PostEditingService {
                 }
 
                 let (imageIndex, imageRegionData) = dataEntry
-                let (image, data, contentType, buyButtonURL) = (imageRegionData.image, imageRegionData.data, imageRegionData.contentType, imageRegionData.buyButtonURL)
+                let (image, data, contentType, buyButtonURL) = (
+                    imageRegionData.image, imageRegionData.data, imageRegionData.contentType,
+                    imageRegionData.buyButtonURL
+                )
 
                 let failureHandler: (Error) -> Void = { error in
                     anyError = error
@@ -222,7 +258,12 @@ class PostEditingService {
                                 asset = Asset(url: url, image: image)
                             }
 
-                            imageRegion.storeLinkObject(asset, key: "assets", id: asset.id, type: .assetsType)
+                            imageRegion.storeLinkObject(
+                                asset,
+                                key: "assets",
+                                id: asset.id,
+                                type: .assetsType
+                            )
                         }
 
                         uploaded.append((imageIndex, imageRegion))

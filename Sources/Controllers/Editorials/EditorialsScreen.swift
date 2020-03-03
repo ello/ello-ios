@@ -27,7 +27,10 @@ class EditorialsScreen: HomeSubviewScreen, EditorialsScreenProtocol {
     override func arrange() {
         super.arrange()
 
-        arrangeHomeScreenNavBar(type: .editorials(loggedIn: usage == .loggedIn), navigationBar: navigationBar)
+        arrangeHomeScreenNavBar(
+            type: .editorials(loggedIn: usage == .loggedIn),
+            navigationBar: navigationBar
+        )
     }
 }
 

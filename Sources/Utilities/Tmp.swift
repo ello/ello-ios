@@ -36,7 +36,11 @@ struct Tmp {
         else { return nil }
 
         do {
-            try FileManager.default.createDirectory(at: directoryURL, withIntermediateDirectories: true, attributes: nil)
+            try FileManager.default.createDirectory(
+                at: directoryURL,
+                withIntermediateDirectories: true,
+                attributes: nil
+            )
 
             if let fileURL = self.fileURL(fileName) {
                 try? data.write(to: fileURL, options: [.atomic])
@@ -59,14 +63,14 @@ struct Tmp {
 
     static func read(_ fileName: String) -> String? {
         guard
-            let data: Data = read(fileName),
+            let data:Data = read(fileName),
             let string = String(data: data, encoding: .utf8)
         else { return nil }
         return string
     }
 
     static func read(_ fileName: String) -> UIImage? {
-        if let data: Data = read(fileName) {
+        if let data:Data = read(fileName) {
             return UIImage(data: data)
         }
         return nil
@@ -93,7 +97,8 @@ extension Tmp {
         let paths = [
             ElloLinkedStore.databaseFolder(),
             FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.path,
-            FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first?.path,
+            FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first?
+                .path,
             FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first?.path,
             URL(string: NSTemporaryDirectory())?.path,
         ].compactMap { path -> Path? in path.map { Path($0) } }
@@ -116,7 +121,9 @@ extension Tmp {
         return (text, totalSize)
     }
 
-    private static func sizeOf(_ path: Path, prefix: String? = nil, isLast: Bool = true) -> (String, Int)? {
+    private static func sizeOf(_ path: Path, prefix: String? = nil, isLast: Bool = true) -> (
+        String, Int
+    )? {
         guard
             let fileDictionary = try? FileManager.default.attributesOfItem(atPath: path.path),
             var size = fileDictionary[.size] as? Int
@@ -127,11 +134,19 @@ extension Tmp {
             let childPrefix = (prefix.map { $0 + (isLast ? "   " : "|  ") } ?? "")
             var childrenDesc = ""
             for child in children {
-                guard let (childDesc, childSize) = sizeOf(child, prefix: childPrefix, isLast: child == children.last) else { continue }
+                guard
+                    let (childDesc, childSize) = sizeOf(
+                        child,
+                        prefix: childPrefix,
+                        isLast: child == children.last
+                    )
+                else { continue }
                 childrenDesc += childDesc
                 size += childSize
             }
-            return ("\(myPrefix)\(path.lastComponent) \(size.numberToHuman())\n" + childrenDesc, size)
+            return (
+                "\(myPrefix)\(path.lastComponent) \(size.numberToHuman())\n" + childrenDesc, size
+            )
         }
         else {
             return ("", size)

@@ -88,7 +88,11 @@ extension ArtistInviteControlsCell {
 }
 
 extension ArtistInviteControlsCell: UIWebViewDelegate {
-    func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebView.NavigationType) -> Bool {
+    func webView(
+        _ webView: UIWebView,
+        shouldStartLoadWith request: URLRequest,
+        navigationType: UIWebView.NavigationType
+    ) -> Bool {
         if let scheme = request.url?.scheme, scheme == "default" {
             let responder: StreamCellResponder? = findResponder()
             responder?.streamCellTapped(cell: self)
@@ -103,8 +107,9 @@ extension ArtistInviteControlsCell: UIWebViewDelegate {
 extension StyledButton.Style {
     static let artistInviteSubmit = StyledButton.Style(
         backgroundColor: .greenD1,
-        titleColor: .white, highlightedTitleColor: .black,
+        titleColor: .white,
+        highlightedTitleColor: .black,
         font: .regularLightFont(24),
         cornerRadius: .rounded
-        )
+    )
 }

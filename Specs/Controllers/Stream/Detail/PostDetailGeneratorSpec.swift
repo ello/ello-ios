@@ -13,7 +13,7 @@ class PostDetailGeneratorSpec: QuickSpec {
             let post: Post = stub([
                 "id": "123",
                 "content": [TextRegion.stub([:])]
-                ])
+            ])
             let streamKind: StreamKind = .userStream(userParam: currentUser.id)
             var destination: PostDetailDestination!
             var subject: PostDetailGenerator!
@@ -97,7 +97,11 @@ class PostDetailDestination: PostDetailStreamDestination {
         placeholderItems = items
     }
 
-    func replacePlaceholder(type: StreamCellType.PlaceholderType, items: [StreamCellItem], completion: @escaping Block) {
+    func replacePlaceholder(
+        type: StreamCellType.PlaceholderType,
+        items: [StreamCellItem],
+        completion: @escaping Block
+    ) {
         switch type {
         case .postHeader:
             headerItems = items

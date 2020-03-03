@@ -92,7 +92,9 @@ class HireScreen: StreamableScreen {
         keyboardSubmitButton.snp.makeConstraints { make in
             make.leading.trailing.equalTo(self)
             make.height.equalTo(Size.keyboardButtonHeight)
-            make.bottom.lessThanOrEqualTo(self).offset(-ElloTabBar.Size.height).priority(Priority.required)
+            make.bottom.lessThanOrEqualTo(self).offset(-ElloTabBar.Size.height).priority(
+                Priority.required
+            )
             keyboardBottomConstraint = make.bottom.equalTo(self).priority(Priority.high).constraint
         }
 
@@ -120,7 +122,8 @@ class HireScreen: StreamableScreen {
         let bottomInset = Keyboard.shared.keyboardBottomInset(inView: self)
         keyboardBottomConstraint.update(offset: -bottomInset)
         animateWithKeyboard {
-            self.keyboardSubmitButton.frame.origin.y = self.frame.size.height - bottomInset - Size.keyboardButtonHeight
+            self.keyboardSubmitButton.frame.origin.y = self.frame.size.height - bottomInset
+                - Size.keyboardButtonHeight
         }
     }
 

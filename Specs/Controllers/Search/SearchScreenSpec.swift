@@ -9,12 +9,12 @@ import Nimble
 
 class MockSearchScreenDelegate: NSObject, SearchScreenDelegate {
     var searchFieldWasCleared = false
-    func searchCanceled(){}
-    func searchFieldCleared(){searchFieldWasCleared = true}
-    func searchFieldChanged(_ text: String, isPostSearch: Bool){}
-    func searchShouldReset(){}
-    func toggleChanged(_ text: String, isPostSearch: Bool){}
-    func findFriendsTapped(){}
+    func searchCanceled() {}
+    func searchFieldCleared() { searchFieldWasCleared = true }
+    func searchFieldChanged(_ text: String, isPostSearch: Bool) {}
+    func searchShouldReset() {}
+    func toggleChanged(_ text: String, isPostSearch: Bool) {}
+    func findFriendsTapped() {}
     func backButtonTapped() {}
     func gridListToggled(sender: UIButton) {}
 }

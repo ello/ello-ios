@@ -13,7 +13,10 @@ class ProfileHeaderLinksPresenterSpec: QuickSpec {
             it("should assign links") {
                 let links: [[String: String]] = [
                     ["url": "http://ello.co", "text": "ello.co"],
-                    ["url": "http://ello.co", "text": "ello.co", "icon": "http://social-icons.ello.co/ello.png"],
+                    [
+                        "url": "http://ello.co", "text": "ello.co",
+                        "icon": "http://social-icons.ello.co/ello.png"
+                    ],
                 ]
                 let user: User = stub(["externalLinksList": links])
                 let view = ProfileHeaderLinksCell()

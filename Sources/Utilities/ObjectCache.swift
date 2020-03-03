@@ -8,7 +8,7 @@ protocol PersistentLayer {
     func removeObject(forKey defaultName: String)
 }
 
-extension UserDefaults: PersistentLayer { }
+extension UserDefaults: PersistentLayer {}
 
 class ObjectCache<T: Any> {
     private let persistentLayer: PersistentLayer

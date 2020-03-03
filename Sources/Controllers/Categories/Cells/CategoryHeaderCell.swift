@@ -98,11 +98,17 @@ class CategoryHeaderCell: CollectionViewCell {
 
         titleLabel.snp.makeConstraints { make in
             make.leading.equalTo(contentView).inset(Size.titleMargin)
-            make.trailing.lessThanOrEqualTo(contentView).inset(Size.titleMargin + Size.subscribeIconWidth).priority(Priority.required)
+            make.trailing.lessThanOrEqualTo(contentView).inset(
+                Size.titleMargin + Size.subscribeIconWidth
+            ).priority(Priority.required)
             make.centerY.equalTo(contentView)
 
-            make.top.greaterThanOrEqualTo(contentView).offset(Size.titleMargin).priority(Priority.required)
-            make.bottom.lessThanOrEqualTo(contentView).offset(-Size.titleMargin).priority(Priority.required)
+            make.top.greaterThanOrEqualTo(contentView).offset(Size.titleMargin).priority(
+                Priority.required
+            )
+            make.bottom.lessThanOrEqualTo(contentView).offset(-Size.titleMargin).priority(
+                Priority.required
+            )
         }
 
         subscribedIcon.snp.makeConstraints { make in
@@ -131,7 +137,10 @@ class CategoryHeaderCell: CollectionViewCell {
         setImageURL(config.imageURL)
         postedByAvatar.setUserAvatarURL(config.user?.avatarURL())
 
-        subscribedIcon.setInterfaceImage(.circleCheckLarge, style: config.isSubscribed ? .green : .white)
+        subscribedIcon.setInterfaceImage(
+            .circleCheckLarge,
+            style: config.isSubscribed ? .green : .white
+        )
     }
 
     func setImageURL(_ url: URL?) {
@@ -209,13 +218,16 @@ private extension CategoryHeaderCell {
         failImage.isVisible = true
         failBackgroundView.isVisible = true
         circle.stopPulse()
-        UIView.animate(withDuration: 0.15, animations: {
-            self.failImage.alpha = 1.0
-            self.imageView.backgroundColor = UIColor.greyF1
-            self.failBackgroundView.backgroundColor = UIColor.greyF1
-            self.imageView.alpha = 1.0
-            self.failBackgroundView.alpha = 1.0
-        })
+        UIView.animate(
+            withDuration: 0.15,
+            animations: {
+                self.failImage.alpha = 1.0
+                self.imageView.backgroundColor = UIColor.greyF1
+                self.failBackgroundView.backgroundColor = UIColor.greyF1
+                self.imageView.alpha = 1.0
+                self.failBackgroundView.alpha = 1.0
+            }
+        )
     }
 }
 

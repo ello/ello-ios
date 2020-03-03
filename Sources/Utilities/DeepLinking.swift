@@ -32,9 +32,14 @@ struct DeepLinking {
         }
     }
 
-    static func showArtistInvites(navVC: UINavigationController?, currentUser: User?, slug: String? = nil) {
+    static func showArtistInvites(
+        navVC: UINavigationController?,
+        currentUser: User?,
+        slug: String? = nil
+    ) {
         if let slug = slug {
-            guard let navVC = navVC, !DeepLinking.alreadyOnArtistInvites(navVC: navVC, slug: slug) else { return }
+            guard let navVC = navVC, !DeepLinking.alreadyOnArtistInvites(navVC: navVC, slug: slug)
+            else { return }
 
             let vc = ArtistInviteDetailController(slug: slug)
             vc.currentUser = currentUser

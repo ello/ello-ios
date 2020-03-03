@@ -35,17 +35,22 @@ class OnboardingInterestsViewController: StreamableViewController {
     override func showNavBars(animated: Bool) {}
     override func hideNavBars(animated: Bool) {}
 
-    override func streamViewStreamCellItems(jsonables: [Model], defaultGenerator generator: StreamCellItemGenerator) -> [StreamCellItem]? {
+    override func streamViewStreamCellItems(
+        jsonables: [Model],
+        defaultGenerator generator: StreamCellItemGenerator
+    ) -> [StreamCellItem]? {
         let header = NSAttributedString(
             primaryHeader: InterfaceString.Onboard.PickCategoriesPrimary,
             secondaryHeader: InterfaceString.Onboard.PickCategoriesSecondary
-            )
+        )
         let headerCellItem = StreamCellItem(type: .tallHeader(header))
         var items: [StreamCellItem] = [headerCellItem]
 
         if let categories = jsonables as? [Category] {
             let onboardingCategories = categories.filter { $0.allowInOnboarding }
-            items += onboardingCategories.map { StreamCellItem(jsonable: $0, type: .onboardingCategoryCard) }
+            items += onboardingCategories.map {
+                StreamCellItem(jsonable: $0, type: .onboardingCategoryCard)
+            }
         }
         return items
     }
@@ -60,7 +65,10 @@ extension OnboardingInterestsViewController: OnboardingStepController {
         onboardingViewController?.prompt = prompt
     }
 
-    func onboardingWillProceed(abort: Bool, proceedClosure: @escaping (_ success: OnboardingViewController.OnboardingProceed) -> Void) {
+    func onboardingWillProceed(
+        abort: Bool,
+        proceedClosure: @escaping (_ success: OnboardingViewController.OnboardingProceed) -> Void
+    ) {
         guard selectedCategories.count > 0 else { return }
 
         onboardingData.categories = selectedCategories
@@ -75,7 +83,9 @@ extension OnboardingInterestsViewController: OnboardingStepController {
             .catch { [weak self] _ in
                 guard let `self` = self else { return }
 
-                let alertController = AlertViewController(confirmation: InterfaceString.GenericError)
+                let alertController = AlertViewController(
+                    confirmation: InterfaceString.GenericError
+                )
                 self.appViewController?.present(alertController, animated: true, completion: nil)
                 proceedClosure(.error)
             }

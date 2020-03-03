@@ -4,7 +4,11 @@
 
 extension OmnibarScreen: UITextViewDelegate {
 
-    func textView(_ textView: UITextView, shouldChangeTextIn nsrange: NSRange, replacementText: String) -> Bool {
+    func textView(
+        _ textView: UITextView,
+        shouldChangeTextIn nsrange: NSRange,
+        replacementText: String
+    ) -> Bool {
         if autoCompleteShowing && emojiKeyboardShowing() {
             return false
         }

@@ -40,7 +40,9 @@ struct ProfileService {
     }
 
     func update(categoryIds: Set<String>, onboarding: Bool) -> Promise<()> {
-        return ElloProvider.shared.request(.userCategories(categoryIds: categoryIds, onboarding: onboarding))
+        return ElloProvider.shared.request(
+            .userCategories(categoryIds: categoryIds, onboarding: onboarding)
+        )
             .asVoid()
     }
 
@@ -58,7 +60,9 @@ struct ProfileService {
             }
     }
 
-    func updateUserImage(_ prop: Profile.ImageProperty, imageRegion: ImageRegionData) -> Promise<UploadSuccess> {
+    func updateUserImage(_ prop: Profile.ImageProperty, imageRegion: ImageRegionData) -> Promise<
+        UploadSuccess
+    > {
         guard prop == .coverImage || prop == .avatar else {
             return Promise<UploadSuccess>(error: Error.wrongProperty)
         }
@@ -82,7 +86,8 @@ struct ProfileService {
     func updateUserImages(
         avatarImage: ImageRegionData?,
         coverImage: ImageRegionData?,
-        properties: [Profile.Property: Any] = [:])
+        properties: [Profile.Property: Any] = [:]
+    )
         -> Promise<UploadBothSuccess>
     {
         var avatarURL: URL?
@@ -153,7 +158,10 @@ struct ProfileService {
     }
 
     func updateUserDeviceToken(_ token: Data) -> Promise<Void> {
-        log(comment: "push token", object: String((token as NSData).description.filter { !"<> ".contains($0) }))
+        log(
+            comment: "push token",
+            object: String((token as NSData).description.filter { !"<> ".contains($0) })
+        )
         return ElloProvider.shared.request(.pushSubscriptions(token: token))
             .asVoid()
     }
@@ -166,7 +174,8 @@ struct ProfileService {
     private func updateUserImage(
         _ image: ImageRegionData,
         key: Profile.ImageProperty,
-        properties: [Profile.Property: Any])
+        properties: [Profile.Property: Any]
+    )
         -> Promise<UploadSuccess>
     {
         return S3UploadingService().upload(imageRegionData: image)

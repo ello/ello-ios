@@ -30,7 +30,9 @@ class DrawerAnimatorsSpec: QuickSpec {
                     subject = DrawerPushAnimator(popControl: popControl)
                 }
                 it("animates") {
-                    let streamView = UIView(frame: CGRect(origin: .zero, size: CGSize(width: 200, height: 200)))
+                    let streamView = UIView(
+                        frame: CGRect(origin: .zero, size: CGSize(width: 200, height: 200))
+                    )
                     let drawerView = UIView()
                     let containerView = UIView()
                     var completed = false
@@ -39,7 +41,8 @@ class DrawerAnimatorsSpec: QuickSpec {
                         streamView: streamView,
                         drawerView: drawerView,
                         containerView: containerView,
-                        animator: animator) {
+                        animator: animator
+                    ) {
                         completed = true
                     }
 
@@ -68,7 +71,8 @@ class DrawerAnimatorsSpec: QuickSpec {
                         streamView: streamView,
                         drawerView: drawerView,
                         containerView: containerView,
-                        animator: animator) {
+                        animator: animator
+                    ) {
                         completed = true
                     }
 
@@ -92,7 +96,8 @@ class DrawerAnimatorsSpec: QuickSpec {
                         streamView: streamView,
                         drawerView: drawerView,
                         containerView: containerView,
-                        animator: animator) {
+                        animator: animator
+                    ) {
                         completed = true
                     }
 

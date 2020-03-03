@@ -26,7 +26,9 @@ extension UIImage {
         }
     }
 
-    class func imageWithColor(_ color: UIColor, size: CGSize = CGSize(width: 1, height: 1)) -> UIImage? {
+    class func imageWithColor(_ color: UIColor, size: CGSize = CGSize(width: 1, height: 1))
+        -> UIImage?
+    {
         let rect = CGRect(origin: .zero, size: size)
         UIGraphicsBeginImageContextWithOptions(rect.size, false, 0)
         color.setFill()
@@ -41,17 +43,18 @@ extension UIImage {
     }
 
     func squareImage() -> UIImage? {
-        let originalWidth  = self.size.width
+        let originalWidth = self.size.width
         let originalHeight = self.size.height
 
         var edge: CGFloat
         if originalWidth > originalHeight {
             edge = originalHeight
-        } else {
+        }
+        else {
             edge = originalWidth
         }
 
-        let posX = (originalWidth  - edge) / 2
+        let posX = (originalWidth - edge) / 2
         let posY = (originalHeight - edge) / 2
 
         let cropSquare = CGRect(x: posX, y: posY, width: edge, height: edge)
@@ -59,7 +62,11 @@ extension UIImage {
         if let cgImage = self.cgImage,
             let imageRef = cgImage.cropping(to: cropSquare)
         {
-            return UIImage(cgImage: imageRef, scale: UIScreen.main.scale, orientation: self.imageOrientation)
+            return UIImage(
+                cgImage: imageRef,
+                scale: UIScreen.main.scale,
+                orientation: self.imageOrientation
+            )
         }
 
         return nil
@@ -91,14 +98,17 @@ extension UIImage {
         return newImage
     }
 
-    func copyWithCorrectOrientationAndSize(_ completion:@escaping (_ image: UIImage?) -> Void) {
+    func copyWithCorrectOrientationAndSize(_ completion: @escaping (_ image: UIImage?) -> Void) {
         inBackground {
             var sourceImage: UIImage?
             if self.imageOrientation == .up && self.scale == 1.0 {
                 sourceImage = self
             }
             else {
-                let newSize = CGSize(width: self.size.width * self.scale, height: self.size.height * self.scale)
+                let newSize = CGSize(
+                    width: self.size.width * self.scale,
+                    height: self.size.height * self.scale
+                )
                 UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)
                 self.draw(in: CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height))
                 sourceImage = UIGraphicsGetImageFromCurrentImageContext()

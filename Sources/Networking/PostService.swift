@@ -8,8 +8,8 @@ import PromiseKit
 struct PostService {
 
     func loadPost(
-        _ postParam: String) -> Promise<Post>
-    {
+        _ postParam: String
+    ) -> Promise<Post> {
         return ElloProvider.shared.request(.postDetail(postParam: postParam))
             .map { (data, responseConfig) -> Post in
                 guard let post = data as? Post else {
@@ -26,12 +26,19 @@ struct PostService {
         comments: [ElloComment] = [],
         streamId: String?,
         streamKind: String,
-        userId: String?)
-    {
+        userId: String?
+    ) {
         guard posts.count + comments.count > 0 else { return }
 
         let postIds = Set(posts.map { $0.id } + comments.map { $0.id })
-        ElloProvider.shared.request(.postViews(streamId: streamId, streamKind: streamKind, postIds: postIds, currentUserId: userId))
+        ElloProvider.shared.request(
+            .postViews(
+                streamId: streamId,
+                streamKind: streamKind,
+                postIds: postIds,
+                currentUserId: userId
+            )
+        )
             .ignoreErrors()
     }
 
@@ -64,19 +71,19 @@ struct PostService {
                 else {
                     throw NSError.uncastableModel()
                 }
-        }
+            }
     }
 
-    func loadRelatedPosts(_ postId: String)  -> Promise<[Post]> {
+    func loadRelatedPosts(_ postId: String) -> Promise<[Post]> {
         return ElloProvider.shared.request(.postRelatedPosts(postId: postId))
             .map { (data, _) -> [Post] in
                 if let posts = data as? [Post] {
                     Preloader().preloadImages(posts)
                     return posts
                 }
-                 else if data as? String == "" {
+                else if data as? String == "" {
                     return []
-                 }
+                }
                 else {
                     throw NSError.uncastableModel()
                 }
@@ -102,8 +109,9 @@ struct PostService {
                     throw NSError.uncastableModel()
                 }
 
-                let strings = usernames
-                    .map { $0.username }
+                let strings =
+                    usernames
+                        .map { $0.username }
                 let uniq = strings.unique()
                 return uniq
             }

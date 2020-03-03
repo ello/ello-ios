@@ -12,11 +12,11 @@ struct StreamHeaderCellPresenter {
         streamCellItem: StreamCellItem,
         streamKind: StreamKind,
         indexPath: IndexPath,
-        currentUser: User?)
-    {
+        currentUser: User?
+    ) {
         guard let cell = cell as? StreamHeaderCell,
             let post = streamCellItem.jsonable as? Post
-        else { return}
+        else { return }
 
         let isGridView = streamCellItem.isGridView(streamKind: streamKind)
 
@@ -55,7 +55,12 @@ struct StreamHeaderCellPresenter {
         else {
             isSubmission = false
         }
-        cell.setDetails(user: author, repostedBy: repostedBy, category: category, isSubmission: isSubmission)
+        cell.setDetails(
+            user: author,
+            repostedBy: repostedBy,
+            category: category,
+            isSubmission: isSubmission
+        )
         cell.followButtonVisible = followButtonVisible
         if isGridView {
             cell.timeStamp = ""

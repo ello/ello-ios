@@ -74,18 +74,27 @@ func animate(
     options: UIView.AnimationOptions = UIView.AnimationOptions(),
     animated: Bool? = nil,
     animations: @escaping Block
-    ) -> AnimationPromise
-{
-    return elloAnimate(duration: duration, delay: delay, options: options, animated: animated, animations: animations)
+) -> AnimationPromise {
+    return elloAnimate(
+        duration: duration,
+        delay: delay,
+        options: options,
+        animated: animated,
+        animations: animations
+    )
 }
 
 @discardableResult
 func animateWithKeyboard(
     animated: Bool? = nil,
     animations: @escaping Block
-    ) -> AnimationPromise
-{
-    return elloAnimate(duration: Keyboard.shared.duration, options: Keyboard.shared.options, animated: animated, animations: animations)
+) -> AnimationPromise {
+    return elloAnimate(
+        duration: Keyboard.shared.duration,
+        options: Keyboard.shared.options,
+        animated: animated,
+        animations: animations
+    )
 }
 
 @discardableResult
@@ -95,8 +104,7 @@ func elloAnimate(
     options: UIView.AnimationOptions = UIView.AnimationOptions(),
     animated: Bool? = nil,
     animations: @escaping Block
-    ) -> AnimationPromise
-{
+) -> AnimationPromise {
     let shouldAnimate: Bool = animated ?? !Globals.isTesting
     let options = AnimationOptions(duration: duration, delay: delay, options: options)
     return performAnimation(options: options, animated: shouldAnimate, animations: animations)
@@ -107,11 +115,16 @@ private func performAnimation(
     options: AnimationOptions,
     animated: Bool = true,
     animations: @escaping Block
-    ) -> AnimationPromise
-{
+) -> AnimationPromise {
     let promise = AnimationPromise()
     if animated {
-        UIView.animate(withDuration: options.duration, delay: options.delay, options: options.options, animations: animations, completion: promise.resolve)
+        UIView.animate(
+            withDuration: options.duration,
+            delay: options.delay,
+            options: options.options,
+            animations: animations,
+            completion: promise.resolve
+        )
     }
     else {
         animations()
@@ -160,7 +173,7 @@ private func times_(_ times: Int, block: TakesIndexBlock) {
     if times <= 0 {
         return
     }
-    for i in 0 ..< times {
+    for i in 0..<times {
         block(i)
     }
 }
@@ -304,7 +317,13 @@ func debounce(_ timeout: TimeInterval, block: @escaping Block) -> Block {
         if let prevTimer = timer {
             prevTimer.invalidate()
         }
-        timer = Timer.scheduledTimer(timeInterval: timeout, target: proc, selector: #selector(Proc.run), userInfo: nil, repeats: false)
+        timer = Timer.scheduledTimer(
+            timeInterval: timeout,
+            target: proc,
+            selector: #selector(Proc.run),
+            userInfo: nil,
+            repeats: false
+        )
     }
 }
 
@@ -316,14 +335,26 @@ func debounce(_ timeout: TimeInterval) -> ThrottledBlock {
             prevTimer.invalidate()
         }
         let proc = Proc(block)
-        timer = Timer.scheduledTimer(timeInterval: timeout, target: proc, selector: #selector(Proc.run), userInfo: nil, repeats: false)
+        timer = Timer.scheduledTimer(
+            timeInterval: timeout,
+            target: proc,
+            selector: #selector(Proc.run),
+            userInfo: nil,
+            repeats: false
+        )
     }
 }
 
 @discardableResult
 func every(_ timeout: TimeInterval, _ block: @escaping Block) -> Block {
     let proc = Proc(block)
-    let timer = Timer.scheduledTimer(timeInterval: timeout, target: proc, selector: #selector(Proc.run), userInfo: nil, repeats: true)
+    let timer = Timer.scheduledTimer(
+        timeInterval: timeout,
+        target: proc,
+        selector: #selector(Proc.run),
+        userInfo: nil,
+        repeats: true
+    )
     return {
         timer.invalidate()
     }

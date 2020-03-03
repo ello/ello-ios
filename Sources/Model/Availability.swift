@@ -15,7 +15,13 @@ final class Availability: Model {
     let usernameSuggestions: [String]
     let emailSuggestion: String
 
-    init(isUsernameAvailable: Bool, isEmailAvailable: Bool, isInvitationCodeAvailable: Bool, usernameSuggestions: [String], emailSuggestion: String) {
+    init(
+        isUsernameAvailable: Bool,
+        isEmailAvailable: Bool,
+        isInvitationCodeAvailable: Bool,
+        usernameSuggestions: [String],
+        emailSuggestion: String
+    ) {
         self.isUsernameAvailable = isUsernameAvailable
         self.isEmailAvailable = isEmailAvailable
         self.isInvitationCodeAvailable = isInvitationCodeAvailable
@@ -42,6 +48,7 @@ final class Availability: Model {
             isEmailAvailable: json["email"].boolValue,
             isInvitationCodeAvailable: json["invitation_code"].boolValue,
             usernameSuggestions: json["suggestions"]["username"].arrayValue.map { $0.stringValue },
-            emailSuggestion: json["suggestions"]["email"]["full"].stringValue)
+            emailSuggestion: json["suggestions"]["email"]["full"].stringValue
+        )
     }
 }

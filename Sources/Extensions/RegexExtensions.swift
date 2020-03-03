@@ -10,8 +10,12 @@ class Regex {
         self.pattern = pattern
         var error: NSError?
         do {
-            self.regex = try NSRegularExpression(pattern: pattern, options: NSRegularExpression.Options(rawValue: 0))
-        } catch let error1 as NSError {
+            self.regex = try NSRegularExpression(
+                pattern: pattern,
+                options: NSRegularExpression.Options(rawValue: 0)
+            )
+        }
+        catch let error1 as NSError {
             error = error1
             self.regex = nil
         }
@@ -28,7 +32,11 @@ class Regex {
     }
 
     func matches(_ input: String) -> [String] {
-        let matches = self.regex.matches(in: input, options: [], range: NSRange(location: 0, length: input.count))
+        let matches = self.regex.matches(
+            in: input,
+            options: [],
+            range: NSRange(location: 0, length: input.count)
+        )
         var ret = [String]()
         for match in matches {
             let nsrange = match.range(at: 0)
@@ -40,7 +48,11 @@ class Regex {
 
     func matchingGroups(_ input: String) -> [String] {
         var ret = [String]()
-        if let match = self.regex.firstMatch(in: input, options: [], range: NSRange(location: 0, length: input.count)) {
+        if let match = self.regex.firstMatch(
+            in: input,
+            options: [],
+            range: NSRange(location: 0, length: input.count)
+        ) {
 
             for i in 0..<match.numberOfRanges {
                 let nsrange = match.range(at: i)
@@ -55,9 +67,9 @@ class Regex {
 
 }
 
-infix operator =~ : ComparisonPrecedence
-infix operator !~ : ComparisonPrecedence
-infix operator ~ : LogicalConjunctionPrecedence
+infix operator =~: ComparisonPrecedence
+infix operator !~: ComparisonPrecedence
+infix operator ~: LogicalConjunctionPrecedence
 
 func =~ (input: String, pattern: String) -> Bool {
     if let regex = Regex(pattern) {

@@ -48,12 +48,17 @@ class NSAttributedStringSpec: QuickSpec {
                     expect(subject.string) == "Featured in Featured"
                 }
                 it("should render two categories") {
-                    let categories = [Category.stub(["name": "Featured"]), Category.stub(["name": "Trending"])]
+                    let categories = [
+                        Category.stub(["name": "Featured"]), Category.stub(["name": "Trending"])
+                    ]
                     let subject = NSAttributedString(featuredIn: categories)
                     expect(subject.string) == "Featured in Featured & Trending"
                 }
                 it("should render three categories") {
-                    let categories = [Category.stub(["name": "Featured"]), Category.stub(["name": "Trending"]), Category.stub(["name": "Recent"])]
+                    let categories = [
+                        Category.stub(["name": "Featured"]), Category.stub(["name": "Trending"]),
+                        Category.stub(["name": "Recent"])
+                    ]
                     let subject = NSAttributedString(featuredIn: categories)
                     expect(subject.string) == "Featured in Featured, Trending & Recent"
                 }

@@ -9,7 +9,7 @@ let UsernameVersion: Int = 1
 @objc(Username)
 final class Username: Model {
     let username: String
-    var atName: String { return "@\(username)"}
+    var atName: String { return "@\(username)" }
 
     init(username: String) {
         self.username = username

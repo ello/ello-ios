@@ -8,8 +8,8 @@ class StreamSelectionCellPresenter {
         streamCellItem: StreamCellItem,
         streamKind: StreamKind,
         indexPath: IndexPath,
-        currentUser: User?)
-    {
+        currentUser: User?
+    ) {
         guard
             let cell = cell as? StreamSelectionCell,
             case let .category(_, filter) = streamKind

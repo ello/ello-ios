@@ -69,7 +69,9 @@ private extension ArtistInviteDetailGenerator {
 
         let artistInviteItems = parse(jsonables: [artistInvite])
         let headers = artistInviteItems.filter { $0.placeholderType == .artistInvites }
-        self.artistInviteDetails = artistInviteItems.filter { $0.placeholderType == .artistInviteDetails }
+        self.artistInviteDetails = artistInviteItems.filter {
+            $0.placeholderType == .artistInviteDetails
+        }
         destination?.replacePlaceholder(type: .artistInvites, items: headers)
 
         let postsSpinner = StreamCellItem(type: .streamLoading, placeholderType: .streamItems)
@@ -96,9 +98,14 @@ private extension ArtistInviteDetailGenerator {
                 self.destination?.setPagingConfig(responseConfig: responseConfig)
 
                 let posts = submissions.compactMap { $0.post }
-                let submissionsHeader = StreamCellItem(type: .header(InterfaceString.ArtistInvites.Selections))
+                let submissionsHeader = StreamCellItem(
+                    type: .header(InterfaceString.ArtistInvites.Selections)
+                )
                 let items = self.parse(jsonables: posts)
-                self.destination?.replacePlaceholder(type: .artistInviteSelections, items: [submissionsHeader] + items)
+                self.destination?.replacePlaceholder(
+                    type: .artistInviteSelections,
+                    items: [submissionsHeader] + items
+                )
             }
             .ignoreErrors()
     }
@@ -133,11 +140,19 @@ private extension ArtistInviteDetailGenerator {
                 }
                 else {
                     let button = StreamCellItem(type: .artistInviteSubmissionsButton)
-                    self.destination?.replacePlaceholder(type: .artistInviteSubmissionsButton, items: [button])
+                    self.destination?.replacePlaceholder(
+                        type: .artistInviteSubmissionsButton,
+                        items: [button]
+                    )
 
-                    let submissionsHeader = StreamCellItem(type: .header(InterfaceString.ArtistInvites.Submissions))
+                    let submissionsHeader = StreamCellItem(
+                        type: .header(InterfaceString.ArtistInvites.Submissions)
+                    )
                     let items = self.parse(jsonables: posts)
-                    self.destination?.replacePlaceholder(type: .artistInviteSubmissions, items: [submissionsHeader] + items)
+                    self.destination?.replacePlaceholder(
+                        type: .artistInviteSubmissions,
+                        items: [submissionsHeader] + items
+                    )
 
                     self.destination?.isPagingEnabled = responseConfig.nextQuery != nil
                 }
@@ -147,7 +162,10 @@ private extension ArtistInviteDetailGenerator {
             }
             .finally {
                 self.loadAdminTools(artistInvite)
-                self.destination?.replacePlaceholder(type: .artistInviteDetails, items: self.artistInviteDetails)
+                self.destination?.replacePlaceholder(
+                    type: .artistInviteDetails,
+                    items: self.artistInviteDetails
+                )
             }
     }
 
@@ -157,7 +175,9 @@ private extension ArtistInviteDetailGenerator {
     }
 
     func showSubmissionsError() {
-        let item = StreamCellItem(type: .error(message: InterfaceString.ArtistInvites.SubmissionsError))
+        let item = StreamCellItem(
+            type: .error(message: InterfaceString.ArtistInvites.SubmissionsError)
+        )
         destination?.replacePlaceholder(type: .streamItems, items: [item])
     }
 
@@ -169,10 +189,38 @@ private extension ArtistInviteDetailGenerator {
         let submissionsHeader = StreamCellItem(type: .header("Admin Controls"))
         let spacer = StreamCellItem(type: .spacer(height: 30))
 
-        let unapprovedButton: StreamCellItem? = artistInvite.unapprovedSubmissionsStream.map { StreamCellItem(type: .revealController(label: InterfaceString.ArtistInvites.AdminUnapprovedStream, $0)) }
-        let approvedButton: StreamCellItem? = artistInvite.approvedSubmissionsStream.map { StreamCellItem(type: .revealController(label: InterfaceString.ArtistInvites.AdminApprovedStream, $0)) }
-        let selectedButton: StreamCellItem? = artistInvite.selectedSubmissionsStream.map { StreamCellItem(type: .revealController(label: InterfaceString.ArtistInvites.AdminSelectedStream, $0)) }
-        let declinedButton: StreamCellItem? = artistInvite.declinedSubmissionsStream.map { StreamCellItem(type: .revealController(label: InterfaceString.ArtistInvites.AdminDeclinedStream, $0)) }
+        let unapprovedButton: StreamCellItem? = artistInvite.unapprovedSubmissionsStream.map {
+            StreamCellItem(
+                type: .revealController(
+                    label: InterfaceString.ArtistInvites.AdminUnapprovedStream,
+                    $0
+                )
+            )
+        }
+        let approvedButton: StreamCellItem? = artistInvite.approvedSubmissionsStream.map {
+            StreamCellItem(
+                type: .revealController(
+                    label: InterfaceString.ArtistInvites.AdminApprovedStream,
+                    $0
+                )
+            )
+        }
+        let selectedButton: StreamCellItem? = artistInvite.selectedSubmissionsStream.map {
+            StreamCellItem(
+                type: .revealController(
+                    label: InterfaceString.ArtistInvites.AdminSelectedStream,
+                    $0
+                )
+            )
+        }
+        let declinedButton: StreamCellItem? = artistInvite.declinedSubmissionsStream.map {
+            StreamCellItem(
+                type: .revealController(
+                    label: InterfaceString.ArtistInvites.AdminDeclinedStream,
+                    $0
+                )
+            )
+        }
 
         let items: [StreamCellItem] = [
             submissionsHeader,

@@ -10,11 +10,19 @@ import MessageUI
 typealias Completion = (Result<AddressBook, AddressBookError>) -> Void
 
 struct AddressBookController {
-    static func promptForAddressBookAccess(fromController controller: UIViewController, completion: @escaping Completion, cancelCompletion: @escaping Block = {}) {
+    static func promptForAddressBookAccess(
+        fromController controller: UIViewController,
+        completion: @escaping Completion,
+        cancelCompletion: @escaping Block = {}
+    ) {
         switch AddressBookController.authenticationStatus() {
         case .authorized:
             if MFMessageComposeViewController.canSendText() {
-                promptForAccess(controller, completion: completion, cancelCompletion: cancelCompletion)
+                promptForAccess(
+                    controller,
+                    completion: completion,
+                    cancelCompletion: cancelCompletion
+                )
             }
             else {
                 proceedWithImport(completion)
@@ -22,25 +30,43 @@ struct AddressBookController {
         case .notDetermined:
             promptForAccess(controller, completion: completion, cancelCompletion: cancelCompletion)
         case .denied:
-            displayAddressBookAlert(controller, message: InterfaceString.Friends.AccessDenied, completion: completion)
+            displayAddressBookAlert(
+                controller,
+                message: InterfaceString.Friends.AccessDenied,
+                completion: completion
+            )
         case .restricted:
-            displayAddressBookAlert(controller, message: InterfaceString.Friends.AccessRestricted, completion: completion)
+            displayAddressBookAlert(
+                controller,
+                message: InterfaceString.Friends.AccessRestricted,
+                completion: completion
+            )
         }
     }
 }
 
 extension AddressBookController {
 
-    private static func promptForAccess(_ controller: UIViewController, completion: @escaping Completion, cancelCompletion: @escaping Block = {}) {
+    private static func promptForAccess(
+        _ controller: UIViewController,
+        completion: @escaping Completion,
+        cancelCompletion: @escaping Block = {}
+    ) {
         let alertController = AlertViewController()
 
         let title = AlertAction(title: InterfaceString.Friends.ImportPermissionTitle, style: .title)
         alertController.addAction(title)
 
-        let subtitle = AlertAction(title: InterfaceString.Friends.ImportPermissionSubtitle, style: .subtitle)
+        let subtitle = AlertAction(
+            title: InterfaceString.Friends.ImportPermissionSubtitle,
+            style: .subtitle
+        )
         alertController.addAction(subtitle)
 
-        let message = AlertAction(title: InterfaceString.Friends.ImportPermissionPrompt, style: .message)
+        let message = AlertAction(
+            title: InterfaceString.Friends.ImportPermissionPrompt,
+            style: .message
+        )
         alertController.addAction(message)
 
         if MFMessageComposeViewController.canSendText() {
@@ -85,8 +111,14 @@ extension AddressBookController {
         }
     }
 
-    private static func displayAddressBookAlert(_ controller: UIViewController, message: String, completion: @escaping Completion) {
-        let alertController = AlertViewController(confirmation: InterfaceString.Friends.ImportError(message)) { _ in
+    private static func displayAddressBookAlert(
+        _ controller: UIViewController,
+        message: String,
+        completion: @escaping Completion
+    ) {
+        let alertController = AlertViewController(
+            confirmation: InterfaceString.Friends.ImportError(message)
+        ) { _ in
             completion(.failure(.cancelled))
         }
         controller.present(alertController, animated: true, completion: nil)
@@ -118,7 +150,10 @@ extension AddressBookController {
 
 var messageComposer: MessageComposerDelegate?
 class MessageComposerDelegate: NSObject, MFMessageComposeViewControllerDelegate {
-    func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
+    func messageComposeViewController(
+        _ controller: MFMessageComposeViewController,
+        didFinishWith result: MessageComposeResult
+    ) {
         guard let viewController = controller.presentingViewController else {
             messageComposer = nil
             return

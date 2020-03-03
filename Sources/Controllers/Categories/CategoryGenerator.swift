@@ -16,7 +16,11 @@ final class CategoryGenerator: StreamGenerator {
     var destination: StreamDestination? {
         get { return categoryStreamDestination }
         set {
-            if !(newValue is CategoryStreamDestination) { fatalError("CategoryGenerator.destination must conform to CategoryStreamDestination") }
+            if !(newValue is CategoryStreamDestination) {
+                fatalError(
+                    "CategoryGenerator.destination must conform to CategoryStreamDestination"
+                )
+            }
             categoryStreamDestination = newValue as? CategoryStreamDestination
         }
     }
@@ -34,7 +38,12 @@ final class CategoryGenerator: StreamGenerator {
     private var nextPageRequest: GraphQLRequest<(PageConfig, [Post])>?
     private var nextRequestGenerator: ((String) -> GraphQLRequest<(PageConfig, [Post])>)?
 
-    init(selection: Category.Selection, filter: CategoryFilter, currentUser: User?, destination: StreamDestination) {
+    init(
+        selection: Category.Selection,
+        filter: CategoryFilter,
+        currentUser: User?,
+        destination: StreamDestination
+    ) {
         self.streamKind = .category(selection, filter)
         self.streamSelection = (selection, filter)
         self.currentUser = currentUser
@@ -58,7 +67,10 @@ final class CategoryGenerator: StreamGenerator {
         return items
     }
 
-    func reset(selection _selection: Category.Selection? = nil, filter _filter: CategoryFilter? = nil) {
+    func reset(
+        selection _selection: Category.Selection? = nil,
+        filter _filter: CategoryFilter? = nil
+    ) {
         let selection = _selection ?? self.categorySelection
         let filter = _filter ?? self.filter
         self.streamSelection = (selection, filter)
@@ -79,7 +91,10 @@ final class CategoryGenerator: StreamGenerator {
 
         if reloadPosts {
             posts = nil
-            self.destination?.replacePlaceholder(type: .streamItems, items: [StreamCellItem(type: .streamLoading)])
+            self.destination?.replacePlaceholder(
+                type: .streamItems,
+                items: [StreamCellItem(type: .streamLoading)]
+            )
         }
 
         if reloadHeader {
@@ -114,7 +129,8 @@ final class CategoryGenerator: StreamGenerator {
             let nextPageRequest = nextPageRequest
         else { return nil }
 
-        return nextPageRequest
+        return
+            nextPageRequest
             .execute()
             .map { pageConfig, posts -> [Model] in
                 self.setNextPageConfig(pageConfig)
@@ -125,7 +141,9 @@ final class CategoryGenerator: StreamGenerator {
             }
             .recover { error -> Promise<[Model]> in
                 let errorConfig = PageConfig(next: nil, isLastPage: true)
-                self.destination?.setPagingConfig(responseConfig: ResponseConfig(pageConfig: errorConfig))
+                self.destination?.setPagingConfig(
+                    responseConfig: ResponseConfig(pageConfig: errorConfig)
+                )
                 self.destination?.isPagingEnabled = false
                 throw error
             }
@@ -153,7 +171,9 @@ extension CategoryGenerator {
         API().pageHeaders(kind: kind)
             .execute()
             .done { pageHeaders in
-                guard self.loadingToken.isValidInitialPageLoadingToken(self.localToken) else { return }
+                guard self.loadingToken.isValidInitialPageLoadingToken(self.localToken) else {
+                    return
+                }
 
                 if let pageHeader = pageHeaders.randomItem() {
                     self.pageHeader = pageHeader
@@ -187,13 +207,19 @@ extension CategoryGenerator {
         switch categorySelection {
         case .all:
             request = API().globalPostStream(filter: filter)
-            nextRequestGenerator = { next in return API().globalPostStream(filter: filter, before: next) }
+            nextRequestGenerator = { next in
+                return API().globalPostStream(filter: filter, before: next)
+            }
         case .subscribed:
             request = API().subscribedPostStream(filter: filter)
-            nextRequestGenerator = { next in return API().subscribedPostStream(filter: filter, before: next) }
+            nextRequestGenerator = { next in
+                return API().subscribedPostStream(filter: filter, before: next)
+            }
         case let .category(slug):
             request = API().categoryPostStream(categorySlug: slug, filter: filter)
-            nextRequestGenerator = { next in return API().categoryPostStream(categorySlug: slug, filter: filter, before: next) }
+            nextRequestGenerator = { next in
+                return API().categoryPostStream(categorySlug: slug, filter: filter, before: next)
+            }
         }
 
         let displayPostsOperation = AsyncOperation()
@@ -202,7 +228,9 @@ extension CategoryGenerator {
 
         request.execute()
             .done { pageConfig, posts in
-                guard self.loadingToken.isValidInitialPageLoadingToken(self.localToken) else { return }
+                guard self.loadingToken.isValidInitialPageLoadingToken(self.localToken) else {
+                    return
+                }
 
                 self.setNextPageConfig(pageConfig)
 
@@ -211,24 +239,33 @@ extension CategoryGenerator {
                 let isPagingEnabled = items.count > 0
                 let streamSelectionItem = StreamCellItem(type: .streamSelection)
                 if items.count == 0 {
-                    self.destination?.replacePlaceholder(type: .streamItems, items: [streamSelectionItem, StreamCellItem(type: .emptyStream(height: 182))])
+                    self.destination?.replacePlaceholder(
+                        type: .streamItems,
+                        items: [streamSelectionItem, StreamCellItem(type: .emptyStream(height: 182))
+                        ]
+                    )
                     self.destination?.isPagingEnabled = isPagingEnabled
                     displayPostsOperation.run()
                 }
                 else {
-                    displayPostsOperation.run { inForeground {
-                        if isPagingEnabled {
-                            items.insert(streamSelectionItem, at: 0)
-                        }
+                    displayPostsOperation.run {
+                        inForeground {
+                            if isPagingEnabled {
+                                items.insert(streamSelectionItem, at: 0)
+                            }
 
-                        self.destination?.replacePlaceholder(type: .streamItems, items: items) {
-                            self.destination?.isPagingEnabled = isPagingEnabled
+                            self.destination?.replacePlaceholder(type: .streamItems, items: items) {
+                                self.destination?.isPagingEnabled = isPagingEnabled
+                            }
                         }
-                    } }
+                    }
                 }
             }
             .catch { _ in
-                self.destination?.replacePlaceholder(type: .streamItems, items: [StreamCellItem(type: .error(message: InterfaceString.GenericError))])
+                self.destination?.replacePlaceholder(
+                    type: .streamItems,
+                    items: [StreamCellItem(type: .error(message: InterfaceString.GenericError))]
+                )
             }
     }
 

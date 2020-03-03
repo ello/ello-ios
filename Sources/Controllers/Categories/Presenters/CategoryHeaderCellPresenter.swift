@@ -9,8 +9,8 @@ struct CategoryHeaderCellPresenter {
         streamCellItem: StreamCellItem,
         streamKind: StreamKind,
         indexPath: IndexPath,
-        currentUser: User?)
-    {
+        currentUser: User?
+    ) {
         guard
             let cell = cell as? CategoryHeaderCell,
             let pageHeader = streamCellItem.jsonable as? PageHeader
@@ -24,7 +24,7 @@ struct CategoryHeaderCellPresenter {
             isSubscribed = false
         }
 
-       let config = CategoryHeaderCell.Config(pageHeader: pageHeader, isSubscribed: isSubscribed)
-       cell.config = config
+        let config = CategoryHeaderCell.Config(pageHeader: pageHeader, isSubscribed: isSubscribed)
+        cell.config = config
     }
 }

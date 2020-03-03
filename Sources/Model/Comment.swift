@@ -27,14 +27,15 @@ final class ElloComment: Model, Authorable {
         didSet { addLinkObject("loaded_from_post", id: loadedFromPostId, type: .postsType) }
     }
 
-    init(id: String,
+    init(
+        id: String,
         createdAt: Date,
         authorId: String,
         postId: String,
         content: [Regionable],
         body: [Regionable],
-        summary: [Regionable])
-    {
+        summary: [Regionable]
+    ) {
         self.id = id
         self.createdAt = createdAt
         self.authorId = authorId
@@ -105,7 +106,7 @@ final class ElloComment: Model, Authorable {
             content: [],
             body: [],
             summary: []
-            )
+        )
     }
 }
 

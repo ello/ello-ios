@@ -7,8 +7,8 @@ struct ProfileHeaderStatsPresenter {
     static func configure(
         _ cell: ProfileHeaderStatsCell,
         user: User,
-        currentUser: User?)
-    {
+        currentUser: User?
+    ) {
         guard user.hasProfileData else {
             cell.postsCount = "…"
             cell.followingCount = "…"

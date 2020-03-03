@@ -7,7 +7,10 @@ class NotificationCellSizeCalculator: CellSizeCalculator, UIWebViewDelegate {
 
     var notificationWidth: CGFloat {
         let notification = cellItem.jsonable as! Notification
-        return NotificationCell.Size.messageHtmlWidth(forCellWidth: width, hasImage: notification.hasImage)
+        return NotificationCell.Size.messageHtmlWidth(
+            forCellWidth: width,
+            hasImage: notification.hasImage
+        )
     }
 
     var webView: UIWebView = ElloWebView() { didSet { didSetWebView() } }
@@ -42,27 +45,46 @@ class NotificationCellSizeCalculator: CellSizeCalculator, UIWebViewDelegate {
     }
 
     private func assignCellHeight(_ webContentHeight: CGFloat?) {
-        NotificationCellSizeCalculator.assignTotalHeight(webContentHeight, item: cellItem, cellWidth: width)
+        NotificationCellSizeCalculator.assignTotalHeight(
+            webContentHeight,
+            item: cellItem,
+            cellWidth: width
+        )
         finish()
     }
 
-    class func assignTotalHeight(_ webContentHeight: CGFloat?, item: StreamCellItem, cellWidth: CGFloat) {
+    class func assignTotalHeight(
+        _ webContentHeight: CGFloat?,
+        item: StreamCellItem,
+        cellWidth: CGFloat
+    ) {
         let notification = item.jsonable as! Notification
-        textViewForSizing.attributedText = NotificationAttributedTitle.from(notification: notification)
-        let titleWidth = NotificationCell.Size.messageHtmlWidth(forCellWidth: cellWidth, hasImage: notification.hasImage)
-        let titleSize = textViewForSizing.sizeThatFits(CGSize(width: titleWidth, height: .greatestFiniteMagnitude))
+        textViewForSizing.attributedText = NotificationAttributedTitle.from(
+            notification: notification
+        )
+        let titleWidth = NotificationCell.Size.messageHtmlWidth(
+            forCellWidth: cellWidth,
+            hasImage: notification.hasImage
+        )
+        let titleSize = textViewForSizing.sizeThatFits(
+            CGSize(width: titleWidth, height: .greatestFiniteMagnitude)
+        )
         var totalTextHeight = ceil(titleSize.height)
         totalTextHeight += NotificationCell.Size.CreatedAtFixedHeight
 
         if let webContentHeight = webContentHeight, webContentHeight > 0 {
-            totalTextHeight += webContentHeight + NotificationCell.Size.WebHeightCorrection + NotificationCell.Size.InnerMargin
+            totalTextHeight += webContentHeight + NotificationCell.Size.WebHeightCorrection
+                + NotificationCell.Size.InnerMargin
         }
 
         if notification.canReplyToComment || notification.canBackFollow {
-            totalTextHeight += NotificationCell.Size.ButtonHeight + NotificationCell.Size.InnerMargin
+            totalTextHeight += NotificationCell.Size.ButtonHeight
+                + NotificationCell.Size.InnerMargin
         }
 
-        let totalImageHeight = NotificationCell.Size.imageHeight(imageRegion: notification.imageRegion)
+        let totalImageHeight = NotificationCell.Size.imageHeight(
+            imageRegion: notification.imageRegion
+        )
         var height = max(totalTextHeight, totalImageHeight)
 
         height += 2 * NotificationCell.Size.SideMargins

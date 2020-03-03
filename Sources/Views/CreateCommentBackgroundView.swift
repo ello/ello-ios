@@ -33,10 +33,34 @@ class CreateCommentBackgroundView: UIView {
 
         bezierPath.move(to: CGPoint(x: 0, y: midY))
         bezierPath.addLine(to: CGPoint(x: margin, y: midY - margin))
-        bezierPath.addArc(withCenter: corners.tl, radius: radius, startAngle: -π, endAngle: -π / 2, clockwise: true)
-        bezierPath.addArc(withCenter: corners.tr, radius: radius, startAngle: -π / 2, endAngle: 0, clockwise: true)
-        bezierPath.addArc(withCenter: corners.br, radius: radius, startAngle: 0, endAngle: π / 2, clockwise: true)
-        bezierPath.addArc(withCenter: corners.bl, radius: radius, startAngle: π / 2, endAngle: π, clockwise: true)
+        bezierPath.addArc(
+            withCenter: corners.tl,
+            radius: radius,
+            startAngle: -π,
+            endAngle: -π / 2,
+            clockwise: true
+        )
+        bezierPath.addArc(
+            withCenter: corners.tr,
+            radius: radius,
+            startAngle: -π / 2,
+            endAngle: 0,
+            clockwise: true
+        )
+        bezierPath.addArc(
+            withCenter: corners.br,
+            radius: radius,
+            startAngle: 0,
+            endAngle: π / 2,
+            clockwise: true
+        )
+        bezierPath.addArc(
+            withCenter: corners.bl,
+            radius: radius,
+            startAngle: π / 2,
+            endAngle: π,
+            clockwise: true
+        )
         bezierPath.addLine(to: CGPoint(x: margin, y: midY + margin))
         bezierPath.close()
         color.setFill()

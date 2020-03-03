@@ -19,7 +19,11 @@ class EditorialJoinCell: EditorialCellContent {
             let password = passwordField.text
         else { return false }
 
-        return Validator.hasValidSignUpCredentials(email: email, username: username, password: password)
+        return Validator.hasValidSignUpCredentials(
+            email: email,
+            username: username,
+            password: password
+        )
     }
 
     @objc
@@ -30,7 +34,10 @@ class EditorialJoinCell: EditorialCellContent {
             let password = passwordField.text
         else { return }
 
-        let info: Editorial.JoinInfo = (email: emailField.text, username: usernameField.text, password: passwordField.text, submitted: true)
+        let info: Editorial.JoinInfo = (
+            email: emailField.text, username: usernameField.text, password: passwordField.text,
+            submitted: true
+        )
         onJoinChange?(info)
 
         emailField.isEnabled = false
@@ -39,7 +46,12 @@ class EditorialJoinCell: EditorialCellContent {
         submitButton.isEnabled = false
 
         let responder: EditorialToolsResponder? = findResponder()
-        responder?.submitJoin(cell: self.editorialCell, email: email, username: username, password: password)
+        responder?.submitJoin(
+            cell: self.editorialCell,
+            email: email,
+            username: username,
+            password: password
+        )
     }
 
     override func style() {
@@ -98,13 +110,15 @@ class EditorialJoinCell: EditorialCellContent {
         joinLabel.snp.makeConstraints { make in
             make.top.equalTo(editorialContentView).inset(Size.smallTopMargin)
             make.leading.equalTo(editorialContentView).inset(Size.defaultMargin)
-            make.trailing.lessThanOrEqualTo(editorialContentView).inset(Size.defaultMargin).priority(Priority.required)
+            make.trailing.lessThanOrEqualTo(editorialContentView).inset(Size.defaultMargin)
+                .priority(Priority.required)
         }
 
         joinCaption.snp.makeConstraints { make in
             make.top.equalTo(joinLabel.snp.bottom).offset(Size.textFieldMargin)
             make.leading.equalTo(editorialContentView).inset(Size.defaultMargin)
-            make.trailing.lessThanOrEqualTo(editorialContentView).inset(Size.defaultMargin).priority(Priority.required)
+            make.trailing.lessThanOrEqualTo(editorialContentView).inset(Size.defaultMargin)
+                .priority(Priority.required)
         }
 
         let fields = [emailField, usernameField, passwordField]
@@ -127,8 +141,10 @@ class EditorialJoinCell: EditorialCellContent {
 
         // doing this simple height calculation in auto layout was a total waste of time
         let fields = [emailField, usernameField, passwordField]
-        let textFieldsBottom = frame.height - Size.defaultMargin.bottom - Size.buttonHeight - Size.textFieldMargin
-        var remainingHeight = textFieldsBottom - joinCaption.frame.maxY - Size.textFieldMargin - CGFloat(fields.count) * Size.joinMargin
+        let textFieldsBottom = frame.height - Size.defaultMargin.bottom - Size.buttonHeight
+            - Size.textFieldMargin
+        var remainingHeight = textFieldsBottom - joinCaption.frame.maxY - Size.textFieldMargin
+            - CGFloat(fields.count) * Size.joinMargin
         if remainingHeight < Size.minFieldHeight * 3 {
             joinCaption.isHidden = true
             remainingHeight += joinCaption.frame.height + Size.textFieldMargin
@@ -136,7 +152,10 @@ class EditorialJoinCell: EditorialCellContent {
         else {
             joinCaption.isVisible = true
         }
-        let fieldHeight: CGFloat = min(max(ceil(remainingHeight / 3), Size.minFieldHeight), Size.maxFieldHeight)
+        let fieldHeight: CGFloat = min(
+            max(ceil(remainingHeight / 3), Size.minFieldHeight),
+            Size.maxFieldHeight
+        )
         var y: CGFloat = textFieldsBottom
         for field in fields.reversed() {
             y -= fieldHeight
@@ -155,7 +174,10 @@ class EditorialJoinCell: EditorialCellContent {
 extension EditorialJoinCell {
     @objc
     func textFieldDidChange() {
-        let info: Editorial.JoinInfo = (email: emailField.text, username: usernameField.text, password: passwordField.text, submitted: false)
+        let info: Editorial.JoinInfo = (
+            email: emailField.text, username: usernameField.text, password: passwordField.text,
+            submitted: false
+        )
         onJoinChange?(info)
         submitButton.isEnabled = isValid
     }

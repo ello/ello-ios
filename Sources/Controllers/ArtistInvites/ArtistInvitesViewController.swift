@@ -25,7 +25,8 @@ class ArtistInvitesViewController: StreamableViewController {
         title = InterfaceString.ArtistInvites.Title
         generator = ArtistInvitesGenerator(
             currentUser: currentUser,
-            destination: self)
+            destination: self
+        )
         streamViewController.streamKind = generator.streamKind
         streamViewController.reloadClosure = { [weak self] in self?.generator?.load(reload: true) }
         streamViewController.initialLoadClosure = { [weak self] in self?.loadArtistInvites() }
@@ -69,13 +70,23 @@ class ArtistInvitesViewController: StreamableViewController {
 
     override func showNavBars(animated: Bool) {
         super.showNavBars(animated: animated)
-        positionNavBar(screen.navigationBar, visible: true, withConstraint: screen.navigationBarTopConstraint, animated: animated)
+        positionNavBar(
+            screen.navigationBar,
+            visible: true,
+            withConstraint: screen.navigationBarTopConstraint,
+            animated: animated
+        )
         updateInsets()
     }
 
     override func hideNavBars(animated: Bool) {
         super.hideNavBars(animated: animated)
-        positionNavBar(screen.navigationBar, visible: false, withConstraint: screen.navigationBarTopConstraint, animated: animated)
+        positionNavBar(
+            screen.navigationBar,
+            visible: false,
+            withConstraint: screen.navigationBarTopConstraint,
+            animated: animated
+        )
         updateInsets()
     }
 }
@@ -92,7 +103,11 @@ extension ArtistInvitesViewController: StreamDestination {
         generator.load()
     }
 
-    func replacePlaceholder(type: StreamCellType.PlaceholderType, items: [StreamCellItem], completion: @escaping Block) {
+    func replacePlaceholder(
+        type: StreamCellType.PlaceholderType,
+        items: [StreamCellItem],
+        completion: @escaping Block
+    ) {
         if type == .pageHeader,
             let pageHeader = items.compactMap({ $0.jsonable as? PageHeader }).first,
             let trackingPostToken = pageHeader.postToken
@@ -102,8 +117,13 @@ extension ArtistInvitesViewController: StreamDestination {
         }
 
         streamViewController.replacePlaceholder(type: type, items: items) {
-            if self.streamViewController.hasCellItems(for: .pageHeader) && !self.streamViewController.hasCellItems(for: .artistInvites) {
-                self.streamViewController.replacePlaceholder(type: .artistInvites, items: [StreamCellItem(type: .streamLoading)])
+            if self.streamViewController.hasCellItems(for: .pageHeader)
+                && !self.streamViewController.hasCellItems(for: .artistInvites)
+            {
+                self.streamViewController.replacePlaceholder(
+                    type: .artistInvites,
+                    items: [StreamCellItem(type: .streamLoading)]
+                )
             }
 
             completion()

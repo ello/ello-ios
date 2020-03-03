@@ -136,7 +136,11 @@ class JoinViewControllerSpec: QuickSpec {
 
                 context("missing username") {
                     beforeEach {
-                        subject.validate(email: "valid@email.com", username: "", password: "password")
+                        subject.validate(
+                            email: "valid@email.com",
+                            username: "",
+                            password: "password"
+                        )
                     }
                     it("should report error to screen") {
                         expect(mockScreen.isEmailValid) == true
@@ -146,7 +150,11 @@ class JoinViewControllerSpec: QuickSpec {
                 }
                 context("invalid username") {
                     beforeEach {
-                        subject.validate(email: "valid@email.com", username: "a", password: "password")
+                        subject.validate(
+                            email: "valid@email.com",
+                            username: "a",
+                            password: "password"
+                        )
                     }
                     it("should report error to screen") {
                         expect(mockScreen.isEmailValid) == true
@@ -167,7 +175,11 @@ class JoinViewControllerSpec: QuickSpec {
                 }
                 context("invalid password") {
                     beforeEach {
-                        subject.validate(email: "valid@email.com", username: "valid", password: "short")
+                        subject.validate(
+                            email: "valid@email.com",
+                            username: "valid",
+                            password: "short"
+                        )
                     }
                     it("should report error to screen") {
                         expect(mockScreen.isEmailValid) == true

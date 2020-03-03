@@ -41,7 +41,11 @@ class ForgotPasswordResetScreen: CredentialsScreen {
 
     override func bindActions() {
         continueButton.addTarget(self, action: #selector(submitAction), for: .touchUpInside)
-        activatePasswordButton.addTarget(self, action: #selector(activatePassword), for: .touchUpInside)
+        activatePasswordButton.addTarget(
+            self,
+            action: #selector(activatePassword),
+            for: .touchUpInside
+        )
         passwordField.delegate = self
     }
 
@@ -70,7 +74,10 @@ class ForgotPasswordResetScreen: CredentialsScreen {
             make.leading.trailing.equalTo(scrollView).inset(CredentialsScreen.Size.inset)
         }
         passwordErrorLabel.snp.makeConstraints { make in
-            passwordMarginConstraint = make.top.equalTo(passwordField.snp.bottom).offset(Size.fieldsErrorMargin).priority(Priority.required).constraint
+            passwordMarginConstraint =
+                make.top.equalTo(passwordField.snp.bottom).offset(Size.fieldsErrorMargin).priority(
+                    Priority.required
+                ).constraint
             make.top.equalTo(passwordField.snp.bottom).priority(Priority.medium)
             make.leading.trailing.equalTo(scrollView).inset(CredentialsScreen.Size.inset)
         }
@@ -146,7 +153,11 @@ extension ForgotPasswordResetScreen: UITextFieldDelegate {
         textField.layoutIfNeeded()
     }
 
-    func textField(_ textField: UITextField, shouldChangeCharactersIn nsrange: NSRange, replacementString: String) -> Bool {
+    func textField(
+        _ textField: UITextField,
+        shouldChangeCharactersIn nsrange: NSRange,
+        replacementString: String
+    ) -> Bool {
         guard let delegate = delegate else { return true }
 
         var password = textField.text ?? ""
@@ -165,7 +176,7 @@ extension ForgotPasswordResetScreen: UITextFieldDelegate {
 extension ForgotPasswordResetScreen {
     @objc
     func activatePassword() {
-      _ = passwordField.becomeFirstResponder()
+        _ = passwordField.becomeFirstResponder()
     }
 
     func allFieldsValid() -> Bool {

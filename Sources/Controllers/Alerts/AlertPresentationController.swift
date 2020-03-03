@@ -5,8 +5,14 @@
 class AlertPresentationController: UIPresentationController {
     private let backgroundView = UIView()
 
-    override init(presentedViewController: UIViewController, presenting presentingViewController: UIViewController?) {
-        super.init(presentedViewController: presentedViewController, presenting: presentingViewController)
+    override init(
+        presentedViewController: UIViewController,
+        presenting presentingViewController: UIViewController?
+    ) {
+        super.init(
+            presentedViewController: presentedViewController,
+            presenting: presentingViewController
+        )
         backgroundView.backgroundColor = .dimmedModalBackground
 
         let gesture = UITapGestureRecognizer(target: self, action: #selector(dismiss))
@@ -20,8 +26,7 @@ extension AlertPresentationController {
         if let alertViewController = presentedViewController as? AlertViewController {
             alertViewController.resize()
         }
-        else if
-            let containerView = containerView,
+        else if let containerView = containerView,
             let presentedView = presentedView
         {
             backgroundView.frame = containerView.bounds
@@ -46,17 +51,23 @@ extension AlertPresentationController {
         presentedView.frame = containerView.bounds
 
         let transitionCoordinator = presentingViewController.transitionCoordinator
-        transitionCoordinator?.animate(alongsideTransition: { _ in
-            presentedView.frame = containerView.bounds
-            self.backgroundView.alpha = 1
-        }, completion: nil)
+        transitionCoordinator?.animate(
+            alongsideTransition: { _ in
+                presentedView.frame = containerView.bounds
+                self.backgroundView.alpha = 1
+            },
+            completion: nil
+        )
     }
 
     override func dismissalTransitionWillBegin() {
         let transitionCoordinator = presentingViewController.transitionCoordinator
-        transitionCoordinator?.animate(alongsideTransition: { _ in
-            self.backgroundView.alpha = 0
-        }, completion: nil)
+        transitionCoordinator?.animate(
+            alongsideTransition: { _ in
+                self.backgroundView.alpha = 0
+            },
+            completion: nil
+        )
     }
 
     override func dismissalTransitionDidEnd(_ completed: Bool) {

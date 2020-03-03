@@ -9,14 +9,14 @@ struct NotificationBanner {
         guard !Globals.isTesting else { return }
 
         configureDefaultsWith(payload: payload)
-        CRToastManager.showNotification(withMessage: payload.message) { }
+        CRToastManager.showNotification(withMessage: payload.message) {}
     }
 
     static func displayAlert(message: String) {
         guard !Globals.isTesting else { return }
 
         configureDefaults()
-        CRToastManager.showNotification(withMessage: message) { }
+        CRToastManager.showNotification(withMessage: message) {}
     }
 
     static func dismissAlert() {
@@ -53,11 +53,20 @@ private extension NotificationBanner {
     static func configureDefaultsWith(payload: PushPayload) {
         configureDefaults()
 
-        let interactionResponder = CRToastInteractionResponder(interactionType: CRToastInteractionType.tap, automaticallyDismiss: true) { _ in
-            postNotification(PushNotificationNotifications.interactedWithPushNotification, value: payload)
+        let interactionResponder = CRToastInteractionResponder(
+            interactionType: CRToastInteractionType.tap,
+            automaticallyDismiss: true
+        ) { _ in
+            postNotification(
+                PushNotificationNotifications.interactedWithPushNotification,
+                value: payload
+            )
         }
 
-        let dismissResponder = CRToastInteractionResponder(interactionType: CRToastInteractionType.swipe, automaticallyDismiss: true) { _ in
+        let dismissResponder = CRToastInteractionResponder(
+            interactionType: CRToastInteractionType.swipe,
+            automaticallyDismiss: true
+        ) { _ in
         }
 
         CRToastManager.setDefaultOptions(

@@ -18,8 +18,10 @@ class NotificationCellSpec: QuickSpec {
                 let activity: Activity = stub([
                     "kind": Activity.Kind.postMentionNotification,
                     "subject": post,
-                    ])
-                subject.title = NotificationAttributedTitle.from(notification: Notification(activity: activity))
+                ])
+                subject.title = NotificationAttributedTitle.from(
+                    notification: Notification(activity: activity)
+                )
                 subject.layoutIfNeeded()
 
                 expect(subject.titleTextView.frame.size.height) == 17
@@ -33,8 +35,10 @@ class NotificationCellSpec: QuickSpec {
                 let activity: Activity = stub([
                     "kind": Activity.Kind.postMentionNotification,
                     "subject": post,
-                    ])
-                subject.title = NotificationAttributedTitle.from(notification: Notification(activity: activity))
+                ])
+                subject.title = NotificationAttributedTitle.from(
+                    notification: Notification(activity: activity)
+                )
                 subject.layoutIfNeeded()
 
                 expect(subject.titleTextView.frame.size.height) == 51
@@ -55,8 +59,10 @@ class NotificationCellSpec: QuickSpec {
                     activity = Activity.stub([
                         "kind": Activity.Kind.postMentionNotification,
                         "subject": post,
-                        ])
-                    title = NotificationAttributedTitle.from(notification: Notification(activity: activity))
+                    ])
+                    title = NotificationAttributedTitle.from(
+                        notification: Notification(activity: activity)
+                    )
                     createdAt = Date(timeIntervalSinceNow: -86_460)
                     aspectRatio = 1
                     image = UIImage.imageWithColor(.blue, size: CGSize(width: 300, height: 300))!
@@ -69,7 +75,9 @@ class NotificationCellSpec: QuickSpec {
                     (hasImage: true, canReply: true, buyButton: true),
                 ]
                 for (hasImage, canReply, buyButton) in expectations {
-                    it("notification\(hasImage ? " with image" : "")\(canReply ? " with reply button" : "")\(buyButton ? " with buy button" : "")") {
+                    it(
+                        "notification\(hasImage ? " with image" : "")\(canReply ? " with reply button" : "")\(buyButton ? " with buy button" : "")"
+                    ) {
                         let subject = NotificationCell()
                         subject.title = title
                         subject.createdAt = createdAt

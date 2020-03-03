@@ -80,7 +80,9 @@ struct RegionParser {
         let embedRegion = EmbedRegion(
             id: json["data"]["id"].idValue,
             service: EmbedRegion.Service(rawValue: json["data"]["service"].stringValue) ?? .unknown,
-            url: URL(string: json["data"]["url"].stringValue) ?? URL(string: "https://ello.co/404")!,
+            url: URL(string: json["data"]["url"].stringValue) ?? URL(
+                string: "https://ello.co/404"
+            )!,
             thumbnailLargeUrl: thumbnailLargeUrl
         )
         return embedRegion

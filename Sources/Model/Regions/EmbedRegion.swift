@@ -30,7 +30,8 @@ final class EmbedRegion: Model, Regionable {
     let kind: RegionKind = .embed
 
     var isAudioEmbed: Bool {
-        return service == Service.mixcloud || service == Service.soundcloud || service == Service.bandcamp
+        return service == Service.mixcloud || service == Service.soundcloud
+            || service == Service.bandcamp
     }
 
     init(
@@ -38,8 +39,7 @@ final class EmbedRegion: Model, Regionable {
         service: Service,
         url: URL,
         thumbnailLargeUrl: URL?
-        )
-    {
+    ) {
         self.id = id
         self.service = service
         self.url = url
@@ -75,7 +75,9 @@ final class EmbedRegion: Model, Regionable {
         let embedRegion = EmbedRegion(
             id: json["data"]["id"].stringValue,
             service: Service(rawValue: json["data"]["service"].stringValue) ?? .unknown,
-            url: URL(string: json["data"]["url"].stringValue) ?? URL(string: "https://ello.co/404")!,
+            url: URL(string: json["data"]["url"].stringValue) ?? URL(
+                string: "https://ello.co/404"
+            )!,
             thumbnailLargeUrl: thumbnailLargeUrl
         )
         return embedRegion

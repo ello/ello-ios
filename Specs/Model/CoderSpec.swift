@@ -21,9 +21,14 @@ class CoderSpec: QuickSpec {
 
         describe("Coder") {
             it("encodes and decodes required properties") {
-                let obj = CoderSpecFake(stringProperty: "prop1", intProperty: 123, boolProperty: true)
+                let obj = CoderSpecFake(
+                    stringProperty: "prop1",
+                    intProperty: 123,
+                    boolProperty: true
+                )
                 NSKeyedArchiver.archiveRootObject(obj, toFile: filePath)
-                let unArchivedObject = NSKeyedUnarchiver.unarchiveObject(withFile: filePath) as! CoderSpecFake
+                let unArchivedObject = NSKeyedUnarchiver.unarchiveObject(withFile: filePath)
+                    as! CoderSpecFake
                 expect(unArchivedObject.stringProperty) == "prop1"
                 expect(unArchivedObject.intProperty) == 123
                 expect(unArchivedObject.boolProperty) == true
@@ -33,12 +38,17 @@ class CoderSpec: QuickSpec {
             }
 
             it("encodes and decodes optional properties") {
-                let obj = CoderSpecFake(stringProperty: "prop1", intProperty: 123, boolProperty: true)
+                let obj = CoderSpecFake(
+                    stringProperty: "prop1",
+                    intProperty: 123,
+                    boolProperty: true
+                )
                 obj.optionalStringProperty = "optionalString"
                 obj.optionalIntProperty = 666
                 obj.optionalBoolProperty = true
                 NSKeyedArchiver.archiveRootObject(obj, toFile: filePath)
-                let unArchivedObject = NSKeyedUnarchiver.unarchiveObject(withFile: filePath) as! CoderSpecFake
+                let unArchivedObject = NSKeyedUnarchiver.unarchiveObject(withFile: filePath)
+                    as! CoderSpecFake
                 expect(unArchivedObject.stringProperty) == "prop1"
                 expect(unArchivedObject.intProperty) == 123
                 expect(unArchivedObject.boolProperty) == true

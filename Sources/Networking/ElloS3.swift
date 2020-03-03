@@ -55,25 +55,40 @@ class ElloS3 {
         let request = builder.buildRequest()
 
         let session = URLSession.shared
-        let task = session.dataTask(with: request, completionHandler: { (data: Data?, response: URLResponse?, error: Error?) in
-            let httpResponse = response as? HTTPURLResponse
-            if let error = error {
-                self.seal.reject(error)
-            }
-            else if let statusCode = httpResponse?.statusCode,
-                statusCode >= 200 && statusCode < 300
-            {
-                if let data = data {
-                    self.seal.fulfill(data)
+        let task = session.dataTask(
+            with: request,
+            completionHandler: { (data: Data?, response: URLResponse?, error: Error?) in
+                let httpResponse = response as? HTTPURLResponse
+                if let error = error {
+                    self.seal.reject(error)
+                }
+                else if let statusCode = httpResponse?.statusCode,
+                    statusCode >= 200 && statusCode < 300
+                {
+                    if let data = data {
+                        self.seal.fulfill(data)
+                    }
+                    else {
+                        self.seal.reject(
+                            NSError(
+                                domain: ElloErrorDomain,
+                                code: 0,
+                                userInfo: [NSLocalizedFailureReasonErrorKey: "failure"]
+                            )
+                        )
+                    }
                 }
                 else {
-                    self.seal.reject(NSError(domain: ElloErrorDomain, code: 0, userInfo: [NSLocalizedFailureReasonErrorKey: "failure"]))
+                    self.seal.reject(
+                        NSError(
+                            domain: ElloErrorDomain,
+                            code: 0,
+                            userInfo: [NSLocalizedFailureReasonErrorKey: "failure"]
+                        )
+                    )
                 }
             }
-            else {
-                self.seal.reject(NSError(domain: ElloErrorDomain, code: 0, userInfo: [NSLocalizedFailureReasonErrorKey: "failure"]))
-            }
-        })
+        )
         task.resume()
 
         return promise

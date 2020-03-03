@@ -41,8 +41,7 @@ final class UserAvatarCellModel: Model {
         type endpointType: EndpointType,
         users: [User],
         postParam: String
-        )
-    {
+    ) {
         self.endpointType = endpointType
         self.users = users
         self.postParam = postParam

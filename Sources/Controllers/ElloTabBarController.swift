@@ -103,11 +103,12 @@ class ElloTabBarController: BaseElloViewController, BottomBarController {
     override func didSetCurrentUser() {
         super.didSetCurrentUser()
 
-        if let currentUserImage: UIImage = TemporaryCache.load(.avatar) {
+        if let currentUserImage:UIImage = TemporaryCache.load(.avatar) {
             tabBar.resetImages(profile: currentUserImage)
         }
         else if let imageURL = currentUser?.avatar?.large?.url {
-            PINRemoteImageManager.shared().downloadImage(with: imageURL, options: [])  { [weak self] result in
+            PINRemoteImageManager.shared().downloadImage(with: imageURL, options: []) {
+                [weak self] result in
                 guard let `self` = self else { return }
                 nextTick {
                     self.tabBar.resetImages(profile: result.image)
@@ -168,7 +169,9 @@ extension ElloTabBarController {
         else {
             upAmount = 0
         }
-        tabBar.frame = view.bounds.fromBottom().with(height: ElloTabBar.Size.height).shift(up: upAmount)
+        tabBar.frame = view.bounds.fromBottom().with(height: ElloTabBar.Size.height).shift(
+            up: upAmount
+        )
     }
 
     func setNavigationBarsVisible(_ visible: Bool, animated: Bool) {
@@ -222,13 +225,17 @@ extension ElloTabBarController {
 
     private func setupNotificationObservers() {
 
-        _ = Application.shared() // this is lame but we need Application to initialize to observe it's notifications
+        _ = Application.shared()  // this is lame but we need Application to initialize to observe it's notifications
 
-        systemLoggedOutObserver = NotificationObserver(notification: AuthenticationNotifications.invalidToken) { [weak self] _ in
+        systemLoggedOutObserver = NotificationObserver(
+            notification: AuthenticationNotifications.invalidToken
+        ) { [weak self] _ in
             self?.systemLoggedOut()
         }
 
-        streamLoadedObserver = NotificationObserver(notification: StreamLoadedNotifications.streamLoaded) { [weak self] streamKind in
+        streamLoadedObserver = NotificationObserver(
+            notification: StreamLoadedNotifications.streamLoaded
+        ) { [weak self] streamKind in
             switch streamKind {
             case .notifications(category: nil):
                 self?.newNotificationsAvailable = false
@@ -238,19 +245,27 @@ extension ElloTabBarController {
             }
         }
 
-        foregroundObserver = NotificationObserver(notification: Application.Notifications.WillEnterForeground) { [weak self] _ in
+        foregroundObserver = NotificationObserver(
+            notification: Application.Notifications.WillEnterForeground
+        ) { [weak self] _ in
             self?.newContentService.startPolling()
         }
 
-        backgroundObserver = NotificationObserver(notification: Application.Notifications.DidEnterBackground) { [weak self] _ in
+        backgroundObserver = NotificationObserver(
+            notification: Application.Notifications.DidEnterBackground
+        ) { [weak self] _ in
             self?.newContentService.stopPolling()
         }
 
-        newNotificationsObserver = NotificationObserver(notification: NewContentNotifications.newNotifications) { [weak self] in
+        newNotificationsObserver = NotificationObserver(
+            notification: NewContentNotifications.newNotifications
+        ) { [weak self] in
             self?.newNotificationsAvailable = true
         }
 
-        newStreamContentObserver = NotificationObserver(notification: NewContentNotifications.newFollowingContent) { [weak self] in
+        newStreamContentObserver = NotificationObserver(
+            notification: NewContentNotifications.newFollowingContent
+        ) { [weak self] in
             self?.homeDot?.isVisible = true
         }
 
@@ -285,8 +300,12 @@ extension ElloTabBarController: ElloTabBarDelegate {
             if let navigationViewController = selectedViewController as? UINavigationController,
                 navigationViewController.children.count > 1
             {
-                let pop: Block = { _ = navigationViewController.popToRootViewController(animated: true) }
-                if let viewController = navigationViewController.visibleViewController as? BaseElloViewController {
+                let pop: Block = {
+                    _ = navigationViewController.popToRootViewController(animated: true)
+                }
+                if let viewController = navigationViewController.visibleViewController
+                    as? BaseElloViewController
+                {
                     viewController.goingBackNow(proceed: pop)
                 }
                 else {
@@ -295,7 +314,10 @@ extension ElloTabBarController: ElloTabBarDelegate {
             }
             else {
                 if let scrollView = findScrollView(selectedViewController.view) {
-                    scrollView.setContentOffset(CGPoint(x: 0, y: -scrollView.contentInset.top), animated: true)
+                    scrollView.setContentOffset(
+                        CGPoint(x: 0, y: -scrollView.contentInset.top),
+                        animated: true
+                    )
                 }
 
                 if shouldReloadFollowingStream() {
@@ -313,7 +335,8 @@ extension ElloTabBarController: ElloTabBarDelegate {
 
         if selectedTab == .notifications,
             let navigationViewController = selectedViewController as? UINavigationController,
-            let notificationsViewController = navigationViewController.children[0] as? NotificationsViewController
+            let notificationsViewController = navigationViewController.children[0]
+                as? NotificationsViewController
         {
             notificationsViewController.fromTabBar = true
         }
@@ -339,7 +362,10 @@ extension ElloTabBarController: ElloTabBarDelegate {
 // MARK: Child View Controller handling
 extension ElloTabBarController {
 
-    override func size(forChildContentContainer container: UIContentContainer, withParentContainerSize size: CGSize) -> CGSize {
+    override func size(
+        forChildContentContainer container: UIContentContainer,
+        withParentContainerSize size: CGSize
+    ) -> CGSize {
         return view.frame.size
     }
 }
@@ -351,7 +377,9 @@ private extension ElloTabBarController {
     }
 
     func shouldReloadNotificationsStream() -> Bool {
-        if let navigationController = selectedViewController as? UINavigationController, navigationController.children.count == 1 {
+        if let navigationController = selectedViewController as? UINavigationController,
+            navigationController.children.count == 1
+        {
             return selectedTab == .notifications && newNotificationsAvailable
         }
         return false
@@ -385,14 +413,20 @@ private extension ElloTabBarController {
 
     func showViewController(_ showViewController: UIViewController) {
         tabBar.selectedTab = selectedTab
-        showViewController.view.frame = tabBar.frame.fromBottom().grow(up: view.frame.height - tabBar.frame.height)
+        showViewController.view.frame = tabBar.frame.fromBottom().grow(
+            up: view.frame.height - tabBar.frame.height
+        )
         showViewController.view.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         showViewController.view.layoutIfNeeded()
         view.insertSubview(showViewController.view, belowSubview: tabBar)
     }
 
-    func transitionControllers(_ hideViewController: UIViewController, _ showViewController: UIViewController) {
-        transitionControllers(from: hideViewController,
+    func transitionControllers(
+        _ hideViewController: UIViewController,
+        _ showViewController: UIViewController
+    ) {
+        transitionControllers(
+            from: hideViewController,
             to: showViewController,
             animations: {
                 self.hideViewController(hideViewController)
@@ -400,7 +434,8 @@ private extension ElloTabBarController {
             },
             completion: { _ in
                 self.prepareNarration()
-            })
+            }
+        )
     }
 
 }
@@ -449,7 +484,7 @@ extension ElloTabBarController {
             y: view.frame.height - bottomMargin - narrationHeight - upAmount,
             width: view.frame.width,
             height: narrationHeight
-            )
+        )
     }
 
     private func animateInFinalFrame() -> CGRect {
@@ -460,7 +495,7 @@ extension ElloTabBarController {
             y: view.frame.height - bottomMargin - narrationHeight,
             width: view.frame.width,
             height: narrationHeight
-            )
+        )
     }
 
     private func animateInNarrationView() {

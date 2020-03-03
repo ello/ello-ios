@@ -51,7 +51,8 @@ final class User: Model {
     var totalViewsCount: Int?
     var location: String?
     var hasProfileData: Bool {
-        return postsCount != nil && lovesCount != nil && followingCount != nil && followersCount != nil && totalViewsCount != nil
+        return postsCount != nil && lovesCount != nil && followingCount != nil
+            && followersCount != nil && totalViewsCount != nil
     }
 
     var categories: [Category]? { return getLinkArray("categories") }
@@ -99,7 +100,7 @@ final class User: Model {
     }
 
     var isCurrentUser: Bool { return self.profile != nil }
-    var atName: String { return "@\(username)"}
+    var atName: String { return "@\(username)" }
     var displayName: String {
         if name.isEmpty {
             return atName
@@ -121,7 +122,8 @@ final class User: Model {
         return count.numberToHuman(rounding: 1, showZero: true)
     }
 
-    init(id: String,
+    init(
+        id: String,
         username: String,
         name: String,
         relationshipPriority: RelationshipPriority,
@@ -132,8 +134,8 @@ final class User: Model {
         hasRepostingEnabled: Bool,
         hasLovesEnabled: Bool,
         isCollaborateable: Bool,
-        isHireable: Bool)
-    {
+        isHireable: Bool
+    ) {
         self.id = id
         self.username = username
         self.name = name
@@ -181,7 +183,7 @@ final class User: Model {
             self.isCollaborateable = decoder.decodeKey("isCollaborateable")
         }
 
-        if let badgeNames: [String] = decoder.decodeOptionalKey("badges") {
+        if let badgeNames:[String] = decoder.decodeOptionalKey("badges") {
             self._badges = badgeNames.compactMap { Badge.lookup(slug: $0) }
         }
 
@@ -192,12 +194,13 @@ final class User: Model {
         if version > 8 {
             self.followersCount = decoder.decodeOptionalKey("followersCount")
         }
-        else if let followersCount: String = decoder.decodeOptionalKey("followersCount") {
+        else if let followersCount:String = decoder.decodeOptionalKey("followersCount") {
             self.followersCount = Int(followersCount) ?? 0
         }
         self.followingCount = decoder.decodeOptionalKey("followingCount")
         self.formattedShortBio = decoder.decodeOptionalKey("formattedShortBio")
-        if let externalLinksList: [[String: String]] = decoder.decodeOptionalKey("externalLinksList") {
+        if let externalLinksList:[[String: String]] = decoder.decodeOptionalKey("externalLinksList")
+        {
             self.externalLinksList = externalLinksList.compactMap { ExternalLink.fromDict($0) }
         }
         self.coverImage = decoder.decodeOptionalKey("coverImage")
@@ -223,7 +226,8 @@ final class User: Model {
             hasRepostingEnabled: true,
             hasLovesEnabled: true,
             isCollaborateable: false,
-            isHireable: false)
+            isHireable: false
+        )
     }
 
     override func encode(with coder: NSCoder) {
@@ -276,7 +280,9 @@ final class User: Model {
             id: json["id"].idValue,
             username: json["username"].stringValue,
             name: json["name"].stringValue,
-            relationshipPriority: RelationshipPriority(stringValue: json["relationship_priority"].stringValue),
+            relationshipPriority: RelationshipPriority(
+                stringValue: json["relationship_priority"].stringValue
+            ),
             postsAdultContent: json["posts_adult_content"].boolValue,
             viewsAdultContent: json["views_adult_content"].boolValue,
             hasCommentingEnabled: json["has_commenting_enabled"].boolValue,
@@ -287,14 +293,21 @@ final class User: Model {
             isHireable: json["is_hireable"].boolValue
         )
 
-        user.avatar = Asset.parseAsset("user_avatar_\(user.id)", node: data["avatar"] as? [String: Any])
-        user.coverImage = Asset.parseAsset("user_cover_image_\(user.id)", node: data["cover_image"] as? [String: Any])
+        user.avatar = Asset.parseAsset(
+            "user_avatar_\(user.id)",
+            node: data["avatar"] as? [String: Any]
+        )
+        user.coverImage = Asset.parseAsset(
+            "user_cover_image_\(user.id)",
+            node: data["cover_image"] as? [String: Any]
+        )
 
         user.experimentalFeatures = json["experimental_features"].bool
         user.identifiableBy = json["identifiable_by"].string
         user.postsCount = json["posts_count"].int
         user.lovesCount = json["loves_count"].int
-        user.followersCount = (json["followers_count"].string.flatMap { Int($0) }) ?? json["followers_count"].int
+        user.followersCount = (json["followers_count"].string.flatMap { Int($0) })
+            ?? json["followers_count"].int
         user.followingCount = json["following_count"].int
         user.formattedShortBio = json["formatted_short_bio"].string
         user.onboardingVersion = json["web_onboarding_version"].id.flatMap { Int($0) }
@@ -310,8 +323,9 @@ final class User: Model {
             user.externalLinksList = externalLinks.compactMap { ExternalLink.fromDict($0) }
         }
 
-        if let badgeNames: [String] = json["badges"].array?.compactMap({ $0.string }) {
-            user.badges = badgeNames
+        if let badgeNames:[String] = json["badges"].array?.compactMap({ $0.string }) {
+            user.badges =
+                badgeNames
                 .compactMap { Badge.lookup(slug: $0) }
         }
 
@@ -330,7 +344,8 @@ extension User {
     func hasProperty(key: String) -> Bool {
         if responds(to: Selector(key.camelCase)) {
             return true
-        } else if profile?.responds(to: Selector(key.camelCase)) == true {
+        }
+        else if profile?.responds(to: Selector(key.camelCase)) == true {
             return true
         }
         return false
@@ -342,7 +357,8 @@ extension User {
         let value: Bool?
         if profile?.responds(to: selector) == true {
             value = profile?.value(forKey: kvo) as? Bool
-        } else if responds(to: selector) {
+        }
+        else if responds(to: selector) {
             value = self.value(forKey: kvo) as? Bool
         }
         else {
@@ -356,7 +372,8 @@ extension User {
         let selector = Selector(kvo)
         if profile?.responds(to: selector) == true {
             profile?.setValue(value, forKey: kvo)
-        } else if responds(to: selector) {
+        }
+        else if responds(to: selector) {
             setValue(value, forKey: kvo)
         }
     }
@@ -422,14 +439,18 @@ extension User {
 
 extension User {
     func coverImageURL(viewsAdultContent: Bool? = false, animated: Bool = false) -> URL? {
-        if animated && (!postsAdultContent || viewsAdultContent == true) && coverImage?.original?.url.absoluteString.hasSuffix(".gif") == true {
+        if animated && (!postsAdultContent || viewsAdultContent == true)
+            && coverImage?.original?.url.absoluteString.hasSuffix(".gif") == true
+        {
             return coverImage?.original?.url
         }
         return coverImage?.oneColumnAttachment?.url
     }
 
     func avatarURL(viewsAdultContent: Bool? = false, animated: Bool = false) -> URL? {
-        if animated && (!postsAdultContent || viewsAdultContent == true) && avatar?.original?.url.absoluteString.hasSuffix(".gif") == true {
+        if animated && (!postsAdultContent || viewsAdultContent == true)
+            && avatar?.original?.url.absoluteString.hasSuffix(".gif") == true
+        {
             return avatar?.original?.url
         }
         return avatar?.largeOrBest?.url

@@ -111,9 +111,12 @@ class StreamCreateCommentCell: CollectionViewCell {
             make.height.equalTo(contentView).offset(-Size.Margins.tops)
         }
         createCommentBackground.snp.prepareConstraints { make in
-            bothButtonsHiddenConstraint = make.trailing.equalTo(contentView).inset(Size.Margins.right).constraint
-            replyAllButtonVisibleConstraint = make.trailing.equalTo(replyAllButton.snp.leading).constraint
-            replyAllButtonHiddenConstraint = make.trailing.equalTo(watchButton.snp.leading).offset(-Size.WatchMargin).constraint
+            bothButtonsHiddenConstraint =
+                make.trailing.equalTo(contentView).inset(Size.Margins.right).constraint
+            replyAllButtonVisibleConstraint =
+                make.trailing.equalTo(replyAllButton.snp.leading).constraint
+            replyAllButtonHiddenConstraint =
+                make.trailing.equalTo(watchButton.snp.leading).offset(-Size.WatchMargin).constraint
         }
 
         createCommentLabel.snp.makeConstraints { make in

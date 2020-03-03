@@ -2,9 +2,13 @@
 ///  DynamicSettingCategoryViewController.swift
 //
 
-class DynamicSettingCategoryViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, ControllerThatMightHaveTheCurrentUser {
+class DynamicSettingCategoryViewController: UIViewController, UITableViewDataSource,
+    UITableViewDelegate, ControllerThatMightHaveTheCurrentUser
+{
     class func instantiateFromStoryboard() -> DynamicSettingCategoryViewController {
-        return UIStoryboard(name: "Settings", bundle: Bundle(for: AppDelegate.self)).instantiateViewController(withIdentifier: "DynamicSettingCategoryViewController") as! DynamicSettingCategoryViewController
+        return UIStoryboard(name: "Settings", bundle: Bundle(for: AppDelegate.self))
+            .instantiateViewController(withIdentifier: "DynamicSettingCategoryViewController")
+            as! DynamicSettingCategoryViewController
     }
 
     var category: DynamicSettingCategory?
@@ -24,7 +28,10 @@ class DynamicSettingCategoryViewController: UIViewController, UITableViewDataSou
     private func setupTableView() {
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 50
-        tableView.register(UINib(nibName: "DynamicSettingCell", bundle: nil), forCellReuseIdentifier: "DynamicSettingCell")
+        tableView.register(
+            UINib(nibName: "DynamicSettingCell", bundle: nil),
+            forCellReuseIdentifier: "DynamicSettingCell"
+        )
     }
 
     private func setupNavigationBar() {
@@ -38,7 +45,10 @@ class DynamicSettingCategoryViewController: UIViewController, UITableViewDataSou
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "DynamicSettingCell", for: indexPath) as! DynamicSettingCell
+        let cell = tableView.dequeueReusableCell(
+            withIdentifier: "DynamicSettingCell",
+            for: indexPath
+        ) as! DynamicSettingCell
 
         if let setting = category?.settings.safeValue(indexPath.row),
             let user = currentUser
@@ -52,7 +62,10 @@ class DynamicSettingCategoryViewController: UIViewController, UITableViewDataSou
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if let currentUser = currentUser, let category = category {
             let setting = category.settings[indexPath.row]
-            let isVisible = DynamicSettingCellPresenter.isVisible(setting: setting, currentUser: currentUser)
+            let isVisible = DynamicSettingCellPresenter.isVisible(
+                setting: setting,
+                currentUser: currentUser
+            )
             if !isVisible {
                 return 0
             }
@@ -61,14 +74,18 @@ class DynamicSettingCategoryViewController: UIViewController, UITableViewDataSou
         return UITableViewAutomaticDimension
     }
 
-    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath)
+        -> CGFloat
+    {
         return 90
     }
 }
 
 extension DynamicSettingCategoryViewController: DynamicSettingCellResponder {
 
-    typealias SettingConfig = (setting: DynamicSetting, indexPath: IndexPath, value: Bool, isVisible: Bool)
+    typealias SettingConfig = (
+        setting: DynamicSetting, indexPath: IndexPath, value: Bool, isVisible: Bool
+    )
 
     func toggleSetting(_ setting: DynamicSetting, value: Bool) {
         guard
@@ -83,7 +100,10 @@ extension DynamicSettingCategoryViewController: DynamicSettingCellResponder {
                 setting: setting,
                 indexPath: IndexPath(row: index, section: 0),
                 value: currentUser.propertyForSettingsKey(key: setting.key),
-                isVisible: DynamicSettingCellPresenter.isVisible(setting: setting, currentUser: currentUser)
+                isVisible: DynamicSettingCellPresenter.isVisible(
+                    setting: setting,
+                    currentUser: currentUser
+                )
             )
         }
 
@@ -120,7 +140,10 @@ extension DynamicSettingCategoryViewController: DynamicSettingCellResponder {
 
     private func settingChanged(_ config: SettingConfig, user: User) -> Bool {
         let setting = config.setting
-        let currVisibility = DynamicSettingCellPresenter.isVisible(setting: setting, currentUser: user)
+        let currVisibility = DynamicSettingCellPresenter.isVisible(
+            setting: setting,
+            currentUser: user
+        )
         let currValue = user.propertyForSettingsKey(key: setting.key)
         return config.isVisible != currVisibility || config.value != currValue
     }

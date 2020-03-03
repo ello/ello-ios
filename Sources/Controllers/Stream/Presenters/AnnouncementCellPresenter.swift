@@ -9,8 +9,8 @@ struct AnnouncementCellPresenter {
         streamCellItem: StreamCellItem,
         streamKind: StreamKind,
         indexPath: IndexPath,
-        currentUser: User?)
-    {
+        currentUser: User?
+    ) {
         guard
             let cell = cell as? AnnouncementCell,
             let announcement = streamCellItem.jsonable as? Announcement

@@ -9,8 +9,8 @@ struct CategoryCardCellPresenter {
         streamCellItem: StreamCellItem,
         streamKind: StreamKind,
         indexPath: IndexPath,
-        currentUser: User?)
-    {
+        currentUser: User?
+    ) {
         guard
             let cell = cell as? CategoryCardCell,
             let category = streamCellItem.jsonable as? Category

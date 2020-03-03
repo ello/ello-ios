@@ -31,7 +31,11 @@ class SearchScreen: StreamableScreen, SearchScreenProtocol {
 
     var isGridView = false {
         didSet {
-            gridListButton.setImage(isGridView ? .listView : .gridView, imageStyle: .normal, for: .normal)
+            gridListButton.setImage(
+                isGridView ? .listView : .gridView,
+                imageStyle: .normal,
+                for: .normal
+            )
         }
     }
 
@@ -77,7 +81,11 @@ class SearchScreen: StreamableScreen, SearchScreenProtocol {
         peopleToggleButton.addTarget(self, action: #selector(onPeopleTapped), for: .touchUpInside)
         findFriendsButton.addTarget(self, action: #selector(findFriendsTapped), for: .touchUpInside)
         gridListButton.addTarget(self, action: #selector(gridListToggled), for: .touchUpInside)
-        persistentBackButton.addTarget(navigationBar, action: #selector(ElloNavigationBar.backButtonTapped), for: .touchUpInside)
+        persistentBackButton.addTarget(
+            navigationBar,
+            action: #selector(ElloNavigationBar.backButtonTapped),
+            for: .touchUpInside
+        )
         searchField.delegate = self
     }
 
@@ -124,8 +132,11 @@ class SearchScreen: StreamableScreen, SearchScreenProtocol {
             insets.right = Size.margins
             make.leading.equalTo(backButton.snp.trailing)
             make.bottom.top.equalTo(navigationBar).inset(insets)
-            gridListVisibleConstraint = make.trailing.equalTo(gridListButton.snp.leading).offset(-Size.buttonMargin).constraint
-            gridListHiddenConstraint = make.trailing.equalTo(navigationBar).offset(-insets.right).constraint
+            gridListVisibleConstraint =
+                make.trailing.equalTo(gridListButton.snp.leading).offset(-Size.buttonMargin)
+                .constraint
+            gridListHiddenConstraint =
+                make.trailing.equalTo(navigationBar).offset(-insets.right).constraint
         }
         gridListHiddenConstraint.deactivate()
 
@@ -137,14 +148,22 @@ class SearchScreen: StreamableScreen, SearchScreenProtocol {
         }
 
         searchControlsContainer.snp.makeConstraints { make in
-            searchControlsContainerTop = make.top.equalTo(self).offset(ElloNavigationBar.Size.height).constraint
+            searchControlsContainerTop =
+                make.top.equalTo(self).offset(ElloNavigationBar.Size.height).constraint
             make.leading.trailing.equalTo(self)
-            searchControlsContainerHeight = make.height.equalTo(Size.searchControlsHeight).constraint
+            searchControlsContainerHeight =
+                make.height.equalTo(Size.searchControlsHeight).constraint
         }
 
         toggleButtonsLeadingGuide.snp.makeConstraints { make in
-            showBackButtonConstraint = make.leading.trailing.equalTo(persistentBackButton.snp.trailing).offset(Size.backButtonMargin).constraint
-            hideBackButtonConstraint = make.leading.trailing.equalTo(searchControlsContainer.snp.leading).offset(Size.margins).constraint
+            showBackButtonConstraint =
+                make.leading.trailing.equalTo(persistentBackButton.snp.trailing).offset(
+                    Size.backButtonMargin
+                ).constraint
+            hideBackButtonConstraint =
+                make.leading.trailing.equalTo(searchControlsContainer.snp.leading).offset(
+                    Size.margins
+                ).constraint
         }
         showBackButtonConstraint.deactivate()
 
@@ -171,8 +190,10 @@ class SearchScreen: StreamableScreen, SearchScreenProtocol {
 
         findFriendsContainer.snp.makeConstraints { make in
             make.leading.trailing.equalTo(self).inset(Size.margins)
-            findFriendsPinToKeyboard = make.bottom.equalTo(keyboardAnchor.snp.top).offset(-Size.margins).constraint
-            findFriendsPinToBottom = make.bottom.equalTo(self).inset(ElloTabBar.Size.height).constraint
+            findFriendsPinToKeyboard =
+                make.bottom.equalTo(keyboardAnchor.snp.top).offset(-Size.margins).constraint
+            findFriendsPinToBottom =
+                make.bottom.equalTo(self).inset(ElloTabBar.Size.height).constraint
         }
         findFriendsPinToKeyboard.deactivate()
 
