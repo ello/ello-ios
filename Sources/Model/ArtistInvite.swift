@@ -104,6 +104,7 @@ final class ArtistInvite: Model {
         status = Status(rawValue: decoder.decodeKey("status")) ?? .closed
         openedAt = decoder.decodeOptionalKey("openedAt")
         closedAt = decoder.decodeOptionalKey("closedAt")
+        redirectURL = decoder.decodeOptionalKey("redirectURL")
         super.init(coder: coder)
     }
 
@@ -119,6 +120,7 @@ final class ArtistInvite: Model {
         encoder.encodeObject(status.rawValue, forKey: "status")
         encoder.encodeObject(openedAt, forKey: "openedAt")
         encoder.encodeObject(closedAt, forKey: "closedAt")
+        encoder.encodeObject(redirectURL, forKey: "redirectURL")
         super.encode(with: coder)
     }
 
