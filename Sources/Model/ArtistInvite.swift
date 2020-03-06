@@ -61,7 +61,7 @@ final class ArtistInvite: Model {
     override var description: String { return longDescription }
 
     var shareLink: String {
-        return "\(ElloURI.baseURL)/invites/\(slug)"
+        return "\(ElloURI.baseURL)/creative-briefs/\(slug)"
     }
     var hasAdminLinks: Bool {
         return approvedSubmissionsStream != nil && unapprovedSubmissionsStream != nil
