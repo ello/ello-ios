@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rake', '~> 12.3.3'
+gem 'rake'
 gem 'cocoapods'
 gem 'cocoapods-keys', '~> 1.7.0'
 gem "mini_magick"

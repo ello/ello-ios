@@ -86,13 +86,15 @@ class OmnibarScreen: Screen, OmnibarScreenProtocol {
                 regions.append(.text(""))
             }
             submitableRegions = regions
-            editableRegions = generateEditableRegions(submitableRegions)
+            editableRegions = generateEditableRegions(regions)
             regionsTableView.reloadData()
             updateButtons()
         }
         get { return submitableRegions }
     }
     var submitableRegions: [OmnibarRegion]
+    var reorderableRegions = [IndexedRegion]()
+    var editableRegions = [IndexedRegion]()
     var tableViewRegions: [IndexedRegion] {
         if isReordering {
             return reorderableRegions
@@ -101,8 +103,6 @@ class OmnibarScreen: Screen, OmnibarScreenProtocol {
             return editableRegions
         }
     }
-    var reorderableRegions = [IndexedRegion]()
-    var editableRegions = [IndexedRegion]()
 
     var currentTextPath: IndexPath?
 
@@ -263,10 +263,7 @@ class OmnibarScreen: Screen, OmnibarScreenProtocol {
         cancelButton.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
 
         buyButton.contentEdgeInsets = UIEdgeInsets(top: 4, left: 7, bottom: 4, right: 7)
-        buyButton.adjustsImageWhenDisabled = false
-        buyButton.adjustsImageWhenHighlighted = false
         buyButton.setImages(.addBuyButton, style: .selected)
-        buyButton.setImage(.addBuyButton, imageStyle: .disabled, for: .disabled)
         buyButton.isEnabled = false
         buyButton.addTarget(self, action: #selector(buyButtonTapped), for: .touchUpInside)
 
@@ -780,7 +777,7 @@ class OmnibarScreen: Screen, OmnibarScreenProtocol {
             if reorderableRegions.count == 0 { return }
 
             stopEditing()
-            reorderButton.setImages(.check)
+            reorderButton.setImages(.check, style: .dynamic)
             reorderButton.isSelected = true
         }
         else {
@@ -903,7 +900,7 @@ class OmnibarScreen: Screen, OmnibarScreenProtocol {
             buyButton.setImages(.addBuyButton, style: .selected)
         }
         else {
-            buyButton.setImages(.setBuyButton)
+            buyButton.setImages(.setBuyButton, style: .dynamic)
         }
     }
 

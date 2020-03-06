@@ -108,6 +108,8 @@ class CategoryScreen: HomeSubviewScreen, CategoryScreenProtocol {
     }
 
     override func style() {
+        styleHomeScreenNavBar(navigationBar: navigationBar)
+
         iPhoneBlackBar.backgroundColor = .black
         backButton.setImages(.backChevron)
         shareButton.setImage(.share, imageStyle: .normal, for: .normal)

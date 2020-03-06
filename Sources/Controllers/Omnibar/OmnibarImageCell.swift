@@ -14,26 +14,29 @@ class OmnibarImageCell: TableViewCell {
         static let editingHeight = CGFloat(80)
     }
 
-    let flImageView = PINAnimatedImageView()
+    let pinImageView = PINAnimatedImageView()
     let buyButton = UIButton()
     var isReordering = false
     var hasBuyButtonURL = false
 
     var omnibarImage: UIImage? {
-        get { return flImageView.image }
-        set { flImageView.image = newValue }
+        get { pinImageView.image }
+        set {
+            guard pinImageView.image != newValue else { return }
+            pinImageView.image = newValue
+        }
     }
 
     var omnibarAnimagedImage: PINCachedAnimatedImage? {
-        get { return flImageView.animatedImage }
-        set { flImageView.animatedImage = newValue }
+        get { pinImageView.animatedImage }
+        set { pinImageView.animatedImage = newValue }
     }
 
     override func styleCell() {
         backgroundColor = .white
         contentView.backgroundColor = .white
-        flImageView.clipsToBounds = true
-        flImageView.contentMode = .scaleAspectFit
+        pinImageView.clipsToBounds = true
+        pinImageView.contentMode = .scaleAspectFit
         buyButton.backgroundColor = .greenD1
         buyButton.adjustsImageWhenDisabled = false
         buyButton.adjustsImageWhenHighlighted = false
@@ -47,7 +50,7 @@ class OmnibarImageCell: TableViewCell {
 
     override func arrange() {
         buyButton.frame.size = CGSize(width: 35, height: 35)
-        contentView.addSubview(flImageView)
+        contentView.addSubview(pinImageView)
         contentView.addSubview(buyButton)
     }
 
@@ -58,19 +61,19 @@ class OmnibarImageCell: TableViewCell {
         if isReordering {
             margins = Size.editingMargins
 
-            flImageView.contentMode = .scaleAspectFill
+            pinImageView.contentMode = .scaleAspectFill
             buyButton.isHidden = true
         }
         else {
             margins = UIEdgeInsets(all: 0)
 
-            flImageView.contentMode = .scaleAspectFit
+            pinImageView.contentMode = .scaleAspectFit
             buyButton.isVisible = hasBuyButtonURL
         }
 
         let innerFrame = contentView.bounds
-        let intrinsicSize = flImageView.intrinsicContentSize
-        flImageView.frame = CGRect(
+        let intrinsicSize = pinImageView.intrinsicContentSize
+        pinImageView.frame = CGRect(
             origin: .zero,
             size: CGSize(
                 width: min(intrinsicSize.width, innerFrame.size.width),
@@ -79,7 +82,7 @@ class OmnibarImageCell: TableViewCell {
         ).inset(margins)
 
         buyButton.frame.origin = CGPoint(
-            x: flImageView.frame.maxX - 10 - buyButton.frame.size.width,
+            x: pinImageView.frame.maxX - 10 - buyButton.frame.size.width,
             y: 10
         )
         buyButton.layer.cornerRadius = buyButton.frame.size.width / 2

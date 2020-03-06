@@ -20,8 +20,6 @@ extension UIButton {
             switch (imageStyle, UITraitCollection.current.userInterfaceStyle) {
             case (.selected, .dark):
                 self.setImage(interfaceImage.whiteImage, for: .normal)
-            case (.dynamic, _), (.inverted, _):
-                self.setImage(interfaceImage.normalImage, for: .normal)
             default:
                 self.setImage(interfaceImage.image(imageStyle), for: .normal)
             }

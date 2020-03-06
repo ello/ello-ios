@@ -21,6 +21,7 @@ class EditorialsScreen: HomeSubviewScreen, EditorialsScreenProtocol {
     }
 
     override func style() {
+        styleHomeScreenNavBar(navigationBar: navigationBar)
         navigationBar.sizeClass = .large
     }
 

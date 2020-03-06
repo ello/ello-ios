@@ -207,12 +207,14 @@ enum InterfaceImage: String {
     var whiteSVGK: SVGKImage? {
         switch self {
         case .arrowRight,
+            .addBuyButton,
             .arrowUp,
             .backChevron,
-            .breakLink,
             .bolt,
+            .breakLink,
             .bubbleBody,
             .camera,
+            .check,
             .checkSmall,
             .circleCheck,
             .circleCheckLarge,
@@ -238,6 +240,7 @@ enum InterfaceImage: String {
             .reorder,
             .repost,
             .roleAdmin,
+            .setBuyButton,
             .share,
             .textPicker,
             .xBox,

@@ -87,7 +87,7 @@ struct InterfaceString {
     }
 
     struct ArtistInvites {
-        static let Title: String = NSLocalizedString("Invites", comment: "")
+        static let Title: String = NSLocalizedString("Creative Briefs", comment: "")
         static let Submissions: String = NSLocalizedString("Submissions", comment: "")
         static let Selections: String = NSLocalizedString("Selections", comment: "")
         static let PostSubmissionHeader: String = NSLocalizedString(

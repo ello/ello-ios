@@ -43,45 +43,42 @@ extension OmnibarScreen: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt path: IndexPath) -> UITableViewCell {
-        if let (_, region) = tableViewRegions.safeValue(path.row) {
-            let cell: UITableViewCell = tableView.dequeueReusableCell(
-                withIdentifier: region.reuseIdentifier,
-                for: path
-            )
-            cell.selectionStyle = .none
-            cell.showsReorderControl = true
+        guard let (_, region) = tableViewRegions.safeValue(path.row) else { return UITableViewCell() }
 
-            switch region {
-            case let .attributedText(attributedText):
-                let textCell = cell as! OmnibarTextCell
-                textCell.isFirst = path.row == 0
-                textCell.attributedText = attributedText
-            case let .image(image):
-                let imageCell = cell as! OmnibarImageCell
-                imageCell.hasBuyButtonURL = (buyButtonURL != nil)
-                imageCell.omnibarImage = image
-                imageCell.isReordering = isReordering
-            case let .imageData(_, data, _):
-                let imageCell = cell as! OmnibarImageCell
-                imageCell.hasBuyButtonURL = (buyButtonURL != nil)
-                imageCell.omnibarAnimagedImage = PINCachedAnimatedImage(animatedImageData: data)
-                imageCell.isReordering = isReordering
-            case let .error(url):
-                let textCell = cell as! OmnibarErrorCell
-                textCell.url = url
-            default: break
-            }
-            return cell
+        let cell: UITableViewCell = tableView.dequeueReusableCell(
+            withIdentifier: region.reuseIdentifier,
+            for: path
+        )
+        cell.selectionStyle = .none
+        cell.showsReorderControl = true
+
+        switch region {
+        case let .attributedText(attributedText):
+            let textCell = cell as! OmnibarTextCell
+            textCell.isFirst = path.row == 0
+            textCell.attributedText = attributedText
+        case let .image(image):
+            let imageCell = cell as! OmnibarImageCell
+            imageCell.hasBuyButtonURL = (buyButtonURL != nil)
+            imageCell.omnibarImage = image
+            imageCell.isReordering = isReordering
+        case let .imageData(_, data, _):
+            let imageCell = cell as! OmnibarImageCell
+            imageCell.hasBuyButtonURL = (buyButtonURL != nil)
+            imageCell.omnibarAnimagedImage = PINCachedAnimatedImage(animatedImageData: data)
+            imageCell.isReordering = isReordering
+        case let .error(url):
+            let textCell = cell as! OmnibarErrorCell
+            textCell.url = url
+        default: break
         }
-        return UITableViewCell()
+
+        return cell
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt path: IndexPath) {
         guard let (_, region) = tableViewRegions.safeValue(path.row) else { return }
-        nextTick { self.didSelectRegion(region, at: path) }
-    }
 
-    private func didSelectRegion(_ region: OmnibarRegion, at path: IndexPath) {
         switch region {
         case .attributedText:
             startEditingAtPath(path)

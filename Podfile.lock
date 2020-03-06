@@ -41,20 +41,20 @@ PODS:
   - Nimble-Snapshots/Core (7.0.0):
     - iOSSnapshotTestCase (~> 6.0)
     - Nimble (~> 8.0)
-  - PINCache (3.0.1-beta.7):
-    - PINCache/Arc-exception-safe (= 3.0.1-beta.7)
-    - PINCache/Core (= 3.0.1-beta.7)
-  - PINCache/Arc-exception-safe (3.0.1-beta.7):
+  - PINCache (3.0.1-beta.8):
+    - PINCache/Arc-exception-safe (= 3.0.1-beta.8)
+    - PINCache/Core (= 3.0.1-beta.8)
+  - PINCache/Arc-exception-safe (3.0.1-beta.8):
     - PINCache/Core
-  - PINCache/Core (3.0.1-beta.7):
+  - PINCache/Core (3.0.1-beta.8):
     - PINOperation (~> 1.1.1)
-  - PINOperation (1.1.1)
-  - PINRemoteImage (3.0.0-beta.14):
-    - PINRemoteImage/PINCache (= 3.0.0-beta.14)
-  - PINRemoteImage/Core (3.0.0-beta.14):
+  - PINOperation (1.1.2)
+  - PINRemoteImage (3.0.0):
+    - PINRemoteImage/PINCache (= 3.0.0)
+  - PINRemoteImage/Core (3.0.0):
     - PINOperation
-  - PINRemoteImage/PINCache (3.0.0-beta.14):
-    - PINCache (= 3.0.1-beta.7)
+  - PINRemoteImage/PINCache (3.0.0):
+    - PINCache (= 3.0.1-beta.8)
     - PINRemoteImage/Core
   - PromiseKit/CorePromise (6.8.4)
   - Quantcast-Measure (1.6.0):
@@ -151,8 +151,8 @@ DEPENDENCIES:
   - Moya
   - Nimble
   - Nimble-Snapshots
-  - PINCache (from `https://github.com/ello/PINCache`, branch `period-encoding`)
-  - PINRemoteImage (= 3.0.0-beta.14)
+  - PINCache
+  - PINRemoteImage (= 3.0.0)
   - PromiseKit/CorePromise
   - Quantcast-Measure
   - Quick
@@ -166,7 +166,7 @@ DEPENDENCIES:
   - YapDatabase
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  https://github.com/CocoaPods/Specs.git:
     - 1PasswordExtension
     - Alamofire
     - Analytics
@@ -178,6 +178,7 @@ SPEC REPOS:
     - Moya
     - Nimble
     - Nimble-Snapshots
+    - PINCache
     - PINOperation
     - PINRemoteImage
     - PromiseKit
@@ -206,9 +207,6 @@ EXTERNAL SOURCES:
     :path: Pods/CocoaPodsKeys
   KINWebBrowser:
     :git: https://github.com/ello/KINWebBrowser
-  PINCache:
-    :branch: period-encoding
-    :git: https://github.com/ello/PINCache
   SVGKit:
     :git: https://github.com/ello/SVGKit
   TimeAgoInWords:
@@ -235,9 +233,6 @@ CHECKOUT OPTIONS:
   KINWebBrowser:
     :commit: bcf29fd0beb6afb1c28a236306ad0fa1b8677bf3
     :git: https://github.com/ello/KINWebBrowser
-  PINCache:
-    :commit: 95e894c5ce8ee45acab06481ec5946802f405df0
-    :git: https://github.com/ello/PINCache
   SVGKit:
     :commit: 6160bbdfd0a8924b5e57b13c462db6a0944c8966
     :git: https://github.com/ello/SVGKit
@@ -262,14 +257,14 @@ SPEC CHECKSUMS:
   iOSSnapshotTestCase: 944a73f6d9676302811a86c0cf35f0e6ef5ab2a0
   JWTDecode: 85a405ab16d5473e99bd89ded1d535090ebd6a0e
   KeychainAccess: 3b1bf8a77eb4c6ea1ce9404c292e48f948954c6b
-  Keys: af65e23feef2a047b3277b1ef0399f1209ef9d46
+  Keys: 9c35bf00f612ee1d48556f4a4b9b4551e224e90f
   KINWebBrowser: dad85d7d93e6f4620a8589b96992394affffa66e
   Moya: 161263550064ff8a4948e8ff63137fd72a876292
   Nimble: 45f786ae66faa9a709624227fae502db55a8bdd0
   Nimble-Snapshots: 2d6d712ceb2d1850d88f850fbd7c732618106022
-  PINCache: 7cb9ae068c8f655717f7c644ef1dff9fd573e979
-  PINOperation: a6219e6fc9db9c269eb7a7b871ac193bcf400aac
-  PINRemoteImage: 81bbff853acc71c6de9e106e9e489a791b8bbb08
+  PINCache: 534fd41d358d828dfdf227a0d327f3673a65e20b
+  PINOperation: 24b774353ca248fcf87d67b2d61eef42087c125a
+  PINRemoteImage: e2b89e19fb6e77ffc099f9d9f3b3fe1745e3f9f9
   PromiseKit: 51794a832647e7b819336dc2279039ce9f1cc49b
   Quantcast-Measure: aa4a19650bb073791d8cbee8571615633884832e
   Quick: 4be43f6634acfa727dd106bdf3929ce125ffa79d
@@ -283,6 +278,6 @@ SPEC CHECKSUMS:
   WebLinking: b7507e9ccf2b0177dcc53cbdbaed787676fde745
   YapDatabase: d8cd02058e36bc0902e405d8f3326eb8d7dbf36c
 
-PODFILE CHECKSUM: 6a7ee2fbc7b0be73aa99a84ab90d891ebaffe12e
+PODFILE CHECKSUM: 89a18489d3ea1c92e33b0632de91f2e5284620f2
 
-COCOAPODS: 1.5.3
+COCOAPODS: 1.9.0
