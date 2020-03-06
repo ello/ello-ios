@@ -14,7 +14,7 @@ extension JSON {
     }
 
     public var url: URL? {
-        return string.flatMap { URL(string: $0) }
+        return string.flatMap { URL(string: $0.trimmed()) }
     }
 
     public var idValue: String {
