@@ -22,7 +22,9 @@ class ExtensionItemPreviewSpec: QuickSpec {
 
                 let tests: [(Bool, ExtensionItemPreview, ExtensionItemPreview)] = [
                     (true, ExtensionItemPreview(), ExtensionItemPreview()),
-                    (true, ExtensionItemPreview(image: imageA), ExtensionItemPreview(image: imageA)
+                    (
+                        true, ExtensionItemPreview(image: imageA),
+                        ExtensionItemPreview(image: imageA)
                     ),
                     (
                         true, ExtensionItemPreview(imagePath: urlA),

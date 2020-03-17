@@ -52,8 +52,9 @@ class ProfileScreenSpec: QuickSpec {
                 context("not current user") {
 
                     it("current user is role admin") {
-                        let user = User.stub(["username": "Archer", "relationshipPriority": "friend"
-                            ])
+                        let user = User.stub([
+                            "username": "Archer", "relationshipPriority": "friend"
+                        ])
                         subject.hasRoleAdminButton = true
                         subject.configureButtonsForNonCurrentUser(
                             isHireable: true,
@@ -70,8 +71,9 @@ class ProfileScreenSpec: QuickSpec {
                     }
 
                     it("is hireable not collaborateable") {
-                        let user = User.stub(["username": "Archer", "relationshipPriority": "friend"
-                            ])
+                        let user = User.stub([
+                            "username": "Archer", "relationshipPriority": "friend"
+                        ])
                         subject.hasRoleAdminButton = false
                         subject.configureButtonsForNonCurrentUser(
                             isHireable: true,
@@ -88,8 +90,9 @@ class ProfileScreenSpec: QuickSpec {
                     }
 
                     it("is collaborateable not hireable") {
-                        let user = User.stub(["username": "Archer", "relationshipPriority": "friend"
-                            ])
+                        let user = User.stub([
+                            "username": "Archer", "relationshipPriority": "friend"
+                        ])
                         subject.hasRoleAdminButton = false
                         subject.configureButtonsForNonCurrentUser(
                             isHireable: false,
@@ -106,8 +109,9 @@ class ProfileScreenSpec: QuickSpec {
                     }
 
                     it("is hireable and collaborateable") {
-                        let user = User.stub(["username": "Archer", "relationshipPriority": "friend"
-                            ])
+                        let user = User.stub([
+                            "username": "Archer", "relationshipPriority": "friend"
+                        ])
                         subject.hasRoleAdminButton = false
                         subject.configureButtonsForNonCurrentUser(
                             isHireable: true,

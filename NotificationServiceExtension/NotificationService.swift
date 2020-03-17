@@ -11,7 +11,10 @@ class NotificationService: UNNotificationServiceExtension {
     var contentHandler: ((UNNotificationContent) -> Void)?
     var originalContent: UNNotificationContent?
 
-    override func didReceive(_ request: UNNotificationRequest, withContentHandler contentHandler: @escaping (UNNotificationContent) -> Void) {
+    override func didReceive(
+        _ request: UNNotificationRequest,
+        withContentHandler contentHandler: @escaping (UNNotificationContent) -> Void
+    ) {
         if let debugServer = DebugServer.fromDefaults {
             APIKeys.shared = debugServer.apiKeys
         }
@@ -82,9 +85,14 @@ class NotificationService: UNNotificationServiceExtension {
                     }
                 }
 
-                content.attachments = downloadedImages.compactMap { location -> UNNotificationAttachment? in
+                content.attachments = downloadedImages.compactMap {
+                    location -> UNNotificationAttachment? in
                     let identifier = "region-\(location.lastPathComponent)"
-                    return try? UNNotificationAttachment(identifier: identifier, url: location, options: nil)
+                    return try? UNNotificationAttachment(
+                        identifier: identifier,
+                        url: location,
+                        options: nil
+                    )
                 }
                 contentHandler(content)
             }
@@ -97,7 +105,9 @@ class NotificationService: UNNotificationServiceExtension {
             self.contentHandler = nil
         }
 
-        guard let contentHandler = contentHandler, let originalContent = originalContent else { return }
+        guard let contentHandler = contentHandler, let originalContent = originalContent else {
+            return
+        }
 
         contentHandler(originalContent)
     }

@@ -18,18 +18,31 @@ extension NSItemProvider {
     }
 
     func loadText(_ options: [AnyHashable: Any]?, completion: NSItemProvider.CompletionHandler?) {
-        self.loadItem(forTypeIdentifier: String(kUTTypeText), options: options, completionHandler: completion)
+        self.loadItem(
+            forTypeIdentifier: String(kUTTypeText),
+            options: options,
+            completionHandler: completion
+        )
     }
 
     func loadURL(_ options: [AnyHashable: Any]?, completion: NSItemProvider.CompletionHandler?) {
-        self.loadItem(forTypeIdentifier: String(kUTTypeURL), options: options, completionHandler: completion)
+        self.loadItem(
+            forTypeIdentifier: String(kUTTypeURL),
+            options: options,
+            completionHandler: completion
+        )
     }
 
-    func loadPreview(_ options: [AnyHashable: Any]!, completion: NSItemProvider.CompletionHandler!) {
+    func loadPreview(_ options: [AnyHashable: Any]!, completion: NSItemProvider.CompletionHandler!)
+    {
         self.loadPreviewImage(options: options, completionHandler: completion)
     }
 
     func loadImage(_ options: [AnyHashable: Any]!, completion: NSItemProvider.CompletionHandler!) {
-        self.loadItem(forTypeIdentifier: String(kUTTypeImage), options: options, completionHandler: completion)
+        self.loadItem(
+            forTypeIdentifier: String(kUTTypeImage),
+            options: options,
+            completionHandler: completion
+        )
     }
 }

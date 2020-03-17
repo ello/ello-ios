@@ -172,8 +172,9 @@ class DynamicSettingCellPresenterSpec: QuickSpec {
                         info: "info",
                         conflictsWith: ["allows_analytics"]
                     )
-                    let profile: Profile = stub(["hasSharingEnabled": false, "allowsAnalytics": true
-                        ])
+                    let profile: Profile = stub([
+                        "hasSharingEnabled": false, "allowsAnalytics": true
+                    ])
                     let user: User = stub([
                         "profile": profile
                     ])

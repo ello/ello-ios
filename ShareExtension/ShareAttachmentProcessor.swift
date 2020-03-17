@@ -7,11 +7,19 @@ typealias ShareAttachmentFilter = (ExtensionItemPreview) -> Bool
 
 class ShareAttachmentProcessor {
 
-    init(){}
+    init() {}
 
-    static func preview(_ extensionItem: NSExtensionItem, callback: @escaping ([ExtensionItemPreview]) -> Void) {
+    static func preview(
+        _ extensionItem: NSExtensionItem,
+        callback: @escaping ([ExtensionItemPreview]) -> Void
+    ) {
         let previews: [ExtensionItemPreview] = []
-        processAttachments(0, attachments: extensionItem.attachments, previews: previews, callback: callback)
+        processAttachments(
+            0,
+            attachments: extensionItem.attachments,
+            previews: previews,
+            callback: callback
+        )
     }
 
     static func hasContent(_ contentText: String?, extensionItem: NSExtensionItem?) -> Bool {
@@ -42,13 +50,13 @@ private extension ShareAttachmentProcessor {
         _ index: Int,
         attachments: [NSItemProvider]?,
         previews: [ExtensionItemPreview],
-        callback: @escaping ([ExtensionItemPreview]) -> Void)
-    {
+        callback: @escaping ([ExtensionItemPreview]) -> Void
+    ) {
         if let attachment = attachments?.safeValue(index) {
             processAttachment(attachment) { preview in
                 var previewsCopy = previews
                 if let preview = preview {
-                    let exists = previews.any {$0 == preview}
+                    let exists = previews.any { $0 == preview }
                     if !exists {
                         previewsCopy.append(preview)
                     }
@@ -66,7 +74,10 @@ private extension ShareAttachmentProcessor {
         }
     }
 
-    static func processAttachment( _ attachment: NSItemProvider, callback: @escaping ExtensionItemProcessor) {
+    static func processAttachment(
+        _ attachment: NSItemProvider,
+        callback: @escaping ExtensionItemProcessor
+    ) {
         if attachment.isText() {
             self.processText(attachment, callback: callback)
         }
@@ -81,7 +92,10 @@ private extension ShareAttachmentProcessor {
         }
     }
 
-    static func processText(_ attachment: NSItemProvider, callback: @escaping ExtensionItemProcessor) {
+    static func processText(
+        _ attachment: NSItemProvider,
+        callback: @escaping ExtensionItemProcessor
+    ) {
         attachment.loadText(nil) { (item, error) in
             var preview: ExtensionItemPreview?
             if let item = item as? String {
@@ -91,7 +105,8 @@ private extension ShareAttachmentProcessor {
         }
     }
 
-    static func processURL(_ attachment: NSItemProvider, callback: @escaping ExtensionItemProcessor) {
+    static func processURL(_ attachment: NSItemProvider, callback: @escaping ExtensionItemProcessor)
+    {
         attachment.loadURL(nil) {
             (item, error) in
             var link: String?
@@ -103,7 +118,10 @@ private extension ShareAttachmentProcessor {
         }
     }
 
-    static func processImage(_ attachment: NSItemProvider, callback: @escaping ExtensionItemProcessor) {
+    static func processImage(
+        _ attachment: NSItemProvider,
+        callback: @escaping ExtensionItemProcessor
+    ) {
         attachment.loadImage(nil) {
             (imageItem, error) in
             if let imageURL = imageItem as? URL {

@@ -43,7 +43,9 @@ extension OmnibarScreen: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt path: IndexPath) -> UITableViewCell {
-        guard let (_, region) = tableViewRegions.safeValue(path.row) else { return UITableViewCell() }
+        guard let (_, region) = tableViewRegions.safeValue(path.row) else {
+            return UITableViewCell()
+        }
 
         let cell: UITableViewCell = tableView.dequeueReusableCell(
             withIdentifier: region.reuseIdentifier,

@@ -241,7 +241,8 @@ extension CategoryGenerator {
                 if items.count == 0 {
                     self.destination?.replacePlaceholder(
                         type: .streamItems,
-                        items: [streamSelectionItem, StreamCellItem(type: .emptyStream(height: 182))
+                        items: [
+                            streamSelectionItem, StreamCellItem(type: .emptyStream(height: 182))
                         ]
                     )
                     self.destination?.isPagingEnabled = isPagingEnabled

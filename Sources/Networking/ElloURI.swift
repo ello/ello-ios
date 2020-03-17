@@ -95,7 +95,8 @@ enum ElloURI {
 
         // the regex here is (/a|/b) _so that_ when I search for /invites this line shows up
         case .artistInvitesBrowse: return "\(ElloURI.fuzzyDomain)(/creative-briefs|/invites)/?$"
-        case .artistInvitesDetail: return "\(ElloURI.fuzzyDomain)(/creative-briefs|/invites)/([^/]+)/?$"
+        case .artistInvitesDetail:
+            return "\(ElloURI.fuzzyDomain)(/creative-briefs|/invites)/([^/]+)/?$"
         case .betaPublicProfiles: return "\(ElloURI.fuzzyDomain)/beta-public-profiles/?$"
         case .category: return "\(ElloURI.fuzzyDomain)/discover/([^/]+)/?$"
         case .confirm: return "\(ElloURI.fuzzyDomain)/confirm/?$"

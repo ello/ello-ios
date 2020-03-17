@@ -964,28 +964,36 @@ class OmnibarScreenSpec: QuickSpec {
 
                         (
                             "text,image,image,empty(0)",
-                            [.text("some"), .spacer, .image(UIImage()), .image(UIImage()), .text("")
+                            [
+                                .text("some"), .spacer, .image(UIImage()), .image(UIImage()),
+                                .text("")
                             ],
                             (IndexPath(row: 0, section: 0), IndexPath(row: 1, section: 0)),
                             [.image, .spacer, .text("some"), .spacer, .image, .spacer, .text("")]
                         ),
                         (
                             "text,image,image,empty(1)",
-                            [.text("some"), .spacer, .image(UIImage()), .image(UIImage()), .text("")
+                            [
+                                .text("some"), .spacer, .image(UIImage()), .image(UIImage()),
+                                .text("")
                             ],
                             (IndexPath(row: 1, section: 0), IndexPath(row: 0, section: 0)),
                             [.image, .spacer, .text("some"), .spacer, .image, .spacer, .text("")]
                         ),
                         (
                             "text,image,image,empty(2)",
-                            [.text("some"), .spacer, .image(UIImage()), .image(UIImage()), .text("")
+                            [
+                                .text("some"), .spacer, .image(UIImage()), .image(UIImage()),
+                                .text("")
                             ],
                             (IndexPath(row: 2, section: 0), IndexPath(row: 0, section: 0)),
                             [.image, .spacer, .text("some"), .spacer, .image, .spacer, .text("")]
                         ),
                         (
                             "text,image,image,empty(3)",
-                            [.text("some"), .spacer, .image(UIImage()), .image(UIImage()), .text("")
+                            [
+                                .text("some"), .spacer, .image(UIImage()), .image(UIImage()),
+                                .text("")
                             ],
                             (IndexPath(row: 0, section: 0), IndexPath(row: 2, section: 0)),
                             [.image, .spacer, .image, .spacer, .text("some")]
@@ -998,7 +1006,9 @@ class OmnibarScreenSpec: QuickSpec {
                                 .text("more")
                             ],
                             (IndexPath(row: 0, section: 0), IndexPath(row: 1, section: 0)),
-                            [.image, .spacer, .text("some"), .spacer, .image, .spacer, .text("more")
+                            [
+                                .image, .spacer, .text("some"), .spacer, .image, .spacer,
+                                .text("more")
                             ]
                         ),
                         (
@@ -1026,7 +1036,9 @@ class OmnibarScreenSpec: QuickSpec {
                                 .text("more")
                             ],
                             (IndexPath(row: 1, section: 0), IndexPath(row: 0, section: 0)),
-                            [.image, .spacer, .text("some"), .spacer, .image, .spacer, .text("more")
+                            [
+                                .image, .spacer, .text("some"), .spacer, .image, .spacer,
+                                .text("more")
                             ]
                         ),
                         (
@@ -1036,7 +1048,9 @@ class OmnibarScreenSpec: QuickSpec {
                                 .text("more")
                             ],
                             (IndexPath(row: 1, section: 0), IndexPath(row: 2, section: 0)),
-                            [.text("some"), .spacer, .image, .spacer, .image, .spacer, .text("more")
+                            [
+                                .text("some"), .spacer, .image, .spacer, .image, .spacer,
+                                .text("more")
                             ]
                         ),
                         (

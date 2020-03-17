@@ -35,7 +35,11 @@ class ShareViewController: SLComposeServiceViewController {
     }
 
     override func isContentValid() -> Bool {
-        return itemsProcessed && ShareAttachmentProcessor.hasContent(contentText, extensionItem: extensionContext?.inputItems.safeValue(0) as? NSExtensionItem)
+        return itemsProcessed
+            && ShareAttachmentProcessor.hasContent(
+                contentText,
+                extensionItem: extensionContext?.inputItems.safeValue(0) as? NSExtensionItem
+            )
     }
 
     override func didSelectPost() {
@@ -48,7 +52,8 @@ class ShareViewController: SLComposeServiceViewController {
 private extension ShareViewController {
 
     func processAttachments() {
-        guard let extensionItem = extensionContext?.inputItems.safeValue(0) as? NSExtensionItem else {
+        guard let extensionItem = extensionContext?.inputItems.safeValue(0) as? NSExtensionItem
+        else {
             finishProcessing()
             return
         }

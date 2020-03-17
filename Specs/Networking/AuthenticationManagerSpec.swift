@@ -27,14 +27,18 @@ class AuthenticationManagerSpec: QuickSpec {
                     (.authenticated, supported: authdOnly, unsupported: []),
                     (.initial, supported: noTokenReqd, unsupported: anonymous + authdOnly),
                     (.userCredsSent, supported: noTokenReqd, unsupported: anonymous + authdOnly),
-                    (.shouldTryUserCreds, supported: noTokenReqd, unsupported: anonymous + authdOnly
+                    (
+                        .shouldTryUserCreds, supported: noTokenReqd,
+                        unsupported: anonymous + authdOnly
                     ),
                     (.refreshTokenSent, supported: noTokenReqd, unsupported: anonymous + authdOnly),
                     (
                         .shouldTryRefreshToken, supported: noTokenReqd,
                         unsupported: anonymous + authdOnly
                     ),
-                    (.anonymousCredsSent, supported: noTokenReqd, unsupported: anonymous + authdOnly
+                    (
+                        .anonymousCredsSent, supported: noTokenReqd,
+                        unsupported: anonymous + authdOnly
                     ),
                     (
                         .shouldTryAnonymousCreds, supported: noTokenReqd,

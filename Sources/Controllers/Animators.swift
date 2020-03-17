@@ -12,7 +12,8 @@ class ForwardAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     }
 
     func animateTransition(using context: UIViewControllerContextTransitioning) {
-        let toView = (context.viewController(forKey: UITransitionContextViewControllerKey.to)?.view
+        let toView = (
+            context.viewController(forKey: UITransitionContextViewControllerKey.to)?.view
         )!
         let fromView = (
             context.viewController(forKey: UITransitionContextViewControllerKey.from)?.view
@@ -45,7 +46,8 @@ class BackAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     }
 
     func animateTransition(using context: UIViewControllerContextTransitioning) {
-        let toView = (context.viewController(forKey: UITransitionContextViewControllerKey.to)?.view
+        let toView = (
+            context.viewController(forKey: UITransitionContextViewControllerKey.to)?.view
         )!
         let fromView = (
             context.viewController(forKey: UITransitionContextViewControllerKey.from)?.view

@@ -16,11 +16,12 @@ struct ExtensionItemPreview {
     }
 
     var description: String {
-        return "image: \(String(describing: self.image)), imagePath: \(String(describing: self.imagePath)) text: \(String(describing: self.text)) gif: \(self.gifData == nil)"
+        return
+            "image: \(String(describing: self.image)), imagePath: \(String(describing: self.imagePath)) text: \(String(describing: self.text)) gif: \(self.gifData == nil)"
     }
 }
 
-func ==(lhs: ExtensionItemPreview, rhs: ExtensionItemPreview) -> Bool {
-    return lhs.image == rhs.image && lhs.imagePath == rhs.imagePath && lhs.text == rhs.text && lhs.gifData == rhs.gifData
+func == (lhs: ExtensionItemPreview, rhs: ExtensionItemPreview) -> Bool {
+    return lhs.image == rhs.image && lhs.imagePath == rhs.imagePath && lhs.text == rhs.text
+        && lhs.gifData == rhs.gifData
 }
-

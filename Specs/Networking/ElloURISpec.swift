@@ -380,7 +380,8 @@ class ElloURISpec: QuickSpec {
                         "with Explore Trending urls": (
                             input: "explore/trending", output: .exploreTrending
                         ),
-                        "with Explore Recent urls": (input: "explore/recent", output: .exploreRecent
+                        "with Explore Recent urls": (
+                            input: "explore/recent", output: .exploreRecent
                         ),
                         "with Explore Recommended urls": (
                             input: "explore/recommended", output: .exploreRecommended
