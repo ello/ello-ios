@@ -33,9 +33,9 @@ struct Validator {
         return host.contains(".") && !host.hasPrefix(".") && !host.hasSuffix(".")
     }
 
-    static func hasValidSignUpCredentials(email: String, username: String, password: String) -> Bool
+    static func hasValidSignUpCredentials(email: String, username: String, password: String, isTermsChecked: Bool) -> Bool
     {
-        return isValidEmail(email) && isValidUsername(username) && isValidPassword(password)
+        return isValidEmail(email) && isValidUsername(username) && isValidPassword(password) && isTermsChecked
     }
 
     static func invalidSignUpUsernameReason(_ username: String) -> String? {
@@ -64,6 +64,13 @@ struct Validator {
         }
         else if !isValidPassword(password) {
             return InterfaceString.Validator.PasswordInvalid
+        }
+        return nil
+    }
+    
+    static func invalidTermsCheckedReason(_ isChecked: Bool) -> String? {
+        if !isChecked {
+            return InterfaceString.Validator.TermsRequired
         }
         return nil
     }

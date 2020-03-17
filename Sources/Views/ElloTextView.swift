@@ -15,36 +15,46 @@ enum ElloAttributedObject {
     case attributedCategory(category: Category)
     case attributedCategoryPartial(category: CategoryPartial)
     case attributedUserId(userId: String)
+    case attributedURL(title: String, url: URL)
     case unknown
 
     static func generate(_ link: String, _ object: Any?) -> ElloAttributedObject {
         switch link {
         case "user", "followers", "following":
-            if let user = object as? User { return ElloAttributedObject.attributedUser(user: user) }
+            if let user = object as? User {
+                return .attributedUser(user: user)
+            }
         case "post":
-            if let post = object as? Post { return ElloAttributedObject.attributedPost(post: post) }
+            if let post = object as? Post {
+                return .attributedPost(post: post)
+            }
         case "comment":
             if let comment = object as? ElloComment {
-                return ElloAttributedObject.attributedComment(comment: comment)
+                return .attributedComment(comment: comment)
             }
         case "artistInvite":
             if let artistInvite = object as? ArtistInvite {
-                return ElloAttributedObject.attributedArtistInvite(artistInvite: artistInvite)
+                return .attributedArtistInvite(artistInvite: artistInvite)
             }
         case "category":
             if let category = object as? Category {
-                return ElloAttributedObject.attributedCategory(category: category)
+                return .attributedCategory(category: category)
             }
         case "categoryPartial":
             if let category = object as? CategoryPartial {
-                return ElloAttributedObject.attributedCategoryPartial(category: category)
+                return .attributedCategoryPartial(category: category)
             }
         case "userId":
             if let userId = object as? String {
-                return ElloAttributedObject.attributedUserId(userId: userId)
+                return .attributedUserId(userId: userId)
+            }
+        case "url":
+            if let (title, url) = object as? (String, URL) {
+                return .attributedURL(title: title, url: url)
             }
         default: break
         }
+
         return .unknown
     }
 }

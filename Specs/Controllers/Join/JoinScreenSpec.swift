@@ -18,12 +18,13 @@ class JoinScreenSpec: QuickSpec {
             }
             func onePasswordAction(_ sender: UIView) {}
             func submit(email: String, username: String, password: String) {}
-            func termsAction() {}
+            func urlAction(title: String, url: URL) {}
         }
 
         describe("JoinScreen") {
             var subject: JoinScreen!
             var delegate: MockDelegate!
+
             beforeEach {
                 delegate = MockDelegate()
                 subject = JoinScreen()
@@ -79,7 +80,7 @@ class JoinScreenSpec: QuickSpec {
             describe("snapshot, username error and message shown") {
                 beforeEach {
                     subject.showUsernameError("error")
-                    subject.showMessage("message")
+                    subject.showUsernameSuggestions(["username"])
                 }
                 it("should have a valid snapshot") {
                     expectValidSnapshot(subject, device: .phone6_Portrait)
@@ -97,7 +98,7 @@ class JoinScreenSpec: QuickSpec {
 
             describe("snapshot, message shown") {
                 beforeEach {
-                    subject.showMessage("message")
+                    subject.showUsernameSuggestions(["username"])
                 }
                 it("should have a valid snapshot") {
                     expectValidSnapshot(subject, device: .phone6_Portrait)

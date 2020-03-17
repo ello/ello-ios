@@ -22,7 +22,8 @@ class EditorialJoinCell: EditorialCellContent {
         return Validator.hasValidSignUpCredentials(
             email: email,
             username: username,
-            password: password
+            password: password,
+            isTermsChecked: true
         )
     }
 

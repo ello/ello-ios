@@ -194,6 +194,19 @@ extension NotificationsViewController: NotificationResponder {
         navigationController?.pushViewController(vc, animated: true)
     }
 
+    func urlTapped(title: String, url: URL) {
+        let nav = ElloWebBrowserViewController.navigationControllerWithWebBrowser()
+        let browser = nav.rootWebBrowser()
+        Tracker.shared.webViewAppeared(url.absoluteString)
+        browser?.load(url)
+        browser?.tintColor = .greyA
+        browser?.showsURLInNavigationBar = false
+        browser?.showsPageTitleInNavigationBar = false
+        browser?.title = title
+
+        present(nav, animated: true, completion: nil)
+    }
+
     // userTapped(_ user: _) defined in StreamableViewController
     // postTapped(_ post: _) defined in StreamableViewController
 }

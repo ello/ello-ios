@@ -19,7 +19,7 @@ class JoinScreen: CredentialsScreen {
     weak var delegate: JoinScreenDelegate?
 
     var prompt: String? {
-        get { return promptLabel.text }
+        get { promptLabel.text }
         set { promptLabel.text = newValue }
     }
     var isEmailValid: Bool? = nil {
@@ -34,7 +34,7 @@ class JoinScreen: CredentialsScreen {
         }
     }
     var email: String {
-        get { return emailField.text?.trimmingCharacters(in: CharacterSet.whitespaces) ?? "" }
+        get { emailField.text?.trimmingCharacters(in: CharacterSet.whitespaces) ?? "" }
         set { emailField.text = newValue }
     }
     var isUsernameValid: Bool? = nil {
@@ -49,7 +49,7 @@ class JoinScreen: CredentialsScreen {
         }
     }
     var username: String {
-        get { return usernameField.text?.trimmingCharacters(in: CharacterSet.whitespaces) ?? "" }
+        get { usernameField.text?.trimmingCharacters(in: CharacterSet.whitespaces) ?? "" }
         set { usernameField.text = newValue }
     }
     var isPasswordValid: Bool? = nil {
@@ -64,8 +64,12 @@ class JoinScreen: CredentialsScreen {
         }
     }
     var password: String {
-        get { return passwordField.text ?? "" }
+        get { passwordField.text ?? "" }
         set { passwordField.text = newValue }
+    }
+    var isTermsChecked: Bool {
+        get { termsToggle.isOn }
+        set { termsToggle.isOn = newValue }
     }
     var isOnePasswordAvailable = false {
         didSet { passwordField.hasOnePassword = isOnePasswordAvailable }
@@ -98,10 +102,13 @@ class JoinScreen: CredentialsScreen {
     private let passwordErrorLabel = StyledLabel(style: .smallWhite)
     private var passwordMarginConstraint: Constraint!
 
-    private let messageLabel = StyledLabel(style: .smallWhite)
-    private var messageMarginConstraint: Constraint!
-    private let termsButtonNormal = UIButton()
-    private let termsButtonKeyboard = UIButton()
+    private var termsToggle = UISwitch()
+    private var termsLabel = ElloTextView()
+    private let termsErrorLabel = StyledLabel(style: .smallWhite)
+    private var termsMarginConstraint: Constraint!
+
+    private let usernameSuggestionsLabel = StyledLabel(style: .smallWhite)
+    private var usernameSuggestionsMarginConstraint: Constraint!
 
     override func setText() {
         titleLabel.text = InterfaceString.Startup.SignUp
@@ -110,13 +117,18 @@ class JoinScreen: CredentialsScreen {
         usernameField.placeholder = InterfaceString.Join.UsernamePlaceholder
         passwordField.placeholder = InterfaceString.Join.PasswordPlaceholder
         nonceErrorLabel.text = InterfaceString.Join.FetchNonceError
+        termsLabel.attributedText = InterfaceString.Join.Terms(
+            textAttrs: NSAttributedString.defaultAttrs([
+                .foregroundColor: UIColor.greyA,
+                .font: UIFont.defaultFont(Size.termsFontSize),
+            ])
+        )
     }
 
     override func bindActions() {
         super.bindActions()
+
         continueButton.addTarget(self, action: #selector(submitAction), for: .touchUpInside)
-        termsButtonNormal.addTarget(self, action: #selector(termsAction), for: .touchUpInside)
-        termsButtonKeyboard.addTarget(self, action: #selector(termsAction), for: .touchUpInside)
         passwordField.onePasswordButton.addTarget(
             self,
             action: #selector(onePasswordAction(_:)),
@@ -136,32 +148,16 @@ class JoinScreen: CredentialsScreen {
         emailField.delegate = self
         usernameField.delegate = self
         passwordField.delegate = self
+        termsLabel.textViewDelegate = self
     }
 
     override func setup() {
-        termsButtonNormal.isHidden = Keyboard.shared.isActive
-        termsButtonKeyboard.isVisible = Keyboard.shared.isActive
         continueButton.isEnabled = false
         nonceErrorLabel.isVisible = false
     }
 
     override func style() {
-        let attrs = NSAttributedString.defaultAttrs([
-            .foregroundColor: UIColor.greyA,
-            .font: UIFont.defaultFont(Size.termsFontSize),
-        ])
-        let linkAttrs = NSAttributedString.defaultAttrs([
-            .underlineStyle: NSUnderlineStyle.single.rawValue,
-            .foregroundColor: UIColor.greyA,
-            .font: UIFont.defaultFont(Size.termsFontSize),
-        ])
-        // needs i18n
-        let attributedTitle = NSAttributedString(
-            string: "By clicking Continue you are agreeing to our ",
-            attributes: attrs
-        ) + NSAttributedString(string: "Terms", attributes: linkAttrs)
-        termsButtonNormal.setAttributedTitle(attributedTitle, for: .normal)
-        termsButtonKeyboard.setAttributedTitle(attributedTitle, for: .normal)
+        super.style()
 
         ElloTextFieldView.styleAsEmailField(emailField)
         ElloTextFieldView.styleAsUsernameField(usernameField)
@@ -170,8 +166,9 @@ class JoinScreen: CredentialsScreen {
         passwordField.hasOnePassword = isOnePasswordAvailable
 
         promptLabel.isMultiline = true
-        messageLabel.isMultiline = true
+        usernameSuggestionsLabel.isMultiline = true
         nonceErrorLabel.isMultiline = true
+        termsLabel.backgroundColor = .clear
 
         continueBackground.backgroundColor = .white
     }
@@ -187,13 +184,13 @@ class JoinScreen: CredentialsScreen {
         scrollView.addSubview(activateUsernameButton)
         scrollView.addSubview(usernameField)
         scrollView.addSubview(usernameErrorLabel)
-        scrollView.addSubview(messageLabel)
+        scrollView.addSubview(usernameSuggestionsLabel)
         scrollView.addSubview(activatePasswordButton)
         scrollView.addSubview(passwordField)
         scrollView.addSubview(passwordErrorLabel)
-        scrollView.addSubview(termsButtonKeyboard)
-
-        addSubview(termsButtonNormal)
+        scrollView.addSubview(termsToggle)
+        scrollView.addSubview(termsLabel)
+        scrollView.addSubview(termsErrorLabel)
 
         nonceErrorLabel.snp.makeConstraints { make in
             make.top.equalTo(backButton.snp.bottom).offset(CredentialsScreen.Size.inset)
@@ -243,14 +240,14 @@ class JoinScreen: CredentialsScreen {
         }
         usernameMarginConstraint.deactivate()
 
-        messageLabel.snp.makeConstraints { make in
-            messageMarginConstraint =
+        usernameSuggestionsLabel.snp.makeConstraints { make in
+            usernameSuggestionsMarginConstraint =
                 make.top.equalTo(usernameErrorLabel.snp.bottom).offset(Size.fieldsErrorMargin)
                 .priority(Priority.required).constraint
             make.top.equalTo(usernameErrorLabel.snp.bottom).priority(Priority.medium)
             make.leading.trailing.equalTo(scrollView).inset(CredentialsScreen.Size.inset)
         }
-        messageMarginConstraint.deactivate()
+        usernameSuggestionsMarginConstraint.deactivate()
 
         activatePasswordButton.snp.makeConstraints { make in
             make.leading.trailing.equalTo(scrollView)
@@ -258,7 +255,7 @@ class JoinScreen: CredentialsScreen {
             make.height.equalTo(passwordField).offset(Size.fieldsInnerMargin)
         }
         passwordField.snp.makeConstraints { make in
-            make.top.equalTo(messageLabel.snp.bottom).offset(Size.fieldsInnerMargin)
+            make.top.equalTo(usernameSuggestionsLabel.snp.bottom).offset(Size.fieldsInnerMargin)
             make.leading.trailing.equalTo(scrollView).inset(CredentialsScreen.Size.inset)
         }
         passwordErrorLabel.snp.makeConstraints { make in
@@ -272,16 +269,25 @@ class JoinScreen: CredentialsScreen {
         }
         passwordMarginConstraint.deactivate()
 
-        termsButtonKeyboard.snp.makeConstraints { make in
-            make.leading.equalTo(scrollView).inset(CredentialsScreen.Size.inset)
-            make.top.equalTo(passwordErrorLabel.snp.bottom).offset(Size.inset)
-            make.bottom.equalTo(scrollView).inset(CredentialsScreen.Size.inset)
+        termsToggle.snp.makeConstraints { make in
+            make.leading.equalTo(passwordField)
+            make.top.equalTo(passwordErrorLabel.snp.bottom).offset(Size.fieldsInnerMargin)
+        }
+        termsLabel.snp.makeConstraints { make in
+            make.leading.equalTo(termsToggle.snp.trailing).offset(Size.inset)
+            make.centerY.equalTo(termsToggle)
         }
 
-        termsButtonNormal.snp.makeConstraints { make in
-            make.leading.equalTo(scrollView).inset(CredentialsScreen.Size.inset)
-            make.bottom.equalTo(continueBackground.snp.top).offset(-Size.termsBottomInset)
+        termsErrorLabel.snp.makeConstraints { make in
+            termsMarginConstraint =
+                make.top.equalTo(termsToggle.snp.bottom).offset(Size.fieldsErrorMargin).priority(
+                    Priority.required
+                ).constraint
+            make.top.equalTo(termsToggle.snp.bottom).priority(Priority.medium)
+            make.leading.trailing.equalTo(scrollView).inset(CredentialsScreen.Size.inset)
+            make.bottom.lessThanOrEqualTo(scrollView).inset(Size.inset)
         }
+        termsMarginConstraint.deactivate()
     }
 
     override func resignFirstResponder() -> Bool {
@@ -291,11 +297,6 @@ class JoinScreen: CredentialsScreen {
         return super.resignFirstResponder()
     }
 
-    override func keyboardIsAnimating(_ keyboard: Keyboard) {
-        termsButtonNormal.isHidden = keyboard.isActive
-        termsButtonKeyboard.isVisible = keyboard.isActive
-    }
-
     override func backAction() {
         delegate?.backAction()
     }
@@ -303,15 +304,15 @@ class JoinScreen: CredentialsScreen {
 
 extension JoinScreen {
     func allFieldsValid() -> Bool {
-        if let isEmailValid = isEmailValid,
+        guard
+            let isEmailValid = isEmailValid,
             let isUsernameValid = isUsernameValid,
             let isPasswordValid = isPasswordValid
-        {
-            return isEmailValid && isUsernameValid && isPasswordValid
-        }
         else {
             return false
         }
+
+        return isEmailValid && isUsernameValid && isPasswordValid && isTermsChecked
     }
 }
 
@@ -334,12 +335,6 @@ extension JoinScreen {
     @objc
     func submitAction() {
         delegate?.submit(email: email, username: username, password: password)
-    }
-
-    @objc
-    func termsAction() {
-        Tracker.shared.tappedTsAndCs()
-        delegate?.termsAction()
     }
 
     @objc
@@ -440,30 +435,23 @@ extension JoinScreen: JoinScreenProtocol {
             string: InterfaceString.Join.UsernameSuggestionPrefix,
             attributes: plainAttrs
         ) + suggestions
-        showMessageAttributed(msg)
+        showUsernameSuggestions(msg)
     }
 
-    func showMessage(_ text: String) {
-        let plainAttrs: [NSAttributedString.Key: Any] = [
-            .font: UIFont.defaultFont(12),
-        ]
-        showMessageAttributed(NSAttributedString(string: text, attributes: plainAttrs))
-    }
-
-    func showMessageAttributed(_ attrd: NSAttributedString) {
-        messageLabel.attributedText = attrd
+    func showUsernameSuggestions(_ attrd: NSAttributedString) {
+        usernameSuggestionsLabel.attributedText = attrd
 
         elloAnimate {
-            self.messageMarginConstraint.activate()
-            self.messageLabel.alpha = 1.0
+            self.usernameSuggestionsMarginConstraint.activate()
+            self.usernameSuggestionsLabel.alpha = 1.0
             self.layoutIfNeeded()
         }
     }
 
-    func hideMessage() {
+    func hideUsernameSuggestions() {
         elloAnimate {
-            self.messageMarginConstraint.deactivate()
-            self.messageLabel.alpha = 0.0
+            self.usernameSuggestionsMarginConstraint.deactivate()
+            self.usernameSuggestionsLabel.alpha = 0.0
             self.layoutIfNeeded()
         }
     }
@@ -525,11 +513,40 @@ extension JoinScreen: JoinScreenProtocol {
         }
     }
 
+    func showTermsError(_ text: String) {
+        termsErrorLabel.text = text
+
+        elloAnimate {
+            self.termsMarginConstraint.activate()
+            self.termsErrorLabel.alpha = 1.0
+            self.layoutIfNeeded()
+        }
+    }
+
+    func hideTermsError() {
+        elloAnimate {
+            self.termsMarginConstraint.deactivate()
+            self.termsErrorLabel.alpha = 0.0
+            self.layoutIfNeeded()
+        }
+    }
+
     func showError(_ text: String) {
         showPasswordError(text)
     }
 
     func updateContinueButton() {
         continueButton.isEnabled = true
+    }
+}
+
+extension JoinScreen: ElloTextViewDelegate {
+    func textViewTappedDefault() {
+        termsToggle.setOn(!termsToggle.isOn, animated: true)
+    }
+
+    func textViewTapped(_ link: String, object: ElloAttributedObject) {
+        guard case let .attributedURL(title, url) = object else { return }
+        delegate?.urlAction(title: title, url: url)
     }
 }

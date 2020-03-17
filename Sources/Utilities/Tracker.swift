@@ -207,8 +207,8 @@ extension Tracker {
         track("tapped about")
     }
 
-    func tappedTsAndCs() {
-        track("tapped terms and conditions")
+    func tappedLink(title: String) {
+        track("tapped \(title)")
     }
 
     func requestPasswordValid() {

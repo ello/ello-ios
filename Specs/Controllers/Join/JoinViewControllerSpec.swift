@@ -17,26 +17,24 @@ class JoinViewControllerSpec: QuickSpec {
         var isOnePasswordAvailable: Bool = false
 
         var loadingHUDVisible = false
-        var message: String?
         var emailError: String?
         var usernameError: String?
         var passwordError: String?
+        var termsError: String?
         var error: String?
         var usernames: [String]?
         var isEmailValid: Bool?
         var isUsernameValid: Bool?
         var isPasswordValid: Bool?
+        var isTermsChecked: Bool?
         var resignedFirstResponder = false
 
         func loadingHUD(visible: Bool) {
             loadingHUDVisible = visible
         }
 
-        func showMessage(_ text: String) {
-            message = text
-        }
-        func hideMessage() {
-            message = ""
+        func hideUsernameSuggestions() {
+            self.usernames = nil
         }
 
         func showUsernameSuggestions(_ usernames: [String]) {
@@ -61,6 +59,13 @@ class JoinViewControllerSpec: QuickSpec {
         }
         func hidePasswordError() {
             passwordError = ""
+        }
+
+        func showTermsError(_ text: String) {
+            termsError = text
+        }
+        func hideTermsError() {
+            termsError = ""
         }
 
         func showError(_ text: String) {

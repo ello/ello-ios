@@ -778,44 +778,124 @@ struct InterfaceString {
             comment: ""
         )
         static let UsernameSuggestionPrefix: String = NSLocalizedString(
-            "Here are some available usernames -\n",
+            "Here are some available usernames:\n",
             comment: ""
         )
+
+        static func Terms(textAttrs: [NSAttributedString.Key: Any]) -> NSAttributedString {
+            let linkAttrs = textAttrs + [
+                .underlineStyle: NSUnderlineStyle.single.rawValue,
+            ]
+
+            let format = NSLocalizedString(
+                "I have read and accept Ello's {Terms} and {Privacy Policy}.",
+                comment: ""
+            )
+            let termsTitle = NSLocalizedString("Terms", comment: "")
+            let privacyTitle = NSLocalizedString("Privacy Policy", comment: "")
+            let replace: [String: NSAttributedString] = [
+                "Terms": NSAttributedString(
+                    string: termsTitle,
+                    attributes: linkAttrs + [
+                        ElloAttributedText.Link: "url",
+                        ElloAttributedText.Object: (
+                            termsTitle, URL(string: "\(ElloURI.baseURL)/wtf/policies/terms/")
+                        ),
+                    ]
+                ),
+                "Privacy Policy": NSAttributedString(
+                    string: privacyTitle,
+                    attributes: linkAttrs + [
+                        ElloAttributedText.Link: "url",
+                        ElloAttributedText.Object: (
+                            privacyTitle, URL(string: "\(ElloURI.baseURL)/wtf/policies/privacy/")
+                        ),
+                    ]
+                ),
+            ]
+            let attributedBuffer = NSMutableAttributedString()
+            var buffer = ""
+            var key = ""
+            var inReplacement = false
+            for c in format {
+                if !inReplacement, c == "{" {
+                    key = ""
+                    inReplacement = true
+                }
+                else if inReplacement, key.isEmpty, c == "{" {
+                    buffer += "{"
+                    inReplacement = false
+                }
+                else if inReplacement, c == "}" {
+                    if let replacement = replace[key] {
+                        attributedBuffer.append(replacement)
+                    }
+                    inReplacement = false
+                }
+                else if inReplacement {
+                    if !buffer.isEmpty {
+                        attributedBuffer.append(
+                            NSAttributedString(
+                                string: buffer,
+                                attributes: textAttrs
+                            )
+                        )
+                        buffer = ""
+                    }
+                    key += "\(c)"
+                }
+                else {
+                    buffer += "\(c)"
+                }
+            }
+
+            if !buffer.isEmpty {
+                attributedBuffer.append(
+                    NSAttributedString(
+                        string: buffer,
+                        attributes: textAttrs
+                    )
+                )
+            }
+
+            return attributedBuffer
+        }
     }
 
     struct Validator {
-        static let EmailRequired: String = NSLocalizedString(
-            "Email is required.",
-            comment: "email is required message"
-        )
+        static let EmailRequired: String = NSLocalizedString("Email is required.", comment: "")
         static let UsernameRequired: String = NSLocalizedString(
             "Username is required.",
-            comment: "username is required message"
+            comment: ""
         )
         static let PasswordRequired: String = NSLocalizedString(
             "Password is required.",
-            comment: "password is required message"
+            comment: ""
+        )
+        static let TermsRequired: String = NSLocalizedString(
+            "Accepting the Terms and Privacy Policy is required.",
+            comment: ""
         )
 
         static let SignInInvalid: String = NSLocalizedString(
             "Invalid email or username",
-            comment: "Invalid email or username message"
+            comment: ""
         )
         static let CredentialsInvalid: String = NSLocalizedString(
             "Invalid credentials",
-            comment: "Invalid credentials message"
+            comment: ""
         )
         static let EmailInvalid: String = NSLocalizedString(
-            "That email is invalid.\nPlease try again.",
-            comment: "invalid email message"
+            "That email is invalid.",
+            comment: ""
         )
         static let UsernameInvalid: String = NSLocalizedString(
-            "That username is invalid.\nPlease try again.",
-            comment: "invalid username message"
+            "That username is invalid.",
+            comment: ""
         )
         static let PasswordInvalid: String = NSLocalizedString(
-            "Password must be at least 8\ncharacters long.",
-            comment: "password length error message"
+            "Password must be at least 8 characters long.",
+            comment: ""
         )
     }
 

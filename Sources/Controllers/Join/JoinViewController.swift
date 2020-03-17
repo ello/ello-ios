@@ -98,14 +98,15 @@ extension JoinViewController: JoinScreenDelegate {
     func submit(email: String, username: String, password: String) {
         Tracker.shared.tappedJoin()
 
-        screen.hideMessage()
+        screen.hideUsernameSuggestions()
         _ = screen.resignFirstResponder()
 
         if let nonce = nonce,
             Validator.hasValidSignUpCredentials(
                 email: email,
                 username: username,
-                password: password
+                password: password,
+                isTermsChecked: screen.isTermsChecked
             )
         {
             screen.hideEmailError()
@@ -176,19 +177,27 @@ extension JoinViewController: JoinScreenDelegate {
             else {
                 screen.hidePasswordError()
             }
+
+            if let msg = Validator.invalidTermsCheckedReason(screen.isTermsChecked) {
+                screen.showTermsError(msg)
+            }
+            else {
+                screen.hideTermsError()
+            }
         }
     }
 
-    func termsAction() {
+    func urlAction(title: String, url: URL) {
+        Tracker.shared.tappedLink(title: title)
+
         let nav = ElloWebBrowserViewController.navigationControllerWithWebBrowser()
         let browser = nav.rootWebBrowser()
-        let url = "\(ElloURI.baseURL)/wtf/post/terms-of-use"
-        Tracker.shared.webViewAppeared(url)
-        browser?.loadURLString(url)
-        browser?.tintColor = UIColor.greyA
+        Tracker.shared.webViewAppeared(url.absoluteString)
+        browser?.load(url)
+        browser?.tintColor = .greyA
         browser?.showsURLInNavigationBar = false
         browser?.showsPageTitleInNavigationBar = false
-        browser?.title = InterfaceString.WebBrowser.TermsAndConditions
+        browser?.title = title
 
         present(nav, animated: true, completion: nil)
     }
@@ -267,14 +276,14 @@ extension JoinViewController {
                     completion(false)
                 }
                 else {
-                    self.screen.hideMessage()
+                    self.screen.hideUsernameSuggestions()
                     completion(true)
                 }
             }
             .catch { error in
                 let errorTitle = error.elloErrorMessage ?? InterfaceString.UnknownError
                 self.screen.showUsernameError(errorTitle)
-                self.screen.hideMessage()
+                self.screen.hideUsernameSuggestions()
                 completion(false)
             }
     }

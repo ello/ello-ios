@@ -15,6 +15,7 @@ protocol NotificationResponder: class {
     func artistInviteTapped(_ artistInvite: ArtistInvite)
     func categoryTapped(_ category: Category)
     func categoryTapped(slug: String, name: String)
+    func urlTapped(title: String, url: URL)
 }
 
 enum NotificationCellMode {
@@ -378,28 +379,25 @@ class NotificationCell: UICollectionViewCell, UIWebViewDelegate {
 
 extension NotificationCell: ElloTextViewDelegate {
     func textViewTapped(_ link: String, object: ElloAttributedObject) {
+        guard let responder:NotificationResponder = findResponder() else { return }
+
         switch object {
         case let .attributedUser(user):
-            let responder: NotificationResponder? = findResponder()
-            responder?.userTapped(user)
+            responder.userTapped(user)
         case let .attributedUserId(userId):
-            let responder: NotificationResponder? = findResponder()
-            responder?.userTapped(userId: userId)
+            responder.userTapped(userId: userId)
         case let .attributedPost(post):
-            let responder: NotificationResponder? = findResponder()
-            responder?.postTapped(post)
+            responder.postTapped(post)
         case let .attributedComment(comment):
-            let responder: NotificationResponder? = findResponder()
-            responder?.commentTapped(comment)
+            responder.commentTapped(comment)
         case let .attributedArtistInvite(artistInvite):
-            let responder: NotificationResponder? = findResponder()
-            responder?.artistInviteTapped(artistInvite)
+            responder.artistInviteTapped(artistInvite)
         case let .attributedCategory(category):
-            let responder: NotificationResponder? = findResponder()
-            responder?.categoryTapped(category)
+            responder.categoryTapped(category)
         case let .attributedCategoryPartial(partial):
-            let responder: NotificationResponder? = findResponder()
-            responder?.categoryTapped(slug: partial.slug, name: partial.name)
+            responder.categoryTapped(slug: partial.slug, name: partial.name)
+        case let .attributedURL(title, url):
+            responder.urlTapped(title: title, url: url)
         case .unknown: break
         }
     }

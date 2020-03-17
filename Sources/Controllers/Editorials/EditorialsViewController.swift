@@ -159,7 +159,7 @@ extension EditorialsViewController: EditorialToolsResponder {
     func submitJoin(cell: UICollectionViewCell, email: String, username: String, password: String) {
         guard currentUser == nil, let nonce = nonce else { return }
 
-        if Validator.hasValidSignUpCredentials(email: email, username: username, password: password)
+        if Validator.hasValidSignUpCredentials(email: email, username: username, password: password, isTermsChecked: true)
         {
             UserService().join(
                 email: email,
