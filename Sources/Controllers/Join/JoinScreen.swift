@@ -265,7 +265,7 @@ class JoinScreen: CredentialsScreen {
                 ).constraint
             make.top.equalTo(passwordField.snp.bottom).priority(Priority.medium)
             make.leading.trailing.equalTo(scrollView).inset(CredentialsScreen.Size.inset)
-            make.bottom.lessThanOrEqualTo(scrollView).inset(Size.inset)
+            make.bottom.lessThanOrEqualTo(scrollView).inset(CredentialsScreen.Size.inset)
         }
         passwordMarginConstraint.deactivate()
 
@@ -274,7 +274,7 @@ class JoinScreen: CredentialsScreen {
             make.top.equalTo(passwordErrorLabel.snp.bottom).offset(Size.fieldsInnerMargin)
         }
         termsLabel.snp.makeConstraints { make in
-            make.leading.equalTo(termsToggle.snp.trailing).offset(Size.inset)
+            make.leading.equalTo(termsToggle.snp.trailing).offset(CredentialsScreen.Size.inset)
             make.centerY.equalTo(termsToggle)
         }
 
@@ -285,7 +285,7 @@ class JoinScreen: CredentialsScreen {
                 ).constraint
             make.top.equalTo(termsToggle.snp.bottom).priority(Priority.medium)
             make.leading.trailing.equalTo(scrollView).inset(CredentialsScreen.Size.inset)
-            make.bottom.lessThanOrEqualTo(scrollView).inset(Size.inset)
+            make.bottom.lessThanOrEqualTo(scrollView).inset(CredentialsScreen.Size.inset)
         }
         termsMarginConstraint.deactivate()
     }

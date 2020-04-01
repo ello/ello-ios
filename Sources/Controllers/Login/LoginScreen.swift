@@ -144,13 +144,13 @@ class LoginScreen: CredentialsScreen {
 
         forgotPasswordButton.snp.makeConstraints { make in
             make.top.equalTo(passwordField.snp.bottom).offset(Size.fieldsInnerMargin)
-            make.trailing.equalTo(scrollView).inset(Size.buttonInset)
+            make.trailing.equalTo(scrollView).inset(CredentialsScreen.Size.buttonInset)
         }
 
         errorLabel.snp.makeConstraints { make in
             make.firstBaseline.equalTo(forgotPasswordButton)
-            make.leading.trailing.equalTo(scrollView).inset(Size.inset)
-            make.bottom.lessThanOrEqualTo(scrollView).inset(Size.inset)
+            make.leading.trailing.equalTo(scrollView).inset(CredentialsScreen.Size.inset)
+            make.bottom.lessThanOrEqualTo(scrollView).inset(CredentialsScreen.Size.inset)
         }
     }
 
