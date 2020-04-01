@@ -2,11 +2,6 @@
 ///  Tag.swift
 //
 
-let PreserveWs = [
-    "style",
-    "script"
-]
-
 let Singletons = [
     "area",
     "base",
@@ -192,10 +187,9 @@ class Tag: CustomStringConvertible {
         var parentTags = [Tag]()
         var preWhitespace: String?
 
-        var tmp = input as NSString
-        tmp = tmp.replacingOccurrences(of: "\r\n", with: "\n") as NSString
-        tmp = tmp.replacingOccurrences(of: "\r", with: "\n") as NSString
-        let html = tmp as String
+        var html = input
+        html = html.replacingOccurrences(of: "\r\n", with: "\n")
+        html = html.replacingOccurrences(of: "\r", with: "\n")
 
         var c = html.startIndex
         while state != .end {
@@ -435,16 +429,4 @@ class Tag: CustomStringConvertible {
 }
 
 class Doctype: Tag {
-}
-
-extension String {
-    func trim() -> String {
-        return self.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
-    }
-}
-
-extension NSString {
-    func trim() -> NSString {
-        return self.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines) as NSString
-    }
 }
