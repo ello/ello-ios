@@ -13,7 +13,6 @@ struct UserService {
         email: String,
         username: String,
         password: String,
-        nonce: String,
         invitationCode: String? = nil
     ) -> Promise<User> {
         return ElloProvider.shared.request(
@@ -21,7 +20,6 @@ struct UserService {
                 email: email,
                 username: username,
                 password: password,
-                nonce: nonce,
                 invitationCode: invitationCode
             )
         )
@@ -38,16 +36,6 @@ struct UserService {
                         return user
                     }
                 return promise
-            }
-    }
-
-    func requestNonce() -> Promise<Nonce> {
-        return ElloProvider.shared.request(.joinNonce)
-            .map { nonce, _ -> Nonce in
-                guard let nonce = nonce as? Nonce else {
-                    throw NSError.uncastableModel()
-                }
-                return nonce
             }
     }
 

@@ -12,7 +12,6 @@ class JoinViewController: BaseElloViewController {
     }
 
     var invitationCode: String?
-    var nonce: Nonce?
 
     convenience init(prompt: String) {
         self.init(nibName: nil, bundle: nil)
@@ -32,29 +31,6 @@ class JoinViewController: BaseElloViewController {
         screen.delegate = self
         screen.isOnePasswordAvailable = OnePasswordExtension.shared().isAppExtensionAvailable()
         view = screen
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-
-        if !screen.isScreenReady {
-            requestNonce()
-        }
-    }
-
-    private func requestNonce() {
-        UserService().requestNonce()
-            .done { nonce in
-                self.screen.nonceRequestFailed = false
-                self.screen.isScreenReady = true
-                self.nonce = nonce
-            }
-            .catch { error in
-                self.screen.nonceRequestFailed = true
-                delay(1) {
-                    self.requestNonce()
-                }
-            }
     }
 
     private func showOnboardingScreen(_ user: User) {
@@ -101,8 +77,7 @@ extension JoinViewController: JoinScreenDelegate {
         screen.hideUsernameSuggestions()
         _ = screen.resignFirstResponder()
 
-        if let nonce = nonce,
-            Validator.hasValidSignUpCredentials(
+        if Validator.hasValidSignUpCredentials(
                 email: email,
                 username: username,
                 password: password,
@@ -130,7 +105,6 @@ extension JoinViewController: JoinScreenDelegate {
                     email: email,
                     username: username,
                     password: password,
-                    nonce: nonce.value,
                     invitationCode: self.invitationCode
                 )
                     .done { user in

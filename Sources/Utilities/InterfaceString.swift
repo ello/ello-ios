@@ -769,10 +769,6 @@ struct InterfaceString {
             "Your account has been created, but there was an error logging in, please try again",
             comment: "After successfully joining, there was an error signing in"
         )
-        static let FetchNonceError: String = NSLocalizedString(
-            "There was a problem talking to our API.  Please try again later.",
-            comment: ""
-        )
         static let UsernameUnavailable: String = NSLocalizedString(
             "Username already exists.\nPlease try a new one.",
             comment: ""

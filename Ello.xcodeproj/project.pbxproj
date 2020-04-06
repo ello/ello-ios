@@ -650,10 +650,6 @@
 		1D493C682009604C002BB6C2 /* PostToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D493C672009604C002BB6C2 /* PostToolbar.swift */; };
 		1D493C6A200D6614002BB6C2 /* eye_white.svg in Resources */ = {isa = PBXBuildFile; fileRef = 1D493C69200D6612002BB6C2 /* eye_white.svg */; };
 		1D493C6C200EADF0002BB6C2 /* LoveAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D493C6B200EADF0002BB6C2 /* LoveAnimation.swift */; };
-		1D50001E22E354C000DF2C59 /* nonce.json in Resources */ = {isa = PBXBuildFile; fileRef = 1D50001D22E354C000DF2C59 /* nonce.json */; };
-		1D50002322E3595000DF2C59 /* Nonce.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D50002222E3594F00DF2C59 /* Nonce.swift */; };
-		1D50002422E3595000DF2C59 /* Nonce.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D50002222E3594F00DF2C59 /* Nonce.swift */; };
-		1D50002522E3595000DF2C59 /* Nonce.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D50002222E3594F00DF2C59 /* Nonce.swift */; };
 		1D513E061ED735910081BB2D /* EditorialsGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D513E051ED735910081BB2D /* EditorialsGenerator.swift */; };
 		1D513E081ED8DA660081BB2D /* PromiseKitExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D513E071ED8DA660081BB2D /* PromiseKitExtensions.swift */; };
 		1D55ADA91FBCF95A00018195 /* OmnibarScreenTextViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D55ADA81FBCF95800018195 /* OmnibarScreenTextViewDelegate.swift */; };
@@ -1791,8 +1787,6 @@
 		1D493C672009604C002BB6C2 /* PostToolbar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostToolbar.swift; sourceTree = "<group>"; };
 		1D493C69200D6612002BB6C2 /* eye_white.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = eye_white.svg; sourceTree = "<group>"; };
 		1D493C6B200EADF0002BB6C2 /* LoveAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoveAnimation.swift; sourceTree = "<group>"; };
-		1D50001D22E354C000DF2C59 /* nonce.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = nonce.json; sourceTree = "<group>"; };
-		1D50002222E3594F00DF2C59 /* Nonce.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Nonce.swift; sourceTree = "<group>"; };
 		1D513E051ED735910081BB2D /* EditorialsGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditorialsGenerator.swift; sourceTree = "<group>"; };
 		1D513E071ED8DA660081BB2D /* PromiseKitExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PromiseKitExtensions.swift; sourceTree = "<group>"; };
 		1D55ADA81FBCF95800018195 /* OmnibarScreenTextViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OmnibarScreenTextViewDelegate.swift; sourceTree = "<group>"; };
@@ -3348,7 +3342,6 @@
 				EA68A0EC1AAE166F003F0425 /* LocalPerson.swift */,
 				12CFF69B1B167841007CE68F /* Love.swift */,
 				12F6AE371A43392D00493660 /* Model.swift */,
-				1D50002222E3594F00DF2C59 /* Nonce.swift */,
 				1DF2335B1A94005C0096DA65 /* Notification.swift */,
 				1D7A28D01A979BC40050E8A2 /* NotificationAttributedTitle.swift */,
 				1D6C4FE62098C812005B4A29 /* NotificationFilterType.swift */,
@@ -3762,7 +3755,6 @@
 				1DD89B0621139B1400C332B4 /* jwt-auth-is-staff.json */,
 				1DD89B0721139B1400C332B4 /* jwt-auth-no-staff.json */,
 				1D5E3DCC20FCC81B00044C39 /* loves_creating_a_love.json */,
-				1D50001D22E354C000DF2C59 /* nonce.json */,
 				1DD89B132118BE4900C332B4 /* post_detail__watching.json */,
 				1D5E3DC820FCC81A00044C39 /* posts_listing_users_who_have_loved_a_post.json */,
 				1D5E3DD220FCC81C00044C39 /* posts_listing_users_who_have_reposted_a_post.json */,
@@ -4704,7 +4696,6 @@
 				76F8DEEA1B6C0BC4009BCF61 /* question_normal.svg in Resources */,
 				76F8DEF21B6C0BC4009BCF61 /* repost_normal.svg in Resources */,
 				1DD89B142118BE4A00C332B4 /* post_detail__watching.json in Resources */,
-				1D50001E22E354C000DF2C59 /* nonce.json in Resources */,
 				76F8DF001B6C0BC4009BCF61 /* x_normal.svg in Resources */,
 				76F8DEAE1B6C0BC4009BCF61 /* abracket_white.svg in Resources */,
 				1DDF86FB1D80785B0058204A /* ello_gray_line_logo.svg in Resources */,
@@ -5274,7 +5265,6 @@
 				1DB390D12045DC0000A1B7E7 /* SwiftyJSONExtensions.swift in Sources */,
 				1207C9A11C752F1300939ADB /* ElloURI.swift in Sources */,
 				122B30B61C6A3FBB00C1B9D8 /* DynamicSetting.swift in Sources */,
-				1D50002422E3595000DF2C59 /* Nonce.swift in Sources */,
 				1D0DF8F5202384BF00019875 /* ArtistInviteSubmissionParser.swift in Sources */,
 				1D2F65AA1D185B120099D036 /* CategoryFilter.swift in Sources */,
 				1D9309D81EC1134D0099FCF8 /* Editorial.swift in Sources */,
@@ -6181,7 +6171,6 @@
 				76C050A71AA8C8780094E69A /* UserListItemCellPresenter.swift in Sources */,
 				1DC2402E20D46858009B07D5 /* RoleAdminViewController.swift in Sources */,
 				1D70DE581DF23862008AF216 /* StyledLabel.swift in Sources */,
-				1D50002322E3595000DF2C59 /* Nonce.swift in Sources */,
 				122C66311B424C060035F4CD /* AutoCompleteDataSource.swift in Sources */,
 				1D7152B21D6E479A005998FE /* LoginScreen.swift in Sources */,
 				1DDC23461F32250600E68B0E /* ArtistInviteCellPresenter.swift in Sources */,
@@ -6204,7 +6193,6 @@
 				1D447EF91F3BC94200013384 /* AuthToken.swift in Sources */,
 				1D447EF31F3BC8BB00013384 /* RegexExtensions.swift in Sources */,
 				1D0DF9072023A92600019875 /* PageParser.swift in Sources */,
-				1D50002522E3595000DF2C59 /* Nonce.swift in Sources */,
 				1D0DF8EA202384BE00019875 /* ArtistInviteSubmissionParser.swift in Sources */,
 				1D447EE61F3BC79600013384 /* Model.swift in Sources */,
 				1D447F051F3BC9C100013384 /* ElloS3.swift in Sources */,

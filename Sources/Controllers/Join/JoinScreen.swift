@@ -74,18 +74,12 @@ class JoinScreen: CredentialsScreen {
     var isOnePasswordAvailable = false {
         didSet { passwordField.hasOnePassword = isOnePasswordAvailable }
     }
-    var nonceRequestFailed: Bool? {
-        didSet {
-            nonceErrorLabel.isVisible = nonceRequestFailed == true
-        }
-    }
 
     var isScreenReady: Bool = false {
         didSet { updateContinueButton() }
     }
 
     private let promptLabel = StyledLabel(style: .smallWhite)
-    private let nonceErrorLabel = StyledLabel(style: .error)
 
     private let emailField = ClearTextField()
     private let activateEmailButton = UIButton()
@@ -116,7 +110,6 @@ class JoinScreen: CredentialsScreen {
         emailField.placeholder = InterfaceString.Join.EmailPlaceholder
         usernameField.placeholder = InterfaceString.Join.UsernamePlaceholder
         passwordField.placeholder = InterfaceString.Join.PasswordPlaceholder
-        nonceErrorLabel.text = InterfaceString.Join.FetchNonceError
         termsLabel.attributedText = InterfaceString.Join.Terms(
             textAttrs: NSAttributedString.defaultAttrs([
                 .foregroundColor: UIColor.greyA,
@@ -153,7 +146,6 @@ class JoinScreen: CredentialsScreen {
 
     override func setup() {
         continueButton.isEnabled = false
-        nonceErrorLabel.isVisible = false
     }
 
     override func style() {
@@ -167,7 +159,6 @@ class JoinScreen: CredentialsScreen {
 
         promptLabel.isMultiline = true
         usernameSuggestionsLabel.isMultiline = true
-        nonceErrorLabel.isMultiline = true
         termsLabel.backgroundColor = .clear
 
         continueBackground.backgroundColor = .white
@@ -176,7 +167,6 @@ class JoinScreen: CredentialsScreen {
     override func arrange() {
         super.arrange()
 
-        scrollView.addSubview(nonceErrorLabel)
         scrollView.addSubview(promptLabel)
         scrollView.addSubview(activateEmailButton)
         scrollView.addSubview(emailField)
@@ -191,11 +181,6 @@ class JoinScreen: CredentialsScreen {
         scrollView.addSubview(termsToggle)
         scrollView.addSubview(termsLabel)
         scrollView.addSubview(termsErrorLabel)
-
-        nonceErrorLabel.snp.makeConstraints { make in
-            make.top.equalTo(backButton.snp.bottom).offset(CredentialsScreen.Size.inset)
-            make.leading.trailing.equalTo(scrollView).inset(CredentialsScreen.Size.inset)
-        }
 
         promptLabel.snp.makeConstraints { make in
             make.top.equalTo(scrollView).offset(Size.promptTopMargin)

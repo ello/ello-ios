@@ -20,7 +20,6 @@ protocol JoinScreenProtocol: class {
     var isPasswordValid: Bool? { get set }
     var isTermsChecked: Bool { get set }
     var isOnePasswordAvailable: Bool { get set }
-    var nonceRequestFailed: Bool? { get set }
     var isScreenReady: Bool { get set }
 
     func loadingHUD(visible: Bool)
